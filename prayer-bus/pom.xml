@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.prayer</groupId>
+		<artifactId>prayer</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>prayer-bus</artifactId>
+	<name>Prayer Bus</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<!-- Environment -->
+		<!-- H2 Database -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2db.version}</version>
+		</dependency>
+		<!-- ScriptRunner -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		<!-- Object Pool -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+			<version>${pool2.version}</version>
+		</dependency>
+		<!-- ReflectASM -->
+		<dependency>
+			<groupId>com.esotericsoftware</groupId>
+			<artifactId>reflectasm</artifactId>
+			<version>${reflect.asm.version}</version>
+		</dependency>
+		<!-- JODD -->
+		<!-- 基础工具类 -->
+		<dependency>
+			<groupId>org.jodd</groupId>
+			<artifactId>jodd-core</artifactId>
+			<version>${jodd.version}</version>
+		</dependency>
+		<!-- JODD: 类型转换 -->
+		<dependency>
+			<groupId>org.jodd</groupId>
+			<artifactId>jodd-bean</artifactId>
+			<version>${jodd.version}</version>
+		</dependency>
+		<!-- XML/HTML解析器 -->
+		<dependency>
+			<groupId>org.jodd</groupId>
+			<artifactId>jodd-lagarto</artifactId>
+			<version>${jodd.version}</version>
+		</dependency>
+		<!-- JSON解析器 -->
+		<dependency>
+			<groupId>org.jodd</groupId>
+			<artifactId>jodd-json</artifactId>
+			<version>${jodd.version}</version>
+		</dependency>
+		<!-- Dom4j XML解析 -->
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>${dom4j.version}</version>
+		</dependency>
+		<!-- Connection -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp</artifactId>
+			<version>${bonecp.version}</version>
+		</dependency>
+		<!-- Spring Framework -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<!-- JDBC Oracle -->
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>${jdbc.oracle.version}</version>
+		</dependency>
+		<!-- JDBC PgSQL -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${jdbc.pgsql.version}</version>
+		</dependency>
+		<!-- JDBC SQL Server -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>sqljdbc4</artifactId>
+			<version>${jdbc.mssql.version}</version>
+		</dependency>
+		<!-- JDBC MySQL -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${jdbc.mysql.version}</version>
+		</dependency>
+		<!-- Jackson Serialization -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<!-- AJDT Compile -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>${maven.mojo.aspectj.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjrt</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjtools</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<complianceLevel>${ajc.version}</complianceLevel>
+					<source>${ajc.version}</source>
+					<target>${ajc.version}</target>
+					<!-- 除开Util-Comet以外，其他项目必须包含此片段，主要用于适配.aj文件来启动OVal的防御式编程 -->
+					<!-- Begin -->
+					<!-- 暂时忽略警告信息，目前存在一个Xlint:typeNotExposedToWeaver的问题 -->
+					<Xlint>ignore</Xlint>
+					<!-- End -->
+				</configuration>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<configuration>
+							<ajdtBuildDefFile>src/main/resources/aop/${aspectj.compile.file}</ajdtBuildDefFile>
+						</configuration>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>test-compile</id>
+						<configuration>
+							<ajdtBuildDefFile>src/main/resources/aop/${aspectj.test.file}</ajdtBuildDefFile>
+						</configuration>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

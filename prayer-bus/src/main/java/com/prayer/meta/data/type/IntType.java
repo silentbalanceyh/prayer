@@ -1,0 +1,158 @@
+package com.prayer.meta.data.type;
+
+import java.lang.reflect.Type;
+
+import jodd.mutable.MutableInteger;
+import jodd.typeconverter.Convert;
+
+import com.prayer.meta.DataType;
+import com.prayer.meta.Value;
+
+/**
+ * 类型：整数类型
+ *
+ * @author Lang
+ * @see
+ */
+public class IntType implements Value<Integer> {
+	// ~ Instance Fields =====================================
+	/**
+	 * 数值
+	 */
+	private final MutableInteger value = new MutableInteger(0);
+
+	// ~ Constructors ========================================
+	/**
+	 * 构造一个默认的Int值
+	 */
+	public IntType() {
+		this(0);
+	}
+
+	/**
+	 * 根据传入的Integer构造一个IntType
+	 * 
+	 * @param value
+	 */
+	public IntType(final Integer value) {
+		this.value.setValue(value);
+	}
+
+	/**
+	 * 根据传入的String值构造一个BooleanType
+	 * 
+	 * @param value
+	 */
+	public IntType(final String value) {
+		this.init(value);
+	}
+
+	/**
+	 * 根据传入的Long值构造一个IntType
+	 * 
+	 * @param value
+	 */
+	public IntType(final Long value) {
+		this.init(value);
+	}
+
+	// ~ Override Methods ====================================
+	/**
+	 * 获取Integer的值
+	 */
+	@Override
+	public Integer getValue() {
+		return this.value.getValue();
+	}
+
+	/**
+	 * 设置Integer的值
+	 */
+	@Override
+	public void setValue(final Integer value) {
+		this.value.setValue(value);
+	}
+
+	/**
+	 * 获取原始值的Type类型，返回java.lang.Boolean
+	 */
+	@Override
+	public Type getType() {
+		return Integer.class;
+	}
+
+	/**
+	 * 获取DataType自定义的Lyra数据类型
+	 */
+	@Override
+	public DataType getDataType() {
+		return DataType.INT;
+	}
+
+	// ~ Methods =============================================
+	/**
+	 * set重载
+	 * 
+	 * @param value
+	 */
+	public void setValue(final Long value) {
+		this.init(value);
+	}
+
+	/**
+	 * set重载
+	 * 
+	 * @param value
+	 */
+	public void setValue(final String value) {
+		this.init(value);
+	}
+
+	// ~ Private Methods =====================================
+	/**
+	 * 
+	 * @param value
+	 */
+	private void init(final Object value) {
+		this.value.setValue(Convert.toIntValue(value, 0));
+	}
+
+	// ~ hashCode,equals,toString ============================
+	/** **/
+	@Override
+	public String toString() {
+		return "IntType [value=" + value + "]";
+	}
+
+	/** **/
+	@Override
+	public int hashCode() {
+		final int prime = 31; // NOPMD
+		int result = 1;
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+
+	/** **/
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true; // NOPMD
+		}
+		if (obj == null) {
+			return false; // NOPMD
+		}
+		if (getClass() != obj.getClass()) {
+			return false; // NOPMD
+		}
+		final IntType other = (IntType) obj;
+		if (value == null) {
+			if (other.value != null) {
+				return false; // NOPMD
+			}
+		} else if (!value.equals(other.value)) {
+			return false; // NOPMD
+		}
+		return true;
+	}
+}

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.db.mybatis.FieldMapper">
+	<resultMap type="Field" id="fieldObject">
+		<id column="K_ID" property="uniqueId" />
+		<result column="S_NAME" property="name" />
+		<result column="S_TYPE" property="type"
+			typeHandler="com.prayer.db.mybatis.handler.DataTypeHandler" />
+
+		<result column="C_PATTERN" property="pattern" />
+		<result column="C_VALIDATOR" property="validator" />
+		<result column="C_LENGTH" property="length" />
+		<result column="C_DATETIME" property="datetime"
+			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result column="C_DATEFORMAT" property="dateFormat" />
+		<result column="C_PRECISION" property="precision" />
+		<result column="C_UNIT" property="unit" />
+
+		<result column="C_MAX_LENGTH" property="maxLength" />
+		<result column="C_MIN_LENGTH" property="minLength" />
+		<result column="C_MAX" property="max" />
+		<result column="C_MIN" property="min" />
+
+		<result column="IS_PRIMARY_KEY" property="primaryKey" />
+		<result column="IS_UNIQUE" property="unique" />
+		<result column="IS_SUB_TABLE" property="subTable" />
+		<result column="IS_FOREIGN_KEY" property="foreignKey" />
+		<result column="IS_NULLABLE" property="nullable" />
+
+		<result column="D_COLUMN_NAME" property="columnName" />
+		<result column="D_COLUMN_TYPE" property="columnType" />
+		<result column="D_REF_TABLE" property="refTable" />
+		<result column="D_REF_ID" property="refId" />
+		<result column="R_META_ID" property="refMetaId" />
+	</resultMap>
+	<insert id="insert" parameterType="Field" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			INSERT INTO SYS_FIELDS (
+				K_ID,
+				S_NAME,
+				S_TYPE,
+				C_PATTERN,
+				C_VALIDATOR,
+				C_LENGTH,
+				C_DATETIME,
+				C_DATEFORMAT,
+				C_PRECISION,
+				C_UNIT,
+				C_MAX_LENGTH,
+				C_MIN_LENGTH,
+				C_MAX,
+				C_MIN,
+				IS_PRIMARY_KEY,
+				IS_UNIQUE,
+				IS_SUB_TABLE,
+				IS_FOREIGN_KEY,
+				IS_NULLABLE,
+				D_COLUMN_NAME,
+				D_COLUMN_TYPE,
+				D_REF_TABLE,
+				D_REF_ID,
+				R_META_ID
+			) VALUES (
+				#{uniqueId},
+				#{name},
+				#{type, typeHandler=com.prayer.db.mybatis.handler.DataTypeHandler},
+				#{pattern},
+				#{validator},
+				#{length},
+				#{datetime, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{dateFormat},
+				#{precision},
+				#{unit},
+				#{maxLength},
+				#{minLength},
+				#{min},
+				#{max},
+				#{primaryKey},
+				#{unique},
+				#{subTable},
+				#{foreignKey},
+				#{nullable},
+				#{columnName},
+				#{columnType},
+				#{refTable},
+				#{refId},
+				#{refMetaId}
+			)
+		]]>
+	</insert>
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+			INSERT INTO SYS_FIELDS (
+				K_ID,
+				S_NAME,
+				S_TYPE,
+				C_PATTERN,
+				C_VALIDATOR,
+				C_LENGTH,
+				C_DATETIME,
+				C_DATEFORMAT,
+				C_PRECISION,
+				C_UNIT,
+				C_MAX_LENGTH,
+				C_MIN_LENGTH,
+				C_MAX,
+				C_MIN,
+				IS_PRIMARY_KEY,
+				IS_UNIQUE,
+				IS_SUB_TABLE,
+				IS_FOREIGN_KEY,
+				IS_NULLABLE,
+				D_COLUMN_NAME,
+				D_COLUMN_TYPE,
+				D_REF_TABLE,
+				D_REF_ID,
+				R_META_ID
+			) VALUES 
+		]]>
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			<![CDATA[(
+				#{item.uniqueId},
+				#{item.name},
+				#{item.type, typeHandler=com.prayer.db.mybatis.handler.DataTypeHandler},
+				#{item.pattern},
+				#{item.validator},
+				#{item.length},
+				#{item.datetime, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{item.dateFormat},
+				#{item.precision},
+				#{item.unit},
+				#{item.maxLength},
+				#{item.minLength},
+				#{item.min},
+				#{item.max},
+				#{item.primaryKey},
+				#{item.unique},
+				#{item.subTable},
+				#{item.foreignKey},
+				#{item.nullable},
+				#{item.columnName},
+				#{item.columnType},
+				#{item.refTable},
+				#{item.refId},
+				#{item.refMetaId}
+			)]]>
+		</foreach>
+	</insert>
+	<update id="update" parameterType="Field" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			UPDATE SYS_FIELDS SET
+				S_NAME=#{name},
+				S_TYPE=#{type, typeHandler=com.prayer.db.mybatis.handler.DataTypeHandler},
+				C_PATTERN=#{pattern},
+				C_VALIDATOR=#{validator},
+				C_LENGTH=#{length},
+				C_DATETIME=#{datetime, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				C_DATEFORMAT=#{dateFormat},
+				C_PRECISION=#{precision},
+				C_UNIT=#{unit},
+				C_MAX_LENGTH=#{maxLength},
+				C_MIN_LENGTH=#{minLength},
+				C_MIN=#{min},
+				C_MAX=#{max},
+				IS_PRIMARY_KEY=#{primaryKey},
+				IS_UNIQUE=#{unique},
+				IS_SUB_TABLE=#{subTable},
+				IS_FOREIGN_KEY=#{foreignKey},
+				IS_NULLABLE=#{nullable},
+				D_COLUMN_NAME=#{columnName},
+				D_COLUMN_TYPE=#{columnType},
+				D_REF_TABLE=#{refTable},
+				D_REF_ID=#{refId},
+				R_META_ID=#{refMetaId}
+			WHERE K_ID=#{uniqueId}
+		]]>
+	</update>
+	<delete id="deleteByMeta" parameterType="String">
+		<![CDATA[
+			DELETE FROM SYS_FIELDS WHERE R_META_ID=#{metaId}
+		]]>
+	</delete>
+	<delete id="deleteById" parameterType="String">
+		<![CDATA[
+			DELETE FROM SYS_FIELDS WHERE K_ID=#{uniqueId}
+		]]>
+	</delete>
+	<delete id="batchDelete" parameterType="java.util.List">
+		<![CDATA[
+			DELETE FROM SYS_FIELDS WHERE K_ID IN
+		]]>
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			<![CDATA[
+				#{item}
+			]]>
+		</foreach>
+	</delete>
+	<delete id="purgeData">
+		<![CDATA[
+			DELETE FROM SYS_FIELDS
+		]]>
+	</delete>
+
+	<select id="selectById" parameterType="String" resultMap="fieldObject">
+		<![CDATA[
+			SELECT * FROM SYS_FIELDS WHERE K_ID=#{uniqueId}
+		]]>
+	</select>
+	<select id="selectByMeta" parameterType="String" resultMap="fieldObject">
+		<![CDATA[
+			SELECT * FROM SYS_FIELDS WHERE R_META_ID=#{metaId}
+		]]>
+	</select>
+	<select id="selectAll" resultMap="fieldObject">
+		<![CDATA[
+			SELECT * FROM SYS_FIELDS
+		]]>
+	</select>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.db.mybatis.KeyMapper">
+	<resultMap type="Key" id="keyObject">
+		<id column="K_ID" property="uniqueId" />
+		<result column="S_NAME" property="name" />
+		<result column="S_CATEGORY" property="category"
+			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result column="IS_MULTI" property="multi" />
+		<result column="S_COLUMNS" property="columns" />
+		<result column="R_META_ID" property="refMetaId" />
+	</resultMap>
+	<insert id="insert" parameterType="Key" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			INSERT INTO SYS_KEYS (
+				K_ID,
+				S_NAME,
+				S_CATEGORY,
+				IS_MULTI,
+				S_COLUMNS,
+				R_META_ID
+			) VALUES (
+				#{uniqueId},
+				#{name},
+				#{category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{multi},
+				#{columns},
+				#{refMetaId}
+			)
+		]]>
+	</insert>
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+			INSERT INTO SYS_KEYS (
+				K_ID,
+				S_NAME,
+				S_CATEGORY,
+				IS_MULTI,
+				S_COLUMNS,
+				R_META_ID
+			) VALUES 
+		]]>
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			<![CDATA[(
+				#{item.uniqueId},
+				#{item.name},
+				#{item.category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{item.multi},
+				#{item.columns},
+				#{item.refMetaId}
+			)]]>
+		</foreach>
+	</insert>
+	<update id="update" parameterType="Key" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			UPDATE SYS_KEYS SET
+				S_NAME=#{name},
+				S_CATEGORY=#{category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				IS_MULTI=#{multi},
+				S_COLUMNS=#{columns},
+				R_META_ID=#{refMetaId}
+			WHERE K_ID=#{uniqueId}
+		]]>
+	</update>
+	<!-- MyBatis针对H2 Database不支持这种批量更新，注释为旧代码 <update id="batchUpdate" parameterType="java.util.List" 
+		keyProperty="uniqueId" keyColumn="K_ID"> <foreach collection="list" item="item" 
+		separator=";"> UPDATE SYS_KEYS SET S_NAME=#{item.name}, S_CATEGORY=#{item.category, 
+		typeHandler=org.apache.ibatis.type.EnumTypeHandler}, IS_MULTI=#{item.multi}, 
+		S_COLUMNS=#{item.columns}, R_META_ID=#{item.refMetaId} WHERE K_ID=#{item.uniqueId} 
+		</foreach> </update> -->
+	<delete id="deleteByMeta" parameterType="String">
+		<![CDATA[
+			DELETE FROM SYS_KEYS WHERE R_META_ID=#{metaId}
+		]]>
+	</delete>
+	<delete id="deleteById" parameterType="String">
+		<![CDATA[
+			DELETE FROM SYS_KEYS WHERE K_ID=#{uniqueId}
+		]]>
+	</delete>
+	<delete id="batchDelete" parameterType="java.util.List">
+		<![CDATA[
+			DELETE FROM SYS_KEYS WHERE K_ID IN
+		]]>
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			<![CDATA[
+				#{item}
+			]]>
+		</foreach>
+	</delete>
+	<delete id="purgeData">
+		<![CDATA[
+			DELETE FROM SYS_KEYS
+		]]>
+	</delete>
+	<select id="selectById" parameterType="String" resultMap="keyObject">
+		<![CDATA[
+			SELECT * FROM SYS_KEYS WHERE K_ID=#{uniqueId}
+		]]>
+	</select>
+	<select id="selectByMeta" parameterType="String" resultMap="keyObject">
+		<![CDATA[
+			SELECT * FROM SYS_KEYS WHERE R_META_ID=#{metaId}
+		]]>
+	</select>
+	<select id="selectAll" resultMap="keyObject">
+		<![CDATA[
+			SELECT * FROM SYS_KEYS
+		]]>
+	</select>
+</mapper>
