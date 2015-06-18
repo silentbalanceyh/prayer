@@ -8,7 +8,7 @@ import net.sf.oval.guard.Guarded;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.prop.PropertyLoader;
+import com.prayer.util.PropertyLoader;
 
 /**
  * Static resource loeader to read configuration

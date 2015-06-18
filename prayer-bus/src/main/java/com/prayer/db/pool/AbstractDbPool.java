@@ -14,8 +14,8 @@ import net.sf.oval.guard.Pre;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.prayer.prop.PropertyLoader;
 import com.prayer.res.Resources;
+import com.prayer.util.PropertyLoader;
 
 /**
  * Jdbc连接池类

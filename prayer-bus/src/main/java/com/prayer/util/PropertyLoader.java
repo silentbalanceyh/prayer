@@ -1,4 +1,4 @@
-package com.prayer.prop;
+package com.prayer.util;
 
 import static com.prayer.util.Instance.reservoir;
 
@@ -22,8 +22,6 @@ import net.sf.oval.guard.PreValidateThis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.prayer.util.FileExplorer;
 
 /**
  * 属性文件加载器

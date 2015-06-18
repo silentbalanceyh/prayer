@@ -7,7 +7,7 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
-import com.prayer.prop.PropertyLoader;
+import com.prayer.util.PropertyLoader;
 
 /**
  * 数据库配置工具类

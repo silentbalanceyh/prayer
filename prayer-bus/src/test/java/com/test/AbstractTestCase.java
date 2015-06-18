@@ -5,7 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Random;
 
-import com.prayer.prop.PropertyLoader;
+import com.prayer.util.PropertyLoader;
 
 /**
  * @author Lang

@@ -10,7 +10,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 
 import org.junit.Test;
 
-import com.prayer.prop.PropertyLoader;
+import com.prayer.util.PropertyLoader;
 import com.test.AbstractTestCase;
 
 /**
