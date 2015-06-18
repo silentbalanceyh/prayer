@@ -35,7 +35,7 @@
 		<!-- 【Latest】JUnit的版本号 -->
 		<junit.version>4.12</junit.version>
 		<!-- 【Latest】JDK的编译和运行版本号：Vert.X要求最低版本是1.7 -->
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<ajc.version>1.7</ajc.version>
 		<!-- 【Latest】Jackson序列化系统，用于处理Json建模文件 -->
 		<jackson.version>2.4.3</jackson.version>
@@ -43,7 +43,7 @@
 		<bonecp.version>0.8.0.RELEASE</bonecp.version>
 		<druid.version>1.0.9</druid.version>
 		<!-- 【Latest】Spring的版本 -->
-		<spring.version>4.1.4.RELEASE</spring.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
 		<!-- Slf4j日志器版本 -->
 		<slf4j.version>1.7.5</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
@@ -74,7 +74,7 @@
 		<!-- H2 Database -->
 		<h2db.version>1.4.186</h2db.version>
 		<!-- AspectJ Version -->
-		<aspectj.version>1.7.3</aspectj.version>
+		<aspectj.version>1.8.6</aspectj.version>
 		<aspectj.compile.file>aopaj.properties</aspectj.compile.file>
 		<aspectj.test.file>aopaj-test.properties</aspectj.test.file>
 
