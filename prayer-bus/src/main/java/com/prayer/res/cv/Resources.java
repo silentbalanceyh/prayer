@@ -1,4 +1,4 @@
-package com.prayer.res;
+package com.prayer.res.cv;
 
 import java.util.Locale;
 
@@ -8,7 +8,7 @@ import net.sf.oval.guard.Guarded;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.util.PropertyLoader;
+import com.prayer.util.PropertyKit;
 
 /**
  * Static resource loeader to read configuration
@@ -88,7 +88,7 @@ public final class Resources {	// NOPMD
 	/**
 	 * Private singleton resource LOADER. *
 	 */
-	private static final PropertyLoader LOADER;
+	private static final PropertyKit LOADER;
 
 	// ~ Static Block ========================================
 
@@ -97,7 +97,7 @@ public final class Resources {	// NOPMD
 		/**
 		 * 因为PropertyLoader内部已经实现了Properties的单件模式，这里没有必要使用反射的方式创建
 		 */
-		LOADER = new PropertyLoader(PropKeys.class, PropKeys.PROP_FILE); // singleton(PropertyLoader.class,
+		LOADER = new PropertyKit(PropKeys.class, PropKeys.PROP_FILE); // singleton(PropertyKit.class,
 																			// PropKeys.class,
 																			// PropKeys.PROP_FILE);
 		if (null == LOADER && LOGGER.isDebugEnabled()) {
@@ -216,7 +216,7 @@ public final class Resources {	// NOPMD
 	 * @return
 	 */
 	@NotNull
-	public static PropertyLoader getLoader() {
+	public static PropertyKit getLoader() {
 		return LOADER;
 	}
 }

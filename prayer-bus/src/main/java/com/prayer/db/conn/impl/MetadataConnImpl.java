@@ -1,7 +1,7 @@
 package com.prayer.db.conn.impl;
 
-import static com.prayer.res.DbAccessor.pool;
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.res.cv.Accessors.pool;
+import static com.prayer.util.sys.Instance.singleton;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;

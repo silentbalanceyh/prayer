@@ -1,4 +1,4 @@
-package com.prayer.util;
+package com.prayer.util.sys;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

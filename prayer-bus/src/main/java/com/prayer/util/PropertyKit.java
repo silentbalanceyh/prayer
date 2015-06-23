@@ -1,6 +1,6 @@
 package com.prayer.util;
 
-import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.sys.Instance.reservoir;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,13 +30,13 @@ import org.slf4j.LoggerFactory;
  * @see
  */
 @Guarded
-public final class PropertyLoader {
+public final class PropertyKit {
 	// ~ Static Fields =======================================
 	/** 资源文件池 **/
 	private static final ConcurrentMap<String, Properties> PROP_POOL = new ConcurrentHashMap<>();
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(PropertyLoader.class);
+			.getLogger(PropertyKit.class);
 	// ~ Instance Fields =====================================
 	/**
 	 * 当前实例加载的资源文件信息
@@ -51,11 +51,11 @@ public final class PropertyLoader {
 	 * @param resource
 	 */
 	@PostValidateThis
-	public PropertyLoader(final Class<?> clazz,
+	public PropertyKit(final Class<?> clazz,
 			@NotNull @NotEmpty @NotBlank final String resource) {
 		this.prop = reservoir(PROP_POOL, resource, Properties.class);
 		try {
-			final InputStream inStream = FileExplorer.getFile(resource, clazz);
+			final InputStream inStream = IOKit.getFile(resource, clazz);
 			if (null != inStream) {
 				this.prop.load(inStream);
 			}
@@ -77,7 +77,7 @@ public final class PropertyLoader {
 	 * @param resource
 	 */
 	@PostValidateThis
-	public PropertyLoader(@NotNull @NotEmpty @NotBlank final String resource) {
+	public PropertyKit(@NotNull @NotEmpty @NotBlank final String resource) {
 		this(null, resource);
 	}
 

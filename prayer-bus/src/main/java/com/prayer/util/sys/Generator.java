@@ -1,4 +1,4 @@
-package com.prayer.util;
+package com.prayer.util.sys;
 
 import java.util.Locale;
 import java.util.Random;

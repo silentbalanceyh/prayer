@@ -14,7 +14,7 @@
         <context:include-filter type="regex" expression="com.prayer.mod.def.*"/>
         <context:include-filter type="regex" expression="com.prayer.db.conn.*"/>
         <!-- Exclude List -->
-        <context:exclude-filter type="regex" expression="com.prayer.res.*"/>
+        <context:exclude-filter type="regex" expression="com.prayer.res.cv.*"/>
         <context:exclude-filter type="regex" expression="com.prayer.tp.spring.*"/>
     </context:component-scan>
     <!-- Special beans -->

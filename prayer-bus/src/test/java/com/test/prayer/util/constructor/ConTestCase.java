@@ -7,9 +7,9 @@ import org.junit.internal.Classes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.res.Constants;
-import com.prayer.res.DbAccessor;
-import com.prayer.res.Resources;
+import com.prayer.res.cv.Constants;
+import com.prayer.res.cv.Accessors;
+import com.prayer.res.cv.Resources;
 
 /**
  * 构造函数的生成
@@ -53,9 +53,9 @@ public class ConTestCase extends AbstractConTestCase{
 	@Test
 	public void testCon3(){
 		if(LOGGER.isDebugEnabled()){
-			LOGGER.debug("[TD] Test constructor3 -> " + DbAccessor.class.getName());
+			LOGGER.debug("[TD] Test constructor3 -> " + Accessors.class.getName());
 		}
-		final DbAccessor ref = instance(DbAccessor.class.getName());
+		final Accessors ref = instance(Accessors.class.getName());
 		assertNotNull("[E] testCon3",ref);
 	}
 	
@@ -63,9 +63,9 @@ public class ConTestCase extends AbstractConTestCase{
 	@Test
 	public void testCon4(){
 		if(LOGGER.isDebugEnabled()){
-			LOGGER.debug("[TD] Test constructor4 -> com.prayer.res.PropKeys");
+			LOGGER.debug("[TD] Test constructor4 -> com.prayer.res.cv.PropKeys");
 		}
-		final Object ref = instance("com.prayer.res.PropKeys");
+		final Object ref = instance("com.prayer.res.cv.PropKeys");
 		assertNotNull("[E] testCon4",ref);
 	}
 	

@@ -1,4 +1,4 @@
-package com.prayer.util;
+package com.prayer.util.db;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;
@@ -13,7 +13,7 @@ import net.sf.oval.guard.Guarded;
  * @see
  */
 @Guarded
-public final class DatabaseDiscovery {
+public final class DbDiscovery {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -81,7 +81,7 @@ public final class DatabaseDiscovery {
 	}
 
 	// ~ Constructors ========================================
-	private DatabaseDiscovery() {
+	private DbDiscovery() {
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

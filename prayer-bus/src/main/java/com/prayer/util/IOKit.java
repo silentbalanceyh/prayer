@@ -20,11 +20,11 @@ import org.slf4j.LoggerFactory;
  * @see
  */
 @Guarded
-public final class FileExplorer {
+public final class IOKit {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(FileExplorer.class);
+			.getLogger(IOKit.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -60,7 +60,7 @@ public final class FileExplorer {
 			retStream = null == retStream ? readStream(fileName) : retStream;
 			// 获取不到的时候从传入的Class --> FileExplorer中获取InputStream
 			retStream = null == retStream ? readStream(fileName,
-					FileExplorer.class) : retStream;
+					IOKit.class) : retStream;
 		} else {
 			// 若有Class传入则先从传入class中获取InputStream
 			retStream = readStream(fileName, clazz);
@@ -124,7 +124,7 @@ public final class FileExplorer {
 		return retStream;
 	}
 
-	private FileExplorer() {
+	private IOKit() {
 	}
 	// ~ hashCode,equals,toString ============================
 }

@@ -1,6 +1,6 @@
 package com.test.prayer.util;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.sys.Instance.singleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -10,7 +10,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 
 import org.junit.Test;
 
-import com.prayer.util.PropertyLoader;
+import com.prayer.util.PropertyKit;
 import com.test.AbstractTestCase;
 
 /**
@@ -26,8 +26,8 @@ public class PropLoaderTestCase extends AbstractTestCase implements
 	 * 
 	 */
 	public PropLoaderTestCase() {
-		super(PropertyLoader.class.getName());
-		loader = singleton(PropertyLoader.class, getClass(), TEST_FILE);
+		super(PropertyKit.class.getName());
+		loader = singleton(PropertyKit.class, getClass(), TEST_FILE);
 	}
 
 	// ~ Methods =============================================
@@ -37,8 +37,8 @@ public class PropLoaderTestCase extends AbstractTestCase implements
 	@Test
 	public void testPropLoader1() {
 		setMethod("Constructor!");
-		final PropertyLoader instance = new PropertyLoader(getClass(),
-				TEST_FILE);// singleton(PropertyLoader.class,getClass(),TEST_FILE);
+		final PropertyKit instance = new PropertyKit(getClass(),
+				TEST_FILE);// singleton(PropertyKit.class,getClass(),TEST_FILE);
 
 		assertNotNull(getPosition(), instance);
 	}
@@ -51,8 +51,8 @@ public class PropLoaderTestCase extends AbstractTestCase implements
 	@Test
 	public void testPropLoader2() {
 		setMethod("Constructor!");
-		final PropertyLoader instance = new PropertyLoader(getClass(),
-				"x.properties");// singleton(PropertyLoader.class,getClass(),"x.properties");
+		final PropertyKit instance = new PropertyKit(getClass(),
+				"x.properties");// singleton(PropertyKit.class,getClass(),"x.properties");
 		assertNotNull(getPosition(), instance.getProp());
 	}
 

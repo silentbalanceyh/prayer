@@ -1,10 +1,10 @@
-package com.prayer.res;
+package com.prayer.res.cv;
 
 /**
  * @author Lang
- * @package com.prayer.res
+ * @package com.prayer.res.cv
  * @name Classes
- * @class com.prayer.res.Classes
+ * @class com.prayer.res.cv.Classes
  * @date Nov 28, 2014 4:48:50 PM
  * @see All class names of constant value
  */

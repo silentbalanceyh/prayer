@@ -1,6 +1,6 @@
 package com.test.db.conn.impl;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.sys.Instance.singleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.meta.database.Metadata;
-import com.prayer.res.Constants;
-import com.prayer.res.Resources;
-import com.prayer.util.DatabaseDiscovery;
+import com.prayer.res.cv.Constants;
+import com.prayer.res.cv.Resources;
+import com.prayer.util.db.DbDiscovery;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class MetadataTestCase { // NOPMD
 	@Test
 	public void testVersionFlag() {
 		final Metadata metadata = this.metaConn.getMetadata();
-		final String versionFlag = DatabaseDiscovery.getDatabaseVersion(metadata.getProductName(),metadata
+		final String versionFlag = DbDiscovery.getDatabaseVersion(metadata.getProductName(),metadata
 				.getProductVersion());
 		assertEquals("[T] Version flag is not match.", versionFlag,
 				metadata.getVersionFlag());
@@ -64,7 +64,7 @@ public class MetadataTestCase { // NOPMD
 	@Test
 	public void testSqlFile() {
 		final Metadata metadata = this.metaConn.getMetadata();
-		final String versionFlag = DatabaseDiscovery.getDatabaseVersion(metadata.getProductName(),metadata
+		final String versionFlag = DbDiscovery.getDatabaseVersion(metadata.getProductName(),metadata
 				.getProductVersion());
 		assertEquals("[T] Sql filename is not match.",
 				metadata.getDatabaseCategory() + versionFlag,

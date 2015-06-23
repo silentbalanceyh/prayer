@@ -1,13 +1,13 @@
 package com.test.prayer.util;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.sys.Instance.singleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
 
 import org.junit.Test;
 
-import com.prayer.util.PropertyLoader;
+import com.prayer.util.PropertyKit;
 import com.test.AbstractTestCase;
 
 /**
@@ -23,8 +23,8 @@ public class PropLoader2TestCase extends AbstractTestCase implements
 	 * 
 	 */
 	public PropLoader2TestCase() {
-		super(PropertyLoader.class.getName());
-		loader = singleton(PropertyLoader.class, getClass(), TEST_FILE);
+		super(PropertyKit.class.getName());
+		loader = singleton(PropertyKit.class, getClass(), TEST_FILE);
 	}
 
 	// ~ Methods =============================================

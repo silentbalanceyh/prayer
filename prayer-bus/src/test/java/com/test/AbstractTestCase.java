@@ -1,11 +1,11 @@
 package com.test;
 
-import static com.prayer.util.Instance.instance;
+import static com.prayer.util.sys.Instance.instance;
 import static org.junit.Assert.fail;
 
 import java.util.Random;
 
-import com.prayer.util.PropertyLoader;
+import com.prayer.util.PropertyKit;
 
 /**
  * @author Lang
@@ -27,7 +27,7 @@ public class AbstractTestCase {
 	/**
 	 * 资源加载器
 	 * **/
-	protected transient PropertyLoader loader;
+	protected transient PropertyKit loader;
 
 	// ~ Constructors ========================================
 
@@ -94,7 +94,7 @@ public class AbstractTestCase {
 	 * 
 	 * @return
 	 */
-	protected PropertyLoader getLoader() {
+	protected PropertyKit getLoader() {
 		return loader;
 	}
 

@@ -1,6 +1,6 @@
 package com.test.db.conn.impl;
 
-import static com.prayer.util.Instance.instance;
+import static com.prayer.util.sys.Instance.instance;
 import static org.junit.Assert.assertNotNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
 
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.prayer.db.pool.AbstractDbPool;
 import com.prayer.db.pool.BoneCPPool;
-import com.prayer.res.Resources;
+import com.prayer.res.cv.Resources;
 import com.test.AbstractTestCase;
 
 /**

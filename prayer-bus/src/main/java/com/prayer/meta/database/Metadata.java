@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.util.DatabaseDiscovery;
+import com.prayer.util.db.DbDiscovery;
 
 /**
  * 数据库元数据
@@ -187,7 +187,7 @@ public class Metadata { // NOPMD
 	// ~ Private Methods =====================================
 
 	private void initSqlFile() {
-		this.versionFlag = DatabaseDiscovery.getDatabaseVersion(
+		this.versionFlag = DbDiscovery.getDatabaseVersion(
 				this.productName, this.productVersion);
 		this.sqlFile = this.databaseCategory + this.versionFlag;
 	}

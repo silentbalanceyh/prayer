@@ -9,7 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import com.prayer.util.FileExplorer;
+import com.prayer.util.IOKit;
 
 /**
  * Mybatis框架中的SQL Session管理器
@@ -28,11 +28,11 @@ public final class SessionManager {
 	static {
 		/** 简单的单例实现 **/
 		if (null == sessionFactory) {
-			final InputStream inStream = FileExplorer
-					.getFile(com.prayer.res.Resources.T_CFG_MYBATIS);
+			final InputStream inStream = IOKit
+					.getFile(com.prayer.res.cv.Resources.T_CFG_MYBATIS);
 			if (null != inStream) {
 				sessionFactory = new SqlSessionFactoryBuilder().build(inStream,
-						com.prayer.res.Resources.T_CFG_MB_ENV);
+						com.prayer.res.cv.Resources.T_CFG_MB_ENV);
 			}
 		}
 	}

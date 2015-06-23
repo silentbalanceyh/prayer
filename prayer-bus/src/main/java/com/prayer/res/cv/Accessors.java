@@ -1,4 +1,4 @@
-package com.prayer.res;
+package com.prayer.res.cv;
 
 import java.text.MessageFormat;
 
@@ -7,7 +7,7 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
-import com.prayer.util.PropertyLoader;
+import com.prayer.util.PropertyKit;
 
 /**
  * 数据库配置工具类
@@ -16,12 +16,12 @@ import com.prayer.util.PropertyLoader;
  * @see
  */
 @Guarded
-public final class DbAccessor {
+public final class Accessors {
 	// ~ Static Fields =======================================
 	/**
 	 * 属性文件加载器
 	 */
-	private static final PropertyLoader LOADER;
+	private static final PropertyKit LOADER;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	/** **/
@@ -139,7 +139,7 @@ public final class DbAccessor {
 		return builder;
 	}
 	// ~ Constructors ========================================
-	private DbAccessor() {
+	private Accessors() {
 
 	}
 	// ~ Abstract Methods ====================================

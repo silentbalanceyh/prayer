@@ -1,4 +1,4 @@
-package com.prayer.res;
+package com.prayer.res.cv;
 
 /**
  * 

@@ -14,8 +14,8 @@ import net.sf.oval.guard.Pre;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.prayer.res.Resources;
-import com.prayer.util.PropertyLoader;
+import com.prayer.res.cv.Resources;
+import com.prayer.util.PropertyKit;
 
 /**
  * Jdbc连接池类
@@ -47,7 +47,7 @@ public abstract class AbstractDbPool {
 	 * 资源加载器
 	 */
 	@NotNull
-	protected transient final PropertyLoader LOADER = new PropertyLoader(getClass(),Resources.DB_CFG_FILE);
+	protected transient final PropertyKit LOADER = new PropertyKit(getClass(),Resources.DB_CFG_FILE);
 	// ~ Constructors ========================================
 	/**
 	 * 默认构造函数
@@ -121,7 +121,7 @@ public abstract class AbstractDbPool {
 	 * @return
 	 */
 	@Pre(expr = "_this.loader != null", lang = "groovy")
-	public PropertyLoader getLoader() {
+	public PropertyKit getLoader() {
 		return this.LOADER;
 	}
 	// ~ Private Methods =====================================

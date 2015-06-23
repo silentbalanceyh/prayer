@@ -1,6 +1,6 @@
 package com.prayer.db.pool;
 
-import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.sys.Instance.reservoir;
 
 import java.util.concurrent.TimeUnit;
 
