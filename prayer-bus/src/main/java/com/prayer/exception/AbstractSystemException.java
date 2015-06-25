@@ -4,12 +4,7 @@ import static com.prayer.util.sys.Error.error;
 
 /**
  * System exception, describe invalid system definition
- *
  * @author Lang
- * @package com.prayer.exception
- * @name AbstractSystemException
- * @class com.prayer.exception.AbstractSystemException
- * @date Oct 10, 2014 4:12:56 PM
  * @see
  */
 public abstract class AbstractSystemException extends RuntimeException {
@@ -34,7 +29,7 @@ public abstract class AbstractSystemException extends RuntimeException {
 	 * @param params
 	 */
 	public AbstractSystemException(final Class<?> clazz, final int errorCode,
-			Object... params) {
+			final Object... params) {
 		this(error(clazz, errorCode, params));
 	}
 

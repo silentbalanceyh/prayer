@@ -29,7 +29,7 @@ public final class Error {
 	 * @param params
 	 * @return
 	 */
-	public static String error(final int errorCode, Object... params) {
+	public static String error(final int errorCode, final Object... params) {
 		return error(null, errorCode, params);
 	}
 
@@ -41,7 +41,7 @@ public final class Error {
 	 * @return
 	 */
 	public static String error(final Class<?> clazz, final int errorCode,
-			Object... params) {
+			final Object... params) {
 		// Error Code Key in property file.
 		final String errKey = "E" + Math.abs(errorCode);
 		// Error message generation
@@ -50,9 +50,8 @@ public final class Error {
 		if (null != clazz) {
 			errMsg.append(" Class -> |");
 		}
-		errMsg.append(' ');
-		// Extract message from pattern and parameters
-		errMsg.append(MessageFormat.format(loader.getString(errKey), params));
+		errMsg.append(' ').append(
+				MessageFormat.format(loader.getString(errKey), params));
 		return errMsg.toString();
 	}
 	// ~ Constructors ========================================
@@ -60,6 +59,8 @@ public final class Error {
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	
+	private Error(){}
 	// ~ hashCode,equals,toString ============================
 
 }

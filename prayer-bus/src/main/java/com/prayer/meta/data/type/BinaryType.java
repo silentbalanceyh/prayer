@@ -91,7 +91,7 @@ public class BinaryType implements Value<byte[]>{
 			return false;	// NOPMD
 		}
 		final BinaryType other = (BinaryType) obj;
-		if (!Arrays.equals(value, other.value)){
+		if (!Arrays.equals(value, other.value)){	// NOPMD
 			return false;	// NOPMD
 		}
 		return true;

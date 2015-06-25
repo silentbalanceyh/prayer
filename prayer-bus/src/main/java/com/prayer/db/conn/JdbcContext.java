@@ -3,14 +3,9 @@ package com.prayer.db.conn;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
- * Fixed jdbc interface for Lyra
- *
+ * JDBC Interface
  * @author Lang
- * @package com.prayer.db.conn
- * @name JdbcContext
- * @class com.prayer.db.conn.JdbcContext
- * @date Dec 9, 2014 6:05:11 PM
- * @see This interface is different from DataContext
+ * @see
  */
 public interface JdbcContext {
 	/**
@@ -20,7 +15,7 @@ public interface JdbcContext {
 	 * @param values
 	 * @param types
 	 */
-	int update(final String sql, final Object[] values, final int[] types);
+	int update(String sql, Object[] values, int[] types);	// NOPMD
 
 	/**
 	 * Publish interface of jdbc template
@@ -29,7 +24,7 @@ public interface JdbcContext {
 	 * @param params
 	 * @return
 	 */
-	int update(final String sql, final Object... params);
+	int update(String sql, Object... params);
 
 	/**
 	 * Select data from database table
@@ -38,6 +33,5 @@ public interface JdbcContext {
 	 * @param params
 	 * @return
 	 */
-	<T> T select(final String sql, final RowMapper<T> rowMapper,
-			final Object... params);
+	<T> T select(String sql, RowMapper<T> rowMapper, Object... params);
 }

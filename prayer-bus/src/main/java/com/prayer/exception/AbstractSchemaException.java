@@ -4,12 +4,7 @@ import static com.prayer.util.sys.Error.error;
 
 /**
  * Schema验证的抽象类，主要用于验证Schema是否合法相关信息，参考EA文件
- * 
  * @author Lang
- * @package com.prayer.exception
- * @name AbstractSchemaException
- * @class com.prayer.exception.AbstractSchemaException
- * @date Oct 10, 2014 4:13:21 PM
  * @see
  */
 public abstract class AbstractSchemaException extends Exception {
@@ -35,7 +30,7 @@ public abstract class AbstractSchemaException extends Exception {
 	 * @param params
 	 */
 	public AbstractSchemaException(final Class<?> clazz, final int errorCode,
-			Object... params) {
+			final Object... params) {
 		this(error(clazz, errorCode, params));
 	}
 

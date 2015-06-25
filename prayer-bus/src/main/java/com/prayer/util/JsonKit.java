@@ -20,5 +20,8 @@ public final class JsonKit {
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	
+	private JsonKit(){
+	}
 	// ~ hashCode,equals,toString ============================
 }

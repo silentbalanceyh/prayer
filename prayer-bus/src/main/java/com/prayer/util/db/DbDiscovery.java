@@ -27,16 +27,19 @@ public final class DbDiscovery {
 	public static String getDatabaseVersion(
 			@NotNull @NotBlank @NotEmpty final String productName,
 			@NotNull @NotBlank @NotEmpty final String version){
-		String retVer = null;
+		String retVar = null;
 		switch(productName){
 		case "Microsoft SQL Server":{
-			retVer = getSqlServer(version);
+			retVar = getSqlServer(version);
 		}break;
 		case "PostgreSQL":{
-			retVer = getPostgreSql(version);
+			retVar = getPostgreSql(version);
+		}break;
+		default:{
+			retVar = null;	// NOPMD
+		}break;
 		}
-		}
-		return retVer;
+		return retVar;
 	}
 
 	/**

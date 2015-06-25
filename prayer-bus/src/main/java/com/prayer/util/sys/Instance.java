@@ -32,10 +32,9 @@ public final class Instance {
 	// ~ Static Methods ======================================
 	/**
 	 * 支持带Pool模式的单例
-	 * 
-	 * @param className
-	 * @param key
 	 * @param objectPool
+	 * @param key
+	 * @param className
 	 * @param params
 	 * @return
 	 */
@@ -53,7 +52,6 @@ public final class Instance {
 
 	/**
 	 * 支持带Pool模式的单例
-	 * 
 	 * @param clazz
 	 * @param key
 	 * @param objectPool
