@@ -7,7 +7,8 @@
 	<packaging>pom</packaging>
 	<name>Prayer Framework</name>
 	<modules>
-	<module>prayer-bus</module>
+		<module>prayer-bus</module>
+		<module>prayer-ws</module>
 	</modules>
 	<properties>
 		<!-- 项目默认使用的编码方式 -->
@@ -29,7 +30,7 @@
 
 		<!-- 依赖的库的版本号 -->
 		<!-- 【Latest】Vert.X库的版本 -->
-		<vertx.version>2.1.5</vertx.version>
+		<vertx.version>3.0.0</vertx.version>
 		<!-- 【Latest】Vert.X的单元测试库的版本 -->
 		<vertx.testtools.version>2.0.3-final</vertx.testtools.version>
 		<!-- 【Latest】JUnit的版本号 -->
@@ -89,7 +90,8 @@
 		<maven.dependency.plugin.version>2.9</maven.dependency.plugin.version>
 		<!-- 【Latest】AspectJ Compiler -->
 		<maven.mojo.aspectj.version>1.7</maven.mojo.aspectj.version>
-
+		
+		<maven.shade.plugin.version>2.3</maven.shade.plugin.version>
 		<maven.surefire.plugin.version>2.18.1</maven.surefire.plugin.version>
 		<maven.emma.plugin.version>1.0-alpha-3</maven.emma.plugin.version>
 		<maven.clover2.plugin.version>4.0.2</maven.clover2.plugin.version>
@@ -233,6 +235,36 @@
 						<configuration>
 							<outputDirectory>target/dependencies</outputDirectory>
 							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>${maven.shade.plugin.version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<manifestEntries>
+										<Main-Class>${main.class}</Main-Class>
+									</manifestEntries>
+								</transformer>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource>
+								</transformer>
+							</transformers>
+							<artifactSet>
+							</artifactSet>
+							<outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile>
 						</configuration>
 					</execution>
 				</executions>

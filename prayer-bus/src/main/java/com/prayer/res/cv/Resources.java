@@ -22,6 +22,10 @@ public final class Resources {	// NOPMD
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(Resources.class);
 	/**
+	 * Error mapping property file path
+	 */
+	public static final String ERR_PROP_FILE = "/err.properties";
+	/**
 	 * Schema mode of current system, default is: orb.schema=json
 	 */
 	public static final String SCHEMA_MODE;

@@ -1,8 +1,9 @@
 package com.prayer.exception.unchecked;
 
 import com.prayer.exception.AbstractSystemException;
+
 /**
- * 【Runtime】初始化类型异常
+ * 【Runtime】Error-20001：初始化类型异常
  *
  * @author Lang
  * @see
@@ -18,12 +19,14 @@ public class TypeInitException extends AbstractSystemException {
 	// ~ Constructors ========================================
 
 	/**
+	 * 
 	 * @param clazz
 	 * @param memberName
+	 * @param input
 	 */
-	public TypeInitException(final Class<?> clazz, final String memberName, final String input) {
-		super("[E] Class -> " + clazz.getName() + ",Member -> " + memberName
-				+ " could not be initialized! \nInput = " + input);
+	public TypeInitException(final Class<?> clazz, final String memberName,
+			final String input) {
+		super(clazz, -20001, memberName, input);
 	}
 
 	// ~ Override Methods ====================================

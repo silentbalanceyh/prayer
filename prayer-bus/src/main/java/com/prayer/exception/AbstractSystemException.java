@@ -1,5 +1,7 @@
 package com.prayer.exception;
 
+import static com.prayer.util.sys.Error.error;
+
 /**
  * System exception, describe invalid system definition
  *
@@ -24,6 +26,16 @@ public abstract class AbstractSystemException extends RuntimeException {
 	 */
 	public AbstractSystemException(final String message) {
 		super(message);
+	}
+	/**
+	 * 
+	 * @param clazz
+	 * @param errorCode
+	 * @param params
+	 */
+	public AbstractSystemException(final Class<?> clazz, final int errorCode,
+			Object... params) {
+		this(error(clazz, errorCode, params));
 	}
 
 	// ~ Abstract Methods ====================================
