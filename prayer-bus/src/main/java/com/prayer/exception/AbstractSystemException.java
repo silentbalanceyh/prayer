@@ -7,7 +7,7 @@ import static com.prayer.util.sys.Error.error;
  * @author Lang
  * @see
  */
-public abstract class AbstractSystemException extends RuntimeException {
+public abstract class AbstractSystemException extends Exception {
 	// ~ Static Fields =======================================
 	/**
      *

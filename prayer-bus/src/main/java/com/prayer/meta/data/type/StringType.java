@@ -2,7 +2,11 @@ package com.prayer.meta.data.type;
 
 import java.lang.reflect.Type;
 
-import com.prayer.exception.unchecked.TypeInitException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.prayer.exception.AbstractSystemException;
+import com.prayer.exception.system.TypeInitException;
 import com.prayer.meta.DataType;
 import com.prayer.meta.Validator;
 import com.prayer.meta.Value;
@@ -14,6 +18,10 @@ import com.prayer.meta.Value;
  * @see
  */
 public class StringType implements Value<String>, Validator {
+	// ~ Static Fields =======================================
+	/** **/
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(StringType.class);
 	// ~ Instance Fields =====================================
 	/**
 	 * 字符串缓冲池
@@ -22,7 +30,7 @@ public class StringType implements Value<String>, Validator {
 	/**
 	 * Runtime异常
 	 */
-	private transient TypeInitException exp = null;	// NOPMD
+	private transient TypeInitException exp = null; // NOPMD
 
 	// ~ Constructors ========================================
 	/**
@@ -85,11 +93,13 @@ public class StringType implements Value<String>, Validator {
 	public boolean validate(final String value) {
 		return true;
 	}
+
 	// ~ Methods =============================================
 	/** **/
-	public RuntimeException getError(){
+	public AbstractSystemException getError() {
 		return this.exp;
 	}
+
 	// ~ Private Methods =====================================
 	/**
 	 * 内部初始化函数
@@ -98,7 +108,7 @@ public class StringType implements Value<String>, Validator {
 	 */
 	private void init(final String value) {
 		if (null == value) {
-			this.value = null;	// NOPMD
+			this.value = null; // NOPMD
 		} else {
 			// StringType直接返回true
 			if (this.validate(value)) {
@@ -106,8 +116,12 @@ public class StringType implements Value<String>, Validator {
 				this.value.append(value);
 			} else {
 				// 验证不通过初始化失败
-				this.exp = new TypeInitException(getClass(), "void init(String)", value);
-				throw exp;
+				this.exp = new TypeInitException(getClass(),
+						"void init(String)", value);
+				// Logger
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("[E] String initliazing met error!", this.exp);
+				}
 			}
 		}
 
@@ -123,7 +137,7 @@ public class StringType implements Value<String>, Validator {
 	/** **/
 	@Override
 	public int hashCode() {
-		final int prime = 31;	// NOPMD
+		final int prime = 31; // NOPMD
 		int result = 1;
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
@@ -132,22 +146,22 @@ public class StringType implements Value<String>, Validator {
 	/** **/
 	@Override
 	public boolean equals(final Object obj) {
-		if (this == obj){
-			return true;	// NOPMD
+		if (this == obj) {
+			return true; // NOPMD
 		}
-		if (obj == null){
-			return false;	// NOPMD
+		if (obj == null) {
+			return false; // NOPMD
 		}
-		if (getClass() != obj.getClass()){
-			return false;	// NOPMD
+		if (getClass() != obj.getClass()) {
+			return false; // NOPMD
 		}
 		final StringType other = (StringType) obj;
 		if (value == null) {
-			if (other.value != null){
-				return false;	// NOPMD
+			if (other.value != null) {
+				return false; // NOPMD
 			}
-		} else if (!value.toString().equals(other.value.toString())){
-			return false;	// NOPMD
+		} else if (!value.toString().equals(other.value.toString())) {
+			return false; // NOPMD
 		}
 		return true;
 	}

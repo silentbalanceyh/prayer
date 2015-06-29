@@ -1,4 +1,4 @@
-package com.prayer.exception.unchecked;
+package com.prayer.exception.system;
 
 import com.prayer.exception.AbstractSystemException;
 

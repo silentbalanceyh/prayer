@@ -3,7 +3,6 @@ package com.prayer.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +12,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prayer.exception.unchecked.JsonParserException;
-import com.prayer.exception.unchecked.ResourceIOException;
+import com.prayer.exception.AbstractSystemException;
+import com.prayer.exception.system.JsonParserException;
+import com.prayer.exception.system.ResourceIOException;
 
 /**
  * 
@@ -36,10 +36,11 @@ public final class JsonKit {
 	 * @param filePath
 	 * @return
 	 */
-	public static Map<String, JsonNode> readJson(final String filePath) {
+	public static Map<String, JsonNode> readJson(final String filePath) throws AbstractSystemException {
 		Map<String, JsonNode> retMap = null;	// NOPMD
 		try {
 			final InputStream inStream = IOKit.getFile(filePath, JsonKit.class);
+			
 			retMap = MAPPER.readValue(inStream, // NOPMD
 					new TypeReference<Map<String, JsonNode>>() {
 					});
@@ -52,7 +53,7 @@ public final class JsonKit {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[E] Resource I/O error.", ex);
 			}
-			throw new ResourceIOException(JsonKit.class, ex.getMessage()); // NOPMD
+			throw new ResourceIOException(JsonKit.class, filePath); // NOPMD
 		}
 		return retMap;
 	}
