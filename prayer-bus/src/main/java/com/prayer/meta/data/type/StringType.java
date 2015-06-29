@@ -120,7 +120,7 @@ public class StringType implements Value<String>, Validator {
 						"void init(String)", value);
 				// Logger
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[E] String initliazing met error!", this.exp);
+					LOGGER.debug("[E] String initializing met error!", this.exp);
 				}
 			}
 		}

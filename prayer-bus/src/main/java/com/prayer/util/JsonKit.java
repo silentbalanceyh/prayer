@@ -2,7 +2,7 @@ package com.prayer.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +36,13 @@ public final class JsonKit {
 	 * @param filePath
 	 * @return
 	 */
-	public static Map<String, JsonNode> readJson(final String filePath) throws AbstractSystemException {
-		Map<String, JsonNode> retMap = null;	// NOPMD
+	public static ConcurrentMap<String, JsonNode> readJson(final String filePath)
+			throws AbstractSystemException {
+		ConcurrentMap<String, JsonNode> retMap = null; // NOPMD
 		try {
 			final InputStream inStream = IOKit.getFile(filePath, JsonKit.class);
-			
 			retMap = MAPPER.readValue(inStream, // NOPMD
-					new TypeReference<Map<String, JsonNode>>() {
+					new TypeReference<ConcurrentMap<String, JsonNode>>() {
 					});
 		} catch (JsonMappingException | JsonParseException ex) {
 			if (LOGGER.isDebugEnabled()) {
@@ -66,5 +66,6 @@ public final class JsonKit {
 
 	private JsonKit() {
 	}
+	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }
