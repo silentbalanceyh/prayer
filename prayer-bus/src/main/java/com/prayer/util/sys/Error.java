@@ -48,7 +48,7 @@ public final class Error {
 		final StringBuilder errMsg = new StringBuilder();
 		errMsg.append("[E").append(errorCode).append(']');
 		if (null != clazz) {
-			errMsg.append(" Class -> |");
+			errMsg.append(" Class -> " + clazz.getName() + " |");
 		}
 		errMsg.append(' ').append(
 				MessageFormat.format(loader.getString(errKey), params));

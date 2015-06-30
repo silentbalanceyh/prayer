@@ -1,7 +1,5 @@
 package com.prayer.meta.schema;
 
-import java.util.concurrent.ConcurrentMap;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.mod.sys.GenericSchema;
@@ -14,9 +12,9 @@ import com.prayer.mod.sys.GenericSchema;
 public interface Ensurer {
 	/**
 	 * 从JsonMap中导入数据
-	 * @param jsonMap
+	 * @param rootNode
 	 */
-	void refreshData(ConcurrentMap<String,JsonNode> jsonMap);
+	void refreshData(JsonNode rootNode);
 	/**
 	 * 验证Schema的流程
 	 * @return

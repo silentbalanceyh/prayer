@@ -1,14 +1,12 @@
 package com.prayer.meta.schema.json;
 
 import static com.prayer.util.sys.Instance.instance;
-
-import java.util.concurrent.ConcurrentMap;
-
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +17,7 @@ import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.TypeInitException;
 import com.prayer.meta.schema.Ensurer;
 import com.prayer.meta.schema.Importer;
+import com.prayer.mod.sys.GenericSchema;
 import com.prayer.util.JsonKit;
 
 /**
@@ -66,8 +65,9 @@ public class GenericImporter implements Importer {
 	 * 初始化文件读取的过程
 	 */
 	@Override
+	@PreValidateThis
 	public void importFile() throws AbstractSystemException {
-		final ConcurrentMap<String, JsonNode> schemaData = JsonKit
+		final JsonNode schemaData = JsonKit
 				.readJson(this.filePath);
 		/**
 		 * JsonKit.readJson本身会抛出AbstractSystemException
@@ -84,19 +84,23 @@ public class GenericImporter implements Importer {
 	 */
 	@Override
 	public void ensureSchema() throws AbstractSchemaException {
-		
+		if(this.ensurer.validate()){
+			GenericSchema schema = this.ensurer.getResult();
+		}else{
+			if(null != this.ensurer.getError()){
+				throw this.ensurer.getError();
+			}
+		}
 	}
 
 	@Override
 	public void loadData() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void finalizeImport() {
 		// TODO Auto-generated method stub
-
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

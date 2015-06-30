@@ -1,5 +1,9 @@
 package com.prayer.exception.schema;
 
+import static com.prayer.util.sys.Converter.toStr;
+
+import java.util.Set;
+
 import com.prayer.exception.AbstractSchemaException;
 
 /**
@@ -26,6 +30,26 @@ public class RequiredAttrMissingException extends AbstractSchemaException {
 	 */
 	public RequiredAttrMissingException(final Class<?> clazz, final String attr) {
 		super(clazz, -10001, attr);
+	}
+
+	/**
+	 * 
+	 * @param clazz
+	 * @param attrs
+	 */
+	public RequiredAttrMissingException(final Class<?> clazz,
+			final String... attrs) {
+		super(clazz, -10001, toStr(attrs));
+	}
+
+	/**
+	 * 
+	 * @param clazz
+	 * @param sets
+	 */
+	public RequiredAttrMissingException(final Class<?> clazz,
+			final Set<String> sets) {
+		super(clazz, -10001, toStr(sets));
 	}
 
 	// ~ Abstract Methods ====================================

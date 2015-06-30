@@ -17,7 +17,7 @@ import com.prayer.res.cv.Resources;
  * @author Lang
  * @see
  */
-public class ConTestCase extends AbstractConTestCase{
+public class ConTestCase extends AbstractConTestCase{ // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
