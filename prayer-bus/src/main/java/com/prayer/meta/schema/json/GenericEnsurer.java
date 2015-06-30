@@ -103,12 +103,12 @@ public class GenericEnsurer implements Ensurer {
 		final JsonNode metaNode = this.rootNode.path(Attributes.R_META);
 		final JsonAttrValidator validator = new JsonAttrValidator(metaNode,
 				Attributes.R_META);
-		// 1.Required
+		// 4.__meta__ Required
 		this.error = validator.verifyRequired(M_REQUIRED);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
-		// 2.Exclude Unsupported Attributes
+		// 5.__meta__ Exclude Unsupported Attributes
 		this.error = validator.verifyUnsupported(M_ATTRS);
 		if (null != this.error) {
 			return false; // NOPMD
@@ -124,13 +124,13 @@ public class GenericEnsurer implements Ensurer {
 	public boolean validateRoot() {
 		final JsonAttrValidator validator = new JsonAttrValidator(
 				this.rootNode, null);
-		// 1.Required
+		// 1.Root Required
 		this.error = validator.verifyRequired(Attributes.R_META,
 				Attributes.R_KEYS, Attributes.R_FIELDS);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
-		// 2.Type
+		// 2.Root Json Type
 		this.error = validator.verifyJObject(Attributes.R_META);
 		if (null != this.error) {
 			return false; // NOPMD
@@ -140,7 +140,7 @@ public class GenericEnsurer implements Ensurer {
 			return false; // NOPMD
 		}
 		this.error = validator.verifyJArray(Attributes.R_FIELDS);
-		// 3.Exclude Unsupported Attributes
+		// 3.Root Exclude Unsupported Attributes
 		if (null != this.error) {
 			return false; // NOPMD
 		}
