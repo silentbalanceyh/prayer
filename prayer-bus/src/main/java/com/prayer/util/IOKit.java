@@ -23,8 +23,7 @@ import org.slf4j.LoggerFactory;
 public final class IOKit {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(IOKit.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(IOKit.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -49,8 +48,8 @@ public final class IOKit {
 			@NotNull @NotEmpty @NotBlank final String fileName,
 			final Class<?> clazz) {
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[D] ==> ( fileName = " + fileName + ", clazz = " + clazz
-					+ " ) Input parameter reading...");
+			LOGGER.debug("[D] ==> ( fileName = " + fileName + ", clazz = "
+					+ clazz + " ) Input parameter reading...");
 		}
 		InputStream retStream = null;
 		if (null == clazz) {
@@ -59,8 +58,8 @@ public final class IOKit {
 			// 根据当前Thread的ClassLoader中获取InputStream
 			retStream = null == retStream ? readStream(fileName) : retStream;
 			// 获取不到的时候从传入的Class --> FileExplorer中获取InputStream
-			retStream = null == retStream ? readStream(fileName,
-					IOKit.class) : retStream;
+			retStream = null == retStream ? readStream(fileName, IOKit.class)
+					: retStream;
 		} else {
 			// 若有Class传入则先从传入class中获取InputStream
 			retStream = readStream(fileName, clazz);
@@ -105,7 +104,7 @@ public final class IOKit {
 			try {
 				retStream = new FileInputStream(file);
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(" <== [D] ( Value -> " + retStream
+					LOGGER.debug("[D] <== ( Value -> " + retStream
 							+ " ) Read from FileInputStream(file).");
 				}
 			} catch (FileNotFoundException ex) {

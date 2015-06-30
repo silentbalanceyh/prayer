@@ -1,6 +1,6 @@
 package com.test.prayer.util;
 
-import static com.prayer.util.sys.Instance.singleton;
+import static com.prayer.util.sys.Instance.reservoir;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -23,7 +23,8 @@ public class PropLoader3TestCase extends AbstractTestCase implements
 	 */
 	public PropLoader3TestCase() {
 		super(PropertyKit.class.getName());
-		loader = singleton(PropertyKit.class, getClass(), TEST_FILE);
+		loader = reservoir(OBJ_POOLS, getClass().getName(), PropertyKit.class,
+				TEST_FILE);
 	}
 	// ~ Methods =============================================
 	/**

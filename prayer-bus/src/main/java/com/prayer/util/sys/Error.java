@@ -1,6 +1,6 @@
 package com.prayer.util.sys;
 
-import static com.prayer.util.sys.Instance.singleton;
+import static com.prayer.util.sys.Instance.instance;
 
 import java.text.MessageFormat;
 
@@ -17,7 +17,7 @@ public final class Error {
 	/**
 	 * Error property loader to read Error Message
 	 */
-	private static PropertyKit loader = singleton(PropertyKit.class,
+	private static PropertyKit loader = instance(PropertyKit.class.getName(),
 			Error.class, Resources.ERR_PROP_FILE);
 
 	// ~ Instance Fields =====================================

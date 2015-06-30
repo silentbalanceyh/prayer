@@ -1,6 +1,6 @@
 package com.test.prayer.util;
 
-import static com.prayer.util.sys.Instance.singleton;
+import static com.prayer.util.sys.Instance.reservoir;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -27,7 +27,8 @@ public class PropLoaderTestCase extends AbstractTestCase implements
 	 */
 	public PropLoaderTestCase() {
 		super(PropertyKit.class.getName());
-		loader = singleton(PropertyKit.class, getClass(), TEST_FILE);
+		loader = reservoir(OBJ_POOLS, getClass().getName(), PropertyKit.class,
+				TEST_FILE);
 	}
 
 	// ~ Methods =============================================

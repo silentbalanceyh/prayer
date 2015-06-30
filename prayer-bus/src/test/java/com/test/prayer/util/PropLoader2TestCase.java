@@ -1,6 +1,6 @@
 package com.test.prayer.util;
 
-import static com.prayer.util.sys.Instance.singleton;
+import static com.prayer.util.sys.Instance.reservoir;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -24,7 +24,8 @@ public class PropLoader2TestCase extends AbstractTestCase implements
 	 */
 	public PropLoader2TestCase() {
 		super(PropertyKit.class.getName());
-		loader = singleton(PropertyKit.class, getClass(), TEST_FILE);
+		loader = reservoir(OBJ_POOLS, getClass().getName(), PropertyKit.class,
+				TEST_FILE);
 	}
 
 	// ~ Methods =============================================
@@ -32,56 +33,61 @@ public class PropLoader2TestCase extends AbstractTestCase implements
 	 * 
 	 */
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testGetString1(){
+	public void testGetString1() {
 		setMethod(M_GET_STRING);
 		final String ret = this.getLoader().getString(null);
 		failure(ret);
 	}
+
 	/**
 	 * 
 	 */
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testGetString2(){
+	public void testGetString2() {
 		setMethod(M_GET_STRING);
 		final String ret = this.getLoader().getString("");
 		failure(ret);
 	}
+
 	/**
 	 * 
 	 */
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testGetString3(){
+	public void testGetString3() {
 		setMethod(M_GET_STRING);
 		final String ret = this.getLoader().getString("   ");
 		failure(ret);
 	}
+
 	/**
 	 * 
 	 */
 	@Test
-	public void testGetString4(){
+	public void testGetString4() {
 		setMethod(M_GET_STRING);
 		final String ret = this.getLoader().getString("x.test");
-		assertNull(getPosition(),ret);
+		assertNull(getPosition(), ret);
 	}
+
 	/**
 	 * 
 	 */
 	@Test
-	public void testGetString5(){
+	public void testGetString5() {
 		setMethod(M_GET_STRING);
 		final String ret = this.getLoader().getString("test.null");
-		assertNull(getPosition(),ret);
+		assertNull(getPosition(), ret);
 	}
+
 	/**
 	 * 
 	 */
 	@Test
-	public void testGetString6(){
+	public void testGetString6() {
 		setMethod(M_GET_STRING);
 		final String ret = this.getLoader().getString("test.str");
-		assertEquals(getPosition(),"Hello Lang Yu",ret);
+		assertEquals(getPosition(), "Hello Lang Yu", ret);
 	}
-	
+
 	// ~ Private Methods =====================================
 }

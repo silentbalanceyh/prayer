@@ -4,6 +4,8 @@ import static com.prayer.util.sys.Instance.instance;
 import static org.junit.Assert.fail;
 
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.util.PropertyKit;
 
@@ -15,6 +17,9 @@ import com.prayer.util.PropertyKit;
  * @see
  */
 public class AbstractTestCase {
+	// ~ Static Fields =======================================
+	/** **/
+	protected static final ConcurrentMap<String, PropertyKit> OBJ_POOLS = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/**
 	 * 测试的类名 *

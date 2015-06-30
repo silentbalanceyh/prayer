@@ -70,6 +70,13 @@ public final class PropertyKit {
 					+ " ) Initialized current prop!");
 		}
 		PROP_POOL.put(resource, this.prop);
+		// Monitor Pool if debug
+		/*
+		 * if (LOGGER.isDebugEnabled()){
+		 * LOGGER.debug("[POOL] Current resource: " + resource); for(final
+		 * String key: PROP_POOL.keySet()){ LOGGER.debug("[POOL] Key=" + key +
+		 * ", value=" + PROP_POOL.get(key)); } }
+		 */
 	}
 
 	/**
