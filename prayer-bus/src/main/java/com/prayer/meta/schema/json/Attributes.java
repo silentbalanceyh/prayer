@@ -46,7 +46,7 @@ interface Attributes { // NOPMD
 	
 	// ------------------ __meta__ Required Regex ----------------
 	/** **/
-	String RGX_M_NAME = "[A-Z]{1}[A-Za-z0-9]*";
+	String RGX_M_NAME = "[A-Z]{1}[A-Za-z0-9]+";
 	/** **/
 	String RGX_M_NAMESPACE = "[a-z]+(\\.[a-z]+)*";
 	/** **/
