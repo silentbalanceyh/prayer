@@ -1,0 +1,16 @@
+{
+	"__meta__":{
+		"name":"Role",
+		"namespace":"com.prayer.mod.sec",
+		"category":"ENTITY",
+		"table":"SEC_ROLE",
+		"identifier":"sys.sec.role",
+		"mapping":"DIRECT",
+		"policy":"INCREMENT",
+		"seqinit":1
+	},
+	"__keys__":[
+	],
+	"__fields__":[
+	]
+}

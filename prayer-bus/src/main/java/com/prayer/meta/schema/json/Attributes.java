@@ -60,7 +60,11 @@ interface Attributes { // NOPMD
 	/** **/
 	String RGX_M_TABLE = "[A-Z]{2,4}\\_[A-Z]+";
 	/** **/
-	String RGX_M_SUB_TABLE = "[A-Z]{2,4}\\_[A-Z]+";
+	String RGX_M_SUB_TABLE = RGX_M_TABLE;
 	/** **/
 	String RGX_M_SEQ_NAME = "REQ_[A-Z]+";
+	/** **/
+	String RGX_M_SEQ_INIT = "[0-9]+";
+	/** **/
+	String RGX_M_SEQ_STEP = RGX_M_SEQ_INIT;
 }

@@ -181,28 +181,43 @@ public class MetaEnsurer implements Ensurer {
 	 * @return
 	 */
 	private boolean validateIncrement() {
-		// 8.Policy是否为INCREMENT
-		this.error = validator.verifyIn(Attributes.M_POLICY,
-				MetaPolicy.INCREMENT.toString());
-		if (null != this.error) {
-			return false; // NOPMD
+		// 8.如果policy为INCREMENT
+		final MetaPolicy policy = fromStr(MetaPolicy.class,
+				this.metaNode.path(Attributes.M_POLICY).asText());
+		if (MetaPolicy.INCREMENT != policy) {
+			return true; // NOPMD
 		}
 		// 9.如果是MSSQL以及MYSQL，直接返回true
-		if (StringUtil.equals(Resources.DB_CATEGORY, Constants.DF_MSSQL)
-				|| StringUtil.equals(Resources.DB_CATEGORY, Constants.DF_MYSQL)) {
-			return true; // NOPMD
-		} else {
-			// 10.1.1.使用了Sequence的情况，则必须要验证另外三个属性，先验证seqname是否丢失
+		if (!StringUtil.equals(Resources.DB_CATEGORY, Constants.DF_MSSQL)
+				&& !StringUtil
+						.equals(Resources.DB_CATEGORY, Constants.DF_MYSQL)) {
+			// TODO: 默认使用了MSSQL，所以针对Oracle以及PostgreSQL才会有这个流程验证seqname
+			// 9.2.1.使用了Sequence的情况，必须要验证seqname是否丢失
 			this.error = validator.verifyMissing(Attributes.M_SEQ_NAME);
 			if (null != this.error) {
 				return false; // NOPMD
 			}
-			// 10.1.2.使用Sequence情况，验证seqname的格式
+			// 9.2.2.使用Sequence情况，验证seqname的格式
 			this.error = validator.verifyPattern(Attributes.M_SEQ_NAME,
 					Attributes.RGX_M_SEQ_NAME);
 			if (null != this.error) {
 				return false; // NOPMD
 			}
+		}
+		// 10.如果是INCREMENT必须验证seqinit, seqstep属性是否存在
+		this.error = validator.verifyMissing(Attributes.M_SEQ_INIT,
+				Attributes.M_SEQ_STEP);
+		if (null != this.error) {
+			return false; // NOPMD
+		}
+		// 11.验证seqinit, seqstep的格式
+		this.error = validator.verifyPattern(Attributes.M_SEQ_INIT, Attributes.RGX_M_SEQ_INIT);
+		if( null != this.error){
+			return false; // NOPMD
+		}
+		this.error = validator.verifyPattern(Attributes.M_SEQ_STEP, Attributes.RGX_M_SEQ_STEP);
+		if( null != this.error){
+			return false; // NOPMD
 		}
 		return null == this.error;
 	}
