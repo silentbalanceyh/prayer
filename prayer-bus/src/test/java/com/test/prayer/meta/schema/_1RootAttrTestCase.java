@@ -41,7 +41,7 @@ public class _1RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 */
 	@Test(expected = RequiredAttrMissingException.class)
 	public void testFields10001() throws AbstractSchemaException {
-		testImport("/schema/system/data/json/root-fields10001.json",
+		testImport("root-fields10001.json",
 				"[E10001] Fields ==> (Failure) There is unexpected exception!");
 	}
 
@@ -51,7 +51,7 @@ public class _1RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 */
 	@Test(expected = RequiredAttrMissingException.class)
 	public void testKeys10001() throws AbstractSchemaException {
-		testImport("/schema/system/data/json/root-keys10001.json",
+		testImport("root-keys10001.json",
 				"[E10001] Keys ==> (Failure) There is unexpected exception!");
 	}
 
@@ -61,7 +61,7 @@ public class _1RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 */
 	@Test(expected = RequiredAttrMissingException.class)
 	public void testMeta10001() throws AbstractSchemaException {
-		testImport("/schema/system/data/json/root-meta10001.json",
+		testImport("root-meta10001.json",
 				"[E10001] Meta ==> (Failure) There is unexpected exception!");
 	}
 
@@ -71,7 +71,7 @@ public class _1RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 */
 	@Test(expected = AttrJsonTypeException.class)
 	public void testFields10002() throws AbstractSchemaException {
-		testImport("/schema/system/data/json/root-fields10002.json",
+		testImport("root-fields10002.json",
 				"[E10002] Fields ==> (Failure) There is unexpected exception!");
 	}
 
@@ -81,7 +81,7 @@ public class _1RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 */
 	@Test(expected = AttrJsonTypeException.class)
 	public void testKeys10002() throws AbstractSchemaException {
-		testImport("/schema/system/data/json/root-keys10002.json",
+		testImport("root-keys10002.json",
 				"[E10002] Keys ==> (Failure) There is unexpected exception!");
 	}
 
@@ -91,7 +91,7 @@ public class _1RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 */
 	@Test(expected = AttrJsonTypeException.class)
 	public void testMeta10002() throws AbstractSchemaException {
-		testImport("/schema/system/data/json/root-meta10002.json",
+		testImport("root-meta10002.json",
 				"[E10002] Meta ==> (Failure) There is unexpected exception!");
 	}
 
@@ -101,7 +101,7 @@ public class _1RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 */
 	@Test(expected = UnsupportAttrException.class)
 	public void testMeta10017() throws AbstractSchemaException {
-		testImport("/schema/system/data/json/root-fields10017.json",
+		testImport("root-fields10017.json",
 				"[E10017] Root ==> (Failure) There is unexpected exception!");
 	}
 	// ~ Private Methods =====================================

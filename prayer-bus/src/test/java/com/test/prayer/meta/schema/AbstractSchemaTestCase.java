@@ -43,7 +43,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 	protected void testImport(final String inputFile, final String errMsg)
 			throws AbstractSchemaException {
 		setMethod(M_IMPORT_FILE);
-		importer = new GenericImporter(inputFile);
+		importer = new GenericImporter("/schema/system/data/json/" + inputFile);
 		try {
 			importer.importFile();
 			importer.ensureSchema();

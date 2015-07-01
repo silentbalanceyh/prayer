@@ -134,9 +134,8 @@ public class MetaEnsurer implements Ensurer {
 			// Mapping
 			switch (mapping) {
 			case PARTIAL: {
-
+				return verifyCEntityDirect();
 			}
-				break;
 			case DIRECT: {
 
 			}
@@ -154,8 +153,9 @@ public class MetaEnsurer implements Ensurer {
 		}
 			break;
 		case RELATION: {
-			return verifyCRelation(); // NOPMD
+			verifyCRelation(); // NOPMD
 		}
+			break;
 		default: {
 			this.error = validator.verifyPattern(Attributes.M_CATEGORY,
 					REGEX_MAP.get(Attributes.M_CATEGORY));
@@ -196,28 +196,50 @@ public class MetaEnsurer implements Ensurer {
 	 * 
 	 * @return
 	 */
-	private boolean verifyCRelation() {
+	private boolean verifyCEntityDirect() {
 		final JsonSchemaValidator validator = new JsonSchemaValidator(
 				this.metaNode, Attributes.R_META);
-		// 7.1.Category == Relation
+		// 7.2.1.category == ENTITY && mapping == PARTIAL
 		this.error = validator.verifyExisting(Attributes.M_SUB_KEY,
 				Attributes.M_SUB_TABLE);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
-		// 7.2.mapping = DIRECT
+		// 7.2.2.seqname, seqinit, seqstep Checking
+		this.error = validator.verifyExisting(Attributes.M_SEQ_INIT,
+				Attributes.M_SEQ_NAME, Attributes.M_SEQ_STEP);
+		if (null != this.error) {
+			return false; // NOPMD
+		}
+		// 7.2.3.policy in ASSIGNED
+		this.error = validator.verifyIn(Attributes.M_POLICY,
+				MetaPolicy.ASSIGNED.toString());
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean verifyCRelation() {
+		final JsonSchemaValidator validator = new JsonSchemaValidator(
+				this.metaNode, Attributes.R_META);
+		// 7.1.1.category == RELATION
+		this.error = validator.verifyExisting(Attributes.M_SUB_KEY,
+				Attributes.M_SUB_TABLE);
+		if (null != this.error) {
+			return false; // NOPMD
+		}
+		// 7.1.2.mapping in DIRECT
 		this.error = validator.verifyIn(Attributes.M_MAPPING,
 				MetaMapping.DIRECT.toString());
 		if (null != this.error) {
 			return false; // NOPMD
 		}
-		// 7.3.policy = COLLECTION | ASSIGNED
+		// 7.1.3.policy not COLLECTION | ASSIGNED
 		this.error = validator.verifyNotIn(Attributes.M_POLICY,
 				MetaPolicy.COLLECTION.toString(),
 				MetaPolicy.ASSIGNED.toString());
-		if (null != this.error){
-			return false;	// NOPMD
-		}
 		return null == this.error; // NOPMD
 	}
 	// ~ Get/Set =============================================
