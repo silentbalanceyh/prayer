@@ -1,5 +1,8 @@
 package com.prayer.meta.schema.json;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -19,22 +22,35 @@ public class GenericEnsurer implements Ensurer {
 	/** Meta Required **/
 	private static final String[] M_REQUIRED = new String[] {
 			Attributes.M_NAMESPACE, Attributes.M_NAME, Attributes.M_CATEGORY,
-			Attributes.M_TABLE, Attributes.M_IDENTIFITER, Attributes.M_MAPPING,
+			Attributes.M_TABLE, Attributes.M_IDENTIFIER, Attributes.M_MAPPING,
 			Attributes.M_POLICY };
 	/** Meta Attributes **/
 	private static final String[] M_ATTRS = new String[] {
 			Attributes.M_NAMESPACE, Attributes.M_NAME, Attributes.M_CATEGORY,
-			Attributes.M_TABLE, Attributes.M_IDENTIFITER, Attributes.M_MAPPING,
+			Attributes.M_TABLE, Attributes.M_IDENTIFIER, Attributes.M_MAPPING,
 			Attributes.M_POLICY, // Required
 			Attributes.M_SUB_KEY, Attributes.M_SUB_TABLE, // SubTable
 			Attributes.M_SEQ_NAME, Attributes.M_SEQ_STEP, Attributes.M_SEQ_INIT // Sequence
 	};
+	/** **/
+	private static final ConcurrentMap<String, String> REGEX_MAP = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient AbstractSchemaException error;
 	/** **/
 	private transient JsonNode rootNode;
 	// ~ Static Block ========================================
+	/** Put Regex **/
+	static {
+		REGEX_MAP.put(Attributes.M_NAME, Attributes.RGX_M_NAME);
+		REGEX_MAP.put(Attributes.M_NAMESPACE, Attributes.RGX_M_NAMESPACE);
+		REGEX_MAP.put(Attributes.M_CATEGORY, Attributes.RGX_M_CATEGORY);
+		REGEX_MAP.put(Attributes.M_TABLE, Attributes.RGX_M_TABLE);
+		REGEX_MAP.put(Attributes.M_IDENTIFIER, Attributes.RGX_M_IDENTIFITER);
+		REGEX_MAP.put(Attributes.M_MAPPING, Attributes.RGX_M_MAPPING);
+		REGEX_MAP.put(Attributes.M_POLICY, Attributes.RGX_M_POLICY);
+	}
+
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/**
@@ -72,7 +88,7 @@ public class GenericEnsurer implements Ensurer {
 		// 1.验证root节点：__keys__, __meta__, __fields__
 		boolean ret = validateRoot();
 		// 2.验证Meta节点，借助“截断”
-		ret = ret && validateMeta();
+		ret = ret && validateMetaAttr();
 
 		return ret;
 	}
@@ -99,9 +115,9 @@ public class GenericEnsurer implements Ensurer {
 	 * 
 	 * @return
 	 */
-	public boolean validateMeta() {
+	public boolean validateMetaAttr() {
 		final JsonNode metaNode = this.rootNode.path(Attributes.R_META);
-		final JsonAttrValidator validator = new JsonAttrValidator(metaNode,
+		final JsonSchemaValidator validator = new JsonSchemaValidator(metaNode,
 				Attributes.R_META);
 		// 4.__meta__ Required
 		this.error = validator.verifyRequired(M_REQUIRED);
@@ -113,6 +129,13 @@ public class GenericEnsurer implements Ensurer {
 		if (null != this.error) {
 			return false; // NOPMD
 		}
+		// 6.__meta__ Required Attribute Patterns
+		for(final String attr: REGEX_MAP.keySet()){
+			this.error = validator.verifyPattern(attr, REGEX_MAP.get(attr));
+			if(null != this.error){
+				return false;	// NOPMD
+			}
+		}
 		return null == this.error;
 	}
 
@@ -122,7 +145,7 @@ public class GenericEnsurer implements Ensurer {
 	 * @return
 	 */
 	public boolean validateRoot() {
-		final JsonAttrValidator validator = new JsonAttrValidator(
+		final JsonSchemaValidator validator = new JsonSchemaValidator(
 				this.rootNode, null);
 		// 1.Root Required
 		this.error = validator.verifyRequired(Attributes.R_META,
