@@ -2,13 +2,29 @@ package com.prayer.util.sys;
 
 import java.util.Set;
 
+import jodd.util.StringUtil;
+import net.sf.oval.constraint.MinLength;
+import net.sf.oval.constraint.MinSize;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * @author Lang
  * @see
  */
+@Guarded
 public final class Converter {
 	// ~ Static Fields =======================================
+	/** **/
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(Converter.class);
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -17,7 +33,7 @@ public final class Converter {
 	 * @param sets
 	 * @return
 	 */
-	public static String toStr(final Set<String> sets) {
+	public static String toStr(@MinSize(1) final Set<String> sets) {
 		return toStr(sets.toArray(new String[] {}));
 	}
 
@@ -26,7 +42,7 @@ public final class Converter {
 	 * @param setArr
 	 * @return
 	 */
-	public static String toStr(final String... setArr) {
+	public static String toStr(@MinLength(1) final String... setArr) {
 		final StringBuilder retStr = new StringBuilder();
 		for (int i = 0; i < setArr.length; i++) {
 			retStr.append(setArr[i]);
@@ -35,6 +51,25 @@ public final class Converter {
 			}
 		}
 		return retStr.toString();
+	}
+
+	/**
+	 * 
+	 * @param clazz
+	 * @param inputStr
+	 * @return
+	 */
+	public static <T extends Enum<T>> T fromStr(@NotNull final Class<T> clazz,
+			@NotNull @NotBlank @NotEmpty final String inputStr) {
+		T retEnum = null;
+		try {
+			retEnum = Enum.valueOf(clazz, StringUtil.toUpperCase(inputStr));
+		} catch (IllegalArgumentException ex) {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[E] Enum value invalid: " + inputStr, ex);
+			}
+		}
+		return retEnum;
 	}
 
 	// ~ Constructors ========================================

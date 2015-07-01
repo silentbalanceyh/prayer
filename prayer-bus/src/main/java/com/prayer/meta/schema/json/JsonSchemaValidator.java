@@ -1,5 +1,7 @@
 package com.prayer.meta.schema.json;
 
+import static com.prayer.util.sys.Converter.toStr;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -7,6 +9,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jodd.util.StringUtil;
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -21,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.AttrJsonTypeException;
+import com.prayer.exception.schema.InvalidValueException;
+import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.exception.schema.UnsupportAttrException;
@@ -83,7 +88,7 @@ class JsonSchemaValidator {
 		while (fieldIt.hasNext()) {
 			reqAttrs.remove(fieldIt.next());
 		}
-		
+
 		AbstractSchemaException retExp = null;
 		if (!reqAttrs.isEmpty()) {
 			retExp = new RequiredAttrMissingException(getClass(), reqAttrs);
@@ -157,7 +162,7 @@ class JsonSchemaValidator {
 				unsupportedSet.add(verifiedAttr);
 			}
 		}
-		
+
 		AbstractSchemaException retExp = null;
 		if (!unsupportedSet.isEmpty()) {
 			retExp = new UnsupportAttrException(getClass(), unsupportedSet);
@@ -168,9 +173,10 @@ class JsonSchemaValidator {
 		}
 		return retExp;
 	}
-	
+
 	/**
 	 * Error-10003
+	 * 
 	 * @param attr
 	 * @param regexStr
 	 * @return
@@ -191,6 +197,105 @@ class JsonSchemaValidator {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[E] ==> Error-10003 ( Location: " + this.name
 						+ " )", retExp);
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * Error-10004：【单属性检查】属性必须同时存在但丢失，不考虑Required
+	 * 
+	 * @param attrs
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyMissing(
+			@MinLength(1) final String... attrs) {
+		AbstractSchemaException retExp = null;
+		for (final String attr : attrs) {
+			final JsonNode attrNode = this.verifiedNode.path(attr);
+			if (StringUtil.isBlank(attrNode.textValue())) {
+				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
+						"Missing");
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("[E] ==> Error-10004 ( Location: " + this.name
+							+ " ) Missing, ", retExp);
+				}
+				break;
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * Error-10004：【单属性检查】属性必须同时不存在但存在了，不考虑Required
+	 * 
+	 * @param attrs
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyExisting(
+			@MinLength(1) final String... attrs) {
+		AbstractSchemaException retExp = null;
+		for (final String attr : attrs) {
+			final JsonNode attrNode = this.verifiedNode.path(attr);
+			if (StringUtil.isNotBlank(attrNode.textValue())) {
+				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
+						"Existing");
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("[E] ==> Error-10004 ( Location: " + this.name
+							+ " ) Existing, ", retExp);
+				}
+				break;
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * Error-10005：【单属性检查】如果存在则Pass，不存在这个值就错
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyIn(
+			@NotNull @NotBlank @NotEmpty final String attr,
+			@MinLength(1) final String... values) {
+		AbstractSchemaException retExp = null;
+		final JsonNode attrNode = this.verifiedNode.path(attr);
+		for (final String value : values) {
+			final String jsonValue = attrNode.textValue();
+			if (null != jsonValue && !StringUtil.equals(value, jsonValue)) {
+				retExp = new InvalidValueException(getClass(), attr, // NOPMD
+						toStr(values), jsonValue, "");
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("[E] ==> Error-10005 ( Location: " + this.name
+							+ " ) In, ", retExp);
+				}
+			}
+		}
+		return retExp;
+	}
+	/**
+	 * Error-10005：【单属性检查】如果不存在则Pass，存在这个值就错
+	 * @param attr
+	 * @param values
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyNotIn(
+			@NotNull @NotBlank @NotEmpty final String attr,
+			@MinLength(1) final String... values){
+		AbstractSchemaException retExp = null;
+		final JsonNode attrNode = this.verifiedNode.path(attr);
+		for (final String value : values) {
+			final String jsonValue = attrNode.textValue();
+			if (null != jsonValue && StringUtil.equals(value, jsonValue)) { // NOPMD
+				retExp = new InvalidValueException(getClass(), attr, // NOPMD
+						toStr(values), jsonValue, "n't");
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("[E] ==> Error-10005 ( Location: " + this.name
+							+ " ) NotIn, ", retExp);
+				}
 			}
 		}
 		return retExp;

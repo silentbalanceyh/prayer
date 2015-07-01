@@ -8,7 +8,7 @@ import com.prayer.exception.AbstractSchemaException;
  * @author Lang
  * @see
  */
-public class OptionalAttrMissingException extends AbstractSchemaException {
+public class OptionalAttrMorEException extends AbstractSchemaException {
 	// ~ Static Fields =======================================
 
 	/**
@@ -25,8 +25,8 @@ public class OptionalAttrMissingException extends AbstractSchemaException {
 	 * @param clazz
 	 * @param attr
 	 */
-	public OptionalAttrMissingException(final Class<?> clazz, final String attr) {
-		super(clazz, -10004, attr);
+	public OptionalAttrMorEException(final Class<?> clazz, final String attr, final String category) {
+		super(clazz, -10004, attr, category);
 	}
 
 	// ~ Abstract Methods ====================================

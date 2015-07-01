@@ -1,0 +1,17 @@
+{
+	"__meta__":{
+		"name":"Role",
+		"namespace":"com.prayer.mod.sec",
+		"category":"RELATION",
+		"table":"SEC_ROLE",
+		"identifier":"sys.sec.role",
+		"mapping":"DIRECT",
+		"policy":"GUID",
+		"subkey":"subkey",
+		"subtable":"subtable"
+	},
+	"__keys__":[
+	],
+	"__fields__":[
+	]
+}

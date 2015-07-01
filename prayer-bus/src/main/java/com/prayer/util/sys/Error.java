@@ -4,6 +4,10 @@ import static com.prayer.util.sys.Instance.instance;
 
 import java.text.MessageFormat;
 
+import net.sf.oval.constraint.Max;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+
 import com.prayer.res.cv.Resources;
 import com.prayer.util.PropertyKit;
 
@@ -12,6 +16,7 @@ import com.prayer.util.PropertyKit;
  * @author Lang
  * @see
  */
+@Guarded
 public final class Error {
 	// ~ Static Fields =======================================
 	/**
@@ -29,7 +34,8 @@ public final class Error {
 	 * @param params
 	 * @return
 	 */
-	public static String error(final int errorCode, final Object... params) {
+	public static String error(@Max(-10000) final int errorCode,
+			final Object... params) {
 		return error(null, errorCode, params);
 	}
 
@@ -40,8 +46,8 @@ public final class Error {
 	 * @param params
 	 * @return
 	 */
-	public static String error(final Class<?> clazz, final int errorCode,
-			final Object... params) {
+	public static String error(@NotNull final Class<?> clazz,
+			@Max(-10000) final int errorCode, final Object... params) {
 		// Error Code Key in property file.
 		final String errKey = "E" + Math.abs(errorCode);
 		// Error message generation
@@ -54,13 +60,15 @@ public final class Error {
 				MessageFormat.format(loader.getString(errKey), params));
 		return errMsg.toString();
 	}
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	
-	private Error(){}
+
+	private Error() {
+	}
 	// ~ hashCode,equals,toString ============================
 
 }

@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.UUID;
 
 import jodd.util.MathUtil;
+import net.sf.oval.constraint.Min;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 
@@ -12,6 +14,7 @@ import jodd.util.MathUtil;
  * @author Lang
  * @see
  */
+@Guarded
 public final class Generator {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
@@ -36,7 +39,7 @@ public final class Generator {
 	 * @param range
 	 * @return
 	 */
-	public static int number(final int range){
+	public static int number(@Min(0) final int range){
 		return index(range) + 1;
 	}
 	/**
@@ -44,7 +47,7 @@ public final class Generator {
 	 * @param range
 	 * @return
 	 */
-	public static int index(final int range){
+	public static int index(@Min(1) final int range){
 		final Random rand = new Random();
 		return rand.nextInt(range);
 	}

@@ -1,8 +1,5 @@
 package com.prayer.meta.schema.json;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -19,38 +16,15 @@ import com.prayer.mod.sys.GenericSchema;
 @Guarded
 public class GenericEnsurer implements Ensurer {
 	// ~ Static Fields =======================================
-	/** Meta Required **/
-	private static final String[] M_REQUIRED = new String[] {
-			Attributes.M_NAMESPACE, Attributes.M_NAME, Attributes.M_CATEGORY,
-			Attributes.M_TABLE, Attributes.M_IDENTIFIER, Attributes.M_MAPPING,
-			Attributes.M_POLICY };
-	/** Meta Attributes **/
-	private static final String[] M_ATTRS = new String[] {
-			Attributes.M_NAMESPACE, Attributes.M_NAME, Attributes.M_CATEGORY,
-			Attributes.M_TABLE, Attributes.M_IDENTIFIER, Attributes.M_MAPPING,
-			Attributes.M_POLICY, // Required
-			Attributes.M_SUB_KEY, Attributes.M_SUB_TABLE, // SubTable
-			Attributes.M_SEQ_NAME, Attributes.M_SEQ_STEP, Attributes.M_SEQ_INIT // Sequence
-	};
-	/** **/
-	private static final ConcurrentMap<String, String> REGEX_MAP = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/** **/
-	private transient AbstractSchemaException error;
+	private transient MetaEnsurer metaEnsurer;
 	/** **/
 	private transient JsonNode rootNode;
-	// ~ Static Block ========================================
-	/** Put Regex **/
-	static {
-		REGEX_MAP.put(Attributes.M_NAME, Attributes.RGX_M_NAME);
-		REGEX_MAP.put(Attributes.M_NAMESPACE, Attributes.RGX_M_NAMESPACE);
-		REGEX_MAP.put(Attributes.M_CATEGORY, Attributes.RGX_M_CATEGORY);
-		REGEX_MAP.put(Attributes.M_TABLE, Attributes.RGX_M_TABLE);
-		REGEX_MAP.put(Attributes.M_IDENTIFIER, Attributes.RGX_M_IDENTIFITER);
-		REGEX_MAP.put(Attributes.M_MAPPING, Attributes.RGX_M_MAPPING);
-		REGEX_MAP.put(Attributes.M_POLICY, Attributes.RGX_M_POLICY);
-	}
+	/** **/
+	private transient AbstractSchemaException error;
 
+	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/**
@@ -67,6 +41,10 @@ public class GenericEnsurer implements Ensurer {
 	 */
 	public GenericEnsurer(final JsonNode rootNode) {
 		this.rootNode = rootNode;
+		if (null != this.rootNode) {
+			this.metaEnsurer = new MetaEnsurer(
+					this.rootNode.path(Attributes.R_META));
+		}
 		this.error = null; // NOPMD
 	}
 
@@ -87,9 +65,13 @@ public class GenericEnsurer implements Ensurer {
 	public boolean validate() {
 		// 1.验证root节点：__keys__, __meta__, __fields__
 		boolean ret = validateRoot();
-		// 2.验证Meta节点，借助“截断”
-		ret = ret && validateMetaAttr();
-
+		// 2.验证Meta节点
+		if (ret) {
+			ret = ret && metaEnsurer.validate();
+			if (!ret && null != metaEnsurer.getError()) {
+				this.error = metaEnsurer.getError();
+			}
+		}
 		return ret;
 	}
 
@@ -107,38 +89,12 @@ public class GenericEnsurer implements Ensurer {
 	@Override
 	public void refreshData(@NotNull final JsonNode rootNode) {
 		this.rootNode = rootNode;
+		this.metaEnsurer = new MetaEnsurer(
+				this.rootNode.path(Attributes.R_META));
 	}
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean validateMetaAttr() {
-		final JsonNode metaNode = this.rootNode.path(Attributes.R_META);
-		final JsonSchemaValidator validator = new JsonSchemaValidator(metaNode,
-				Attributes.R_META);
-		// 4.__meta__ Required
-		this.error = validator.verifyRequired(M_REQUIRED);
-		if (null != this.error) {
-			return false; // NOPMD
-		}
-		// 5.__meta__ Exclude Unsupported Attributes
-		this.error = validator.verifyUnsupported(M_ATTRS);
-		if (null != this.error) {
-			return false; // NOPMD
-		}
-		// 6.__meta__ Required Attribute Patterns
-		for(final String attr: REGEX_MAP.keySet()){
-			this.error = validator.verifyPattern(attr, REGEX_MAP.get(attr));
-			if(null != this.error){
-				return false;	// NOPMD
-			}
-		}
-		return null == this.error;
-	}
-
 	/**
 	 * 验证__meta__, __fields__, __keys__
 	 * 
