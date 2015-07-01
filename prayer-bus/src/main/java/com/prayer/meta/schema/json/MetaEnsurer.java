@@ -5,6 +5,7 @@ import static com.prayer.util.sys.Converter.fromStr;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -15,6 +16,8 @@ import com.prayer.mod.sys.GenericSchema;
 import com.prayer.mod.sys.SystemEnum.MetaCategory;
 import com.prayer.mod.sys.SystemEnum.MetaMapping;
 import com.prayer.mod.sys.SystemEnum.MetaPolicy;
+import com.prayer.res.cv.Constants;
+import com.prayer.res.cv.Resources;
 
 /**
  * 
@@ -44,6 +47,8 @@ public class MetaEnsurer implements Ensurer {
 	private transient AbstractSchemaException error;
 	/** **/
 	private transient JsonNode metaNode;
+	/** **/
+	private transient final JsonSchemaValidator validator;
 	// ~ Static Block ========================================
 	/** Put Regex **/
 	static {
@@ -73,6 +78,8 @@ public class MetaEnsurer implements Ensurer {
 	public MetaEnsurer(final JsonNode metaNode) {
 		this.metaNode = metaNode;
 		this.error = null; // NOPMD
+		this.validator = new JsonSchemaValidator(this.metaNode,
+				Attributes.R_META);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -134,14 +141,14 @@ public class MetaEnsurer implements Ensurer {
 			// Mapping
 			switch (mapping) {
 			case PARTIAL: {
-				return verifyCEntityDirect();
+				return verifyCEntityPartial(); // NOPMD
 			}
 			case DIRECT: {
-
+				verifyCEntityDirect();
 			}
 				break;
 			case COMBINATED: {
-
+				verifyCEntityCombinated();
 			}
 				break;
 			default: {
@@ -162,6 +169,41 @@ public class MetaEnsurer implements Ensurer {
 		}
 			break;
 		}
+		// 单独验证 INCREMENT 类型，只有 PARTIAL会被Skip掉，直接发生了return的语句返回
+		if (null == this.error) {
+			validateIncrement();
+		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean validateIncrement() {
+		// 8.Policy是否为INCREMENT
+		this.error = validator.verifyIn(Attributes.M_POLICY,
+				MetaPolicy.INCREMENT.toString());
+		if (null != this.error) {
+			return false; // NOPMD
+		}
+		// 9.如果是MSSQL以及MYSQL，直接返回true
+		if (StringUtil.equals(Resources.DB_CATEGORY, Constants.DF_MSSQL)
+				|| StringUtil.equals(Resources.DB_CATEGORY, Constants.DF_MYSQL)) {
+			return true; // NOPMD
+		} else {
+			// 10.1.1.使用了Sequence的情况，则必须要验证另外三个属性，先验证seqname是否丢失
+			this.error = validator.verifyMissing(Attributes.M_SEQ_NAME);
+			if (null != this.error) {
+				return false; // NOPMD
+			}
+			// 10.1.2.使用Sequence情况，验证seqname的格式
+			this.error = validator.verifyPattern(Attributes.M_SEQ_NAME,
+					Attributes.RGX_M_SEQ_NAME);
+			if (null != this.error) {
+				return false; // NOPMD
+			}
+		}
 		return null == this.error;
 	}
 
@@ -170,8 +212,6 @@ public class MetaEnsurer implements Ensurer {
 	 * @return
 	 */
 	private boolean validateMetaAttr() {
-		final JsonSchemaValidator validator = new JsonSchemaValidator(
-				this.metaNode, Attributes.R_META);
 		// 4.__meta__ Required
 		this.error = validator.verifyRequired(M_REQUIRED);
 		if (null != this.error) {
@@ -196,9 +236,39 @@ public class MetaEnsurer implements Ensurer {
 	 * 
 	 * @return
 	 */
+	private boolean verifyCEntityCombinated() {
+		// 7.4.1.category == ENTITY && mapping == COMBINATED
+		this.error = this.validator.verifyMissing(Attributes.M_SUB_KEY,
+				Attributes.M_SUB_TABLE);
+		if (null != this.error) {
+			return false; // NOPMD
+		}
+		// 7.4.2.__subtable__ Parttern
+		this.error = validator.verifyPattern(Attributes.M_SUB_TABLE,
+				Attributes.RGX_M_SUB_TABLE);
+		if (null != this.error) {
+			return false; // NOPMD
+		}
+		// TODO: __subkey__ 的验证保留，根据子表策略完成，目前不支持子表关联验证
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	private boolean verifyCEntityDirect() {
-		final JsonSchemaValidator validator = new JsonSchemaValidator(
-				this.metaNode, Attributes.R_META);
+		// 7.3.1.category == ENTITY && mapping == DIRECT
+		this.error = this.validator.verifyExisting(Attributes.M_SUB_KEY,
+				Attributes.M_SUB_TABLE);
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean verifyCEntityPartial() {
 		// 7.2.1.category == ENTITY && mapping == PARTIAL
 		this.error = validator.verifyExisting(Attributes.M_SUB_KEY,
 				Attributes.M_SUB_TABLE);
@@ -222,8 +292,6 @@ public class MetaEnsurer implements Ensurer {
 	 * @return
 	 */
 	private boolean verifyCRelation() {
-		final JsonSchemaValidator validator = new JsonSchemaValidator(
-				this.metaNode, Attributes.R_META);
 		// 7.1.1.category == RELATION
 		this.error = validator.verifyExisting(Attributes.M_SUB_KEY,
 				Attributes.M_SUB_TABLE);

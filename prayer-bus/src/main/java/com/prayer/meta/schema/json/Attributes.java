@@ -59,4 +59,8 @@ interface Attributes { // NOPMD
 	String RGX_M_POLICY = "(GUID|INCREMENT|ASSIGNED|COLLECTION){1}";
 	/** **/
 	String RGX_M_TABLE = "[A-Z]{2,4}\\_[A-Z]+";
+	/** **/
+	String RGX_M_SUB_TABLE = "[A-Z]{2,4}\\_[A-Z]+";
+	/** **/
+	String RGX_M_SEQ_NAME = "REQ_[A-Z]+";
 }

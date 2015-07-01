@@ -39,8 +39,8 @@ public class _2MetaAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = RequiredAttrMissingException.class)
-	public void testMetaName10001() throws AbstractSchemaException {
-		testImport("meta-name10001.json",
+	public void testP004Meta10001Name() throws AbstractSchemaException {
+		testImport("P004meta-name10001.json",
 				"[E10001] Meta -> name ==> (Failure) There is unexpected exception!");
 	}
 
@@ -49,8 +49,8 @@ public class _2MetaAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = RequiredAttrMissingException.class)
-	public void testMetaNamespace10001() throws AbstractSchemaException {
-		testImport("meta-namespace10001.json",
+	public void testP004Meta10001Namespace() throws AbstractSchemaException {
+		testImport("P004meta-namespace10001.json",
 				"[E10001] Meta -> namespace ==> (Failure) There is unexpected exception!");
 	}
 	
@@ -59,8 +59,8 @@ public class _2MetaAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = RequiredAttrMissingException.class)
-	public void testMetaCategory10001() throws AbstractSchemaException {
-		testImport("meta-category10001.json",
+	public void testP004Meta10001Category() throws AbstractSchemaException {
+		testImport("P004meta-category10001.json",
 				"[E10001] Meta -> category ==> (Failure) There is unexpected exception!");
 	}
 	/**
@@ -68,8 +68,8 @@ public class _2MetaAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = RequiredAttrMissingException.class)
-	public void testMetaTable10001() throws AbstractSchemaException {
-		testImport("meta-table10001.json",
+	public void testP004Meta10001Table() throws AbstractSchemaException {
+		testImport("P004meta-table10001.json",
 				"[E10001] Meta -> table ==> (Failure) There is unexpected exception!");
 	}
 	
@@ -78,8 +78,8 @@ public class _2MetaAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = RequiredAttrMissingException.class)
-	public void testMetaIdentifier10001() throws AbstractSchemaException {
-		testImport("meta-identifier10001.json",
+	public void testP004Meta10001Identifier() throws AbstractSchemaException {
+		testImport("P004meta-identifier10001.json",
 				"[E10001] Meta -> identifier ==> (Failure) There is unexpected exception!");
 	}
 	/**
@@ -87,8 +87,8 @@ public class _2MetaAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = RequiredAttrMissingException.class)
-	public void testMetaMapping10001() throws AbstractSchemaException {
-		testImport("meta-mapping10001.json",
+	public void testP004Meta10001Mapping() throws AbstractSchemaException {
+		testImport("P004meta-mapping10001.json",
 				"[E10001] Meta -> mapping ==> (Failure) There is unexpected exception!");
 	}
 	/**
@@ -96,8 +96,8 @@ public class _2MetaAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = RequiredAttrMissingException.class)
-	public void testMetaPolicy10001() throws AbstractSchemaException {
-		testImport("meta-policy10001.json",
+	public void testP004Meta10001Policy() throws AbstractSchemaException {
+		testImport("P004meta-policy10001.json",
 				"[E10001] Meta -> policy ==> (Failure) There is unexpected exception!");
 	}
 	
@@ -106,8 +106,8 @@ public class _2MetaAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = UnsupportAttrException.class)
-	public void testMetaAttr10002() throws AbstractSchemaException {
-		testImport("meta-attr10002.json",
+	public void testP004Meta10002Attr() throws AbstractSchemaException {
+		testImport("P004meta-attr10002.json",
 				"[E10001] Meta (Unsupported) ==> (Failure) There is unexpected exception!");
 	}
 	// ~ Private Methods =====================================

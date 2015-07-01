@@ -42,8 +42,8 @@ public class _4MetaPattern2TestCase extends AbstractSchemaTestCase {	// NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testMeta1Table10003() throws AbstractSchemaException {
-		testImport("meta-table10003-1.json",
+	public void testP006Meta10003Table1() throws AbstractSchemaException {
+		testImport("P006meta-table10003-1.json",
 				ERR_TABLE_MSG);
 	}
 	/**
@@ -51,8 +51,8 @@ public class _4MetaPattern2TestCase extends AbstractSchemaTestCase {	// NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testMeta2Table10003() throws AbstractSchemaException {
-		testImport("meta-table10003-2.json",
+	public void testP006Meta10003Table2() throws AbstractSchemaException {
+		testImport("P006meta-table10003-2.json",
 				ERR_TABLE_MSG);
 	}
 	/**
@@ -60,8 +60,8 @@ public class _4MetaPattern2TestCase extends AbstractSchemaTestCase {	// NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testMeta3Table10003() throws AbstractSchemaException {
-		testImport("meta-table10003-3.json",
+	public void testP006Meta10003Table3() throws AbstractSchemaException {
+		testImport("P006meta-table10003-3.json",
 				ERR_TABLE_MSG);
 	}
 	/**
@@ -69,8 +69,8 @@ public class _4MetaPattern2TestCase extends AbstractSchemaTestCase {	// NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testMeta1Id10003() throws AbstractSchemaException {
-		testImport("meta-id10003-1.json",
+	public void testP006Meta10003Id1() throws AbstractSchemaException {
+		testImport("P006meta-id10003-1.json",
 				ERR_ID_MSG);
 	}
 	/**
@@ -78,8 +78,8 @@ public class _4MetaPattern2TestCase extends AbstractSchemaTestCase {	// NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testMeta2Id10003() throws AbstractSchemaException {
-		testImport("meta-id10003-2.json",
+	public void testP006Meta10003Id2() throws AbstractSchemaException {
+		testImport("P006meta-id10003-2.json",
 				ERR_ID_MSG);
 	}
 	/**
@@ -87,8 +87,8 @@ public class _4MetaPattern2TestCase extends AbstractSchemaTestCase {	// NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testMeta3Id10003() throws AbstractSchemaException {
-		testImport("meta-id10003-3.json",
+	public void testP006Meta10003Id3() throws AbstractSchemaException {
+		testImport("P006meta-id10003-3.json",
 				ERR_ID_MSG);
 	}
 	
@@ -97,8 +97,8 @@ public class _4MetaPattern2TestCase extends AbstractSchemaTestCase {	// NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testMeta1Mapping10003() throws AbstractSchemaException{
-		testImport("meta-mapping10003-1.json",
+	public void testP006Meta10003Mapping1() throws AbstractSchemaException{
+		testImport("P006meta-mapping10003-1.json",
 				"[E10003] Meta -> mapping ==> (Failure) Pattern does not match!");
 	}
 	/**
@@ -106,8 +106,8 @@ public class _4MetaPattern2TestCase extends AbstractSchemaTestCase {	// NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testMeta1Policy10003() throws AbstractSchemaException{
-		testImport("meta-policy10003-1.json",
+	public void testP006Meta10003Policy1() throws AbstractSchemaException{
+		testImport("P006meta-policy10003-1.json",
 				"[E10003] Meta -> policy ==> (Failure) Pattern does not match!");
 	}
 	// ~ Private Methods =====================================

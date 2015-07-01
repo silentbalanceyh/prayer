@@ -59,18 +59,18 @@ public class _0SystemVerifyTestCase extends AbstractTestCase {	// NOPMD
 
 	/** **/
 	@Test(expected = JsonParserException.class)
-	public void test20003() throws AbstractSystemException {
+	public void testP000System20003() throws AbstractSystemException {	// NOPMD
 		setMethod("importFile()");
-		importer = new GenericImporter("/schema/system/data/json/json20003.txt");
+		importer = new GenericImporter("/schema/system/data/json/P000json20003.txt");
 		importer.importFile();
 		failure("[E20003] Json Parser ==> (Failure) There is unexpected exception!");
 	}
 	
 	/** **/
 	@Test(expected = ResourceIOException.class)
-	public void test20002() throws AbstractSystemException {
+	public void testP000System20002() throws AbstractSystemException {	// NOPMD
 		setMethod("importFile()");
-		importer = new GenericImporter("/schema/system/data/json/json20003.json");
+		importer = new GenericImporter("/schema/system/data/json/P000json20003.json");
 		importer.importFile();
 		failure("[E20002] Resource IO ==> (Failure) There is no expected exception!");
 	}

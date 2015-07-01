@@ -187,7 +187,7 @@ class JsonSchemaValidator {
 			@NotNull @NotEmpty @NotBlank final String regexStr) {
 		final JsonNode attrNode = this.verifiedNode.path(attr);
 		final Pattern pattern = Pattern.compile(regexStr);
-		final String value = attrNode.textValue();
+		final String value = attrNode.asText();
 		final Matcher matcher = pattern.matcher(value);
 
 		AbstractSchemaException retExp = null;
@@ -214,7 +214,7 @@ class JsonSchemaValidator {
 		AbstractSchemaException retExp = null;
 		for (final String attr : attrs) {
 			final JsonNode attrNode = this.verifiedNode.path(attr);
-			if (StringUtil.isBlank(attrNode.textValue())) {
+			if (StringUtil.isBlank(attrNode.asText())) {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Missing");
 				if (LOGGER.isDebugEnabled()) {
@@ -239,7 +239,7 @@ class JsonSchemaValidator {
 		AbstractSchemaException retExp = null;
 		for (final String attr : attrs) {
 			final JsonNode attrNode = this.verifiedNode.path(attr);
-			if (StringUtil.isNotBlank(attrNode.textValue())) {
+			if (StringUtil.isNotBlank(attrNode.asText())) {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Existing");
 				if (LOGGER.isDebugEnabled()) {
@@ -263,7 +263,7 @@ class JsonSchemaValidator {
 		AbstractSchemaException retExp = null;
 		final JsonNode attrNode = this.verifiedNode.path(attr);
 		for (final String value : values) {
-			final String jsonValue = attrNode.textValue();
+			final String jsonValue = attrNode.asText();
 			if (null != jsonValue && !StringUtil.equals(value, jsonValue)) {
 				retExp = new InvalidValueException(getClass(), attr, // NOPMD
 						toStr(values), jsonValue, "");
@@ -288,7 +288,7 @@ class JsonSchemaValidator {
 		AbstractSchemaException retExp = null;
 		final JsonNode attrNode = this.verifiedNode.path(attr);
 		for (final String value : values) {
-			final String jsonValue = attrNode.textValue();
+			final String jsonValue = attrNode.asText();
 			if (null != jsonValue && StringUtil.equals(value, jsonValue)) { // NOPMD
 				retExp = new InvalidValueException(getClass(), attr, // NOPMD
 						toStr(values), jsonValue, "n't");
