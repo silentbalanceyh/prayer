@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.AttrJsonTypeException;
 import com.prayer.exception.schema.AttrZeroException;
+import com.prayer.exception.schema.RequiredAttrMissingException;
 
 /**
  * 
@@ -51,6 +52,46 @@ public class _7FieldsAttr1TestCase extends AbstractSchemaTestCase{	// NOPMD
 		testImport(
 				"P013fields-attr10002-1.json",
 				"[E10002] Fields ==> Every element of __fields__ node must be Json Object !");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = AttrJsonTypeException.class)
+	public void testP013Fields2Attr10002() throws AbstractSchemaException{
+		testImport(
+				"P013fields-attr10002-2.json",
+				"[E10002] Fields ==> Every element of __fields__ node must be Json Object !");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = RequiredAttrMissingException.class)
+	public void testP0141Fields1Required10001() throws AbstractSchemaException{
+		testImport(
+				"P0141field-required10001-1.json",
+				"[E10001] Fields ==> (Failure) There is unexpected exception, 'columnType' missing! ");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = RequiredAttrMissingException.class)
+	public void testP0141Fields2Required10001() throws AbstractSchemaException{
+		testImport(
+				"P0141field-required10001-2.json",
+				"[E10001] Fields ==> (Failure) There is unexpected exception, 'columnName' missing! ");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = RequiredAttrMissingException.class)
+	public void testP0141Fields3Required10001() throws AbstractSchemaException{
+		testImport(
+				"P0141field-required10001-3.json",
+				"[E10001] Fields ==> (Failure) There is unexpected exception, 'name' missing! ");
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

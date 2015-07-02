@@ -37,7 +37,6 @@ final class JArrayValidator {
 	/** **/
 	@NotNull
 	private transient ArrayNode verifiedNodes;
-
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -86,12 +85,12 @@ final class JArrayValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyPojoNodes() {
+	public AbstractSchemaException verifyJObjectNodes() {
 		AbstractSchemaException retExp = null;
 		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
 		while (nodeIt.hasNext()) {
 			final JsonNode item = nodeIt.next();
-			if (!item.isContainerNode()) {
+			if (!item.isContainerNode() || item.isArray()) {
 				retExp = new AttrJsonTypeException(getClass(),"value = " + item.toString()); // NOPMD
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug(

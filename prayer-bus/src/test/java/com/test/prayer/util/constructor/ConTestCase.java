@@ -41,32 +41,12 @@ public class ConTestCase extends AbstractConTestCase{ // NOPMD
 	
 	/** **/
 	@Test
-	public void testCon2(){
-		if(LOGGER.isDebugEnabled()){
-			LOGGER.debug("[TD] Test constructor2 -> " + Constants.class.getName());
-		}
-		final Constants ref = instance(Constants.class.getName());
-		assertNotNull("[E] testCon2",ref);
-	}
-	
-	/** **/
-	@Test
 	public void testCon3(){
 		if(LOGGER.isDebugEnabled()){
 			LOGGER.debug("[TD] Test constructor3 -> " + Accessors.class.getName());
 		}
 		final Accessors ref = instance(Accessors.class.getName());
 		assertNotNull("[E] testCon3",ref);
-	}
-	
-	/** **/
-	@Test
-	public void testCon4(){
-		if(LOGGER.isDebugEnabled()){
-			LOGGER.debug("[TD] Test constructor4 -> com.prayer.res.cv.PropKeys");
-		}
-		final Object ref = instance("com.prayer.res.cv.PropKeys");
-		assertNotNull("[E] testCon4",ref);
 	}
 	
 	/** **/

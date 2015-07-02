@@ -108,8 +108,6 @@ final class MetaEnsurer {
 	 * @return
 	 */
 	private boolean validateDispatcher() {
-		final JObjectValidator validator = new JObjectValidator(this.metaNode,
-				Attributes.R_META);
 		final MetaCategory category = fromStr(MetaCategory.class, this.metaNode
 				.path(Attributes.M_CATEGORY).textValue());
 		final MetaMapping mapping = fromStr(MetaMapping.class, this.metaNode

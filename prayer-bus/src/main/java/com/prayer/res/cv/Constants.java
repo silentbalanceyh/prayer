@@ -5,54 +5,52 @@ package com.prayer.res.cv;
  * @author Lang
  * @see All system constants which must not be changed
  */
-public final class Constants {
+public interface Constants {
 	// ~ Static Fields =======================================
 	/**
 	 * SQL文件名后缀
 	 */
-	public static final String FEX_SQL = "sql";
+	String FEX_SQL = "sql";
 	/**
 	 * Database mode: SQL *
 	 */
-	public static final String DM_SQL = "SQL";
+	String DM_SQL = "SQL";
 	/**
 	 * Database mode: NOSQL *
 	 */
-	public static final String DM_NOSQL = "NOSQL";
+	String DM_NOSQL = "NOSQL";
 	/**
 	 * Default database: Microsoft SQL Server *
 	 */
-	public static final String DF_MSSQL = "MSSQL";
+	String DF_MSSQL = "MSSQL";
 	/**
 	 * Default database: Oracle *
 	 */
-	public static final String DF_ORACLE = "ORACLE";
+	String DF_ORACLE = "ORACLE";
 	/**
 	 * Default database: Postgre SQL *
 	 */
-	public static final String DF_PGSQL = "PGSQL";
+	String DF_PGSQL = "PGSQL";
 	/**
 	 * Default database: MySQL *
 	 */
-	public static final String DF_MYSQL = "MYSQL";
+	String DF_MYSQL = "MYSQL";
 	/**
 	 * Policy: ID policy 'AUTO' *
 	 */
-	public static final String KP_AUTO = "AUTO";
+	String KP_AUTO = "AUTO";
 	/**
 	 * Policy: ID policy 'GUID' *
 	 */
-	public static final String KP_GUID = "GUID";
+	String KP_GUID = "GUID";
 	/**
 	 * Policy: ID policy 'RANDOM' *
 	 */
-	public static final String KP_RANDOM = "RANDOM";
+	String KP_RANDOM = "RANDOM";
 	/**
 	 * Policy: ID policy 'MULTI' *
 	 */
-	public static final String KP_MULTI = "MULTI";
+	String KP_MULTI = "MULTI";
 
 	// ~ Constructors ========================================
-	private Constants() {
-	}
 }

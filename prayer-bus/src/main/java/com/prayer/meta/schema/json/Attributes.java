@@ -67,4 +67,53 @@ interface Attributes { // NOPMD
 	String RGX_M_SEQ_INIT = "[0-9]+";
 	/** **/
 	String RGX_M_SEQ_STEP = RGX_M_SEQ_INIT;
+	
+	// -------------------- __fields__ Required ------------------
+	/** **/
+	String F_NAME = "name";
+	/** **/
+	String F_COL_NAME = "columnName";
+	/** **/
+	String F_COL_TYPE = "columnType";
+	
+	// -------------------- __fields__ Optional ------------------
+	/** **/
+	String F_TYPE = "type";
+	/** **/
+	String F_PATTERN = "pattern";
+	/** **/
+	String F_VALIDATOR = "validator";
+	/** **/
+	String F_PK = "primarykey";
+	/** **/
+	String F_UNIQUE = "unique";
+	/** **/
+	String F_FK = "foreignkey";
+	/** **/
+	String F_SUB_TABLE = "subtable";
+	/** **/
+	String F_REF_TABLE = "refTable";
+	/** **/
+	String F_REF_ID = "refId";
+	/** **/
+	String F_NULLABLE = "nullable";
+	/** **/
+	String F_LENGTH = "length";
+	/** **/
+	String F_DATETIME = "datetime";
+	/** **/
+	String F_DATEFORMAT = "dateformat";
+	/** **/
+	String F_PRECISION = "precision";
+	/** **/
+	String F_UNIT = "unit";
+	/** **/
+	String F_MAX_LENGTH = "maxLength";
+	/** **/
+	String F_MIN_LENGTH = "minLength";
+	/** **/
+	String F_MAX = "max";
+	/** **/
+	String F_MIN = "min";
+	
 }

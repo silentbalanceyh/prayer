@@ -1,9 +1,12 @@
 package com.prayer.meta.schema.json;
 
+import java.util.Iterator;
+
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
 
@@ -50,8 +53,8 @@ final class FieldsEnsurer {
 	public void validate() throws AbstractSchemaException {
 		// 1.验证Zero长度异常
 		boolean ret = validateFieldsAttr();
-		
-		if( null != this.error){
+
+		if (null != this.error) {
 			throw this.error;
 		}
 	}
@@ -76,9 +79,24 @@ final class FieldsEnsurer {
 			return false; // NOPMD
 		}
 		// 13.验证是否所有元素都为JsonObject
-		this.error = validator.verifyPojoNodes();
-		if( null != this.error){
+		this.error = validator.verifyJObjectNodes();
+		if (null != this.error) {
 			return false; // NOPMD
+		}
+		// 14.验证__fields__字段元素
+		final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
+		int count = 1;
+		while (nodeIt.hasNext()) {
+			final JsonNode node = nodeIt.next();
+			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
+					"Node: __fields__ ==> index : " + count);
+			// 14.1.验证每一个__fields__中的Required元素
+			this.error = validator.verifyRequired(Attributes.F_NAME,
+					Attributes.F_COL_NAME, Attributes.F_COL_TYPE);
+			if (null != this.error) {
+				return false; // NOPMD
+			}
+			count++;
 		}
 		return null == this.error;
 	}
