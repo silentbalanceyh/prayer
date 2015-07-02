@@ -88,7 +88,7 @@
 		<!-- JDBC Oracle -->
 		<dependency>
 			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
+			<artifactId>ojdbc7</artifactId>
 			<version>${jdbc.oracle.version}</version>
 		</dependency>
 		<!-- JDBC PgSQL -->
@@ -100,7 +100,7 @@
 		<!-- JDBC SQL Server -->
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>sqljdbc4</artifactId>
+			<artifactId>sqljdbc41</artifactId>
 			<version>${jdbc.mssql.version}</version>
 		</dependency>
 		<!-- JDBC MySQL -->

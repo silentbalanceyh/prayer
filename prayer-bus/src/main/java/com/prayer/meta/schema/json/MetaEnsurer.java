@@ -8,11 +8,10 @@ import java.util.concurrent.ConcurrentMap;
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.meta.schema.Ensurer;
-import com.prayer.mod.sys.GenericSchema;
 import com.prayer.mod.sys.SystemEnum.MetaCategory;
 import com.prayer.mod.sys.SystemEnum.MetaMapping;
 import com.prayer.mod.sys.SystemEnum.MetaPolicy;
@@ -25,7 +24,7 @@ import com.prayer.res.cv.Resources;
  * @see
  */
 @Guarded
-public class MetaEnsurer implements Ensurer {
+final class MetaEnsurer {
 	// ~ Static Fields =======================================
 	/** Meta Required **/
 	private static final String[] M_REQUIRED = new String[] {
@@ -46,9 +45,11 @@ public class MetaEnsurer implements Ensurer {
 	/** **/
 	private transient AbstractSchemaException error;
 	/** **/
+	@NotNull
 	private transient JsonNode metaNode;
 	/** **/
-	private transient final JsonSchemaValidator validator;
+	@NotNull
+	private transient final JObjectValidator validator;
 	// ~ Static Block ========================================
 	/** Put Regex **/
 	static {
@@ -64,22 +65,15 @@ public class MetaEnsurer implements Ensurer {
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/**
-	 * 无参构造函数
-	 */
-	public MetaEnsurer() {
-		this(null);
-	}
-
-	/**
 	 * 单参构造函数
 	 * 
 	 * @param metaNode
 	 */
-	public MetaEnsurer(final JsonNode metaNode) {
+	@PostValidateThis
+	public MetaEnsurer(@NotNull final JsonNode metaNode) {
 		this.metaNode = metaNode;
 		this.error = null; // NOPMD
-		this.validator = new JsonSchemaValidator(this.metaNode,
-				Attributes.R_META);
+		this.validator = new JObjectValidator(this.metaNode, Attributes.R_META);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -87,38 +81,23 @@ public class MetaEnsurer implements Ensurer {
 	/**
 	 * 
 	 */
-	@Override
-	public GenericSchema getResult() {
-		return null;
-	}
-
-	/**
-	 * 
-	 */
-	@Override
-	public boolean validate() {
+	public void validate() throws AbstractSchemaException {
 		// 1.验证root节点：__keys__, __meta__, __fields__
 		boolean ret = validateMetaAttr();
 		// 2.验证子流程
 		if (ret) {
 			ret = ret && validateDispatcher();
 		}
-		return ret;
+		// 3.抛出AbstractSchemaException
+		if (null != this.error) {
+			throw this.error;
+		}
 	}
-
 	/**
 	 * 
+	 * @param metaNode
 	 */
-	@Override
-	public AbstractSchemaException getError() {
-		return this.error;
-	}
-
-	/**
-	 * 
-	 */
-	@Override
-	public void refreshData(@NotNull final JsonNode metaNode) {
+	public void setMetaNode(@NotNull final JsonNode metaNode) {
 		this.metaNode = metaNode;
 	}
 
@@ -129,8 +108,8 @@ public class MetaEnsurer implements Ensurer {
 	 * @return
 	 */
 	private boolean validateDispatcher() {
-		final JsonSchemaValidator validator = new JsonSchemaValidator(
-				this.metaNode, Attributes.R_META);
+		final JObjectValidator validator = new JObjectValidator(this.metaNode,
+				Attributes.R_META);
 		final MetaCategory category = fromStr(MetaCategory.class, this.metaNode
 				.path(Attributes.M_CATEGORY).textValue());
 		final MetaMapping mapping = fromStr(MetaMapping.class, this.metaNode
@@ -211,12 +190,14 @@ public class MetaEnsurer implements Ensurer {
 			return false; // NOPMD
 		}
 		// 11.验证seqinit, seqstep的格式
-		this.error = validator.verifyPattern(Attributes.M_SEQ_INIT, Attributes.RGX_M_SEQ_INIT);
-		if( null != this.error){
+		this.error = validator.verifyPattern(Attributes.M_SEQ_INIT,
+				Attributes.RGX_M_SEQ_INIT);
+		if (null != this.error) {
 			return false; // NOPMD
 		}
-		this.error = validator.verifyPattern(Attributes.M_SEQ_STEP, Attributes.RGX_M_SEQ_STEP);
-		if( null != this.error){
+		this.error = validator.verifyPattern(Attributes.M_SEQ_STEP,
+				Attributes.RGX_M_SEQ_STEP);
+		if (null != this.error) {
 			return false; // NOPMD
 		}
 		return null == this.error;

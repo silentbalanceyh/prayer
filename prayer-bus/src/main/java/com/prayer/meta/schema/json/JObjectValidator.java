@@ -36,11 +36,11 @@ import com.prayer.exception.schema.UnsupportAttrException;
  * @see
  */
 @Guarded
-class JsonSchemaValidator {
+final class JObjectValidator {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(JsonSchemaValidator.class);
+			.getLogger(JObjectValidator.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotBlank
@@ -55,13 +55,13 @@ class JsonSchemaValidator {
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public JsonSchemaValidator(@NotNull final JsonNode verifiedNode) {
+	public JObjectValidator(@NotNull final JsonNode verifiedNode) {
 		this(verifiedNode, null);
 	}
 
 	/** **/
 	@PostValidateThis
-	public JsonSchemaValidator(@NotNull final JsonNode verifiedNode,
+	public JObjectValidator(@NotNull final JsonNode verifiedNode,
 			@NotEmpty @NotBlank final String name) {
 		this.verifiedNode = verifiedNode;
 		if (null == name) {

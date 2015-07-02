@@ -14,11 +14,13 @@ import com.prayer.mod.sys.GenericSchema;
  * @see
  */
 @Guarded
-public class GenericEnsurer implements Ensurer {
+public final class GenericEnsurer implements Ensurer {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient MetaEnsurer metaEnsurer;
+	/** **/
+	private transient FieldsEnsurer fieldsEnsurer;
 	/** **/
 	private transient JsonNode rootNode;
 	/** **/
@@ -44,6 +46,8 @@ public class GenericEnsurer implements Ensurer {
 		if (null != this.rootNode) {
 			this.metaEnsurer = new MetaEnsurer(
 					this.rootNode.path(Attributes.R_META));
+			this.fieldsEnsurer = new FieldsEnsurer(
+					this.rootNode.findValues(Attributes.R_FIELDS));
 		}
 		this.error = null; // NOPMD
 	}
@@ -67,9 +71,22 @@ public class GenericEnsurer implements Ensurer {
 		boolean ret = validateRoot();
 		// 2.验证Meta节点
 		if (ret) {
-			ret = ret && metaEnsurer.validate();
-			if (!ret && null != metaEnsurer.getError()) {
-				this.error = metaEnsurer.getError();
+			try {
+				metaEnsurer.validate();
+				ret = true;
+			} catch (AbstractSchemaException ex) {
+				this.error = ex;
+				ret = false;
+			}
+		}
+		// 3.验证Fields节点
+		if (ret) {
+			try {
+				fieldsEnsurer.validate();
+				ret = true;
+			} catch (AbstractSchemaException ex) {
+				this.error = ex;
+				ret = false;
 			}
 		}
 		return ret;
@@ -91,6 +108,8 @@ public class GenericEnsurer implements Ensurer {
 		this.rootNode = rootNode;
 		this.metaEnsurer = new MetaEnsurer(
 				this.rootNode.path(Attributes.R_META));
+		this.fieldsEnsurer = new FieldsEnsurer(
+				this.rootNode.findValues(Attributes.R_FIELDS));
 	}
 
 	// ~ Methods =============================================
@@ -101,8 +120,8 @@ public class GenericEnsurer implements Ensurer {
 	 * @return
 	 */
 	public boolean validateRoot() {
-		final JsonSchemaValidator validator = new JsonSchemaValidator(
-				this.rootNode, null);
+		final JObjectValidator validator = new JObjectValidator(this.rootNode,
+				null);
 		// 1.Root Required
 		this.error = validator.verifyRequired(Attributes.R_META,
 				Attributes.R_KEYS, Attributes.R_FIELDS);
