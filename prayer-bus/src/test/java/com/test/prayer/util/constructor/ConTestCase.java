@@ -7,7 +7,6 @@ import org.junit.internal.Classes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.res.cv.Constants;
 import com.prayer.res.cv.Accessors;
 import com.prayer.res.cv.Resources;
 

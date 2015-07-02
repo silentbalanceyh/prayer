@@ -76,6 +76,14 @@ interface Attributes { // NOPMD
 	/** **/
 	String F_COL_TYPE = "columnType";
 	
+	// -------------------- __fields__ Required Regex------------------
+	/** **/
+	String RGX_F_NAME = "[A-Za-z]{1}[A-Za-z0-9]+";
+	/** **/
+	String RGX_F_COL_NAME = "[A-Z]{1,3}\\_[A-Z]+";
+	/** **/
+	String RGX_F_COL_TYPE = "[A-Za-z]+";
+	
 	// -------------------- __fields__ Optional ------------------
 	/** **/
 	String F_TYPE = "type";

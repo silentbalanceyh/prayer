@@ -1,6 +1,8 @@
 package com.prayer.meta.schema.json;
 
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -18,6 +20,8 @@ import com.prayer.exception.AbstractSchemaException;
 @Guarded
 final class FieldsEnsurer {
 	// ~ Static Fields =======================================
+	/** **/
+	private static final ConcurrentMap<String,String> REGEX_MAP = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient AbstractSchemaException error;
@@ -29,6 +33,10 @@ final class FieldsEnsurer {
 	private transient final JArrayValidator validator;
 
 	// ~ Static Block ========================================
+	/** Put Regex **/
+	static{
+		REGEX_MAP.put(Attributes.F_NAME, Attributes.RGX_F_NAME);
+	}
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/**
