@@ -3,6 +3,11 @@ package com.prayer.util;
 import java.io.IOException;
 import java.io.InputStream;
 
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +15,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
@@ -19,6 +25,7 @@ import com.prayer.exception.system.ResourceIOException;
  * @author Lang
  * @see
  */
+@Guarded
 public final class JsonKit {
 	// ~ Static Fields =======================================
 	/** **/
@@ -34,7 +41,8 @@ public final class JsonKit {
 	 * @param filePath
 	 * @return
 	 */
-	public static JsonNode readJson(final String filePath)
+	public static JsonNode readJson(
+			@NotNull @NotEmpty @NotBlank final String filePath)
 			throws AbstractSystemException {
 		JsonNode retNode = null; // NOPMD
 		try {
@@ -54,6 +62,32 @@ public final class JsonKit {
 			throw new ResourceIOException(JsonKit.class, filePath); // NOPMD
 		}
 		return retNode;
+	}
+
+	/**
+	 * 
+	 * @param jsonNode
+	 * @return
+	 */
+	public static ArrayNode fromJObject(@NotNull final JsonNode jsonNode) {
+		ArrayNode arrNode = null; // NOPMD
+		final String content = jsonNode.toString();
+		try {
+			if(LOGGER.isDebugEnabled()){
+				LOGGER.debug("[I] Converted json content: " + content);
+			}
+			arrNode = MAPPER.readValue(content, new TypeReference<ArrayNode>() {
+			});
+		} catch (JsonParseException ex) {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[E] Json parsing error.", ex);
+			}
+		} catch (IOException ex) {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[E] Resource I/O error.", ex);
+			}
+		}
+		return arrNode;
 	}
 
 	// ~ Constructors ========================================

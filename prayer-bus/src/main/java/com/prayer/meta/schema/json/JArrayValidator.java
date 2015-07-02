@@ -1,7 +1,6 @@
 package com.prayer.meta.schema.json;
 
 import java.util.Iterator;
-import java.util.List;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -14,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.AttrJsonTypeException;
 import com.prayer.exception.schema.AttrZeroException;
@@ -36,20 +36,20 @@ final class JArrayValidator {
 	private transient String name; // NOPMD
 	/** **/
 	@NotNull
-	private transient List<JsonNode> verifiedNodes;
+	private transient ArrayNode verifiedNodes;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public JArrayValidator(@NotNull final List<JsonNode> verifiedNodes) {
+	public JArrayValidator(@NotNull final ArrayNode verifiedNodes) {
 		this(verifiedNodes, null);
 	}
 
 	/** **/
 	@PostValidateThis
-	public JArrayValidator(@NotNull final List<JsonNode> verifiedNodes,
+	public JArrayValidator(@NotNull final ArrayNode verifiedNodes,
 			@NotEmpty @NotBlank final String name) {
 		this.verifiedNodes = verifiedNodes;
 		if (null == name) {
@@ -70,7 +70,7 @@ final class JArrayValidator {
 	@PreValidateThis
 	public AbstractSchemaException verifyZero() {
 		AbstractSchemaException retExp = null;
-		if (0 < this.verifiedNodes.size()) {
+		if (this.verifiedNodes.size() <= 0) {
 			retExp = new AttrZeroException(getClass(), this.name);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[E] ==> Error-10006 ( Location: " + this.name
@@ -91,11 +91,12 @@ final class JArrayValidator {
 		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
 		while (nodeIt.hasNext()) {
 			final JsonNode item = nodeIt.next();
-			if (!item.isPojo()) {
-				retExp = new AttrJsonTypeException(getClass(), this.name); // NOPMD
+			if (!item.isContainerNode()) {
+				retExp = new AttrJsonTypeException(getClass(),"value = " + item.toString()); // NOPMD
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[E] ==> Error-10002 ( Location: " + this.name
-							+ " )", retExp);
+					LOGGER.debug(
+							"[E] ==> Error-10002 ( Location: "
+									+ item.toString() + " )", retExp);
 				}
 				break;
 			}

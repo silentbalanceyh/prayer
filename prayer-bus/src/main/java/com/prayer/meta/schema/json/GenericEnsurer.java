@@ -1,9 +1,11 @@
 package com.prayer.meta.schema.json;
 
+import static com.prayer.util.JsonKit.fromJObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.meta.schema.Ensurer;
 import com.prayer.mod.sys.GenericSchema;
@@ -44,10 +46,7 @@ public final class GenericEnsurer implements Ensurer {
 	public GenericEnsurer(final JsonNode rootNode) {
 		this.rootNode = rootNode;
 		if (null != this.rootNode) {
-			this.metaEnsurer = new MetaEnsurer(
-					this.rootNode.path(Attributes.R_META));
-			this.fieldsEnsurer = new FieldsEnsurer(
-					this.rootNode.findValues(Attributes.R_FIELDS));
+			this.initEnsurers();
 		}
 		this.error = null; // NOPMD
 	}
@@ -106,14 +105,24 @@ public final class GenericEnsurer implements Ensurer {
 	@Override
 	public void refreshData(@NotNull final JsonNode rootNode) {
 		this.rootNode = rootNode;
-		this.metaEnsurer = new MetaEnsurer(
-				this.rootNode.path(Attributes.R_META));
-		this.fieldsEnsurer = new FieldsEnsurer(
-				this.rootNode.findValues(Attributes.R_FIELDS));
+		this.initEnsurers();
 	}
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	/**
+	 * 
+	 */
+	private void initEnsurers() {
+		this.metaEnsurer = new MetaEnsurer(
+				this.rootNode.path(Attributes.R_META));
+		final ArrayNode fieldsNode = fromJObject(this.rootNode
+				.path(Attributes.R_FIELDS));
+		if (null != fieldsNode) {
+			this.fieldsEnsurer = new FieldsEnsurer(fieldsNode);
+		}
+	}
+
 	/**
 	 * 验证__meta__, __fields__, __keys__
 	 * 

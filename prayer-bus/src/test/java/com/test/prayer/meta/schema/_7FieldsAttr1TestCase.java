@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.exception.schema.AttrJsonTypeException;
 import com.prayer.exception.schema.AttrZeroException;
 
 /**
@@ -45,7 +46,7 @@ public class _7FieldsAttr1TestCase extends AbstractSchemaTestCase{	// NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrZeroException.class)
+	@Test(expected = AttrJsonTypeException.class)
 	public void testP013Fields1Attr10002() throws AbstractSchemaException{
 		testImport(
 				"P013fields-attr10002-1.json",

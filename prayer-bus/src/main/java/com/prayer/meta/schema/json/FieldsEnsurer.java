@@ -1,12 +1,10 @@
 package com.prayer.meta.schema.json;
 
-import java.util.List;
-
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
@@ -22,7 +20,7 @@ final class FieldsEnsurer {
 	private transient AbstractSchemaException error;
 	/** **/
 	@NotNull
-	private transient List<JsonNode> fieldsNode;
+	private transient ArrayNode fieldsNode;
 	/** **/
 	@NotNull
 	private transient final JArrayValidator validator;
@@ -35,7 +33,7 @@ final class FieldsEnsurer {
 	 * @param fieldsNode
 	 */
 	@PostValidateThis
-	public FieldsEnsurer(@NotNull final List<JsonNode> fieldsNode) {
+	public FieldsEnsurer(@NotNull final ArrayNode fieldsNode) {
 		this.fieldsNode = fieldsNode;
 		this.error = null; // NOPMD
 		this.validator = new JArrayValidator(this.fieldsNode,
@@ -62,7 +60,7 @@ final class FieldsEnsurer {
 	 * 
 	 * @param fieldsNode
 	 */
-	public void setFieldsNode(@NotNull final List<JsonNode> fieldsNode) {
+	public void setFieldsNode(@NotNull final ArrayNode fieldsNode) {
 		this.fieldsNode = fieldsNode;
 	}
 
