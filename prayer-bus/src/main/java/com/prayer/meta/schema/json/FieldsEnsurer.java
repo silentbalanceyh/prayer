@@ -63,22 +63,31 @@ final class FieldsEnsurer {
 	 */
 	public void validate() throws AbstractSchemaException {
 		// 1.验证Zero长度异常
-		boolean ret = validateFieldsAttr();
+		validateFieldsAttr();
+		interrupt();
+		// 2.验证每个字段属性
+		validateFieldRequired();
+		interrupt();
+		// 3.验证每个字段属性的Pattern
+		validateFieldPattern();
+		interrupt();
+		// 4.验证重复字段属性
+		validateDuplicated();
+		interrupt();
+	}
 
+	// ~ Private Methods =====================================
+	/**
+	 * 根据结果判断返回值
+	 * 
+	 * @param result
+	 */
+	private void interrupt() throws AbstractSchemaException {
 		if (null != this.error) {
 			throw this.error;
 		}
 	}
 
-	/**
-	 * 
-	 * @param fieldsNode
-	 */
-	public void setFieldsNode(@NotNull final ArrayNode fieldsNode) {
-		this.fieldsNode = fieldsNode;
-	}
-
-	// ~ Private Methods =====================================
 	/**
 	 * 
 	 * @return
@@ -94,6 +103,14 @@ final class FieldsEnsurer {
 		if (null != this.error) {
 			return false; // NOPMD
 		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean validateFieldRequired() {
 		// 14.验证__fields__字段元素
 		final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
 		int count = 1;
@@ -105,17 +122,41 @@ final class FieldsEnsurer {
 			this.error = validator.verifyRequired(Attributes.F_NAME,
 					Attributes.F_COL_NAME, Attributes.F_COL_TYPE);
 			if (null != this.error) {
-				return false; // NOPMD
+				break;
 			}
+			count++;
+		}
+		return null == this.error;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean validateFieldPattern() {
+		// 14.验证__fields__字段元素
+		final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
+		int count = 1;
+		while (nodeIt.hasNext()) {
+			final JsonNode node = nodeIt.next();
+			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
+					"Node: __fields__ ==> index : " + count);
 			// 14.2.验证每一个__fields__中的Required元素的格式
 			for (final String attr : REGEX_MAP.keySet()) {
 				this.error = validator.verifyPattern(attr, REGEX_MAP.get(attr));
 				if (null != this.error) {
-					return false; // NOPMD
+					break;
 				}
 			}
 			count++;
 		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean validateDuplicated() {
 		// 15.验证重复属性name
 		this.error = validator.verifyDuplicated(Attributes.F_NAME);
 		if (null != this.error) {

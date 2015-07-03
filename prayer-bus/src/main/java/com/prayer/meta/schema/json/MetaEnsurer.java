@@ -83,26 +83,27 @@ final class MetaEnsurer {
 	 */
 	public void validate() throws AbstractSchemaException {
 		// 1.验证root节点：__keys__, __meta__, __fields__
-		boolean ret = validateMetaAttr();
+		validateMetaAttr();
+		interrupt();
+
 		// 2.验证子流程
-		if (ret) {
-			ret = ret && validateDispatcher();
-		}
-		// 3.抛出AbstractSchemaException
-		if (null != this.error) {
-			throw this.error;
-		}
-	}
-	/**
-	 * 
-	 * @param metaNode
-	 */
-	public void setMetaNode(@NotNull final JsonNode metaNode) {
-		this.metaNode = metaNode;
+		validateDispatcher();
+		interrupt();
 	}
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	/**
+	 * 根据结果判断返回值
+	 * 
+	 * @param result
+	 */
+	private void interrupt() throws AbstractSchemaException {
+		if (null != this.error) {
+			throw this.error;
+		}
+	}
+
 	/**
 	 * 
 	 * @return
