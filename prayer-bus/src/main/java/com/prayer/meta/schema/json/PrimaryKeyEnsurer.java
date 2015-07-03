@@ -8,6 +8,7 @@ import net.sf.oval.guard.PostValidateThis;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.mod.sys.SystemEnum.MetaPolicy;
 
 /**
  * 
@@ -37,17 +38,17 @@ class PrimaryKeyEnsurer {
 	private transient AbstractSchemaException error;
 	/** **/
 	@NotNull
-	private transient ArrayNode fieldsNode;
+	private transient ArrayNode fieldsNode; // NOPMD
 	/** **/
 	@NotNull
 	@NotEmpty
 	@NotBlank
-	private transient String policy;
+	private transient String policyStr; // NOPMD
 	/** **/
 	@NotNull
 	@NotEmpty
 	@NotBlank
-	private transient String table;
+	private transient String table; // NOPMD
 	/** **/
 	@NotNull
 	private transient final JArrayValidator validator;
@@ -58,14 +59,14 @@ class PrimaryKeyEnsurer {
 	/**
 	 * 
 	 * @param fieldsNode
-	 * @param policy
+	 * @param policyStr
 	 */
 	@PostValidateThis
 	public PrimaryKeyEnsurer(@NotNull final ArrayNode fieldsNode,
-			@NotNull @NotBlank @NotEmpty final String policy,
+			@NotNull @NotBlank @NotEmpty final String policyStr,
 			@NotNull @NotBlank @NotEmpty final String table) {
 		this.fieldsNode = fieldsNode;
-		this.policy = policy;
+		this.policyStr = policyStr;
 		this.table = table;
 		this.validator = new JArrayValidator(this.fieldsNode,
 				Attributes.R_FIELDS);
@@ -84,7 +85,9 @@ class PrimaryKeyEnsurer {
 		// 1.验证Primary Key是否定义
 		validatePKeyMissing();
 		interrupt();
-
+		// 2.policy是否COLLECTION
+		validateDispatcher();
+		interrupt();
 	}
 
 	// ~ Private Methods =====================================
@@ -102,6 +105,31 @@ class PrimaryKeyEnsurer {
 	 * 
 	 * @return
 	 */
+	private boolean validateDispatcher() {
+		final MetaPolicy policy = MetaPolicy.valueOf(policyStr);
+		// 18.属性policy顶层检查，是否COLLECTION
+		if (MetaPolicy.COLLECTION == policy) {
+			// 18.1.1.属性：policy == COLLECTION
+			this.error = this.validator.verifyPKeyCOPolicy(Attributes.F_PK,
+					policy.toString());
+			if (null != this.error) {
+				return false; // NOPMD
+			}
+		} else {
+			// 18.2.1.属性：policy != COLLECTION
+			this.error = this.validator.verifyPKeyNonCOPolicy(Attributes.F_PK,
+					policy.toString());
+			if (null != this.error) {
+				return false; // NOPMD
+			}
+		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	private boolean validatePKeyMissing() {
 		// 17.1.验证主键是否存在：primarykey
 		this.error = this.validator.verifyMissing(Attributes.F_PK);
@@ -109,8 +137,7 @@ class PrimaryKeyEnsurer {
 			return false; // NOPMD
 		}
 		// 17.2.验证主键定义primarykey的值是不是至少有一个为true
-		this.error = this.validator.verifyAttrValue(Attributes.F_PK,
-				Boolean.TRUE, 1);
+		this.error = this.validator.verifyPKeyMissing(Attributes.F_PK);
 		if (null != this.error) {
 			return false; // NOPMD
 		}

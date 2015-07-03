@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -26,6 +25,8 @@ import com.prayer.exception.schema.AttrZeroException;
 import com.prayer.exception.schema.DuplicatedAttrException;
 import com.prayer.exception.schema.DuplicatedColumnException;
 import com.prayer.exception.schema.PrimaryKeyMissingException;
+import com.prayer.exception.schema.PrimaryKeyPolicyException;
+import com.prayer.res.cv.Constants;
 
 /**
  * 
@@ -149,7 +150,73 @@ final class JArrayValidator {
 	}
 
 	/**
-	 * -10010：验证主键是否定义，函数验证一个Array中的所有Object之内： attr = value出现的次数
+	 * -10011：Policy != COLLECTION
+	 * 
+	 * @param attr
+	 * @param policy
+	 * @return
+	 */
+	public AbstractSchemaException verifyPKeyNonCOPolicy(
+			@NotNull @NotBlank @NotEmpty final String attr,
+			@NotNull @NotBlank @NotEmpty final String policy) {
+		final int occurs = occursAttr(this.verifiedNodes, attr, Boolean.TRUE);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("[I] ==> (policy != COLLECTION) occurs = " + occurs);
+		}
+
+		AbstractSchemaException retExp = null;
+		if (Constants.ONE != occurs) {
+			retExp = new PrimaryKeyPolicyException(getClass(), policy,
+					this.table);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[E] ==> Error-10011 ( Location: " + attr
+						+ " ) occurs: " + occurs, retExp);
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * -10011：Policy == COLLECTION
+	 * 
+	 * @param attr
+	 * @param policy
+	 * @return
+	 */
+	public AbstractSchemaException verifyPKeyCOPolicy(
+			@NotNull @NotBlank @NotEmpty final String attr,
+			@NotNull @NotBlank @NotEmpty final String policy) {
+		final int occurs = occursAttr(this.verifiedNodes, attr, Boolean.TRUE);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("[I] ==> (policy == COLLECTION) occurs = " + occurs);
+		}
+
+		AbstractSchemaException retExp = null;
+		if (Constants.ONE >= occurs) {
+			retExp = new PrimaryKeyPolicyException(getClass(), policy,
+					this.table);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[E] ==> Error-10011 ( Location: " + attr
+						+ " ) occurs: " + occurs, retExp);
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * 简化调用接口，重用函数，专用接口
+	 * 
+	 * @param attr
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyPKeyMissing(
+			@NotNull @NotBlank @NotEmpty final String attr) {
+		return this.verifyPKeyMissing(attr, Boolean.TRUE, 1);
+	}
+
+	/**
+	 * -10010：验证主键定义，至少有一个primarykey属性为true
 	 * 
 	 * @param attr
 	 * @param value
@@ -157,40 +224,24 @@ final class JArrayValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyAttrValue(
+	public AbstractSchemaException verifyPKeyMissing(
 			@NotNull @NotBlank @NotEmpty final String attr, final Object value,
 			@Min(1) final int minOccurs) {
 		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
-		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
-		int occurs = 0;
-		while (nodeIt.hasNext()) {
-			final JsonNode node = nodeIt.next();
-			if (null == value) {
-				// null值空检测
-				final String jsonValue = node.get(attr).asText();
-				if (null == jsonValue) {
-					occurs++;
-				}
-			} else {
-				// 非null值检测
-				final String jsonValue = node.get(attr).asText();
-				if (StringUtil.equals(StringUtil.toUpperCase(jsonValue),
-						StringUtil.toUpperCase(value.toString()))) {
-					occurs++;
-				}
-			}
-		}
+		final int occurs = occursAttr(this.verifiedNodes, attr, value);
 
-		AbstractSchemaException retExp = null;
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = "
 					+ occurs);
 		}
+
+		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {
 			retExp = new PrimaryKeyMissingException(getClass(), this.table);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[E] ==> Error-10010 For Value ( Location: "
-						+ attr + " = " + value.toString() + " ) occurs: " + occurs, retExp);
+						+ attr + " = " + value.toString() + " ) occurs: "
+						+ occurs, retExp);
 			}
 		}
 		return retExp;

@@ -5,7 +5,7 @@ package com.prayer.res.cv;
  * @author Lang
  * @see All system constants which must not be changed
  */
-public interface Constants {
+public interface Constants {	// NOPMD
 	// ~ Static Fields =======================================
 	/**
 	 * SQL文件名后缀
@@ -51,6 +51,10 @@ public interface Constants {
 	 * Policy: ID policy 'MULTI' *
 	 */
 	String KP_MULTI = "MULTI";
-
+	// ~ System ==============================================
+	/** System value 1 **/
+	int ONE = 1;
+	/** System value 0 **/
+	int ZERO = 0;
 	// ~ Constructors ========================================
 }

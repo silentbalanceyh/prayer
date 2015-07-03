@@ -8,7 +8,6 @@ import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.DuplicatedAttrException;
 import com.prayer.exception.schema.DuplicatedColumnException;
 import com.prayer.exception.schema.PatternNotMatchException;
-import com.prayer.exception.schema.PrimaryKeyMissingException;
 
 /**
  * 
@@ -118,27 +117,6 @@ public class _8FieldsAttr2TestCase extends AbstractSchemaTestCase { // NOPMD
 				"[E10008] Fields -> columnName ==> (Failure) Database column 'columnName' exists more than once ( Duplicated )! ");
 	}
 
-	/**
-	 * 
-	 * @throws AbstractSchemaException
-	 */
-	@Test(expected = PrimaryKeyMissingException.class)
-	public void testP017Fields1PrimaryKey10010() throws AbstractSchemaException {
-		testImport(
-				"keys/P017field-primarykey10010-1.json",
-				"[E10010] Fields -> primarykey ==> (Failure) Attribute 'primarykey' missing in the definition! ");
-	}
-
-	/**
-	 * 
-	 * @throws AbstractSchemaException
-	 */
-	@Test(expected = PrimaryKeyMissingException.class)
-	public void testP017Fields2PrimaryKey10010() throws AbstractSchemaException {
-		testImport(
-				"keys/P017field-primarykey10010-2.json",
-				"[E10010] Fields -> primarykey ==> (Failure) All attributes 'primarykey' are conflict with specification to cause PK missing! ");
-	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

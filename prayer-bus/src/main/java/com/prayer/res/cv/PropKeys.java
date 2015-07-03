@@ -4,7 +4,7 @@ package com.prayer.res.cv;
  * 配置属性文件用的Key，即属性文件中的key=value中的常量key
  * @author Lang
  */
-interface PropKeys {
+interface PropKeys {	// NOPMD
 
 	// ~ Static Fields =======================================
 	/**

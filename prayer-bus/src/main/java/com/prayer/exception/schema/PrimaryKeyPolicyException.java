@@ -24,10 +24,11 @@ public class PrimaryKeyPolicyException extends AbstractSchemaException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param policy
+	 * @param table
 	 */
-	public PrimaryKeyPolicyException(final Class<?> clazz, final String policy) {
-		super(clazz, -10011, policy);
+	public PrimaryKeyPolicyException(final Class<?> clazz, final String policy,
+			final String table) {
+		super(clazz, -10011, policy, table);
 	}
 
 	// ~ Abstract Methods ====================================

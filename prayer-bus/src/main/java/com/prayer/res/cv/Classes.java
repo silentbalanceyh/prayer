@@ -8,7 +8,7 @@ package com.prayer.res.cv;
  * @date Nov 28, 2014 4:48:50 PM
  * @see All class names of constant value
  */
-interface Classes {
+interface Classes {	// NOPMD
 
 	// ~ Static Fields =======================================
 	/**

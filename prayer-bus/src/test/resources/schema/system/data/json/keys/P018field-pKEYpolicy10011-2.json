@@ -1,0 +1,37 @@
+{
+	"__meta__": 
+	{
+		"name": "Role",
+		"namespace": "com.prayer.mod.sec",
+		"category": "ENTITY",
+		"table": "SEC_ROLE",
+		"identifier": "sys.sec.role",
+		"mapping": "DIRECT",
+		"policy": "COLLECTION"
+	},
+
+	"__keys__": 
+	[
+		
+	],
+
+	"__fields__": 
+	[
+		{
+			"name":"uniqueId",
+			"columnName":"R_ID",
+			"columnType":"LONG",
+			"primarykey":true
+		},
+		{
+			"name":"name",
+			"columnName":"R_NAME",
+			"columnType":"STRING"
+		},
+		{
+			"name":"code",
+			"columnName":"R_CODE",
+			"columnType":"STRING"
+		}
+	]
+}

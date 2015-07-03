@@ -126,6 +126,37 @@ public final class JsonKit {
 		}
 		return occurs;
 	}
+	/**
+	 * 统计Array节点中某个属性值（每个JsonObject）为固定值的次数
+	 * @param arrayNode
+	 * @param attr
+	 * @param value
+	 * @return
+	 */
+	public static int occursAttr(@NotNull final ArrayNode arrayNode,
+			@NotNull @NotBlank @NotEmpty final String attr,
+			final Object value){
+		int occurs = 0;
+		final Iterator<JsonNode> nodeIt = arrayNode.iterator();
+		while(nodeIt.hasNext()){
+			final JsonNode node = nodeIt.next();
+			if(null == value){
+				// null值检测
+				final String jsonValue = node.path(attr).asText();
+				if(null == jsonValue){
+					occurs++;
+				}
+			}else{
+				// 非null值检测
+				final String jsonValue = node.path(attr).asText();
+				if (StringUtil.equals(StringUtil.toUpperCase(jsonValue),
+						StringUtil.toUpperCase(value.toString()))) {
+					occurs++;
+				}
+			}
+		}
+		return occurs;
+	}
 
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
