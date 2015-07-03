@@ -1,5 +1,6 @@
 package com.prayer.meta.schema.json;
 
+import static com.prayer.util.JsonKit.occursAttr;
 import static com.prayer.util.sys.Converter.toStr;
 
 import java.util.Arrays;
@@ -83,18 +84,15 @@ final class JObjectValidator {
 	@PreValidateThis
 	public AbstractSchemaException verifyRequired(
 			@MinLength(1) final String... attrs) {
-		final Set<String> reqAttrs = new HashSet<>(Arrays.asList(attrs));
-		final Iterator<String> fieldIt = this.verifiedNode.fieldNames();
-		while (fieldIt.hasNext()) {
-			reqAttrs.remove(fieldIt.next());
-		}
-
 		AbstractSchemaException retExp = null;
-		if (!reqAttrs.isEmpty()) {
-			retExp = new RequiredAttrMissingException(getClass(), reqAttrs);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] ==> Error-10001 ( Location : " + this.name
-						+ " )", retExp);
+		for (final String attr : attrs) {
+			final int occurs = occursAttr(this.verifiedNode, attr);
+			if (0 == occurs) {
+				retExp = new RequiredAttrMissingException(getClass(), attr); // NOPMD
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("[E] ==> Error-10001 ( Location : "
+							+ this.name + " [" + attr + "] )", retExp);
+				}
 			}
 		}
 		return retExp;
@@ -112,7 +110,7 @@ final class JObjectValidator {
 		final JsonNode attrNode = this.verifiedNode.path(attr);
 
 		AbstractSchemaException retExp = null;
-		if (!attrNode.isArray()) {
+		if (!attrNode.isArray() && attrNode.isContainerNode()) {
 			retExp = new AttrJsonTypeException(getClass(), attr);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[E] ==> Error-10002 ( Array/Location : "
@@ -145,7 +143,7 @@ final class JObjectValidator {
 	}
 
 	/**
-	 * -10017: 不支持的属性验证
+	 * -10017: 支持的属性验证，出现了穿入属性之外的属性则抛异常
 	 * 
 	 * @param attrs
 	 * @return
@@ -213,8 +211,8 @@ final class JObjectValidator {
 			@MinLength(1) final String... attrs) {
 		AbstractSchemaException retExp = null;
 		for (final String attr : attrs) {
-			final JsonNode attrNode = this.verifiedNode.path(attr);
-			if (StringUtil.isBlank(attrNode.asText())) {
+			final int occurs = occursAttr(this.verifiedNode, attr);
+			if (0 == occurs) {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Missing");
 				if (LOGGER.isDebugEnabled()) {
@@ -238,8 +236,8 @@ final class JObjectValidator {
 			@MinLength(1) final String... attrs) {
 		AbstractSchemaException retExp = null;
 		for (final String attr : attrs) {
-			final JsonNode attrNode = this.verifiedNode.path(attr);
-			if (StringUtil.isNotBlank(attrNode.asText())) {
+			final int occurs = occursAttr(this.verifiedNode, attr);
+			if (0 < occurs) {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Existing");
 				if (LOGGER.isDebugEnabled()) {
@@ -254,6 +252,7 @@ final class JObjectValidator {
 
 	/**
 	 * Error-10005：【单属性检查】如果存在则Pass，不存在这个值就错
+	 * 
 	 * @return
 	 */
 	@PreValidateThis
@@ -275,8 +274,10 @@ final class JObjectValidator {
 		}
 		return retExp;
 	}
+
 	/**
 	 * Error-10005：【单属性检查】如果不存在则Pass，存在这个值就错
+	 * 
 	 * @param attr
 	 * @param values
 	 * @return
@@ -284,7 +285,7 @@ final class JObjectValidator {
 	@PreValidateThis
 	public AbstractSchemaException verifyNotIn(
 			@NotNull @NotBlank @NotEmpty final String attr,
-			@MinLength(1) final String... values){
+			@MinLength(1) final String... values) {
 		AbstractSchemaException retExp = null;
 		final JsonNode attrNode = this.verifiedNode.path(attr);
 		for (final String value : values) {

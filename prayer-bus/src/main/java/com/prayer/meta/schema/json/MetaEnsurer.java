@@ -46,7 +46,7 @@ final class MetaEnsurer {
 	private transient AbstractSchemaException error;
 	/** **/
 	@NotNull
-	private transient JsonNode metaNode;
+	private transient final JsonNode metaNode;
 	/** **/
 	@NotNull
 	private transient final JObjectValidator validator;

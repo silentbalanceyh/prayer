@@ -27,7 +27,7 @@ final class FieldsEnsurer {
 	private transient AbstractSchemaException error;
 	/** **/
 	@NotNull
-	private transient ArrayNode fieldsNode;
+	private transient final ArrayNode fieldsNode;
 	/** **/
 	@NotNull
 	private transient final JArrayValidator validator;

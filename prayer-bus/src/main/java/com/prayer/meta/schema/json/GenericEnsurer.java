@@ -1,8 +1,12 @@
 package com.prayer.meta.schema.json;
 
 import static com.prayer.util.JsonKit.fromJObject;
+import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -18,11 +22,16 @@ import com.prayer.mod.sys.GenericSchema;
 @Guarded
 public final class GenericEnsurer implements Ensurer {
 	// ~ Static Fields =======================================
+	/** **/
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(GenericEnsurer.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient MetaEnsurer metaEnsurer;
 	/** **/
 	private transient FieldsEnsurer fieldsEnsurer;
+	/** **/
+	private transient PrimaryKeyEnsurer pKeyEnsurer;
 	/** **/
 	private transient JsonNode rootNode;
 	/** **/
@@ -88,6 +97,16 @@ public final class GenericEnsurer implements Ensurer {
 				ret = false;
 			}
 		}
+		// 4.开始验证Primary Key定义
+		if (ret) {
+			try {
+				pKeyEnsurer.validate();
+				ret = true;
+			} catch (AbstractSchemaException ex) {
+				this.error = ex;
+				ret = false;
+			}
+		}
 		return ret;
 	}
 
@@ -113,13 +132,39 @@ public final class GenericEnsurer implements Ensurer {
 	/**
 	 * 
 	 */
-	private void initEnsurers() {
+	private void initEnsurers() { // NOPMD
+		// 顶层验证器
 		this.metaEnsurer = new MetaEnsurer(
 				this.rootNode.path(Attributes.R_META));
+		// 字段验证器
 		final ArrayNode fieldsNode = fromJObject(this.rootNode
 				.path(Attributes.R_FIELDS));
 		if (null != fieldsNode) {
 			this.fieldsEnsurer = new FieldsEnsurer(fieldsNode);
+		}
+
+		if (null != fieldsNode) {
+			// 主键验证器
+			final String table = this.rootNode.path(Attributes.R_META)
+					.path(Attributes.M_TABLE).asText();
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[I] ==> table = " + table);
+			}
+			final String policy = this.rootNode.path(Attributes.R_META)
+					.path(Attributes.M_POLICY).asText();
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[I] ==> policy = " + policy);
+			}
+			/**
+			 * 判断policy和table的情况，必须保证policy和table两个值，
+			 * 也就是__meta__中验证OK了过后才能执行PrimaryKey对应的验证
+			 */
+			if (null != table && null != policy && StringUtil.isNotBlank(table)
+					&& StringUtil.isNotEmpty(table)
+					&& StringUtil.isNotBlank(policy)
+					&& StringUtil.isNotEmpty(policy)) {
+				pKeyEnsurer = new PrimaryKeyEnsurer(fieldsNode, policy, table);
+			}
 		}
 	}
 

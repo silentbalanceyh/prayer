@@ -1,9 +1,13 @@
 package com.prayer.meta.schema.json;
 
+import static com.prayer.util.JsonKit.occursAttr;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import jodd.util.StringUtil;
+import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -21,6 +25,7 @@ import com.prayer.exception.schema.AttrJsonTypeException;
 import com.prayer.exception.schema.AttrZeroException;
 import com.prayer.exception.schema.DuplicatedAttrException;
 import com.prayer.exception.schema.DuplicatedColumnException;
+import com.prayer.exception.schema.PrimaryKeyMissingException;
 
 /**
  * 
@@ -41,6 +46,9 @@ final class JArrayValidator {
 	/** **/
 	@NotNull
 	private transient ArrayNode verifiedNodes;
+
+	/** **/
+	private transient String table; // Optional Attribute
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -66,6 +74,15 @@ final class JArrayValidator {
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
+	/**
+	 * 
+	 * @param table
+	 */
+	@PreValidateThis
+	public void setTable(@NotNull @NotBlank @NotEmpty final String table) {
+		this.table = table;
+	}
+
 	/**
 	 * -10006：当前属性节点长度为0异常
 	 * 
@@ -110,7 +127,77 @@ final class JArrayValidator {
 	}
 
 	/**
-	 * -10007：重名属性验证
+	 * -10010：验证主键是否丢失的函数
+	 * 
+	 * @param pkAttrName
+	 * @param table
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyMissing(
+			@NotNull @NotBlank @NotEmpty final String pkAttrName) {
+		final int occurs = occursAttr(this.verifiedNodes, pkAttrName);
+		AbstractSchemaException retExp = null;
+		if (0 == occurs) {
+			retExp = new PrimaryKeyMissingException(getClass(), this.table);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[E] ==> Error-10010 For Attribute ( Location: "
+						+ pkAttrName + " )", retExp);
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * -10010：验证主键是否定义，函数验证一个Array中的所有Object之内： attr = value出现的次数
+	 * 
+	 * @param attr
+	 * @param value
+	 * @param minOccurs
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyAttrValue(
+			@NotNull @NotBlank @NotEmpty final String attr, final Object value,
+			@Min(1) final int minOccurs) {
+		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
+		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
+		int occurs = 0;
+		while (nodeIt.hasNext()) {
+			final JsonNode node = nodeIt.next();
+			if (null == value) {
+				// null值空检测
+				final String jsonValue = node.get(attr).asText();
+				if (null == jsonValue) {
+					occurs++;
+				}
+			} else {
+				// 非null值检测
+				final String jsonValue = node.get(attr).asText();
+				if (StringUtil.equals(StringUtil.toUpperCase(jsonValue),
+						StringUtil.toUpperCase(value.toString()))) {
+					occurs++;
+				}
+			}
+		}
+
+		AbstractSchemaException retExp = null;
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = "
+					+ occurs);
+		}
+		if (minOccurs > occurs) {
+			retExp = new PrimaryKeyMissingException(getClass(), this.table);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[E] ==> Error-10010 For Value ( Location: "
+						+ attr + " = " + value.toString() + " ) occurs: " + occurs, retExp);
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * -10007/-10008：重名属性验证
 	 * 
 	 * @param attr
 	 * @return
@@ -118,6 +205,7 @@ final class JArrayValidator {
 	@PreValidateThis
 	public AbstractSchemaException verifyDuplicated(
 			@NotNull @NotBlank @NotEmpty final String attr) {
+		// Occurs的计算不能使用，attrExpStr的计算存在，所以不可使用Occurs计算
 		final Set<String> setValues = new HashSet<>();
 		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
 		String attrExpStr = null;
@@ -126,7 +214,7 @@ final class JArrayValidator {
 			final String value = node.path(attr).asText();
 			final int start = setValues.size();
 			setValues.add(value);
-			if(start == setValues.size()){
+			if (start == setValues.size()) {
 				attrExpStr = value;
 				break;
 			}
@@ -149,9 +237,9 @@ final class JArrayValidator {
 				}
 			}
 		}
-
 		return retExp;
 	}
+
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

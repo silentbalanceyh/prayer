@@ -2,7 +2,9 @@ package com.prayer.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 
+import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -73,7 +75,7 @@ public final class JsonKit {
 		ArrayNode arrNode = null; // NOPMD
 		final String content = jsonNode.toString();
 		try {
-			if(LOGGER.isDebugEnabled()){
+			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[I] Converted json content: " + content);
 			}
 			arrNode = MAPPER.readValue(content, new TypeReference<ArrayNode>() {
@@ -88,6 +90,41 @@ public final class JsonKit {
 			}
 		}
 		return arrNode;
+	}
+
+	/**
+	 * 属性attr在json节点中出现的次数
+	 * 
+	 * @param jsonNode
+	 * @param attr
+	 * @return
+	 */
+	public static int occursAttr(@NotNull final JsonNode jsonNode,
+			@NotNull @NotBlank @NotEmpty final String attr) {
+		int occurs = 0;
+		final Iterator<String> attrIt = jsonNode.fieldNames();
+		while (attrIt.hasNext()) {
+			if (StringUtil.equals(attrIt.next(), attr)) {
+				occurs++;
+			}
+		}
+		return occurs;
+	}
+	/**
+	 * 属性attr在array节点中的每一个Json节点中出现的总次数
+	 * 
+	 * @param arrayNode
+	 * @param attr
+	 * @return
+	 */
+	public static int occursAttr(@NotNull final ArrayNode arrayNode,
+			@NotNull @NotBlank @NotEmpty final String attr) {
+		int occurs = 0;
+		final Iterator<JsonNode> nodeIt = arrayNode.iterator();
+		while (nodeIt.hasNext()) {
+			occurs += occursAttr(nodeIt.next(), attr);
+		}
+		return occurs;
 	}
 
 	// ~ Constructors ========================================
