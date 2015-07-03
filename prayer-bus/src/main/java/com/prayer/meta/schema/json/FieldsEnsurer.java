@@ -21,7 +21,7 @@ import com.prayer.exception.AbstractSchemaException;
 final class FieldsEnsurer {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final ConcurrentMap<String,String> REGEX_MAP = new ConcurrentHashMap<>();
+	private static final ConcurrentMap<String, String> REGEX_MAP = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient AbstractSchemaException error;
@@ -34,9 +34,12 @@ final class FieldsEnsurer {
 
 	// ~ Static Block ========================================
 	/** Put Regex **/
-	static{
+	static {
 		REGEX_MAP.put(Attributes.F_NAME, Attributes.RGX_F_NAME);
+		REGEX_MAP.put(Attributes.F_COL_NAME, Attributes.RGX_F_COL_NAME);
+		REGEX_MAP.put(Attributes.F_COL_TYPE, Attributes.RGX_F_COL_TYPE);
 	}
+
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/**
@@ -104,7 +107,24 @@ final class FieldsEnsurer {
 			if (null != this.error) {
 				return false; // NOPMD
 			}
+			// 14.2.验证每一个__fields__中的Required元素的格式
+			for (final String attr : REGEX_MAP.keySet()) {
+				this.error = validator.verifyPattern(attr, REGEX_MAP.get(attr));
+				if (null != this.error) {
+					return false; // NOPMD
+				}
+			}
 			count++;
+		}
+		// 15.验证重复属性name
+		this.error = validator.verifyDuplicated(Attributes.F_NAME);
+		if (null != this.error) {
+			return false; // NOPMD
+		}
+		// 16.验证重复列columnName属性
+		this.error = validator.verifyDuplicated(Attributes.F_COL_NAME);
+		if (null != this.error) {
+			return false; // NOPMD
 		}
 		return null == this.error;
 	}

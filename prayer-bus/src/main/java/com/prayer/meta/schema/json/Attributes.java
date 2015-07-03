@@ -82,7 +82,7 @@ interface Attributes { // NOPMD
 	/** **/
 	String RGX_F_COL_NAME = "[A-Z]{1,3}\\_[A-Z]+";
 	/** **/
-	String RGX_F_COL_TYPE = "[A-Za-z]+";
+	String RGX_F_COL_TYPE = "(BOOLEAN|INT|LONG|DECIMAL|DATE|STRING|JSON|XML|SCRIPT|BINARY)[0-9]*";
 	
 	// -------------------- __fields__ Optional ------------------
 	/** **/

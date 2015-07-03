@@ -26,9 +26,8 @@ public class DuplicatedColumnException extends AbstractSchemaException {
 	 * @param table
 	 * @param column
 	 */
-	public DuplicatedColumnException(final Class<?> clazz, final String table,
-			final String column) {
-		super(clazz, -10008, column, table);
+	public DuplicatedColumnException(final Class<?> clazz, final String column) {
+		super(clazz, -10008, column);
 	}
 
 	// ~ Abstract Methods ====================================
