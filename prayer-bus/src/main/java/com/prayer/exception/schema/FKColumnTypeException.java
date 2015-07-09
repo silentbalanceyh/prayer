@@ -8,7 +8,7 @@ import com.prayer.exception.AbstractSchemaException;
  * @author Lang
  * @see
  */
-public class FKColumnTypePolicyException extends AbstractSchemaException {
+public class FKColumnTypeException extends AbstractSchemaException {
 
 	// ~ Static Fields =======================================
 
@@ -26,8 +26,8 @@ public class FKColumnTypePolicyException extends AbstractSchemaException {
 	 * @param clazz
 	 * @param policy
 	 */
-	public FKColumnTypePolicyException(final Class<?> clazz, final String policy) {
-		super(clazz, -10015, policy);
+	public FKColumnTypeException(final Class<?> clazz, final String columnType) {
+		super(clazz, -10015, columnType);
 	}
 
 	// ~ Abstract Methods ====================================

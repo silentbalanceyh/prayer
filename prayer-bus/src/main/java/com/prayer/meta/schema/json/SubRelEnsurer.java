@@ -20,7 +20,7 @@ public class SubRelEnsurer implements InternalEnsurer {
 	private transient AbstractSchemaException error;
 	/** **/
 	@NotNull
-	private transient final ArrayNode fieldsNode;
+	private transient final ArrayNode fieldsNode;	// NOPMD
 	/** **/
 	@NotNull
 	private transient final JArrayValidator validator;

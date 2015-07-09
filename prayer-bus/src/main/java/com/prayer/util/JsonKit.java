@@ -152,7 +152,7 @@ public final class JsonKit {
 		return occurs;
 	}
 
-	/**
+	/**	
 	 * 统计Array节点中某个属性值（每个JsonObject）为固定值的次数
 	 * 
 	 * @param arrayNode
@@ -173,7 +173,7 @@ public final class JsonKit {
 		return occurs;
 	}
 
-	/**
+	/** 
 	 * 统计Object节点中某个属性为value值的次数
 	 * 
 	 * @param jsonNode

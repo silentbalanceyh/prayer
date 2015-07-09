@@ -1,6 +1,7 @@
 package com.prayer.meta.schema.json;
 
 import static com.prayer.util.JsonKit.fromJObject;
+import static com.prayer.util.JsonKit.occursAttr;
 import static com.prayer.util.sys.Converter.fromStr;
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
@@ -22,7 +23,7 @@ import com.prayer.mod.sys.SystemEnum.MetaMapping;
  * @see
  */
 @Guarded
-public final class GenericEnsurer implements Ensurer {
+public final class GenericEnsurer implements Ensurer {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
@@ -36,6 +37,8 @@ public final class GenericEnsurer implements Ensurer {
 	private transient InternalEnsurer pKeyEnsurer;
 	/** **/
 	private transient InternalEnsurer subRelEnsurer;
+	/** **/
+	private transient InternalEnsurer fKeyEnsurer;
 	/** **/
 	private transient JsonNode rootNode;
 	/** **/
@@ -78,7 +81,7 @@ public final class GenericEnsurer implements Ensurer {
 	 * 
 	 */
 	@Override
-	public boolean validate() {
+	public boolean validate() {		// NOPMD
 		// 1.验证root节点：__keys__, __meta__, __fields__
 		boolean ret = validateRoot();
 		// 2.验证Meta节点
@@ -115,6 +118,16 @@ public final class GenericEnsurer implements Ensurer {
 		if (ret && MetaMapping.COMBINATED == getMapping()) {
 			try {
 				subRelEnsurer.validate();
+				ret = true;
+			} catch (AbstractSchemaException ex) {
+				this.error = ex;
+				ret = false;
+			}
+		}
+		// 6.开始验证foreign key
+		if (ret && this.containFK()) {
+			try {
+				fKeyEnsurer.validate();
 				ret = true;
 			} catch (AbstractSchemaException ex) {
 				this.error = ex;
@@ -184,6 +197,10 @@ public final class GenericEnsurer implements Ensurer {
 			if (MetaMapping.COMBINATED == getMapping()) {
 				subRelEnsurer = new SubRelEnsurer(fieldsNode);
 			}
+			// 外键验证器
+			if (this.containFK()) {
+				fKeyEnsurer = new ForeignKeyEnsurer(fieldsNode);
+			}
 		}
 	}
 
@@ -198,9 +215,26 @@ public final class GenericEnsurer implements Ensurer {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[I] ==> mapping = " + mapping);
 		}
-		return null == mapping || StringUtil.isBlank(mapping) || StringUtil
-				.isEmpty(mapping) ? MetaMapping.DIRECT : fromStr(
+		// mapping为null会触发fromStr方法的Vol
+		return null == mapping || StringUtil.isBlank(mapping)
+				|| StringUtil.isEmpty(mapping) ? MetaMapping.DIRECT : fromStr(
 				MetaMapping.class, mapping);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean containFK() {
+		final ArrayNode fieldsNode = fromJObject(this.rootNode
+				.path(Attributes.R_FIELDS));
+		final int occurs = occursAttr(fieldsNode, Attributes.F_FK,
+				Boolean.TRUE, false);
+		boolean ret = false;
+		if (0 < occurs) {
+			ret = true;
+		}
+		return ret;
 	}
 
 	/**

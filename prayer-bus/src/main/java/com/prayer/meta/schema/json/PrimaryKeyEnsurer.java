@@ -22,6 +22,18 @@ import com.prayer.mod.sys.SystemEnum.MetaPolicy;
 @Guarded
 final class PrimaryKeyEnsurer implements InternalEnsurer {
 	// ~ Static Fields =======================================
+	/** **/
+	private static final ConcurrentMap<String, Object> PK_FILTER = new ConcurrentHashMap<>();
+	/** GUID **/
+	private static final String[] PK_GUID_STR = new String[] { DataType.STRING
+			.toString() };
+	/** INCREMENT **/
+	private static final String[] PK_INCREMENT_STR = new String[] {
+			DataType.INT.toString(), DataType.LONG.toString() };
+	/** ASSIGNED, COLLECTION **/
+	private static final String[] PK_STR = new String[] {
+			DataType.INT.toString(), DataType.LONG.toString(),
+			DataType.STRING.toString() };
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient AbstractSchemaException error;
@@ -42,23 +54,12 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {
 	@NotNull
 	private transient final JArrayValidator validator;
 	// ~ Static Block ========================================
-	/** **/
-	private static final ConcurrentMap<String, Object> PK_FILTER = new ConcurrentHashMap<>();
-	/** GUID **/
-	private static final String[] PK_GUID_STR = new String[] { DataType.STRING
-			.toString() };
-	/** INCREMENT **/
-	private static final String[] PK_INCREMENT_STR = new String[] {
-			DataType.INT.toString(), DataType.LONG.toString() };
-	/** ASSIGNED, COLLECTION **/
-	private static final String[] PK_STR = new String[] {
-			DataType.INT.toString(), DataType.LONG.toString(),
-			DataType.STRING.toString() };
-	// ~ Static Methods ======================================
 	/** Put Filter **/
 	static {
 		PK_FILTER.put(Attributes.F_PK, Boolean.TRUE);
 	}
+	// ~ Static Methods ======================================
+	
 
 	// ~ Constructors ========================================
 	/**

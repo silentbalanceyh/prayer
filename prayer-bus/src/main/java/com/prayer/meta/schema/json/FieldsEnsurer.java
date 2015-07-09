@@ -116,7 +116,7 @@ final class FieldsEnsurer implements InternalEnsurer{
 	private boolean validateFieldRequired() {
 		// 14.验证__fields__字段元素
 		final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
-		int count = 1;
+		int count = 0;
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
 			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
@@ -138,7 +138,7 @@ final class FieldsEnsurer implements InternalEnsurer{
 	private boolean validateFieldPattern() {
 		// 14.验证__fields__字段元素
 		final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
-		int count = 1;
+		int count = 0;
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
 			final JObjectValidator validator = new JObjectValidator(node, // NOPMD

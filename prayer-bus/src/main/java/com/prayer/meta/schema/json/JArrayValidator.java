@@ -1,4 +1,4 @@
-package com.prayer.meta.schema.json;	// NOPMD
+package com.prayer.meta.schema.json; // NOPMD
 
 import static com.prayer.util.JsonKit.findNodes;
 import static com.prayer.util.JsonKit.isAttrIn;
@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.MinLength;
@@ -29,6 +31,8 @@ import com.prayer.exception.schema.AttrJsonTypeException;
 import com.prayer.exception.schema.AttrZeroException;
 import com.prayer.exception.schema.DuplicatedAttrException;
 import com.prayer.exception.schema.DuplicatedColumnException;
+import com.prayer.exception.schema.FKColumnTypeException;
+import com.prayer.exception.schema.ForeignKeyTypeException;
 import com.prayer.exception.schema.PKColumnTypePolicyException;
 import com.prayer.exception.schema.PrimaryKeyMissingException;
 import com.prayer.exception.schema.PrimaryKeyPolicyException;
@@ -105,6 +109,71 @@ final class JArrayValidator {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[ERR-10006] ==> Error-10006 ( Location: "
 						+ this.name + " )", retExp);
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * -10015：外键数据类型问题
+	 * 
+	 * @param attr
+	 * @param filter
+	 * @param regexStr
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyFkColumnType(
+			@NotNull @NotBlank @NotEmpty final String attr,
+			@NotNull final ConcurrentMap<String, Object> filter,
+			@NotNull @NotBlank @NotEmpty final String regexStr) {
+		AbstractSchemaException retExp = null;
+		final List<JsonNode> fkNodes = findNodes(this.verifiedNodes, filter);
+		final Iterator<JsonNode> fkNIt = fkNodes.iterator();
+		// Regex
+		final Pattern pattern = Pattern.compile(regexStr);
+		while (fkNIt.hasNext()) {
+			final JsonNode node = fkNIt.next();
+			final String value = node.path(attr).asText();
+			final Matcher matcher = pattern.matcher(value);
+			if (!matcher.matches()) {
+				retExp = new FKColumnTypeException(getClass(),	// NOPMD
+						Attributes.F_COL_TYPE);
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("[ERR-10015] ==> Error-10015 ( Location: "
+							+ this.name + " ) pattern machting, ", retExp);
+				}
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * -10014：外键属性类型异常
+	 * 
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyFkType(
+			@NotNull @NotBlank @NotEmpty final String attr,
+			@NotNull final ConcurrentMap<String, Object> filter,
+			@MinLength(1) final String... values) {
+		AbstractSchemaException retExp = null;
+		final List<JsonNode> fkNodes = findNodes(this.verifiedNodes, filter);
+		final Iterator<JsonNode> fkNIt = fkNodes.iterator();
+		while (fkNIt.hasNext()) {
+			final JsonNode node = fkNIt.next();
+			if (!isAttrIn(node, attr, values)) {
+				retExp = new ForeignKeyTypeException(getClass(), node.path( // NOPMD
+						Attributes.F_REF_ID).asText(), node.path(
+						Attributes.F_TYPE).asText());
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("[ERR-10014] ==> Error-10014 ( Location: "
+							+ this.name + " ) In, ", retExp);
+				}
+				if (null != retExp) {
+					break;
+				}
 			}
 		}
 		return retExp;
