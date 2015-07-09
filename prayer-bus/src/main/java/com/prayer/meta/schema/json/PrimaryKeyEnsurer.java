@@ -142,8 +142,11 @@ class PrimaryKeyEnsurer {
 		}
 		// 18.1.2.policy == COLLECTION
 		// 18.2.2.3.policy == ASSIGNED
-		this.error = this.validator.verifyPKeyPolicyType(policy, PK_FILTER,
-				PK_STR);
+		if ((MetaPolicy.ASSIGNED == policy || MetaPolicy.COLLECTION == policy)
+				&& null == this.error) {
+			this.error = this.validator.verifyPKeyPolicyType(policy, PK_FILTER,
+					PK_STR);
+		}
 		return null == this.error;
 	}
 

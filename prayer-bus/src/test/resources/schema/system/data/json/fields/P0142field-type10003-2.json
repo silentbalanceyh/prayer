@@ -21,9 +21,9 @@
 	[
 		{
 			"name":"uniqueId",
-			"type":"StringType",
-			"columnName":"P_ID",
-			"columnType":"$BOOLEAN"
+			"type":"String$$Type",
+			"columnName":"PID",
+			"columnType":"VARCHAR"
 		}
 	]
 }

@@ -7,7 +7,7 @@
 		"table": "SEC_ROLE",
 		"identifier": "sys.sec.role",
 		"mapping": "DIRECT",
-		"policy": "INCREMENT",
+		"policy": "ASSIGNED",
 		"seqinit": 1,
 		"seqstep": 1
 	},
@@ -21,15 +21,17 @@
 	[
 		{
 			"name":"uniqueId",
-			"type":"StringType",
+			"type":"DateType",
 			"columnName":"R_ID",
-			"columnType":"LONG"
+			"columnType":"LONG",
+			"primarykey":true
 		},
 		{
 			"name":"name",
 			"type":"StringType",
 			"columnName":"R_NAME",
-			"columnType":"STRING"
+			"columnType":"STRING",
+			"primarykey":false
 		},
 		{
 			"name":"code",

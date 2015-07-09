@@ -22,8 +22,22 @@
 		{
 			"name":"uniqueId",
 			"type":"StringType",
-			"columnName":"P_ID",
-			"columnType":"$BOOLEAN"
+			"columnName":"R_ID",
+			"columnType":"STRING",
+			"primarykey":true
+		},
+		{
+			"name":"name",
+			"type":"StringType",
+			"columnName":"R_NAME",
+			"columnType":"STRING",
+			"primarykey":false
+		},
+		{
+			"name":"code",
+			"type":"StringType",
+			"columnName":"R_CODE",
+			"columnType":"STRING"
 		}
 	]
 }

@@ -21,18 +21,21 @@
 	[
 		{
 			"name":"uniqueId",
+			"type":"StringType",
 			"columnName":"R_ID",
 			"columnType":"LONG",
 			"primarykey":false
 		},
 		{
 			"name":"name",
+			"type":"StringType",
 			"columnName":"R_NAME",
 			"columnType":"STRING",
 			"primarykey":false
 		},
 		{
 			"name":"code",
+			"type":"StringType",
 			"columnName":"R_CODE",
 			"columnType":"STRING",
 			"primarykey":false

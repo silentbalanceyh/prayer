@@ -98,6 +98,16 @@ public class _7FieldsAttr1TestCase extends AbstractSchemaTestCase{	// NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
+	@Test(expected = RequiredAttrMissingException.class)
+	public void testP0141Fields4Required10001() throws AbstractSchemaException{
+		testImport(
+				"fields/P0141field-required10001-4.json",
+				"[E10001] Fields ==> (Failure) There is unexpected exception, 'type' missing! ");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP0142Fields1name10003() throws AbstractSchemaException{
 		testImport(

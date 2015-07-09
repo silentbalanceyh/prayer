@@ -36,6 +36,7 @@ final class FieldsEnsurer {
 	/** Put Regex **/
 	static {
 		REGEX_MAP.put(Attributes.F_NAME, Attributes.RGX_F_NAME);
+		REGEX_MAP.put(Attributes.F_TYPE, Attributes.RGX_F_TYPE);
 		REGEX_MAP.put(Attributes.F_COL_NAME, Attributes.RGX_F_COL_NAME);
 		REGEX_MAP.put(Attributes.F_COL_TYPE, Attributes.RGX_F_COL_TYPE);
 	}
@@ -119,7 +120,7 @@ final class FieldsEnsurer {
 			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
 					"Node: __fields__ ==> index : " + count);
 			// 14.1.验证每一个__fields__中的Required元素
-			this.error = validator.verifyRequired(Attributes.F_NAME,
+			this.error = validator.verifyRequired(Attributes.F_NAME,Attributes.F_TYPE,
 					Attributes.F_COL_NAME, Attributes.F_COL_TYPE);
 			if (null != this.error) {
 				break;

@@ -21,6 +21,7 @@
 	[
 		{
 			"name": "uniqueId",
+			"type":"StringType",
 			"columnName": "SECX_CO&^%L",
 			"columnType": "VARCHAR"
 		}

@@ -116,6 +116,39 @@ public class _8FieldsAttr2TestCase extends AbstractSchemaTestCase { // NOPMD
 				"fields/P016field-columnName10008-1.json",
 				"[E10008] Fields -> columnName ==> (Failure) Database column 'columnName' exists more than once ( Duplicated )! ");
 	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = PatternNotMatchException.class)
+	public void testP0142Fields1type10003()
+			throws AbstractSchemaException {
+		testImport(
+				"fields/P0142field-type10003-1.json",
+				"[E10003] Fields -> columnType ==> (Failure) Attribute 'type' does not match pattern! ");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = PatternNotMatchException.class)
+	public void testP0142Fields2type10003()
+			throws AbstractSchemaException {
+		testImport(
+				"fields/P0142field-type10003-2.json",
+				"[E10003] Fields -> columnType ==> (Failure) Attribute 'type' does not match pattern! ");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = PatternNotMatchException.class)
+	public void testP0142Fields3type10003()
+			throws AbstractSchemaException {
+		testImport(
+				"fields/P0142field-type10003-3.json",
+				"[E10003] Fields -> columnType ==> (Failure) Attribute 'type' does not match pattern! ");
+	}
 
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

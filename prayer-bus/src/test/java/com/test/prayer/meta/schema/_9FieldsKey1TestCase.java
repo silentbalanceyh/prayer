@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.exception.schema.PKColumnTypePolicyException;
 import com.prayer.exception.schema.PrimaryKeyMissingException;
 import com.prayer.exception.schema.PrimaryKeyPolicyException;
 
@@ -18,6 +19,8 @@ public class _9FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(_9FieldsKey1TestCase.class);
+	/** **/
+	private static final String E10012_STR = "[E10012] Fields ==> primary key type conflicts! ";
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -75,6 +78,46 @@ public class _9FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 		testImport(
 				"keys/P018field-pKEYpolicy10011-2.json",
 				"[E10011] Fields -> primarykey ==> (Failure) Attribute 'primarykey' does not match the policy definition! ");
+	}
+
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = PKColumnTypePolicyException.class)
+	public void testP018FieldsT1PKeyPolicy10012()
+			throws AbstractSchemaException {
+		testImport("keys/P018field-TpKEYpolicy10012-1.json", E10012_STR);
+	}
+
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = PKColumnTypePolicyException.class)
+	public void testP018FieldsT2PKeyPolicy10012()
+			throws AbstractSchemaException {
+		testImport("keys/P018field-TpKEYpolicy10012-2.json", E10012_STR);
+	}
+
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = PKColumnTypePolicyException.class)
+	public void testP018FieldsT3PKeyPolicy10012()
+			throws AbstractSchemaException {
+		testImport("keys/P018field-TpKEYpolicy10012-3.json", E10012_STR);
+	}
+
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = PKColumnTypePolicyException.class)
+	public void testP018FieldsT4PKeyPolicy10012()
+			throws AbstractSchemaException {
+		testImport("keys/P018field-TpKEYpolicy10012-4.json", E10012_STR);
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

@@ -22,6 +22,7 @@
 		{
 			"name":"uniqueId",
 			"columnName":"P_ID",
+			"type":"StringType",
 			"columnType":"BOOLEANX"
 		}
 	]

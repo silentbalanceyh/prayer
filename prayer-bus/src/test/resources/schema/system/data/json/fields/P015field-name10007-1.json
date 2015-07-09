@@ -21,16 +21,19 @@
 	[
 		{
 			"name":"uniqueId",
+			"type":"StringType",
 			"columnName":"R_ID",
 			"columnType":"LONG"
 		},
 		{
 			"name":"name",
+			"type":"StringType",
 			"columnName":"R_NAME",
 			"columnType":"STRING"
 		},
 		{
 			"name":"name",
+			"type":"StringType",
 			"columnName":"R_CODE",
 			"columnType":"STRING"
 		}
