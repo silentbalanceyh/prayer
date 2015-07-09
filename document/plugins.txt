@@ -1,0 +1,6 @@
+1.AJDT
+http://download.eclipse.org/tools/ajdt/43/update
+2.EclEmma
+http://update.eclemma.org/
+3.PMD
+http://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/

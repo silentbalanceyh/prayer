@@ -1,5 +1,6 @@
 package com.prayer.meta.schema.json;
 
+import static com.prayer.util.JsonKit.isAttrIn;
 import static com.prayer.util.JsonKit.occursAttr;
 import static com.prayer.util.sys.Converter.toStr;
 
@@ -10,7 +11,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -90,7 +90,7 @@ final class JObjectValidator {
 			if (0 == occurs) {
 				retExp = new RequiredAttrMissingException(getClass(), attr); // NOPMD
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[E] ==> Error-10001 ( Location : "
+					LOGGER.debug("[ERR-10001] ==> Error-10001 ( Location : "
 							+ this.name + " [" + attr + "] )", retExp);
 				}
 			}
@@ -113,7 +113,7 @@ final class JObjectValidator {
 		if (!attrNode.isArray() && attrNode.isContainerNode()) {
 			retExp = new AttrJsonTypeException(getClass(), attr);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] ==> Error-10002 ( Array/Location : "
+				LOGGER.debug("[ERR-10002] ==> Error-10002 ( Array/Location : "
 						+ this.name + " )", retExp);
 			}
 		}
@@ -135,7 +135,7 @@ final class JObjectValidator {
 		if (attrNode.isArray()) {
 			retExp = new AttrJsonTypeException(getClass(), attr);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] ==> Error-10002 ( Object/Location : "
+				LOGGER.debug("[ERR-10002] ==> Error-10002 ( Object/Location : "
 						+ this.name + " )", retExp);
 			}
 		}
@@ -165,7 +165,7 @@ final class JObjectValidator {
 		if (!unsupportedSet.isEmpty()) {
 			retExp = new UnsupportAttrException(getClass(), unsupportedSet);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] ==> Error-10017 ( Location: " + this.name
+				LOGGER.debug("[ERR-10017] ==> Error-10017 ( Location: " + this.name
 						+ " )", retExp);
 			}
 		}
@@ -193,7 +193,7 @@ final class JObjectValidator {
 			retExp = new PatternNotMatchException(getClass(), attr, value,
 					regexStr);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] ==> Error-10003 ( Location: " + this.name
+				LOGGER.debug("[ERR-10003] ==> Error-10003 ( Location: " + this.name
 						+ " )", retExp);
 			}
 		}
@@ -216,7 +216,7 @@ final class JObjectValidator {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Missing");
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[E] ==> Error-10004 ( Location: " + this.name
+					LOGGER.debug("[ERR-10004] ==> Error-10004 ( Location: " + this.name
 							+ " ) Missing, ", retExp);
 				}
 				break;
@@ -241,7 +241,7 @@ final class JObjectValidator {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Existing");
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[E] ==> Error-10004 ( Location: " + this.name
+					LOGGER.debug("[ERR-10004] ==> Error-10004 ( Location: " + this.name
 							+ " ) Existing, ", retExp);
 				}
 				break;
@@ -260,16 +260,12 @@ final class JObjectValidator {
 			@NotNull @NotBlank @NotEmpty final String attr,
 			@MinLength(1) final String... values) {
 		AbstractSchemaException retExp = null;
-		final JsonNode attrNode = this.verifiedNode.path(attr);
-		for (final String value : values) {
-			final String jsonValue = attrNode.asText();
-			if (null != jsonValue && !StringUtil.equals(value, jsonValue)) {
-				retExp = new InvalidValueException(getClass(), attr, // NOPMD
-						toStr(values), jsonValue, "");
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[E] ==> Error-10005 ( Location: " + this.name
-							+ " ) In, ", retExp);
-				}
+		if (!isAttrIn(this.verifiedNode, attr, values)) {
+			retExp = new InvalidValueException(getClass(), attr, // NOPMD
+					toStr(values), this.verifiedNode.path(attr).asText(), "");
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[ERR-10005] ==> Error-10005 ( Location: " + this.name
+						+ " ) In, ", retExp);
 			}
 		}
 		return retExp;
@@ -287,16 +283,12 @@ final class JObjectValidator {
 			@NotNull @NotBlank @NotEmpty final String attr,
 			@MinLength(1) final String... values) {
 		AbstractSchemaException retExp = null;
-		final JsonNode attrNode = this.verifiedNode.path(attr);
-		for (final String value : values) {
-			final String jsonValue = attrNode.asText();
-			if (null != jsonValue && StringUtil.equals(value, jsonValue)) { // NOPMD
-				retExp = new InvalidValueException(getClass(), attr, // NOPMD
-						toStr(values), jsonValue, "n't");
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[E] ==> Error-10005 ( Location: " + this.name
-							+ " ) NotIn, ", retExp);
-				}
+		if (isAttrIn(this.verifiedNode, attr, values)) {
+			retExp = new InvalidValueException(getClass(), attr, // NOPMD
+					toStr(values), this.verifiedNode.path(attr).asText(), "n't");
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[ERR-10005] ==> Error-10005 ( Location: " + this.name
+						+ " ) NotIn, ", retExp);
 			}
 		}
 		return retExp;

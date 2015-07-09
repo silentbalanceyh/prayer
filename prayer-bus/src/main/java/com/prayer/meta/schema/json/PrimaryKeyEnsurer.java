@@ -1,5 +1,8 @@
 package com.prayer.meta.schema.json;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -8,23 +11,9 @@ import net.sf.oval.guard.PostValidateThis;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.meta.DataType;
 import com.prayer.mod.sys.SystemEnum.MetaPolicy;
 
-/**
- * 
- * @author Lang
- * @see
- */
-/**
- * 
- * @author Lang
- * @see
- */
-/**
- * 
- * @author Lang
- * @see
- */
 /**
  * 
  * @author Lang
@@ -52,9 +41,25 @@ class PrimaryKeyEnsurer {
 	/** **/
 	@NotNull
 	private transient final JArrayValidator validator;
-
 	// ~ Static Block ========================================
+	/** **/
+	private static final ConcurrentMap<String, Object> PK_FILTER = new ConcurrentHashMap<>();
+	/** GUID **/
+	private static final String[] PK_GUID_STR = new String[] { DataType.STRING
+			.toString() };
+	/** INCREMENT **/
+	private static final String[] PK_INCREMENT_STR = new String[] {
+			DataType.INT.toString(), DataType.LONG.toString() };
+	/** ASSIGNED, COLLECTION **/
+	private static final String[] PK_STR = new String[] {
+			DataType.INT.toString(), DataType.LONG.toString(),
+			DataType.STRING.toString() };
 	// ~ Static Methods ======================================
+	/** Put Filter **/
+	static {
+		PK_FILTER.put(Attributes.F_PK, Boolean.TRUE);
+	}
+
 	// ~ Constructors ========================================
 	/**
 	 * 
@@ -111,18 +116,34 @@ class PrimaryKeyEnsurer {
 		if (MetaPolicy.COLLECTION == policy) {
 			// 18.1.1.属性：policy == COLLECTION
 			this.error = this.validator.verifyPKeyCOPolicy(Attributes.F_PK,
-					policy.toString());
+					policy);
 			if (null != this.error) {
 				return false; // NOPMD
 			}
 		} else {
 			// 18.2.1.属性：policy != COLLECTION
 			this.error = this.validator.verifyPKeyNonCOPolicy(Attributes.F_PK,
-					policy.toString());
+					policy);
+			if (null != this.error) {
+				return false; // NOPMD
+			}
+			if (MetaPolicy.GUID == policy) {
+				// 18.2.2.1.对应：policy == GUID
+				this.error = this.validator.verifyPKeyPolicyType(policy,
+						PK_FILTER, PK_GUID_STR);
+			} else if (MetaPolicy.INCREMENT == policy) {
+				// 18.2.2.2.对应：policy == INCREMENT
+				this.error = this.validator.verifyPKeyPolicyType(policy,
+						PK_FILTER, PK_INCREMENT_STR);
+			}
 			if (null != this.error) {
 				return false; // NOPMD
 			}
 		}
+		// 18.1.2.policy == COLLECTION
+		// 18.2.2.3.policy == ASSIGNED
+		this.error = this.validator.verifyPKeyPolicyType(policy, PK_FILTER,
+				PK_STR);
 		return null == this.error;
 	}
 
@@ -143,6 +164,7 @@ class PrimaryKeyEnsurer {
 		}
 		return null == this.error;
 	}
+
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 

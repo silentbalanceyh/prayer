@@ -52,7 +52,7 @@ public final class Error {
 		final String errKey = "E" + Math.abs(errorCode);
 		// Error message generation
 		final StringBuilder errMsg = new StringBuilder();
-		errMsg.append("[E").append(errorCode).append(']');
+		errMsg.append("[ERR").append(errorCode).append(']');
 		if (null != clazz) {
 			errMsg.append(" Class -> " + clazz.getName() + " |");
 		}
