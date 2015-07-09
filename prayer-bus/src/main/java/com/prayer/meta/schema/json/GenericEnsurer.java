@@ -1,6 +1,7 @@
 package com.prayer.meta.schema.json;
 
 import static com.prayer.util.JsonKit.fromJObject;
+import static com.prayer.util.sys.Converter.fromStr;
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.meta.schema.Ensurer;
 import com.prayer.mod.sys.GenericSchema;
+import com.prayer.mod.sys.SystemEnum.MetaMapping;
 
 /**
  * 
@@ -27,11 +29,13 @@ public final class GenericEnsurer implements Ensurer {
 			.getLogger(GenericEnsurer.class);
 	// ~ Instance Fields =====================================
 	/** **/
-	private transient MetaEnsurer metaEnsurer;
+	private transient InternalEnsurer metaEnsurer;
 	/** **/
-	private transient FieldsEnsurer fieldsEnsurer;
+	private transient InternalEnsurer fieldsEnsurer;
 	/** **/
-	private transient PrimaryKeyEnsurer pKeyEnsurer;
+	private transient InternalEnsurer pKeyEnsurer;
+	/** **/
+	private transient InternalEnsurer subRelEnsurer;
 	/** **/
 	private transient JsonNode rootNode;
 	/** **/
@@ -107,6 +111,16 @@ public final class GenericEnsurer implements Ensurer {
 				ret = false;
 			}
 		}
+		// 5.开始验证subtable
+		if (ret && MetaMapping.COMBINATED == getMapping()) {
+			try {
+				subRelEnsurer.validate();
+				ret = true;
+			} catch (AbstractSchemaException ex) {
+				this.error = ex;
+				ret = false;
+			}
+		}
 		return ret;
 	}
 
@@ -165,7 +179,28 @@ public final class GenericEnsurer implements Ensurer {
 					&& StringUtil.isNotEmpty(policy)) {
 				pKeyEnsurer = new PrimaryKeyEnsurer(fieldsNode, policy, table);
 			}
+			// 关系验证器
+			// 当COMBINATED的时候需要验证子表属性，且只会关联到第二张表
+			if (MetaMapping.COMBINATED == getMapping()) {
+				subRelEnsurer = new SubRelEnsurer(fieldsNode);
+			}
 		}
+	}
+
+	/**
+	 * 返回当前Meta的Maping
+	 * 
+	 * @return
+	 */
+	private MetaMapping getMapping() {
+		final String mapping = this.rootNode.path(Attributes.R_META)
+				.path(Attributes.M_MAPPING).asText();
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("[I] ==> mapping = " + mapping);
+		}
+		return null == mapping || StringUtil.isBlank(mapping) || StringUtil
+				.isEmpty(mapping) ? MetaMapping.DIRECT : fromStr(
+				MetaMapping.class, mapping);
 	}
 
 	/**
@@ -173,7 +208,7 @@ public final class GenericEnsurer implements Ensurer {
 	 * 
 	 * @return
 	 */
-	public boolean validateRoot() {
+	private boolean validateRoot() {
 		final JObjectValidator validator = new JObjectValidator(this.rootNode,
 				null);
 		// 1.Root Required

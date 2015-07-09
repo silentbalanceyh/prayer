@@ -18,7 +18,7 @@ import com.prayer.exception.AbstractSchemaException;
  * @see
  */
 @Guarded
-final class FieldsEnsurer {
+final class FieldsEnsurer implements InternalEnsurer{
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String, String> REGEX_MAP = new ConcurrentHashMap<>();
@@ -62,6 +62,7 @@ final class FieldsEnsurer {
 	 * 
 	 * @throws AbstractSchemaException
 	 */
+	@Override
 	public void validate() throws AbstractSchemaException {
 		// 1.验证Zero长度异常
 		validateFieldsAttr();
@@ -76,18 +77,19 @@ final class FieldsEnsurer {
 		validateDuplicated();
 		interrupt();
 	}
-
-	// ~ Private Methods =====================================
 	/**
 	 * 根据结果判断返回值
 	 * 
 	 * @param result
 	 */
-	private void interrupt() throws AbstractSchemaException {
+	@Override
+	public void interrupt() throws AbstractSchemaException {
 		if (null != this.error) {
 			throw this.error;
 		}
 	}
+
+	// ~ Private Methods =====================================
 
 	/**
 	 * 

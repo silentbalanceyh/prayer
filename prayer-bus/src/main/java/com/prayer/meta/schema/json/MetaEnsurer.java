@@ -24,7 +24,7 @@ import com.prayer.res.cv.Resources;
  * @see
  */
 @Guarded
-final class MetaEnsurer {
+final class MetaEnsurer implements InternalEnsurer {
 	// ~ Static Fields =======================================
 	/** Meta Required **/
 	private static final String[] M_REQUIRED = new String[] {
@@ -71,6 +71,7 @@ final class MetaEnsurer {
 	 */
 	@PostValidateThis
 	public MetaEnsurer(@NotNull final JsonNode metaNode) {
+		super();
 		this.metaNode = metaNode;
 		this.error = null; // NOPMD
 		this.validator = new JObjectValidator(this.metaNode, Attributes.R_META);
@@ -81,6 +82,7 @@ final class MetaEnsurer {
 	/**
 	 * 
 	 */
+	@Override
 	public void validate() throws AbstractSchemaException {
 		// 1.验证root节点：__keys__, __meta__, __fields__
 		validateMetaAttr();
@@ -91,18 +93,20 @@ final class MetaEnsurer {
 		interrupt();
 	}
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
 	/**
 	 * 根据结果判断返回值
 	 * 
 	 * @param result
 	 */
-	private void interrupt() throws AbstractSchemaException {
+	@Override
+	public void interrupt() throws AbstractSchemaException {
 		if (null != this.error) {
 			throw this.error;
 		}
 	}
+
+	// ~ Methods =============================================
+	// ~ Private Methods =====================================
 
 	/**
 	 * 
@@ -242,6 +246,12 @@ final class MetaEnsurer {
 		this.error = validator.verifyPattern(Attributes.M_SUB_TABLE,
 				Attributes.RGX_M_SUB_TABLE);
 		if (null != this.error) {
+			return false; // NOPMD
+		}
+		// 7.4.3.__subtable__ and __table__ conflicts
+		this.error = validator.verifyNotSame(Attributes.M_TABLE,
+				Attributes.M_SUB_TABLE);
+		if (null != this.error){
 			return false; // NOPMD
 		}
 		// TODO: __subkey__ 的验证保留，根据子表策略完成，目前不支持子表关联验证

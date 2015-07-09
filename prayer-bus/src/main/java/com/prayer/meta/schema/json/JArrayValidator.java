@@ -1,4 +1,4 @@
-package com.prayer.meta.schema.json;
+package com.prayer.meta.schema.json;	// NOPMD
 
 import static com.prayer.util.JsonKit.findNodes;
 import static com.prayer.util.JsonKit.isAttrIn;
@@ -32,6 +32,7 @@ import com.prayer.exception.schema.DuplicatedColumnException;
 import com.prayer.exception.schema.PKColumnTypePolicyException;
 import com.prayer.exception.schema.PrimaryKeyMissingException;
 import com.prayer.exception.schema.PrimaryKeyPolicyException;
+import com.prayer.exception.schema.SubtableNotMatchException;
 import com.prayer.mod.sys.SystemEnum.MetaPolicy;
 import com.prayer.res.cv.Constants;
 
@@ -134,29 +135,6 @@ final class JArrayValidator {
 	}
 
 	/**
-	 * -10010：验证主键是否丢失的函数
-	 * 
-	 * @param pkAttrName
-	 * @param table
-	 * @return
-	 */
-	@PreValidateThis
-	public AbstractSchemaException verifyMissing(
-			@NotNull @NotBlank @NotEmpty final String pkAttrName) {
-		final int occurs = occursAttr(this.verifiedNodes, pkAttrName);
-		AbstractSchemaException retExp = null;
-		if (0 == occurs) {
-			retExp = new PrimaryKeyMissingException(getClass(), this.table);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(
-						"[ERR-10010] ==> Error-10010 For Attribute ( Location: "
-								+ pkAttrName + " )", retExp);
-			}
-		}
-		return retExp;
-	}
-
-	/**
 	 * 
 	 * @param policy
 	 * @param filter
@@ -210,7 +188,7 @@ final class JArrayValidator {
 					policy.toString(), this.table);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[ERR-10011] ==> Error-10011 ( Location: " + attr
-						+ " ) occurs: " + occurs, retExp);
+						+ " ) [NonCO] occurs: " + occurs, retExp);
 			}
 		}
 		return retExp;
@@ -239,22 +217,40 @@ final class JArrayValidator {
 					policy.toString(), this.table);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[ERR-10011] ==> Error-10011 ( Location: " + attr
-						+ " ) occurs: " + occurs, retExp);
+						+ " ) [CO] occurs: " + occurs, retExp);
 			}
 		}
 		return retExp;
 	}
 
 	/**
-	 * 简化调用接口，重用函数，专用接口
+	 * -10013：subtable不合法
 	 * 
-	 * @param attr
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyPKeyMissing(
-			@NotNull @NotBlank @NotEmpty final String attr) {
-		return this.verifyPKeyMissing(attr, Boolean.TRUE, 1);
+	public AbstractSchemaException verifyRelMissing(
+			@NotNull @NotBlank @NotEmpty final String attr, final Object value,
+			@Min(1) final int minOccurs) {
+		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
+		final int occurs = occursAttr(this.verifiedNodes, attr, value, false);
+
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = "
+					+ occurs);
+		}
+
+		AbstractSchemaException retExp = null;
+		if (minOccurs > occurs) {
+			retExp = new SubtableNotMatchException(getClass());
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug(
+						"[ERR-10013] ==> Error-10013 For Value ( Location: "
+								+ attr + " = " + value.toString()
+								+ " ) [Subtable] occurs: " + occurs, retExp);
+			}
+		}
+		return retExp;
 	}
 
 	/**
@@ -284,7 +280,7 @@ final class JArrayValidator {
 				LOGGER.debug(
 						"[ERR-10010] ==> Error-10010 For Value ( Location: "
 								+ attr + " = " + value.toString()
-								+ " ) occurs: " + occurs, retExp);
+								+ " ) [PrimaryKey] occurs: " + occurs, retExp);
 			}
 		}
 		return retExp;
@@ -333,7 +329,6 @@ final class JArrayValidator {
 		}
 		return retExp;
 	}
-
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

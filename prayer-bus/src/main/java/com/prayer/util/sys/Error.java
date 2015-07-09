@@ -60,7 +60,6 @@ public final class Error {
 				MessageFormat.format(loader.getString(errKey), params));
 		return errMsg.toString();
 	}
-
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

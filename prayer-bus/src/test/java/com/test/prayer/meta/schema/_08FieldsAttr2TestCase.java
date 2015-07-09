@@ -14,11 +14,11 @@ import com.prayer.exception.schema.PatternNotMatchException;
  * @author Lang
  * @see
  */
-public class _8FieldsAttr2TestCase extends AbstractSchemaTestCase { // NOPMD
+public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_8FieldsAttr2TestCase.class);
+			.getLogger(_08FieldsAttr2TestCase.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================

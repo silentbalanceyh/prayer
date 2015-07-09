@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jodd.util.StringUtil;
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -29,6 +30,7 @@ import com.prayer.exception.schema.InvalidValueException;
 import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
+import com.prayer.exception.schema.SameConflictException;
 import com.prayer.exception.schema.UnsupportAttrException;
 
 /**
@@ -93,6 +95,31 @@ final class JObjectValidator {
 					LOGGER.debug("[ERR-10001] ==> Error-10001 ( Location : "
 							+ this.name + " [" + attr + "] )", retExp);
 				}
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * -10020：两个属性是否不等，如果不等返回true，如果相等则报错
+	 * 
+	 * @param attrLeft
+	 * @param attrRight
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyNotSame(
+			@NotNull @NotEmpty @NotBlank final String attrLeft,
+			@NotNull @NotEmpty @NotBlank final String attrRight) {
+		final JsonNode leftNode = this.verifiedNode.path(attrLeft);
+		final JsonNode rightNode = this.verifiedNode.path(attrRight);
+		AbstractSchemaException retExp = null;
+		if (StringUtil.equals(leftNode.asText(), rightNode.asText())) {
+			retExp = new SameConflictException(getClass(), attrLeft, attrRight);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("[ERR-10020] ==> Error-10020 ( Attribute '"
+						+ attrLeft + "' and '" + attrRight
+						+ "' are same value and they are conflicts.", retExp);
 			}
 		}
 		return retExp;
@@ -165,8 +192,8 @@ final class JObjectValidator {
 		if (!unsupportedSet.isEmpty()) {
 			retExp = new UnsupportAttrException(getClass(), unsupportedSet);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10017] ==> Error-10017 ( Location: " + this.name
-						+ " )", retExp);
+				LOGGER.debug("[ERR-10017] ==> Error-10017 ( Location: "
+						+ this.name + " )", retExp);
 			}
 		}
 		return retExp;
@@ -193,8 +220,8 @@ final class JObjectValidator {
 			retExp = new PatternNotMatchException(getClass(), attr, value,
 					regexStr);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10003] ==> Error-10003 ( Location: " + this.name
-						+ " )", retExp);
+				LOGGER.debug("[ERR-10003] ==> Error-10003 ( Location: "
+						+ this.name + " )", retExp);
 			}
 		}
 		return retExp;
@@ -216,8 +243,8 @@ final class JObjectValidator {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Missing");
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10004] ==> Error-10004 ( Location: " + this.name
-							+ " ) Missing, ", retExp);
+					LOGGER.debug("[ERR-10004] ==> Error-10004 ( Location: "
+							+ this.name + " ) Missing, ", retExp);
 				}
 				break;
 			}
@@ -241,8 +268,8 @@ final class JObjectValidator {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Existing");
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10004] ==> Error-10004 ( Location: " + this.name
-							+ " ) Existing, ", retExp);
+					LOGGER.debug("[ERR-10004] ==> Error-10004 ( Location: "
+							+ this.name + " ) Existing, ", retExp);
 				}
 				break;
 			}
@@ -264,8 +291,8 @@ final class JObjectValidator {
 			retExp = new InvalidValueException(getClass(), attr, // NOPMD
 					toStr(values), this.verifiedNode.path(attr).asText(), "");
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10005] ==> Error-10005 ( Location: " + this.name
-						+ " ) In, ", retExp);
+				LOGGER.debug("[ERR-10005] ==> Error-10005 ( Location: "
+						+ this.name + " ) In, ", retExp);
 			}
 		}
 		return retExp;
@@ -287,8 +314,8 @@ final class JObjectValidator {
 			retExp = new InvalidValueException(getClass(), attr, // NOPMD
 					toStr(values), this.verifiedNode.path(attr).asText(), "n't");
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10005] ==> Error-10005 ( Location: " + this.name
-						+ " ) NotIn, ", retExp);
+				LOGGER.debug("[ERR-10005] ==> Error-10005 ( Location: "
+						+ this.name + " ) NotIn, ", retExp);
 			}
 		}
 		return retExp;

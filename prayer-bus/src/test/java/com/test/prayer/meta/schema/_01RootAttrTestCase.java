@@ -14,11 +14,11 @@ import com.prayer.exception.schema.UnsupportAttrException;
  * @author Lang
  * @see
  */
-public class _1RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
+public class _01RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_1RootAttrTestCase.class);
+			.getLogger(_01RootAttrTestCase.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================

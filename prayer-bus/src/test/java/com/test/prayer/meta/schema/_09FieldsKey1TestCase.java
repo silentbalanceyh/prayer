@@ -14,11 +14,11 @@ import com.prayer.exception.schema.PrimaryKeyPolicyException;
  * @author Lang
  * @see
  */
-public class _9FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
+public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_9FieldsKey1TestCase.class);
+			.getLogger(_09FieldsKey1TestCase.class);
 	/** **/
 	private static final String E10012_STR = "[E10012] Fields ==> primary key type conflicts! ";
 

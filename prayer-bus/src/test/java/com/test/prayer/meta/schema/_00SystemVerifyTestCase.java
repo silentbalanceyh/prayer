@@ -16,7 +16,7 @@ import com.test.AbstractTestCase;
  * @author Lang
  * @see
  */
-public class _0SystemVerifyTestCase extends AbstractTestCase {	// NOPMD
+public class _00SystemVerifyTestCase extends AbstractTestCase {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	protected static final String M_IMPORT_FILE = "importFile()";
@@ -27,7 +27,7 @@ public class _0SystemVerifyTestCase extends AbstractTestCase {	// NOPMD
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
-	public _0SystemVerifyTestCase(){
+	public _00SystemVerifyTestCase(){
 		super(GenericImporter.class.getName());
 	}
 	// ~ Abstract Methods ====================================

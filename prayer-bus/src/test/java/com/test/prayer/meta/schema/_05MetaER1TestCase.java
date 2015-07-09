@@ -13,11 +13,11 @@ import com.prayer.exception.schema.OptionalAttrMorEException;
  * @author Lang
  * @see
  */
-public class _5MetaER1TestCase extends AbstractSchemaTestCase { // NOPMD
+public class _05MetaER1TestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_5MetaER1TestCase.class);
+			.getLogger(_05MetaER1TestCase.class);
 	/** **/
 	private static final String ERR_OPTIONAL_MSG = "[E10004] Meta -> category (RELATION) ==> Optional {subkey,subtable} Attribute Error!";
 

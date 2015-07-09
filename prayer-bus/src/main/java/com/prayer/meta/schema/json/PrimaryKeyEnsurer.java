@@ -20,7 +20,7 @@ import com.prayer.mod.sys.SystemEnum.MetaPolicy;
  * @see
  */
 @Guarded
-class PrimaryKeyEnsurer {
+final class PrimaryKeyEnsurer implements InternalEnsurer {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/
@@ -86,6 +86,7 @@ class PrimaryKeyEnsurer {
 	 * 
 	 * @throws AbstractSchemaException
 	 */
+	@Override
 	public void validate() throws AbstractSchemaException {
 		// 1.验证Primary Key是否定义
 		validatePKeyMissing();
@@ -95,16 +96,18 @@ class PrimaryKeyEnsurer {
 		interrupt();
 	}
 
-	// ~ Private Methods =====================================
 	/**
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	private void interrupt() throws AbstractSchemaException {
+	@Override
+	public void interrupt() throws AbstractSchemaException {
 		if (null != this.error) {
 			throw this.error;
 		}
 	}
+
+	// ~ Private Methods =====================================
 
 	/**
 	 * 
@@ -155,13 +158,14 @@ class PrimaryKeyEnsurer {
 	 * @return
 	 */
 	private boolean validatePKeyMissing() {
-		// 17.1.验证主键是否存在：primarykey
-		this.error = this.validator.verifyMissing(Attributes.F_PK);
-		if (null != this.error) {
-			return false; // NOPMD
-		}
+		// // 17.1.验证主键是否存在：primarykey
+		// this.error = this.validator.verifyPKeyRequired(Attributes.F_PK);
+		// if (null != this.error) {
+		// return false; // NOPMD
+		// }
 		// 17.2.验证主键定义primarykey的值是不是至少有一个为true
-		this.error = this.validator.verifyPKeyMissing(Attributes.F_PK);
+		this.error = this.validator.verifyPKeyMissing(Attributes.F_PK,
+				Boolean.TRUE, 1);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
