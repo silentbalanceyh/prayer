@@ -3,12 +3,12 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10019：字段__fields__和__keys__定义冲突
+ * 【Checked】Error-10019：字段__keys__中的定义每一个Key的name和category必须对应
  * 
  * @author Lang
  * @see
  */
-public class ConflictKeyFieldException extends AbstractSchemaException {
+public class KeysNameSpecificationException extends AbstractSchemaException {
 
 	// ~ Static Fields =======================================
 
@@ -26,8 +26,9 @@ public class ConflictKeyFieldException extends AbstractSchemaException {
 	 * @param clazz
 	 * @param attr
 	 */
-	public ConflictKeyFieldException(final Class<?> clazz, final String attr) {
-		super(clazz, -10017, attr);
+	public KeysNameSpecificationException(final Class<?> clazz,
+			final String name, final String category) {
+		super(clazz, -10019, name, category);
 	}
 
 	// ~ Abstract Methods ====================================

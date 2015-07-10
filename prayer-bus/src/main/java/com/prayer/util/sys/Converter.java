@@ -63,7 +63,7 @@ public final class Converter {
 			@NotNull @NotBlank @NotEmpty final String inputStr) {
 		T retEnum = null;
 		try {
-			retEnum = Enum.valueOf(clazz, StringUtil.toUpperCase(inputStr));
+			retEnum = Enum.valueOf(clazz, inputStr);
 		} catch (IllegalArgumentException ex) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[E] Enum value invalid: " + inputStr, ex);

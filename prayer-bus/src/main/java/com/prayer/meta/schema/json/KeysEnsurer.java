@@ -1,22 +1,25 @@
 package com.prayer.meta.schema.json;
 
 import static com.prayer.util.JsonKit.fromJObject;
+import static com.prayer.util.sys.Converter.fromStr;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.exception.schema.KeysNameSpecificationException;
 import com.prayer.exception.schema.PatternNotMatchException;
+import com.prayer.mod.sys.SystemEnum.KeyCategory;
 
 /**
  * 
@@ -31,6 +34,10 @@ final class KeysEnsurer implements InternalEnsurer {
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(KeysEnsurer.class);
+	/** **/
+	private static final String MT_MSG = "multi = true, size must be greater than 1.";
+	/** **/
+	private static final String MF_MSG = "multi = false, size must equal to 1.";
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient AbstractSchemaException error;
@@ -80,11 +87,17 @@ final class KeysEnsurer implements InternalEnsurer {
 		// 3.验证每个字段属性的Pattern
 		validateKeysPattern();
 		interrupt();
-		// 4.验证columns属性的相关信息
+		// 4.验证重复键
+		validateKeysDuplicated();
+		interrupt();
+		// 5.验证columns属性的相关信息
 		validateColumns();
 		interrupt();
-		// 5.验证multi和columns的关系
+		// 6.验证multi和columns的关系
 		validateMulti();
+		interrupt();
+		// 7.验证name和category是否规范
+		validateKeysNameSpec();
 		interrupt();
 	}
 
@@ -172,6 +185,56 @@ final class KeysEnsurer implements InternalEnsurer {
 	 * 
 	 * @return
 	 */
+	private boolean validateKeysDuplicated() {
+		// 27.2.验证重复键
+		this.error = validator.verifyDuplicated(Attributes.K_NAME);
+		if (null != this.error) {
+			return false; // NOPMD
+		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean validateKeysNameSpec() {
+		// 30.验证Keys的命名规范
+		final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
+		while (nodeIt.hasNext()) {
+			final JsonNode node = nodeIt.next();
+			final KeyCategory category = fromStr(KeyCategory.class,
+					node.path(Attributes.K_CATEGORY).asText());
+			final String name = node.path(Attributes.K_NAME).asText();
+			if (KeyCategory.PrimaryKey == category && !name.startsWith("PK")) {
+				this.error = new KeysNameSpecificationException(getClass(), // NOPMD
+						name, category.toString());
+			} else if (KeyCategory.ForeignKey == category
+					&& !name.startsWith("FK")) {
+				this.error = new KeysNameSpecificationException(getClass(), // NOPMD
+						name, category.toString());
+			} else if (KeyCategory.UniqueKey == category
+					&& !name.startsWith("UK")) {
+				this.error = new KeysNameSpecificationException(getClass(), // NOPMD
+						name, category.toString());
+			}
+			if (null != this.error) {
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug(
+							"[ERR-10019] Keys name specification error: name = "
+									+ name + ", category = "
+									+ category.toString(), this.error);
+				}
+				break;
+			}
+		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	private boolean validateColumns() {
 		// 28.验证columns的格式
 		final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
@@ -209,16 +272,12 @@ final class KeysEnsurer implements InternalEnsurer {
 			final Boolean isMulti = node.path(Attributes.K_MULTI).asBoolean();
 			if (isMulti && columns.size() <= 1) {
 				// 29.1.multi = true, Size > 1
-				this.error = new PatternNotMatchException(	// NOPMD
-						getClass(), // NOPMD
-						Attributes.K_COLUMNS, "Size: " + columns.size(),
-						"multi = true, size must be greater than 1.");
+				this.error = new PatternNotMatchException(getClass(), // NOPMD
+						Attributes.K_COLUMNS, "Size:" + columns.size(), MT_MSG);
 			} else if (!isMulti && columns.size() > 1) {
 				// 29.2.multi = false, Size = 1
-				this.error = new PatternNotMatchException(	// NOPMD
-						getClass(), // NOPMD
-						Attributes.K_COLUMNS, "Size: " + columns.size(),
-						"multi = false, size must equal to 1.");
+				this.error = new PatternNotMatchException(getClass(), // NOPMD
+						Attributes.K_COLUMNS, "Size: " + columns.size(), MF_MSG);
 			}
 			if (null != this.error) {
 				if (LOGGER.isDebugEnabled()) {
