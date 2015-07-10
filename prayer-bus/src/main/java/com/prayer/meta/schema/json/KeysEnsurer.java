@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.exception.schema.ConflictMultiFKException;
 import com.prayer.exception.schema.KeysNameSpecificationException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.mod.sys.SystemEnum.KeyCategory;
@@ -96,7 +97,10 @@ final class KeysEnsurer implements InternalEnsurer {
 		// 6.验证multi和columns的关系
 		validateMulti();
 		interrupt();
-		// 7.验证name和category是否规范
+		// 7.验证multi和FK的定义关系
+		validateMultiForFK();
+		interrupt();
+		// 8.验证name和category是否规范
 		validateKeysNameSpec();
 		interrupt();
 	}
@@ -187,7 +191,7 @@ final class KeysEnsurer implements InternalEnsurer {
 	 */
 	private boolean validateKeysDuplicated() {
 		// 27.2.验证重复键
-		this.error = validator.verifyDuplicated(Attributes.K_NAME);
+		this.error = validator.verifyKeysDuplicated(Attributes.K_NAME);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
@@ -221,7 +225,7 @@ final class KeysEnsurer implements InternalEnsurer {
 			if (null != this.error) {
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug(
-							"[ERR-10019] Keys name specification error: name = "
+							"[ERR" + this.error.getErrorCode() + "] Keys name specification error: name = "
 									+ name + ", category = "
 									+ category.toString(), this.error);
 				}
@@ -282,11 +286,39 @@ final class KeysEnsurer implements InternalEnsurer {
 			if (null != this.error) {
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug(
-							"[ERR-10003] ==> Error-10003 ( Location: name:"
+							"[ERR" + this.error.getErrorCode() + "] ==> ( Location: name:"
 									+ node.path(Attributes.K_NAME).asText()
 									+ " )", this.error);
 				}
 				break;
+			}
+		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean validateMultiForFK() {
+		// 29.3.multi = true
+		final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
+		while (nodeIt.hasNext()) {
+			final JsonNode node = nodeIt.next();
+			final Boolean isMulti = node.path(Attributes.K_MULTI).asBoolean();
+			if (isMulti) {
+				final KeyCategory category = fromStr(KeyCategory.class, node
+						.path(Attributes.K_CATEGORY).asText());
+				if (KeyCategory.ForeignKey == category) {
+					final String name = node.path(Attributes.K_NAME).asText();
+					this.error = new ConflictMultiFKException(getClass(), name);	// NOPMD
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug(
+								"[ERR" + this.error.getErrorCode() + "] ==> ( Location: name: "
+										+ name + " )", this.error);
+					}
+					break;
+				}
 			}
 		}
 		return null == this.error;

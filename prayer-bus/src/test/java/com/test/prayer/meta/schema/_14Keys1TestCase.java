@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.AttrJsonTypeException;
 import com.prayer.exception.schema.AttrZeroException;
-import com.prayer.exception.schema.DuplicatedAttrException;
+import com.prayer.exception.schema.DuplicatedKeyException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 
@@ -128,7 +128,7 @@ public class _14Keys1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = DuplicatedAttrException.class)
+	@Test(expected = DuplicatedKeyException.class)
 	public void testP0272Keys1Arr10018() throws AbstractSchemaException {
 		testImport("zkeys/P0272keys-10018-1.json",
 				"[E10018] Keys ==> (Failure) Attribute 'name' duplicated!");

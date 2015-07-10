@@ -31,6 +31,7 @@ import com.prayer.exception.schema.AttrJsonTypeException;
 import com.prayer.exception.schema.AttrZeroException;
 import com.prayer.exception.schema.DuplicatedAttrException;
 import com.prayer.exception.schema.DuplicatedColumnException;
+import com.prayer.exception.schema.DuplicatedKeyException;
 import com.prayer.exception.schema.FKColumnTypeException;
 import com.prayer.exception.schema.ForeignKeyTypeException;
 import com.prayer.exception.schema.PKColumnTypePolicyException;
@@ -51,6 +52,10 @@ final class JArrayValidator {
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(JArrayValidator.class);
+	/** **/
+	private static final String LCT_STR = "] ==> ( Location: ";
+	/** **/
+	private static final String ERR_STR = "[ERR";
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotBlank
@@ -58,7 +63,7 @@ final class JArrayValidator {
 	private transient String name; // NOPMD
 	/** **/
 	@NotNull
-	private transient ArrayNode verifiedNodes;
+	private transient final ArrayNode verifiedNodes;
 
 	/** **/
 	private transient String table; // Optional Attribute
@@ -66,11 +71,6 @@ final class JArrayValidator {
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/** **/
-	@PostValidateThis
-	public JArrayValidator(@NotNull final ArrayNode verifiedNodes) {
-		this(verifiedNodes, null);
-	}
 
 	/** **/
 	@PostValidateThis
@@ -107,7 +107,7 @@ final class JArrayValidator {
 		if (this.verifiedNodes.size() <= 0) {
 			retExp = new AttrZeroException(getClass(), this.name);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10006] ==> Error-10006 ( Location: "
+				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 						+ this.name + " )", retExp);
 			}
 		}
@@ -140,7 +140,7 @@ final class JArrayValidator {
 				retExp = new FKColumnTypeException(getClass(), // NOPMD
 						Attributes.F_COL_TYPE);
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10015] ==> Error-10015 ( Location: "
+					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 							+ this.name + " ) pattern machting, ", retExp);
 				}
 			}
@@ -168,7 +168,7 @@ final class JArrayValidator {
 						Attributes.F_REF_ID).asText(), node.path(
 						Attributes.F_TYPE).asText());
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10014] ==> Error-10014 ( Location: "
+					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 							+ this.name + " ) In, ", retExp);
 				}
 				if (null != retExp) {
@@ -195,7 +195,7 @@ final class JArrayValidator {
 						+ item.toString());
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug(
-							"[ERR-10002] ==> Error-10002 Object ( Location: "
+							ERR_STR + retExp.getErrorCode() + "] ==> Object ( Location: "
 									+ item.toString() + " )", retExp);
 				}
 				break;
@@ -220,7 +220,7 @@ final class JArrayValidator {
 						+ item.toString());
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug(
-							"[ERR-10002] ==> Error-10002 String ( Location: "
+							ERR_STR + retExp.getErrorCode() + "] ==> String ( Location: "
 									+ item.toString() + " )", retExp);
 				}
 				break;
@@ -249,7 +249,7 @@ final class JArrayValidator {
 						policy.toString(), jsonNode.path(Attributes.F_TYPE)
 								.asText());
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10012] ==> Error-10012 Policy = "
+					LOGGER.debug(ERR_STR + retExp.getErrorCode() + "] ==> Policy = "
 							+ policy + ", " + Attributes.F_TYPE + " = "
 							+ jsonNode.path(Attributes.F_TYPE).asText()
 							+ ", they are conflicts.");
@@ -282,7 +282,7 @@ final class JArrayValidator {
 			retExp = new PrimaryKeyPolicyException(getClass(),
 					policy.toString(), this.table);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10011] ==> Error-10011 ( Location: " + attr
+				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + attr
 						+ " ) [NonCO] occurs: " + occurs, retExp);
 			}
 		}
@@ -311,7 +311,7 @@ final class JArrayValidator {
 			retExp = new PrimaryKeyPolicyException(getClass(),
 					policy.toString(), this.table);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10011] ==> Error-10011 ( Location: " + attr
+				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + attr
 						+ " ) [CO] occurs: " + occurs, retExp);
 			}
 		}
@@ -340,7 +340,7 @@ final class JArrayValidator {
 			retExp = new SubtableNotMatchException(getClass());
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(
-						"[ERR-10013] ==> Error-10013 For Value ( Location: "
+						ERR_STR + retExp.getErrorCode() + "] ==> For Value ( Location: "
 								+ attr + " = " + value.toString()
 								+ " ) [Subtable] occurs: " + occurs, retExp);
 			}
@@ -373,9 +373,42 @@ final class JArrayValidator {
 			retExp = new PrimaryKeyMissingException(getClass(), this.table);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(
-						"[ERR-10010] ==> Error-10010 For Value ( Location: "
+						ERR_STR + retExp.getErrorCode() + "] ==> For Value ( Location: "
 								+ attr + " = " + value.toString()
 								+ " ) [PrimaryKey] occurs: " + occurs, retExp);
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * -10018
+	 * 
+	 * @param attr
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyKeysDuplicated(
+			@NotNull @NotBlank @NotEmpty final String attr) {
+		// Occurs的计算不能使用，attrExpStr的计算存在，所以不可使用Occurs计算
+		final Set<String> setValues = new HashSet<>();
+		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
+		while (nodeIt.hasNext()) {
+			final JsonNode node = nodeIt.next();
+			final String value = node.path(attr).asText();
+			final int start = setValues.size();
+			setValues.add(value);
+			if (start == setValues.size()) {
+				break;
+			}
+		}
+
+		AbstractSchemaException retExp = null;
+		if (setValues.size() < this.verifiedNodes.size()) {
+			retExp = new DuplicatedKeyException(getClass(), attr);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
+						+ this.name + " -> " + attr + " )", retExp);
 			}
 		}
 		return retExp;
@@ -411,13 +444,13 @@ final class JArrayValidator {
 			if (attr.equals(Attributes.F_COL_NAME)) {
 				retExp = new DuplicatedColumnException(getClass(), attrExpStr);
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10008] ==> Error-10008 ( Location: "
+					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 							+ this.name + " -> " + attr + ")", retExp);
 				}
 			} else {
 				retExp = new DuplicatedAttrException(getClass(), attrExpStr);
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10007] ==> Error-10007 ( Location: "
+					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 							+ this.name + " -> " + attr + ")", retExp);
 				}
 			}

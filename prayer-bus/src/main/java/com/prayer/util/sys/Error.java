@@ -51,7 +51,7 @@ public final class Error {
 		// Error Code Key in property file.
 		final String errKey = "E" + Math.abs(errorCode);
 		// Error message generation
-		final StringBuilder errMsg = new StringBuilder();
+		final StringBuilder errMsg = new StringBuilder(32);
 		errMsg.append("[ERR").append(errorCode).append(']');
 		if (null != clazz) {
 			errMsg.append(" Class -> " + clazz.getName() + " |");

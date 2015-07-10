@@ -8,6 +8,7 @@ import com.prayer.exception.AbstractSchemaException;
  * @author Lang
  * @see
  */
+@Deprecated
 public class TypeNotMatchException extends AbstractSchemaException {
 
 	// ~ Static Fields =======================================

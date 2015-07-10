@@ -2,7 +2,6 @@ package com.prayer.util.sys;
 
 import java.util.Set;
 
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;

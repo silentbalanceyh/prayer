@@ -44,6 +44,10 @@ final class JObjectValidator {
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(JObjectValidator.class);
+	/** **/
+	private static final String LCT_STR = "] ==> ( Location: ";
+	/** **/
+	private static final String ERR_STR = "[ERR";
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotBlank
@@ -51,16 +55,11 @@ final class JObjectValidator {
 	private transient String name; // NOPMD
 	/** **/
 	@NotNull
-	private transient JsonNode verifiedNode;
+	private transient final JsonNode verifiedNode;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/** **/
-	@PostValidateThis
-	public JObjectValidator(@NotNull final JsonNode verifiedNode) {
-		this(verifiedNode, null);
-	}
 
 	/** **/
 	@PostValidateThis
@@ -92,7 +91,7 @@ final class JObjectValidator {
 			if (0 == occurs) {
 				retExp = new RequiredAttrMissingException(getClass(), attr); // NOPMD
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10001] ==> Error-10001 ( Location : "
+					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 							+ this.name + " [" + attr + "] )", retExp);
 				}
 			}
@@ -117,8 +116,9 @@ final class JObjectValidator {
 		if (StringUtil.equals(leftNode.asText(), rightNode.asText())) {
 			retExp = new SameConflictException(getClass(), attrLeft, attrRight);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10020] ==> Error-10020 ( Attribute '"
-						+ attrLeft + "' and '" + attrRight
+				LOGGER.debug(ERR_STR + retExp.getErrorCode()
+						+ "] ==> ( Attribute '" + attrLeft + "' and '"
+						+ attrRight
 						+ "' are same value and they are conflicts.", retExp);
 			}
 		}
@@ -140,8 +140,9 @@ final class JObjectValidator {
 		if (!attrNode.isArray() && attrNode.isContainerNode()) {
 			retExp = new AttrJsonTypeException(getClass(), attr);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10002] ==> Error-10002 ( Array/Location : "
-						+ this.name + " )", retExp);
+				LOGGER.debug(ERR_STR + retExp.getErrorCode()
+						+ "] ==> ( Array/Location : " + this.name + " )",
+						retExp);
 			}
 		}
 		return retExp;
@@ -162,8 +163,9 @@ final class JObjectValidator {
 		if (attrNode.isArray()) {
 			retExp = new AttrJsonTypeException(getClass(), attr);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10002] ==> Error-10002 ( Object/Location : "
-						+ this.name + " )", retExp);
+				LOGGER.debug(ERR_STR + retExp.getErrorCode()
+						+ "] ==> ( Object/Location : " + this.name + " )",
+						retExp);
 			}
 		}
 		return retExp;
@@ -192,7 +194,7 @@ final class JObjectValidator {
 		if (!unsupportedSet.isEmpty()) {
 			retExp = new UnsupportAttrException(getClass(), unsupportedSet);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10017] ==> Error-10017 ( Location: "
+				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 						+ this.name + " )", retExp);
 			}
 		}
@@ -220,7 +222,7 @@ final class JObjectValidator {
 			retExp = new PatternNotMatchException(getClass(), attr, value,
 					regexStr);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10003] ==> Error-10003 ( Location: "
+				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 						+ this.name + " )", retExp);
 			}
 		}
@@ -243,7 +245,7 @@ final class JObjectValidator {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Missing");
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10004] ==> Error-10004 ( Location: "
+					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 							+ this.name + " ) Missing, ", retExp);
 				}
 				break;
@@ -268,7 +270,7 @@ final class JObjectValidator {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Existing");
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10004] ==> Error-10004 ( Location: "
+					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 							+ this.name + " ) Existing, ", retExp);
 				}
 				break;
@@ -291,7 +293,7 @@ final class JObjectValidator {
 			retExp = new InvalidValueException(getClass(), attr, // NOPMD
 					toStr(values), this.verifiedNode.path(attr).asText(), "");
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10005] ==> Error-10005 ( Location: "
+				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 						+ this.name + " ) In, ", retExp);
 			}
 		}
@@ -314,7 +316,7 @@ final class JObjectValidator {
 			retExp = new InvalidValueException(getClass(), attr, // NOPMD
 					toStr(values), this.verifiedNode.path(attr).asText(), "n't");
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-10005] ==> Error-10005 ( Location: "
+				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 						+ this.name + " ) NotIn, ", retExp);
 			}
 		}

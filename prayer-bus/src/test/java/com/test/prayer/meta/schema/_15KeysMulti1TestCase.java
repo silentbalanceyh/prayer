@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.exception.schema.ConflictMultiFKException;
 import com.prayer.exception.schema.KeysNameSpecificationException;
 import com.prayer.exception.schema.PatternNotMatchException;
 
@@ -51,6 +52,15 @@ public class _15KeysMulti1TestCase extends AbstractSchemaTestCase { // NOPMD
 	@Test(expected = PatternNotMatchException.class)
 	public void testP292Keys1Multi10003() throws AbstractSchemaException {
 		testImport("zkeys/P0292keys-10003-2.json",
+				"[E10003] Keys ==> (Failure) There is unexpected exception!");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = ConflictMultiFKException.class)
+	public void testP293Keys1Multi10021() throws AbstractSchemaException {
+		testImport("zkeys/P0293keys-10021-1.json",
 				"[E10003] Keys ==> (Failure) There is unexpected exception!");
 	}
 

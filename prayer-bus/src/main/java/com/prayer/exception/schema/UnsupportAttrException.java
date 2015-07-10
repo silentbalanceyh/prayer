@@ -28,14 +28,6 @@ public class UnsupportAttrException extends AbstractSchemaException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param attr
-	 */
-	public UnsupportAttrException(final Class<?> clazz, final String attrs) {
-		super(clazz, -10017, attrs);
-	}
-	/**
-	 * 
-	 * @param clazz
 	 * @param sets
 	 */
 	public UnsupportAttrException(final Class<?> clazz, final Set<String> sets){
