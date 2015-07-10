@@ -13,7 +13,7 @@ import com.prayer.exception.AbstractSchemaException;
  *
  */
 @Guarded
-public class SubRelEnsurer implements InternalEnsurer {
+final class SubRelEnsurer implements InternalEnsurer {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/

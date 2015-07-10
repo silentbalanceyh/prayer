@@ -23,7 +23,7 @@ import com.prayer.mod.sys.SystemEnum.MetaMapping;
  * @see
  */
 @Guarded
-public final class GenericEnsurer implements Ensurer { // NOPMD
+final class GenericEnsurer implements Ensurer { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

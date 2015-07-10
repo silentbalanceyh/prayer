@@ -24,7 +24,7 @@ import com.prayer.exception.schema.PatternNotMatchException;
  *
  */
 @Guarded
-public class KeysEnsurer implements InternalEnsurer {
+final class KeysEnsurer implements InternalEnsurer {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String, String> REGEX_MAP = new ConcurrentHashMap<>();

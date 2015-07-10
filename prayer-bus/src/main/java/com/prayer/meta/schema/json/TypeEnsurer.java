@@ -20,7 +20,7 @@ import com.prayer.meta.DataType;
  *
  */
 @Guarded
-public class TypeEnsurer implements InternalEnsurer {
+final class TypeEnsurer implements InternalEnsurer {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<DataType, String[]> T_REQUIRED = new ConcurrentHashMap<>();
