@@ -8,8 +8,7 @@ import com.prayer.exception.AbstractSchemaException;
  * @author Lang
  * @see
  */
-@Deprecated
-public class TypeNotMatchException extends AbstractSchemaException {
+public class FKNotOnlyOneException extends AbstractSchemaException {
 
 	// ~ Static Fields =======================================
 
@@ -25,12 +24,9 @@ public class TypeNotMatchException extends AbstractSchemaException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param attrName
-	 * @param dataType
 	 */
-	public TypeNotMatchException(final Class<?> clazz, final String attrName,
-			final String dataType) {
-		super(clazz, -10016, attrName, dataType);
+	public FKNotOnlyOneException(final Class<?> clazz) {
+		super(clazz, -10016);
 	}
 
 	// ~ Abstract Methods ====================================

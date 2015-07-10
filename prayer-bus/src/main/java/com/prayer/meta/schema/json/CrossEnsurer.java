@@ -1,5 +1,6 @@
 package com.prayer.meta.schema.json;
 
+import static com.prayer.util.JsonKit.fromJObject;
 import static com.prayer.util.JsonKit.occursAttr;
 import static com.prayer.util.sys.Converter.fromStr;
 
@@ -15,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.exception.schema.ColumnsMissingException;
+import com.prayer.exception.schema.FKNotOnlyOneException;
 import com.prayer.exception.schema.MultiForPKPolicyException;
 import com.prayer.exception.schema.PKNotOnlyOneException;
 import com.prayer.mod.sys.SystemEnum.KeyCategory;
@@ -31,6 +34,8 @@ final class CrossEnsurer implements InternalEnsurer {
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(CrossEnsurer.class);
+	/** **/
+	private static final String ERR_PRE = "[ERR";
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient AbstractSchemaException error;
@@ -72,6 +77,15 @@ final class CrossEnsurer implements InternalEnsurer {
 		// 1.验证PK的Policy和Multi的冲突
 		validateMetaPKPolicy();
 		interrupt();
+		// 2.主键必须在__keys__中唯一定义异常
+		validatePKOnlyOne();
+		interrupt();
+		// 3.外键如果存在则在__keys__中只能出现0次或者1次
+		validateFKOnlyOne();
+		interrupt();
+		// 4.检查columns中的列是否在__fields__中定义过
+		validateColumnMissing();
+		interrupt();
 	}
 
 	/**
@@ -92,14 +106,71 @@ final class CrossEnsurer implements InternalEnsurer {
 	 * 
 	 * @return
 	 */
+	private boolean validateColumnMissing() {
+		// 34.验证columns中出现过的列是否是__fields__中定义的合法列
+		final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
+		int count = 0;
+		outer: while (nodeIt.hasNext()) {
+			final JsonNode node = nodeIt.next();
+			final ArrayNode columns = fromJObject(node
+					.path(Attributes.K_COLUMNS));
+			final Iterator<JsonNode> columnIt = columns.iterator();
+			while (columnIt.hasNext()) {
+				final String colName = columnIt.next().asText();
+				final int occurs = occursAttr(this.fieldsNode,
+						Attributes.F_COL_NAME, colName, true);
+				if (0 == occurs) {
+					final String keyName = node.path(Attributes.K_NAME)
+							.asText();
+					this.error = new ColumnsMissingException(getClass(), // NOPMD
+							colName, keyName);
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug(ERR_PRE + this.error.getErrorCode()
+								+ "] ==> ( Location: index = " + count
+								+ ", keyName = " + keyName + ", column = "
+								+ colName + " )", this.error);
+					}
+					break outer;
+				}
+			}
+			count++;
+		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	private boolean validatePKOnlyOne() {
 		// 32.验证Keys中的PrimaryKey只能有一个
 		final int occurs = occursAttr(this.keysNode, Attributes.K_CATEGORY,
 				KeyCategory.PrimaryKey, true);
-		if(1 != occurs){	// NOPMD
+		if (1 != occurs) { // NOPMD
 			this.error = new PKNotOnlyOneException(getClass());
-			if(LOGGER.isDebugEnabled()){
-				LOGGER.debug("[ERR" + this.error.getErrorCode() + "] ==> Primary Key definition redundancy.",this.error);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug(ERR_PRE + this.error.getErrorCode()
+						+ "] ==> Primary Key definition redundancy.",
+						this.error);
+			}
+		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean validateFKOnlyOne() {
+		// 33.验证Keys中的ForeignKey如果存在只能有一个
+		final int occurs = occursAttr(this.keysNode, Attributes.K_CATEGORY,
+				KeyCategory.ForeignKey, true);
+		if (1 < occurs) { // NOPMD
+			this.error = new FKNotOnlyOneException(getClass());
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug(ERR_PRE + this.error.getErrorCode()
+						+ "] ==> Foreign Key definition redundancy.",
+						this.error);
 			}
 		}
 		return null == this.error;
@@ -125,15 +196,15 @@ final class CrossEnsurer implements InternalEnsurer {
 			if (isMulti && MetaPolicy.COLLECTION != this.pkPolicy) {
 				this.error = new MultiForPKPolicyException(getClass(), // NOPMD
 						this.pkPolicy.toString(), isMulti.toString());
-			} else if (!isMulti
-					&& (MetaPolicy.ASSIGNED != this.pkPolicy
-							|| MetaPolicy.GUID != this.pkPolicy || MetaPolicy.INCREMENT != this.pkPolicy)) {
+			} else if (!isMulti && MetaPolicy.ASSIGNED != this.pkPolicy
+					&& MetaPolicy.GUID != this.pkPolicy
+					&& MetaPolicy.INCREMENT != this.pkPolicy) {
 				this.error = new MultiForPKPolicyException(getClass(), // NOPMD
 						this.pkPolicy.toString(), isMulti.toString());
 			}
 			if (null != this.error) {
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR" + this.error.getErrorCode()
+					LOGGER.debug(ERR_PRE + this.error.getErrorCode()
 							+ "] ==> ( Location: index = " + count
 							+ ", policy = " + this.pkPolicy.toString()
 							+ ", multi=" + isMulti + " )", this.error);

@@ -5,9 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.MultiForFKPolicyException;
+import com.prayer.exception.schema.ColumnsMissingException;
+import com.prayer.exception.schema.FKNotOnlyOneException;
 import com.prayer.exception.schema.KeysNameSpecificationException;
+import com.prayer.exception.schema.MultiForFKPolicyException;
 import com.prayer.exception.schema.MultiForPKPolicyException;
+import com.prayer.exception.schema.PKNotOnlyOneException;
 import com.prayer.exception.schema.PatternNotMatchException;
 
 /**
@@ -113,6 +116,33 @@ public class _15KeysMulti1TestCase extends AbstractSchemaTestCase { // NOPMD
 	public void testP31Cross2Spec10022() throws AbstractSchemaException {
 		testImport("zkeys/P031cross-10022-2.json",
 				"[E10022] Cross ==> (Failure) Primary Key policy conflict with 'multi'!");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = PKNotOnlyOneException.class)
+	public void testP32Cross1Spec10009() throws AbstractSchemaException {
+		testImport("zkeys/P032cross-10009-1.json",
+				"[E10009] Cross ==> (Failure) Primary Key must appears once in __keys__ definition!");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = FKNotOnlyOneException.class)
+	public void testP33Cross1Spec10016() throws AbstractSchemaException {
+		testImport("zkeys/P033cross-10016-1.json",
+				"[E10016] Cross ==> (Failure) Foreign Key must appears once in __keys__ definition!");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = ColumnsMissingException.class)
+	public void testP34Cross1Spec10023() throws AbstractSchemaException {
+		testImport("zkeys/P034cross-10023-1.json",
+				"[E10023] Cross ==> (Failure) Column missing in '__fields__' definition.");
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

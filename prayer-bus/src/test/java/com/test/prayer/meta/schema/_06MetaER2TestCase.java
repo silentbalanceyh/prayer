@@ -128,7 +128,7 @@ public class _06MetaER2TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = DuplicatedTablesException.class)
-	public void testP00742Meta10005ECombinatedValue4()
+	public void testP00742Meta10020ECombinatedValue4()
 			throws AbstractSchemaException {
 		testImport(
 				"P00743meta-mappingE-COMBINATED10020-1.json",
