@@ -18,7 +18,7 @@ import com.prayer.exception.AbstractSchemaException;
  * @see
  */
 @Guarded
-final class FieldsEnsurer implements InternalEnsurer{
+final class FieldsEnsurer implements InternalEnsurer {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String, String> REGEX_MAP = new ConcurrentHashMap<>();
@@ -77,6 +77,7 @@ final class FieldsEnsurer implements InternalEnsurer{
 		validateDuplicated();
 		interrupt();
 	}
+
 	/**
 	 * 根据结果判断返回值
 	 * 
@@ -122,8 +123,9 @@ final class FieldsEnsurer implements InternalEnsurer{
 			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
 					"Node: __fields__ ==> index : " + count);
 			// 14.1.验证每一个__fields__中的Required元素
-			this.error = validator.verifyRequired(Attributes.F_NAME,Attributes.F_TYPE,
-					Attributes.F_COL_NAME, Attributes.F_COL_TYPE);
+			this.error = validator.verifyRequired(Attributes.F_NAME,
+					Attributes.F_TYPE, Attributes.F_COL_NAME,
+					Attributes.F_COL_TYPE);
 			if (null != this.error) {
 				break;
 			}
@@ -131,6 +133,7 @@ final class FieldsEnsurer implements InternalEnsurer{
 		}
 		return null == this.error;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -142,7 +145,8 @@ final class FieldsEnsurer implements InternalEnsurer{
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
 			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
-					"Node: __fields__ ==> index : " + count);
+					"Node: __fields__ ==> index : " + count + ", name: "
+							+ node.path(Attributes.F_NAME).asText());
 			// 14.2.验证每一个__fields__中的Required元素的格式
 			for (final String attr : REGEX_MAP.keySet()) {
 				this.error = validator.verifyPattern(attr, REGEX_MAP.get(attr));

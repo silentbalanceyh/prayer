@@ -23,7 +23,7 @@ import com.prayer.mod.sys.SystemEnum.MetaMapping;
  * @see
  */
 @Guarded
-public final class GenericEnsurer implements Ensurer {	// NOPMD
+public final class GenericEnsurer implements Ensurer { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
@@ -39,6 +39,8 @@ public final class GenericEnsurer implements Ensurer {	// NOPMD
 	private transient InternalEnsurer subRelEnsurer;
 	/** **/
 	private transient InternalEnsurer fKeyEnsurer;
+	/** **/
+	private transient InternalEnsurer typeEnsurer;
 	/** **/
 	private transient JsonNode rootNode;
 	/** **/
@@ -81,7 +83,7 @@ public final class GenericEnsurer implements Ensurer {	// NOPMD
 	 * 
 	 */
 	@Override
-	public boolean validate() {		// NOPMD
+	public boolean validate() { // NOPMD
 		// 1.验证root节点：__keys__, __meta__, __fields__
 		boolean ret = validateRoot();
 		// 2.验证Meta节点
@@ -128,6 +130,16 @@ public final class GenericEnsurer implements Ensurer {	// NOPMD
 		if (ret && this.containFK()) {
 			try {
 				fKeyEnsurer.validate();
+				ret = true;
+			} catch (AbstractSchemaException ex) {
+				this.error = ex;
+				ret = false;
+			}
+		}
+		// 7.类型验证器
+		if (ret) {
+			try {
+				typeEnsurer.validate();
 				ret = true;
 			} catch (AbstractSchemaException ex) {
 				this.error = ex;
@@ -201,6 +213,9 @@ public final class GenericEnsurer implements Ensurer {	// NOPMD
 			if (this.containFK()) {
 				fKeyEnsurer = new ForeignKeyEnsurer(fieldsNode);
 			}
+
+			// 类型验证
+			typeEnsurer = new TypeEnsurer(fieldsNode);
 		}
 	}
 

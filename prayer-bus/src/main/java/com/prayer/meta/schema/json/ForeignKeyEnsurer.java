@@ -128,7 +128,8 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
 			final JsonNode node = fkNIt.next();
 			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
 					"Node: __fields__ ( foreignkey = true ) ==> Optional to Required index : "
-							+ count);
+							+ count + ", name: "
+							+ node.path(Attributes.F_NAME).asText());
 			// 20.1.验证foreignkey = true的节点必须包含两个特殊可选属性
 			this.error = validator.verifyMissing(Attributes.F_REF_ID,
 					Attributes.F_REF_TABLE);
@@ -147,7 +148,8 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
 			final JsonNode node = fkNIt.next();
 			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
 					"Node: __fields__ ( foreignkey = true ) ==> Optional pattern index : "
-							+ count);
+							+ count + ", name: "
+							+ node.path(Attributes.F_NAME).asText());
 			// 20.2.验证foreignkey = true的节点中特殊可选属性
 			for (final String attr : REGEX_MAP.keySet()) {
 				this.error = validator.verifyPattern(attr, REGEX_MAP.get(attr));
