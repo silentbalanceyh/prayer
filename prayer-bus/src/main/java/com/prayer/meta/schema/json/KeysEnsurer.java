@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -13,6 +16,7 @@ import net.sf.oval.guard.PostValidateThis;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.exception.schema.PatternNotMatchException;
 
 /**
  * 
@@ -24,6 +28,9 @@ public class KeysEnsurer implements InternalEnsurer {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String, String> REGEX_MAP = new ConcurrentHashMap<>();
+	/** **/
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(KeysEnsurer.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient AbstractSchemaException error;
@@ -75,6 +82,9 @@ public class KeysEnsurer implements InternalEnsurer {
 		interrupt();
 		// 4.验证columns属性的相关信息
 		validateColumns();
+		interrupt();
+		// 5.验证multi和columns的关系
+		validateMulti();
 		interrupt();
 	}
 
@@ -169,16 +179,54 @@ public class KeysEnsurer implements InternalEnsurer {
 			final JsonNode node = nodeIt.next();
 			final ArrayNode columns = fromJObject(node
 					.path(Attributes.K_COLUMNS));
-			final JArrayValidator validator = new JArrayValidator(columns,	// NOPMD
+			final JArrayValidator validator = new JArrayValidator(columns, // NOPMD
 					Attributes.K_COLUMNS);
 			// 28.1.验证columns中是否有元素
 			this.error = validator.verifyZero();
-			if(null != this.error){
+			if (null != this.error) {
 				break;
 			}
 			// 28.2.验证columns中是不是都是String
 			this.error = validator.verifyStringNodes();
-			if(null != this.error){
+			if (null != this.error) {
+				break;
+			}
+		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean validateMulti() {
+		// 29.根据Multi验证columns的length
+		final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
+		while (nodeIt.hasNext()) {
+			final JsonNode node = nodeIt.next();
+			final ArrayNode columns = fromJObject(node
+					.path(Attributes.K_COLUMNS));
+			final Boolean isMulti = node.path(Attributes.K_MULTI).asBoolean();
+			if (isMulti && columns.size() <= 1) {
+				// 29.1.multi = true, Size > 1
+				this.error = new PatternNotMatchException(	// NOPMD
+						getClass(), // NOPMD
+						Attributes.K_COLUMNS, "Size: " + columns.size(),
+						"multi = true, size must be greater than 1.");
+			} else if (!isMulti && columns.size() > 1) {
+				// 29.2.multi = false, Size = 1
+				this.error = new PatternNotMatchException(	// NOPMD
+						getClass(), // NOPMD
+						Attributes.K_COLUMNS, "Size: " + columns.size(),
+						"multi = false, size must equal to 1.");
+			}
+			if (null != this.error) {
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug(
+							"[ERR-10003] ==> Error-10003 ( Location: name:"
+									+ node.path(Attributes.K_NAME).asText()
+									+ " )", this.error);
+				}
 				break;
 			}
 		}
