@@ -42,6 +42,8 @@ public final class GenericEnsurer implements Ensurer { // NOPMD
 	/** **/
 	private transient InternalEnsurer typeEnsurer;
 	/** **/
+	private transient InternalEnsurer keysEnsurer;
+	/** **/
 	private transient JsonNode rootNode;
 	/** **/
 	private transient AbstractSchemaException error;
@@ -146,6 +148,16 @@ public final class GenericEnsurer implements Ensurer { // NOPMD
 				ret = false;
 			}
 		}
+		// 8.__keys__验证
+		if (ret) {
+			try {
+				keysEnsurer.validate();
+				ret = true;
+			} catch (AbstractSchemaException ex) {
+				this.error = ex;
+				ret = false;
+			}
+		}
 		return ret;
 	}
 
@@ -180,9 +192,6 @@ public final class GenericEnsurer implements Ensurer { // NOPMD
 				.path(Attributes.R_FIELDS));
 		if (null != fieldsNode) {
 			this.fieldsEnsurer = new FieldsEnsurer(fieldsNode);
-		}
-
-		if (null != fieldsNode) {
 			// 主键验证器
 			final String table = this.rootNode.path(Attributes.R_META)
 					.path(Attributes.M_TABLE).asText();
@@ -216,6 +225,12 @@ public final class GenericEnsurer implements Ensurer { // NOPMD
 
 			// 类型验证
 			typeEnsurer = new TypeEnsurer(fieldsNode);
+		}
+		// Keys验证器
+		final ArrayNode keysNode = fromJObject(this.rootNode
+				.path(Attributes.R_KEYS));
+		if (null != keysNode) {
+			keysEnsurer = new KeysEnsurer(keysNode);
 		}
 	}
 

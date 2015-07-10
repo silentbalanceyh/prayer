@@ -152,4 +152,21 @@ interface Attributes { // NOPMD
 	String RGX_F_MAX_LENGTH = RGX_M_SEQ_INIT;
 	/** **/
 	String RGX_F_MIN_LENGTH = RGX_M_SEQ_INIT;
+	
+	// ---------------------- __keys__ Required ------------------------
+	/** **/
+	String K_NAME = "name";
+	/** **/
+	String K_CATEGORY = "category";
+	/** **/
+	String K_MULTI = "multi";
+	/** **/
+	String K_COLUMNS = "columns";
+	// ---------------------- __keys__ Required Regex ------------------
+	/** **/
+	String RGX_K_NAME = "(PK|UK|FK)\\_[A-Z\\_0-9]+";
+	/** **/
+	String RGX_K_CATEGORY = "PrimaryKey|ForeignKey|UniqueKey";
+	/** **/
+	String RGX_K_MULTI = RGX_F_PK;
 }

@@ -137,7 +137,7 @@ final class JArrayValidator {
 			final String value = node.path(attr).asText();
 			final Matcher matcher = pattern.matcher(value);
 			if (!matcher.matches()) {
-				retExp = new FKColumnTypeException(getClass(),	// NOPMD
+				retExp = new FKColumnTypeException(getClass(), // NOPMD
 						Attributes.F_COL_TYPE);
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug("[ERR-10015] ==> Error-10015 ( Location: "
@@ -194,8 +194,34 @@ final class JArrayValidator {
 				retExp = new AttrJsonTypeException(getClass(), "value = " // NOPMD
 						+ item.toString());
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR-10002] ==> Error-10002 ( Location: "
-							+ item.toString() + " )", retExp);
+					LOGGER.debug(
+							"[ERR-10002] ==> Error-10002 Object ( Location: "
+									+ item.toString() + " )", retExp);
+				}
+				break;
+			}
+		}
+		return retExp;
+	}
+
+	/**
+	 * -10002
+	 * 
+	 * @return
+	 */
+	@PreValidateThis
+	public AbstractSchemaException verifyStringNodes() {
+		AbstractSchemaException retExp = null;
+		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
+		while (nodeIt.hasNext()) {
+			final JsonNode item = nodeIt.next();
+			if (item.isContainerNode() || !item.isTextual()) {
+				retExp = new AttrJsonTypeException(getClass(), "value = " // NOPMD
+						+ item.toString());
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug(
+							"[ERR-10002] ==> Error-10002 String ( Location: "
+									+ item.toString() + " )", retExp);
 				}
 				break;
 			}
