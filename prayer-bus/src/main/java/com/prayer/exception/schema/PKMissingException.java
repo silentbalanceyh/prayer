@@ -3,17 +3,19 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10020：子表和主表同名异常
+ * 【Checked】Error-10010：数据库主键丢失异常
  * 
  * @author Lang
- *
+ * @see
  */
-public class SameConflictException extends AbstractSchemaException {
+public class PKMissingException extends AbstractSchemaException {
+
 	// ~ Static Fields =======================================
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4329276154027784299L;
+	private static final long serialVersionUID = 8755562168435213908L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -22,12 +24,10 @@ public class SameConflictException extends AbstractSchemaException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param attrLeft
-	 * @param attrRight
+	 * @param table
 	 */
-	public SameConflictException(final Class<?> clazz, final String attrLeft,
-			final String attrRight) {
-		super(clazz, -10020, attrLeft, attrRight);
+	public PKMissingException(final Class<?> clazz, final String table) {
+		super(clazz, -10010, table);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -37,11 +37,10 @@ public class SameConflictException extends AbstractSchemaException {
 	 */
 	@Override
 	public int getErrorCode() {
-		return -10020;
+		return -10010;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 
 }

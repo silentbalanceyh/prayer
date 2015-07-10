@@ -4,11 +4,12 @@ import com.prayer.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10002：Json类型不匹配异常（Array/Object）
- * 
+ *  1.如果Json节点应该是Object，但类型是非Object则抛出此异常
+ *  2.如果Json节点应该是Array，但类型是非Array则抛出此异常
  * @author Lang
  * @see
  */
-public class AttrJsonTypeException extends AbstractSchemaException {
+public class JsonTypeConfusedException extends AbstractSchemaException {
 	// ~ Static Fields =======================================
 
 	/**
@@ -25,7 +26,7 @@ public class AttrJsonTypeException extends AbstractSchemaException {
 	 * @param clazz
 	 * @param attr
 	 */
-	public AttrJsonTypeException(final Class<?> clazz, final String attr) {
+	public JsonTypeConfusedException(final Class<?> clazz, final String attr) {
 		super(clazz, -10002, attr);
 	}
 

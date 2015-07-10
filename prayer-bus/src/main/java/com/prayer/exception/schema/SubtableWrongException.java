@@ -3,19 +3,19 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10009：数据库类型不支持异常
+ * 【Checked】Error-10013：子表定义不匹配异常
  * 
  * @author Lang
  * @see
  */
-@Deprecated
-public class DatabaseTypeNotSupportException extends AbstractSchemaException {
+public class SubtableWrongException extends AbstractSchemaException {
+
 	// ~ Static Fields =======================================
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6488232748226409446L;
+	private static final long serialVersionUID = -5790628175272226511L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -24,11 +24,9 @@ public class DatabaseTypeNotSupportException extends AbstractSchemaException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param dataType
 	 */
-	public DatabaseTypeNotSupportException(final Class<?> clazz,
-			final String dataType) {
-		super(clazz, -10009, dataType);
+	public SubtableWrongException(final Class<?> clazz) {
+		super(clazz, -10013);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -38,7 +36,7 @@ public class DatabaseTypeNotSupportException extends AbstractSchemaException {
 	 */
 	@Override
 	public int getErrorCode() {
-		return -10009;
+		return -10013;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

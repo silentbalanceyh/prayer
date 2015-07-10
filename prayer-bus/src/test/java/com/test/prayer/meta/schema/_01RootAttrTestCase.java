@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.AttrJsonTypeException;
+import com.prayer.exception.schema.JsonTypeConfusedException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.exception.schema.UnsupportAttrException;
 
@@ -69,7 +69,7 @@ public class _01RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrJsonTypeException.class)
+	@Test(expected = JsonTypeConfusedException.class)
 	public void testP002Fields10002() throws AbstractSchemaException {
 		testImport("P002root-fields10002.json",
 				"[E10002] Fields ==> (Failure) There is unexpected exception!");
@@ -79,7 +79,7 @@ public class _01RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrJsonTypeException.class)
+	@Test(expected = JsonTypeConfusedException.class)
 	public void testP002Keys10002() throws AbstractSchemaException {
 		testImport("P002root-keys10002.json",
 				"[E10002] Keys ==> (Failure) There is unexpected exception!");
@@ -89,7 +89,7 @@ public class _01RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrJsonTypeException.class)
+	@Test(expected = JsonTypeConfusedException.class)
 	public void testP002Meta10002() throws AbstractSchemaException {
 		testImport("P002root-meta10002.json",
 				"[E10002] Meta ==> (Failure) There is unexpected exception!");

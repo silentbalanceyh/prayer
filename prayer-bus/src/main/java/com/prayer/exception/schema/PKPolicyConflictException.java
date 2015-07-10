@@ -3,19 +3,19 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10015：外键策略冲突异常
- * 1.外键的数据列类型异常
+ * 【Checked】Error-10011：数据库主键策略异常
+ * 
  * @author Lang
  * @see
  */
-public class FKColumnTypeException extends AbstractSchemaException {
+public class PKPolicyConflictException extends AbstractSchemaException {
 
 	// ~ Static Fields =======================================
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8026666812471853025L;
+	private static final long serialVersionUID = -2387879119047725338L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -24,10 +24,11 @@ public class FKColumnTypeException extends AbstractSchemaException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param policy
+	 * @param table
 	 */
-	public FKColumnTypeException(final Class<?> clazz, final String columnType) {
-		super(clazz, -10015, columnType);
+	public PKPolicyConflictException(final Class<?> clazz, final String policy,
+			final String table) {
+		super(clazz, -10011, policy, table);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -37,7 +38,7 @@ public class FKColumnTypeException extends AbstractSchemaException {
 	 */
 	@Override
 	public int getErrorCode() {
-		return -10015;
+		return -10011;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

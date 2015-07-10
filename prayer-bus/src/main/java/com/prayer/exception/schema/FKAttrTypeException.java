@@ -3,19 +3,19 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10011：数据库主键策略异常
+ * 【Checked】Error-10014：外键定义类型冲突异常
  * 
  * @author Lang
  * @see
  */
-public class PrimaryKeyPolicyException extends AbstractSchemaException {
+public class FKAttrTypeException extends AbstractSchemaException {
 
 	// ~ Static Fields =======================================
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2387879119047725338L;
+	private static final long serialVersionUID = 8969363365901484219L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -24,11 +24,12 @@ public class PrimaryKeyPolicyException extends AbstractSchemaException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param table
+	 * @param keyName
+	 * @param dataType
 	 */
-	public PrimaryKeyPolicyException(final Class<?> clazz, final String policy,
-			final String table) {
-		super(clazz, -10011, policy, table);
+	public FKAttrTypeException(final Class<?> clazz, final String keyName,
+			final String dataType) {
+		super(clazz, -10014, keyName, dataType);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -38,7 +39,7 @@ public class PrimaryKeyPolicyException extends AbstractSchemaException {
 	 */
 	@Override
 	public int getErrorCode() {
-		return -10011;
+		return -10014;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

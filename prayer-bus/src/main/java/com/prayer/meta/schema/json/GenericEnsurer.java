@@ -1,4 +1,4 @@
-package com.prayer.meta.schema.json;
+package com.prayer.meta.schema.json;	// NOPMD
 
 import static com.prayer.util.JsonKit.fromJObject;
 import static com.prayer.util.JsonKit.occursAttr;
@@ -16,6 +16,7 @@ import com.prayer.exception.AbstractSchemaException;
 import com.prayer.meta.schema.Ensurer;
 import com.prayer.mod.sys.GenericSchema;
 import com.prayer.mod.sys.SystemEnum.MetaMapping;
+import com.prayer.mod.sys.SystemEnum.MetaPolicy;
 
 /**
  * 
@@ -43,6 +44,8 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 	private transient InternalEnsurer typeEnsurer;
 	/** **/
 	private transient InternalEnsurer keysEnsurer;
+	/** **/
+	private transient InternalEnsurer crossEnsurer;
 	/** **/
 	private transient JsonNode rootNode;
 	/** **/
@@ -158,6 +161,16 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 				ret = false;
 			}
 		}
+		// 9.跨节点特殊验证
+		if (ret) {
+			try {
+				crossEnsurer.validate();
+				ret = true;
+			} catch (AbstractSchemaException ex) {
+				this.error = ex;
+				ret = false;
+			}
+		}
 		return ret;
 	}
 
@@ -231,6 +244,17 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 				.path(Attributes.R_KEYS));
 		if (null != keysNode) {
 			keysEnsurer = new KeysEnsurer(keysNode);
+		}
+		// 特殊验证器
+		if (null != keysNode && null != fieldsNode) {
+			final String policyStr = this.rootNode.path(Attributes.R_META)
+					.path(Attributes.M_POLICY).asText();
+			if (null != policyStr && StringUtil.isNotBlank(policyStr)
+					&& StringUtil.isNotEmpty(policyStr)) {
+				final MetaPolicy policy = fromStr(MetaPolicy.class, policyStr);
+				crossEnsurer = new CrossEnsurer(keysNode, fieldsNode,
+						null == policy ? MetaPolicy.ASSIGNED : policy);
+			}
 		}
 	}
 

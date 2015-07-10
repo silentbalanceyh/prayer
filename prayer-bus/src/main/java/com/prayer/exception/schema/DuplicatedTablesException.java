@@ -3,19 +3,17 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10013：子表定义不匹配异常
+ * 【Checked】Error-10020：子表和主表同名异常
  * 
  * @author Lang
- * @see
+ *
  */
-public class SubtableNotMatchException extends AbstractSchemaException {
-
+public class DuplicatedTablesException extends AbstractSchemaException {
 	// ~ Static Fields =======================================
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5790628175272226511L;
+	private static final long serialVersionUID = 4329276154027784299L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -24,9 +22,12 @@ public class SubtableNotMatchException extends AbstractSchemaException {
 	/**
 	 * 
 	 * @param clazz
+	 * @param attrLeft
+	 * @param attrRight
 	 */
-	public SubtableNotMatchException(final Class<?> clazz) {
-		super(clazz, -10013);
+	public DuplicatedTablesException(final Class<?> clazz, final String attrLeft,
+			final String attrRight) {
+		super(clazz, -10020, attrLeft, attrRight);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -36,10 +37,11 @@ public class SubtableNotMatchException extends AbstractSchemaException {
 	 */
 	@Override
 	public int getErrorCode() {
-		return -10013;
+		return -10020;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 
 }

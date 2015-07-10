@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.AttrJsonTypeException;
-import com.prayer.exception.schema.AttrZeroException;
+import com.prayer.exception.schema.JsonTypeConfusedException;
+import com.prayer.exception.schema.ZeroLengthException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 
@@ -38,7 +38,7 @@ public class _07FieldsAttr1TestCase extends AbstractSchemaTestCase{	// NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrZeroException.class)
+	@Test(expected = ZeroLengthException.class)
 	public void testP012Fields1Attr10006() throws AbstractSchemaException{
 		testImport(
 				"fields/P012fields-attr10006-1.json",
@@ -48,7 +48,7 @@ public class _07FieldsAttr1TestCase extends AbstractSchemaTestCase{	// NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrJsonTypeException.class)
+	@Test(expected = JsonTypeConfusedException.class)
 	public void testP013Fields1Attr10002() throws AbstractSchemaException{
 		testImport(
 				"fields/P013fields-attr10002-1.json",
@@ -58,7 +58,7 @@ public class _07FieldsAttr1TestCase extends AbstractSchemaTestCase{	// NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrJsonTypeException.class)
+	@Test(expected = JsonTypeConfusedException.class)
 	public void testP013Fields2Attr10002() throws AbstractSchemaException{
 		testImport(
 				"fields/P013fields-attr10002-2.json",

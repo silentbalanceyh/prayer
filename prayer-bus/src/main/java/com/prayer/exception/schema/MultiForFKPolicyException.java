@@ -4,11 +4,11 @@ import com.prayer.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10021：keys中的FK定义multi必须为false，否则冲突
- * 
+ *  1.__keys__节点（Array）中的某个（Object）元素multi=false时，这个Key不可以是外键
  * @author Lang
  *
  */
-public class ConflictMultiFKException extends AbstractSchemaException {
+public class MultiForFKPolicyException extends AbstractSchemaException {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/**
@@ -23,7 +23,7 @@ public class ConflictMultiFKException extends AbstractSchemaException {
 	 * @param clazz
 	 * @param keyName
 	 */
-	public ConflictMultiFKException(final Class<?> clazz, final String keyName){
+	public MultiForFKPolicyException(final Class<?> clazz, final String keyName){
 		super(clazz, -10021, keyName);
 	}
 	// ~ Abstract Methods ====================================

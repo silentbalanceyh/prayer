@@ -25,12 +25,12 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.AttrJsonTypeException;
+import com.prayer.exception.schema.JsonTypeConfusedException;
 import com.prayer.exception.schema.InvalidValueException;
 import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
-import com.prayer.exception.schema.SameConflictException;
+import com.prayer.exception.schema.DuplicatedTablesException;
 import com.prayer.exception.schema.UnsupportAttrException;
 
 /**
@@ -114,7 +114,7 @@ final class JObjectValidator {
 		final JsonNode rightNode = this.verifiedNode.path(attrRight);
 		AbstractSchemaException retExp = null;
 		if (StringUtil.equals(leftNode.asText(), rightNode.asText())) {
-			retExp = new SameConflictException(getClass(), attrLeft, attrRight);
+			retExp = new DuplicatedTablesException(getClass(), attrLeft, attrRight);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(ERR_STR + retExp.getErrorCode()
 						+ "] ==> ( Attribute '" + attrLeft + "' and '"
@@ -138,7 +138,7 @@ final class JObjectValidator {
 
 		AbstractSchemaException retExp = null;
 		if (!attrNode.isArray() && attrNode.isContainerNode()) {
-			retExp = new AttrJsonTypeException(getClass(), attr);
+			retExp = new JsonTypeConfusedException(getClass(), attr);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(ERR_STR + retExp.getErrorCode()
 						+ "] ==> ( Array/Location : " + this.name + " )",
@@ -161,7 +161,7 @@ final class JObjectValidator {
 
 		AbstractSchemaException retExp = null;
 		if (attrNode.isArray()) {
-			retExp = new AttrJsonTypeException(getClass(), attr);
+			retExp = new JsonTypeConfusedException(getClass(), attr);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(ERR_STR + retExp.getErrorCode()
 						+ "] ==> ( Object/Location : " + this.name + " )",

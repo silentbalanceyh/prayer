@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.AttrJsonTypeException;
-import com.prayer.exception.schema.AttrZeroException;
+import com.prayer.exception.schema.JsonTypeConfusedException;
+import com.prayer.exception.schema.ZeroLengthException;
 import com.prayer.exception.schema.DuplicatedKeyException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
@@ -45,7 +45,7 @@ public class _14Keys1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrZeroException.class)
+	@Test(expected = ZeroLengthException.class)
 	public void testP0251Keys1Arr10006() throws AbstractSchemaException {
 		testImport("zkeys/P0251keys-10006-1.json",
 				"[E10006] Keys ==> (Failure) There is unexpected exception!");
@@ -55,7 +55,7 @@ public class _14Keys1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrJsonTypeException.class)
+	@Test(expected = JsonTypeConfusedException.class)
 	public void testP0252Keys1Arr10002() throws AbstractSchemaException {
 		testImport("zkeys/P0252keys-10002-1.json",
 				"[E10002] Keys ==> (Failure) There is unexpected exception!");
@@ -138,7 +138,7 @@ public class _14Keys1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrZeroException.class)
+	@Test(expected = ZeroLengthException.class)
 	public void testP0281Keys1Arr10006() throws AbstractSchemaException {
 		testImport("zkeys/P0281keys-10006-1.json",
 				"[E10006] Keys ==> (Failure) There is unexpected exception!");
@@ -148,7 +148,7 @@ public class _14Keys1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = AttrJsonTypeException.class)
+	@Test(expected = JsonTypeConfusedException.class)
 	public void testP0282Keys1Arr10002() throws AbstractSchemaException {
 		testImport("zkeys/P0282keys-10002-1.json",
 				"[E10002] Keys ==> (Failure) JsonType conflicts and do mot match expected!");

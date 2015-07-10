@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.ConflictMultiFKException;
+import com.prayer.exception.schema.MultiForFKPolicyException;
 import com.prayer.exception.schema.KeysNameSpecificationException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.mod.sys.SystemEnum.KeyCategory;
@@ -311,7 +311,7 @@ final class KeysEnsurer implements InternalEnsurer {
 						.path(Attributes.K_CATEGORY).asText());
 				if (KeyCategory.ForeignKey == category) {
 					final String name = node.path(Attributes.K_NAME).asText();
-					this.error = new ConflictMultiFKException(getClass(), name);	// NOPMD
+					this.error = new MultiForFKPolicyException(getClass(), name);	// NOPMD
 					if (LOGGER.isDebugEnabled()) {
 						LOGGER.debug(
 								"[ERR" + this.error.getErrorCode() + "] ==> ( Location: name: "

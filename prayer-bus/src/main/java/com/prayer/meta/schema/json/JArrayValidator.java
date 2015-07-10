@@ -27,17 +27,17 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.AttrJsonTypeException;
-import com.prayer.exception.schema.AttrZeroException;
+import com.prayer.exception.schema.JsonTypeConfusedException;
+import com.prayer.exception.schema.ZeroLengthException;
 import com.prayer.exception.schema.DuplicatedAttrException;
 import com.prayer.exception.schema.DuplicatedColumnException;
 import com.prayer.exception.schema.DuplicatedKeyException;
 import com.prayer.exception.schema.FKColumnTypeException;
-import com.prayer.exception.schema.ForeignKeyTypeException;
+import com.prayer.exception.schema.FKAttrTypeException;
 import com.prayer.exception.schema.PKColumnTypePolicyException;
-import com.prayer.exception.schema.PrimaryKeyMissingException;
-import com.prayer.exception.schema.PrimaryKeyPolicyException;
-import com.prayer.exception.schema.SubtableNotMatchException;
+import com.prayer.exception.schema.PKMissingException;
+import com.prayer.exception.schema.PKPolicyConflictException;
+import com.prayer.exception.schema.SubtableWrongException;
 import com.prayer.mod.sys.SystemEnum.MetaPolicy;
 import com.prayer.res.cv.Constants;
 
@@ -105,7 +105,7 @@ final class JArrayValidator {
 	public AbstractSchemaException verifyZero() {
 		AbstractSchemaException retExp = null;
 		if (this.verifiedNodes.size() <= 0) {
-			retExp = new AttrZeroException(getClass(), this.name);
+			retExp = new ZeroLengthException(getClass(), this.name);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
 						+ this.name + " )", retExp);
@@ -164,7 +164,7 @@ final class JArrayValidator {
 		while (fkNIt.hasNext()) {
 			final JsonNode node = fkNIt.next();
 			if (!isAttrIn(node, attr, values)) {
-				retExp = new ForeignKeyTypeException(getClass(), node.path( // NOPMD
+				retExp = new FKAttrTypeException(getClass(), node.path( // NOPMD
 						Attributes.F_REF_ID).asText(), node.path(
 						Attributes.F_TYPE).asText());
 				if (LOGGER.isDebugEnabled()) {
@@ -191,7 +191,7 @@ final class JArrayValidator {
 		while (nodeIt.hasNext()) {
 			final JsonNode item = nodeIt.next();
 			if (!item.isContainerNode() || item.isArray()) {
-				retExp = new AttrJsonTypeException(getClass(), "value = " // NOPMD
+				retExp = new JsonTypeConfusedException(getClass(), "value = " // NOPMD
 						+ item.toString());
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug(
@@ -216,7 +216,7 @@ final class JArrayValidator {
 		while (nodeIt.hasNext()) {
 			final JsonNode item = nodeIt.next();
 			if (item.isContainerNode() || !item.isTextual()) {
-				retExp = new AttrJsonTypeException(getClass(), "value = " // NOPMD
+				retExp = new JsonTypeConfusedException(getClass(), "value = " // NOPMD
 						+ item.toString());
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug(
@@ -279,7 +279,7 @@ final class JArrayValidator {
 
 		AbstractSchemaException retExp = null;
 		if (Constants.ONE != occurs) {
-			retExp = new PrimaryKeyPolicyException(getClass(),
+			retExp = new PKPolicyConflictException(getClass(),
 					policy.toString(), this.table);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + attr
@@ -308,7 +308,7 @@ final class JArrayValidator {
 
 		AbstractSchemaException retExp = null;
 		if (Constants.ONE >= occurs) {
-			retExp = new PrimaryKeyPolicyException(getClass(),
+			retExp = new PKPolicyConflictException(getClass(),
 					policy.toString(), this.table);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + attr
@@ -337,7 +337,7 @@ final class JArrayValidator {
 
 		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {
-			retExp = new SubtableNotMatchException(getClass());
+			retExp = new SubtableWrongException(getClass());
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(
 						ERR_STR + retExp.getErrorCode() + "] ==> For Value ( Location: "
@@ -370,7 +370,7 @@ final class JArrayValidator {
 
 		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {
-			retExp = new PrimaryKeyMissingException(getClass(), this.table);
+			retExp = new PKMissingException(getClass(), this.table);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(
 						ERR_STR + retExp.getErrorCode() + "] ==> For Value ( Location: "

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
-import com.prayer.exception.schema.SameConflictException;
+import com.prayer.exception.schema.DuplicatedTablesException;
 
 /**
  * 
@@ -127,7 +127,7 @@ public class _06MetaER2TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = SameConflictException.class)
+	@Test(expected = DuplicatedTablesException.class)
 	public void testP00742Meta10005ECombinatedValue4()
 			throws AbstractSchemaException {
 		testImport(

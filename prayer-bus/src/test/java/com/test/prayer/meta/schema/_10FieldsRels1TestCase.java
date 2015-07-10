@@ -6,10 +6,10 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.FKColumnTypeException;
-import com.prayer.exception.schema.ForeignKeyTypeException;
+import com.prayer.exception.schema.FKAttrTypeException;
 import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
-import com.prayer.exception.schema.SubtableNotMatchException;
+import com.prayer.exception.schema.SubtableWrongException;
 
 /**
  * 
@@ -43,7 +43,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = SubtableNotMatchException.class)
+	@Test(expected = SubtableWrongException.class)
 	public void testP019Subtable1Rel10013() throws AbstractSchemaException {
 		testImport(
 				"rels/P019field-Subtable10013-1.json",
@@ -108,7 +108,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = ForeignKeyTypeException.class)
+	@Test(expected = FKAttrTypeException.class)
 	public void testP0211FKey1Type10014() throws AbstractSchemaException {
 		testImport("rels/P0211field-FkType10014-1.json",
 				"[E10014] Fields -> ( foreignkey = true ) ==> (Failure) Attribute 'type' of FK is wrong! ");
@@ -117,7 +117,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = ForeignKeyTypeException.class)
+	@Test(expected = FKAttrTypeException.class)
 	public void testP0211FKey2Type10014() throws AbstractSchemaException {
 		testImport("rels/P0211field-FkType10014-2.json",
 				"[E10014] Fields -> ( foreignkey = true ) ==> (Failure) Attribute 'type' of FK is wrong! ");

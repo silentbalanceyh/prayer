@@ -5,8 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.ConflictMultiFKException;
+import com.prayer.exception.schema.MultiForFKPolicyException;
 import com.prayer.exception.schema.KeysNameSpecificationException;
+import com.prayer.exception.schema.MultiForPKPolicyException;
 import com.prayer.exception.schema.PatternNotMatchException;
 
 /**
@@ -54,11 +55,12 @@ public class _15KeysMulti1TestCase extends AbstractSchemaTestCase { // NOPMD
 		testImport("zkeys/P0292keys-10003-2.json",
 				"[E10003] Keys ==> (Failure) There is unexpected exception!");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = ConflictMultiFKException.class)
+	@Test(expected = MultiForFKPolicyException.class)
 	public void testP293Keys1Multi10021() throws AbstractSchemaException {
 		testImport("zkeys/P0293keys-10021-1.json",
 				"[E10003] Keys ==> (Failure) There is unexpected exception!");
@@ -73,6 +75,7 @@ public class _15KeysMulti1TestCase extends AbstractSchemaTestCase { // NOPMD
 		testImport("zkeys/P030keys-10019-1.json",
 				"[E10019] Keys ==> (Failure) Name specification error for this case!");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -82,6 +85,7 @@ public class _15KeysMulti1TestCase extends AbstractSchemaTestCase { // NOPMD
 		testImport("zkeys/P030keys-10019-2.json",
 				"[E10019] Keys ==> (Failure) Name specification error for this case!");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -90,6 +94,25 @@ public class _15KeysMulti1TestCase extends AbstractSchemaTestCase { // NOPMD
 	public void testP30Keys3Spec10019() throws AbstractSchemaException {
 		testImport("zkeys/P030keys-10019-3.json",
 				"[E10019] Keys ==> (Failure) Name specification error for this case!");
+	}
+
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = MultiForPKPolicyException.class)
+	public void testP31Cross1Spec10022() throws AbstractSchemaException {
+		testImport("zkeys/P031cross-10022-1.json",
+				"[E10022] Cross ==> (Failure) Primary Key policy conflict with 'multi'!");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = MultiForPKPolicyException.class)
+	public void testP31Cross2Spec10022() throws AbstractSchemaException {
+		testImport("zkeys/P031cross-10022-2.json",
+				"[E10022] Cross ==> (Failure) Primary Key policy conflict with 'multi'!");
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

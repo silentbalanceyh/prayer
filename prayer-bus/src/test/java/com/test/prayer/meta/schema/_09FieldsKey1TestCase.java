@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.PKColumnTypePolicyException;
-import com.prayer.exception.schema.PrimaryKeyMissingException;
-import com.prayer.exception.schema.PrimaryKeyPolicyException;
+import com.prayer.exception.schema.PKMissingException;
+import com.prayer.exception.schema.PKPolicyConflictException;
 
 /**
  * 
@@ -40,7 +40,7 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = PrimaryKeyMissingException.class)
+	@Test(expected = PKMissingException.class)
 	public void testP017Fields1PrimaryKey10010() throws AbstractSchemaException {
 		testImport(
 				"keys/P017field-primarykey10010-1.json",
@@ -51,7 +51,7 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = PrimaryKeyMissingException.class)
+	@Test(expected = PKMissingException.class)
 	public void testP017Fields2PrimaryKey10010() throws AbstractSchemaException {
 		testImport(
 				"keys/P017field-primarykey10010-2.json",
@@ -62,7 +62,7 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = PrimaryKeyPolicyException.class)
+	@Test(expected = PKPolicyConflictException.class)
 	public void testP018Fields1PKeyPolicy10011() throws AbstractSchemaException {
 		testImport(
 				"keys/P018field-pKEYpolicy10011-1.json",
@@ -73,7 +73,7 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * 
 	 * @throws AbstractSchemaException
 	 */
-	@Test(expected = PrimaryKeyPolicyException.class)
+	@Test(expected = PKPolicyConflictException.class)
 	public void testP018Fields2PKeyPolicy10011() throws AbstractSchemaException {
 		testImport(
 				"keys/P018field-pKEYpolicy10011-2.json",

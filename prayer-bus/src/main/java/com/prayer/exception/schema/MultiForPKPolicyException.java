@@ -3,19 +3,17 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10010：数据库主键丢失异常
+ * 【Checked】Error-10022：keys中的PK定义multi必须匹配__meta__中的PK Policy，否则冲突
  * 
  * @author Lang
- * @see
+ *
  */
-public class PrimaryKeyMissingException extends AbstractSchemaException {
-
+public class MultiForPKPolicyException extends AbstractSchemaException {
 	// ~ Static Fields =======================================
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8755562168435213908L;
+	private static final long serialVersionUID = 3368737553974375913L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -24,10 +22,12 @@ public class PrimaryKeyMissingException extends AbstractSchemaException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param table
+	 * @param policy
+	 * @param isMulti
 	 */
-	public PrimaryKeyMissingException(final Class<?> clazz, final String table) {
-		super(clazz, -10010, table);
+	public MultiForPKPolicyException(final Class<?> clazz,
+			final String policy, final String isMulti) {
+		super(clazz, -10022, policy, isMulti);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -37,10 +37,11 @@ public class PrimaryKeyMissingException extends AbstractSchemaException {
 	 */
 	@Override
 	public int getErrorCode() {
-		return -10010;
+		return -10022;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 
 }

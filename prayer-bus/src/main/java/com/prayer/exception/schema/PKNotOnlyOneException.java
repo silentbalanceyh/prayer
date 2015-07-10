@@ -3,19 +3,18 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10014：外键定义类型冲突异常
+ * 【Checked】Error-10009：__keys__中多个主键异常
  * 
  * @author Lang
  * @see
  */
-public class ForeignKeyTypeException extends AbstractSchemaException {
-
+public class PKNotOnlyOneException extends AbstractSchemaException {
 	// ~ Static Fields =======================================
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8969363365901484219L;
+	private static final long serialVersionUID = 6488232748226409446L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -24,12 +23,10 @@ public class ForeignKeyTypeException extends AbstractSchemaException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param keyName
 	 * @param dataType
 	 */
-	public ForeignKeyTypeException(final Class<?> clazz, final String keyName,
-			final String dataType) {
-		super(clazz, -10014, keyName, dataType);
+	public PKNotOnlyOneException(final Class<?> clazz) {
+		super(clazz, -10009);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -39,7 +36,7 @@ public class ForeignKeyTypeException extends AbstractSchemaException {
 	 */
 	@Override
 	public int getErrorCode() {
-		return -10014;
+		return -10009;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
