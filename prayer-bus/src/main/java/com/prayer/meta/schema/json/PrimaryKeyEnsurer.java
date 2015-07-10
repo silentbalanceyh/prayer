@@ -1,16 +1,23 @@
 package com.prayer.meta.schema.json;
 
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.exception.schema.PKUniqueConflictException;
 import com.prayer.meta.DataType;
 import com.prayer.mod.sys.SystemEnum.MetaPolicy;
 
@@ -20,8 +27,11 @@ import com.prayer.mod.sys.SystemEnum.MetaPolicy;
  * @see
  */
 @Guarded
-final class PrimaryKeyEnsurer implements InternalEnsurer {
+final class PrimaryKeyEnsurer implements InternalEnsurer {	// NOPMD
 	// ~ Static Fields =======================================
+	/** **/
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(PrimaryKeyEnsurer.class);
 	/** **/
 	private static final ConcurrentMap<String, Object> PK_FILTER = new ConcurrentHashMap<>();
 	/** GUID **/
@@ -58,8 +68,8 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {
 	static {
 		PK_FILTER.put(Attributes.F_PK, Boolean.TRUE);
 	}
+
 	// ~ Static Methods ======================================
-	
 
 	// ~ Constructors ========================================
 	/**
@@ -95,6 +105,9 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {
 		// 2.policy是否COLLECTION
 		validateDispatcher();
 		interrupt();
+		// 3.policy如果为非COLLECTION
+		validatePKUniqueConflict();
+		interrupt();
 	}
 
 	/**
@@ -109,12 +122,49 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {
 	}
 
 	// ~ Private Methods =====================================
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean validatePKUniqueConflict() {
+		final MetaPolicy policy = MetaPolicy.valueOf(policyStr);
+		// 18.3.属性policy顶层检查
+		if (MetaPolicy.COLLECTION == policy) {
+			return true; // NOPMD
+		}
+		final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
+		while (nodeIt.hasNext()) {
+			final JsonNode node = nodeIt.next();
+			final Boolean isPkey = node.path(Attributes.F_PK).asBoolean();
+			if (isPkey
+					&& null != node.path(Attributes.F_UNIQUE)
+					&& StringUtil.isNotBlank(node.path(Attributes.F_UNIQUE)
+							.asText())
+					&& StringUtil.isNotEmpty(node.path(Attributes.F_UNIQUE)
+							.asText())) {
+				final Boolean isUnique = node.path(Attributes.F_UNIQUE)
+						.asBoolean();
+				if (!isUnique) {
+					this.error = new PKUniqueConflictException(getClass(), node // NOPMD
+							.path(Attributes.F_NAME).asText());
+					if (LOGGER.isDebugEnabled()) { // NOPMD
+						LOGGER.debug("[ERR" + this.error.getErrorCode()
+								+ "] ==> name = "
+								+ node.path(Attributes.F_NAME).asText()
+								+ " and this node (unquie = false)", this.error);
+					}
+					break;
+				}
+			}
+		}
+		return null == this.error;
+	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	private boolean validateDispatcher() {
+	private boolean validateDispatcher() {	// NOPMD
 		final MetaPolicy policy = MetaPolicy.valueOf(policyStr);
 		// 18.属性policy顶层检查，是否COLLECTION
 		if (MetaPolicy.COLLECTION == policy) {

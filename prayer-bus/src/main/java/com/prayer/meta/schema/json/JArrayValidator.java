@@ -47,7 +47,7 @@ import com.prayer.res.cv.Constants;
  *
  */
 @Guarded
-final class JArrayValidator {
+final class JArrayValidator {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

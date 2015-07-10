@@ -8,6 +8,7 @@ import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.PKColumnTypePolicyException;
 import com.prayer.exception.schema.PKMissingException;
 import com.prayer.exception.schema.PKPolicyConflictException;
+import com.prayer.exception.schema.PKUniqueConflictException;
 
 /**
  * 
@@ -118,6 +119,16 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	public void testP018FieldsT4PKeyPolicy10012()
 			throws AbstractSchemaException {
 		testImport("keys/P018field-TpKEYpolicy10012-4.json", E10012_STR);
+	}
+
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = PKUniqueConflictException.class)
+	public void testP018z1KeyUnique10025() throws AbstractSchemaException {
+		testImport("keys/P018z1key-unique10025-1.json",
+				"[E10025] Keys ==> Primary key unique must be true.");
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

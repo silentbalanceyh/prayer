@@ -28,7 +28,7 @@ import com.prayer.mod.sys.SystemEnum.KeyCategory;
  *
  */
 @Guarded
-final class KeysEnsurer implements InternalEnsurer {
+final class KeysEnsurer implements InternalEnsurer {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String, String> REGEX_MAP = new ConcurrentHashMap<>();
@@ -202,7 +202,7 @@ final class KeysEnsurer implements InternalEnsurer {
 	 * 
 	 * @return
 	 */
-	private boolean validateKeysNameSpec() {
+	private boolean validateKeysNameSpec() {	// NOPMD
 		// 30.验证Keys的命名规范
 		final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
 		while (nodeIt.hasNext()) {
@@ -224,10 +224,9 @@ final class KeysEnsurer implements InternalEnsurer {
 			}
 			if (null != this.error) {
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(
-							"[ERR" + this.error.getErrorCode() + "] Keys name specification error: name = "
-									+ name + ", category = "
-									+ category.toString(), this.error);
+					LOGGER.debug("[ERR" + this.error.getErrorCode()
+							+ "] Keys name specification error: name = " + name
+							+ ", category = " + category.toString(), this.error);
 				}
 				break;
 			}
@@ -286,7 +285,8 @@ final class KeysEnsurer implements InternalEnsurer {
 			if (null != this.error) {
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug(
-							"[ERR" + this.error.getErrorCode() + "] ==> ( Location: name:"
+							"[ERR" + this.error.getErrorCode()
+									+ "] ==> ( Location: name:"
 									+ node.path(Attributes.K_NAME).asText()
 									+ " )", this.error);
 				}
@@ -311,11 +311,11 @@ final class KeysEnsurer implements InternalEnsurer {
 						.path(Attributes.K_CATEGORY).asText());
 				if (KeyCategory.ForeignKey == category) {
 					final String name = node.path(Attributes.K_NAME).asText();
-					this.error = new MultiForFKPolicyException(getClass(), name);	// NOPMD
+					this.error = new MultiForFKPolicyException(getClass(), name); // NOPMD
 					if (LOGGER.isDebugEnabled()) {
-						LOGGER.debug(
-								"[ERR" + this.error.getErrorCode() + "] ==> ( Location: name: "
-										+ name + " )", this.error);
+						LOGGER.debug("[ERR" + this.error.getErrorCode()
+								+ "] ==> ( Location: name: " + name + " )",
+								this.error);
 					}
 					break;
 				}
