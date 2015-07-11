@@ -33,8 +33,7 @@ import com.prayer.meta.database.Metadata;
 public class MetadataConnImpl implements MetadataConn {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(MetadataConnImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MetadataConnImpl.class);
 	// ~ Instance Fields =====================================
 	/**
 	 * 获取的数据库访问连接池
@@ -61,8 +60,7 @@ public class MetadataConnImpl implements MetadataConn {
 	@PostValidateThis
 	public MetadataConnImpl() {
 		// 元数据连接池初始化
-		try (final Connection conn = dbPool.getJdbc().getDataSource()
-				.getConnection()) {
+		try (final Connection conn = dbPool.getJdbc().getDataSource().getConnection()) {
 			final DatabaseMetaData sqlMeta = conn.getMetaData();
 			/**
 			 * 因为metadata和runner在try块中，所以不能设置成final修饰，否则编译会无法通过
@@ -94,16 +92,14 @@ public class MetadataConnImpl implements MetadataConn {
 	@Override
 	public boolean loadSqlFile(@NotNull final InputStream sqlFile) {
 		boolean ret = false;
-		try (final Connection conn = this.dbPool.getJdbc().getDataSource()
-				.getConnection()) {
+		try (final Connection conn = this.dbPool.getJdbc().getDataSource().getConnection()) {
 			this.runScript(conn, sqlFile);
 			// 默认日志级别输出SQL语句是DEBUG级别，只要不是级别则不会输出
 			ret = true;
 		} catch (SQLException ex) {
 			ret = false;
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(
-						"[E] SQLException happen. loadSqlFile(String) -> ", ex);
+				LOGGER.debug("[E] SQLException happen. loadSqlFile(String) -> ", ex);
 			}
 		}
 		return ret;
@@ -115,8 +111,7 @@ public class MetadataConnImpl implements MetadataConn {
 	@Override
 	public boolean initMeta(@NotNull final InputStream sqlFile) {
 		boolean ret = false;
-		try (final Connection conn = this.h2Pool.getJdbc().getDataSource()
-				.getConnection()) {
+		try (final Connection conn = this.h2Pool.getJdbc().getDataSource().getConnection()) {
 			this.runScript(conn, sqlFile);
 			ret = true;
 		} catch (SQLException ex) {
@@ -131,8 +126,7 @@ public class MetadataConnImpl implements MetadataConn {
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 
-	private void runScript(final Connection conn, final InputStream sqlFile)
-			throws SQLException {
+	private void runScript(final Connection conn, final InputStream sqlFile) throws SQLException {
 		final ScriptRunner runner = new ScriptRunner(conn);
 		final Reader sqlReader = new InputStreamReader(sqlFile);
 		runner.setSendFullScript(true);

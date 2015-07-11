@@ -22,14 +22,14 @@ public final class SessionManager {
 	// ~ Static Fields =======================================
 	/** Session Factory 的单例 **/
 	private static SqlSessionFactory sessionFactory;
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	/** 静态初始化 **/
 	static {
 		/** 简单的单例实现 **/
 		if (null == sessionFactory) {
-			final InputStream inStream = IOKit
-					.getFile(com.prayer.res.cv.Resources.T_CFG_MYBATIS);
+			final InputStream inStream = IOKit.getFile(com.prayer.res.cv.Resources.T_CFG_MYBATIS);
 			if (null != inStream) {
 				sessionFactory = new SqlSessionFactoryBuilder().build(inStream,
 						com.prayer.res.cv.Resources.T_CFG_MB_ENV);
@@ -47,6 +47,7 @@ public final class SessionManager {
 		}
 		return session;
 	}
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

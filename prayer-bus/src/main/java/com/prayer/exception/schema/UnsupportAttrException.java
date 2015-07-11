@@ -30,9 +30,10 @@ public class UnsupportAttrException extends AbstractSchemaException {
 	 * @param clazz
 	 * @param sets
 	 */
-	public UnsupportAttrException(final Class<?> clazz, final Set<String> sets){
+	public UnsupportAttrException(final Class<?> clazz, final Set<String> sets) {
 		super(clazz, -10017, toStr(sets));
 	}
+
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/**

@@ -27,14 +27,12 @@ import com.prayer.res.cv.Resources;
 final class MetaEnsurer implements InternalEnsurer {
 	// ~ Static Fields =======================================
 	/** Meta Required **/
-	private static final String[] M_REQUIRED = new String[] {
-			Attributes.M_NAMESPACE, Attributes.M_NAME, Attributes.M_CATEGORY,
-			Attributes.M_TABLE, Attributes.M_IDENTIFIER, Attributes.M_MAPPING,
+	private static final String[] M_REQUIRED = new String[] { Attributes.M_NAMESPACE, Attributes.M_NAME,
+			Attributes.M_CATEGORY, Attributes.M_TABLE, Attributes.M_IDENTIFIER, Attributes.M_MAPPING,
 			Attributes.M_POLICY };
 	/** Meta Attributes **/
-	private static final String[] M_ATTRS = new String[] {
-			Attributes.M_NAMESPACE, Attributes.M_NAME, Attributes.M_CATEGORY,
-			Attributes.M_TABLE, Attributes.M_IDENTIFIER, Attributes.M_MAPPING,
+	private static final String[] M_ATTRS = new String[] { Attributes.M_NAMESPACE, Attributes.M_NAME,
+			Attributes.M_CATEGORY, Attributes.M_TABLE, Attributes.M_IDENTIFIER, Attributes.M_MAPPING,
 			Attributes.M_POLICY, // Required
 			Attributes.M_SUB_KEY, Attributes.M_SUB_TABLE, // SubTable
 			Attributes.M_SEQ_NAME, Attributes.M_SEQ_STEP, Attributes.M_SEQ_INIT // Sequence
@@ -50,6 +48,7 @@ final class MetaEnsurer implements InternalEnsurer {
 	/** **/
 	@NotNull
 	private transient final JObjectValidator validator;
+
 	// ~ Static Block ========================================
 	/** Put Regex **/
 	static {
@@ -113,10 +112,9 @@ final class MetaEnsurer implements InternalEnsurer {
 	 * @return
 	 */
 	private boolean validateDispatcher() {
-		final MetaCategory category = fromStr(MetaCategory.class, this.metaNode
-				.path(Attributes.M_CATEGORY).textValue());
-		final MetaMapping mapping = fromStr(MetaMapping.class, this.metaNode
-				.path(Attributes.M_MAPPING).textValue());
+		final MetaCategory category = fromStr(MetaCategory.class,
+				this.metaNode.path(Attributes.M_CATEGORY).textValue());
+		final MetaMapping mapping = fromStr(MetaMapping.class, this.metaNode.path(Attributes.M_MAPPING).textValue());
 		// Category
 		switch (category) {
 		case ENTITY: {
@@ -134,8 +132,7 @@ final class MetaEnsurer implements InternalEnsurer {
 			}
 				break;
 			default: {
-				this.error = validator.verifyPattern(Attributes.M_MAPPING,
-						REGEX_MAP.get(Attributes.M_MAPPING));
+				this.error = validator.verifyPattern(Attributes.M_MAPPING, REGEX_MAP.get(Attributes.M_MAPPING));
 			}
 				break;
 			}
@@ -146,8 +143,7 @@ final class MetaEnsurer implements InternalEnsurer {
 		}
 			break;
 		default: {
-			this.error = validator.verifyPattern(Attributes.M_CATEGORY,
-					REGEX_MAP.get(Attributes.M_CATEGORY));
+			this.error = validator.verifyPattern(Attributes.M_CATEGORY, REGEX_MAP.get(Attributes.M_CATEGORY));
 		}
 			break;
 		}
@@ -164,15 +160,13 @@ final class MetaEnsurer implements InternalEnsurer {
 	 */
 	private boolean validateIncrement() {
 		// 8.如果policy为INCREMENT
-		final MetaPolicy policy = fromStr(MetaPolicy.class,
-				this.metaNode.path(Attributes.M_POLICY).asText());
+		final MetaPolicy policy = fromStr(MetaPolicy.class, this.metaNode.path(Attributes.M_POLICY).asText());
 		if (MetaPolicy.INCREMENT != policy) {
 			return true; // NOPMD
 		}
 		// 9.如果是MSSQL以及MYSQL，直接返回true
 		if (!StringUtil.equals(Resources.DB_CATEGORY, Constants.DF_MSSQL)
-				&& !StringUtil
-						.equals(Resources.DB_CATEGORY, Constants.DF_MYSQL)) {
+				&& !StringUtil.equals(Resources.DB_CATEGORY, Constants.DF_MYSQL)) {
 			// TODO: 默认使用了MSSQL，所以针对Oracle以及PostgreSQL才会有这个流程验证seqname
 			// 9.2.1.使用了Sequence的情况，必须要验证seqname是否丢失
 			this.error = validator.verifyMissing(Attributes.M_SEQ_NAME);
@@ -180,26 +174,22 @@ final class MetaEnsurer implements InternalEnsurer {
 				return false; // NOPMD
 			}
 			// 9.2.2.使用Sequence情况，验证seqname的格式
-			this.error = validator.verifyPattern(Attributes.M_SEQ_NAME,
-					Attributes.RGX_M_SEQ_NAME);
+			this.error = validator.verifyPattern(Attributes.M_SEQ_NAME, Attributes.RGX_M_SEQ_NAME);
 			if (null != this.error) {
 				return false; // NOPMD
 			}
 		}
 		// 10.如果是INCREMENT必须验证seqinit, seqstep属性是否存在
-		this.error = validator.verifyMissing(Attributes.M_SEQ_INIT,
-				Attributes.M_SEQ_STEP);
+		this.error = validator.verifyMissing(Attributes.M_SEQ_INIT, Attributes.M_SEQ_STEP);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
 		// 11.验证seqinit, seqstep的格式
-		this.error = validator.verifyPattern(Attributes.M_SEQ_INIT,
-				Attributes.RGX_M_SEQ_INIT);
+		this.error = validator.verifyPattern(Attributes.M_SEQ_INIT, Attributes.RGX_M_SEQ_INIT);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
-		this.error = validator.verifyPattern(Attributes.M_SEQ_STEP,
-				Attributes.RGX_M_SEQ_STEP);
+		this.error = validator.verifyPattern(Attributes.M_SEQ_STEP, Attributes.RGX_M_SEQ_STEP);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
@@ -237,21 +227,18 @@ final class MetaEnsurer implements InternalEnsurer {
 	 */
 	private boolean verifyCEntityCombinated() {
 		// 7.4.1.category == ENTITY && mapping == COMBINATED
-		this.error = this.validator.verifyMissing(Attributes.M_SUB_KEY,
-				Attributes.M_SUB_TABLE);
+		this.error = this.validator.verifyMissing(Attributes.M_SUB_KEY, Attributes.M_SUB_TABLE);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
 		// 7.4.2.__subtable__ Parttern
-		this.error = validator.verifyPattern(Attributes.M_SUB_TABLE,
-				Attributes.RGX_M_SUB_TABLE);
+		this.error = validator.verifyPattern(Attributes.M_SUB_TABLE, Attributes.RGX_M_SUB_TABLE);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
 		// 7.4.3.__subtable__ and __table__ conflicts
-		this.error = validator.verifyNotSame(Attributes.M_TABLE,
-				Attributes.M_SUB_TABLE);
-		if (null != this.error){
+		this.error = validator.verifyNotSame(Attributes.M_TABLE, Attributes.M_SUB_TABLE);
+		if (null != this.error) {
 			return false; // NOPMD
 		}
 		// TODO: __subkey__ 的验证保留，根据子表策略完成，目前不支持子表关联验证
@@ -264,8 +251,7 @@ final class MetaEnsurer implements InternalEnsurer {
 	 */
 	private boolean verifyCEntityDirect() {
 		// 7.3.1.category == ENTITY && mapping == DIRECT
-		this.error = this.validator.verifyExisting(Attributes.M_SUB_KEY,
-				Attributes.M_SUB_TABLE);
+		this.error = this.validator.verifyExisting(Attributes.M_SUB_KEY, Attributes.M_SUB_TABLE);
 		return null == this.error;
 	}
 
@@ -275,20 +261,17 @@ final class MetaEnsurer implements InternalEnsurer {
 	 */
 	private boolean verifyCEntityPartial() {
 		// 7.2.1.category == ENTITY && mapping == PARTIAL
-		this.error = validator.verifyExisting(Attributes.M_SUB_KEY,
-				Attributes.M_SUB_TABLE);
+		this.error = validator.verifyExisting(Attributes.M_SUB_KEY, Attributes.M_SUB_TABLE);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
 		// 7.2.2.seqname, seqinit, seqstep Checking
-		this.error = validator.verifyExisting(Attributes.M_SEQ_INIT,
-				Attributes.M_SEQ_NAME, Attributes.M_SEQ_STEP);
+		this.error = validator.verifyExisting(Attributes.M_SEQ_INIT, Attributes.M_SEQ_NAME, Attributes.M_SEQ_STEP);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
 		// 7.2.3.policy in ASSIGNED
-		this.error = validator.verifyIn(Attributes.M_POLICY,
-				MetaPolicy.ASSIGNED.toString());
+		this.error = validator.verifyIn(Attributes.M_POLICY, MetaPolicy.ASSIGNED.toString());
 		return null == this.error;
 	}
 
@@ -298,20 +281,17 @@ final class MetaEnsurer implements InternalEnsurer {
 	 */
 	private boolean verifyCRelation() {
 		// 7.1.1.category == RELATION
-		this.error = validator.verifyExisting(Attributes.M_SUB_KEY,
-				Attributes.M_SUB_TABLE);
+		this.error = validator.verifyExisting(Attributes.M_SUB_KEY, Attributes.M_SUB_TABLE);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
 		// 7.1.2.mapping in DIRECT
-		this.error = validator.verifyIn(Attributes.M_MAPPING,
-				MetaMapping.DIRECT.toString());
+		this.error = validator.verifyIn(Attributes.M_MAPPING, MetaMapping.DIRECT.toString());
 		if (null != this.error) {
 			return false; // NOPMD
 		}
 		// 7.1.3.policy not COLLECTION | ASSIGNED
-		this.error = validator.verifyNotIn(Attributes.M_POLICY,
-				MetaPolicy.COLLECTION.toString(),
+		this.error = validator.verifyNotIn(Attributes.M_POLICY, MetaPolicy.COLLECTION.toString(),
 				MetaPolicy.ASSIGNED.toString());
 		return null == this.error; // NOPMD
 	}

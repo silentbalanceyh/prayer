@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 /**
  * JDBC Interface
+ * 
  * @author Lang
  * @see
  */
@@ -15,7 +16,7 @@ public interface JdbcContext {
 	 * @param values
 	 * @param types
 	 */
-	int update(String sql, Object[] values, int[] types);	// NOPMD
+	int update(String sql, Object[] values, int[] types); // NOPMD
 
 	/**
 	 * Publish interface of jdbc template

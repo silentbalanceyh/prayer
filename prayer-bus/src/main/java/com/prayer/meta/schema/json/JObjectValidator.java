@@ -43,8 +43,7 @@ import com.prayer.exception.schema.UnsupportAttrException;
 final class JObjectValidator {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(JObjectValidator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(JObjectValidator.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotBlank
@@ -60,8 +59,7 @@ final class JObjectValidator {
 
 	/** **/
 	@PostValidateThis
-	public JObjectValidator(@NotNull final JsonNode verifiedNode,
-			@NotEmpty @NotBlank final String name) {
+	public JObjectValidator(@NotNull final JsonNode verifiedNode, @NotEmpty @NotBlank final String name) {
 		this.verifiedNode = verifiedNode;
 		if (null == name) {
 			this.name = "ROOT";
@@ -80,8 +78,7 @@ final class JObjectValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyRequired(
-			@MinLength(1) final String... attrs) {
+	public AbstractSchemaException verifyRequired(@MinLength(1) final String... attrs) {
 		AbstractSchemaException retExp = null;
 		for (final String attr : attrs) {
 			final int occurs = occursAttr(this.verifiedNode, attr);
@@ -101,17 +98,15 @@ final class JObjectValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyNotSame(
-			@NotNull @NotEmpty @NotBlank final String attrLeft,
+	public AbstractSchemaException verifyNotSame(@NotNull @NotEmpty @NotBlank final String attrLeft,
 			@NotNull @NotEmpty @NotBlank final String attrRight) {
 		final JsonNode leftNode = this.verifiedNode.path(attrLeft);
 		final JsonNode rightNode = this.verifiedNode.path(attrRight);
 		AbstractSchemaException retExp = null;
 		if (StringUtil.equals(leftNode.asText(), rightNode.asText())) {
-			retExp = new DuplicatedTablesException(getClass(), attrLeft,
-					attrRight);
-			debug(LOGGER, getClass(), "D10020", retExp, this.name, attrLeft,
-					leftNode.asText(), attrRight, rightNode.asText());
+			retExp = new DuplicatedTablesException(getClass(), attrLeft, attrRight);
+			debug(LOGGER, getClass(), "D10020", retExp, this.name, attrLeft, leftNode.asText(), attrRight,
+					rightNode.asText());
 		}
 		return retExp;
 	}
@@ -123,8 +118,7 @@ final class JObjectValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyJArray(
-			@NotNull @NotEmpty @NotBlank final String attr) {
+	public AbstractSchemaException verifyJArray(@NotNull @NotEmpty @NotBlank final String attr) {
 		final JsonNode attrNode = this.verifiedNode.path(attr);
 
 		AbstractSchemaException retExp = null;
@@ -142,8 +136,7 @@ final class JObjectValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyJObject(
-			@NotNull @NotEmpty @NotBlank final String attr) {
+	public AbstractSchemaException verifyJObject(@NotNull @NotEmpty @NotBlank final String attr) {
 		final JsonNode attrNode = this.verifiedNode.path(attr);
 
 		AbstractSchemaException retExp = null;
@@ -161,8 +154,7 @@ final class JObjectValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyUnsupported(
-			@MinLength(1) final String... attrs) {
+	public AbstractSchemaException verifyUnsupported(@MinLength(1) final String... attrs) {
 		final Set<String> reqAttrs = new HashSet<>(Arrays.asList(attrs));
 		final Set<String> unsupportedSet = new HashSet<>();
 		final Iterator<String> fieldIt = this.verifiedNode.fieldNames();
@@ -176,8 +168,7 @@ final class JObjectValidator {
 		AbstractSchemaException retExp = null;
 		if (!unsupportedSet.isEmpty()) {
 			retExp = new UnsupportAttrException(getClass(), unsupportedSet);
-			debug(LOGGER, getClass(), "D10017", retExp, this.name,
-					toStr(unsupportedSet));
+			debug(LOGGER, getClass(), "D10017", retExp, this.name, toStr(unsupportedSet));
 		}
 		return retExp;
 	}
@@ -190,8 +181,7 @@ final class JObjectValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyPattern(
-			@NotNull @NotEmpty @NotBlank final String attr,
+	public AbstractSchemaException verifyPattern(@NotNull @NotEmpty @NotBlank final String attr,
 			@NotNull @NotEmpty @NotBlank final String regexStr) {
 		final JsonNode attrNode = this.verifiedNode.path(attr);
 		final Pattern pattern = Pattern.compile(regexStr);
@@ -200,10 +190,8 @@ final class JObjectValidator {
 
 		AbstractSchemaException retExp = null;
 		if (!matcher.matches()) {
-			retExp = new PatternNotMatchException(getClass(), attr, value,
-					regexStr);
-			debug(LOGGER, getClass(), "D10003", retExp, this.name, attr, value,
-					regexStr);
+			retExp = new PatternNotMatchException(getClass(), attr, value, regexStr);
+			debug(LOGGER, getClass(), "D10003", retExp, this.name, attr, value, regexStr);
 		}
 		return retExp;
 	}
@@ -215,16 +203,14 @@ final class JObjectValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyMissing(
-			@MinLength(1) final String... attrs) {
+	public AbstractSchemaException verifyMissing(@MinLength(1) final String... attrs) {
 		AbstractSchemaException retExp = null;
 		for (final String attr : attrs) {
 			final int occurs = occursAttr(this.verifiedNode, attr);
 			if (0 == occurs) {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Missing");
-				debug(LOGGER, getClass(), "D10004.MIS", retExp, this.name,
-						this.name, attr);
+				debug(LOGGER, getClass(), "D10004.MIS", retExp, this.name, this.name, attr);
 				break;
 			}
 		}
@@ -238,16 +224,14 @@ final class JObjectValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyExisting(
-			@MinLength(1) final String... attrs) {
+	public AbstractSchemaException verifyExisting(@MinLength(1) final String... attrs) {
 		AbstractSchemaException retExp = null;
 		for (final String attr : attrs) {
 			final int occurs = occursAttr(this.verifiedNode, attr);
 			if (0 < occurs) {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Existing");
-				debug(LOGGER, getClass(), "D10004.EXT", retExp, this.name,
-						this.name, attr);
+				debug(LOGGER, getClass(), "D10004.EXT", retExp, this.name, this.name, attr);
 				break;
 			}
 		}
@@ -260,15 +244,13 @@ final class JObjectValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyIn(
-			@NotNull @NotBlank @NotEmpty final String attr,
+	public AbstractSchemaException verifyIn(@NotNull @NotBlank @NotEmpty final String attr,
 			@MinLength(1) final String... values) {
 		AbstractSchemaException retExp = null;
 		if (!isAttrIn(this.verifiedNode, attr, values)) {
 			retExp = new InvalidValueException(getClass(), attr, // NOPMD
 					toStr(values), this.verifiedNode.path(attr).asText(), "");
-			debug(LOGGER, getClass(), "D10005.IN", retExp, this.name,
-					this.name, attr, toStr(values));
+			debug(LOGGER, getClass(), "D10005.IN", retExp, this.name, this.name, attr, toStr(values));
 		}
 		return retExp;
 	}
@@ -281,15 +263,13 @@ final class JObjectValidator {
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyNotIn(
-			@NotNull @NotBlank @NotEmpty final String attr,
+	public AbstractSchemaException verifyNotIn(@NotNull @NotBlank @NotEmpty final String attr,
 			@MinLength(1) final String... values) {
 		AbstractSchemaException retExp = null;
 		if (isAttrIn(this.verifiedNode, attr, values)) {
 			retExp = new InvalidValueException(getClass(), attr, // NOPMD
 					toStr(values), this.verifiedNode.path(attr).asText(), "n't");
-			debug(LOGGER, getClass(), "D10005.NIN", retExp, this.name,
-					this.name, attr, toStr(values));
+			debug(LOGGER, getClass(), "D10005.NIN", retExp, this.name, this.name, attr, toStr(values));
 		}
 		return retExp;
 	}

@@ -29,7 +29,7 @@ public abstract class AbstractDbPool {
 	/**
 	 * 数据源的Mapping
 	 */
-	public static final ConcurrentMap<String,DataSource> DS_POOL = new ConcurrentHashMap<>();
+	public static final ConcurrentMap<String, DataSource> DS_POOL = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/**
 	 * Spring JDBC Template实例：jdbc这个变量没有执行Pre的@NotNull约束，因为构造函数调用了子类中的两个方法，
@@ -42,12 +42,13 @@ public abstract class AbstractDbPool {
 	@NotNull
 	@NotEmpty
 	@NotBlank
-	protected transient String category;	// NOPMD
+	protected transient String category; // NOPMD
 	/**
 	 * 资源加载器
 	 */
 	@NotNull
-	protected transient final PropertyKit LOADER = new PropertyKit(getClass(),Resources.DB_CFG_FILE);
+	protected transient final PropertyKit LOADER = new PropertyKit(getClass(), Resources.DB_CFG_FILE);
+
 	// ~ Constructors ========================================
 	/**
 	 * 默认构造函数
@@ -56,6 +57,7 @@ public abstract class AbstractDbPool {
 	protected AbstractDbPool() {
 		this(Resources.DB_CATEGORY);
 	}
+
 	/**
 	 * 构造函数
 	 * 
@@ -81,6 +83,7 @@ public abstract class AbstractDbPool {
 	 * 初始化数据源
 	 */
 	protected abstract void initDataSource();
+
 	/**
 	 * JDBC属性设置
 	 */
@@ -97,6 +100,7 @@ public abstract class AbstractDbPool {
 	 * @return
 	 */
 	protected abstract DataSource getDataSource();
+
 	// ~ Methods =============================================
 	/**
 	 * 返回JdbcTemplate引用
@@ -107,14 +111,17 @@ public abstract class AbstractDbPool {
 	public JdbcTemplate getJdbc() {
 		return this.jdbc;
 	}
+
 	/**
 	 * 返回数据库类型
+	 * 
 	 * @return
 	 */
 	@NotNull
-	public String getCategory(){
+	public String getCategory() {
 		return this.category;
 	}
+
 	/**
 	 * 返回资源加载器，子类使用
 	 * 

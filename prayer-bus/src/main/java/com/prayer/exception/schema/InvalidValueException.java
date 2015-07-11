@@ -28,8 +28,8 @@ public class InvalidValueException extends AbstractSchemaException {
 	 * @param expected
 	 * @param actual
 	 */
-	public InvalidValueException(final Class<?> clazz, final String attr,
-			final String expected, final String actual, final String flag) {
+	public InvalidValueException(final Class<?> clazz, final String attr, final String expected, final String actual,
+			final String flag) {
 		super(clazz, -10005, attr, expected, actual, flag);
 	}
 

@@ -28,13 +28,12 @@ import com.prayer.mod.sys.SystemEnum.KeyCategory;
  *
  */
 @Guarded
-final class KeysEnsurer implements InternalEnsurer {	// NOPMD
+final class KeysEnsurer implements InternalEnsurer { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String, String> REGEX_MAP = new ConcurrentHashMap<>();
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(KeysEnsurer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(KeysEnsurer.class);
 	/** **/
 	private static final String MT_MSG = "multi = true, size must be greater than 1.";
 	/** **/
@@ -149,8 +148,7 @@ final class KeysEnsurer implements InternalEnsurer {	// NOPMD
 			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
 					"Node: __keys__ ==> index: " + count);
 			// 26.1.验证__keys__中的Json对象的Required属性
-			this.error = validator.verifyRequired(Attributes.K_NAME,
-					Attributes.K_MULTI, Attributes.K_CATEGORY,
+			this.error = validator.verifyRequired(Attributes.K_NAME, Attributes.K_MULTI, Attributes.K_CATEGORY,
 					Attributes.K_COLUMNS);
 			if (null != this.error) {
 				break;
@@ -171,8 +169,7 @@ final class KeysEnsurer implements InternalEnsurer {	// NOPMD
 		outer: while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
 			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
-					"Node: __keys__ ==> index: " + count + ", name: "
-							+ node.path(Attributes.K_NAME).asText());
+					"Node: __keys__ ==> index: " + count + ", name: " + node.path(Attributes.K_NAME).asText());
 			// 27.1.模式匹配
 			for (final String attr : REGEX_MAP.keySet()) {
 				this.error = validator.verifyPattern(attr, REGEX_MAP.get(attr));
@@ -202,30 +199,26 @@ final class KeysEnsurer implements InternalEnsurer {	// NOPMD
 	 * 
 	 * @return
 	 */
-	private boolean validateKeysNameSpec() {	// NOPMD
+	private boolean validateKeysNameSpec() { // NOPMD
 		// 30.验证Keys的命名规范
 		final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
-			final KeyCategory category = fromStr(KeyCategory.class,
-					node.path(Attributes.K_CATEGORY).asText());
+			final KeyCategory category = fromStr(KeyCategory.class, node.path(Attributes.K_CATEGORY).asText());
 			final String name = node.path(Attributes.K_NAME).asText();
 			if (KeyCategory.PrimaryKey == category && !name.startsWith("PK")) {
 				this.error = new KeysNameSpecificationException(getClass(), // NOPMD
 						name, category.toString());
-			} else if (KeyCategory.ForeignKey == category
-					&& !name.startsWith("FK")) {
+			} else if (KeyCategory.ForeignKey == category && !name.startsWith("FK")) {
 				this.error = new KeysNameSpecificationException(getClass(), // NOPMD
 						name, category.toString());
-			} else if (KeyCategory.UniqueKey == category
-					&& !name.startsWith("UK")) {
+			} else if (KeyCategory.UniqueKey == category && !name.startsWith("UK")) {
 				this.error = new KeysNameSpecificationException(getClass(), // NOPMD
 						name, category.toString());
 			}
 			if (null != this.error) {
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[ERR" + this.error.getErrorCode()
-							+ "] Keys name specification error: name = " + name
+					LOGGER.debug("[ERR" + this.error.getErrorCode() + "] Keys name specification error: name = " + name
 							+ ", category = " + category.toString(), this.error);
 				}
 				break;
@@ -243,8 +236,7 @@ final class KeysEnsurer implements InternalEnsurer {	// NOPMD
 		final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
-			final ArrayNode columns = fromJObject(node
-					.path(Attributes.K_COLUMNS));
+			final ArrayNode columns = fromJObject(node.path(Attributes.K_COLUMNS));
 			final JArrayValidator validator = new JArrayValidator(columns, // NOPMD
 					Attributes.K_COLUMNS);
 			// 28.1.验证columns中是否有元素
@@ -270,8 +262,7 @@ final class KeysEnsurer implements InternalEnsurer {	// NOPMD
 		final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
-			final ArrayNode columns = fromJObject(node
-					.path(Attributes.K_COLUMNS));
+			final ArrayNode columns = fromJObject(node.path(Attributes.K_COLUMNS));
 			final Boolean isMulti = node.path(Attributes.K_MULTI).asBoolean();
 			if (isMulti && columns.size() <= 1) {
 				// 29.1.multi = true, Size > 1
@@ -284,11 +275,8 @@ final class KeysEnsurer implements InternalEnsurer {	// NOPMD
 			}
 			if (null != this.error) {
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(
-							"[ERR" + this.error.getErrorCode()
-									+ "] ==> ( Location: name:"
-									+ node.path(Attributes.K_NAME).asText()
-									+ " )", this.error);
+					LOGGER.debug("[ERR" + this.error.getErrorCode() + "] ==> ( Location: name:"
+							+ node.path(Attributes.K_NAME).asText() + " )", this.error);
 				}
 				break;
 			}
@@ -307,14 +295,12 @@ final class KeysEnsurer implements InternalEnsurer {	// NOPMD
 			final JsonNode node = nodeIt.next();
 			final Boolean isMulti = node.path(Attributes.K_MULTI).asBoolean();
 			if (isMulti) {
-				final KeyCategory category = fromStr(KeyCategory.class, node
-						.path(Attributes.K_CATEGORY).asText());
+				final KeyCategory category = fromStr(KeyCategory.class, node.path(Attributes.K_CATEGORY).asText());
 				if (KeyCategory.ForeignKey == category) {
 					final String name = node.path(Attributes.K_NAME).asText();
 					this.error = new MultiForFKPolicyException(getClass(), name); // NOPMD
 					if (LOGGER.isDebugEnabled()) {
-						LOGGER.debug("[ERR" + this.error.getErrorCode()
-								+ "] ==> ( Location: name: " + name + " )",
+						LOGGER.debug("[ERR" + this.error.getErrorCode() + "] ==> ( Location: name: " + name + " )",
 								this.error);
 					}
 					break;

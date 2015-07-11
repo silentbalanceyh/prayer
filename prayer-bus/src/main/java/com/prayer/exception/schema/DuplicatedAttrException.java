@@ -3,10 +3,9 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10007：出现Json节点属性重复错误
- * 1.如果出现重复属性则抛出该异常
+ * 【Checked】Error-10007：出现Json节点属性重复错误： 1.如果出现重复属性则抛出该异常
+ * 
  * @author Lang
- * @see
  */
 public class DuplicatedAttrException extends AbstractSchemaException {
 	// ~ Static Fields =======================================

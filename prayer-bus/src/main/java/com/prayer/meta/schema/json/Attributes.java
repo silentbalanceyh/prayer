@@ -43,7 +43,7 @@ interface Attributes { // NOPMD
 	String M_SEQ_STEP = "seqstep";
 	/** **/
 	String M_SEQ_INIT = "seqinit";
-	
+
 	// ------------------ __meta__ Required Regex ----------------
 	/** **/
 	String RGX_M_NAME = "[A-Z]{1}[A-Za-z0-9]+";
@@ -67,7 +67,7 @@ interface Attributes { // NOPMD
 	String RGX_M_SEQ_INIT = "[0-9]+";
 	/** **/
 	String RGX_M_SEQ_STEP = RGX_M_SEQ_INIT;
-	
+
 	// -------------------- __fields__ Required ------------------
 	/** **/
 	String F_NAME = "name";
@@ -77,7 +77,7 @@ interface Attributes { // NOPMD
 	String F_COL_TYPE = "columnType";
 	/** **/
 	String F_TYPE = "type";
-	
+
 	// -------------------- __fields__ Required Regex------------------
 	/** **/
 	String RGX_F_NAME = "[A-Za-z]{1}[A-Za-z0-9]+";
@@ -87,7 +87,7 @@ interface Attributes { // NOPMD
 	String RGX_F_COL_NAME = "[A-Z]{1,3}\\_[A-Z\\_]+";
 	/** **/
 	String RGX_F_COL_TYPE = "(BOOLEAN|INT|LONG|DECIMAL|DATE|STRING|JSON|XML|SCRIPT|BINARY)[0-9]*";
-	
+
 	// -------------------- __fields__ Optional ------------------
 	/** **/
 	String F_PATTERN = "pattern";
@@ -152,7 +152,7 @@ interface Attributes { // NOPMD
 	String RGX_F_MAX_LENGTH = RGX_M_SEQ_INIT;
 	/** **/
 	String RGX_F_MIN_LENGTH = RGX_M_SEQ_INIT;
-	
+
 	// ---------------------- __keys__ Required ------------------------
 	/** **/
 	String K_NAME = "name";

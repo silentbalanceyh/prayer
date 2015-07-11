@@ -25,8 +25,7 @@ public class MultiForPKPolicyException extends AbstractSchemaException {
 	 * @param policy
 	 * @param isMulti
 	 */
-	public MultiForPKPolicyException(final Class<?> clazz,
-			final String policy, final String isMulti) {
+	public MultiForPKPolicyException(final Class<?> clazz, final String policy, final String isMulti) {
 		super(clazz, -10022, policy, isMulti);
 	}
 

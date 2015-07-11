@@ -1,15 +1,17 @@
 package com.prayer.exception;
+
 /**
  * 
  * @author Lang
  *
  */
-public abstract class AbstractException extends Exception{
+public abstract class AbstractException extends Exception {
 	// ~ Static Fields =======================================
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3478027283838490966L;
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -20,6 +22,7 @@ public abstract class AbstractException extends Exception{
 	public AbstractException(final String message) {
 		super(message);
 	}
+
 	// ~ Abstract Methods ====================================
 	/**
 	 * Get type of schema exception. *

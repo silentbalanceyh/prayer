@@ -25,8 +25,7 @@ public class DuplicatedTablesException extends AbstractSchemaException {
 	 * @param attrLeft
 	 * @param attrRight
 	 */
-	public DuplicatedTablesException(final Class<?> clazz, final String attrLeft,
-			final String attrRight) {
+	public DuplicatedTablesException(final Class<?> clazz, final String attrLeft, final String attrRight) {
 		super(clazz, -10020, attrLeft, attrRight);
 	}
 

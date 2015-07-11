@@ -26,8 +26,7 @@ public class PatternNotMatchException extends AbstractSchemaException {
 	 * @param value
 	 * @param pattern
 	 */
-	public PatternNotMatchException(final Class<?> clazz, final String attr,
-			final String value, final String pattern) {
+	public PatternNotMatchException(final Class<?> clazz, final String attr, final String value, final String pattern) {
 		super(clazz, -10003, attr, value, pattern);
 	}
 

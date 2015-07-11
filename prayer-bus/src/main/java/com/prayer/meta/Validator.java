@@ -1,4 +1,5 @@
 package com.prayer.meta;
+
 /**
  * 格式校验接口
  *
@@ -8,6 +9,7 @@ package com.prayer.meta;
 public interface Validator {
 	/**
 	 * 校验字符串格式
+	 * 
 	 * @return
 	 */
 	boolean validate(String value);

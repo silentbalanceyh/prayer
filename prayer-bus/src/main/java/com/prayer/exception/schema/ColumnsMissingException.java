@@ -3,8 +3,8 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10023：columns中属性在__fields__中丢失
- * <code>1.如果columns中的列在__fields__中未定义抛出该异常</code>
+ * 【Checked】Error-10023：columns中属性在__fields__中丢失：1.
+ * 如果columns中的列在__fields__中未定义抛出该异常
  * 
  * @author Lang
  *
@@ -26,8 +26,7 @@ public class ColumnsMissingException extends AbstractSchemaException {
 	 * @param column
 	 * @param keyName
 	 */
-	public ColumnsMissingException(final Class<?> clazz, final String column,
-			final String keyName) {
+	public ColumnsMissingException(final Class<?> clazz, final String column, final String keyName) {
 		super(clazz, -10023, column, keyName);
 	}
 

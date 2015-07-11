@@ -3,8 +3,8 @@ package com.prayer.exception.schema;
 import com.prayer.exception.AbstractSchemaException;
 
 /**
- * 【Checked】Error-10015：外键策略冲突异常
- * 1.外键的数据列类型异常
+ * 【Checked】Error-10015：外键策略冲突异常 1.外键的数据列类型异常
+ * 
  * @author Lang
  * @see
  */

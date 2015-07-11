@@ -16,7 +16,7 @@ import com.prayer.meta.DataType;
  * @author Lang
  * @see
  */
-public class DataTypeHandler extends BaseTypeHandler<DataType>{	// NOPMD
+public class DataTypeHandler extends BaseTypeHandler<DataType> { // NOPMD
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -26,48 +26,39 @@ public class DataTypeHandler extends BaseTypeHandler<DataType>{	// NOPMD
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	public void setNonNullParameter(
-			final PreparedStatement pstmt, 
-			final int colIndex,
-			final DataType parameter, 
+	public void setNonNullParameter(final PreparedStatement pstmt, final int colIndex, final DataType parameter,
 			final JdbcType jdbcType) throws SQLException {
 		pstmt.setString(colIndex, parameter.toString());
 	}
+
 	/** **/
 	@Override
-	public DataType getNullableResult(
-			final ResultSet retSet, 
-			final String columnName)
-			throws SQLException {
+	public DataType getNullableResult(final ResultSet retSet, final String columnName) throws SQLException {
 		final String repValue = retSet.getString(columnName);
 		DataType retValue = null;
-		if(!retSet.wasNull()){
+		if (!retSet.wasNull()) {
 			retValue = DataType.fromString(repValue);
 		}
 		return retValue;
 	}
+
 	/** **/
 	@Override
-	public DataType getNullableResult(
-			final ResultSet retSet, 
-			final int columnIndex)
-			throws SQLException {
+	public DataType getNullableResult(final ResultSet retSet, final int columnIndex) throws SQLException {
 		final String repValue = retSet.getString(columnIndex);
 		DataType retValue = null;
-		if(!retSet.wasNull()){
+		if (!retSet.wasNull()) {
 			retValue = DataType.fromString(repValue);
 		}
 		return retValue;
 	}
+
 	/** **/
 	@Override
-	public DataType getNullableResult(
-			final CallableStatement callStmt, 
-			final int columnIndex)
-			throws SQLException {
+	public DataType getNullableResult(final CallableStatement callStmt, final int columnIndex) throws SQLException {
 		final String repValue = callStmt.getString(columnIndex);
 		DataType retValue = null;
-		if(!callStmt.wasNull()){
+		if (!callStmt.wasNull()) {
 			retValue = DataType.fromString(repValue);
 		}
 		return retValue;

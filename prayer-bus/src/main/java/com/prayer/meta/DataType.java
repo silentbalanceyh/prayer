@@ -6,7 +6,7 @@ package com.prayer.meta;
  * @author Lang
  * @see
  */
-public enum DataType {	// NOPMD
+public enum DataType { // NOPMD
 
 	BOOLEAN("BooleanType", 0B0_0000_0000_0000),
 
@@ -54,7 +54,7 @@ public enum DataType {	// NOPMD
 	}
 
 	/** 从String转换的类 **/
-	public static DataType fromString(final String storedValue) {	// NOPMD
+	public static DataType fromString(final String storedValue) { // NOPMD
 		DataType retValue;
 		switch (storedValue) {
 		case "BooleanType":

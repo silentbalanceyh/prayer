@@ -35,8 +35,7 @@ import com.prayer.mod.sys.SystemEnum.MetaPolicy;
 final class CrossEnsurer implements InternalEnsurer { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(CrossEnsurer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CrossEnsurer.class);
 	/** **/
 	private static final String ERR_PRE = "[ERR";
 	// ~ Instance Fields =====================================
@@ -61,8 +60,7 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 	 * @param fieldsNode
 	 */
 	@PostValidateThis
-	public CrossEnsurer(@NotNull final ArrayNode keysNode,
-			@NotNull final ArrayNode fieldsNode,
+	public CrossEnsurer(@NotNull final ArrayNode keysNode, @NotNull final ArrayNode fieldsNode,
 			@NotNull final MetaPolicy policy) {
 		this.keysNode = keysNode;
 		this.fieldsNode = fieldsNode;
@@ -118,23 +116,19 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
 			final Boolean isMulti = node.path(Attributes.K_MULTI).asBoolean();
-			final KeyCategory category = fromStr(KeyCategory.class,
-					node.path(Attributes.K_CATEGORY).asText());
-			final ArrayNode columns = fromJObject(node
-					.path(Attributes.K_COLUMNS));
+			final KeyCategory category = fromStr(KeyCategory.class, node.path(Attributes.K_CATEGORY).asText());
+			final ArrayNode columns = fromJObject(node.path(Attributes.K_COLUMNS));
 			if (isMulti) {
 				if (KeyCategory.PrimaryKey == category) {
 					countAttr(columns, Attributes.F_PK, Boolean.TRUE, category);
 				} else if (KeyCategory.UniqueKey == category) {
-					countAttr(columns, Attributes.F_UNIQUE, Boolean.FALSE,
-							category);
+					countAttr(columns, Attributes.F_UNIQUE, Boolean.FALSE, category);
 				}
 			} else {
 				if (KeyCategory.PrimaryKey == category) {
 					countAttr(columns, Attributes.F_PK, Boolean.TRUE, category);
 				} else if (KeyCategory.UniqueKey == category) {
-					countAttr(columns, Attributes.F_UNIQUE, Boolean.TRUE,
-							category);
+					countAttr(columns, Attributes.F_UNIQUE, Boolean.TRUE, category);
 				} else {
 					countAttr(columns, Attributes.F_FK, Boolean.TRUE, category);
 				}
@@ -154,8 +148,7 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 	 * @param category
 	 * @return
 	 */
-	private void countAttr(final ArrayNode columns, final String attr,
-			final Object value, final KeyCategory category) {
+	private void countAttr(final ArrayNode columns, final String attr, final Object value, final KeyCategory category) {
 		int occurs = 0;
 		final Iterator<JsonNode> nodeIt = columns.iterator();
 		while (nodeIt.hasNext()) {
@@ -164,13 +157,10 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 			occurs += occursAttr(fieldNode, attr, value, true);
 		}
 		if (occurs != columns.size()) {
-			this.error = instance(WrongTimeAttrException.class.getName(),
-					getClass(), attr, value.toString(),
-					String.valueOf(columns.size()), String.valueOf(occurs),
-					category.toString());
+			this.error = instance(WrongTimeAttrException.class.getName(), getClass(), attr, value.toString(),
+					String.valueOf(columns.size()), String.valueOf(occurs), category.toString());
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_PRE + this.error.getErrorCode()
-						+ "] ==> Pair (" + attr + " = " + value
+				LOGGER.debug(ERR_PRE + this.error.getErrorCode() + "] ==> Pair (" + attr + " = " + value
 						+ ") of category : " + category, this.error);
 			}
 		}
@@ -187,8 +177,7 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 		JsonNode retNode = null;
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
-			final String nodeColValue = node.path(Attributes.F_COL_NAME)
-					.asText();
+			final String nodeColValue = node.path(Attributes.F_COL_NAME).asText();
 			if (StringUtil.equals(colValue, nodeColValue)) {
 				retNode = node;
 				break;
@@ -207,23 +196,18 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 		int count = 0;
 		outer: while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
-			final ArrayNode columns = fromJObject(node
-					.path(Attributes.K_COLUMNS));
+			final ArrayNode columns = fromJObject(node.path(Attributes.K_COLUMNS));
 			final Iterator<JsonNode> columnIt = columns.iterator();
 			while (columnIt.hasNext()) {
 				final String colName = columnIt.next().asText();
-				final int occurs = occursAttr(this.fieldsNode,
-						Attributes.F_COL_NAME, colName, true);
+				final int occurs = occursAttr(this.fieldsNode, Attributes.F_COL_NAME, colName, true);
 				if (0 == occurs) {
-					final String keyName = node.path(Attributes.K_NAME)
-							.asText();
+					final String keyName = node.path(Attributes.K_NAME).asText();
 					this.error = new ColumnsMissingException(getClass(), // NOPMD
 							colName, keyName);
 					if (LOGGER.isDebugEnabled()) {
-						LOGGER.debug(ERR_PRE + this.error.getErrorCode()
-								+ "] ==> ( Location: index = " + count
-								+ ", keyName = " + keyName + ", column = "
-								+ colName + " )", this.error);
+						LOGGER.debug(ERR_PRE + this.error.getErrorCode() + "] ==> ( Location: index = " + count
+								+ ", keyName = " + keyName + ", column = " + colName + " )", this.error);
 					}
 					break outer;
 				}
@@ -239,13 +223,11 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 	 */
 	private boolean validatePKOnlyOne() {
 		// 32.验证Keys中的PrimaryKey只能有一个
-		final int occurs = occursAttr(this.keysNode, Attributes.K_CATEGORY,
-				KeyCategory.PrimaryKey, true);
+		final int occurs = occursAttr(this.keysNode, Attributes.K_CATEGORY, KeyCategory.PrimaryKey, true);
 		if (1 != occurs) { // NOPMD
 			this.error = new PKNotOnlyOneException(getClass());
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_PRE + this.error.getErrorCode()
-						+ "] ==> Primary Key definition redundancy.",
+				LOGGER.debug(ERR_PRE + this.error.getErrorCode() + "] ==> Primary Key definition redundancy.",
 						this.error);
 			}
 		}
@@ -258,13 +240,11 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 	 */
 	private boolean validateFKOnlyOne() {
 		// 33.验证Keys中的ForeignKey如果存在只能有一个
-		final int occurs = occursAttr(this.keysNode, Attributes.K_CATEGORY,
-				KeyCategory.ForeignKey, true);
+		final int occurs = occursAttr(this.keysNode, Attributes.K_CATEGORY, KeyCategory.ForeignKey, true);
 		if (1 < occurs) { // NOPMD
 			this.error = new FKNotOnlyOneException(getClass());
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_PRE + this.error.getErrorCode()
-						+ "] ==> Foreign Key definition redundancy.",
+				LOGGER.debug(ERR_PRE + this.error.getErrorCode() + "] ==> Foreign Key definition redundancy.",
 						this.error);
 			}
 		}
@@ -281,8 +261,7 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 		int count = 0;
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
-			final KeyCategory category = fromStr(KeyCategory.class,
-					node.path(Attributes.K_CATEGORY).asText());
+			final KeyCategory category = fromStr(KeyCategory.class, node.path(Attributes.K_CATEGORY).asText());
 			if (KeyCategory.PrimaryKey != category) {
 				count++;
 				continue;
@@ -291,18 +270,15 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 			if (isMulti && MetaPolicy.COLLECTION != this.pkPolicy) {
 				this.error = new MultiForPKPolicyException(getClass(), // NOPMD
 						this.pkPolicy.toString(), isMulti.toString());
-			} else if (!isMulti && MetaPolicy.ASSIGNED != this.pkPolicy
-					&& MetaPolicy.GUID != this.pkPolicy
+			} else if (!isMulti && MetaPolicy.ASSIGNED != this.pkPolicy && MetaPolicy.GUID != this.pkPolicy
 					&& MetaPolicy.INCREMENT != this.pkPolicy) {
 				this.error = new MultiForPKPolicyException(getClass(), // NOPMD
 						this.pkPolicy.toString(), isMulti.toString());
 			}
 			if (null != this.error) {
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_PRE + this.error.getErrorCode()
-							+ "] ==> ( Location: index = " + count
-							+ ", policy = " + this.pkPolicy.toString()
-							+ ", multi=" + isMulti + " )", this.error);
+					LOGGER.debug(ERR_PRE + this.error.getErrorCode() + "] ==> ( Location: index = " + count
+							+ ", policy = " + this.pkPolicy.toString() + ", multi=" + isMulti + " )", this.error);
 				}
 				break;
 			}

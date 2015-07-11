@@ -27,8 +27,7 @@ public class FKAttrTypeException extends AbstractSchemaException {
 	 * @param keyName
 	 * @param dataType
 	 */
-	public FKAttrTypeException(final Class<?> clazz, final String keyName,
-			final String dataType) {
+	public FKAttrTypeException(final Class<?> clazz, final String keyName, final String dataType) {
 		super(clazz, -10014, keyName, dataType);
 	}
 

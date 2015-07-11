@@ -26,8 +26,7 @@ public class PKPolicyConflictException extends AbstractSchemaException {
 	 * @param clazz
 	 * @param table
 	 */
-	public PKPolicyConflictException(final Class<?> clazz, final String policy,
-			final String table) {
+	public PKPolicyConflictException(final Class<?> clazz, final String policy, final String table) {
 		super(clazz, -10011, policy, table);
 	}
 

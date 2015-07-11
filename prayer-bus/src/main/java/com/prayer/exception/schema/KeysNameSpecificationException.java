@@ -26,8 +26,7 @@ public class KeysNameSpecificationException extends AbstractSchemaException {
 	 * @param clazz
 	 * @param attr
 	 */
-	public KeysNameSpecificationException(final Class<?> clazz,
-			final String name, final String category) {
+	public KeysNameSpecificationException(final Class<?> clazz, final String name, final String category) {
 		super(clazz, -10019, name, category);
 	}
 

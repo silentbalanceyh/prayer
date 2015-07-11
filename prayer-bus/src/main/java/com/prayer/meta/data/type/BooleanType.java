@@ -83,6 +83,7 @@ public class BooleanType implements Value<Boolean> {
 	public DataType getDataType() {
 		return DataType.BOOLEAN;
 	}
+
 	// ~ Methods =============================================
 	/**
 	 * set重载
@@ -92,11 +93,12 @@ public class BooleanType implements Value<Boolean> {
 	public void setValue(final String value) {
 		this.init(value);
 	}
+
 	// ~ Private Methods =====================================
 	/**
-	 * 非Boolean类型初始化专用 
-	 * **/
-	private void init(final Object value){
+	 * 非Boolean类型初始化专用
+	 **/
+	private void init(final Object value) {
 		this.value.setValue(Convert.toBooleanValue(value, Boolean.FALSE));
 	}
 
@@ -110,7 +112,7 @@ public class BooleanType implements Value<Boolean> {
 	/** **/
 	@Override
 	public int hashCode() {
-		final int prime = 31;	// NOPMD
+		final int prime = 31; // NOPMD
 		int result = 1;
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
@@ -119,22 +121,22 @@ public class BooleanType implements Value<Boolean> {
 	/** **/
 	@Override
 	public boolean equals(final Object obj) {
-		if (this == obj){
-			return true;	// NOPMD
+		if (this == obj) {
+			return true; // NOPMD
 		}
-		if (obj == null){
-			return false;	// NOPMD
+		if (obj == null) {
+			return false; // NOPMD
 		}
-		if (getClass() != obj.getClass()){
-			return false;	// NOPMD
+		if (getClass() != obj.getClass()) {
+			return false; // NOPMD
 		}
 		final BooleanType other = (BooleanType) obj;
 		if (value == null) {
-			if (other.value != null){
-				return false;	// NOPMD
+			if (other.value != null) {
+				return false; // NOPMD
 			}
-		} else if (!value.equals(other.value)){
-			return false;	// NOPMD
+		} else if (!value.equals(other.value)) {
+			return false; // NOPMD
 		}
 		return true;
 	}

@@ -35,89 +35,64 @@ final class TypeEnsurer implements InternalEnsurer {
 	@NotNull
 	private transient final ArrayNode fieldsNode; // NOPMD
 	// ~ Static Block ========================================
+
 	/** **/
 	static {
 		// Required Mapping ( Remove name, type, columnName, columnType )
 		T_REQUIRED.put(DataType.STRING, new String[] { Attributes.F_LENGTH });
 		T_REQUIRED.put(DataType.XML, new String[] { Attributes.F_LENGTH });
 		T_REQUIRED.put(DataType.JSON, new String[] { Attributes.F_LENGTH });
-		T_REQUIRED.put(DataType.DATE, new String[] { Attributes.F_DATETIME,
-				Attributes.F_DATEFORMAT });
+		T_REQUIRED.put(DataType.DATE, new String[] { Attributes.F_DATETIME, Attributes.F_DATEFORMAT });
 		T_REQUIRED.put(DataType.LONG, new String[] {});
 		T_REQUIRED.put(DataType.INT, new String[] {});
-		T_REQUIRED.put(DataType.DECIMAL,
-				new String[] { Attributes.F_PRECISION });
+		T_REQUIRED.put(DataType.DECIMAL, new String[] { Attributes.F_PRECISION });
 		T_REQUIRED.put(DataType.BOOLEAN, new String[] {});
 		T_REQUIRED.put(DataType.BINARY, new String[] { Attributes.F_LENGTH });
 		T_REQUIRED.put(DataType.SCRIPT, new String[] { Attributes.F_LENGTH });
 		// Supported Attributes
-		T_SUPPORT.put(DataType.STRING, new String[] { Attributes.F_NAME,
-				Attributes.F_TYPE, Attributes.F_COL_NAME,
-				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR,
-				Attributes.F_PATTERN, Attributes.F_PK, Attributes.F_UNIQUE,
-				Attributes.F_FK, Attributes.F_SUB_TABLE, Attributes.F_REF_ID,
-				Attributes.F_REF_TABLE, Attributes.F_LENGTH,
-				Attributes.F_NULLABLE, Attributes.F_MAX_LENGTH,
-				Attributes.F_MIN_LENGTH });
-		T_SUPPORT.put(DataType.XML, new String[] { Attributes.F_NAME,
-				Attributes.F_TYPE, Attributes.F_COL_NAME,
-				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR,
-				Attributes.F_PATTERN, Attributes.F_UNIQUE,
-				Attributes.F_SUB_TABLE, Attributes.F_LENGTH,
-				Attributes.F_NULLABLE, Attributes.F_MAX_LENGTH,
-				Attributes.F_MIN_LENGTH });
-		T_SUPPORT.put(DataType.JSON, new String[] { Attributes.F_NAME,
-				Attributes.F_TYPE, Attributes.F_COL_NAME,
-				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR,
-				Attributes.F_PATTERN, Attributes.F_UNIQUE,
-				Attributes.F_SUB_TABLE, Attributes.F_LENGTH,
-				Attributes.F_NULLABLE, Attributes.F_MAX_LENGTH,
-				Attributes.F_MIN_LENGTH });
-		T_SUPPORT.put(DataType.DATE, new String[] { Attributes.F_NAME,
-				Attributes.F_TYPE, Attributes.F_COL_NAME,
-				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR,
-				Attributes.F_UNIQUE, Attributes.F_SUB_TABLE,
-				Attributes.F_DATETIME, Attributes.F_DATEFORMAT,
-				Attributes.F_NULLABLE, Attributes.F_MAX, Attributes.F_MIN });
-		T_SUPPORT.put(DataType.LONG, new String[] { Attributes.F_NAME,
-				Attributes.F_TYPE, Attributes.F_COL_NAME,
-				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR, Attributes.F_PK,
-				Attributes.F_UNIQUE, Attributes.F_FK, Attributes.F_SUB_TABLE,
-				Attributes.F_REF_ID, Attributes.F_REF_TABLE,
-				Attributes.F_LENGTH, Attributes.F_DATEFORMAT,
-				Attributes.F_DATETIME, Attributes.F_NULLABLE,
-				Attributes.F_UNIT, Attributes.F_MAX, Attributes.F_MIN });
-		T_SUPPORT.put(DataType.INT, new String[] { Attributes.F_NAME,
-				Attributes.F_TYPE, Attributes.F_COL_NAME,
-				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR, Attributes.F_PK,
-				Attributes.F_UNIQUE, Attributes.F_FK, Attributes.F_SUB_TABLE,
-				Attributes.F_REF_ID, Attributes.F_REF_TABLE,
-				Attributes.F_LENGTH, Attributes.F_NULLABLE, Attributes.F_UNIT,
-				Attributes.F_MAX, Attributes.F_MIN });
-		T_SUPPORT.put(DataType.DECIMAL, new String[] { Attributes.F_NAME,
-				Attributes.F_TYPE, Attributes.F_COL_NAME,
-				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR,
-				Attributes.F_UNIQUE, Attributes.F_SUB_TABLE,
-				Attributes.F_LENGTH, Attributes.F_NULLABLE,
-				Attributes.F_PRECISION, Attributes.F_UNIT, Attributes.F_MAX,
-				Attributes.F_MIN });
-		T_SUPPORT.put(DataType.BOOLEAN, new String[] { Attributes.F_NAME,
-				Attributes.F_TYPE, Attributes.F_COL_NAME,
-				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR,
-				Attributes.F_SUB_TABLE, Attributes.F_NULLABLE });
-		T_SUPPORT.put(DataType.BINARY, new String[] { Attributes.F_NAME,
-				Attributes.F_TYPE, Attributes.F_COL_NAME,
-				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR,
-				Attributes.F_UNIQUE, Attributes.F_SUB_TABLE,
-				Attributes.F_LENGTH, Attributes.F_NULLABLE,
-				Attributes.F_MAX_LENGTH, Attributes.F_MIN_LENGTH });
-		T_SUPPORT.put(DataType.SCRIPT, new String[] { Attributes.F_NAME,
-				Attributes.F_TYPE, Attributes.F_COL_NAME,
-				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR,
-				Attributes.F_PATTERN, Attributes.F_UNIQUE,
-				Attributes.F_SUB_TABLE, Attributes.F_LENGTH,
-				Attributes.F_NULLABLE, Attributes.F_MAX_LENGTH,
-				Attributes.F_MIN_LENGTH });
+		T_SUPPORT.put(DataType.STRING,
+				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,
+						Attributes.F_VALIDATOR, Attributes.F_PATTERN, Attributes.F_PK, Attributes.F_UNIQUE,
+						Attributes.F_FK, Attributes.F_SUB_TABLE, Attributes.F_REF_ID, Attributes.F_REF_TABLE,
+						Attributes.F_LENGTH, Attributes.F_NULLABLE, Attributes.F_MAX_LENGTH, Attributes.F_MIN_LENGTH });
+		T_SUPPORT.put(DataType.XML,
+				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,
+						Attributes.F_VALIDATOR, Attributes.F_PATTERN, Attributes.F_UNIQUE, Attributes.F_SUB_TABLE,
+						Attributes.F_LENGTH, Attributes.F_NULLABLE, Attributes.F_MAX_LENGTH, Attributes.F_MIN_LENGTH });
+		T_SUPPORT.put(DataType.JSON,
+				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,
+						Attributes.F_VALIDATOR, Attributes.F_PATTERN, Attributes.F_UNIQUE, Attributes.F_SUB_TABLE,
+						Attributes.F_LENGTH, Attributes.F_NULLABLE, Attributes.F_MAX_LENGTH, Attributes.F_MIN_LENGTH });
+		T_SUPPORT.put(DataType.DATE,
+				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,
+						Attributes.F_VALIDATOR, Attributes.F_UNIQUE, Attributes.F_SUB_TABLE, Attributes.F_DATETIME,
+						Attributes.F_DATEFORMAT, Attributes.F_NULLABLE, Attributes.F_MAX, Attributes.F_MIN });
+		T_SUPPORT.put(DataType.LONG,
+				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,
+						Attributes.F_VALIDATOR, Attributes.F_PK, Attributes.F_UNIQUE, Attributes.F_FK,
+						Attributes.F_SUB_TABLE, Attributes.F_REF_ID, Attributes.F_REF_TABLE, Attributes.F_LENGTH,
+						Attributes.F_DATEFORMAT, Attributes.F_DATETIME, Attributes.F_NULLABLE, Attributes.F_UNIT,
+						Attributes.F_MAX, Attributes.F_MIN });
+		T_SUPPORT.put(DataType.INT,
+				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,
+						Attributes.F_VALIDATOR, Attributes.F_PK, Attributes.F_UNIQUE, Attributes.F_FK,
+						Attributes.F_SUB_TABLE, Attributes.F_REF_ID, Attributes.F_REF_TABLE, Attributes.F_LENGTH,
+						Attributes.F_NULLABLE, Attributes.F_UNIT, Attributes.F_MAX, Attributes.F_MIN });
+		T_SUPPORT.put(DataType.DECIMAL,
+				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,
+						Attributes.F_VALIDATOR, Attributes.F_UNIQUE, Attributes.F_SUB_TABLE, Attributes.F_LENGTH,
+						Attributes.F_NULLABLE, Attributes.F_PRECISION, Attributes.F_UNIT, Attributes.F_MAX,
+						Attributes.F_MIN });
+		T_SUPPORT.put(DataType.BOOLEAN, new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME,
+				Attributes.F_COL_TYPE, Attributes.F_VALIDATOR, Attributes.F_SUB_TABLE, Attributes.F_NULLABLE });
+		T_SUPPORT.put(DataType.BINARY,
+				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,
+						Attributes.F_VALIDATOR, Attributes.F_UNIQUE, Attributes.F_SUB_TABLE, Attributes.F_LENGTH,
+						Attributes.F_NULLABLE, Attributes.F_MAX_LENGTH, Attributes.F_MIN_LENGTH });
+		T_SUPPORT.put(DataType.SCRIPT,
+				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,
+						Attributes.F_VALIDATOR, Attributes.F_PATTERN, Attributes.F_UNIQUE, Attributes.F_SUB_TABLE,
+						Attributes.F_LENGTH, Attributes.F_NULLABLE, Attributes.F_MAX_LENGTH, Attributes.F_MIN_LENGTH });
 		// Attribute patterns filling
 		T_PATTERN.put(Attributes.F_NAME, Attributes.RGX_F_NAME);
 		T_PATTERN.put(Attributes.F_TYPE, Attributes.RGX_F_TYPE);
@@ -195,8 +170,7 @@ final class TypeEnsurer implements InternalEnsurer {
 			final JsonNode fieldNode = fieldIt.next();
 			final DataType type = this.getType(fieldNode);
 			final JObjectValidator validator = new JObjectValidator(fieldNode, // NOPMD
-					"Node: __fields__ Required by Type: index = " + count
-							+ ", type: " + type + ", name: "
+					"Node: __fields__ Required by Type: index = " + count + ", type: " + type + ", name: "
 							+ fieldNode.path(Attributes.F_NAME).asText());
 			final String[] requiredAttrs = T_REQUIRED.get(type);
 			this.error = validator.verifyRequired(requiredAttrs);
@@ -219,14 +193,12 @@ final class TypeEnsurer implements InternalEnsurer {
 		outer: while (fieldIt.hasNext()) {
 			final JsonNode fieldNode = fieldIt.next();
 			final JObjectValidator validator = new JObjectValidator(fieldNode, // NOPMD
-					"Node: __fields__ Patterns by Type: index = " + count
-							+ ", name: "
+					"Node: __fields__ Patterns by Type: index = " + count + ", name: "
 							+ fieldNode.path(Attributes.F_NAME).asText());
 			for (final String attr : T_PATTERN.keySet()) {
 				final String attrValue = fieldNode.path(attr).asText();
 				if (StringKit.isNonNil(attrValue)) {
-					this.error = validator.verifyPattern(attr,
-							T_PATTERN.get(attr));
+					this.error = validator.verifyPattern(attr, T_PATTERN.get(attr));
 					if (null != this.error) {
 						break outer;
 					}
@@ -249,8 +221,7 @@ final class TypeEnsurer implements InternalEnsurer {
 			final JsonNode fieldNode = fieldIt.next();
 			final DataType type = this.getType(fieldNode);
 			final JObjectValidator validator = new JObjectValidator(fieldNode, // NOPMD
-					"Node: __fields__ Unsupported by Type: index = " + count
-							+ ", type: " + type.toString() + ", name: "
+					"Node: __fields__ Unsupported by Type: index = " + count + ", type: " + type.toString() + ", name: "
 							+ fieldNode.path(Attributes.F_NAME).asText());
 			final String[] supportedAttrs = T_SUPPORT.get(type);
 			this.error = validator.verifyUnsupported(supportedAttrs);

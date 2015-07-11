@@ -52,8 +52,7 @@ import com.prayer.res.cv.Constants;
 final class JArrayValidator { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(JArrayValidator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(JArrayValidator.class);
 	/** **/
 	private static final String LCT_STR = "] ==> ( Location: ";
 	/** **/
@@ -76,8 +75,7 @@ final class JArrayValidator { // NOPMD
 
 	/** **/
 	@PostValidateThis
-	public JArrayValidator(@NotNull final ArrayNode verifiedNodes,
-			@NotEmpty @NotBlank final String name) {
+	public JArrayValidator(@NotNull final ArrayNode verifiedNodes, @NotEmpty @NotBlank final String name) {
 		this.verifiedNodes = verifiedNodes;
 		if (null == name) {
 			this.name = "ROOT";
@@ -122,10 +120,8 @@ final class JArrayValidator { // NOPMD
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyFkColumnType(
-			@NotNull @NotBlank @NotEmpty final String attr,
-			@NotNull final ConcurrentMap<String, Object> filter,
-			@NotNull @NotBlank @NotEmpty final String regexStr) {
+	public AbstractSchemaException verifyFkColumnType(@NotNull @NotBlank @NotEmpty final String attr,
+			@NotNull final ConcurrentMap<String, Object> filter, @NotNull @NotBlank @NotEmpty final String regexStr) {
 		AbstractSchemaException retExp = null;
 		final List<JsonNode> fkNodes = findNodes(this.verifiedNodes, filter);
 		final Iterator<JsonNode> fkNIt = fkNodes.iterator();
@@ -139,8 +135,7 @@ final class JArrayValidator { // NOPMD
 			if (!matcher.matches()) {
 				retExp = new FKColumnTypeException(getClass(), // NOPMD
 						Attributes.F_COL_TYPE);
-				debug(LOGGER, getClass(), "D10015", retExp, this.name, attr,
-						value, regexStr, idx);
+				debug(LOGGER, getClass(), "D10015", retExp, this.name, attr, value, regexStr, idx);
 				break;
 			}
 			idx++;
@@ -154,10 +149,8 @@ final class JArrayValidator { // NOPMD
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyFkType(
-			@NotNull @NotBlank @NotEmpty final String attr,
-			@NotNull final ConcurrentMap<String, Object> filter,
-			@MinLength(1) final String... values) {
+	public AbstractSchemaException verifyFkType(@NotNull @NotBlank @NotEmpty final String attr,
+			@NotNull final ConcurrentMap<String, Object> filter, @MinLength(1) final String... values) {
 		AbstractSchemaException retExp = null;
 		final List<JsonNode> fkNodes = findNodes(this.verifiedNodes, filter);
 		final Iterator<JsonNode> fkNIt = fkNodes.iterator();
@@ -167,9 +160,8 @@ final class JArrayValidator { // NOPMD
 			if (!isAttrIn(node, attr, values)) {
 				retExp = new FKAttrTypeException(getClass(), // NOPMD
 						attr, node.path(Attributes.F_TYPE).asText());
-				debug(LOGGER, getClass(), "D10014", retExp, this.name, attr,
-						node.path(Attributes.F_TYPE).asText(), toStr(values),
-						idx);
+				debug(LOGGER, getClass(), "D10014", retExp, this.name, attr, node.path(Attributes.F_TYPE).asText(),
+						toStr(values), idx);
 				break;
 			}
 			idx++;
@@ -192,8 +184,7 @@ final class JArrayValidator { // NOPMD
 			if (!item.isContainerNode() || item.isArray()) {
 				retExp = new JsonTypeConfusedException(getClass(), "value = " // NOPMD
 						+ item.toString());
-				debug(LOGGER, getClass(), "D10002.EOBJ", retExp, this.name,
-						item.toString(), idx);
+				debug(LOGGER, getClass(), "D10002.EOBJ", retExp, this.name, item.toString(), idx);
 				break;
 			}
 			idx++;
@@ -216,8 +207,7 @@ final class JArrayValidator { // NOPMD
 			if (item.isContainerNode() || !item.isTextual()) {
 				retExp = new JsonTypeConfusedException(getClass(), "value = " // NOPMD
 						+ item.toString());
-				debug(LOGGER, getClass(), "D10002.ESTR", retExp, this.name,
-						item.toString(), idx);
+				debug(LOGGER, getClass(), "D10002.ESTR", retExp, this.name, item.toString(), idx);
 				break;
 			}
 			idx++;
@@ -233,22 +223,17 @@ final class JArrayValidator { // NOPMD
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyPKeyPolicyType(
-			@NotNull final MetaPolicy policy,
-			@NotNull final ConcurrentMap<String, Object> filter,
-			@MinLength(1) final String... expectedValues) {
+	public AbstractSchemaException verifyPKeyPolicyType(@NotNull final MetaPolicy policy,
+			@NotNull final ConcurrentMap<String, Object> filter, @MinLength(1) final String... expectedValues) {
 		final List<JsonNode> pkList = findNodes(this.verifiedNodes, filter);
 		AbstractSchemaException retExp = null;
 		int idx = 0;
 		for (final JsonNode jsonNode : pkList) {
 			if (!isAttrIn(jsonNode, Attributes.F_TYPE, expectedValues)) {
 				retExp = new PKColumnTypePolicyException(getClass(), // NOPMD
-						policy.toString(), jsonNode.path(Attributes.F_TYPE)
-								.asText());
-				debug(LOGGER, getClass(), "D10012", retExp, this.name,
-						Attributes.F_TYPE, jsonNode.path(Attributes.F_TYPE)
-								.asText(), policy.toString(),
-						toStr(expectedValues), idx);
+						policy.toString(), jsonNode.path(Attributes.F_TYPE).asText());
+				debug(LOGGER, getClass(), "D10012", retExp, this.name, Attributes.F_TYPE,
+						jsonNode.path(Attributes.F_TYPE).asText(), policy.toString(), toStr(expectedValues), idx);
 				break;
 			}
 			idx++;
@@ -264,21 +249,17 @@ final class JArrayValidator { // NOPMD
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyPKeyNonCOPolicy(
-			@NotNull @NotBlank @NotEmpty final String attr,
+	public AbstractSchemaException verifyPKeyNonCOPolicy(@NotNull @NotBlank @NotEmpty final String attr,
 			@NotNull final MetaPolicy policy) {
-		final int occurs = occursAttr(this.verifiedNodes, attr, Boolean.TRUE,
-				false);
+		final int occurs = occursAttr(this.verifiedNodes, attr, Boolean.TRUE, false);
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[I] ==> (policy != COLLECTION) occurs = " + occurs);
 		}
 
 		AbstractSchemaException retExp = null;
 		if (Constants.ONE != occurs) {
-			retExp = new PKPolicyConflictException(getClass(),
-					policy.toString(), this.table);
-			debug(LOGGER, getClass(), "D10011.NCO", retExp, this.name, attr,
-					policy.toString(), this.table, occurs);
+			retExp = new PKPolicyConflictException(getClass(), policy.toString(), this.table);
+			debug(LOGGER, getClass(), "D10011.NCO", retExp, this.name, attr, policy.toString(), this.table, occurs);
 		}
 		return retExp;
 	}
@@ -291,21 +272,17 @@ final class JArrayValidator { // NOPMD
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyPKeyCOPolicy(
-			@NotNull @NotBlank @NotEmpty final String attr,
+	public AbstractSchemaException verifyPKeyCOPolicy(@NotNull @NotBlank @NotEmpty final String attr,
 			@NotNull final MetaPolicy policy) {
-		final int occurs = occursAttr(this.verifiedNodes, attr, Boolean.TRUE,
-				false);
+		final int occurs = occursAttr(this.verifiedNodes, attr, Boolean.TRUE, false);
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[I] ==> (policy == COLLECTION) occurs = " + occurs);
 		}
 
 		AbstractSchemaException retExp = null;
 		if (Constants.ONE >= occurs) {
-			retExp = new PKPolicyConflictException(getClass(),
-					policy.toString(), this.table);
-			debug(LOGGER, getClass(), "D10011.CO", retExp, this.name, attr,
-					policy.toString(), this.table, occurs);
+			retExp = new PKPolicyConflictException(getClass(), policy.toString(), this.table);
+			debug(LOGGER, getClass(), "D10011.CO", retExp, this.name, attr, policy.toString(), this.table, occurs);
 		}
 		return retExp;
 	}
@@ -316,22 +293,19 @@ final class JArrayValidator { // NOPMD
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyRelMissing(
-			@NotNull @NotBlank @NotEmpty final String attr, final Object value,
+	public AbstractSchemaException verifyRelMissing(@NotNull @NotBlank @NotEmpty final String attr, final Object value,
 			@Min(1) final int minOccurs) {
 		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
 		final int occurs = occursAttr(this.verifiedNodes, attr, value, false);
 
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = "
-					+ occurs);
+			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = " + occurs);
 		}
 
 		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {
 			retExp = new SubtableWrongException(getClass());
-			debug(LOGGER, getClass(), "D10013", retExp, this.name, attr,
-					value.toString(), occurs, minOccurs);
+			debug(LOGGER, getClass(), "D10013", retExp, this.name, attr, value.toString(), occurs, minOccurs);
 		}
 		return retExp;
 	}
@@ -345,26 +319,21 @@ final class JArrayValidator { // NOPMD
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyPKeyMissing(
-			@NotNull @NotBlank @NotEmpty final String attr, final Object value,
+	public AbstractSchemaException verifyPKeyMissing(@NotNull @NotBlank @NotEmpty final String attr, final Object value,
 			@Min(1) final int minOccurs) {
 		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
 		final int occurs = occursAttr(this.verifiedNodes, attr, value, false);
 
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = "
-					+ occurs);
+			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = " + occurs);
 		}
 
 		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {
 			retExp = new PKMissingException(getClass(), this.table);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(
-						ERR_STR + retExp.getErrorCode()
-								+ "] ==> For Value ( Location: " + attr + " = "
-								+ value.toString() + " ) [PrimaryKey] occurs: "
-								+ occurs, retExp);
+				LOGGER.debug(ERR_STR + retExp.getErrorCode() + "] ==> For Value ( Location: " + attr + " = "
+						+ value.toString() + " ) [PrimaryKey] occurs: " + occurs, retExp);
 			}
 		}
 		return retExp;
@@ -377,8 +346,7 @@ final class JArrayValidator { // NOPMD
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyKeysDuplicated(
-			@NotNull @NotBlank @NotEmpty final String attr) {
+	public AbstractSchemaException verifyKeysDuplicated(@NotNull @NotBlank @NotEmpty final String attr) {
 		// Occurs的计算不能使用，attrExpStr的计算存在，所以不可使用Occurs计算
 		final Set<String> setValues = new HashSet<>();
 		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
@@ -396,8 +364,7 @@ final class JArrayValidator { // NOPMD
 		if (setValues.size() < this.verifiedNodes.size()) {
 			retExp = new DuplicatedKeyException(getClass(), attr);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-						+ this.name + " -> " + attr + " )", retExp);
+				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + this.name + " -> " + attr + " )", retExp);
 			}
 		}
 		return retExp;
@@ -410,8 +377,7 @@ final class JArrayValidator { // NOPMD
 	 * @return
 	 */
 	@PreValidateThis
-	public AbstractSchemaException verifyDuplicated(
-			@NotNull @NotBlank @NotEmpty final String attr) {
+	public AbstractSchemaException verifyDuplicated(@NotNull @NotBlank @NotEmpty final String attr) {
 		// Occurs的计算不能使用，attrExpStr的计算存在，所以不可使用Occurs计算
 		final Set<String> setValues = new HashSet<>();
 		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
@@ -433,14 +399,12 @@ final class JArrayValidator { // NOPMD
 			if (attr.equals(Attributes.F_COL_NAME)) {
 				retExp = new DuplicatedColumnException(getClass(), attrExpStr);
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-							+ this.name + " -> " + attr + ")", retExp);
+					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + this.name + " -> " + attr + ")", retExp);
 				}
 			} else {
 				retExp = new DuplicatedAttrException(getClass(), attrExpStr);
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-							+ this.name + " -> " + attr + ")", retExp);
+					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + this.name + " -> " + attr + ")", retExp);
 				}
 			}
 		}

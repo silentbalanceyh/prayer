@@ -30,8 +30,7 @@ import com.prayer.util.JsonKit;
 public class GenericImporter implements Importer {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GenericImporter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GenericImporter.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
@@ -53,9 +52,7 @@ public class GenericImporter implements Importer {
 		this.ensurer = instance(GenericEnsurer.class.getName());
 		if (null == this.filePath && LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[E] File path initializing met error!",
-					new TypeInitException(getClass(),
-							"Constructor: GenericImporter(String)",
-							this.filePath));
+					new TypeInitException(getClass(), "Constructor: GenericImporter(String)", this.filePath));
 		}
 	}
 
@@ -67,8 +64,7 @@ public class GenericImporter implements Importer {
 	@Override
 	@PreValidateThis
 	public void importFile() throws AbstractSystemException {
-		final JsonNode schemaData = JsonKit
-				.readJson(this.filePath);
+		final JsonNode schemaData = JsonKit.readJson(this.filePath);
 		/**
 		 * JsonKit.readJson本身会抛出AbstractSystemException
 		 * <code>-20002: ResourceIOException</code>
@@ -79,15 +75,16 @@ public class GenericImporter implements Importer {
 			this.ensurer.refreshData(schemaData);
 		}
 	}
+
 	/**
 	 * 验证Schema文件信息
 	 */
 	@Override
 	public void ensureSchema() throws AbstractSchemaException {
-		if(this.ensurer.validate()){
+		if (this.ensurer.validate()) {
 			GenericSchema schema = this.ensurer.getResult();
-		}else{
-			if(null != this.ensurer.getError()){
+		} else {
+			if (null != this.ensurer.getError()) {
 				throw this.ensurer.getError();
 			}
 		}

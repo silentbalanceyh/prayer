@@ -4,8 +4,8 @@ import com.prayer.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10002：Json类型不匹配异常（Array/Object）
- *  1.如果Json节点应该是Object，但类型是非Object则抛出此异常
- *  2.如果Json节点应该是Array，但类型是非Array则抛出此异常
+ * 1.如果Json节点应该是Object，但类型是非Object则抛出此异常 2.如果Json节点应该是Array，但类型是非Array则抛出此异常
+ * 
  * @author Lang
  * @see
  */

@@ -27,8 +27,7 @@ public class PKColumnTypePolicyException extends AbstractSchemaException {
 	 * @param policy
 	 * @param dataType
 	 */
-	public PKColumnTypePolicyException(final Class<?> clazz,
-			final String policy, final String dataType) {
+	public PKColumnTypePolicyException(final Class<?> clazz, final String policy, final String dataType) {
 		super(clazz, -10012, policy, dataType);
 	}
 

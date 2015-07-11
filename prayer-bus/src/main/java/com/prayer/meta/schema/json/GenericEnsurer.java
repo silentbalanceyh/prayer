@@ -27,8 +27,7 @@ import com.prayer.util.StringKit;
 final class GenericEnsurer implements Ensurer { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GenericEnsurer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GenericEnsurer.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient InternalEnsurer metaEnsurer;
@@ -198,21 +197,17 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 	 */
 	private void initEnsurers() { // NOPMD
 		// 顶层验证器
-		this.metaEnsurer = new MetaEnsurer(
-				this.rootNode.path(Attributes.R_META));
+		this.metaEnsurer = new MetaEnsurer(this.rootNode.path(Attributes.R_META));
 		// 字段验证器
-		final ArrayNode fieldsNode = fromJObject(this.rootNode
-				.path(Attributes.R_FIELDS));
+		final ArrayNode fieldsNode = fromJObject(this.rootNode.path(Attributes.R_FIELDS));
 		if (null != fieldsNode) {
 			this.fieldsEnsurer = new FieldsEnsurer(fieldsNode);
 			// 主键验证器
-			final String table = this.rootNode.path(Attributes.R_META)
-					.path(Attributes.M_TABLE).asText();
+			final String table = this.rootNode.path(Attributes.R_META).path(Attributes.M_TABLE).asText();
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[I] ==> table = " + table);
 			}
-			final String policy = this.rootNode.path(Attributes.R_META)
-					.path(Attributes.M_POLICY).asText();
+			final String policy = this.rootNode.path(Attributes.R_META).path(Attributes.M_POLICY).asText();
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[I] ==> policy = " + policy);
 			}
@@ -237,19 +232,16 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 			typeEnsurer = new TypeEnsurer(fieldsNode);
 		}
 		// Keys验证器
-		final ArrayNode keysNode = fromJObject(this.rootNode
-				.path(Attributes.R_KEYS));
+		final ArrayNode keysNode = fromJObject(this.rootNode.path(Attributes.R_KEYS));
 		if (null != keysNode) {
 			keysEnsurer = new KeysEnsurer(keysNode);
 		}
 		// 特殊验证器
 		if (null != keysNode && null != fieldsNode) {
-			final String policyStr = this.rootNode.path(Attributes.R_META)
-					.path(Attributes.M_POLICY).asText();
+			final String policyStr = this.rootNode.path(Attributes.R_META).path(Attributes.M_POLICY).asText();
 			if (StringKit.isNonNil(policyStr)) {
 				final MetaPolicy policy = fromStr(MetaPolicy.class, policyStr);
-				crossEnsurer = new CrossEnsurer(keysNode, fieldsNode,
-						null == policy ? MetaPolicy.ASSIGNED : policy);
+				crossEnsurer = new CrossEnsurer(keysNode, fieldsNode, null == policy ? MetaPolicy.ASSIGNED : policy);
 			}
 		}
 	}
@@ -260,14 +252,12 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 	 * @return
 	 */
 	private MetaMapping getMapping() {
-		final String mapping = this.rootNode.path(Attributes.R_META)
-				.path(Attributes.M_MAPPING).asText();
+		final String mapping = this.rootNode.path(Attributes.R_META).path(Attributes.M_MAPPING).asText();
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[I] ==> mapping = " + mapping);
 		}
 		// mapping为null会触发fromStr方法的Vol
-		return StringKit.isNil(mapping) ? MetaMapping.DIRECT : fromStr(
-				MetaMapping.class, mapping);
+		return StringKit.isNil(mapping) ? MetaMapping.DIRECT : fromStr(MetaMapping.class, mapping);
 	}
 
 	/**
@@ -275,10 +265,8 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 	 * @return
 	 */
 	private boolean containFK() {
-		final ArrayNode fieldsNode = fromJObject(this.rootNode
-				.path(Attributes.R_FIELDS));
-		final int occurs = occursAttr(fieldsNode, Attributes.F_FK,
-				Boolean.TRUE, false);
+		final ArrayNode fieldsNode = fromJObject(this.rootNode.path(Attributes.R_FIELDS));
+		final int occurs = occursAttr(fieldsNode, Attributes.F_FK, Boolean.TRUE, false);
 		boolean ret = false;
 		if (0 < occurs) {
 			ret = true;
@@ -292,11 +280,9 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 	 * @return
 	 */
 	private boolean validateRoot() {
-		final JObjectValidator validator = new JObjectValidator(this.rootNode,
-				null);
+		final JObjectValidator validator = new JObjectValidator(this.rootNode, null);
 		// 1.Root Required
-		this.error = validator.verifyRequired(Attributes.R_META,
-				Attributes.R_KEYS, Attributes.R_FIELDS);
+		this.error = validator.verifyRequired(Attributes.R_META, Attributes.R_KEYS, Attributes.R_FIELDS);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
@@ -314,9 +300,8 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 		if (null != this.error) {
 			return false; // NOPMD
 		}
-		this.error = validator.verifyUnsupported(Attributes.R_META,
-				Attributes.R_KEYS, Attributes.R_FIELDS, Attributes.R_ORDERS,
-				Attributes.R_INDEXES);
+		this.error = validator.verifyUnsupported(Attributes.R_META, Attributes.R_KEYS, Attributes.R_FIELDS,
+				Attributes.R_ORDERS, Attributes.R_INDEXES);
 		return null == this.error;
 	}
 	// ~ Get/Set =============================================

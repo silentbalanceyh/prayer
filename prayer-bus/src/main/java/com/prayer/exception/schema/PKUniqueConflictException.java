@@ -4,6 +4,7 @@ import com.prayer.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10025：非COLLECTION的Policy主键的unique必须true
+ * 
  * @author Lang
  *
  */
@@ -13,6 +14,7 @@ public class PKUniqueConflictException extends AbstractSchemaException {
 	 * 
 	 */
 	private static final long serialVersionUID = 1785940315089868228L;
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -22,16 +24,17 @@ public class PKUniqueConflictException extends AbstractSchemaException {
 	 * @param clazz
 	 * @param attr
 	 */
-	public PKUniqueConflictException(final Class<?> clazz, final String attr){
+	public PKUniqueConflictException(final Class<?> clazz, final String attr) {
 		super(clazz, -10025, attr);
 	}
+
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/**
 	 * 
 	 */
 	@Override
-	public int getErrorCode(){
+	public int getErrorCode() {
 		return -10025;
 	}
 	// ~ Methods =============================================

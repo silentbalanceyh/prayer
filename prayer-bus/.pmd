@@ -64,10 +64,6 @@
             <ruleset>Basic</ruleset>
         </rule>
         <rule>
-            <name>CollapsibleIfStatements</name>
-            <ruleset>Basic</ruleset>
-        </rule>
-        <rule>
             <name>DontCallThreadRun</name>
             <ruleset>Basic</ruleset>
         </rule>
@@ -188,7 +184,23 @@
             <ruleset>Basic JSP</ruleset>
         </rule>
         <rule>
+            <name>AvoidDeeplyNestedIfStmts</name>
+            <ruleset>Basic Velocity</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidReassigningParameters</name>
+            <ruleset>Basic Velocity</ruleset>
+        </rule>
+        <rule>
+            <name>CollapsibleIfStatements</name>
+            <ruleset>Basic Velocity</ruleset>
+        </rule>
+        <rule>
             <name>EmptyForeachStmt</name>
+            <ruleset>Basic Velocity</ruleset>
+        </rule>
+        <rule>
+            <name>EmptyIfStmt</name>
             <ruleset>Basic Velocity</ruleset>
         </rule>
         <rule>
@@ -448,10 +460,6 @@
             <ruleset>Design</ruleset>
         </rule>
         <rule>
-            <name>AvoidDeeplyNestedIfStmts</name>
-            <ruleset>Design</ruleset>
-        </rule>
-        <rule>
             <name>AvoidInstanceofChecksInCatchClause</name>
             <ruleset>Design</ruleset>
         </rule>
@@ -461,10 +469,6 @@
         </rule>
         <rule>
             <name>AvoidProtectedMethodInFinalClassNotExtending</name>
-            <ruleset>Design</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidReassigningParameters</name>
             <ruleset>Design</ruleset>
         </rule>
         <rule>
@@ -649,10 +653,6 @@
         </rule>
         <rule>
             <name>EmptyFinallyBlock</name>
-            <ruleset>Empty Code</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyIfStmt</name>
             <ruleset>Empty Code</ruleset>
         </rule>
         <rule>

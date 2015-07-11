@@ -31,19 +31,15 @@ import com.prayer.util.StringKit;
 final class PrimaryKeyEnsurer implements InternalEnsurer { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(PrimaryKeyEnsurer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PrimaryKeyEnsurer.class);
 	/** **/
 	private static final ConcurrentMap<String, Object> PK_FILTER = new ConcurrentHashMap<>();
 	/** GUID **/
-	private static final String[] PK_GUID_STR = new String[] { DataType.STRING
-			.toString() };
+	private static final String[] PK_GUID_STR = new String[] { DataType.STRING.toString() };
 	/** INCREMENT **/
-	private static final String[] PK_INCREMENT_STR = new String[] {
-			DataType.INT.toString(), DataType.LONG.toString() };
+	private static final String[] PK_INCREMENT_STR = new String[] { DataType.INT.toString(), DataType.LONG.toString() };
 	/** ASSIGNED, COLLECTION **/
-	private static final String[] PK_STR = new String[] {
-			DataType.INT.toString(), DataType.LONG.toString(),
+	private static final String[] PK_STR = new String[] { DataType.INT.toString(), DataType.LONG.toString(),
 			DataType.STRING.toString() };
 	// ~ Instance Fields =====================================
 	/** **/
@@ -64,6 +60,7 @@ final class PrimaryKeyEnsurer implements InternalEnsurer { // NOPMD
 	/** **/
 	@NotNull
 	private transient final JArrayValidator validator;
+
 	// ~ Static Block ========================================
 	/** Put Filter **/
 	static {
@@ -79,14 +76,12 @@ final class PrimaryKeyEnsurer implements InternalEnsurer { // NOPMD
 	 * @param policyStr
 	 */
 	@PostValidateThis
-	public PrimaryKeyEnsurer(@NotNull final ArrayNode fieldsNode,
-			@NotNull @NotBlank @NotEmpty final String policyStr,
+	public PrimaryKeyEnsurer(@NotNull final ArrayNode fieldsNode, @NotNull @NotBlank @NotEmpty final String policyStr,
 			@NotNull @NotBlank @NotEmpty final String table) {
 		this.fieldsNode = fieldsNode;
 		this.policyStr = policyStr;
 		this.table = table;
-		this.validator = new JArrayValidator(this.fieldsNode,
-				Attributes.R_FIELDS);
+		this.validator = new JArrayValidator(this.fieldsNode, Attributes.R_FIELDS);
 		// 数据表Inject过程
 		this.validator.setTable(table);
 	}
@@ -136,19 +131,15 @@ final class PrimaryKeyEnsurer implements InternalEnsurer { // NOPMD
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
 			final Boolean isPKey = node.path(Attributes.F_PK).asBoolean();
-			if (isPKey
-					&& StringKit.isNonNil(node.path(Attributes.F_NULLABLE)
-							.asText())) {
-				final Boolean isNull = node.path(Attributes.F_NULLABLE)
-						.asBoolean();
+			if (isPKey && StringKit.isNonNil(node.path(Attributes.F_NULLABLE).asText())) {
+				final Boolean isNull = node.path(Attributes.F_NULLABLE).asBoolean();
 				if (isNull) {
 					this.error = new PKNullableConflictException(getClass(), // NOPMD
 							node.path(Attributes.F_NAME).asText());
-					if (LOGGER.isDebugEnabled()) {	// NOPMD
-						LOGGER.debug("[ERR" + this.error.getErrorCode()
-								+ "] ==> name = "
-								+ node.path(Attributes.F_NAME).asText()
-								+ " and this node (nullable = true)",
+					if (LOGGER.isDebugEnabled()) { // NOPMD
+						LOGGER.debug(
+								"[ERR" + this.error.getErrorCode() + "] ==> name = "
+										+ node.path(Attributes.F_NAME).asText() + " and this node (nullable = true)",
 								this.error);
 					}
 					break;
@@ -172,19 +163,16 @@ final class PrimaryKeyEnsurer implements InternalEnsurer { // NOPMD
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
 			final Boolean isPkey = node.path(Attributes.F_PK).asBoolean();
-			if (isPkey
-					&& StringKit.isNonNil(node.path(Attributes.F_UNIQUE)
-							.asText())) {
-				final Boolean isUnique = node.path(Attributes.F_UNIQUE)
-						.asBoolean();
+			if (isPkey && StringKit.isNonNil(node.path(Attributes.F_UNIQUE).asText())) {
+				final Boolean isUnique = node.path(Attributes.F_UNIQUE).asBoolean();
 				if (!isUnique) {
 					this.error = new PKUniqueConflictException(getClass(), node // NOPMD
 							.path(Attributes.F_NAME).asText());
 					if (LOGGER.isDebugEnabled()) { // NOPMD
-						LOGGER.debug("[ERR" + this.error.getErrorCode()
-								+ "] ==> name = "
-								+ node.path(Attributes.F_NAME).asText()
-								+ " and this node (unquie = false)", this.error);
+						LOGGER.debug(
+								"[ERR" + this.error.getErrorCode() + "] ==> name = "
+										+ node.path(Attributes.F_NAME).asText() + " and this node (unquie = false)",
+								this.error);
 					}
 					break;
 				}
@@ -202,26 +190,22 @@ final class PrimaryKeyEnsurer implements InternalEnsurer { // NOPMD
 		// 18.属性policy顶层检查，是否COLLECTION
 		if (MetaPolicy.COLLECTION == policy) {
 			// 18.1.1.属性：policy == COLLECTION
-			this.error = this.validator.verifyPKeyCOPolicy(Attributes.F_PK,
-					policy);
+			this.error = this.validator.verifyPKeyCOPolicy(Attributes.F_PK, policy);
 			if (null != this.error) {
 				return false; // NOPMD
 			}
 		} else {
 			// 18.2.1.属性：policy != COLLECTION
-			this.error = this.validator.verifyPKeyNonCOPolicy(Attributes.F_PK,
-					policy);
+			this.error = this.validator.verifyPKeyNonCOPolicy(Attributes.F_PK, policy);
 			if (null != this.error) {
 				return false; // NOPMD
 			}
 			if (MetaPolicy.GUID == policy) {
 				// 18.2.2.1.对应：policy == GUID
-				this.error = this.validator.verifyPKeyPolicyType(policy,
-						PK_FILTER, PK_GUID_STR);
+				this.error = this.validator.verifyPKeyPolicyType(policy, PK_FILTER, PK_GUID_STR);
 			} else if (MetaPolicy.INCREMENT == policy) {
 				// 18.2.2.2.对应：policy == INCREMENT
-				this.error = this.validator.verifyPKeyPolicyType(policy,
-						PK_FILTER, PK_INCREMENT_STR);
+				this.error = this.validator.verifyPKeyPolicyType(policy, PK_FILTER, PK_INCREMENT_STR);
 			}
 			if (null != this.error) {
 				return false; // NOPMD
@@ -229,10 +213,8 @@ final class PrimaryKeyEnsurer implements InternalEnsurer { // NOPMD
 		}
 		// 18.1.2.policy == COLLECTION
 		// 18.2.2.3.policy == ASSIGNED
-		if ((MetaPolicy.ASSIGNED == policy || MetaPolicy.COLLECTION == policy)
-				&& null == this.error) {
-			this.error = this.validator.verifyPKeyPolicyType(policy, PK_FILTER,
-					PK_STR);
+		if ((MetaPolicy.ASSIGNED == policy || MetaPolicy.COLLECTION == policy) && null == this.error) {
+			this.error = this.validator.verifyPKeyPolicyType(policy, PK_FILTER, PK_STR);
 		}
 		return null == this.error;
 	}
@@ -248,8 +230,7 @@ final class PrimaryKeyEnsurer implements InternalEnsurer { // NOPMD
 		// return false; // NOPMD
 		// }
 		// 17.2.验证主键定义primarykey的值是不是至少有一个为true
-		this.error = this.validator.verifyPKeyMissing(Attributes.F_PK,
-				Boolean.TRUE, 1);
+		this.error = this.validator.verifyPKeyMissing(Attributes.F_PK, Boolean.TRUE, 1);
 		if (null != this.error) {
 			return false; // NOPMD
 		}
