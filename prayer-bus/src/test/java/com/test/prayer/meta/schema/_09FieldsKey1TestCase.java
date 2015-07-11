@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.PKColumnTypePolicyException;
 import com.prayer.exception.schema.PKMissingException;
+import com.prayer.exception.schema.PKNullableConflictException;
 import com.prayer.exception.schema.PKPolicyConflictException;
 import com.prayer.exception.schema.PKUniqueConflictException;
 
@@ -64,9 +65,9 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PKPolicyConflictException.class)
-	public void testP018Fields1PKeyPolicy10011() throws AbstractSchemaException {
+	public void testP0181Fields1PKeyPolicy10011() throws AbstractSchemaException {
 		testImport(
-				"keys/P018field-pKEYpolicy10011-1.json",
+				"keys/P0181field-pKEYpolicy10011-1.json",
 				"[E10011] Fields -> primarykey ==> (Failure) Attribute 'primarykey' does not match the policy definition! ");
 	}
 
@@ -75,9 +76,9 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PKPolicyConflictException.class)
-	public void testP018Fields2PKeyPolicy10011() throws AbstractSchemaException {
+	public void testP0181Fields2PKeyPolicy10011() throws AbstractSchemaException {
 		testImport(
-				"keys/P018field-pKEYpolicy10011-2.json",
+				"keys/P0181field-pKEYpolicy10011-2.json",
 				"[E10011] Fields -> primarykey ==> (Failure) Attribute 'primarykey' does not match the policy definition! ");
 	}
 
@@ -86,9 +87,9 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PKColumnTypePolicyException.class)
-	public void testP018FieldsT1PKeyPolicy10012()
+	public void testP0182FieldsT1PKeyPolicy10012()
 			throws AbstractSchemaException {
-		testImport("keys/P018field-TpKEYpolicy10012-1.json", E10012_STR);
+		testImport("keys/P0182field-TpKEYpolicy10012-1.json", E10012_STR);
 	}
 
 	/**
@@ -96,9 +97,9 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PKColumnTypePolicyException.class)
-	public void testP018FieldsT2PKeyPolicy10012()
+	public void testP0182FieldsT2PKeyPolicy10012()
 			throws AbstractSchemaException {
-		testImport("keys/P018field-TpKEYpolicy10012-2.json", E10012_STR);
+		testImport("keys/P0182field-TpKEYpolicy10012-2.json", E10012_STR);
 	}
 
 	/**
@@ -106,9 +107,9 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PKColumnTypePolicyException.class)
-	public void testP018FieldsT3PKeyPolicy10012()
+	public void testP0182FieldsT3PKeyPolicy10012()
 			throws AbstractSchemaException {
-		testImport("keys/P018field-TpKEYpolicy10012-3.json", E10012_STR);
+		testImport("keys/P0182field-TpKEYpolicy10012-3.json", E10012_STR);
 	}
 
 	/**
@@ -116,9 +117,9 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PKColumnTypePolicyException.class)
-	public void testP018FieldsT4PKeyPolicy10012()
+	public void testP0182FieldsT4PKeyPolicy10012()
 			throws AbstractSchemaException {
-		testImport("keys/P018field-TpKEYpolicy10012-4.json", E10012_STR);
+		testImport("keys/P0182field-TpKEYpolicy10012-4.json", E10012_STR);
 	}
 
 	/**
@@ -126,9 +127,18 @@ public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PKUniqueConflictException.class)
-	public void testP018z1KeyUnique10025() throws AbstractSchemaException {
-		testImport("keys/P018z1key-unique10025-1.json",
+	public void testP0183KeyUnique10025() throws AbstractSchemaException {
+		testImport("keys/P0183field-unique10025-1.json",
 				"[E10025] Keys ==> Primary key unique must be true.");
+	}
+	/**
+	 * 
+	 * @throws AbstractSchemaException
+	 */
+	@Test(expected = PKNullableConflictException.class)
+	public void testP0184KeyNullable10025() throws AbstractSchemaException {
+		testImport("keys/P0184field-nullable10026-1.json",
+				"[E10026] Keys ==> Primary key unique must be true.");
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

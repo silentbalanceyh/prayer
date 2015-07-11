@@ -7,7 +7,7 @@ import static com.prayer.util.sys.Error.error;
  * @author Lang
  * @see
  */
-public abstract class AbstractSchemaException extends Exception {
+public abstract class AbstractSchemaException extends AbstractException {
 	// ~ Static Fields =======================================
 	/**
      *
@@ -35,10 +35,5 @@ public abstract class AbstractSchemaException extends Exception {
 	}
 
 	// ~ Abstract Methods ====================================
-
-	/**
-	 * Get type of schema exception. *
-	 */
-	public abstract int getErrorCode();
 	// ~ Methods =============================================
 }

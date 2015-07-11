@@ -3,6 +3,7 @@ package com.prayer.meta.schema.json;
 import static com.prayer.util.JsonKit.isAttrIn;
 import static com.prayer.util.JsonKit.occursAttr;
 import static com.prayer.util.sys.Converter.toStr;
+import static com.prayer.util.sys.Error.debug;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,12 +26,12 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.JsonTypeConfusedException;
+import com.prayer.exception.schema.DuplicatedTablesException;
 import com.prayer.exception.schema.InvalidValueException;
+import com.prayer.exception.schema.JsonTypeConfusedException;
 import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
-import com.prayer.exception.schema.DuplicatedTablesException;
 import com.prayer.exception.schema.UnsupportAttrException;
 
 /**
@@ -44,10 +45,6 @@ final class JObjectValidator {
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(JObjectValidator.class);
-	/** **/
-	private static final String LCT_STR = "] ==> ( Location: ";
-	/** **/
-	private static final String ERR_STR = "[ERR";
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotBlank
@@ -90,10 +87,7 @@ final class JObjectValidator {
 			final int occurs = occursAttr(this.verifiedNode, attr);
 			if (0 == occurs) {
 				retExp = new RequiredAttrMissingException(getClass(), attr); // NOPMD
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-							+ this.name + " [" + attr + "] )", retExp);
-				}
+				debug(LOGGER, getClass(), "D10001", retExp, this.name, attr);
 			}
 		}
 		return retExp;
@@ -114,13 +108,10 @@ final class JObjectValidator {
 		final JsonNode rightNode = this.verifiedNode.path(attrRight);
 		AbstractSchemaException retExp = null;
 		if (StringUtil.equals(leftNode.asText(), rightNode.asText())) {
-			retExp = new DuplicatedTablesException(getClass(), attrLeft, attrRight);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode()
-						+ "] ==> ( Attribute '" + attrLeft + "' and '"
-						+ attrRight
-						+ "' are same value and they are conflicts.", retExp);
-			}
+			retExp = new DuplicatedTablesException(getClass(), attrLeft,
+					attrRight);
+			debug(LOGGER, getClass(), "D10020", retExp, this.name, attrLeft,
+					leftNode.asText(), attrRight, rightNode.asText());
 		}
 		return retExp;
 	}
@@ -139,11 +130,7 @@ final class JObjectValidator {
 		AbstractSchemaException retExp = null;
 		if (!attrNode.isArray() && attrNode.isContainerNode()) {
 			retExp = new JsonTypeConfusedException(getClass(), attr);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode()
-						+ "] ==> ( Array/Location : " + this.name + " )",
-						retExp);
-			}
+			debug(LOGGER, getClass(), "D10002.ARR", retExp, this.name, attr);
 		}
 		return retExp;
 	}
@@ -162,11 +149,7 @@ final class JObjectValidator {
 		AbstractSchemaException retExp = null;
 		if (attrNode.isArray()) {
 			retExp = new JsonTypeConfusedException(getClass(), attr);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode()
-						+ "] ==> ( Object/Location : " + this.name + " )",
-						retExp);
-			}
+			debug(LOGGER, getClass(), "D10002.OBJ", retExp, this.name, attr);
 		}
 		return retExp;
 	}
@@ -193,10 +176,8 @@ final class JObjectValidator {
 		AbstractSchemaException retExp = null;
 		if (!unsupportedSet.isEmpty()) {
 			retExp = new UnsupportAttrException(getClass(), unsupportedSet);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-						+ this.name + " )", retExp);
-			}
+			debug(LOGGER, getClass(), "D10017", retExp, this.name,
+					toStr(unsupportedSet));
 		}
 		return retExp;
 	}
@@ -221,10 +202,8 @@ final class JObjectValidator {
 		if (!matcher.matches()) {
 			retExp = new PatternNotMatchException(getClass(), attr, value,
 					regexStr);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-						+ this.name + " )", retExp);
-			}
+			debug(LOGGER, getClass(), "D10003", retExp, this.name, attr, value,
+					regexStr);
 		}
 		return retExp;
 	}
@@ -244,10 +223,8 @@ final class JObjectValidator {
 			if (0 == occurs) {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Missing");
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-							+ this.name + " ) Missing, ", retExp);
-				}
+				debug(LOGGER, getClass(), "D10004.MIS", retExp, this.name,
+						this.name, attr);
 				break;
 			}
 		}
@@ -269,10 +246,8 @@ final class JObjectValidator {
 			if (0 < occurs) {
 				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
 						"Existing");
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-							+ this.name + " ) Existing, ", retExp);
-				}
+				debug(LOGGER, getClass(), "D10004.EXT", retExp, this.name,
+						this.name, attr);
 				break;
 			}
 		}
@@ -292,10 +267,8 @@ final class JObjectValidator {
 		if (!isAttrIn(this.verifiedNode, attr, values)) {
 			retExp = new InvalidValueException(getClass(), attr, // NOPMD
 					toStr(values), this.verifiedNode.path(attr).asText(), "");
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-						+ this.name + " ) In, ", retExp);
-			}
+			debug(LOGGER, getClass(), "D10005.IN", retExp, this.name,
+					this.name, attr, toStr(values));
 		}
 		return retExp;
 	}
@@ -315,10 +288,8 @@ final class JObjectValidator {
 		if (isAttrIn(this.verifiedNode, attr, values)) {
 			retExp = new InvalidValueException(getClass(), attr, // NOPMD
 					toStr(values), this.verifiedNode.path(attr).asText(), "n't");
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-						+ this.name + " ) NotIn, ", retExp);
-			}
+			debug(LOGGER, getClass(), "D10005.NIN", retExp, this.name,
+					this.name, attr, toStr(values));
 		}
 		return retExp;
 	}

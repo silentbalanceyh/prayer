@@ -3,6 +3,8 @@ package com.prayer.meta.schema.json; // NOPMD
 import static com.prayer.util.JsonKit.findNodes;
 import static com.prayer.util.JsonKit.isAttrIn;
 import static com.prayer.util.JsonKit.occursAttr;
+import static com.prayer.util.sys.Converter.toStr;
+import static com.prayer.util.sys.Error.debug;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -47,7 +49,7 @@ import com.prayer.res.cv.Constants;
  *
  */
 @Guarded
-final class JArrayValidator {	// NOPMD
+final class JArrayValidator { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
@@ -106,10 +108,7 @@ final class JArrayValidator {	// NOPMD
 		AbstractSchemaException retExp = null;
 		if (this.verifiedNodes.size() <= 0) {
 			retExp = new ZeroLengthException(getClass(), this.name);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-						+ this.name + " )", retExp);
-			}
+			debug(LOGGER, getClass(), "D10006", retExp, this.name);
 		}
 		return retExp;
 	}
@@ -132,6 +131,7 @@ final class JArrayValidator {	// NOPMD
 		final Iterator<JsonNode> fkNIt = fkNodes.iterator();
 		// Regex
 		final Pattern pattern = Pattern.compile(regexStr);
+		int idx = 0;
 		while (fkNIt.hasNext()) {
 			final JsonNode node = fkNIt.next();
 			final String value = node.path(attr).asText();
@@ -139,11 +139,11 @@ final class JArrayValidator {	// NOPMD
 			if (!matcher.matches()) {
 				retExp = new FKColumnTypeException(getClass(), // NOPMD
 						Attributes.F_COL_TYPE);
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-							+ this.name + " ) pattern machting, ", retExp);
-				}
+				debug(LOGGER, getClass(), "D10015", retExp, this.name, attr,
+						value, regexStr, idx);
+				break;
 			}
+			idx++;
 		}
 		return retExp;
 	}
@@ -161,20 +161,18 @@ final class JArrayValidator {	// NOPMD
 		AbstractSchemaException retExp = null;
 		final List<JsonNode> fkNodes = findNodes(this.verifiedNodes, filter);
 		final Iterator<JsonNode> fkNIt = fkNodes.iterator();
+		int idx = 0;
 		while (fkNIt.hasNext()) {
 			final JsonNode node = fkNIt.next();
 			if (!isAttrIn(node, attr, values)) {
-				retExp = new FKAttrTypeException(getClass(), node.path( // NOPMD
-						Attributes.F_REF_ID).asText(), node.path(
-						Attributes.F_TYPE).asText());
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR
-							+ this.name + " ) In, ", retExp);
-				}
-				if (null != retExp) {
-					break;
-				}
+				retExp = new FKAttrTypeException(getClass(), // NOPMD
+						attr, node.path(Attributes.F_TYPE).asText());
+				debug(LOGGER, getClass(), "D10014", retExp, this.name, attr,
+						node.path(Attributes.F_TYPE).asText(), toStr(values),
+						idx);
+				break;
 			}
+			idx++;
 		}
 		return retExp;
 	}
@@ -188,18 +186,17 @@ final class JArrayValidator {	// NOPMD
 	public AbstractSchemaException verifyJObjectNodes() {
 		AbstractSchemaException retExp = null;
 		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
+		int idx = 0;
 		while (nodeIt.hasNext()) {
 			final JsonNode item = nodeIt.next();
 			if (!item.isContainerNode() || item.isArray()) {
 				retExp = new JsonTypeConfusedException(getClass(), "value = " // NOPMD
 						+ item.toString());
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(
-							ERR_STR + retExp.getErrorCode() + "] ==> Object ( Location: "
-									+ item.toString() + " )", retExp);
-				}
+				debug(LOGGER, getClass(), "D10002.EOBJ", retExp, this.name,
+						item.toString(), idx);
 				break;
 			}
+			idx++;
 		}
 		return retExp;
 	}
@@ -213,18 +210,17 @@ final class JArrayValidator {	// NOPMD
 	public AbstractSchemaException verifyStringNodes() {
 		AbstractSchemaException retExp = null;
 		final Iterator<JsonNode> nodeIt = this.verifiedNodes.iterator();
+		int idx = 0;
 		while (nodeIt.hasNext()) {
 			final JsonNode item = nodeIt.next();
 			if (item.isContainerNode() || !item.isTextual()) {
 				retExp = new JsonTypeConfusedException(getClass(), "value = " // NOPMD
 						+ item.toString());
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(
-							ERR_STR + retExp.getErrorCode() + "] ==> String ( Location: "
-									+ item.toString() + " )", retExp);
-				}
+				debug(LOGGER, getClass(), "D10002.ESTR", retExp, this.name,
+						item.toString(), idx);
 				break;
 			}
+			idx++;
 		}
 		return retExp;
 	}
@@ -243,19 +239,19 @@ final class JArrayValidator {	// NOPMD
 			@MinLength(1) final String... expectedValues) {
 		final List<JsonNode> pkList = findNodes(this.verifiedNodes, filter);
 		AbstractSchemaException retExp = null;
+		int idx = 0;
 		for (final JsonNode jsonNode : pkList) {
 			if (!isAttrIn(jsonNode, Attributes.F_TYPE, expectedValues)) {
 				retExp = new PKColumnTypePolicyException(getClass(), // NOPMD
 						policy.toString(), jsonNode.path(Attributes.F_TYPE)
 								.asText());
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_STR + retExp.getErrorCode() + "] ==> Policy = "
-							+ policy + ", " + Attributes.F_TYPE + " = "
-							+ jsonNode.path(Attributes.F_TYPE).asText()
-							+ ", they are conflicts.");
-				}
+				debug(LOGGER, getClass(), "D10012", retExp, this.name,
+						Attributes.F_TYPE, jsonNode.path(Attributes.F_TYPE)
+								.asText(), policy.toString(),
+						toStr(expectedValues), idx);
 				break;
 			}
+			idx++;
 		}
 		return retExp;
 	}
@@ -281,10 +277,8 @@ final class JArrayValidator {	// NOPMD
 		if (Constants.ONE != occurs) {
 			retExp = new PKPolicyConflictException(getClass(),
 					policy.toString(), this.table);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + attr
-						+ " ) [NonCO] occurs: " + occurs, retExp);
-			}
+			debug(LOGGER, getClass(), "D10011.NCO", retExp, this.name, attr,
+					policy.toString(), this.table, occurs);
 		}
 		return retExp;
 	}
@@ -310,10 +304,8 @@ final class JArrayValidator {	// NOPMD
 		if (Constants.ONE >= occurs) {
 			retExp = new PKPolicyConflictException(getClass(),
 					policy.toString(), this.table);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + attr
-						+ " ) [CO] occurs: " + occurs, retExp);
-			}
+			debug(LOGGER, getClass(), "D10011.CO", retExp, this.name, attr,
+					policy.toString(), this.table, occurs);
 		}
 		return retExp;
 	}
@@ -338,12 +330,8 @@ final class JArrayValidator {	// NOPMD
 		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {
 			retExp = new SubtableWrongException(getClass());
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(
-						ERR_STR + retExp.getErrorCode() + "] ==> For Value ( Location: "
-								+ attr + " = " + value.toString()
-								+ " ) [Subtable] occurs: " + occurs, retExp);
-			}
+			debug(LOGGER, getClass(), "D10013", retExp, this.name, attr,
+					value.toString(), occurs, minOccurs);
 		}
 		return retExp;
 	}
@@ -373,9 +361,10 @@ final class JArrayValidator {	// NOPMD
 			retExp = new PKMissingException(getClass(), this.table);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(
-						ERR_STR + retExp.getErrorCode() + "] ==> For Value ( Location: "
-								+ attr + " = " + value.toString()
-								+ " ) [PrimaryKey] occurs: " + occurs, retExp);
+						ERR_STR + retExp.getErrorCode()
+								+ "] ==> For Value ( Location: " + attr + " = "
+								+ value.toString() + " ) [PrimaryKey] occurs: "
+								+ occurs, retExp);
 			}
 		}
 		return retExp;

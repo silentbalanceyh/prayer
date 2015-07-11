@@ -152,7 +152,7 @@ public final class JsonKit {
 		return occurs;
 	}
 
-	/**	
+	/**
 	 * @param arrayNode
 	 * @param attr
 	 * @param value
@@ -171,7 +171,7 @@ public final class JsonKit {
 		return occurs;
 	}
 
-	/** 
+	/**
 	 * @param jsonNode
 	 * @param attr
 	 * @param value
@@ -222,8 +222,7 @@ public final class JsonKit {
 		final String jsonValue = attrNode.asText();
 		boolean ret = false;
 		for (final String value : values) {
-			if (StringUtil.isNotBlank(jsonValue)
-					&& StringUtil.isNotEmpty(jsonValue)
+			if (StringKit.isNonNil(jsonValue)
 					&& StringUtil.equals(value, jsonValue)) {
 				ret = true;
 				break;

@@ -3,6 +3,7 @@ package com.prayer.meta.schema.json;
 import static com.prayer.util.JsonKit.fromJObject;
 import static com.prayer.util.JsonKit.occursAttr;
 import static com.prayer.util.sys.Converter.fromStr;
+import static com.prayer.util.sys.Instance.instance;
 
 import java.util.Iterator;
 
@@ -31,7 +32,7 @@ import com.prayer.mod.sys.SystemEnum.MetaPolicy;
  *
  */
 @Guarded
-final class CrossEnsurer implements InternalEnsurer {	// NOPMD
+final class CrossEnsurer implements InternalEnsurer { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
@@ -163,9 +164,10 @@ final class CrossEnsurer implements InternalEnsurer {	// NOPMD
 			occurs += occursAttr(fieldNode, attr, value, true);
 		}
 		if (occurs != columns.size()) {
-			this.error = new WrongTimeAttrException(getClass(), attr,
-					value.toString(), String.valueOf(columns.size()),
-					String.valueOf(occurs), category.toString());
+			this.error = instance(WrongTimeAttrException.class.getName(),
+					getClass(), attr, value.toString(),
+					String.valueOf(columns.size()), String.valueOf(occurs),
+					category.toString());
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(ERR_PRE + this.error.getErrorCode()
 						+ "] ==> Pair (" + attr + " = " + value
@@ -273,7 +275,7 @@ final class CrossEnsurer implements InternalEnsurer {	// NOPMD
 	 * 
 	 * @return
 	 */
-	private boolean validateMetaPKPolicy() {	// NOPMD
+	private boolean validateMetaPKPolicy() { // NOPMD
 		// 31.验证Keys中的PrimaryKey对应的Policy
 		final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
 		int count = 0;

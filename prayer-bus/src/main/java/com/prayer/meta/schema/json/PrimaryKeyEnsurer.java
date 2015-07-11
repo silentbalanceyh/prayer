@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -17,9 +16,11 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
+import com.prayer.exception.schema.PKNullableConflictException;
 import com.prayer.exception.schema.PKUniqueConflictException;
 import com.prayer.meta.DataType;
 import com.prayer.mod.sys.SystemEnum.MetaPolicy;
+import com.prayer.util.StringKit;
 
 /**
  * 
@@ -27,7 +28,7 @@ import com.prayer.mod.sys.SystemEnum.MetaPolicy;
  * @see
  */
 @Guarded
-final class PrimaryKeyEnsurer implements InternalEnsurer {	// NOPMD
+final class PrimaryKeyEnsurer implements InternalEnsurer { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
@@ -105,8 +106,11 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {	// NOPMD
 		// 2.policy是否COLLECTION
 		validateDispatcher();
 		interrupt();
-		// 3.policy如果为非COLLECTION
+		// 3.policy如果为非COLLECTION，主键必须unique为true
 		validatePKUniqueConflict();
+		interrupt();
+		// 4.policy如果为非COLLECTION，主键必须nullable为false
+		validatePKNullableConflict();
 		interrupt();
 	}
 
@@ -126,9 +130,41 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {	// NOPMD
 	 * 
 	 * @return
 	 */
+	private boolean validatePKNullableConflict() {
+		// 18.4.主键的nullable一旦出现必须为false
+		final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
+		while (nodeIt.hasNext()) {
+			final JsonNode node = nodeIt.next();
+			final Boolean isPKey = node.path(Attributes.F_PK).asBoolean();
+			if (isPKey
+					&& StringKit.isNonNil(node.path(Attributes.F_NULLABLE)
+							.asText())) {
+				final Boolean isNull = node.path(Attributes.F_NULLABLE)
+						.asBoolean();
+				if (isNull) {
+					this.error = new PKNullableConflictException(getClass(), // NOPMD
+							node.path(Attributes.F_NAME).asText());
+					if (LOGGER.isDebugEnabled()) {	// NOPMD
+						LOGGER.debug("[ERR" + this.error.getErrorCode()
+								+ "] ==> name = "
+								+ node.path(Attributes.F_NAME).asText()
+								+ " and this node (nullable = true)",
+								this.error);
+					}
+					break;
+				}
+			}
+		}
+		return null == this.error;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	private boolean validatePKUniqueConflict() {
 		final MetaPolicy policy = MetaPolicy.valueOf(policyStr);
-		// 18.3.属性policy顶层检查
+		// 18.3.主键的unique一旦出现默认必须为true
 		if (MetaPolicy.COLLECTION == policy) {
 			return true; // NOPMD
 		}
@@ -137,10 +173,7 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {	// NOPMD
 			final JsonNode node = nodeIt.next();
 			final Boolean isPkey = node.path(Attributes.F_PK).asBoolean();
 			if (isPkey
-					&& null != node.path(Attributes.F_UNIQUE)
-					&& StringUtil.isNotBlank(node.path(Attributes.F_UNIQUE)
-							.asText())
-					&& StringUtil.isNotEmpty(node.path(Attributes.F_UNIQUE)
+					&& StringKit.isNonNil(node.path(Attributes.F_UNIQUE)
 							.asText())) {
 				final Boolean isUnique = node.path(Attributes.F_UNIQUE)
 						.asBoolean();
@@ -164,7 +197,7 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {	// NOPMD
 	 * 
 	 * @return
 	 */
-	private boolean validateDispatcher() {	// NOPMD
+	private boolean validateDispatcher() { // NOPMD
 		final MetaPolicy policy = MetaPolicy.valueOf(policyStr);
 		// 18.属性policy顶层检查，是否COLLECTION
 		if (MetaPolicy.COLLECTION == policy) {

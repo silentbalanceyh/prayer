@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -13,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.meta.DataType;
+import com.prayer.util.StringKit;
 
 /**
  * 
@@ -224,8 +224,7 @@ final class TypeEnsurer implements InternalEnsurer {
 							+ fieldNode.path(Attributes.F_NAME).asText());
 			for (final String attr : T_PATTERN.keySet()) {
 				final String attrValue = fieldNode.path(attr).asText();
-				if (null != attrValue && StringUtil.isNotBlank(attrValue)
-						&& StringUtil.isNotEmpty(attrValue)) {
+				if (StringKit.isNonNil(attrValue)) {
 					this.error = validator.verifyPattern(attr,
 							T_PATTERN.get(attr));
 					if (null != this.error) {

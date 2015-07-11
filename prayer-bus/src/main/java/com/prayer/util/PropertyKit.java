@@ -144,7 +144,7 @@ public final class PropertyKit {
 	public String getString(@NotNull @NotEmpty @NotBlank final String propKey) {
 		// 过滤值null
 		String ret = this.getProp().getProperty(propKey);
-		if (StringUtil.isNotEmpty(ret) && StringPool.NULL.equals(ret)) {
+		if (StringKit.isNonNil(ret) && StringPool.NULL.equals(ret)) {
 			ret = null; // NOPMD
 		}
 		return ret;

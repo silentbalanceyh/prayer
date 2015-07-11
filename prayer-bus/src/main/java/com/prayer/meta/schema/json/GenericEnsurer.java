@@ -1,9 +1,8 @@
-package com.prayer.meta.schema.json;	// NOPMD
+package com.prayer.meta.schema.json; // NOPMD
 
 import static com.prayer.util.JsonKit.fromJObject;
 import static com.prayer.util.JsonKit.occursAttr;
 import static com.prayer.util.sys.Converter.fromStr;
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -17,6 +16,7 @@ import com.prayer.meta.schema.Ensurer;
 import com.prayer.mod.sys.GenericSchema;
 import com.prayer.mod.sys.SystemEnum.MetaMapping;
 import com.prayer.mod.sys.SystemEnum.MetaPolicy;
+import com.prayer.util.StringKit;
 
 /**
  * 
@@ -220,10 +220,7 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 			 * 判断policy和table的情况，必须保证policy和table两个值，
 			 * 也就是__meta__中验证OK了过后才能执行PrimaryKey对应的验证
 			 */
-			if (null != table && null != policy && StringUtil.isNotBlank(table)
-					&& StringUtil.isNotEmpty(table)
-					&& StringUtil.isNotBlank(policy)
-					&& StringUtil.isNotEmpty(policy)) {
+			if (StringKit.isNonNil(policy) && StringKit.isNonNil(table)) {
 				pKeyEnsurer = new PrimaryKeyEnsurer(fieldsNode, policy, table);
 			}
 			// 关系验证器
@@ -249,8 +246,7 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 		if (null != keysNode && null != fieldsNode) {
 			final String policyStr = this.rootNode.path(Attributes.R_META)
 					.path(Attributes.M_POLICY).asText();
-			if (null != policyStr && StringUtil.isNotBlank(policyStr)
-					&& StringUtil.isNotEmpty(policyStr)) {
+			if (StringKit.isNonNil(policyStr)) {
 				final MetaPolicy policy = fromStr(MetaPolicy.class, policyStr);
 				crossEnsurer = new CrossEnsurer(keysNode, fieldsNode,
 						null == policy ? MetaPolicy.ASSIGNED : policy);
@@ -270,8 +266,7 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 			LOGGER.debug("[I] ==> mapping = " + mapping);
 		}
 		// mapping为null会触发fromStr方法的Vol
-		return null == mapping || StringUtil.isBlank(mapping)
-				|| StringUtil.isEmpty(mapping) ? MetaMapping.DIRECT : fromStr(
+		return StringKit.isNil(mapping) ? MetaMapping.DIRECT : fromStr(
 				MetaMapping.class, mapping);
 	}
 

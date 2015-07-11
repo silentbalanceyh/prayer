@@ -7,7 +7,7 @@ import static com.prayer.util.sys.Error.error;
  * @author Lang
  * @see
  */
-public abstract class AbstractSystemException extends Exception {
+public abstract class AbstractSystemException extends AbstractException {
 	// ~ Static Fields =======================================
 	/**
      *
@@ -34,9 +34,4 @@ public abstract class AbstractSystemException extends Exception {
 	}
 
 	// ~ Abstract Methods ====================================
-
-	/**
-	 * Get type of schema exception. *
-	 */
-	public abstract int getErrorCode();
 }
