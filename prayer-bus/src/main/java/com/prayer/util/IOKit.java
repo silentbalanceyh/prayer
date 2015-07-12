@@ -47,7 +47,7 @@ public final class IOKit {
 	 * @return
 	 */
 	public static InputStream getFile(@NotNull @NotEmpty @NotBlank final String fileName, final Class<?> clazz) {
-		debug(LOGGER, "IOKIT.PARAM", fileName, clazz);
+		debug(LOGGER, "SYS.KIT.IO.PARAM", fileName, clazz);
 		InputStream retStream = null;
 		if (null == clazz) {
 			// 直接从文件File file = new File()中读取InputStream
@@ -74,14 +74,14 @@ public final class IOKit {
 
 	private static InputStream readStream(final String fileName, final Class<?> clazz) { // NOPMD
 		final InputStream retStream = clazz.getResourceAsStream(fileName);
-		debug(LOGGER, "IOKIT.STREAM1", fileName, retStream);
+		debug(LOGGER, "SYS.KIT.IO.CP", fileName, retStream);
 		return retStream;
 	}
 
 	private static InputStream readStream(final String fileName) { // NOPMD
 		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		final InputStream retStream = loader.getResourceAsStream(fileName);
-		debug(LOGGER, "IOKIT.STREAM2", fileName, retStream);
+		debug(LOGGER, "SYS.KIT.IO.LOADER", fileName, retStream);
 		return retStream;
 	}
 
@@ -92,10 +92,10 @@ public final class IOKit {
 				retStream = new FileInputStream(file);
 				info(LOGGER, "[I] <== ( Value -> " + retStream + " ) Read from FileInputStream(file).");
 			} catch (FileNotFoundException ex) {
-				debug(LOGGER, "IOKIT.STREAM3", ex, file.getAbsolutePath(), retStream);
+				debug(LOGGER, "SYS.KIT.IO.FILE", ex, file.getAbsolutePath(), retStream);
 			}
 		} else {
-			debug(LOGGER, "IOKIT.STREAM4", file.getAbsolutePath());
+			debug(LOGGER, "SYS.KIT.IO.ERR.FILE", file.getAbsolutePath());
 		}
 		return retStream;
 	}

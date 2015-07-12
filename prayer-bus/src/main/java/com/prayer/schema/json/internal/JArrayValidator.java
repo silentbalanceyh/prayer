@@ -295,10 +295,7 @@ final class JArrayValidator { // NOPMD
 			@Min(1) final int minOccurs) {
 		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
 		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, value, false);
-
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = " + occurs);
-		}
+		info(LOGGER, "[I] ==> minOccurs = " + minOccurs + ", occurs = " + occurs);
 
 		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {
@@ -321,10 +318,7 @@ final class JArrayValidator { // NOPMD
 			@Min(1) final int minOccurs) {
 		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
 		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, value, false);
-
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = " + occurs);
-		}
+		info(LOGGER, "[I] ==> minOccurs = " + minOccurs + ", occurs = " + occurs);
 
 		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {

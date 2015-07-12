@@ -13,16 +13,15 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.prayer.exception.system.ResourceIOException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.mod.sys.FieldModel;
 import com.prayer.mod.sys.KeyModel;
 import com.prayer.mod.sys.MetaModel;
 import com.prayer.schema.Serializer;
-import com.prayer.util.JsonKit;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -39,11 +38,19 @@ public class CommunionSerializer implements Serializer {
 	/**
 	 * JackSon Mapper
 	 */
-	private transient ObjectMapper mapper = new ObjectMapper();
+	@NotNull
+	private transient final ObjectMapper mapper;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	/**
+	 * 
+	 */
+	@PostValidateThis
+	public CommunionSerializer(){
+		this.mapper = new ObjectMapper();
+	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/**

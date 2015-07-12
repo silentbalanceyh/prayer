@@ -1,5 +1,6 @@
 package com.prayer.schema.json.internal;
 
+import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 
 import org.slf4j.Logger;
@@ -53,8 +54,8 @@ public class CommunionImporter implements Importer {
 	public CommunionImporter(@NotNull @NotEmpty @NotBlank final String filePath) {
 		this.filePath = filePath;
 		this.ensurer = instance(GenericEnsurer.class.getName());
-		if (null == this.filePath && LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[E] File path initializing met error!",
+		if (null == this.filePath) {
+			info(LOGGER, "[E] File path initializing met error!",
 					new TypeInitException(getClass(), "Constructor: GenericImporter(String)", this.filePath));
 		}
 	}
@@ -99,7 +100,7 @@ public class CommunionImporter implements Importer {
 	@Override
 	public void transformModel() throws SerializationException {
 		if (null != this.rawData) {
-			
+
 		}
 	}
 

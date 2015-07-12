@@ -1,5 +1,7 @@
 package com.prayer.util;
 
+import static com.prayer.util.Error.info;
+
 import java.util.Set;
 
 import net.sf.oval.constraint.MinLength;
@@ -21,8 +23,7 @@ import org.slf4j.LoggerFactory;
 public final class Converter {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(Converter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Converter.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -64,9 +65,7 @@ public final class Converter {
 		try {
 			retEnum = Enum.valueOf(clazz, inputStr);
 		} catch (IllegalArgumentException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] Enum value invalid: " + inputStr, ex);
-			}
+			info(LOGGER, "[E] Enum value invalid: " + inputStr, ex);
 		}
 		return retEnum;
 	}

@@ -8,6 +8,10 @@ interface PropKeys {	// NOPMD
 
 	// ~ Static Fields =======================================
 	/**
+	 * 
+	 */
+	String ERR_SYS_NULL = "SYS.NULL";
+	/**
 	 * Default global property file path. *
 	 */
 	String PROP_FILE = "/global.properties";

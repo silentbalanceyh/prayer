@@ -21,7 +21,7 @@ import net.sf.oval.guard.Guarded;
  * @see
  */
 @Guarded
-public final class Error {
+public final class Error { // NOPMD
 	// ~ Static Fields =======================================
 	/**
 	 * Error property loader to read Error Message
@@ -90,6 +90,20 @@ public final class Error {
 	/**
 	 * 
 	 * @param logger
+	 * @param errKey
+	 * @param exp
+	 * @param params
+	 */
+	public static void debug(@NotNull final Logger logger, @NotNull final String errKey, @NotNull final Throwable exp,
+			final Object... params) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(message(errKey, params), exp);
+		}
+	}
+
+	/**
+	 * 
+	 * @param logger
 	 * @param message
 	 */
 	public static void info(@NotNull final Logger logger, @NotNull @NotBlank @NotEmpty final String message) {
@@ -122,20 +136,6 @@ public final class Error {
 
 	/**
 	 * 
-	 * @param logger
-	 * @param errKey
-	 * @param exp
-	 * @param params
-	 */
-	public static void debug(@NotNull final Logger logger, @NotNull final String errKey, @NotNull final Throwable exp,
-			final Object... params) {
-		if (logger.isDebugEnabled()) {
-			logger.debug(message(errKey, params), exp);
-		}
-	}
-
-	/**
-	 * 
 	 * @param key
 	 * @param params
 	 * @return
@@ -143,6 +143,11 @@ public final class Error {
 	public static String message(@NotNull @NotBlank @NotEmpty final String key, final Object... params) {
 		return null == loader ? "" : MessageFormat.format(loader.getString(key), params);
 	}
+	// ~ Constructors ========================================
+	// ~ Abstract Methods ====================================
+	// ~ Override Methods ====================================
+	// ~ Methods =============================================
+	// ~ Private Methods =====================================
 
 	private static String message(final Class<?> clazz, final char prefix, final int errorCode, // NOPMD
 			final Object... params) {
@@ -178,12 +183,6 @@ public final class Error {
 			logger.debug(errMsg.toString(), exp);
 		}
 	}
-
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
 
 	private Error() {
 	}

@@ -1,5 +1,8 @@
 package com.prayer.util;
 
+import static com.prayer.util.Error.debug;
+import static com.prayer.util.Error.info;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -114,9 +117,7 @@ public final class Instance {
 		try {
 			ret = Class.forName(className);
 		} catch (ClassNotFoundException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] Class Not found: " + className, ex);
-			}
+			info(LOGGER, "[E] Class Not found: " + className, ex);
 		}
 		return ret;
 	}
@@ -145,12 +146,10 @@ public final class Instance {
 				} else {
 					ret = construct(clazz, params);
 				}
-			} catch (ConstraintsViolatedException ex) {	// NOPMD
+			} catch (ConstraintsViolatedException ex) { // NOPMD
 				throw ex;
 			} catch (SecurityException ex) {
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[E] Security issue.", ex);
-				}
+				info(LOGGER, "[E] Security issue happen.", ex);
 			}
 		}
 		return ret;
@@ -170,16 +169,14 @@ public final class Instance {
 					break;
 				}
 			}
-			if (LOGGER.isDebugEnabled() && null != ret) {
-				LOGGER.debug("[D] <== ( instance=" + ret + ", hashCode=" + ret.hashCode() + " ) " + clazz.getName()
-						+ " -> JDK reflection create instance.");
+			if (null != ret) {
+				debug(LOGGER, "SYS.KIT.OBJ.JDK", ret, ret.hashCode(), clazz.getName());
 			}
 		} else {
 			final ConstructorAccess<?> access = ConstructorAccess.get(clazz);
 			ret = (T) access.newInstance();
-			if (LOGGER.isDebugEnabled() && null != ret) {
-				LOGGER.debug("[D] <== ( instance=" + ret + ", hashCode=" + ret.hashCode() + " ) " + clazz.getName()
-						+ " -> ASM reflection create instance.");
+			if (null != ret) {
+				debug(LOGGER, "SYS.KIT.OBJ.ASM", ret, ret.hashCode(), clazz.getName());
 			}
 		}
 		return ret;
@@ -197,13 +194,9 @@ public final class Instance {
 				throw (ConstraintsViolatedException) ex.getTargetException();
 			}
 		} catch (IllegalArgumentException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] IllegalArgument", ex);
-			}
+			info(LOGGER, "[E] Illegal Argument. ", ex);
 		} catch (InstantiationException | IllegalAccessException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] Instantiation | IllegalAccess | InvocationTarget ", ex);
-			}
+			info(LOGGER, "[E] Instantiation | IllegalAccess | InvocationTarget .", ex);
 		}
 		return ret;
 	}
