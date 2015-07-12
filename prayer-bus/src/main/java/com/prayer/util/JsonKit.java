@@ -7,13 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import jodd.util.StringUtil;
-import net.sf.oval.constraint.MinLength;
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +18,13 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
+
+import jodd.util.StringUtil;
+import net.sf.oval.constraint.MinLength;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 
@@ -48,25 +48,22 @@ public final class JsonKit {
 	 * @param filePath
 	 * @return
 	 */
-	public static JsonNode readJson(
-			@NotNull @NotEmpty @NotBlank final String filePath)
-			throws AbstractSystemException {
-		JsonNode retNode = null; // NOPMD
+	public static JsonNode readJson(@NotNull @NotEmpty @NotBlank final String filePath) throws AbstractSystemException {
+		JsonNode retNode = null;
 		try {
 			final InputStream inStream = IOKit.getFile(filePath, JsonKit.class);
-			retNode = MAPPER.readValue(inStream, // NOPMD
-					new TypeReference<JsonNode>() {
-					});
+			retNode = MAPPER.readValue(inStream, new TypeReference<JsonNode>() {
+			});
 		} catch (JsonParseException ex) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[ERR-20003] Json parsing error.", ex);
 			}
-			throw new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
+			throw new JsonParserException(JsonKit.class, ex.toString());	// NOPMD
 		} catch (IOException ex) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[ERR-20002] Resource I/O error.", ex);
 			}
-			throw new ResourceIOException(JsonKit.class, filePath); // NOPMD
+			throw new ResourceIOException(JsonKit.class, filePath);			// NOPMD
 		}
 		return retNode;
 	}
@@ -78,7 +75,7 @@ public final class JsonKit {
 	 * @return
 	 */
 	public static ArrayNode fromJObject(@NotNull final JsonNode jsonNode) {
-		ArrayNode arrNode = null; // NOPMD
+		ArrayNode arrNode = null;
 		final String content = jsonNode.toString();
 		try {
 			if (LOGGER.isDebugEnabled()) {
@@ -123,8 +120,7 @@ public final class JsonKit {
 	 * @param attr
 	 * @return
 	 */
-	public static int occursAttr(@NotNull final JsonNode jsonNode,
-			@NotNull @NotBlank @NotEmpty final String attr) {
+	public static int occursAttr(@NotNull final JsonNode jsonNode, @NotNull @NotBlank @NotEmpty final String attr) {
 		int occurs = 0;
 		final Iterator<String> attrIt = jsonNode.fieldNames();
 		while (attrIt.hasNext()) {
@@ -142,8 +138,7 @@ public final class JsonKit {
 	 * @param attr
 	 * @return
 	 */
-	public static int occursAttr(@NotNull final ArrayNode arrayNode,
-			@NotNull @NotBlank @NotEmpty final String attr) {
+	public static int occursAttr(@NotNull final ArrayNode arrayNode, @NotNull @NotBlank @NotEmpty final String attr) {
 		int occurs = 0;
 		final Iterator<JsonNode> nodeIt = arrayNode.iterator();
 		while (nodeIt.hasNext()) {
@@ -159,9 +154,8 @@ public final class JsonKit {
 	 * @param caseSensitive
 	 * @return
 	 */
-	public static int occursAttr(@NotNull final ArrayNode arrayNode,
-			@NotNull @NotBlank @NotEmpty final String attr, final Object value,
-			final boolean caseSensitive) {
+	public static int occursAttr(@NotNull final ArrayNode arrayNode, @NotNull @NotBlank @NotEmpty final String attr,
+			final Object value, final boolean caseSensitive) {
 		int occurs = 0;
 		final Iterator<JsonNode> nodeIt = arrayNode.iterator();
 		while (nodeIt.hasNext()) {
@@ -178,9 +172,8 @@ public final class JsonKit {
 	 * @param caseSensitive
 	 * @return
 	 */
-	public static int occursAttr(@NotNull final JsonNode jsonNode,
-			@NotNull @NotBlank @NotEmpty final String attr, final Object value,
-			final boolean caseSensitive) {
+	public static int occursAttr(@NotNull final JsonNode jsonNode, @NotNull @NotBlank @NotEmpty final String attr,
+			final Object value, final boolean caseSensitive) {
 		int occurs = 0;
 		if (null == value) {
 			// null 值检查
@@ -198,8 +191,7 @@ public final class JsonKit {
 				}
 			} else {
 				// 大小写不敏感
-				if (StringUtil.equals(StringUtil.toUpperCase(jsonValue),
-						StringUtil.toUpperCase(value.toString()))) {
+				if (StringUtil.equals(StringUtil.toUpperCase(jsonValue), StringUtil.toUpperCase(value.toString()))) {
 					occurs++;
 				}
 			}
@@ -215,15 +207,13 @@ public final class JsonKit {
 	 * @param values
 	 * @return
 	 */
-	public static boolean isAttrIn(@NotNull final JsonNode jsonNode,
-			@NotNull @NotBlank @NotEmpty final String attr,
+	public static boolean isAttrIn(@NotNull final JsonNode jsonNode, @NotNull @NotBlank @NotEmpty final String attr,
 			@MinLength(1) final String... values) {
 		final JsonNode attrNode = jsonNode.path(attr);
 		final String jsonValue = attrNode.asText();
 		boolean ret = false;
 		for (final String value : values) {
-			if (StringKit.isNonNil(jsonValue)
-					&& StringUtil.equals(value, jsonValue)) {
+			if (StringKit.isNonNil(jsonValue) && StringUtil.equals(value, jsonValue)) {
 				ret = true;
 				break;
 			}
@@ -261,14 +251,12 @@ public final class JsonKit {
 	 * @param filter
 	 * @return
 	 */
-	public static boolean isMatch(@NotNull final JsonNode jsonNode,
-			final ConcurrentMap<String, Object> filter) {
+	public static boolean isMatch(@NotNull final JsonNode jsonNode, final ConcurrentMap<String, Object> filter) {
 		boolean ret = true;
 		if (null != filter && !filter.isEmpty()) {
 			// filter中没有任何内容，直接返回匹配
 			for (final String key : filter.keySet()) {
-				final int occurs = occursAttr(jsonNode, key, filter.get(key),
-						true);
+				final int occurs = occursAttr(jsonNode, key, filter.get(key), true);
 				if (occurs <= 0) {
 					ret = false;
 					break;

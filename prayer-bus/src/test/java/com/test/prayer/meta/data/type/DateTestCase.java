@@ -15,7 +15,7 @@ import org.junit.Test;
  * @author Lang
  * @see
  */
-public class DateTestCase { // NOPMD
+public class DateTestCase { 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final String V_DATE = "20150929";

@@ -16,7 +16,7 @@ public interface JdbcContext {
 	 * @param values
 	 * @param types
 	 */
-	int update(String sql, Object[] values, int[] types); // NOPMD
+	int update(String sql, Object[] values, int... types); 
 
 	/**
 	 * Publish interface of jdbc template

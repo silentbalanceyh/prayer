@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import com.prayer.meta.DataType;
 import com.prayer.meta.Value;
+import com.prayer.res.cv.Constants;
 
 /**
  * 字节数组
@@ -84,7 +85,7 @@ public class BinaryType implements Value<byte[]> {
 	/** **/
 	@Override
 	public int hashCode() {
-		final int prime = 31; // NOPMD
+		final int prime = Constants.HASH_BASE; 
 		int result = 1;
 		result = prime * result + Arrays.hashCode(value);
 		return result;
@@ -94,17 +95,17 @@ public class BinaryType implements Value<byte[]> {
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
-			return true; // NOPMD
+			return true; 
 		}
 		if (obj == null) {
-			return false; // NOPMD
+			return false; 
 		}
 		if (getClass() != obj.getClass()) {
-			return false; // NOPMD
+			return false; 
 		}
 		final BinaryType other = (BinaryType) obj;
 		if (!Arrays.equals(value, other.value)) { // NOPMD
-			return false; // NOPMD
+			return false; 
 		}
 		return true;
 	}

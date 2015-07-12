@@ -42,7 +42,7 @@ public abstract class AbstractDbPool {
 	@NotNull
 	@NotEmpty
 	@NotBlank
-	protected transient String category; // NOPMD
+	protected transient String category;	// NOPMD
 	/**
 	 * 资源加载器
 	 */

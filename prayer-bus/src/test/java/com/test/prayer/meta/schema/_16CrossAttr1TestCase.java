@@ -12,7 +12,7 @@ import com.prayer.exception.schema.WrongTimeAttrException;
  * @author Lang
  *
  */
-public class _16CrossAttr1TestCase extends AbstractSchemaTestCase { // NOPMD
+public class _16CrossAttr1TestCase extends AbstractSchemaTestCase { 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

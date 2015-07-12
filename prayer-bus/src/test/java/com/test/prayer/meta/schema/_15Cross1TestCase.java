@@ -18,7 +18,7 @@ import com.prayer.exception.schema.PatternNotMatchException;
  * @author Lang
  *
  */
-public class _15Cross1TestCase extends AbstractSchemaTestCase { // NOPMD
+public class _15Cross1TestCase extends AbstractSchemaTestCase { 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

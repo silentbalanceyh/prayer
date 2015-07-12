@@ -12,7 +12,7 @@ import com.prayer.exception.schema.RequiredAttrMissingException;
  * @author Lang
  *
  */
-public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
+public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * @author Lang
  * @see
  */
-public class AbstractConTestCase {	// NOPMD
+public class AbstractConTestCase {	
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

@@ -1,4 +1,4 @@
-package com.prayer.meta.schema.json; // NOPMD
+package com.prayer.meta.schema.json;
 
 import static com.prayer.util.JsonKit.fromJObject;
 import static com.prayer.util.JsonKit.occursAttr;
@@ -24,7 +24,7 @@ import com.prayer.util.StringKit;
  * @see
  */
 @Guarded
-final class GenericEnsurer implements Ensurer { // NOPMD
+final class GenericEnsurer implements Ensurer {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(GenericEnsurer.class);
@@ -70,7 +70,7 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 		if (null != this.rootNode) {
 			this.initEnsurers();
 		}
-		this.error = null; // NOPMD
+		this.error = null;	// NOPMD
 	}
 
 	// ~ Abstract Methods ====================================
@@ -87,7 +87,7 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 	 * 
 	 */
 	@Override
-	public boolean validate() { // NOPMD
+	public boolean validate() {	// NOPMD
 		// 1.验证root节点：__keys__, __meta__, __fields__
 		boolean ret = validateRoot();
 		// 2.验证Meta节点
@@ -195,7 +195,7 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 	/**
 	 * 
 	 */
-	private void initEnsurers() { // NOPMD
+	private void initEnsurers() {	// NOPMD
 		// 顶层验证器
 		this.metaEnsurer = new MetaEnsurer(this.rootNode.path(Attributes.R_META));
 		// 字段验证器
@@ -284,21 +284,21 @@ final class GenericEnsurer implements Ensurer { // NOPMD
 		// 1.Root Required
 		this.error = validator.verifyRequired(Attributes.R_META, Attributes.R_KEYS, Attributes.R_FIELDS);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 2.Root Json Type
 		this.error = validator.verifyJObject(Attributes.R_META);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		this.error = validator.verifyJArray(Attributes.R_KEYS);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		this.error = validator.verifyJArray(Attributes.R_FIELDS);
 		// 3.Root Exclude Unsupported Attributes
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		this.error = validator.verifyUnsupported(Attributes.R_META, Attributes.R_KEYS, Attributes.R_FIELDS,
 				Attributes.R_ORDERS, Attributes.R_INDEXES);

@@ -22,7 +22,7 @@ import com.prayer.util.db.DbDiscovery;
  * @author Lang
  * @see
  */
-public class MetadataTestCase { // NOPMD
+public class MetadataTestCase { 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

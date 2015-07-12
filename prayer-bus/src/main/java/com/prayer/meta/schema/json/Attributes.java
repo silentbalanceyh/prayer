@@ -5,7 +5,7 @@ package com.prayer.meta.schema.json;
  * @author Lang
  * @see
  */
-interface Attributes { // NOPMD
+interface Attributes { 	// NOPMD
 	// ------------------ Root Node ---------------------
 	/** **/
 	String R_META = "__meta__";

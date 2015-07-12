@@ -10,6 +10,7 @@ import com.prayer.exception.system.TypeInitException;
 import com.prayer.meta.DataType;
 import com.prayer.meta.Validator;
 import com.prayer.meta.Value;
+import com.prayer.res.cv.Constants;
 
 /**
  * 类型：字符串类型
@@ -26,11 +27,11 @@ public class StringType implements Value<String>, Validator {
 	/**
 	 * 字符串缓冲池
 	 */
-	protected StringBuilder value = new StringBuilder(16); // NOPMD
+	protected StringBuilder value = new StringBuilder(16); 	// NOPMD
 	/**
 	 * Runtime异常
 	 */
-	private transient TypeInitException exp = null; // NOPMD
+	private transient TypeInitException exp = null; 	// NOPMD
 
 	// ~ Constructors ========================================
 	/**
@@ -108,7 +109,7 @@ public class StringType implements Value<String>, Validator {
 	 */
 	private void init(final String value) {
 		if (null == value) {
-			this.value = null; // NOPMD
+			this.value = null; 	// NOPMD
 		} else {
 			// StringType直接返回true
 			if (this.validate(value)) {
@@ -137,7 +138,7 @@ public class StringType implements Value<String>, Validator {
 	/** **/
 	@Override
 	public int hashCode() {
-		final int prime = 31; // NOPMD
+		final int prime = Constants.HASH_BASE; 
 		int result = 1;
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
@@ -147,21 +148,21 @@ public class StringType implements Value<String>, Validator {
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
-			return true; // NOPMD
+			return true; 
 		}
 		if (obj == null) {
-			return false; // NOPMD
+			return false; 
 		}
 		if (getClass() != obj.getClass()) {
-			return false; // NOPMD
+			return false; 
 		}
 		final StringType other = (StringType) obj;
 		if (value == null) {
 			if (other.value != null) {
-				return false; // NOPMD
+				return false; 
 			}
 		} else if (!value.toString().equals(other.value.toString())) {
-			return false; // NOPMD
+			return false; 
 		}
 		return true;
 	}

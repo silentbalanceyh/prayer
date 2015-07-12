@@ -1,4 +1,4 @@
-package com.prayer.mod.sys; // NOPMD
+package com.prayer.mod.sys;	// NOPMD
 
 import java.io.Serializable;
 
@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.prayer.mod.sys.SystemEnum.MetaCategory;
 import com.prayer.mod.sys.SystemEnum.MetaMapping;
 import com.prayer.mod.sys.SystemEnum.MetaPolicy;
+import com.prayer.res.cv.Constants;
 
 /**
  * 对应表SYS_META
@@ -350,84 +351,77 @@ public class MetaModel implements Serializable { // NOPMD
 	/** **/
 	@Override
 	public String toString() {
-		return "MetaModel [uniqueId=" + uniqueId + ", oobFile=" + oobFile
-				+ ", using=" + using + ", initOrder=" + initOrder
-				+ ", initSubOrder=" + initSubOrder + ", name=" + name
-				+ ", namespace=" + namespace + ", category=" + category
-				+ ", globalId=" + globalId + ", mapping=" + mapping
-				+ ", policy=" + policy + ", table=" + table + ", subTable="
-				+ subTable + ", subKey=" + subKey + ", seqName=" + seqName
+		return "MetaModel [uniqueId=" + uniqueId + ", oobFile=" + oobFile + ", using=" + using + ", initOrder="
+				+ initOrder + ", initSubOrder=" + initSubOrder + ", name=" + name + ", namespace=" + namespace
+				+ ", category=" + category + ", globalId=" + globalId + ", mapping=" + mapping + ", policy=" + policy
+				+ ", table=" + table + ", subTable=" + subTable + ", subKey=" + subKey + ", seqName=" + seqName
 				+ ", seqStep=" + seqStep + ", seqInit=" + seqInit + "]";
 	}
 
 	/** **/
 	@Override
-	public int hashCode() { // NOPMD
-		final int prime = 31; // NOPMD
+	public int hashCode() {
+		final int prime = Constants.HASH_BASE;
 		int result = 1;
-		result = prime * result
-				+ ((category == null) ? 0 : category.hashCode());
-		result = prime * result
-				+ ((globalId == null) ? 0 : globalId.hashCode());
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((globalId == null) ? 0 : globalId.hashCode());
 		result = prime * result + (using ? 1231 : 1237);
 		result = prime * result + ((mapping == null) ? 0 : mapping.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((namespace == null) ? 0 : namespace.hashCode());
-		result = prime * result
-				+ ((uniqueId == null) ? 0 : uniqueId.hashCode());
+		result = prime * result + ((namespace == null) ? 0 : namespace.hashCode());
+		result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
 		return result;
 	}
 
 	/** **/
 	@Override
-	public boolean equals(final Object obj) { // NOPMD
+	public boolean equals(final Object obj) {	// NOPMD
 		if (this == obj) {
-			return true; // NOPMD
+			return true;
 		}
 		if (obj == null) {
-			return false; // NOPMD
+			return false;
 		}
 		if (getClass() != obj.getClass()) {
-			return false; // NOPMD
+			return false;
 		}
 		final MetaModel other = (MetaModel) obj;
 		if (category != other.category) {
-			return false; // NOPMD
+			return false;
 		}
 		if (globalId == null) {
 			if (other.globalId != null) {
-				return false; // NOPMD
+				return false;
 			}
 		} else if (!globalId.equals(other.globalId)) {
-			return false; // NOPMD
+			return false;
 		}
 		if (using != other.using) {
-			return false; // NOPMD
+			return false;
 		}
 		if (mapping != other.mapping) {
-			return false; // NOPMD
+			return false;
 		}
 		if (name == null) {
 			if (other.name != null) {
-				return false; // NOPMD
+				return false;
 			}
 		} else if (!name.equals(other.name)) {
-			return false; // NOPMD
+			return false;
 		}
 		if (namespace == null) {
 			if (other.namespace != null) {
-				return false; // NOPMD
+				return false;
 			}
 		} else if (!namespace.equals(other.namespace)) {
-			return false; // NOPMD
+			return false;
 		}
 		if (uniqueId == null) {
 			if (other.uniqueId != null) {
-				return false; // NOPMD
+				return false;
 			}
 		} else if (!uniqueId.equals(other.uniqueId)) {
-			return false; // NOPMD
+			return false;
 		}
 		return true;
 	}

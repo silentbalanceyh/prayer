@@ -12,7 +12,7 @@ import com.prayer.exception.schema.PatternNotMatchException;
  * @author Lang
  * @see
  */
-public class _04MetaPattern2TestCase extends AbstractSchemaTestCase {	// NOPMD
+public class _04MetaPattern2TestCase extends AbstractSchemaTestCase {	
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

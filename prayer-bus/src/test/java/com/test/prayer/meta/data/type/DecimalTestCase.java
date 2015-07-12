@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
  * @author Lang
  * @see
  */
-public class DecimalTestCase {	// NOPMD
+public class DecimalTestCase {	
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/
@@ -36,7 +36,7 @@ public class DecimalTestCase {	// NOPMD
 	/** **/
 	@Test
 	public void testDecimal2() {
-		final BigDecimal data1 = new BigDecimal(0.00);		// NOPMD
+		final BigDecimal data1 = new BigDecimal(0.00);		
 		final DecimalType data2 = new DecimalType(data1);
 		assertEquals("[T] DecimalType -> BigDecimal", data1, data2.getValue());
 	}
@@ -44,7 +44,7 @@ public class DecimalTestCase {	// NOPMD
 	/** **/
 	@Test
 	public void testDecimal3() {
-		final DecimalType data1 = new DecimalType("1.00");	// NOPMD
+		final DecimalType data1 = new DecimalType("1.00");	
 		final DecimalType data2 = new DecimalType("1.00");
 		assertEquals("[T] DecimalType -> String", data1.getValue(),
 				data2.getValue());
@@ -53,7 +53,7 @@ public class DecimalTestCase {	// NOPMD
 	/** **/
 	@Test
 	public void testDecimal4() {
-		final BigDecimal data1 = new BigDecimal(0.00);		// NOPMD
+		final BigDecimal data1 = new BigDecimal(0.00);		
 		final DecimalType data2 = new DecimalType();
 		data2.setValue(data1);
 		assertEquals("[T] test setValue -> BigDecimal", data1, data2.getValue());

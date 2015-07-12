@@ -22,8 +22,7 @@ import com.esotericsoftware.reflectasm.ConstructorAccess;
 public final class Instance {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(Instance.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Instance.class);
 	/** KEY -> POOL **/
 	private static final ConcurrentMap<String, Object> OBJ_POOLS = new ConcurrentHashMap<>();
 
@@ -32,14 +31,15 @@ public final class Instance {
 	// ~ Static Methods ======================================
 	/**
 	 * 支持带Pool模式的单例
+	 * 
 	 * @param objectPool
 	 * @param key
 	 * @param className
 	 * @param params
 	 * @return
 	 */
-	public static <T> T reservoir(final ConcurrentMap<String, T> objectPool,
-			final String key, final String className, final Object... params) {
+	public static <T> T reservoir(final ConcurrentMap<String, T> objectPool, final String key, final String className,
+			final Object... params) {
 		T ret = objectPool.get(null == key ? "" : key);
 		if (null == ret) {
 			ret = instance(className, params);
@@ -52,14 +52,15 @@ public final class Instance {
 
 	/**
 	 * 支持带Pool模式的单例
+	 * 
 	 * @param clazz
 	 * @param key
 	 * @param objectPool
 	 * @param params
 	 * @return
 	 */
-	public static <T> T reservoir(final ConcurrentMap<String, T> objectPool,
-			final String key, final Class<?> clazz, final Object... params) {
+	public static <T> T reservoir(final ConcurrentMap<String, T> objectPool, final String key, final Class<?> clazz,
+			final Object... params) {
 		T ret = objectPool.get(null == key ? "" : key);
 		if (null == ret) {
 			ret = instance(clazz, params);
@@ -87,8 +88,7 @@ public final class Instance {
 	 * @param params
 	 * @return
 	 */
-	public static <T> T singleton(final String className,
-			final Object... params) {
+	public static <T> T singleton(final String className, final Object... params) {
 		return (T) reservoir(OBJ_POOLS, className, className, params);
 	}
 
@@ -103,6 +103,7 @@ public final class Instance {
 		final Class<?> clazz = clazz(className);
 		return instance(clazz, params);
 	}
+
 	/**
 	 * 
 	 * @param className
@@ -119,6 +120,7 @@ public final class Instance {
 		}
 		return ret;
 	}
+
 	// ~ Constructors ========================================
 	private Instance() {
 	}
@@ -143,7 +145,7 @@ public final class Instance {
 				} else {
 					ret = construct(clazz, params);
 				}
-			} catch (ConstraintsViolatedException ex) { // NOPMD
+			} catch (ConstraintsViolatedException ex) {	// NOPMD
 				throw ex;
 			} catch (SecurityException ex) {
 				if (LOGGER.isDebugEnabled()) {
@@ -157,8 +159,7 @@ public final class Instance {
 	private static <T> T construct(final Class<?> clazz, final Object... params) {
 		T ret = null;
 		if (0 < params.length) {
-			final Constructor<?>[] constructors = clazz
-					.getDeclaredConstructors();
+			final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 			for (final Constructor<?> constructor : constructors) {
 				// 参数长度不匹配，直接略过
 				if (params.length != constructor.getParameterTypes().length) {
@@ -170,24 +171,21 @@ public final class Instance {
 				}
 			}
 			if (LOGGER.isDebugEnabled() && null != ret) {
-				LOGGER.debug("[D] <== ( instance=" + ret + ", hashCode="
-						+ ret.hashCode() + " ) " + clazz.getName()
+				LOGGER.debug("[D] <== ( instance=" + ret + ", hashCode=" + ret.hashCode() + " ) " + clazz.getName()
 						+ " -> JDK reflection create instance.");
 			}
 		} else {
 			final ConstructorAccess<?> access = ConstructorAccess.get(clazz);
 			ret = (T) access.newInstance();
 			if (LOGGER.isDebugEnabled() && null != ret) {
-				LOGGER.debug("[D] <== ( instance=" + ret + ", hashCode="
-						+ ret.hashCode() + " ) " + clazz.getName()
+				LOGGER.debug("[D] <== ( instance=" + ret + ", hashCode=" + ret.hashCode() + " ) " + clazz.getName()
 						+ " -> ASM reflection create instance.");
 			}
 		}
 		return ret;
 	}
 
-	private static <T> T construct(final Constructor<?> constructor,
-			final Object... params) {
+	private static <T> T construct(final Constructor<?> constructor, final Object... params) {
 		if (!constructor.isAccessible()) {
 			constructor.setAccessible(true);
 		}
@@ -204,9 +202,7 @@ public final class Instance {
 			}
 		} catch (InstantiationException | IllegalAccessException ex) {
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(
-						"[E] Instantiation | IllegalAccess | InvocationTarget ",
-						ex);
+				LOGGER.debug("[E] Instantiation | IllegalAccess | InvocationTarget ", ex);
 			}
 		}
 		return ret;

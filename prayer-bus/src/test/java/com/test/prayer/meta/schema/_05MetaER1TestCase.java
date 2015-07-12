@@ -13,7 +13,7 @@ import com.prayer.exception.schema.OptionalAttrMorEException;
  * @author Lang
  * @see
  */
-public class _05MetaER1TestCase extends AbstractSchemaTestCase { // NOPMD
+public class _05MetaER1TestCase extends AbstractSchemaTestCase { 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

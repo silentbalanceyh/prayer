@@ -14,7 +14,7 @@ import com.prayer.exception.schema.DuplicatedTablesException;
  * @author Lang
  * @see
  */
-public class _06MetaER2TestCase extends AbstractSchemaTestCase { // NOPMD
+public class _06MetaER2TestCase extends AbstractSchemaTestCase { 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

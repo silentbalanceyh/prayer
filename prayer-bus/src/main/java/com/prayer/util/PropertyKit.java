@@ -1,5 +1,6 @@
 package com.prayer.util;
 
+import static com.prayer.util.sys.Error.debug;
 import static com.prayer.util.sys.Instance.reservoir;
 
 import java.io.IOException;
@@ -35,8 +36,7 @@ public final class PropertyKit {
 	/** 资源文件池 **/
 	private static final ConcurrentMap<String, Properties> PROP_POOL = new ConcurrentHashMap<>();
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(PropertyKit.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PropertyKit.class);
 	// ~ Instance Fields =====================================
 	/**
 	 * 当前实例加载的资源文件信息
@@ -51,8 +51,7 @@ public final class PropertyKit {
 	 * @param resource
 	 */
 	@PostValidateThis
-	public PropertyKit(final Class<?> clazz,
-			@NotNull @NotEmpty @NotBlank final String resource) {
+	public PropertyKit(final Class<?> clazz, @NotNull @NotEmpty @NotBlank final String resource) {
 		this.prop = reservoir(PROP_POOL, resource, Properties.class);
 		try {
 			final InputStream inStream = IOKit.getFile(resource, clazz);
@@ -60,22 +59,16 @@ public final class PropertyKit {
 				this.prop.load(inStream);
 			}
 		} catch (IOException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] Construct Error! Input = " + resource, ex);
-			}
+			debug(LOGGER, "JVM.IO", ex, resource);
 		}
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[D] <== ( prop = " + prop + ", hashCode = "
-					+ ((null == prop) ? 0 : prop.hashCode())
-					+ " ) Initialized current prop!");
-		}
+		debug(LOGGER, "PROPKIT.HASH.CODE", prop, null == prop ? 0 : prop.hashCode());
 		PROP_POOL.put(resource, this.prop);
 		// Monitor Pool if debug
 		/*
-		 * if (LOGGER.isDebugEnabled()){
-		 * LOGGER.debug("[POOL] Current resource: " + resource); for(final
-		 * String key: PROP_POOL.keySet()){ LOGGER.debug("[POOL] Key=" + key +
-		 * ", value=" + PROP_POOL.get(key)); } }
+		 * if (LOGGER.isDebugEnabled()){ LOGGER.debug(
+		 * "[POOL] Current resource: " + resource); for(final String key:
+		 * PROP_POOL.keySet()){ LOGGER.debug("[POOL] Key=" + key + ", value=" +
+		 * PROP_POOL.get(key)); } }
 		 */
 	}
 

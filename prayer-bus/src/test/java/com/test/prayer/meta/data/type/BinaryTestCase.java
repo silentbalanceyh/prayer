@@ -17,7 +17,7 @@ import com.prayer.meta.data.type.BinaryType;
  * @author Lang
  * @see
  */
-public class BinaryTestCase { // NOPMD
+public class BinaryTestCase { 
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/

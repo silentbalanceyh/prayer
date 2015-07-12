@@ -1,10 +1,8 @@
-package com.prayer.meta.schema.json; // NOPMD
+package com.prayer.meta.schema.json;	// NOPMD
 
-import static com.prayer.util.JsonKit.findNodes;
-import static com.prayer.util.JsonKit.isAttrIn;
-import static com.prayer.util.JsonKit.occursAttr;
 import static com.prayer.util.sys.Converter.toStr;
 import static com.prayer.util.sys.Error.debug;
+import static com.prayer.util.sys.Instance.instance;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -13,6 +11,27 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.prayer.exception.AbstractSchemaException;
+import com.prayer.exception.schema.DuplicatedAttrException;
+import com.prayer.exception.schema.DuplicatedColumnException;
+import com.prayer.exception.schema.DuplicatedKeyException;
+import com.prayer.exception.schema.FKAttrTypeException;
+import com.prayer.exception.schema.FKColumnTypeException;
+import com.prayer.exception.schema.JsonTypeConfusedException;
+import com.prayer.exception.schema.PKColumnTypePolicyException;
+import com.prayer.exception.schema.PKMissingException;
+import com.prayer.exception.schema.PKPolicyConflictException;
+import com.prayer.exception.schema.SubtableWrongException;
+import com.prayer.exception.schema.ZeroLengthException;
+import com.prayer.mod.sys.SystemEnum.MetaPolicy;
+import com.prayer.res.cv.Constants;
+import com.prayer.util.JsonKit;
 
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.MinLength;
@@ -23,45 +42,21 @@ import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.PreValidateThis;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.JsonTypeConfusedException;
-import com.prayer.exception.schema.ZeroLengthException;
-import com.prayer.exception.schema.DuplicatedAttrException;
-import com.prayer.exception.schema.DuplicatedColumnException;
-import com.prayer.exception.schema.DuplicatedKeyException;
-import com.prayer.exception.schema.FKColumnTypeException;
-import com.prayer.exception.schema.FKAttrTypeException;
-import com.prayer.exception.schema.PKColumnTypePolicyException;
-import com.prayer.exception.schema.PKMissingException;
-import com.prayer.exception.schema.PKPolicyConflictException;
-import com.prayer.exception.schema.SubtableWrongException;
-import com.prayer.mod.sys.SystemEnum.MetaPolicy;
-import com.prayer.res.cv.Constants;
-
 /**
  * 
  * @author Yu
  *
  */
 @Guarded
-final class JArrayValidator { // NOPMD
+final class JArrayValidator {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(JArrayValidator.class);
-	/** **/
-	private static final String LCT_STR = "] ==> ( Location: ";
-	/** **/
-	private static final String ERR_STR = "[ERR";
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotBlank
 	@NotEmpty
-	private transient String name; // NOPMD
+	private transient String name;	// NOPMD
 	/** **/
 	@NotNull
 	private transient final ArrayNode verifiedNodes;
@@ -123,7 +118,7 @@ final class JArrayValidator { // NOPMD
 	public AbstractSchemaException verifyFkColumnType(@NotNull @NotBlank @NotEmpty final String attr,
 			@NotNull final ConcurrentMap<String, Object> filter, @NotNull @NotBlank @NotEmpty final String regexStr) {
 		AbstractSchemaException retExp = null;
-		final List<JsonNode> fkNodes = findNodes(this.verifiedNodes, filter);
+		final List<JsonNode> fkNodes = JsonKit.findNodes(this.verifiedNodes, filter);
 		final Iterator<JsonNode> fkNIt = fkNodes.iterator();
 		// Regex
 		final Pattern pattern = Pattern.compile(regexStr);
@@ -133,8 +128,8 @@ final class JArrayValidator { // NOPMD
 			final String value = node.path(attr).asText();
 			final Matcher matcher = pattern.matcher(value);
 			if (!matcher.matches()) {
-				retExp = new FKColumnTypeException(getClass(), // NOPMD
-						Attributes.F_COL_TYPE);
+				retExp = instance(FKColumnTypeException.class.getName(), getClass(),Attributes.F_COL_TYPE);
+				// new FKColumnTypeException(getClass(), Attributes.F_COL_TYPE);
 				debug(LOGGER, getClass(), "D10015", retExp, this.name, attr, value, regexStr, idx);
 				break;
 			}
@@ -152,14 +147,16 @@ final class JArrayValidator { // NOPMD
 	public AbstractSchemaException verifyFkType(@NotNull @NotBlank @NotEmpty final String attr,
 			@NotNull final ConcurrentMap<String, Object> filter, @MinLength(1) final String... values) {
 		AbstractSchemaException retExp = null;
-		final List<JsonNode> fkNodes = findNodes(this.verifiedNodes, filter);
+		final List<JsonNode> fkNodes = JsonKit.findNodes(this.verifiedNodes, filter);
 		final Iterator<JsonNode> fkNIt = fkNodes.iterator();
 		int idx = 0;
 		while (fkNIt.hasNext()) {
 			final JsonNode node = fkNIt.next();
-			if (!isAttrIn(node, attr, values)) {
-				retExp = new FKAttrTypeException(getClass(), // NOPMD
-						attr, node.path(Attributes.F_TYPE).asText());
+			if (!JsonKit.isAttrIn(node, attr, values)) {
+				retExp = instance(FKAttrTypeException.class.getName(), getClass(), attr,
+						node.path(Attributes.F_TYPE).asText());
+				// new FKAttrTypeException(getClass(), attr,
+				// node.path(Attributes.F_TYPE).asText());
 				debug(LOGGER, getClass(), "D10014", retExp, this.name, attr, node.path(Attributes.F_TYPE).asText(),
 						toStr(values), idx);
 				break;
@@ -182,8 +179,9 @@ final class JArrayValidator { // NOPMD
 		while (nodeIt.hasNext()) {
 			final JsonNode item = nodeIt.next();
 			if (!item.isContainerNode() || item.isArray()) {
-				retExp = new JsonTypeConfusedException(getClass(), "value = " // NOPMD
-						+ item.toString());
+				retExp = instance(JsonTypeConfusedException.class.getName(), getClass(), "Value = " + item.toString());
+				// new JsonTypeConfusedException(getClass(), "value = " +
+				// item.toString());
 				debug(LOGGER, getClass(), "D10002.EOBJ", retExp, this.name, item.toString(), idx);
 				break;
 			}
@@ -205,8 +203,9 @@ final class JArrayValidator { // NOPMD
 		while (nodeIt.hasNext()) {
 			final JsonNode item = nodeIt.next();
 			if (item.isContainerNode() || !item.isTextual()) {
-				retExp = new JsonTypeConfusedException(getClass(), "value = " // NOPMD
-						+ item.toString());
+				retExp = instance(JsonTypeConfusedException.class.getName(), getClass(), "Value = " + item.toString());
+				// new JsonTypeConfusedException(getClass(), "value = " +
+				// item.toString());
 				debug(LOGGER, getClass(), "D10002.ESTR", retExp, this.name, item.toString(), idx);
 				break;
 			}
@@ -225,13 +224,15 @@ final class JArrayValidator { // NOPMD
 	@PreValidateThis
 	public AbstractSchemaException verifyPKeyPolicyType(@NotNull final MetaPolicy policy,
 			@NotNull final ConcurrentMap<String, Object> filter, @MinLength(1) final String... expectedValues) {
-		final List<JsonNode> pkList = findNodes(this.verifiedNodes, filter);
+		final List<JsonNode> pkList = JsonKit.findNodes(this.verifiedNodes, filter);
 		AbstractSchemaException retExp = null;
 		int idx = 0;
 		for (final JsonNode jsonNode : pkList) {
-			if (!isAttrIn(jsonNode, Attributes.F_TYPE, expectedValues)) {
-				retExp = new PKColumnTypePolicyException(getClass(), // NOPMD
-						policy.toString(), jsonNode.path(Attributes.F_TYPE).asText());
+			if (!JsonKit.isAttrIn(jsonNode, Attributes.F_TYPE, expectedValues)) {
+				retExp = instance(PKColumnTypePolicyException.class.getName(), getClass(), policy.toString(),
+						jsonNode.path(Attributes.F_TYPE).asText());
+				// new PKColumnTypePolicyException(getClass(),
+				// policy.toString(),jsonNode.path(Attributes.F_TYPE).asText());
 				debug(LOGGER, getClass(), "D10012", retExp, this.name, Attributes.F_TYPE,
 						jsonNode.path(Attributes.F_TYPE).asText(), policy.toString(), toStr(expectedValues), idx);
 				break;
@@ -251,7 +252,7 @@ final class JArrayValidator { // NOPMD
 	@PreValidateThis
 	public AbstractSchemaException verifyPKeyNonCOPolicy(@NotNull @NotBlank @NotEmpty final String attr,
 			@NotNull final MetaPolicy policy) {
-		final int occurs = occursAttr(this.verifiedNodes, attr, Boolean.TRUE, false);
+		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, Boolean.TRUE, false);
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[I] ==> (policy != COLLECTION) occurs = " + occurs);
 		}
@@ -274,7 +275,7 @@ final class JArrayValidator { // NOPMD
 	@PreValidateThis
 	public AbstractSchemaException verifyPKeyCOPolicy(@NotNull @NotBlank @NotEmpty final String attr,
 			@NotNull final MetaPolicy policy) {
-		final int occurs = occursAttr(this.verifiedNodes, attr, Boolean.TRUE, false);
+		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, Boolean.TRUE, false);
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[I] ==> (policy == COLLECTION) occurs = " + occurs);
 		}
@@ -296,7 +297,7 @@ final class JArrayValidator { // NOPMD
 	public AbstractSchemaException verifyRelMissing(@NotNull @NotBlank @NotEmpty final String attr, final Object value,
 			@Min(1) final int minOccurs) {
 		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
-		final int occurs = occursAttr(this.verifiedNodes, attr, value, false);
+		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, value, false);
 
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = " + occurs);
@@ -322,7 +323,7 @@ final class JArrayValidator { // NOPMD
 	public AbstractSchemaException verifyPKeyMissing(@NotNull @NotBlank @NotEmpty final String attr, final Object value,
 			@Min(1) final int minOccurs) {
 		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
-		final int occurs = occursAttr(this.verifiedNodes, attr, value, false);
+		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, value, false);
 
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[I] ==> minOccurs = " + minOccurs + ", occurs = " + occurs);
@@ -331,10 +332,7 @@ final class JArrayValidator { // NOPMD
 		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {
 			retExp = new PKMissingException(getClass(), this.table);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode() + "] ==> For Value ( Location: " + attr + " = "
-						+ value.toString() + " ) [PrimaryKey] occurs: " + occurs, retExp);
-			}
+			debug(LOGGER, getClass(), "D10010", retExp, this.name, attr, value.toString(), occurs, minOccurs);
 		}
 		return retExp;
 	}
@@ -363,9 +361,7 @@ final class JArrayValidator { // NOPMD
 		AbstractSchemaException retExp = null;
 		if (setValues.size() < this.verifiedNodes.size()) {
 			retExp = new DuplicatedKeyException(getClass(), attr);
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + this.name + " -> " + attr + " )", retExp);
-			}
+			debug(LOGGER, getClass(), "D10018", retExp, this.name, attr);
 		}
 		return retExp;
 	}
@@ -398,14 +394,10 @@ final class JArrayValidator { // NOPMD
 			// 特殊判断，主要针对columnName字段的信息
 			if (attr.equals(Attributes.F_COL_NAME)) {
 				retExp = new DuplicatedColumnException(getClass(), attrExpStr);
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + this.name + " -> " + attr + ")", retExp);
-				}
+				debug(LOGGER, getClass(), "D10008", retExp, this.name, attr);
 			} else {
 				retExp = new DuplicatedAttrException(getClass(), attrExpStr);
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ERR_STR + retExp.getErrorCode() + LCT_STR + this.name + " -> " + attr + ")", retExp);
-				}
+				debug(LOGGER, getClass(), "D10007", retExp, this.name, attr);
 			}
 		}
 		return retExp;

@@ -5,7 +5,7 @@ package com.prayer.mod.sys;
  * @author Lang
  * @see
  */
-public final class SystemEnum { // NOPMD
+public final class SystemEnum { 	// NOPMD
 	/** Meta的S_CATEGORY属性 **/
 	public static enum MetaCategory{
 		ENTITY,		

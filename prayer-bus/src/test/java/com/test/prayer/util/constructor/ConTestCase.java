@@ -19,7 +19,7 @@ import com.prayer.util.StringKit;
  * @author Lang
  * @see
  */
-public class ConTestCase extends AbstractConTestCase { // NOPMD
+public class ConTestCase extends AbstractConTestCase { 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

@@ -1,12 +1,15 @@
 package com.prayer.meta;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 /**
  * 数据类型的枚举量
  * 
  * @author Lang
  * @see
  */
-public enum DataType { // NOPMD
+public enum DataType {
 
 	BOOLEAN("BooleanType", 0B0_0000_0000_0000),
 
@@ -27,6 +30,21 @@ public enum DataType { // NOPMD
 	SCRIPT("ScriptType", 0B0_0000_1000_0000),
 
 	BINARY("BinaryType", 0B0_0001_0000_0000);
+	/** **/
+	private static final ConcurrentMap<String, DataType> DT_MAP = new ConcurrentHashMap<>();
+
+	static {
+		DT_MAP.put("BooleanType", DataType.BOOLEAN);
+		DT_MAP.put("IntType", DataType.INT);
+		DT_MAP.put("LongType", DataType.LONG);
+		DT_MAP.put("DecimalType", DataType.DECIMAL);
+		DT_MAP.put("DateType", DataType.DATE);
+		DT_MAP.put("JsonType", DataType.JSON);
+		DT_MAP.put("XmlType", DataType.XML);
+		DT_MAP.put("ScriptType", DataType.SCRIPT);
+		DT_MAP.put("BinaryType", DataType.BINARY);
+		DT_MAP.put("StringType", DataType.STRING);
+	}
 
 	/** Lyra中支持的数据类型 **/
 	private String dataType;
@@ -54,41 +72,8 @@ public enum DataType { // NOPMD
 	}
 
 	/** 从String转换的类 **/
-	public static DataType fromString(final String storedValue) { // NOPMD
-		DataType retValue;
-		switch (storedValue) {
-		case "BooleanType":
-			retValue = DataType.BOOLEAN;
-			break;
-		case "IntType":
-			retValue = DataType.INT;
-			break;
-		case "LongType":
-			retValue = DataType.LONG;
-			break;
-		case "DecimalType":
-			retValue = DataType.DECIMAL;
-			break;
-		case "DateType":
-			retValue = DataType.DATE;
-			break;
-		case "JsonType":
-			retValue = DataType.JSON;
-			break;
-		case "XmlType":
-			retValue = DataType.XML;
-			break;
-		case "ScriptType":
-			retValue = DataType.SCRIPT;
-			break;
-		case "BinaryType":
-			retValue = DataType.BINARY;
-			break;
-		default:
-			retValue = DataType.STRING;
-			break;
-		}
-		return retValue;
+	public static DataType fromString(final String storedValue) {
+		return DT_MAP.get(storedValue);
 	}
 
 	/** 重写toString **/

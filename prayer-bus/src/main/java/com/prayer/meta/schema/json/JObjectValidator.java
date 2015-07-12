@@ -1,9 +1,8 @@
 package com.prayer.meta.schema.json;
 
-import static com.prayer.util.JsonKit.isAttrIn;
-import static com.prayer.util.JsonKit.occursAttr;
 import static com.prayer.util.sys.Converter.toStr;
 import static com.prayer.util.sys.Error.debug;
+import static com.prayer.util.sys.Instance.instance;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,15 +10,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import jodd.util.StringUtil;
-import net.sf.oval.constraint.MinLength;
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
-import net.sf.oval.guard.PreValidateThis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +23,16 @@ import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.exception.schema.UnsupportAttrException;
+import com.prayer.util.JsonKit;
+
+import jodd.util.StringUtil;
+import net.sf.oval.constraint.MinLength;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -81,9 +81,10 @@ final class JObjectValidator {
 	public AbstractSchemaException verifyRequired(@MinLength(1) final String... attrs) {
 		AbstractSchemaException retExp = null;
 		for (final String attr : attrs) {
-			final int occurs = occursAttr(this.verifiedNode, attr);
+			final int occurs = JsonKit.occursAttr(this.verifiedNode, attr);
 			if (0 == occurs) {
-				retExp = new RequiredAttrMissingException(getClass(), attr); // NOPMD
+				retExp = instance(RequiredAttrMissingException.class.getName(), getClass(), attr);
+				// retExp = new RequiredAttrMissingException(getClass(), attr);
 				debug(LOGGER, getClass(), "D10001", retExp, this.name, attr);
 			}
 		}
@@ -206,10 +207,11 @@ final class JObjectValidator {
 	public AbstractSchemaException verifyMissing(@MinLength(1) final String... attrs) {
 		AbstractSchemaException retExp = null;
 		for (final String attr : attrs) {
-			final int occurs = occursAttr(this.verifiedNode, attr);
+			final int occurs = JsonKit.occursAttr(this.verifiedNode, attr);
 			if (0 == occurs) {
-				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
-						"Missing");
+				retExp = instance(OptionalAttrMorEException.class.getName(), getClass(), attr, "Missing");
+				// retExp = new OptionalAttrMorEException(getClass(), attr,
+				// "Missing");
 				debug(LOGGER, getClass(), "D10004.MIS", retExp, this.name, this.name, attr);
 				break;
 			}
@@ -227,10 +229,10 @@ final class JObjectValidator {
 	public AbstractSchemaException verifyExisting(@MinLength(1) final String... attrs) {
 		AbstractSchemaException retExp = null;
 		for (final String attr : attrs) {
-			final int occurs = occursAttr(this.verifiedNode, attr);
+			final int occurs = JsonKit.occursAttr(this.verifiedNode, attr);
 			if (0 < occurs) {
-				retExp = new OptionalAttrMorEException(getClass(), attr, // NOPMD
-						"Existing");
+				retExp = instance(OptionalAttrMorEException.class.getName(), getClass(), attr, "Existing");
+				// new OptionalAttrMorEException(getClass(), attr, "Existing");
 				debug(LOGGER, getClass(), "D10004.EXT", retExp, this.name, this.name, attr);
 				break;
 			}
@@ -247,9 +249,9 @@ final class JObjectValidator {
 	public AbstractSchemaException verifyIn(@NotNull @NotBlank @NotEmpty final String attr,
 			@MinLength(1) final String... values) {
 		AbstractSchemaException retExp = null;
-		if (!isAttrIn(this.verifiedNode, attr, values)) {
-			retExp = new InvalidValueException(getClass(), attr, // NOPMD
-					toStr(values), this.verifiedNode.path(attr).asText(), "");
+		if (!JsonKit.isAttrIn(this.verifiedNode, attr, values)) {
+			retExp = new InvalidValueException(getClass(), attr, toStr(values), this.verifiedNode.path(attr).asText(),
+					"");
 			debug(LOGGER, getClass(), "D10005.IN", retExp, this.name, this.name, attr, toStr(values));
 		}
 		return retExp;
@@ -266,9 +268,9 @@ final class JObjectValidator {
 	public AbstractSchemaException verifyNotIn(@NotNull @NotBlank @NotEmpty final String attr,
 			@MinLength(1) final String... values) {
 		AbstractSchemaException retExp = null;
-		if (isAttrIn(this.verifiedNode, attr, values)) {
-			retExp = new InvalidValueException(getClass(), attr, // NOPMD
-					toStr(values), this.verifiedNode.path(attr).asText(), "n't");
+		if (JsonKit.isAttrIn(this.verifiedNode, attr, values)) {
+			retExp = new InvalidValueException(getClass(), attr, toStr(values), this.verifiedNode.path(attr).asText(),
+					"n't");
 			debug(LOGGER, getClass(), "D10005.NIN", retExp, this.name, this.name, attr, toStr(values));
 		}
 		return retExp;

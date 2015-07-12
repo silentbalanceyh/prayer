@@ -14,7 +14,7 @@ import com.prayer.exception.schema.UnsupportAttrException;
  * @author Lang
  * @see
  */
-public class _01RootAttrTestCase extends AbstractSchemaTestCase { // NOPMD
+public class _01RootAttrTestCase extends AbstractSchemaTestCase { 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

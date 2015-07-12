@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.prayer.meta.DataType;
 import com.prayer.mod.sys.SystemEnum.FieldDatetime;
+import com.prayer.res.cv.Constants;
 
 /**
  * 对应表SYS_FIELDS
@@ -448,32 +449,25 @@ public class FieldModel implements Serializable { // NOPMD
 	/** **/
 	@Override
 	public String toString() {
-		return "FieldModel [uniqueId=" + uniqueId + ", name=" + name
-				+ ", type=" + type + ", pattern=" + pattern + ", validator="
-				+ validator + ", length=" + length + ", datetime=" + datetime
-				+ ", dateFormat=" + dateFormat + ", precision=" + precision
-				+ ", unit=" + unit + ", maxLength=" + maxLength
-				+ ", minLength=" + minLength + ", min=" + min + ", max=" + max
-				+ ", primaryKey=" + primaryKey + ", unique=" + unique
-				+ ", subTable=" + subTable + ", foreignKey=" + foreignKey
-				+ ", nullable=" + nullable + ", columnName=" + columnName
-				+ ", columnType=" + columnType + ", refTable=" + refTable
+		return "FieldModel [uniqueId=" + uniqueId + ", name=" + name + ", type=" + type + ", pattern=" + pattern
+				+ ", validator=" + validator + ", length=" + length + ", datetime=" + datetime + ", dateFormat="
+				+ dateFormat + ", precision=" + precision + ", unit=" + unit + ", maxLength=" + maxLength
+				+ ", minLength=" + minLength + ", min=" + min + ", max=" + max + ", primaryKey=" + primaryKey
+				+ ", unique=" + unique + ", subTable=" + subTable + ", foreignKey=" + foreignKey + ", nullable="
+				+ nullable + ", columnName=" + columnName + ", columnType=" + columnType + ", refTable=" + refTable
 				+ ", refId=" + refId + ", refMetaId=" + refMetaId + "]";
 	}
 
 	/** **/
 	@Override
-	public int hashCode() {	// NOPMD
-		final int prime = 31; // NOPMD
+	public int hashCode() {
+		final int prime = Constants.HASH_BASE;
 		int result = 1;
-		result = prime * result
-				+ ((columnName == null) ? 0 : columnName.hashCode());
-		result = prime * result
-				+ ((columnType == null) ? 0 : columnType.hashCode());
+		result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
+		result = prime * result + ((columnType == null) ? 0 : columnType.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result
-				+ ((uniqueId == null) ? 0 : uniqueId.hashCode());
+		result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
 		return result;
 	}
 
@@ -481,45 +475,45 @@ public class FieldModel implements Serializable { // NOPMD
 	@Override
 	public boolean equals(final Object obj) { // NOPMD
 		if (this == obj) {
-			return true; // NOPMD
+			return true;
 		}
 		if (obj == null) {
-			return false; // NOPMD
+			return false;
 		}
 		if (getClass() != obj.getClass()) {
-			return false; // NOPMD
+			return false;
 		}
 		final FieldModel other = (FieldModel) obj;
 		if (columnName == null) {
 			if (other.columnName != null) {
-				return false; // NOPMD
+				return false;
 			}
 		} else if (!columnName.equals(other.columnName)) {
-			return false; // NOPMD
+			return false;
 		}
 		if (columnType == null) {
 			if (other.columnType != null) {
-				return false; // NOPMD
+				return false;
 			}
 		} else if (!columnType.equals(other.columnType)) {
-			return false; // NOPMD
+			return false;
 		}
 		if (name == null) {
 			if (other.name != null) {
-				return false; // NOPMD
+				return false;
 			}
 		} else if (!name.equals(other.name)) {
-			return false; // NOPMD
+			return false;
 		}
 		if (type != other.type) {
-			return false; // NOPMD
+			return false;
 		}
 		if (uniqueId == null) {
 			if (other.uniqueId != null) {
-				return false; // NOPMD
+				return false;
 			}
 		} else if (!uniqueId.equals(other.uniqueId)) {
-			return false; // NOPMD
+			return false;
 		}
 		return true;
 	}

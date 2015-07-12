@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.res.cv.Constants;
 import com.prayer.util.db.DbDiscovery;
 
 /**
@@ -14,7 +15,7 @@ import com.prayer.util.db.DbDiscovery;
  * @author Lang
  * @see
  */
-public class Metadata { // NOPMD
+public class Metadata { 	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
@@ -209,7 +210,7 @@ public class Metadata { // NOPMD
 	/** **/
 	@Override
 	public int hashCode() {
-		final int prime = 31; // NOPMD
+		final int prime = Constants.HASH_BASE; 
 		int result = 1;
 		result = prime
 				* result
@@ -223,37 +224,37 @@ public class Metadata { // NOPMD
 
 	/** **/
 	@Override
-	public boolean equals(final Object obj) { // NOPMD
+	public boolean equals(final Object obj) { 	// NOPMD
 		if (this == obj) {
-			return true; // NOPMD
+			return true; 
 		}
 		if (obj == null) {
-			return false; // NOPMD
+			return false; 
 		}
 		if (getClass() != obj.getClass()) {
-			return false; // NOPMD
+			return false; 
 		}
 		final Metadata other = (Metadata) obj;
 		if (databaseCategory == null) {
 			if (other.databaseCategory != null) {
-				return false; // NOPMD
+				return false; 
 			}
 		} else if (!databaseCategory.equals(other.databaseCategory)) {
-			return false; // NOPMD
+			return false; 
 		}
 		if (driverName == null) {
 			if (other.driverName != null) {
-				return false; // NOPMD
+				return false; 
 			}
 		} else if (!driverName.equals(other.driverName)) {
-			return false; // NOPMD
+			return false; 
 		}
 		if (productName == null) {
 			if (other.productName != null) {
-				return false; // NOPMD
+				return false; 
 			}
 		} else if (!productName.equals(other.productName)) {
-			return false; // NOPMD
+			return false; 
 		}
 		return true;
 	}

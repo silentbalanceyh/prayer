@@ -16,7 +16,7 @@ import com.prayer.exception.schema.PKUniqueConflictException;
  * @author Lang
  * @see
  */
-public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
+public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

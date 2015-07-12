@@ -20,7 +20,7 @@ final class SubRelEnsurer implements InternalEnsurer {
 	private transient AbstractSchemaException error;
 	/** **/
 	@NotNull
-	private transient final ArrayNode fieldsNode; // NOPMD
+	private transient final ArrayNode fieldsNode; 	// NOPMD
 	/** **/
 	@NotNull
 	private transient final JArrayValidator validator;
@@ -35,7 +35,7 @@ final class SubRelEnsurer implements InternalEnsurer {
 	@PostValidateThis
 	public SubRelEnsurer(@NotNull final ArrayNode fieldsNode) {
 		this.fieldsNode = fieldsNode;
-		this.error = null; // NOPMD
+		this.error = null; 	// NOPMD
 		this.validator = new JArrayValidator(this.fieldsNode, Attributes.R_FIELDS);
 	}
 
@@ -74,7 +74,7 @@ final class SubRelEnsurer implements InternalEnsurer {
 		// 19.验证是否包含了subtable属性，如果mapping = COMBINATED必须存在这个属性，且为true
 		this.error = this.validator.verifyRelMissing(Attributes.F_SUB_TABLE, Boolean.TRUE, 1);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false; 
 		}
 		return null == this.error;
 	}

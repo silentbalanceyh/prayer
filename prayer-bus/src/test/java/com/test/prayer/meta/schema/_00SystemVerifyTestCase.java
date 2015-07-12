@@ -16,7 +16,7 @@ import com.test.AbstractTestCase;
  * @author Lang
  * @see
  */
-public class _00SystemVerifyTestCase extends AbstractTestCase {	// NOPMD
+public class _00SystemVerifyTestCase extends AbstractTestCase {	
 	// ~ Static Fields =======================================
 	/** **/
 	protected static final String M_IMPORT_FILE = "importFile()";
@@ -59,7 +59,7 @@ public class _00SystemVerifyTestCase extends AbstractTestCase {	// NOPMD
 
 	/** **/
 	@Test(expected = JsonParserException.class)
-	public void testP000System20003() throws AbstractSystemException {	// NOPMD
+	public void testP000System20003() throws AbstractSystemException {	
 		setMethod("importFile()");
 		importer = new GenericImporter("/schema/system/data/json/P000json20003.txt");
 		importer.importFile();
@@ -68,7 +68,7 @@ public class _00SystemVerifyTestCase extends AbstractTestCase {	// NOPMD
 	
 	/** **/
 	@Test(expected = ResourceIOException.class)
-	public void testP000System20002() throws AbstractSystemException {	// NOPMD
+	public void testP000System20002() throws AbstractSystemException {	
 		setMethod("importFile()");
 		importer = new GenericImporter("/schema/system/data/json/P000json20003.json");
 		importer.importFile();

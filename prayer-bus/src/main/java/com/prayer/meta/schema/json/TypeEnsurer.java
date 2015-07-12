@@ -1,5 +1,8 @@
 package com.prayer.meta.schema.json;
 
+import static com.prayer.util.sys.Error.message;
+import static com.prayer.util.sys.Instance.instance;
+
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -33,7 +36,7 @@ final class TypeEnsurer implements InternalEnsurer {
 	private transient AbstractSchemaException error;
 	/** **/
 	@NotNull
-	private transient final ArrayNode fieldsNode; // NOPMD
+	private transient final ArrayNode fieldsNode;
 	// ~ Static Block ========================================
 
 	/** **/
@@ -164,20 +167,21 @@ final class TypeEnsurer implements InternalEnsurer {
 	 */
 	private boolean validateRequired() {
 		final Iterator<JsonNode> fieldIt = this.fieldsNode.iterator();
-		int count = 0;
+		int idx = 0;
 		// 22.验证Field中的Required属性
 		while (fieldIt.hasNext()) {
-			final JsonNode fieldNode = fieldIt.next();
-			final DataType type = this.getType(fieldNode);
-			final JObjectValidator validator = new JObjectValidator(fieldNode, // NOPMD
-					"Node: __fields__ Required by Type: index = " + count + ", type: " + type + ", name: "
-							+ fieldNode.path(Attributes.F_NAME).asText());
+			final JsonNode node = fieldIt.next();
+			final DataType type = this.getType(node);
+			final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
+					message("D10000.FTIDX", idx, node.path(Attributes.F_NAME).asText(), type));
+			// new JObjectValidator(node,message("D10000.FTIDX", idx,
+			// node.path(Attributes.F_NAME).asText(), type));
 			final String[] requiredAttrs = T_REQUIRED.get(type);
 			this.error = validator.verifyRequired(requiredAttrs);
 			if (null != this.error) {
 				break;
 			}
-			count++;
+			idx++;
 		}
 		return null == this.error;
 	}
@@ -188,15 +192,16 @@ final class TypeEnsurer implements InternalEnsurer {
 	 */
 	private boolean validatePatterns() {
 		final Iterator<JsonNode> fieldIt = this.fieldsNode.iterator();
-		int count = 0;
+		int idx = 0;
 		// 23.验证Field中的Unsupport属性
 		outer: while (fieldIt.hasNext()) {
-			final JsonNode fieldNode = fieldIt.next();
-			final JObjectValidator validator = new JObjectValidator(fieldNode, // NOPMD
-					"Node: __fields__ Patterns by Type: index = " + count + ", name: "
-							+ fieldNode.path(Attributes.F_NAME).asText());
+			final JsonNode node = fieldIt.next();
+			final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
+					message("D10000.FIDX", idx, node.path(Attributes.F_NAME).asText()));
+			// new JObjectValidator(node,message("D10000.FIDX", idx,
+			// node.path(Attributes.F_NAME).asText()));
 			for (final String attr : T_PATTERN.keySet()) {
-				final String attrValue = fieldNode.path(attr).asText();
+				final String attrValue = node.path(attr).asText();
 				if (StringKit.isNonNil(attrValue)) {
 					this.error = validator.verifyPattern(attr, T_PATTERN.get(attr));
 					if (null != this.error) {
@@ -204,7 +209,7 @@ final class TypeEnsurer implements InternalEnsurer {
 					}
 				}
 			}
-			count++;
+			idx++;
 		}
 		return null == this.error;
 	}
@@ -215,20 +220,21 @@ final class TypeEnsurer implements InternalEnsurer {
 	 */
 	private boolean validateUnsupported() {
 		final Iterator<JsonNode> fieldIt = this.fieldsNode.iterator();
-		int count = 0;
+		int idx = 0;
 		// 24.验证Field中的属性的正则表达式
 		while (fieldIt.hasNext()) {
-			final JsonNode fieldNode = fieldIt.next();
-			final DataType type = this.getType(fieldNode);
-			final JObjectValidator validator = new JObjectValidator(fieldNode, // NOPMD
-					"Node: __fields__ Unsupported by Type: index = " + count + ", type: " + type.toString() + ", name: "
-							+ fieldNode.path(Attributes.F_NAME).asText());
+			final JsonNode node = fieldIt.next();
+			final DataType type = this.getType(node);
+			final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
+					message("D10000.FTIDX", idx, node.path(Attributes.F_NAME).asText(), type));
+			// new JObjectValidator(node,message("D10000.FTIDX", idx,
+			// node.path(Attributes.F_NAME).asText(), type));
 			final String[] supportedAttrs = T_SUPPORT.get(type);
 			this.error = validator.verifyUnsupported(supportedAttrs);
 			if (null != this.error) {
 				break;
 			}
-			count++;
+			idx++;
 		}
 		return null == this.error;
 	}

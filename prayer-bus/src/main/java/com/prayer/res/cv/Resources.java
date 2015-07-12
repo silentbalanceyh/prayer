@@ -16,7 +16,7 @@ import com.prayer.util.PropertyKit;
  * @author Lang
  */
 @Guarded
-public final class Resources {	// NOPMD
+public final class Resources {		// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

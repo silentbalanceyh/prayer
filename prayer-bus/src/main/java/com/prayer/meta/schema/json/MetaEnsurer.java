@@ -121,7 +121,7 @@ final class MetaEnsurer implements InternalEnsurer {
 			// Mapping
 			switch (mapping) {
 			case PARTIAL: {
-				return verifyCEntityPartial(); // NOPMD
+				return verifyCEntityPartial();
 			}
 			case DIRECT: {
 				verifyCEntityDirect();
@@ -139,7 +139,7 @@ final class MetaEnsurer implements InternalEnsurer {
 		}
 			break;
 		case RELATION: {
-			verifyCRelation(); // NOPMD
+			verifyCRelation();
 		}
 			break;
 		default: {
@@ -162,7 +162,7 @@ final class MetaEnsurer implements InternalEnsurer {
 		// 8.如果policy为INCREMENT
 		final MetaPolicy policy = fromStr(MetaPolicy.class, this.metaNode.path(Attributes.M_POLICY).asText());
 		if (MetaPolicy.INCREMENT != policy) {
-			return true; // NOPMD
+			return true;
 		}
 		// 9.如果是MSSQL以及MYSQL，直接返回true
 		if (!StringUtil.equals(Resources.DB_CATEGORY, Constants.DF_MSSQL)
@@ -171,27 +171,27 @@ final class MetaEnsurer implements InternalEnsurer {
 			// 9.2.1.使用了Sequence的情况，必须要验证seqname是否丢失
 			this.error = validator.verifyMissing(Attributes.M_SEQ_NAME);
 			if (null != this.error) {
-				return false; // NOPMD
+				return false;
 			}
 			// 9.2.2.使用Sequence情况，验证seqname的格式
 			this.error = validator.verifyPattern(Attributes.M_SEQ_NAME, Attributes.RGX_M_SEQ_NAME);
 			if (null != this.error) {
-				return false; // NOPMD
+				return false;
 			}
 		}
 		// 10.如果是INCREMENT必须验证seqinit, seqstep属性是否存在
 		this.error = validator.verifyMissing(Attributes.M_SEQ_INIT, Attributes.M_SEQ_STEP);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 11.验证seqinit, seqstep的格式
 		this.error = validator.verifyPattern(Attributes.M_SEQ_INIT, Attributes.RGX_M_SEQ_INIT);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		this.error = validator.verifyPattern(Attributes.M_SEQ_STEP, Attributes.RGX_M_SEQ_STEP);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		return null == this.error;
 	}
@@ -204,18 +204,18 @@ final class MetaEnsurer implements InternalEnsurer {
 		// 4.__meta__ Required
 		this.error = validator.verifyRequired(M_REQUIRED);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 5.__meta__ Exclude Unsupported Attributes
 		this.error = validator.verifyUnsupported(M_ATTRS);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 6.__meta__ Required Attribute Patterns
 		for (final String attr : REGEX_MAP.keySet()) {
 			this.error = validator.verifyPattern(attr, REGEX_MAP.get(attr));
 			if (null != this.error) {
-				return false; // NOPMD
+				return false;
 			}
 		}
 		return null == this.error;
@@ -229,17 +229,17 @@ final class MetaEnsurer implements InternalEnsurer {
 		// 7.4.1.category == ENTITY && mapping == COMBINATED
 		this.error = this.validator.verifyMissing(Attributes.M_SUB_KEY, Attributes.M_SUB_TABLE);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 7.4.2.__subtable__ Parttern
 		this.error = validator.verifyPattern(Attributes.M_SUB_TABLE, Attributes.RGX_M_SUB_TABLE);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 7.4.3.__subtable__ and __table__ conflicts
 		this.error = validator.verifyNotSame(Attributes.M_TABLE, Attributes.M_SUB_TABLE);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// TODO: __subkey__ 的验证保留，根据子表策略完成，目前不支持子表关联验证
 		return null == this.error;
@@ -263,12 +263,12 @@ final class MetaEnsurer implements InternalEnsurer {
 		// 7.2.1.category == ENTITY && mapping == PARTIAL
 		this.error = validator.verifyExisting(Attributes.M_SUB_KEY, Attributes.M_SUB_TABLE);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 7.2.2.seqname, seqinit, seqstep Checking
 		this.error = validator.verifyExisting(Attributes.M_SEQ_INIT, Attributes.M_SEQ_NAME, Attributes.M_SEQ_STEP);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 7.2.3.policy in ASSIGNED
 		this.error = validator.verifyIn(Attributes.M_POLICY, MetaPolicy.ASSIGNED.toString());
@@ -283,17 +283,17 @@ final class MetaEnsurer implements InternalEnsurer {
 		// 7.1.1.category == RELATION
 		this.error = validator.verifyExisting(Attributes.M_SUB_KEY, Attributes.M_SUB_TABLE);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 7.1.2.mapping in DIRECT
 		this.error = validator.verifyIn(Attributes.M_MAPPING, MetaMapping.DIRECT.toString());
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 7.1.3.policy not COLLECTION | ASSIGNED
 		this.error = validator.verifyNotIn(Attributes.M_POLICY, MetaPolicy.COLLECTION.toString(),
 				MetaPolicy.ASSIGNED.toString());
-		return null == this.error; // NOPMD
+		return null == this.error;
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

@@ -5,7 +5,7 @@ package com.prayer.res.cv;
  * @author Lang
  * @see All system constants which must not be changed
  */
-public interface Constants {	// NOPMD
+public interface Constants { // NOPMD
 	// ~ Static Fields =======================================
 	/**
 	 * SQL文件名后缀
@@ -56,5 +56,7 @@ public interface Constants {	// NOPMD
 	int ONE = 1;
 	/** System value 0 **/
 	int ZERO = 0;
+	/** HashCode base number **/
+	int HASH_BASE = 31;
 	// ~ Constructors ========================================
 }

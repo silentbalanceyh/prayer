@@ -1,5 +1,8 @@
 package com.prayer.meta.schema.json;
 
+import static com.prayer.util.sys.Error.message;
+import static com.prayer.util.sys.Instance.instance;
+
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -99,12 +102,12 @@ final class FieldsEnsurer implements InternalEnsurer {
 		// 12.验证Zero长度异常的属性节点
 		this.error = validator.verifyZero();
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 13.验证是否所有元素都为JsonObject
 		this.error = validator.verifyJObjectNodes();
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		return null == this.error;
 	}
@@ -116,18 +119,20 @@ final class FieldsEnsurer implements InternalEnsurer {
 	private boolean validateFieldRequired() {
 		// 14.验证__fields__字段元素
 		final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
-		int count = 0;
+		int idx = 0;
 		while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
-			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
-					"Node: __fields__ ==> index : " + count);
+			final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
+					message("D10000.FIDX", idx, node.path(Attributes.F_NAME).asText()));
+			// new JObjectValidator(node,message("D10000.FIDX", idx,
+			// node.path(Attributes.F_NAME).asText()));
 			// 14.1.验证每一个__fields__中的Required元素
 			this.error = validator.verifyRequired(Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME,
 					Attributes.F_COL_TYPE);
 			if (null != this.error) {
 				break;
 			}
-			count++;
+			idx++;
 		}
 		return null == this.error;
 	}
@@ -139,11 +144,13 @@ final class FieldsEnsurer implements InternalEnsurer {
 	private boolean validateFieldPattern() {
 		// 14.验证__fields__字段元素
 		final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
-		int count = 0;
+		int idx = 0;
 		outer: while (nodeIt.hasNext()) {
 			final JsonNode node = nodeIt.next();
-			final JObjectValidator validator = new JObjectValidator(node, // NOPMD
-					"Node: __fields__ ==> index : " + count + ", name: " + node.path(Attributes.F_NAME).asText());
+			final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
+					message("D10000.FIDX", idx, node.path(Attributes.F_NAME).asText()));
+			// new JObjectValidator(node, message("D10000.FIDX", idx,
+			// node.path(Attributes.F_NAME).asText()));
 			// 14.2.验证每一个__fields__中的Required元素的格式
 			for (final String attr : REGEX_MAP.keySet()) {
 				this.error = validator.verifyPattern(attr, REGEX_MAP.get(attr));
@@ -151,7 +158,7 @@ final class FieldsEnsurer implements InternalEnsurer {
 					break outer;
 				}
 			}
-			count++;
+			idx++;
 		}
 		return null == this.error;
 	}
@@ -164,12 +171,12 @@ final class FieldsEnsurer implements InternalEnsurer {
 		// 15.验证重复属性name
 		this.error = validator.verifyDuplicated(Attributes.F_NAME);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		// 16.验证重复列columnName属性
 		this.error = validator.verifyDuplicated(Attributes.F_COL_NAME);
 		if (null != this.error) {
-			return false; // NOPMD
+			return false;
 		}
 		return null == this.error;
 	}

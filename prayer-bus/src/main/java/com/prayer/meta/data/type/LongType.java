@@ -7,6 +7,7 @@ import jodd.typeconverter.Convert;
 
 import com.prayer.meta.DataType;
 import com.prayer.meta.Value;
+import com.prayer.res.cv.Constants;
 
 /**
  * 类型：长整类型
@@ -95,7 +96,7 @@ public class LongType implements Value<Long> {
 	/** **/
 	@Override
 	public int hashCode() {
-		final int prime = 31;	// NOPMD
+		final int prime = Constants.HASH_BASE; 
 		int result = 1;
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
@@ -105,21 +106,21 @@ public class LongType implements Value<Long> {
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj){
-			return true;	// NOPMD
+			return true;	
 		}
 		if (obj == null){
-			return false;	// NOPMD
+			return false;	
 		}
 		if (getClass() != obj.getClass()){
-			return false;	// NOPMD
+			return false;	
 		}
 		final LongType other = (LongType) obj;
 		if (value == null) {
 			if (other.value != null){
-				return false;	// NOPMD
+				return false;	
 			}
 		} else if (!value.equals(other.value)){
-			return false;	// NOPMD
+			return false;	
 		}
 		return true;
 	}

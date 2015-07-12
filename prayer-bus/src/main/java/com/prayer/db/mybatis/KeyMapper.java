@@ -10,7 +10,7 @@ import com.prayer.mod.sys.KeyModel;
  * @author Lang
  * @see
  */
-public interface KeyMapper { // NOPMD
+public interface KeyMapper { 
 	/**
 	 * 添加记录
 	 * 
