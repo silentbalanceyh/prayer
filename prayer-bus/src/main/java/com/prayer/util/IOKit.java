@@ -89,8 +89,8 @@ public final class IOKit {
 		if (null != file && file.exists() && file.isFile()) {
 			try {
 				retStream = new FileInputStream(file);
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[D] <== ( Value -> " + retStream + " ) Read from FileInputStream(file).");
+				if (LOGGER.isInfoEnabled()) {
+					LOGGER.info("[I] <== ( Value -> " + retStream + " ) Read from FileInputStream(file).");
 				}
 			} catch (FileNotFoundException ex) {
 				debug(LOGGER, "IOKIT.STREAM3", ex, file.getAbsolutePath(), retStream);

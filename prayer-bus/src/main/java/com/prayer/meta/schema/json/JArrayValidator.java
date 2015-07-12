@@ -48,7 +48,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-final class JArrayValidator {
+final class JArrayValidator {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(JArrayValidator.class);
@@ -253,8 +253,8 @@ final class JArrayValidator {
 	public AbstractSchemaException verifyPKeyNonCOPolicy(@NotNull @NotBlank @NotEmpty final String attr,
 			@NotNull final MetaPolicy policy) {
 		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, Boolean.TRUE, false);
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[I] ==> (policy != COLLECTION) occurs = " + occurs);
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("[I] ==> (policy != COLLECTION) occurs = " + occurs);
 		}
 
 		AbstractSchemaException retExp = null;

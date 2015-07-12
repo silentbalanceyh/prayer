@@ -204,12 +204,12 @@ final class GenericEnsurer implements Ensurer {	// NOPMD
 			this.fieldsEnsurer = new FieldsEnsurer(fieldsNode);
 			// 主键验证器
 			final String table = this.rootNode.path(Attributes.R_META).path(Attributes.M_TABLE).asText();
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[I] ==> table = " + table);
+			if (LOGGER.isInfoEnabled()) {
+				LOGGER.info("[I] ==> table = " + table);
 			}
 			final String policy = this.rootNode.path(Attributes.R_META).path(Attributes.M_POLICY).asText();
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[I] ==> policy = " + policy);
+			if (LOGGER.isInfoEnabled()) {
+				LOGGER.info("[I] ==> policy = " + policy);
 			}
 			/**
 			 * 判断policy和table的情况，必须保证policy和table两个值，
@@ -253,8 +253,8 @@ final class GenericEnsurer implements Ensurer {	// NOPMD
 	 */
 	private MetaMapping getMapping() {
 		final String mapping = this.rootNode.path(Attributes.R_META).path(Attributes.M_MAPPING).asText();
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[I] ==> mapping = " + mapping);
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("[I] ==> mapping = " + mapping);
 		}
 		// mapping为null会触发fromStr方法的Vol
 		return StringKit.isNil(mapping) ? MetaMapping.DIRECT : fromStr(MetaMapping.class, mapping);
