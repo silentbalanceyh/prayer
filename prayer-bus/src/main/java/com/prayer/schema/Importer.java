@@ -2,6 +2,7 @@ package com.prayer.schema;
 
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
+import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.mod.meta.GenericSchema;
 
@@ -31,7 +32,14 @@ public interface Importer {
 	 * 3. 20004 Error，序列化JsonNode转换成节点类型
 	 * @throws SerializationException
 	 */
-	GenericSchema transformModel() throws SerializationException;	
+	GenericSchema transformModel() throws SerializationException;
+	/**
+	 * 4. 20005 Error, 导入数据异常
+	 * @param schema
+	 * @return
+	 * @throws DataLoadingException
+	 */
+	boolean loadData(GenericSchema schema) throws DataLoadingException;
 	/**
 	 * 
 	 * @return

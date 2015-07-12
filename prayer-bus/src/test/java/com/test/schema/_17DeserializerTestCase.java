@@ -1,8 +1,10 @@
-package com.test.schema;
+package com.test.schema;	// NOPMD
 
 import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.singleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -13,10 +15,14 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.prayer.bus.schema.SchemaService;
+import com.prayer.bus.schema.impl.SchemaSevImpl;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
+import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.mod.meta.FieldModel;
+import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
 import com.prayer.mod.meta.MetaModel;
 import com.prayer.schema.json.internal.CommunionImporter;
@@ -35,6 +41,8 @@ public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient JsonNode rootNode = null; // NOPMD
+
+	private transient SchemaService service;	// NOPMD
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -55,6 +63,7 @@ public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
 	 */
 	@Before
 	public void setUp() {
+		service = singleton(SchemaSevImpl.class);
 		importer = new CommunionImporter("/schema/system/data/json/role.json");
 		// 1.Read Schema File
 		try {
@@ -146,6 +155,46 @@ public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
 				failure("Serialization Exception, \"__fields__\" = " + fieldsNode.toString());
 			}
 		}
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void testTransformModel() {
+		GenericSchema schema = null;
+		try {
+			schema = this.importer.transformModel();
+		} catch (SerializationException ex) {
+			info(getLogger(), "Serialization Exception. ", ex);
+			failure("Searialization Exception. ");
+		}
+		assertNotNull("[T] Deserialization result must not be null.", schema);
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void testDataLoading() {
+		GenericSchema schema = null;
+		boolean result = false;
+		try {
+			schema = this.importer.transformModel();
+			final GenericSchema prepSchema = this.service.findModel("com.prayer.model.sec", "Role");
+			if(null == prepSchema){
+				result = this.importer.loadData(schema);
+			}else{
+				// Skip Test Case
+				result = true;
+			}
+		} catch (SerializationException ex) {
+			info(getLogger(), "Serialization Exception. ", ex);
+		} catch (DataLoadingException ex) {
+			info(getLogger(), "Data Loading Exception. Loading Data...", ex);
+			failure("Data Loading Exception. Loading Data...");
+		}
+		assertTrue("[T] Data loading result must be \"true\".", result);
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

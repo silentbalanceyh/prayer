@@ -1,10 +1,12 @@
 package com.prayer.mod.meta;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
+import com.prayer.util.StringKit;
 
 /**
  * Json的Schema信息
@@ -31,10 +33,40 @@ public class GenericSchema implements Serializable {	// NOPMD
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/**
+	 * 功能函数
+	 * @param keys
+	 * @return
+	 */
+	public static ConcurrentMap<String, KeyModel> getKeysMap(final List<KeyModel> keys){
+		final ConcurrentMap<String, KeyModel> retMap = new ConcurrentHashMap<>();
+		for(final KeyModel key: keys){
+			if(StringKit.isNonNil(key.getName())){
+				retMap.put(key.getName(), key);
+			}
+		}
+		return retMap;
+	}
+	/**
+	 * 功能函数
+	 * @param fields
+	 * @return
+	 */
+	public static ConcurrentMap<String, FieldModel> getFieldsMap(final List<FieldModel> fields){
+		final ConcurrentMap<String, FieldModel> retMap = new ConcurrentHashMap<>();
+		for(final FieldModel field: fields){
+			if(StringKit.isNonNil(field.getName())){
+				retMap.put(field.getName(), field);
+			}
+		}
+		return retMap;
+	}
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
+	
+	
 	// ~ Private Methods =====================================
 	// ~ Get / Set ===========================================
 	/**

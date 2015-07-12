@@ -37,10 +37,10 @@ public class MetaModel implements Serializable { // NOPMD
 	private boolean using;
 	/** C_INIT_ORDER：初始化当前Model的顺序 **/
 	@JsonIgnore
-	private int initOrder;
+	private int initOrder = 1;
 	/** C_INIT_SUBORDER：初始化当前Model的子顺序 **/
 	@JsonIgnore
-	private int initSubOrder;
+	private int initSubOrder = 1;
 
 	// !Meta基本配置数据---------------------------------------
 	/** S_NAME：Meta对应的Model名称 **/
@@ -77,10 +77,10 @@ public class MetaModel implements Serializable { // NOPMD
 	private String seqName;
 	/** D_SEQ_STEP：自增长的梯度 **/
 	@JsonProperty("seqstep")
-	private int seqStep;
+	private int seqStep = 1;
 	/** D_SEQ_INIT：自增长的初始值 **/
 	@JsonProperty("seqinit")
-	private int seqInit;
+	private int seqInit = 1;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================

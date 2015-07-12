@@ -106,7 +106,8 @@ public class MetaMapperTestCase extends AbstractMetaCase {		// NOPMD
 			if(LOGGER.isDebugEnabled()){
 				LOGGER.debug("[TD] Queried records successfully: " + queriedMetas);
 			}
-			assertEquals("[E] Insert & Select Error!",metas.size(),queriedMetas.size());
+			final boolean ret = metas.size() <= queriedMetas.size() && !queriedMetas.isEmpty();
+			assertTrue("[E] Insert & Select Error!",ret);
 			// 清除系统中的所有数据
 			mapper.purgeData();
 			this.session().commit();

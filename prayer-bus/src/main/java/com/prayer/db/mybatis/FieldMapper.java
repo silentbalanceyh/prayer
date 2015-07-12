@@ -73,7 +73,7 @@ public interface FieldMapper {
 	 * @param metaId
 	 * @return
 	 */
-	FieldModel selectByMeta(String metaId);
+	List<FieldModel> selectByMeta(String metaId);
 
 	/**
 	 * 读取所有的Field的记录

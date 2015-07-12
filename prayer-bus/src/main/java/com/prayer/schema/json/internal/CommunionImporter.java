@@ -1,17 +1,19 @@
-package com.prayer.schema.json.internal;
+package com.prayer.schema.json.internal; // NOPMD
 
 import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.singleton;
 
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.prayer.bus.schema.SchemaService;
+import com.prayer.bus.schema.impl.SchemaSevImpl;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
+import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.exception.system.TypeInitException;
 import com.prayer.mod.meta.FieldModel;
@@ -23,7 +25,6 @@ import com.prayer.schema.Importer;
 import com.prayer.schema.Serializer;
 import com.prayer.schema.json.CommunionSerializer;
 import com.prayer.util.JsonKit;
-import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -54,7 +55,12 @@ public class CommunionImporter implements Importer {
 	@NotNull
 	private transient final Serializer serializer;
 	/** **/
+	@NotNull
+	private transient final SchemaService schemaSev;
+	/** **/
 	private transient JsonNode rawData;
+	/** **/
+	private transient GenericSchema schema;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -66,8 +72,11 @@ public class CommunionImporter implements Importer {
 	@PostValidateThis
 	public CommunionImporter(@NotNull @NotEmpty @NotBlank final String filePath) {
 		this.filePath = filePath;
-		this.ensurer = new GenericEnsurer();
-		this.serializer = new CommunionSerializer();
+		this.schema = new GenericSchema();
+		// Singleton
+		this.ensurer = singleton(GenericEnsurer.class);
+		this.serializer = singleton(CommunionSerializer.class);
+		this.schemaSev = singleton(SchemaSevImpl.class);
 		if (null == this.filePath) {
 			info(LOGGER, "[E] File path initializing met error!",
 					new TypeInitException(getClass(), "Constructor: GenericImporter(String)", this.filePath));
@@ -98,6 +107,7 @@ public class CommunionImporter implements Importer {
 	 * 验证Schema文件信息
 	 */
 	@Override
+	@PreValidateThis
 	public void ensureSchema() throws AbstractSchemaException {
 		if (this.ensurer.validate()) {
 			this.rawData = this.ensurer.getRaw();
@@ -113,16 +123,35 @@ public class CommunionImporter implements Importer {
 	 */
 	@Override
 	public GenericSchema transformModel() throws SerializationException {
-		GenericSchema schema = null;
+		if (null == this.schema) {
+			this.schema = new GenericSchema();
+		}
 		if (null != this.rawData) {
-			schema = new GenericSchema();
 			final MetaModel meta = this.readMeta();
-			schema.setMeta(meta);
-			schema.setIdentifier(meta.getGlobalId());
-			schema.setKeys(this.readKeys());
-			schema.setFields(this.readFields());
+			try {
+				schema.setMeta(meta);
+				schema.setIdentifier(meta.getGlobalId());
+				schema.setKeys(this.readKeys());
+				schema.setFields(this.readFields());
+			} catch (SerializationException ex) {
+				info(LOGGER, "Serialization Exception Happen! Data = " + this.rawData.toString(), ex);
+				this.schema = null; // NOPMD
+			}
 		}
 		return schema;
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public boolean loadData(@NotNull final GenericSchema schema) throws DataLoadingException {
+		final GenericSchema retSchema = schemaSev.buildModel(schema);
+		boolean result = false;
+		if (null != retSchema) {
+			result = true;
+		}
+		return result;
 	}
 
 	/**
@@ -136,46 +165,17 @@ public class CommunionImporter implements Importer {
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 
-	private MetaModel readMeta() {
-		MetaModel meta = null;
-		try {
-			meta = this.serializer.readMeta(this.rawData.path("__meta__"));
-		} catch (SerializationException ex) {
-			info(LOGGER, "Serialization Exception, \"__meta__\" = " + this.rawData.path("__meta__").toString(), ex);
-		}
-		return meta;
+	private MetaModel readMeta() throws SerializationException {
+		return this.serializer.readMeta(this.rawData.path("__meta__"));
 	}
 
-	private ConcurrentMap<String, FieldModel> readFields() {
-		final ConcurrentMap<String, FieldModel> fieldsMap = new ConcurrentHashMap<>();
-		List<FieldModel> fields = null;
-		try {
-			fields = this.serializer.readFields(JsonKit.fromJObject(this.rawData.path("__fields__")));
-			for (final FieldModel field : fields) {
-				if (StringKit.isNonNil(field.getName())) {
-					fieldsMap.put(field.getName(), field);
-				}
-			}
-		} catch (SerializationException ex) {
-			info(LOGGER, "Serialization Exception, \"__fields__\" = " + this.rawData.path("__fields__").toString(), ex);
-		}
-		return fieldsMap;
+	private ConcurrentMap<String, FieldModel> readFields() throws SerializationException {
+		return GenericSchema
+				.getFieldsMap(this.serializer.readFields(JsonKit.fromJObject(this.rawData.path("__fields__"))));
 	}
 
-	private ConcurrentMap<String, KeyModel> readKeys() {
-		final ConcurrentMap<String, KeyModel> keysMap = new ConcurrentHashMap<>();
-		List<KeyModel> keys = null;
-		try {
-			keys = this.serializer.readKeys(JsonKit.fromJObject(this.rawData.path("__keys__")));
-			for (final KeyModel key : keys) {
-				if (StringKit.isNonNil(key.getName())) {
-					keysMap.put(key.getName(), key);
-				}
-			}
-		} catch (SerializationException ex) {
-			info(LOGGER, "Serialization Exception, \"__keys__\" = " + this.rawData.path("__keys__").toString(), ex);
-		}
-		return keysMap;
+	private ConcurrentMap<String, KeyModel> readKeys() throws SerializationException {
+		return GenericSchema.getKeysMap(this.serializer.readKeys(JsonKit.fromJObject(this.rawData.path("__keys__"))));
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

@@ -23,6 +23,7 @@ import com.prayer.schema.Serializer;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -61,6 +62,7 @@ public class CommunionSerializer implements Serializer {
 	 * 
 	 */
 	@Override
+	@PreValidateThis
 	public MetaModel readMeta(@NotNull final JsonNode metaNode) throws SerializationException {
 		final String metaStr = metaNode.toString();
 		MetaModel meta = new MetaModel();
@@ -81,6 +83,7 @@ public class CommunionSerializer implements Serializer {
 	 * 
 	 */
 	@Override
+	@PreValidateThis
 	public List<KeyModel> readKeys(@NotNull final ArrayNode keysNodes) throws SerializationException {
 		final String keysStr = keysNodes.toString();
 		List<KeyModel> keys = new ArrayList<>();
@@ -101,6 +104,7 @@ public class CommunionSerializer implements Serializer {
 	 * 
 	 */
 	@Override
+	@PreValidateThis
 	public List<FieldModel> readFields(@NotNull final ArrayNode fieldsNodes) throws SerializationException {
 		final String fieldsStr = fieldsNodes.toString();
 		List<FieldModel> fields = new ArrayList<>();
