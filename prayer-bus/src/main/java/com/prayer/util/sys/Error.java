@@ -4,16 +4,18 @@ import static com.prayer.util.sys.Instance.instance;
 
 import java.text.MessageFormat;
 
-import net.sf.oval.constraint.Max;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-
 import org.slf4j.Logger;
 
 import com.prayer.exception.AbstractException;
 import com.prayer.res.cv.Resources;
 import com.prayer.util.PropertyKit;
 import com.prayer.util.StringKit;
+
+import net.sf.oval.constraint.Max;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 
@@ -81,8 +83,7 @@ public final class Error {
 	 * @param errKey
 	 * @param params
 	 */
-	public static void debug(@NotNull final Logger logger, @NotNull final String errKey,
-			@NotNull final Object... params) {
+	public static void debug(@NotNull final Logger logger, @NotNull final String errKey, final Object... params) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(message(errKey, params));
 		}
@@ -96,7 +97,7 @@ public final class Error {
 	 * @param params
 	 */
 	public static void debug(@NotNull final Logger logger, @NotNull final String errKey, @NotNull final Throwable exp,
-			@NotNull final Object... params) {
+			final Object... params) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(message(errKey, params), exp);
 		}
@@ -108,7 +109,7 @@ public final class Error {
 	 * @param params
 	 * @return
 	 */
-	public static String message(final String key, final Object... params) {
+	public static String message(@NotNull @NotBlank @NotEmpty final String key, final Object... params) {
 		return null == loader ? "" : MessageFormat.format(loader.getString(key), params);
 	}
 

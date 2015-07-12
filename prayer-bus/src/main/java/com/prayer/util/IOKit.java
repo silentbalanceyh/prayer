@@ -1,5 +1,7 @@
 package com.prayer.util;
 
+import static com.prayer.util.sys.Error.debug;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,8 +35,7 @@ public final class IOKit {
 	 * @param fileName
 	 * @return
 	 */
-	public static InputStream getFile(
-			@NotNull @NotEmpty @NotBlank final String fileName) {
+	public static InputStream getFile(@NotNull @NotEmpty @NotBlank final String fileName) {
 		return getFile(fileName, null);
 	}
 
@@ -44,13 +45,8 @@ public final class IOKit {
 	 * @param clazz
 	 * @return
 	 */
-	public static InputStream getFile(
-			@NotNull @NotEmpty @NotBlank final String fileName,
-			final Class<?> clazz) {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[D] ==> ( fileName = " + fileName + ", clazz = "
-					+ clazz + " ) Input parameter reading...");
-		}
+	public static InputStream getFile(@NotNull @NotEmpty @NotBlank final String fileName, final Class<?> clazz) {
+		debug(LOGGER, "IOKIT.PARAM", fileName, clazz);
 		InputStream retStream = null;
 		if (null == clazz) {
 			// 直接从文件File file = new File()中读取InputStream
@@ -58,8 +54,7 @@ public final class IOKit {
 			// 根据当前Thread的ClassLoader中获取InputStream
 			retStream = null == retStream ? readStream(fileName) : retStream;
 			// 获取不到的时候从传入的Class --> FileExplorer中获取InputStream
-			retStream = null == retStream ? readStream(fileName, IOKit.class)
-					: retStream;
+			retStream = null == retStream ? readStream(fileName, IOKit.class) : retStream;
 		} else {
 			// 若有Class传入则先从传入class中获取InputStream
 			retStream = readStream(fileName, clazz);
@@ -76,25 +71,16 @@ public final class IOKit {
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 
-	private static InputStream readStream(final String fileName,
-			final Class<?> clazz) { // NOPMD
+	private static InputStream readStream(final String fileName, final Class<?> clazz) { // NOPMD
 		final InputStream retStream = clazz.getResourceAsStream(fileName);
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[D] <== ( Value -> " + retStream
-					+ " ) Read from clazz.getResourceAsStream(filename).");
-		}
+		debug(LOGGER, "IOKIT.STREAM1", fileName, retStream);
 		return retStream;
 	}
 
 	private static InputStream readStream(final String fileName) { // NOPMD
-		final ClassLoader loader = Thread.currentThread()
-				.getContextClassLoader();
+		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		final InputStream retStream = loader.getResourceAsStream(fileName);
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[D] <== ( Value -> "
-					+ retStream
-					+ " ) Read from Thread.currentThread().getContextClassLoader().getResourceAsStream(filename).");
-		}
+		debug(LOGGER, "IOKIT.STREAM2", fileName, retStream);
 		return retStream;
 	}
 
@@ -104,21 +90,13 @@ public final class IOKit {
 			try {
 				retStream = new FileInputStream(file);
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("[D] <== ( Value -> " + retStream
-							+ " ) Read from FileInputStream(file).");
+					LOGGER.debug("[D] <== ( Value -> " + retStream + " ) Read from FileInputStream(file).");
 				}
 			} catch (FileNotFoundException ex) {
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(
-							"[E] ~!!~ File does not exist: "
-									+ file.getAbsolutePath(), ex);
-				}
+				debug(LOGGER, "IOKIT.STREAM3", ex, file.getAbsolutePath(), retStream);
 			}
 		} else {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] ~!!~ ( file -> " + file
-						+ " ) File does not exist or IO error!");
-			}
+			debug(LOGGER, "IOKIT.STREAM4", file.getAbsolutePath());
 		}
 		return retStream;
 	}

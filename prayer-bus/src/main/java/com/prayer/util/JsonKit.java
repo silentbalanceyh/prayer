@@ -1,5 +1,7 @@
 package com.prayer.util;
 
+import static com.prayer.util.sys.Error.debug;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -55,15 +57,11 @@ public final class JsonKit {
 			retNode = MAPPER.readValue(inStream, new TypeReference<JsonNode>() {
 			});
 		} catch (JsonParseException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-20003] Json parsing error.", ex);
-			}
-			throw new JsonParserException(JsonKit.class, ex.toString());	// NOPMD
+			debug(LOGGER, "E20003", ex, ex.toString());
+			throw new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
 		} catch (IOException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-20002] Resource I/O error.", ex);
-			}
-			throw new ResourceIOException(JsonKit.class, filePath);			// NOPMD
+			debug(LOGGER, "E20002", ex, filePath);
+			throw new ResourceIOException(JsonKit.class, filePath); // NOPMD
 		}
 		return retNode;
 	}
@@ -84,13 +82,9 @@ public final class JsonKit {
 			arrNode = MAPPER.readValue(content, new TypeReference<ArrayNode>() {
 			});
 		} catch (JsonParseException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-20003] Json parsing error.", ex);
-			}
+			debug(LOGGER, "E20003", ex, content);
 		} catch (IOException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[ERR-20002] Resource I/O error.", ex);
-			}
+			debug(LOGGER, "E20002", ex, "jsonNode");
 		}
 		return arrNode;
 	}
