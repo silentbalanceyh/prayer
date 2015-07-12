@@ -1,4 +1,4 @@
-package com.prayer.meta.sys;
+package com.prayer.meta.system;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
