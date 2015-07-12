@@ -1,4 +1,4 @@
-package com.prayer.mod.sys;
+package com.prayer.mod.meta;
 /**
  * 系统使用的基础枚举类
  *

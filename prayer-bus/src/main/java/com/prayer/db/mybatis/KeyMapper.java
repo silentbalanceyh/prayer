@@ -2,7 +2,7 @@ package com.prayer.db.mybatis;
 
 import java.util.List;
 
-import com.prayer.mod.sys.KeyModel;
+import com.prayer.mod.meta.KeyModel;
 
 /**
  * 

@@ -28,6 +28,12 @@ public interface Importer {
 
 	/**
 	 * 3. 20004 Error，序列化JsonNode转换成节点类型
+	 * @throws SerializationException
 	 */
 	void transformModel() throws SerializationException;
+	/**
+	 * 
+	 * @return
+	 */
+	Ensurer getEnsurer();
 }

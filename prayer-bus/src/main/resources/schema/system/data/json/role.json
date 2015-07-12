@@ -16,30 +16,21 @@
 			"name": "PK_ROLE_ID",
 			"category": "PrimaryKey",
 			"multi": false,
-			"columns": 
-			[
-				"PK_ID"
-			]
+			"columns": ["PK_ID"]
 		},
 
 		{
 			"name": "UK_ROLE_NAME",
 			"category": "UniqueKey",
 			"multi": false,
-			"columns": 
-			[
-				"M_NAME"
-			]
+			"columns":["M_NAME"]
 		},
 
 		{
 			"name": "UK_ROLE_CODE",
 			"category": "UniqueKey",
 			"multi": false,
-			"columns": 
-			[
-				"M_CODE"
-			]
+			"columns":["M_CODE"]
 		}
 	],
 

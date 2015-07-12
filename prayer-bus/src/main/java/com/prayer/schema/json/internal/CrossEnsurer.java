@@ -23,8 +23,8 @@ import com.prayer.exception.schema.FKNotOnlyOneException;
 import com.prayer.exception.schema.MultiForPKPolicyException;
 import com.prayer.exception.schema.PKNotOnlyOneException;
 import com.prayer.exception.schema.WrongTimeAttrException;
-import com.prayer.mod.sys.SystemEnum.KeyCategory;
-import com.prayer.mod.sys.SystemEnum.MetaPolicy;
+import com.prayer.mod.meta.SystemEnum.KeyCategory;
+import com.prayer.mod.meta.SystemEnum.MetaPolicy;
 import com.prayer.util.JsonKit;
 
 /**

@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.db.mybatis.KeyMapper;
-import com.prayer.mod.sys.KeyModel;
+import com.prayer.mod.meta.KeyModel;
 
 /**
  * 

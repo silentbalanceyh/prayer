@@ -14,9 +14,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.mod.sys.SystemEnum.MetaCategory;
-import com.prayer.mod.sys.SystemEnum.MetaMapping;
-import com.prayer.mod.sys.SystemEnum.MetaPolicy;
+import com.prayer.mod.meta.SystemEnum.MetaCategory;
+import com.prayer.mod.meta.SystemEnum.MetaMapping;
+import com.prayer.mod.meta.SystemEnum.MetaPolicy;
 
 /**
  * 

@@ -9,7 +9,8 @@
 		<result column="S_CATEGORY" property="category"
 			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 		<result column="IS_MULTI" property="multi" />
-		<result column="S_COLUMNS" property="columns" />
+		<result column="S_COLUMNS" property="columns"
+			typeHandler="com.prayer.db.mybatis.handler.ArrayJsonHandler" />
 		<result column="R_META_ID" property="refMetaId" />
 	</resultMap>
 	<insert id="insert" parameterType="Key" keyColumn="K_ID"
@@ -27,7 +28,7 @@
 				#{name},
 				#{category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{multi},
-				#{columns},
+				#{columns, typeHandler=com.prayer.db.mybatis.handler.ArrayJsonHandler},
 				#{refMetaId}
 			)
 		]]>
@@ -50,7 +51,7 @@
 				#{item.name},
 				#{item.category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{item.multi},
-				#{item.columns},
+				#{item.columns, typeHandler=com.prayer.db.mybatis.handler.ArrayJsonHandler},
 				#{item.refMetaId}
 			)]]>
 		</foreach>
@@ -62,7 +63,7 @@
 				S_NAME=#{name},
 				S_CATEGORY=#{category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				IS_MULTI=#{multi},
-				S_COLUMNS=#{columns},
+				S_COLUMNS=#{columns, typeHandler=com.prayer.db.mybatis.handler.ArrayJsonHandler},
 				R_META_ID=#{refMetaId}
 			WHERE K_ID=#{uniqueId}
 		]]>

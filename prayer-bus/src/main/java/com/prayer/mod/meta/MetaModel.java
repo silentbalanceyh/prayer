@@ -1,13 +1,15 @@
-package com.prayer.mod.sys;	// NOPMD
+package com.prayer.mod.meta;	// NOPMD
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.constant.Constants;
-import com.prayer.mod.sys.SystemEnum.MetaCategory;
-import com.prayer.mod.sys.SystemEnum.MetaMapping;
-import com.prayer.mod.sys.SystemEnum.MetaPolicy;
+import com.prayer.mod.meta.SystemEnum.MetaCategory;
+import com.prayer.mod.meta.SystemEnum.MetaMapping;
+import com.prayer.mod.meta.SystemEnum.MetaPolicy;
 
 /**
  * 对应表SYS_META
@@ -15,6 +17,7 @@ import com.prayer.mod.sys.SystemEnum.MetaPolicy;
  * @author Lang
  * @see
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="uniqueId")
 public class MetaModel implements Serializable { // NOPMD
 	// ~ Static Fields =======================================
 	/**
@@ -24,7 +27,7 @@ public class MetaModel implements Serializable { // NOPMD
 	// ~ Instance Fields =====================================
 	// !基础Meta数据-------------------------------------------
 	/** K_ID：Meta表的主键 **/
-	@JsonIgnore
+	@JsonProperty("id")
 	private String uniqueId;
 	/** C_OOBDATA_FILE：OOB数据文件目录，CSV文件 **/
 	@JsonIgnore
@@ -50,7 +53,7 @@ public class MetaModel implements Serializable { // NOPMD
 	@JsonProperty("category")
 	private MetaCategory category;
 	/** S_GLOBAL_ID：Meta对应的当前Global全局标识符 **/
-	@JsonProperty("identifiter")
+	@JsonProperty("identifier")
 	private String globalId;
 	/** S_MAPPING：Meta对应的Mapping类型 **/
 	@JsonProperty("mapping")

@@ -1,10 +1,18 @@
-package com.prayer.mod.sys; // NOPMD
+package com.prayer.mod.meta; // NOPMD
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
 import com.prayer.meta.DataType;
-import com.prayer.mod.sys.SystemEnum.FieldDatetime;
+import com.prayer.mod.jackson.DataTypeDeserializer;
+import com.prayer.mod.jackson.DataTypeSerializer;
+import com.prayer.mod.meta.SystemEnum.FieldDatetime;
 
 /**
  * 对应表SYS_FIELDS
@@ -12,6 +20,7 @@ import com.prayer.mod.sys.SystemEnum.FieldDatetime;
  * @author Lang
  * @see
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="uniqueId")
 public class FieldModel implements Serializable { // NOPMD
 	// ~ Static Fields =======================================
 	/**
@@ -20,60 +29,84 @@ public class FieldModel implements Serializable { // NOPMD
 	private static final long serialVersionUID = 7466951277850489853L;
 	// ~ Instance Fields =====================================
 	/** K_ID：Fields表的主键 **/
+	@JsonProperty("id")
 	private String uniqueId;
 	// !基础Field数据------------------------------------------
 	/** S_NAME：Field字段名 **/
+	@JsonProperty("name")
 	private String name;
 	/** S_TYPE：对应的Lyra的数据类型 **/
+	@JsonProperty("type")
 	private DataType type;
 
 	// !Constraints数据---------------------------------------
 	/** C_PATTERN：对应的Pattern **/
+	@JsonProperty("pattern")
 	private String pattern;
 	/** C_VALIDATOR：Java的Class名 **/
+	@JsonProperty("validator")
 	private String validator;
 	/** C_LENGTH：String类型的长度定义 **/
+	@JsonProperty("length")
 	private int length;
 	/** C_DATETIME：时间格式类型 **/
+	@JsonProperty("datetime")
 	private FieldDatetime datetime;
 	/** C_DATEFORMAT：时间格式Pattern **/
+	@JsonProperty("dateFormat")
 	private String dateFormat;
 	/** C_PRECISION：浮点数精度描述 **/
+	@JsonProperty("precision")
 	private int precision;
 	/** C_UNIT：数据后边的单位信息 **/
+	@JsonProperty("unit")
 	private String unit;
 	/** C_MAX_LENGTH：字符串的最大长度限制 **/
+	@JsonProperty("maxLength")
 	private int maxLength;
 	/** C_MIN_LENGTH：字符串的最小长度限制 **/
+	@JsonProperty("minLength")
 	private int minLength;
 	/** C_MIN：数值的最小值 **/
+	@JsonProperty("min")
 	private long min;
 	/** C_MAX：数值的最大值 **/
+	@JsonProperty("max")
 	private long max;
 
 	// !数据库Boolean约束数据----------------------------------
 	/** IS_PRIMARY_KEY：当前字段是否主键 **/
+	@JsonProperty("primarykey")
 	private boolean primaryKey;
 	/** IS_UNIQUE：当前字段是否Unique **/
+	@JsonProperty("unique")
 	private boolean unique;
 	/** IS_SUB_TABLE：当前字段是否存在于子表 **/
+	@JsonProperty("subtable")
 	private boolean subTable;
 	/** IS_FOREIGN_KEY：当前字段是否外键 **/
+	@JsonProperty("foreignkey")
 	private boolean foreignKey;
 	/** IS_NULLABLE：当前字段是否可为空 **/
+	@JsonProperty("nullable")
 	private boolean nullable;
 
 	// !Fields数据库配置信息-----------------------------------
 	/** D_COLUMN_NAME：字段对应的数据列名 **/
+	@JsonProperty("columnName")
 	private String columnName;
 	/** D_COLUMN_TYPE：字段对应的数据类型名 **/
+	@JsonProperty("columnType")
 	private String columnType;
 	/** D_REF_TABLE：字段为外键时引用的外键表名 **/
+	@JsonProperty("refTable")
 	private String refTable;
 	/** D_REF_ID：字段为外键时引用的外键的主键名 **/
+	@JsonProperty("refId")
 	private String refId;
 
 	/** R_META_ID：外键约束，关联SYS_META **/
+	@JsonIgnore
 	private String refMetaId;
 
 	// ~ Static Block ========================================
@@ -116,6 +149,7 @@ public class FieldModel implements Serializable { // NOPMD
 	/**
 	 * @return the type
 	 */
+	@JsonSerialize(using = DataTypeSerializer.class)
 	public DataType getType() {
 		return type;
 	}
@@ -124,6 +158,7 @@ public class FieldModel implements Serializable { // NOPMD
 	 * @param type
 	 *            the type to set
 	 */
+	@JsonDeserialize(using = DataTypeDeserializer.class)
 	public void setType(final DataType type) {
 		this.type = type;
 	}

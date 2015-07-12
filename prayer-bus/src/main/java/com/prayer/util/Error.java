@@ -124,8 +124,7 @@ public final class Error { // NOPMD
 			} else {
 				logger.debug(message, exp);
 			}
-		}
-		if (logger.isInfoEnabled()) {
+		}else if (logger.isInfoEnabled()) {
 			if (null == exp) {
 				logger.info(message);
 			} else {

@@ -58,7 +58,7 @@ public enum DataType {
 	DataType(final String dataType, final int rawValue) {
 		this.dataType = dataType;
 		this.rawValue = rawValue;
-		this.className = "com.lyra.meta.data.type." + dataType;
+		this.className = "com.lyra.meta.type." + dataType;
 	}
 
 	/** 返回类型的原始值 **/

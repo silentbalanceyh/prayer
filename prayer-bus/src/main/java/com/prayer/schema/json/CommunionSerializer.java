@@ -15,9 +15,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.mod.sys.FieldModel;
-import com.prayer.mod.sys.KeyModel;
-import com.prayer.mod.sys.MetaModel;
+import com.prayer.mod.meta.FieldModel;
+import com.prayer.mod.meta.KeyModel;
+import com.prayer.mod.meta.MetaModel;
 import com.prayer.schema.Serializer;
 
 import net.sf.oval.constraint.NotNull;

@@ -2,7 +2,7 @@ package com.prayer.db.mybatis;
 
 import java.util.List;
 
-import com.prayer.mod.sys.FieldModel;
+import com.prayer.mod.meta.FieldModel;
 
 /**
  * 

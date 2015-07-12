@@ -15,14 +15,14 @@ import com.prayer.db.mybatis.KeyMapper;
 import com.prayer.db.mybatis.MetaMapper;
 import com.prayer.db.mybatis.SessionManager;
 import com.prayer.meta.DataType;
-import com.prayer.mod.sys.FieldModel;
-import com.prayer.mod.sys.KeyModel;
-import com.prayer.mod.sys.MetaModel;
-import com.prayer.mod.sys.SystemEnum.FieldDatetime;
-import com.prayer.mod.sys.SystemEnum.KeyCategory;
-import com.prayer.mod.sys.SystemEnum.MetaCategory;
-import com.prayer.mod.sys.SystemEnum.MetaMapping;
-import com.prayer.mod.sys.SystemEnum.MetaPolicy;
+import com.prayer.mod.meta.FieldModel;
+import com.prayer.mod.meta.KeyModel;
+import com.prayer.mod.meta.MetaModel;
+import com.prayer.mod.meta.SystemEnum.FieldDatetime;
+import com.prayer.mod.meta.SystemEnum.KeyCategory;
+import com.prayer.mod.meta.SystemEnum.MetaCategory;
+import com.prayer.mod.meta.SystemEnum.MetaMapping;
+import com.prayer.mod.meta.SystemEnum.MetaPolicy;
 
 /**
  * 
@@ -134,7 +134,11 @@ public class AbstractMetaCase {
 			this._session.commit();
 		}
 		key.setName("NAME-" + uuid());
-		key.setColumns("COLUMNS-" + uuid());
+		final List<String> columns = new ArrayList<>();
+		for( int i = 0; i < 5; i++ ){
+			columns.add("COLUMNS-" + uuid());
+		}
+		key.setColumns(columns);
 		key.setMulti(bool());
 		key.setCategory(KEY_CATEGORIES[index(3)]);
 		return key;

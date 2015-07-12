@@ -1,9 +1,14 @@
-package com.prayer.mod.sys;
+package com.prayer.mod.meta;
 
 import java.io.Serializable;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.constant.Constants;
-import com.prayer.mod.sys.SystemEnum.KeyCategory;
+import com.prayer.mod.meta.SystemEnum.KeyCategory;
 
 /**
  * 对应表SYS_KEYS
@@ -11,6 +16,7 @@ import com.prayer.mod.sys.SystemEnum.KeyCategory;
  * @author Lang
  * @see
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="uniqueId")
 public class KeyModel implements Serializable { // NOPMD
 	// ~ Static Fields =======================================
 	/**
@@ -19,19 +25,24 @@ public class KeyModel implements Serializable { // NOPMD
 	private static final long serialVersionUID = -2090226950871844055L;
 	// ~ Instance Fields =====================================
 	/** K_ID: Keys表的主键 **/
+	@JsonProperty("id")
 	private String uniqueId;
 	/** S_NAME: Keys表的系统键的名字 **/
+	@JsonProperty("name")
 	private String name;
 	/** S_CATEGORY：键类型 **/
+	@JsonProperty("category")
 	private KeyCategory category;
 	/** S_COLUMNS：当前键中包含的列信息 **/
-	private String columns;
+	@JsonProperty("columns")
+	private List<String> columns;
 	/** IS_MULTI：是否跨字段 **/
+	@JsonProperty("multi")
 	private boolean multi;
 
 	/** R_META_ID：外键约束，关联SYS_META **/
+	@JsonIgnore
 	private String refMetaId;
-
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -87,7 +98,7 @@ public class KeyModel implements Serializable { // NOPMD
 	/**
 	 * @return the columns
 	 */
-	public String getColumns() {
+	public List<String> getColumns() {
 		return columns;
 	}
 
@@ -95,10 +106,9 @@ public class KeyModel implements Serializable { // NOPMD
 	 * @param columns
 	 *            the columns to set
 	 */
-	public void setColumns(final String columns) {
+	public void setColumns(final List<String> columns) {
 		this.columns = columns;
 	}
-
 	/**
 	 * @return the multi
 	 */

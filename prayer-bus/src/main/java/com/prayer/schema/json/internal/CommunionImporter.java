@@ -1,7 +1,6 @@
 package com.prayer.schema.json.internal;
 
 import static com.prayer.util.Error.info;
-import static com.prayer.util.Instance.instance;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,8 @@ import com.prayer.exception.system.SerializationException;
 import com.prayer.exception.system.TypeInitException;
 import com.prayer.schema.Ensurer;
 import com.prayer.schema.Importer;
+import com.prayer.schema.Serializer;
+import com.prayer.schema.json.CommunionSerializer;
 import com.prayer.util.JsonKit;
 
 import net.sf.oval.constraint.NotBlank;
@@ -41,6 +42,9 @@ public class CommunionImporter implements Importer {
 	@NotNull
 	private transient final Ensurer ensurer;
 	/** **/
+	@NotNull
+	private transient final Serializer serializer;
+	/** **/
 	private transient JsonNode rawData;
 
 	// ~ Static Block ========================================
@@ -53,7 +57,8 @@ public class CommunionImporter implements Importer {
 	@PostValidateThis
 	public CommunionImporter(@NotNull @NotEmpty @NotBlank final String filePath) {
 		this.filePath = filePath;
-		this.ensurer = instance(GenericEnsurer.class.getName());
+		this.ensurer = new GenericEnsurer();
+		this.serializer = new CommunionSerializer();
 		if (null == this.filePath) {
 			info(LOGGER, "[E] File path initializing met error!",
 					new TypeInitException(getClass(), "Constructor: GenericImporter(String)", this.filePath));
@@ -102,6 +107,13 @@ public class CommunionImporter implements Importer {
 		if (null != this.rawData) {
 
 		}
+	}
+	/**
+	 * 
+	 */
+	@Override
+	public Ensurer getEnsurer(){
+		return this.ensurer;
 	}
 
 	// ~ Methods =============================================

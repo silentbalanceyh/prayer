@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,10 +42,45 @@ public final class JsonKit {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JsonKit.class);
 	/** **/
 	private static final ObjectMapper MAPPER = new ObjectMapper();
+	/** **/
+	private static final String ERR_20004 = "E20004";
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/**
+	 * 
+	 * @param reference
+	 * @param content
+	 * @return
+	 */
+	public static <T> T fromStr(@NotNull final Class<T> reference, @NotNull @NotEmpty @NotBlank final String content) {
+		T retObj = null;
+		try {
+			retObj = MAPPER.readValue(content, reference);
+		} catch (JsonParseException ex) {
+			debug(LOGGER, ERR_20004, ex, content);
+		} catch (IOException ex) {
+			debug(LOGGER, ERR_20004, ex, content);
+		}
+		return retObj;
+	}
+
+	/**
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public static String toStr(final Object object) {
+		String retStr = null;
+		try {
+			retStr = MAPPER.writeValueAsString(object);
+		} catch (JsonProcessingException ex) {
+			debug(LOGGER, ERR_20004, ex, retStr);
+		}
+		return retStr;
+	}
+
 	/**
 	 * 从一个Json文件中读取Json字符串内容
 	 * 
@@ -77,7 +113,7 @@ public final class JsonKit {
 		ArrayNode arrNode = null;
 		final String content = jsonNode.toString();
 		try {
-			info(LOGGER,"[I] Converted json content: " + content);
+			info(LOGGER, "[I] Converted json content: " + content);
 			arrNode = MAPPER.readValue(content, new TypeReference<ArrayNode>() {
 			});
 		} catch (JsonParseException ex) {

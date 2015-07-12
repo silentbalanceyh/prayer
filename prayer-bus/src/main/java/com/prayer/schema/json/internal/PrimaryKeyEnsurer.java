@@ -22,7 +22,7 @@ import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.PKNullableConflictException;
 import com.prayer.exception.schema.PKUniqueConflictException;
 import com.prayer.meta.DataType;
-import com.prayer.mod.sys.SystemEnum.MetaPolicy;
+import com.prayer.mod.meta.SystemEnum.MetaPolicy;
 import com.prayer.util.StringKit;
 
 /**
