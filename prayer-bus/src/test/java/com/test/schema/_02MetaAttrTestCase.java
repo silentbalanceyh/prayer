@@ -1,4 +1,4 @@
-package com.test.meta.schema;
+package com.test.schema;
 
 import org.junit.Test;
 import org.slf4j.Logger;

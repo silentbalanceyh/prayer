@@ -1,4 +1,4 @@
-package com.test.meta.schema;
+package com.test.schema;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 

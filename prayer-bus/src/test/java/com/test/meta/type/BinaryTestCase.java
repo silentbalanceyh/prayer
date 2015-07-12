@@ -1,4 +1,4 @@
-package com.test.meta.data.type;
+package com.test.meta.type;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
