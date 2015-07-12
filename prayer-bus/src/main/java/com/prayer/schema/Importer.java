@@ -3,6 +3,7 @@ package com.prayer.schema;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.SerializationException;
+import com.prayer.mod.meta.GenericSchema;
 
 /**
  * 导入接口流程
@@ -30,7 +31,7 @@ public interface Importer {
 	 * 3. 20004 Error，序列化JsonNode转换成节点类型
 	 * @throws SerializationException
 	 */
-	void transformModel() throws SerializationException;
+	GenericSchema transformModel() throws SerializationException;	
 	/**
 	 * 
 	 * @return

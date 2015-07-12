@@ -2,6 +2,10 @@ package com.prayer.schema.json.internal;
 
 import static com.prayer.util.Error.info;
 
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,11 +14,16 @@ import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.exception.system.TypeInitException;
+import com.prayer.mod.meta.FieldModel;
+import com.prayer.mod.meta.GenericSchema;
+import com.prayer.mod.meta.KeyModel;
+import com.prayer.mod.meta.MetaModel;
 import com.prayer.schema.Ensurer;
 import com.prayer.schema.Importer;
 import com.prayer.schema.Serializer;
 import com.prayer.schema.json.CommunionSerializer;
 import com.prayer.util.JsonKit;
+import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -103,21 +112,71 @@ public class CommunionImporter implements Importer {
 	 * 
 	 */
 	@Override
-	public void transformModel() throws SerializationException {
+	public GenericSchema transformModel() throws SerializationException {
+		GenericSchema schema = null;
 		if (null != this.rawData) {
-
+			schema = new GenericSchema();
+			final MetaModel meta = this.readMeta();
+			schema.setMeta(meta);
+			schema.setIdentifier(meta.getGlobalId());
+			schema.setKeys(this.readKeys());
+			schema.setFields(this.readFields());
 		}
+		return schema;
 	}
+
 	/**
 	 * 
 	 */
 	@Override
-	public Ensurer getEnsurer(){
+	public Ensurer getEnsurer() {
 		return this.ensurer;
 	}
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+
+	private MetaModel readMeta() {
+		MetaModel meta = null;
+		try {
+			meta = this.serializer.readMeta(this.rawData.path("__meta__"));
+		} catch (SerializationException ex) {
+			info(LOGGER, "Serialization Exception, \"__meta__\" = " + this.rawData.path("__meta__").toString(), ex);
+		}
+		return meta;
+	}
+
+	private ConcurrentMap<String, FieldModel> readFields() {
+		final ConcurrentMap<String, FieldModel> fieldsMap = new ConcurrentHashMap<>();
+		List<FieldModel> fields = null;
+		try {
+			fields = this.serializer.readFields(JsonKit.fromJObject(this.rawData.path("__fields__")));
+			for (final FieldModel field : fields) {
+				if (StringKit.isNonNil(field.getName())) {
+					fieldsMap.put(field.getName(), field);
+				}
+			}
+		} catch (SerializationException ex) {
+			info(LOGGER, "Serialization Exception, \"__fields__\" = " + this.rawData.path("__fields__").toString(), ex);
+		}
+		return fieldsMap;
+	}
+
+	private ConcurrentMap<String, KeyModel> readKeys() {
+		final ConcurrentMap<String, KeyModel> keysMap = new ConcurrentHashMap<>();
+		List<KeyModel> keys = null;
+		try {
+			keys = this.serializer.readKeys(JsonKit.fromJObject(this.rawData.path("__keys__")));
+			for (final KeyModel key : keys) {
+				if (StringKit.isNonNil(key.getName())) {
+					keysMap.put(key.getName(), key);
+				}
+			}
+		} catch (SerializationException ex) {
+			info(LOGGER, "Serialization Exception, \"__keys__\" = " + this.rawData.path("__keys__").toString(), ex);
+		}
+		return keysMap;
+	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 
