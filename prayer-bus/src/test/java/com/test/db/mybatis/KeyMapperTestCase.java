@@ -107,7 +107,7 @@ public class KeyMapperTestCase extends AbstractMetaCase { 	// NOPMD
 			if(LOGGER.isDebugEnabled()){
 				LOGGER.debug("[TD] Queried records successfully: " + queriedKeys);
 			}
-			final boolean ret = keys.size() < queriedKeys.size() && !queriedKeys.isEmpty();
+			final boolean ret = keys.size() <= queriedKeys.size() && !queriedKeys.isEmpty();
 			assertTrue("[E] Insert & Select Error!",ret);
 			// 清除系统中的所有数据
 			mapper.purgeData();
