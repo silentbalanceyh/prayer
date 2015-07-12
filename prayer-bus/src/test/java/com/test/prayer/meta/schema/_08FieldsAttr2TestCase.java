@@ -14,11 +14,10 @@ import com.prayer.exception.schema.PatternNotMatchException;
  * @author Lang
  * @see
  */
-public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase { 
+public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_08FieldsAttr2TestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(_08FieldsAttr2TestCase.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -40,10 +39,8 @@ public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase {
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testP0142Fields1columnName10003()
-			throws AbstractSchemaException {
-		testImport(
-				"fields/P0142field-columnName10003-1.json",
+	public void testP0142Fields1columnName10003() throws AbstractSchemaException {
+		testImport("fields/P0142field-columnName10003-1.json",
 				"[E10003] Fields -> columnName ==> (Failure) Attribute 'columnName' does not match pattern! ");
 	}
 
@@ -52,10 +49,8 @@ public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase {
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testP0142Fields2columnName10003()
-			throws AbstractSchemaException {
-		testImport(
-				"fields/P0142field-columnName10003-2.json",
+	public void testP0142Fields2columnName10003() throws AbstractSchemaException {
+		testImport("fields/P0142field-columnName10003-2.json",
 				"[E10003] Fields -> columnName ==> (Failure) Attribute 'columnName' does not match pattern! ");
 	}
 
@@ -64,10 +59,8 @@ public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase {
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testP0142Fields3columnName10003()
-			throws AbstractSchemaException {
-		testImport(
-				"fields/P0142field-columnName10003-3.json",
+	public void testP0142Fields3columnName10003() throws AbstractSchemaException {
+		testImport("fields/P0142field-columnName10003-3.json",
 				"[E10003] Fields -> columnName ==> (Failure) Attribute 'columnName' does not match pattern! ");
 	}
 
@@ -76,10 +69,8 @@ public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase {
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testP0142Fields1columnType10003()
-			throws AbstractSchemaException {
-		testImport(
-				"fields/P0142field-columnType10003-1.json",
+	public void testP0142Fields1columnType10003() throws AbstractSchemaException {
+		testImport("fields/P0142field-columnType10003-1.json",
 				"[E10003] Fields -> columnType ==> (Failure) Attribute 'columnType' does not match pattern! ");
 	}
 
@@ -88,10 +79,8 @@ public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase {
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testP0142Fields2columnType10003()
-			throws AbstractSchemaException {
-		testImport(
-				"fields/P0142field-columnType10003-2.json",
+	public void testP0142Fields2columnType10003() throws AbstractSchemaException {
+		testImport("fields/P0142field-columnType10003-2.json",
 				"[E10003] Fields -> columnType ==> (Failure) Attribute 'columnType' does not match pattern! ");
 	}
 
@@ -101,8 +90,7 @@ public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = DuplicatedAttrException.class)
 	public void testP015Fields1name10007() throws AbstractSchemaException {
-		testImport(
-				"fields/P015field-name10007-1.json",
+		testImport("fields/P015field-name10007-1.json",
 				"[E10007] Fields -> name ==> (Failure) Attribute 'name' exists more than once ( Duplicated )! ");
 	}
 
@@ -112,41 +100,37 @@ public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = DuplicatedColumnException.class)
 	public void testP016Fields1columnName10008() throws AbstractSchemaException {
-		testImport(
-				"fields/P016field-columnName10008-1.json",
+		testImport("fields/P016field-columnName10008-1.json",
 				"[E10008] Fields -> columnName ==> (Failure) Database column 'columnName' exists more than once ( Duplicated )! ");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testP0142Fields1type10003()
-			throws AbstractSchemaException {
-		testImport(
-				"fields/P0142field-type10003-1.json",
+	public void testP0142Fields1type10003() throws AbstractSchemaException {
+		testImport("fields/P0142field-type10003-1.json",
 				"[E10003] Fields -> columnType ==> (Failure) Attribute 'type' does not match pattern! ");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testP0142Fields2type10003()
-			throws AbstractSchemaException {
-		testImport(
-				"fields/P0142field-type10003-2.json",
+	public void testP0142Fields2type10003() throws AbstractSchemaException {
+		testImport("fields/P0142field-type10003-2.json",
 				"[E10003] Fields -> columnType ==> (Failure) Attribute 'type' does not match pattern! ");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
 	 */
 	@Test(expected = PatternNotMatchException.class)
-	public void testP0142Fields3type10003()
-			throws AbstractSchemaException {
-		testImport(
-				"fields/P0142field-type10003-3.json",
+	public void testP0142Fields3type10003() throws AbstractSchemaException {
+		testImport("fields/P0142field-type10003-3.json",
 				"[E10003] Fields -> columnType ==> (Failure) Attribute 'type' does not match pattern! ");
 	}
 

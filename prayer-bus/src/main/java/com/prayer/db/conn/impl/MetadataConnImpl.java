@@ -1,7 +1,8 @@
 package com.prayer.db.conn.impl;
 
-import static com.prayer.res.cv.Accessors.pool;
-import static com.prayer.util.sys.Instance.singleton;
+import static com.prayer.constant.Accessors.pool;
+import static com.prayer.util.Error.debug;
+import static com.prayer.util.Instance.singleton;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,10 +10,6 @@ import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
-
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
@@ -22,6 +19,10 @@ import com.prayer.db.conn.MetadataConn;
 import com.prayer.db.pool.AbstractDbPool;
 import com.prayer.db.pool.BoneCPPool;
 import com.prayer.meta.database.Metadata;
+
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -67,9 +68,7 @@ public class MetadataConnImpl implements MetadataConn {
 			 */
 			metadata = new Metadata(sqlMeta, dbPool.getCategory());
 		} catch (SQLException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] SQLException happen.", ex);
-			}
+			debug(LOGGER, "JVM.SQL", "public MetadataConnImpl()", ex);
 		}
 		// H2 元数据
 		h2Pool = new BoneCPPool("H2");
@@ -97,10 +96,8 @@ public class MetadataConnImpl implements MetadataConn {
 			// 默认日志级别输出SQL语句是DEBUG级别，只要不是级别则不会输出
 			ret = true;
 		} catch (SQLException ex) {
+			debug(LOGGER, "JVM.SQL", "public boolean loadSqlFile(InputStream)", ex);
 			ret = false;
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] SQLException happen. loadSqlFile(String) -> ", ex);
-			}
 		}
 		return ret;
 	}
@@ -115,10 +112,8 @@ public class MetadataConnImpl implements MetadataConn {
 			this.runScript(conn, sqlFile);
 			ret = true;
 		} catch (SQLException ex) {
+			debug(LOGGER, "JVM.SQL", "public boolean initMeta(InputStream)", ex);
 			ret = false;
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] H2 SQLException happen. initMeta() -> ", ex);
-			}
 		}
 		return ret;
 	}

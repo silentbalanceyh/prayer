@@ -2,8 +2,8 @@ package com.prayer.mod.sys;
 
 import java.io.Serializable;
 
+import com.prayer.constant.Constants;
 import com.prayer.mod.sys.SystemEnum.KeyCategory;
-import com.prayer.res.cv.Constants;
 
 /**
  * 对应表SYS_KEYS
@@ -141,7 +141,7 @@ public class KeyModel implements Serializable { // NOPMD
 
 	/** **/
 	@Override
-	public int hashCode() {
+	public int hashCode() {		// NOPMD
 		final int prime = Constants.HASH_BASE;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());

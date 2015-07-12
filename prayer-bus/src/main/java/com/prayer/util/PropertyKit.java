@@ -1,7 +1,7 @@
 package com.prayer.util;
 
-import static com.prayer.util.sys.Error.debug;
-import static com.prayer.util.sys.Instance.reservoir;
+import static com.prayer.util.Error.debug;
+import static com.prayer.util.Instance.reservoir;
 
 import java.io.IOException;
 import java.io.InputStream;

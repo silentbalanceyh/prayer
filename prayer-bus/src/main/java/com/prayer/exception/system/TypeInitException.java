@@ -3,7 +3,7 @@ package com.prayer.exception.system;
 import com.prayer.exception.AbstractSystemException;
 
 /**
- * 【Runtime】Error-20001：初始化类型异常
+ * 【Checked】Error-20001：初始化类型异常
  *
  * @author Lang
  * @see

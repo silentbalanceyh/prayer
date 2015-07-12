@@ -3,7 +3,7 @@ package com.test.prayer.meta.data.type;
 import java.util.Date;
 
 import com.prayer.meta.DataType;
-import com.prayer.meta.data.type.DateType;
+import com.prayer.meta.type.DateType;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,7 +15,7 @@ import org.junit.Test;
  * @author Lang
  * @see
  */
-public class DateTestCase { 
+public class DateTestCase { 	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final String V_DATE = "20150929";

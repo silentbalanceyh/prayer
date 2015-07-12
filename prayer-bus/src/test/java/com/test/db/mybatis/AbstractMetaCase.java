@@ -1,9 +1,9 @@
 package com.test.db.mybatis;
 
-import static com.prayer.util.sys.Generator.bool;
-import static com.prayer.util.sys.Generator.index;
-import static com.prayer.util.sys.Generator.number;
-import static com.prayer.util.sys.Generator.uuid;
+import static com.prayer.util.Generator.bool;
+import static com.prayer.util.Generator.index;
+import static com.prayer.util.Generator.number;
+import static com.prayer.util.Generator.uuid;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.prayer.exception;
 
-import static com.prayer.util.sys.Error.error;
+import static com.prayer.util.Error.error;
 
 /**
  * Schema验证的抽象类，主要用于验证Schema是否合法相关信息，参考EA文件

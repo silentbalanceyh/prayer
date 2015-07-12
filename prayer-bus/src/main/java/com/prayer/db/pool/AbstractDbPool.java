@@ -14,7 +14,7 @@ import net.sf.oval.guard.Pre;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.prayer.res.cv.Resources;
+import com.prayer.constant.Resources;
 import com.prayer.util.PropertyKit;
 
 /**

@@ -18,11 +18,10 @@ import com.prayer.exception.schema.PatternNotMatchException;
  * @author Lang
  *
  */
-public class _15Cross1TestCase extends AbstractSchemaTestCase { 
+public class _15Cross1TestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_15Cross1TestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(_15Cross1TestCase.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -45,8 +44,7 @@ public class _15Cross1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP291Keys1Multi10003() throws AbstractSchemaException {
-		testImport("zkeys/P0291keys-10003-1.json",
-				"[E10003] Keys ==> (Failure) There is unexpected exception!");
+		testImport("zkeys/P0291keys-10003-1.json", "[E10003] Keys ==> (Failure) There is unexpected exception!");
 	}
 
 	/**
@@ -55,8 +53,7 @@ public class _15Cross1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP292Keys1Multi10003() throws AbstractSchemaException {
-		testImport("zkeys/P0292keys-10003-2.json",
-				"[E10003] Keys ==> (Failure) There is unexpected exception!");
+		testImport("zkeys/P0292keys-10003-2.json", "[E10003] Keys ==> (Failure) There is unexpected exception!");
 	}
 
 	/**
@@ -65,8 +62,7 @@ public class _15Cross1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = MultiForFKPolicyException.class)
 	public void testP293Keys1Multi10021() throws AbstractSchemaException {
-		testImport("zkeys/P0293keys-10021-1.json",
-				"[E10003] Keys ==> (Failure) There is unexpected exception!");
+		testImport("zkeys/P0293keys-10021-1.json", "[E10003] Keys ==> (Failure) There is unexpected exception!");
 	}
 
 	/**
@@ -108,6 +104,7 @@ public class _15Cross1TestCase extends AbstractSchemaTestCase {
 		testImport("zkeys/P031cross-10022-1.json",
 				"[E10022] Cross ==> (Failure) Primary Key policy conflict with 'multi'!");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -117,6 +114,7 @@ public class _15Cross1TestCase extends AbstractSchemaTestCase {
 		testImport("zkeys/P031cross-10022-2.json",
 				"[E10022] Cross ==> (Failure) Primary Key policy conflict with 'multi'!");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -126,6 +124,7 @@ public class _15Cross1TestCase extends AbstractSchemaTestCase {
 		testImport("zkeys/P032cross-10009-1.json",
 				"[E10009] Cross ==> (Failure) Primary Key must appears once in __keys__ definition!");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -135,6 +134,7 @@ public class _15Cross1TestCase extends AbstractSchemaTestCase {
 		testImport("zkeys/P033cross-10016-1.json",
 				"[E10016] Cross ==> (Failure) Foreign Key must appears once in __keys__ definition!");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException

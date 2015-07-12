@@ -1,6 +1,6 @@
 package com.prayer.exception;
 
-import static com.prayer.util.sys.Error.error;
+import static com.prayer.util.Error.error;
 
 /**
  * System exception, describe invalid system definition

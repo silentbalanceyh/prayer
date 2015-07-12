@@ -12,11 +12,10 @@ import com.prayer.exception.schema.PatternNotMatchException;
  * @author Lang
  * @see
  */
-public class _03MetaPattern1TestCase extends AbstractSchemaTestCase { 
+public class _03MetaPattern1TestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_03MetaPattern1TestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(_03MetaPattern1TestCase.class);
 	/** **/
 	private static final String ERR_NAME_MSG = "[E10003] Meta -> name ==> (Failure) Pattern does not match!";
 	/** **/
@@ -44,8 +43,7 @@ public class _03MetaPattern1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP005Meta10003Name1() throws AbstractSchemaException {
-		testImport("P005meta-name10003-1.json",
-				ERR_NAME_MSG);
+		testImport("P005meta-name10003-1.json", ERR_NAME_MSG);
 	}
 
 	/**
@@ -55,8 +53,7 @@ public class _03MetaPattern1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP005Meta10003Name2() throws AbstractSchemaException {
-		testImport("P005meta-name10003-2.json",
-				ERR_NAME_MSG);
+		testImport("P005meta-name10003-2.json", ERR_NAME_MSG);
 	}
 
 	/**
@@ -66,8 +63,7 @@ public class _03MetaPattern1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP005Meta10003Name3() throws AbstractSchemaException {
-		testImport("P005meta-name10003-3.json",
-				ERR_NAME_MSG);
+		testImport("P005meta-name10003-3.json", ERR_NAME_MSG);
 	}
 
 	/**
@@ -77,8 +73,7 @@ public class _03MetaPattern1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP005Meta10003Name4() throws AbstractSchemaException {
-		testImport("P005meta-name10003-4.json",
-				ERR_NAME_MSG);
+		testImport("P005meta-name10003-4.json", ERR_NAME_MSG);
 	}
 
 	/**
@@ -88,8 +83,7 @@ public class _03MetaPattern1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP005Meta10003Namespace1() throws AbstractSchemaException {
-		testImport("P005meta-namespace10003-1.json",
-				ERR_NS_MSG);
+		testImport("P005meta-namespace10003-1.json", ERR_NS_MSG);
 	}
 
 	/**
@@ -99,8 +93,7 @@ public class _03MetaPattern1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP005Meta10003Namespace2() throws AbstractSchemaException {
-		testImport("P005meta-namespace10003-2.json",
-				ERR_NS_MSG);
+		testImport("P005meta-namespace10003-2.json", ERR_NS_MSG);
 	}
 
 	/**
@@ -110,8 +103,7 @@ public class _03MetaPattern1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP005Meta10003Namespace3() throws AbstractSchemaException {
-		testImport("P005meta-namespace10003-3.json",
-				ERR_NS_MSG);
+		testImport("P005meta-namespace10003-3.json", ERR_NS_MSG);
 	}
 
 	/**
@@ -121,8 +113,7 @@ public class _03MetaPattern1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = PatternNotMatchException.class)
 	public void testP005Meta10003Category1() throws AbstractSchemaException {
-		testImport("P005meta-category10003-1.json",
-				"[E10003] Meta -> category ==> (Failure) Pattern does not match!");
+		testImport("P005meta-category10003-1.json", "[E10003] Meta -> category ==> (Failure) Pattern does not match!");
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

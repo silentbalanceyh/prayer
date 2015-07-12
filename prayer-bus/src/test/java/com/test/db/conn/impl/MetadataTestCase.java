@@ -1,6 +1,6 @@
 package com.test.db.conn.impl;
 
-import static com.prayer.util.sys.Instance.singleton;
+import static com.prayer.util.Instance.singleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -10,11 +10,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.meta.database.Metadata;
-import com.prayer.res.cv.Constants;
-import com.prayer.res.cv.Resources;
-import com.prayer.util.db.DbDiscovery;
+import com.prayer.util.DbDiscovery;
 
 /**
  * 
@@ -22,7 +22,7 @@ import com.prayer.util.db.DbDiscovery;
  * @author Lang
  * @see
  */
-public class MetadataTestCase { 
+public class MetadataTestCase { 	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

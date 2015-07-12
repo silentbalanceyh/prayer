@@ -13,11 +13,10 @@ import com.prayer.exception.schema.OptionalAttrMorEException;
  * @author Lang
  * @see
  */
-public class _05MetaER1TestCase extends AbstractSchemaTestCase { 
+public class _05MetaER1TestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_05MetaER1TestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(_05MetaER1TestCase.class);
 	/** **/
 	private static final String ERR_OPTIONAL_MSG = "[E10004] Meta -> category (RELATION) ==> Optional {subkey,subtable} Attribute Error!";
 
@@ -60,8 +59,7 @@ public class _05MetaER1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = OptionalAttrMorEException.class)
 	public void testP00721Meta10004EPartialExisting1() throws AbstractSchemaException {
-		testImport(
-				"P00721meta-mappingE-PARTIAL10004-1.json",
+		testImport("P00721meta-mappingE-PARTIAL10004-1.json",
 				"[E10004] Meta -> category (ENTITY), mapping (PARTIAL) ==> Optional {subkey,subtable} Attribute Error!");
 	}
 
@@ -71,8 +69,7 @@ public class _05MetaER1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = OptionalAttrMorEException.class)
 	public void testP00722Meta10004EPartialExisting2() throws AbstractSchemaException {
-		testImport(
-				"P00722meta-mappingE-PARTIAL10004-2.json",
+		testImport("P00722meta-mappingE-PARTIAL10004-2.json",
 				"[E10004] Meta -> category (ENTITY), mapping (PARTIAL) ==> Optional {seqname} Attribute Error!");
 	}
 
@@ -82,8 +79,7 @@ public class _05MetaER1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = OptionalAttrMorEException.class)
 	public void testP00722Meta10004EPartialExisting3() throws AbstractSchemaException {
-		testImport(
-				"P00722meta-mappingE-PARTIAL10004-3.json",
+		testImport("P00722meta-mappingE-PARTIAL10004-3.json",
 				"[E10004] Meta -> category (ENTITY), mapping (PARTIAL) ==> Optional {seqstep} Attribute Error!");
 	}
 
@@ -93,8 +89,7 @@ public class _05MetaER1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = OptionalAttrMorEException.class)
 	public void testP00722Meta10004EPartialExisting4() throws AbstractSchemaException {
-		testImport(
-				"P00722meta-mappingE-PARTIAL10004-4.json",
+		testImport("P00722meta-mappingE-PARTIAL10004-4.json",
 				"[E10004] Meta -> category (ENTITY), mapping (PARTIAL) ==> Optional {seqinit} Attribute Error!");
 	}
 
@@ -114,8 +109,7 @@ public class _05MetaER1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = InvalidValueException.class)
 	public void testP00713Meta10005RelationValue2() throws AbstractSchemaException {
-		testImport(
-				"P00713meta-mappingRELATION10005-2.json",
+		testImport("P00713meta-mappingRELATION10005-2.json",
 				"[E10005] Meta -> policy (RELATION) ==> Attribute policy mustn't be COLLECTION, ASSIGNED!");
 	}
 

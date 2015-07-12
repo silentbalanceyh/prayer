@@ -9,7 +9,7 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import com.prayer.meta.DataType;
-import com.prayer.meta.data.type.BinaryType;
+import com.prayer.meta.type.BinaryType;
 
 /**
  * 
@@ -17,7 +17,7 @@ import com.prayer.meta.data.type.BinaryType;
  * @author Lang
  * @see
  */
-public class BinaryTestCase { 
+public class BinaryTestCase { 	// NOPMD
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/

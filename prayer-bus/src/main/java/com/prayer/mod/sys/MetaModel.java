@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.prayer.constant.Constants;
 import com.prayer.mod.sys.SystemEnum.MetaCategory;
 import com.prayer.mod.sys.SystemEnum.MetaMapping;
 import com.prayer.mod.sys.SystemEnum.MetaPolicy;
-import com.prayer.res.cv.Constants;
 
 /**
  * 对应表SYS_META
@@ -360,7 +360,7 @@ public class MetaModel implements Serializable { // NOPMD
 
 	/** **/
 	@Override
-	public int hashCode() {
+	public int hashCode() {	// NOPMD
 		final int prime = Constants.HASH_BASE;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());

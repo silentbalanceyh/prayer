@@ -16,11 +16,10 @@ import com.prayer.exception.schema.RequiredAttrMissingException;
  * @author Lang
  *
  */
-public class _14Keys1TestCase extends AbstractSchemaTestCase { 
+public class _14Keys1TestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_14Keys1TestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(_14Keys1TestCase.class);
 	/** **/
 	private static final String ERR_MSG_10000 = "[E10001] Keys ==> (Failure) Required attributes missing!";
 	/** **/
@@ -47,8 +46,7 @@ public class _14Keys1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = ZeroLengthException.class)
 	public void testP0251Keys1Arr10006() throws AbstractSchemaException {
-		testImport("zkeys/P0251keys-10006-1.json",
-				"[E10006] Keys ==> (Failure) There is unexpected exception!");
+		testImport("zkeys/P0251keys-10006-1.json", "[E10006] Keys ==> (Failure) There is unexpected exception!");
 	}
 
 	/**
@@ -57,8 +55,7 @@ public class _14Keys1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = JsonTypeConfusedException.class)
 	public void testP0252Keys1Arr10002() throws AbstractSchemaException {
-		testImport("zkeys/P0252keys-10002-1.json",
-				"[E10002] Keys ==> (Failure) There is unexpected exception!");
+		testImport("zkeys/P0252keys-10002-1.json", "[E10002] Keys ==> (Failure) There is unexpected exception!");
 	}
 
 	/**
@@ -130,8 +127,7 @@ public class _14Keys1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = DuplicatedKeyException.class)
 	public void testP0272Keys1Arr10018() throws AbstractSchemaException {
-		testImport("zkeys/P0272keys-10018-1.json",
-				"[E10018] Keys ==> (Failure) Attribute 'name' duplicated!");
+		testImport("zkeys/P0272keys-10018-1.json", "[E10018] Keys ==> (Failure) Attribute 'name' duplicated!");
 	}
 
 	/**
@@ -140,8 +136,7 @@ public class _14Keys1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = ZeroLengthException.class)
 	public void testP0281Keys1Arr10006() throws AbstractSchemaException {
-		testImport("zkeys/P0281keys-10006-1.json",
-				"[E10006] Keys ==> (Failure) There is unexpected exception!");
+		testImport("zkeys/P0281keys-10006-1.json", "[E10006] Keys ==> (Failure) There is unexpected exception!");
 	}
 
 	/**

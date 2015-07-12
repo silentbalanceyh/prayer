@@ -1,6 +1,7 @@
 package com.prayer.util;
 
-import static com.prayer.util.sys.Error.debug;
+import static com.prayer.util.Error.debug;
+import static com.prayer.util.Error.info;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,9 +77,7 @@ public final class JsonKit {
 		ArrayNode arrNode = null;
 		final String content = jsonNode.toString();
 		try {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[I] Converted json content: " + content);
-			}
+			info(LOGGER,"[I] Converted json content: " + content);
 			arrNode = MAPPER.readValue(content, new TypeReference<ArrayNode>() {
 			});
 		} catch (JsonParseException ex) {

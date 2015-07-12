@@ -19,7 +19,7 @@ import com.prayer.mod.sys.FieldModel;
  * @author Lang
  * @see
  */
-public class FieldMapperTestCase extends AbstractMetaCase { 
+public class FieldMapperTestCase extends AbstractMetaCase { 	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

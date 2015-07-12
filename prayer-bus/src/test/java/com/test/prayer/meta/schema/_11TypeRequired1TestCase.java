@@ -12,11 +12,11 @@ import com.prayer.exception.schema.RequiredAttrMissingException;
  * @author Lang
  *
  */
-public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { 
+public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_11TypeRequired1TestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(_11TypeRequired1TestCase.class);
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -30,6 +30,7 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase {
 	public Logger getLogger() {
 		return LOGGER;
 	}
+
 	// ~ Methods =============================================
 	/**
 	 * 
@@ -40,6 +41,7 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase {
 		testImport("types/P022field-Type1STRING-length10001.json",
 				"[E10001] Fields ==> (Failure) There is unexpected exception!");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -49,6 +51,7 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase {
 		testImport("types/P022field-Type2XML-length10001.json",
 				"[E10001] Fields ==> (Failure) There is unexpected exception!");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException

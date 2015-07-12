@@ -29,10 +29,10 @@ public final class SessionManager {
 	static {
 		/** 简单的单例实现 **/
 		if (null == sessionFactory) {
-			final InputStream inStream = IOKit.getFile(com.prayer.res.cv.Resources.T_CFG_MYBATIS);
+			final InputStream inStream = IOKit.getFile(com.prayer.constant.Resources.T_CFG_MYBATIS);
 			if (null != inStream) {
 				sessionFactory = new SqlSessionFactoryBuilder().build(inStream,
-						com.prayer.res.cv.Resources.T_CFG_MB_ENV);
+						com.prayer.constant.Resources.T_CFG_MB_ENV);
 			}
 		}
 	}

@@ -16,11 +16,10 @@ import com.prayer.exception.schema.SubtableWrongException;
  * @author Lang
  *
  */
-public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { 
+public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(_10FieldsRels1TestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(_10FieldsRels1TestCase.class);
 	/** **/
 	private static final String FK_PATTERN = "[E10003] Fields -> ( foreignkey = true ) ==> (Failure) One of optional attributes 'refId,refTable' does not match the pattern! ";
 
@@ -45,8 +44,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = SubtableWrongException.class)
 	public void testP019Subtable1Rel10013() throws AbstractSchemaException {
-		testImport(
-				"rels/P019field-Subtable10013-1.json",
+		testImport("rels/P019field-Subtable10013-1.json",
 				"[E10013] Fields -> subtalbe ==> (Failure) Attribute 'subtalbe' must exist because mapping = COMBINATED! ");
 	}
 
@@ -56,8 +54,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = OptionalAttrMorEException.class)
 	public void testP0201FKey1Rel10004() throws AbstractSchemaException {
-		testImport(
-				"rels/P0201field-FK10004-1.json",
+		testImport("rels/P0201field-FK10004-1.json",
 				"[E10004] Fields -> ( foreignkey = true ) ==> (Failure) One of optional attributes 'refId,refTable' missed! ");
 	}
 
@@ -67,8 +64,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase {
 	 */
 	@Test(expected = OptionalAttrMorEException.class)
 	public void testP0201FKey2Rel10004() throws AbstractSchemaException {
-		testImport(
-				"rels/P0201field-FK10004-2.json",
+		testImport("rels/P0201field-FK10004-2.json",
 				"[E10004] Fields -> ( foreignkey = true ) ==> (Failure) One of optional attributes 'refId,refTable' missed! ");
 	}
 
@@ -80,6 +76,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase {
 	public void testP0202FKey1Rel10003() throws AbstractSchemaException {
 		testImport("rels/P0202field-FK10003-1.json", FK_PATTERN);
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -88,6 +85,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase {
 	public void testP0202FKey2Rel10003() throws AbstractSchemaException {
 		testImport("rels/P0202field-FK10003-2.json", FK_PATTERN);
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -96,6 +94,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase {
 	public void testP0202FKey3Rel10003() throws AbstractSchemaException {
 		testImport("rels/P0202field-FK10003-3.json", FK_PATTERN);
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -104,6 +103,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase {
 	public void testP0202FKey4Rel10003() throws AbstractSchemaException {
 		testImport("rels/P0202field-FK10003-4.json", FK_PATTERN);
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -113,6 +113,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase {
 		testImport("rels/P0211field-FkType10014-1.json",
 				"[E10014] Fields -> ( foreignkey = true ) ==> (Failure) Attribute 'type' of FK is wrong! ");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -122,6 +123,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase {
 		testImport("rels/P0211field-FkType10014-2.json",
 				"[E10014] Fields -> ( foreignkey = true ) ==> (Failure) Attribute 'type' of FK is wrong! ");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException
@@ -131,6 +133,7 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase {
 		testImport("rels/P0212field-FkCType10015-1.json",
 				"[E10015] Fields -> ( foreignkey = true ) ==> (Failure) Attribute 'columnType' of FK is wrong! ");
 	}
+
 	/**
 	 * 
 	 * @throws AbstractSchemaException

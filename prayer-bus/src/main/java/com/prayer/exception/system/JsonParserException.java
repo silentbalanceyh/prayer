@@ -3,7 +3,7 @@ package com.prayer.exception.system;
 import com.prayer.exception.AbstractSystemException;
 
 /**
- * 【Runtime】Error-20003：Json解析异常
+ * 【Checked】Error-20003：Json解析异常
  * 
  * @author Lang
  * @see

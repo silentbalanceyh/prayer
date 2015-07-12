@@ -1,6 +1,7 @@
 package com.prayer.db.pool;
 
-import static com.prayer.util.sys.Instance.reservoir;
+import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.reservoir;
 
 import java.util.concurrent.TimeUnit;
 
@@ -50,9 +51,7 @@ public class BoneCPPool extends AbstractDbPool {
 	 */
 	public BoneCPPool(@NotNull @NotEmpty @NotBlank final String category) {
 		super(category);
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[D] Initialized category is: " + category);
-		}
+		info(LOGGER, "[D] Initialized category is: " + category);
 	}
 
 	// ~ Override Methods ====================================

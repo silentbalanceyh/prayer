@@ -3,7 +3,7 @@ package com.prayer.exception.system;
 import com.prayer.exception.AbstractSystemException;
 
 /**
- * 【Runtime】Error-20002：系统资源读取IO异常
+ * 【Checked】Error-20002：系统资源读取IO异常
  * 
  * @author Lang
  * @see

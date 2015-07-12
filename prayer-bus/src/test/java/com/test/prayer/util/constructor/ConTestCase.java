@@ -7,8 +7,8 @@ import org.junit.internal.Classes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.res.cv.Accessors;
-import com.prayer.res.cv.Resources;
+import com.prayer.constant.Accessors;
+import com.prayer.constant.Resources;
 import com.prayer.util.IOKit;
 import com.prayer.util.JsonKit;
 import com.prayer.util.StringKit;
@@ -19,7 +19,7 @@ import com.prayer.util.StringKit;
  * @author Lang
  * @see
  */
-public class ConTestCase extends AbstractConTestCase { 
+public class ConTestCase extends AbstractConTestCase { 	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

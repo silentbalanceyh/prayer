@@ -1,6 +1,6 @@
 package com.test.prayer.util;
 
-import static com.prayer.util.sys.Instance.reservoir;
+import static com.prayer.util.Instance.reservoir;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import net.sf.oval.exception.ConstraintsViolatedException;

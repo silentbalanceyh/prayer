@@ -1,6 +1,7 @@
 package com.prayer.util;
 
-import static com.prayer.util.sys.Error.debug;
+import static com.prayer.util.Error.debug;
+import static com.prayer.util.Error.info;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -89,9 +90,7 @@ public final class IOKit {
 		if (null != file && file.exists() && file.isFile()) {
 			try {
 				retStream = new FileInputStream(file);
-				if (LOGGER.isInfoEnabled()) {
-					LOGGER.info("[I] <== ( Value -> " + retStream + " ) Read from FileInputStream(file).");
-				}
+				info(LOGGER, "[I] <== ( Value -> " + retStream + " ) Read from FileInputStream(file).");
 			} catch (FileNotFoundException ex) {
 				debug(LOGGER, "IOKIT.STREAM3", ex, file.getAbsolutePath(), retStream);
 			}

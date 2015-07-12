@@ -1,13 +1,15 @@
 package com.prayer.meta.database;
 
+import static com.prayer.util.Error.debug;
+
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.res.cv.Constants;
-import com.prayer.util.db.DbDiscovery;
+import com.prayer.constant.Constants;
+import com.prayer.util.DbDiscovery;
 
 /**
  * 数据库元数据
@@ -15,11 +17,10 @@ import com.prayer.util.db.DbDiscovery;
  * @author Lang
  * @see
  */
-public class Metadata { 	// NOPMD
+public class Metadata { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(Metadata.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Metadata.class);
 	// ~ Instance Fields =====================================
 	/** 数据库产品名 **/
 	private String productName;
@@ -55,9 +56,7 @@ public class Metadata { 	// NOPMD
 			this.databaseCategory = category;
 			this.initSqlFile();
 		} catch (SQLException ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("[E] SQLException happen.", ex);
-			}
+			debug(LOGGER, "JVM.SQL", "public Metadata(DatabaseMetaData,String)", ex);
 		}
 	}
 
@@ -188,8 +187,7 @@ public class Metadata { 	// NOPMD
 	// ~ Private Methods =====================================
 
 	private void initSqlFile() {
-		this.versionFlag = DbDiscovery.getDatabaseVersion(
-				this.productName, this.productVersion);
+		this.versionFlag = DbDiscovery.getDatabaseVersion(this.productName, this.productVersion);
 		this.sqlFile = this.databaseCategory + this.versionFlag;
 	}
 
@@ -200,61 +198,55 @@ public class Metadata { 	// NOPMD
 	 */
 	@Override
 	public String toString() {
-		return "Metadata [productName=" + productName + ", productVersion="
-				+ productVersion + ", driverName=" + driverName
-				+ ", driverVersion=" + driverVersion + ", username=" + username
-				+ ", databaseCategory=" + databaseCategory + ", initSqlFile="
-				+ sqlFile + ", versionFlag=" + versionFlag + "]";
+		return "Metadata [productName=" + productName + ", productVersion=" + productVersion + ", driverName="
+				+ driverName + ", driverVersion=" + driverVersion + ", username=" + username + ", databaseCategory="
+				+ databaseCategory + ", initSqlFile=" + sqlFile + ", versionFlag=" + versionFlag + "]";
 	}
 
 	/** **/
 	@Override
 	public int hashCode() {
-		final int prime = Constants.HASH_BASE; 
+		final int prime = Constants.HASH_BASE;
 		int result = 1;
-		result = prime
-				* result
-				+ ((databaseCategory == null) ? 0 : databaseCategory.hashCode());
-		result = prime * result
-				+ ((driverName == null) ? 0 : driverName.hashCode());
-		result = prime * result
-				+ ((productName == null) ? 0 : productName.hashCode());
+		result = prime * result + ((databaseCategory == null) ? 0 : databaseCategory.hashCode());
+		result = prime * result + ((driverName == null) ? 0 : driverName.hashCode());
+		result = prime * result + ((productName == null) ? 0 : productName.hashCode());
 		return result;
 	}
 
 	/** **/
 	@Override
-	public boolean equals(final Object obj) { 	// NOPMD
+	public boolean equals(final Object obj) { // NOPMD
 		if (this == obj) {
-			return true; 
+			return true;
 		}
 		if (obj == null) {
-			return false; 
+			return false;
 		}
 		if (getClass() != obj.getClass()) {
-			return false; 
+			return false;
 		}
 		final Metadata other = (Metadata) obj;
 		if (databaseCategory == null) {
 			if (other.databaseCategory != null) {
-				return false; 
+				return false;
 			}
 		} else if (!databaseCategory.equals(other.databaseCategory)) {
-			return false; 
+			return false;
 		}
 		if (driverName == null) {
 			if (other.driverName != null) {
-				return false; 
+				return false;
 			}
 		} else if (!driverName.equals(other.driverName)) {
-			return false; 
+			return false;
 		}
 		if (productName == null) {
 			if (other.productName != null) {
-				return false; 
+				return false;
 			}
 		} else if (!productName.equals(other.productName)) {
-			return false; 
+			return false;
 		}
 		return true;
 	}

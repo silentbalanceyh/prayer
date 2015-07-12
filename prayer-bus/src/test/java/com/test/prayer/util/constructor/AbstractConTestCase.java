@@ -1,6 +1,6 @@
 package com.test.prayer.util.constructor;
 
-import static com.prayer.util.sys.Instance.clazz;
+import static com.prayer.util.Instance.clazz;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * @author Lang
  * @see
  */
-public class AbstractConTestCase {	
+public class AbstractConTestCase {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

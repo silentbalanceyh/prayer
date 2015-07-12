@@ -19,7 +19,7 @@ import com.prayer.mod.sys.MetaModel;
  * @author Lang
  * @see
  */
-public class MetaMapperTestCase extends AbstractMetaCase {		
+public class MetaMapperTestCase extends AbstractMetaCase {		// NOPMD
 	// ~ Static Metas =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory

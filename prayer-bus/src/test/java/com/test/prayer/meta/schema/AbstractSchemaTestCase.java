@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
-import com.prayer.meta.schema.Importer;
-import com.prayer.meta.schema.json.GenericImporter;
+import com.prayer.schema.Importer;
+import com.prayer.schema.json.internal.CommunionImporter;
 import com.test.AbstractTestCase;
 
 /**
@@ -26,7 +26,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 	// ~ Constructors ========================================
 	/** **/
 	public AbstractSchemaTestCase() {
-		super(GenericImporter.class.getName());
+		super(CommunionImporter.class.getName());
 	}
 
 	// ~ Abstract Methods ====================================
@@ -43,7 +43,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 	protected void testImport(final String inputFile, final String errMsg)
 			throws AbstractSchemaException {
 		setMethod(M_IMPORT_FILE);
-		importer = new GenericImporter("/schema/system/data/json/" + inputFile);
+		importer = new CommunionImporter("/schema/system/data/json/" + inputFile);
 		try {
 			importer.importFile();
 			importer.ensureSchema();

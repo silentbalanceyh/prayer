@@ -2,9 +2,9 @@ package com.prayer.mod.sys; // NOPMD
 
 import java.io.Serializable;
 
+import com.prayer.constant.Constants;
 import com.prayer.meta.DataType;
 import com.prayer.mod.sys.SystemEnum.FieldDatetime;
-import com.prayer.res.cv.Constants;
 
 /**
  * 对应表SYS_FIELDS
@@ -460,7 +460,7 @@ public class FieldModel implements Serializable { // NOPMD
 
 	/** **/
 	@Override
-	public int hashCode() {
+	public int hashCode() {	// NOPMD
 		final int prime = Constants.HASH_BASE;
 		int result = 1;
 		result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());

@@ -1,6 +1,6 @@
 package com.test.prayer.util;
 
-import static com.prayer.util.sys.Instance.reservoir;
+import static com.prayer.util.Instance.reservoir;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 

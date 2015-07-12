@@ -1,6 +1,6 @@
 package com.prayer.exception.schema;
 
-import static com.prayer.util.sys.Converter.toStr;
+import static com.prayer.util.Converter.toStr;
 
 import java.util.Set;
 

@@ -19,7 +19,7 @@ import com.prayer.mod.sys.KeyModel;
  * @author Lang
  * @see
  */
-public class KeyMapperTestCase extends AbstractMetaCase { 
+public class KeyMapperTestCase extends AbstractMetaCase { 	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory
