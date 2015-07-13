@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import jodd.util.MathUtil;
 import net.sf.oval.constraint.Min;
+import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -23,6 +24,7 @@ public final class Generator {
 	 * 生成一个UUID大写的键值
 	 * @return
 	 */
+	@NotNull
 	public static String uuid(){
 		return UUID.randomUUID().toString().toUpperCase(Locale.getDefault());
 	}

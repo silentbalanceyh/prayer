@@ -4,15 +4,15 @@ import static com.prayer.util.Error.info;
 
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -59,6 +59,7 @@ public final class Converter {
 	 * @param inputStr
 	 * @return
 	 */
+	@NotNull
 	public static <T extends Enum<T>> T fromStr(@NotNull final Class<T> clazz,
 			@NotNull @NotBlank @NotEmpty final String inputStr) {
 		T retEnum = null;
