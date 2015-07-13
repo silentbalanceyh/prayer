@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
-import com.prayer.util.DbDiscovery;
+import com.prayer.util.DatabaseKit;
 
 /**
  * 数据库元数据
@@ -187,7 +187,7 @@ public class Metadata { // NOPMD
 	// ~ Private Methods =====================================
 
 	private void initSqlFile() {
-		this.versionFlag = DbDiscovery.getDatabaseVersion(this.productName, this.productVersion);
+		this.versionFlag = DatabaseKit.getDatabaseVersion(this.productName, this.productVersion);
 		this.sqlFile = this.databaseCategory + this.versionFlag;
 	}
 

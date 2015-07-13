@@ -14,7 +14,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.meta.database.Metadata;
-import com.prayer.util.DbDiscovery;
+import com.prayer.util.DatabaseKit;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class MetadataTestCase { 	// NOPMD
 	@Test
 	public void testVersionFlag() {
 		final Metadata metadata = this.metaConn.getMetadata();
-		final String versionFlag = DbDiscovery.getDatabaseVersion(metadata.getProductName(),metadata
+		final String versionFlag = DatabaseKit.getDatabaseVersion(metadata.getProductName(),metadata
 				.getProductVersion());
 		assertEquals("[T] Version flag is not match.", versionFlag,
 				metadata.getVersionFlag());
@@ -64,7 +64,7 @@ public class MetadataTestCase { 	// NOPMD
 	@Test
 	public void testSqlFile() {
 		final Metadata metadata = this.metaConn.getMetadata();
-		final String versionFlag = DbDiscovery.getDatabaseVersion(metadata.getProductName(),metadata
+		final String versionFlag = DatabaseKit.getDatabaseVersion(metadata.getProductName(),metadata
 				.getProductVersion());
 		assertEquals("[T] Sql filename is not match.",
 				metadata.getDatabaseCategory() + versionFlag,

@@ -13,7 +13,7 @@ import net.sf.oval.guard.Guarded;
  * @see
  */
 @Guarded
-public final class DbDiscovery {
+public final class DatabaseKit {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -84,7 +84,7 @@ public final class DbDiscovery {
 	}
 
 	// ~ Constructors ========================================
-	private DbDiscovery() {
+	private DatabaseKit() {
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
