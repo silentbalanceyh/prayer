@@ -76,6 +76,12 @@ public interface MetaMapper {
 	 * @return
 	 */
 	MetaModel selectByModel(String namespace, String name);
+	/**
+	 * 
+	 * @param globalId
+	 * @return
+	 */
+	MetaModel selectByGlobalId(String globalId);
 
 	/**
 	 * 读取所有的Meta的记录

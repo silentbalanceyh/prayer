@@ -27,6 +27,12 @@ public interface SchemaService {
 	GenericSchema findModel(String namespace, String name);
 	/**
 	 * 
+	 * @param globalId
+	 * @return
+	 */
+	GenericSchema findModel(String globalId);
+	/**
+	 * 
 	 * @param schema
 	 * @return
 	 * @throws DataLoadingException

@@ -100,20 +100,21 @@ public class SchemaSevImpl implements SchemaService {
 		// 1.读取Meta
 		final MetaMapper metaMapper = this.getMetaMapper();
 		final MetaModel meta = metaMapper.selectByModel(namespace, name);
-		// 2.读取Keys -> List
-		List<KeyModel> keys = null;
-		if (null != meta && null != meta.getUniqueId()) {
-			final KeyMapper keyMapper = this.getKeyMapper();
-			keys = keyMapper.selectByMeta(meta.getUniqueId());
-		}
-		// 3.读取Fields -> List
-		List<FieldModel> fields = null;
-		if (null != meta && null != meta.getUniqueId()) {
-			final FieldMapper fieldMapper = this.getFieldMapper();
-			fields = fieldMapper.selectByMeta(meta.getUniqueId());
-		}
-		// 4.返回GenericSchema
-		return extractSchema(meta, keys, fields);
+
+		// 2.返回GenericSchema
+		return extractSchema(meta);
+	}
+
+	/** **/
+	@Override
+	@PreValidateThis
+	public GenericSchema findModel(@NotNull final String globalId) {
+		// 1.读取Meta
+		final MetaMapper metaMapper = this.getMetaMapper();
+		final MetaModel meta = metaMapper.selectByGlobalId(globalId);
+
+		// 2.返回GenericSchema
+		return extractSchema(meta);
 	}
 
 	/**
@@ -143,8 +144,29 @@ public class SchemaSevImpl implements SchemaService {
 		}
 		return ret;
 	}
+
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	/**
+	 * 
+	 * @param meta
+	 * @return
+	 */
+	private GenericSchema extractSchema(final MetaModel meta) {
+		// 1.读取Keys -> List
+		List<KeyModel> keys = null;
+		if (null != meta && null != meta.getUniqueId()) {
+			final KeyMapper keyMapper = this.getKeyMapper();
+			keys = keyMapper.selectByMeta(meta.getUniqueId());
+		}
+		// 2.读取Fields -> List
+		List<FieldModel> fields = null;
+		if (null != meta && null != meta.getUniqueId()) {
+			final FieldMapper fieldMapper = this.getFieldMapper();
+			fields = fieldMapper.selectByMeta(meta.getUniqueId());
+		}
+		return extractSchema(meta, keys, fields);
+	}
 
 	private GenericSchema extractSchema(final MetaModel meta, final List<KeyModel> keys,
 			final List<FieldModel> fields) {
@@ -218,7 +240,6 @@ public class SchemaSevImpl implements SchemaService {
 	}
 
 	private FieldMapper getFieldMapper() {
-
 		return session().getMapper(FieldMapper.class);
 	}
 	// ~ Get/Set =============================================
