@@ -59,7 +59,6 @@ public final class Converter {
 	 * @param inputStr
 	 * @return
 	 */
-	@NotNull
 	public static <T extends Enum<T>> T fromStr(@NotNull final Class<T> clazz,
 			@NotNull @NotBlank @NotEmpty final String inputStr) {
 		T retEnum = null;
