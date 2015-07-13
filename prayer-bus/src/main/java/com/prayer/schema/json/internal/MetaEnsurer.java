@@ -5,18 +5,17 @@ import static com.prayer.util.Converter.fromStr;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import jodd.util.StringUtil;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
-
 import com.fasterxml.jackson.databind.JsonNode;
-import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.mod.meta.SystemEnum.MetaCategory;
 import com.prayer.mod.meta.SystemEnum.MetaMapping;
 import com.prayer.mod.meta.SystemEnum.MetaPolicy;
+
+import jodd.util.StringUtil;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -165,8 +164,8 @@ final class MetaEnsurer implements InternalEnsurer {
 			return true;
 		}
 		// 9.如果是MSSQL以及MYSQL，直接返回true
-		if (!StringUtil.equals(Resources.DB_CATEGORY, Constants.DF_MSSQL)
-				&& !StringUtil.equals(Resources.DB_CATEGORY, Constants.DF_MYSQL)) {
+		if (!StringUtil.equals(Resources.DB_CATEGORY,"MSSQL")
+				&& !StringUtil.equals(Resources.DB_CATEGORY,"MYSQL")) {
 			// TODO: 默认使用了MSSQL，所以针对Oracle以及PostgreSQL才会有这个流程验证seqname
 			// 9.2.1.使用了Sequence的情况，必须要验证seqname是否丢失
 			this.error = validator.verifyMissing(Attributes.M_SEQ_NAME);

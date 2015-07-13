@@ -3,7 +3,6 @@ package com.test.util.constructor;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.junit.internal.Classes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,15 +33,6 @@ public class ConTestCase extends AbstractConTestCase { 	// NOPMD
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
-	/** **/
-	@Test
-	public void testCon1() {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug(DEBUG_MSG + Classes.class.getName());
-		}
-		final Classes ref = instance(Classes.class.getName());
-		assertNotNull("[E] testCon1", ref);
-	}
 
 	/** **/
 	@Test

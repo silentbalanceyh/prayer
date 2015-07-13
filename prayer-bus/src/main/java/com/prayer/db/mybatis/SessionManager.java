@@ -2,14 +2,15 @@ package com.prayer.db.mybatis;
 
 import java.io.InputStream;
 
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.prayer.constant.Resources;
 import com.prayer.util.IOKit;
+
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * Mybatis框架中的SQL Session管理器
@@ -29,10 +30,10 @@ public final class SessionManager {
 	static {
 		/** 简单的单例实现 **/
 		if (null == sessionFactory) {
-			final InputStream inStream = IOKit.getFile(com.prayer.constant.Resources.T_CFG_MYBATIS);
+			final InputStream inStream = IOKit.getFile(Resources.T_CFG_MYBATIS);
 			if (null != inStream) {
 				sessionFactory = new SqlSessionFactoryBuilder().build(inStream,
-						com.prayer.constant.Resources.T_CFG_MB_ENV);
+						Resources.T_CFG_MB_ENV);
 			}
 		}
 	}

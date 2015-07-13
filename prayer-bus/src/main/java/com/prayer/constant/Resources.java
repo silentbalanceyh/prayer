@@ -21,74 +21,37 @@ public final class Resources { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(Resources.class);
-	/**
-	 * Error mapping property file path
-	 */
-	public static final String ERR_PROP_FILE = "/err.properties";
-	/**
-	 * Schema mode of current system, default is: orb.schema=json
-	 */
-	public static final String SCHEMA_MODE;
-	/**
-	 * System: Encoding method *
-	 */
+
+	// System Global Configuration ===========================
+	/** 错误信息键值 **/
+	private static final String ERR_SYS_NULL = "SYS.NULL";
+	/** 错误信息代码 **/
+	public static final String ERR_CODE_FILE = "/errors.properties";
+	/** 系统默认英文编码 **/
 	public static final String SYS_ENCODING;
-	/**
-	 * System: Chinese encoding for current system. *
-	 */
+	/** 系统默认中文编码 **/
 	public static final String SYS_CN_ENCODING;
-	/**
-	 * Database: The database pool implementation class
-	 */
-	public static final String DB_DATA_SOURCE;
-	/**
-	 * Database: The database mode for current system *
-	 */
+
+	// Database Configuration ================================
+	/** 数据库模式：SQL/NOSQL **/
 	public static final String DB_MODE;
-	/**
-	 * Database: The system database name, default is: mssql *
-	 */
+	/** 数据库连接池实现类名： **/
+	public static final String DB_POOL;
+	/** 数据库种类：MYSQL, MSSQL, ORACLE, PGSQL, MONGO **/
 	public static final String DB_CATEGORY;
-	/**
-	 * Database: The system database configuration properties file path. *
-	 */
+	/** JDBC配置文件路径 **/
 	public static final String DB_CFG_FILE;
-	/**
-	 * Database: The database builder java class name. *
-	 */
-	public static final String DB_BUILDER;
-	/**
-	 * Database: The database record service java class name. *
-	 */
-	public static final String DB_R_DAO;
-	/**
-	 * Database: The database oauth service java class name. *
-	 */
-	public static final String DB_SEC_O_DAO;
-	/**
-	 * Database: The database init sql file. *
-	 */
-	public static final String DB_SQL_DIR;
-	/**
-	 * Database: The database default batch size. *
-	 */
-	public static final int DB_BATCH_SIZE;
-	/**
-	 * Spring配置文件路径
-	 */
-	public static final String T_CFG_SPRING;
-	/**
-	 * Mybatis配置文件路径
-	 */
+
+	// Open Source Configuration =============================
+	/** Mybatis数据库配置文件 **/
 	public static final String T_CFG_MYBATIS;
-	/**
-	 * Mybatis环境文件
-	 */
+	/** Mybatis环境名称Environment **/
 	public static final String T_CFG_MB_ENV;
-	/**
-	 * 
-	 */
-	public static final String DB_H2;
+
+	// Metadata SQL File Configuration =======================
+	/** 保存的SQL文件地址 **/
+	public static final String DB_SQL_DIR;
+	
 	/**
 	 * Private singleton resource LOADER. *
 	 */
@@ -101,93 +64,55 @@ public final class Resources { // NOPMD
 		/**
 		 * 因为PropertyLoader内部已经实现了Properties的单件模式，这里没有必要使用反射的方式创建
 		 */
-		LOADER = new PropertyKit(PropKeys.class, PropKeys.PROP_FILE); // singleton(PropertyKit.class,
-																		// PropKeys.class,
-																		// PropKeys.PROP_FILE);
+		LOADER = new PropertyKit(Resources.class, "/global.properties");
 		if (null == LOADER) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "LOADER", LOADER);
+			debug(LOGGER, ERR_SYS_NULL, "LOADER", LOADER);
 		}
-
-		SCHEMA_MODE = LOADER.getString(PropKeys.SMA_KEY);
-		if (null == SCHEMA_MODE) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "SCHEMA_MODE", SCHEMA_MODE);
-		}
-		// System default encoding method
-		SYS_ENCODING = LOADER.getString(PropKeys.SYS_EN_KEY);
+		// Global Configuration
+		SYS_ENCODING = LOADER.getString("system.en.encoding");
 		if (null == SYS_ENCODING) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "SYS_ENCODING", SYS_ENCODING);
+			debug(LOGGER, ERR_SYS_NULL, "SYS_ENCODING", SYS_ENCODING);
 		}
-		// System encoding method for Chinese charactors only
-		SYS_CN_ENCODING = LOADER.getString(PropKeys.SYS_CN_KEY);
+		SYS_CN_ENCODING = LOADER.getString("system.cn.encoding");
 		if (null == SYS_CN_ENCODING) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "SYS_CN_ENCODING", SYS_CN_ENCODING);
+			debug(LOGGER, ERR_SYS_NULL, "SYS_CN_ENCODING", SYS_CN_ENCODING);
 		}
 
-		DB_MODE = null == LOADER.getString(PropKeys.DB_MODE_KEY) ? Constants.DM_SQL
-				: StringUtil.toUpperCase(LOADER.getString(PropKeys.DB_MODE_KEY));
+		
+		// Database Configuration
+		DB_MODE = null == LOADER.getString("database.mode") ? Constants.DB_MODE_SQL
+				: StringUtil.toUpperCase(LOADER.getString("database.mode"));
 		if (null == DB_MODE) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "DB_MODE", DB_MODE);
+			debug(LOGGER, ERR_SYS_NULL, "DB_MODE", DB_MODE);
 		}
-
-		DB_CATEGORY = null == LOADER.getString(PropKeys.DB_CATEGORY_KEY) ? Constants.DF_MSSQL
-				: StringUtil.toUpperCase(LOADER.getString(PropKeys.DB_CATEGORY_KEY));
+		DB_POOL = LOADER.getString("database.pool.impl");
+		if (null == DB_POOL) {
+			debug(LOGGER, ERR_SYS_NULL, "DB_POOL", DB_POOL);
+		}
+		DB_CATEGORY = null == LOADER.getString("database.category") ? "MSSQL"
+				: StringUtil.toUpperCase(LOADER.getString("database.category"));
 		if (null == DB_CATEGORY) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "DB_CATEGORY", DB_CATEGORY);
+			debug(LOGGER, ERR_SYS_NULL, "DB_CATEGORY", DB_CATEGORY);
 		}
-
-		DB_BUILDER = LOADER.getString(PropKeys.DB_BUILDER_KEY);
-		if (null == DB_BUILDER) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "DB_BUILDER", DB_BUILDER);
-		}
-
-		DB_R_DAO = LOADER.getString(PropKeys.DB_DAO_KEY);
-		if (null == DB_R_DAO) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "DB_R_DAO", DB_R_DAO);
-		}
-
-		DB_SEC_O_DAO = LOADER.getString(PropKeys.DB_ODAO_KEY);
-		if (null == DB_SEC_O_DAO) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "DB_SEC_O_DAO", DB_SEC_O_DAO);
-		}
-
-		DB_CFG_FILE = LOADER.getString(PropKeys.DB_CONFIG_KEY);
+		DB_CFG_FILE = LOADER.getString("database.config.file");
 		if (null == DB_CFG_FILE) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "DB_CFG_FILE", DB_CFG_FILE);
+			debug(LOGGER, ERR_SYS_NULL, "DB_CFG_FILE", DB_CFG_FILE);
 		}
 
-		DB_SQL_DIR = LOADER.getString(PropKeys.DB_INITSQL_KEY);
-		if (null == DB_SQL_DIR) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "DB_SQL_DIR", DB_SQL_DIR);
-		}
-
-		DB_BATCH_SIZE = LOADER.getInt(PropKeys.DB_BATCH_SIZE_KEY);
-		if (-1 == DB_BATCH_SIZE) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "DB_BATCH_SIZE", DB_BATCH_SIZE);
-		}
-
-		DB_DATA_SOURCE = LOADER.getString(PropKeys.DB_DATA_SOURCE);
-		if (null == DB_DATA_SOURCE) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "DB_DATA_SOURCE", DB_DATA_SOURCE);
-		}
-
-		DB_H2 = LOADER.getString(PropKeys.DB_H2);
-		if (null == DB_H2) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "DB_H2", DB_H2);
-		}
-
-		T_CFG_SPRING = LOADER.getString(PropKeys.TP_CFG_SPRING_KEY);
-		if (null == T_CFG_SPRING) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "T_CFG_SPRING", T_CFG_SPRING);
-		}
-
-		T_CFG_MYBATIS = LOADER.getString(PropKeys.TP_CFG_MB_KEY);
+		// Open Source
+		T_CFG_MYBATIS = LOADER.getString("mybatis.config.file");
 		if (null == T_CFG_MYBATIS) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "T_CFG_MYBATIS", T_CFG_MYBATIS);
+			debug(LOGGER, ERR_SYS_NULL, "T_CFG_MYBATIS", T_CFG_MYBATIS);
+		}
+		T_CFG_MB_ENV = LOADER.getString("mybatis.environment");
+		if (null == T_CFG_MB_ENV) {
+			debug(LOGGER, ERR_SYS_NULL, "T_CFG_MB_ENV", T_CFG_MB_ENV);
 		}
 
-		T_CFG_MB_ENV = LOADER.getString(PropKeys.TP_CFG_MB_ENV);
-		if (null == T_CFG_MB_ENV) {
-			debug(LOGGER, PropKeys.ERR_SYS_NULL, "T_CFG_MB_ENV", T_CFG_MB_ENV);
+		// Metadata
+		DB_SQL_DIR = LOADER.getString("database.sql.directory");
+		if (null == DB_SQL_DIR) {
+			debug(LOGGER, ERR_SYS_NULL, "DB_SQL_DIR", DB_SQL_DIR);
 		}
 	}
 

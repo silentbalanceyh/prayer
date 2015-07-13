@@ -4,17 +4,17 @@ import static com.prayer.util.Instance.singleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import jodd.util.StringPool;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.meta.database.Metadata;
 import com.prayer.util.DatabaseKit;
+
+import jodd.util.StringPool;
 
 /**
  * 
@@ -79,7 +79,7 @@ public class MetadataTestCase { 	// NOPMD
 	@Test
 	public void testSqlExec(){
 		final Metadata metadata = this.metaConn.getMetadata();
-		final String scriptFile = Resources.DB_SQL_DIR + metadata.getSqlFile() + StringPool.DOT + Constants.FEX_SQL;
+		final String scriptFile = Resources.DB_SQL_DIR + metadata.getSqlFile() + StringPool.DOT + "sql";
 		final boolean ret = this.metaConn.loadSqlFile(Resources.class.getResourceAsStream(scriptFile));
 		assertTrue("[T] Executed failure.",ret);
 	}

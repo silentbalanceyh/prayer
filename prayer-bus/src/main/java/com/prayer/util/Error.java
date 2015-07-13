@@ -1,7 +1,5 @@
 package com.prayer.util;
 
-import static com.prayer.util.Instance.instance;
-
 import java.text.MessageFormat;
 
 import org.slf4j.Logger;
@@ -26,7 +24,9 @@ public final class Error { // NOPMD
 	/**
 	 * Error property loader to read Error Message
 	 */
-	private static PropertyKit loader = instance(PropertyKit.class.getName(), Error.class, Resources.ERR_PROP_FILE);
+	private static PropertyKit loader = new PropertyKit(Error.class, Resources.ERR_CODE_FILE);
+	// instance(PropertyKit.class.getName(), Error.class,
+	// Resources.ERR_PROP_FILE);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -124,7 +124,7 @@ public final class Error { // NOPMD
 			} else {
 				logger.debug(message, exp);
 			}
-		}else if (logger.isInfoEnabled()) {
+		} else if (logger.isInfoEnabled()) {
 			if (null == exp) {
 				logger.info(message);
 			} else {
