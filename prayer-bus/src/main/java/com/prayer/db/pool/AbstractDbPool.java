@@ -5,17 +5,18 @@ import java.util.concurrent.ConcurrentMap;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
+import com.prayer.util.PropertyKit;
+
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.Pre;
-
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import com.prayer.constant.Resources;
-import com.prayer.util.PropertyKit;
 
 /**
  * Jdbc连接池类
@@ -107,7 +108,7 @@ public abstract class AbstractDbPool {
 	 * 
 	 * @return
 	 */
-	@Pre(expr = "_this.jdbc != null", lang = "groovy")
+	@Pre(expr = "_this.jdbc != null", lang = Constants.LANG_GROOVY)
 	public JdbcTemplate getJdbc() {
 		return this.jdbc;
 	}
@@ -127,7 +128,7 @@ public abstract class AbstractDbPool {
 	 * 
 	 * @return
 	 */
-	@Pre(expr = "_this.loader != null", lang = "groovy")
+	@Pre(expr = "_this.loader != null", lang = Constants.LANG_GROOVY)
 	public PropertyKit getLoader() {
 		return this.LOADER;
 	}

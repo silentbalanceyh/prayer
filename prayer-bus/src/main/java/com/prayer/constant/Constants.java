@@ -51,6 +51,10 @@ public interface Constants { // NOPMD
 	 * Policy: ID policy 'MULTI' *
 	 */
 	String KP_MULTI = "MULTI";
+	/**
+	 * 
+	 */
+	String LANG_GROOVY = "groovy";
 	// ~ System ==============================================
 	/** System value 1 **/
 	int ONE = 1;

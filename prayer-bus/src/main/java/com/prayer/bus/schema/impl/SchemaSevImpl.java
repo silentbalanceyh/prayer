@@ -62,6 +62,7 @@ public class SchemaSevImpl implements SchemaService {
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
+	@NotNull
 	@PreValidateThis
 	public GenericSchema buildModel(@NotNull final GenericSchema schema) throws DataLoadingException {
 		// 1.数据准备
@@ -120,7 +121,7 @@ public class SchemaSevImpl implements SchemaService {
 	 */
 	@Override
 	@PreValidateThis
-	public boolean removeModel(final GenericSchema schema) throws DataLoadingException {
+	public boolean removeModel(@NotNull final GenericSchema schema) throws DataLoadingException {
 		// 1.开启Mybatis的事务
 		final TransactionFactory tranFactory = new JdbcTransactionFactory();
 		final Transaction transaction = tranFactory.newTransaction(session().getConnection());
@@ -147,7 +148,7 @@ public class SchemaSevImpl implements SchemaService {
 
 	private GenericSchema extractSchema(final MetaModel meta, final List<KeyModel> keys,
 			final List<FieldModel> fields) {
-		if(null == meta){
+		if (null == meta) {
 			return null;
 		}
 		final GenericSchema schema = new GenericSchema();

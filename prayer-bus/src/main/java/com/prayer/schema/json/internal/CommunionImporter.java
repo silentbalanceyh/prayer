@@ -31,6 +31,7 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.Pre;
 import net.sf.oval.guard.PreValidateThis;
 
 /**
@@ -122,21 +123,17 @@ public class CommunionImporter implements Importer {
 	 * 
 	 */
 	@Override
+	@Pre(expr = "_this.schema != null && _this.rawData != null", lang = "groovy")
 	public GenericSchema transformModel() throws SerializationException {
-		if (null == this.schema) {
-			this.schema = new GenericSchema();
-		}
-		if (null != this.rawData) {
-			final MetaModel meta = this.readMeta();
-			try {
-				schema.setMeta(meta);
-				schema.setIdentifier(meta.getGlobalId());
-				schema.setKeys(this.readKeys());
-				schema.setFields(this.readFields());
-			} catch (SerializationException ex) {
-				info(LOGGER, "Serialization Exception Happen! Data = " + this.rawData.toString(), ex);
-				this.schema = null; // NOPMD
-			}
+		final MetaModel meta = this.readMeta();
+		try {
+			schema.setMeta(meta);
+			schema.setIdentifier(meta.getGlobalId());
+			schema.setKeys(this.readKeys());
+			schema.setFields(this.readFields());
+		} catch (SerializationException ex) {
+			info(LOGGER, "Serialization Exception Happen! Data = " + this.rawData.toString(), ex);
+			this.schema = null; // NOPMD
 		}
 		return schema;
 	}
