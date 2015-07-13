@@ -48,7 +48,7 @@ final class TypeEnsurer implements InternalEnsurer {
 		T_REQUIRED.put(DataType.DATE, new String[] { Attributes.F_DATETIME, Attributes.F_DATEFORMAT });
 		T_REQUIRED.put(DataType.LONG, new String[] {});
 		T_REQUIRED.put(DataType.INT, new String[] {});
-		T_REQUIRED.put(DataType.DECIMAL, new String[] { Attributes.F_PRECISION });
+		T_REQUIRED.put(DataType.DECIMAL, new String[] { Attributes.F_LENGTH, Attributes.F_PRECISION });
 		T_REQUIRED.put(DataType.BOOLEAN, new String[] {});
 		T_REQUIRED.put(DataType.BINARY, new String[] { Attributes.F_LENGTH });
 		T_REQUIRED.put(DataType.SCRIPT, new String[] { Attributes.F_LENGTH });

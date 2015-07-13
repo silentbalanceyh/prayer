@@ -42,6 +42,9 @@ public final class Resources { // NOPMD
 	/** JDBC配置文件路径 **/
 	public static final String DB_CFG_FILE;
 
+	// Database Type Mapping =================================
+	/** 数据库类型映射文件地址 **/
+	public static final String DB_TYPES_FILE;
 	// Open Source Configuration =============================
 	/** Mybatis数据库配置文件 **/
 	public static final String T_CFG_MYBATIS;
@@ -51,7 +54,7 @@ public final class Resources { // NOPMD
 	// Metadata SQL File Configuration =======================
 	/** 保存的SQL文件地址 **/
 	public static final String DB_SQL_DIR;
-	
+
 	/**
 	 * Private singleton resource LOADER. *
 	 */
@@ -78,7 +81,6 @@ public final class Resources { // NOPMD
 			debug(LOGGER, ERR_SYS_NULL, "SYS_CN_ENCODING", SYS_CN_ENCODING);
 		}
 
-		
 		// Database Configuration
 		DB_MODE = null == LOADER.getString("database.mode") ? Constants.DB_MODE_SQL
 				: StringUtil.toUpperCase(LOADER.getString("database.mode"));
@@ -97,6 +99,10 @@ public final class Resources { // NOPMD
 		DB_CFG_FILE = LOADER.getString("database.config.file");
 		if (null == DB_CFG_FILE) {
 			debug(LOGGER, ERR_SYS_NULL, "DB_CFG_FILE", DB_CFG_FILE);
+		}
+		DB_TYPES_FILE = LOADER.getString("database.mapping");
+		if (null == DB_TYPES_FILE) {
+			debug(LOGGER, ERR_SYS_NULL, "DB_TYPES_FILE", DB_TYPES_FILE);
 		}
 
 		// Open Source

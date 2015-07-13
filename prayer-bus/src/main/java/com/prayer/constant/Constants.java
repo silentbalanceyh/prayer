@@ -15,6 +15,8 @@ public interface Constants { // NOPMD
 	/** OVol 默认脚本 **/
 	String LANG_GROOVY = "groovy";
 	// ~ System ==============================================
+	/** System value 2 **/
+	int TWO = 2;
 	/** System value 1 **/
 	int ONE = 1;
 	/** System value 0 **/

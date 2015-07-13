@@ -10,6 +10,18 @@ import org.springframework.jdbc.core.RowMapper;
  */
 public interface JdbcContext {
 	/**
+	 * 直接执行SQL语句
+	 * @param sql
+	 * @return
+	 */
+	int execute(String sql);
+	/**
+	 * 聚集函数COUNT
+	 * @param sql
+	 * @return
+	 */
+	Long count(String sql);
+	/**
 	 * Publish interface of jdbc template
 	 *
 	 * @param sql

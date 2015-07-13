@@ -89,7 +89,7 @@ public class FieldModel implements Serializable { // NOPMD
 	private boolean foreignKey;
 	/** IS_NULLABLE：当前字段是否可为空 **/
 	@JsonProperty("nullable")
-	private boolean nullable;
+	private boolean nullable = true;
 
 	// !Fields数据库配置信息-----------------------------------
 	/** D_COLUMN_NAME：字段对应的数据列名 **/
