@@ -56,7 +56,7 @@ final class SqlStatement implements SqlSegment {
 	 * @param foreignField
 	 * @return
 	 */
-	public static String newFKSql(@NotNull final KeyModel foreignKey, @NotNull final FieldModel foreignField) {
+	public static String newFKSql(final KeyModel foreignKey, final FieldModel foreignField) {
 		// 1.初始化缓冲区
 		final StringBuilder sql = new StringBuilder();
 		// 2.添加外键约束

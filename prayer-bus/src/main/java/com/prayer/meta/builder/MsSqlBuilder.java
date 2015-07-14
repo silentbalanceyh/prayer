@@ -72,7 +72,6 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	@Override
 	public boolean createTable() {
 		final String sql = genCreateSql();
-		info(LOGGER,"[I] Sql: " + sql);
 		final int affectedRows = this.getContext().execute(sql);
 		info(LOGGER, "[I] Location: createTable(), Affected Rows: " + affectedRows);
 		return 0 < affectedRows;
@@ -107,6 +106,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 
 	private String genCreateSql() {
 		// 1.主键定义行
+		this.getSqlLines().clear();
 		{
 			this.genPrimaryKeyLines();
 		}
