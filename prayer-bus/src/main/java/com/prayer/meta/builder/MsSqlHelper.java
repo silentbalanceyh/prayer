@@ -2,13 +2,8 @@ package com.prayer.meta.builder;
 
 import java.text.MessageFormat;
 
-import com.prayer.constant.Constants;
-import com.prayer.db.conn.JdbcContext;
-
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
-import net.sf.oval.guard.Pre;
 
 
 /**
@@ -18,7 +13,7 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
-final class MsSqlMetaReader {
+final class MsSqlHelper {
 	// ~ Static Fields =======================================
 	/** 类型后跟Length，类似：{ VARCHAR(256) } **/
 	public static final String[] LENGTH_TYPES = new String[] { "CHAR", "VARCHAR", "NCHAR", "NVARCHAR" };
@@ -30,41 +25,22 @@ final class MsSqlMetaReader {
 	/** 检查表是否存在 **/
 	private final static String SQL_TB_EXIST = "SELECT COUNT(name) FROM dbo.SYSOBJECTS WHERE ID = OBJECT_ID(N''{0}'') AND OBJECTPROPERTY(ID, ''IsTable'') = 1";
 	// ~ Instance Fields =====================================
-	/** **/
-	@NotNull
-	private transient final JdbcContext context;
-
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	@PostValidateThis
-	public MsSqlMetaReader(@NotNull final JdbcContext context) {
-		this.context = context;
-	}
-
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	// ~ Methods =============================================
 	/**
 	 * 
 	 * @param tableName
 	 * @return
 	 */
-	@Pre(expr = "_this.content != null", lang = Constants.LANG_GROOVY)
-	public Long countTable(@NotNull final String tableName) {
-		final String sql = MessageFormat.format(SQL_TB_EXIST, tableName);
-		return this.context.count(sql);
+	public static String getSqlTableExist(@NotNull final String tableName){
+		return MessageFormat.format(SQL_TB_EXIST, tableName);
 	}
+	// ~ Constructors ========================================
+	// ~ Abstract Methods ====================================
+	// ~ Override Methods ====================================
+	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	private MsSqlHelper(){}
 	// ~ Get/Set =============================================
-	/**
-	 * 
-	 * @return
-	 */
-	@NotNull
-	public JdbcContext getContext(){
-		return this.context;
-	}
 	// ~ hashCode,equals,toString ============================
 }

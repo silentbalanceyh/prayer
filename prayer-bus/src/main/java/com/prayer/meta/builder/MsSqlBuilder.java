@@ -1,7 +1,6 @@
 package com.prayer.meta.builder;
 
 import static com.prayer.util.Error.info;
-import static com.prayer.util.Instance.singleton;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -39,8 +38,6 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	// ~ Instance Fields =====================================
 	/** 从当前数据库读取到的Schema **/
 	private transient GenericSchema databaseSchema;
-	/** Sql Server 元数据读取器 **/
-	private transient final MsSqlMetaReader reader;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -49,7 +46,6 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	@PostValidateThis
 	public MsSqlBuilder(@NotNull final GenericSchema schema) {
 		super(schema);
-		this.reader = singleton(MsSqlMetaReader.class, this.getContext());
 	}
 
 	// ~ Abstract Methods ====================================
@@ -59,7 +55,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	 */
 	@Override
 	protected String[] lengthTypes() {
-		return Arrays.copyOf(MsSqlMetaReader.LENGTH_TYPES, MsSqlMetaReader.LENGTH_TYPES.length);
+		return Arrays.copyOf(MsSqlHelper.LENGTH_TYPES, MsSqlHelper.LENGTH_TYPES.length);
 	}
 
 	/**
@@ -67,7 +63,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	 */
 	@Override
 	protected String[] precisionTypes() {
-		return Arrays.copyOf(MsSqlMetaReader.PRECISION_TYPES, MsSqlMetaReader.PRECISION_TYPES.length);
+		return Arrays.copyOf(MsSqlHelper.PRECISION_TYPES, MsSqlHelper.PRECISION_TYPES.length);
 	}
 
 	/**
@@ -76,6 +72,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	@Override
 	public boolean createTable() {
 		final String sql = genCreateSql();
+		info(LOGGER,"[I] Sql: " + sql);
 		final int affectedRows = this.getContext().execute(sql);
 		info(LOGGER, "[I] Location: createTable(), Affected Rows: " + affectedRows);
 		return 0 < affectedRows;
@@ -86,7 +83,8 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	 */
 	@Override
 	public boolean existTable() {
-		final long counter = this.reader.countTable(this.getTable());
+		final String sql = MsSqlHelper.getSqlTableExist(this.getTable());
+		final long counter = this.getContext().count(sql);
 		info(LOGGER, "[I] Location: existTable(), Table Counter Result: " + counter);
 		return 0 < counter;
 	}
@@ -164,8 +162,8 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 
 		// 2.字段名、数据类型，SQL Server独有：NAME INT PRIMARY KEY IDENTITY
 		pkSql.append(field.getColumnName()).append(SPACE).append(columnType).append(PRIMARY).append(SPACE).append(KEY)
-				.append(SPACE).append(MsSqlMetaReader.IDENTITY).append(BRACKET_SL).append(meta.getSeqInit())
-				.append(COMMA).append(meta.getSeqStep()).append(BRACKET_SR);
+				.append(SPACE).append(MsSqlHelper.IDENTITY).append(BRACKET_SL).append(meta.getSeqInit()).append(COMMA)
+				.append(meta.getSeqStep()).append(BRACKET_SR);
 		return pkSql.toString();
 	}
 	// ~ Get/Set =============================================

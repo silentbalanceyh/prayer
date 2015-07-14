@@ -45,12 +45,10 @@ public class MsSqlBuilderTestCase extends AbstractBuilderTestCase {
 	@Test
 	public void testCreateTable() {
 		if (StringUtil.equals(Resources.DB_CATEGORY, DB_CATEGORY) && null != this.builder) {
-			if (!this.builder.existTable()) {
-				final boolean ret = this.builder.createTable();
-				assertTrue("[T] Created Table Successfully ! Result = " + ret, ret);
-				// Purge created Table
-				this.builder.purgeTable();
-			}
+			final boolean ret = this.builder.createTable();
+			assertTrue("[T] Created Table Successfully ! Result = " + ret, ret);
+			// Purge created Table
+			// this.builder.purgeTable();
 		}
 	}
 
