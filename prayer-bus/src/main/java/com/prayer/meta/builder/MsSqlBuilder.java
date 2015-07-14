@@ -72,9 +72,10 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	@Override
 	public boolean createTable() {
 		final String sql = genCreateSql();
-		final int affectedRows = this.getContext().execute(sql);
-		info(LOGGER, "[I] Location: createTable(), Affected Rows: " + affectedRows);
-		return 0 < affectedRows;
+		final int respCode = this.getContext().execute(sql);
+		final String respStr = (Constants.RC_SUCCESS == respCode ? SUCCESS : FAILURE);
+		info(LOGGER, "[I] Location: createTable(), Result : " + respStr);
+		return Constants.RC_SUCCESS == respCode;
 	}
 
 	/**
@@ -82,7 +83,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	 */
 	@Override
 	public boolean existTable() {
-		final String sql = MsSqlHelper.getSqlTableExist(this.getTable());
+		final String sql = MsSqlHelper.getSqlTableExist(this.getDatabase(), this.getTable());
 		final long counter = this.getContext().count(sql);
 		info(LOGGER, "[I] Location: existTable(), Table Counter Result: " + counter);
 		return 0 < counter;
@@ -97,9 +98,10 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	@Override
 	public boolean purgeTable() {
 		final String sql = MessageFormat.format(TB_DROP, this.getTable());
-		final int affectedRows = this.getContext().execute(sql);
-		info(LOGGER, "[I] Location: purgeTable(), Affected Rows: " + affectedRows);
-		return 0 < affectedRows;
+		final int respCode = this.getContext().execute(sql);
+		final String respStr = (Constants.RC_SUCCESS == respCode ? SUCCESS : FAILURE);
+		info(LOGGER, "[I] Location: purgeTable(), Result : " + respStr);
+		return Constants.RC_SUCCESS == respCode;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

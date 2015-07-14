@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
-
 /**
  * SQL Server元数据读取器
  * 
@@ -21,9 +20,14 @@ final class MsSqlHelper {
 	public static final String[] PRECISION_TYPES = new String[] { "DECIMAL" };
 	/** SQL Server 特殊关键字 **/
 	public static final String IDENTITY = "IDENTITY";
+	/**
+	 * 检查表是否存在 从视图中读取替换原始读取，SQL Server 2005以上支持这种方式，原始方案：SELECT COUNT(name) FROM
+	 * dbo.SYSOBJECTS WHERE ID = OBJECT_ID(N''{0}'')
+	 */
+	private final static String SQL_TB_EXIST = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE=''BASE TABLE'' AND TABLE_CATALOG = ''{0}'' AND TABLE_NAME = ''{1}''";
 
-	/** 检查表是否存在 **/
-	private final static String SQL_TB_EXIST = "SELECT COUNT(name) FROM dbo.SYSOBJECTS WHERE ID = OBJECT_ID(N''{0}'') AND OBJECTPROPERTY(ID, ''IsTable'') = 1";
+	//
+	// AND OBJECTPROPERTY(ID, ''IsTable'') = 1";
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -32,15 +36,17 @@ final class MsSqlHelper {
 	 * @param tableName
 	 * @return
 	 */
-	public static String getSqlTableExist(@NotNull final String tableName){
-		return MessageFormat.format(SQL_TB_EXIST, tableName);
+	public static String getSqlTableExist(@NotNull final String database, @NotNull final String tableName) {
+		return MessageFormat.format(SQL_TB_EXIST, database, tableName);
 	}
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	private MsSqlHelper(){}
+	private MsSqlHelper() {
+	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

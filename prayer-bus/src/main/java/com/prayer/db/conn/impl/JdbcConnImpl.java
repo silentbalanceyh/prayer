@@ -49,14 +49,15 @@ public class JdbcConnImpl implements JdbcContext {
 	@Override
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
 	public int execute(@NotNull final String sql) {
-		info(LOGGER, "execute(sql)" + sql);
-		return this.jdbc.update(sql);
+		info(LOGGER, "execute(sql) : " + sql);
+		this.jdbc.execute(sql);
+		return Constants.RC_SUCCESS;
 	}
 	/** **/
 	@Override
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
 	public Long count(@NotNull final String sql){
-		info(LOGGER, "count(sql)" + sql);
+		info(LOGGER, "count(sql) : " + sql);
 		return this.jdbc.queryForObject(sql, Long.class);
 	}
 	@Override

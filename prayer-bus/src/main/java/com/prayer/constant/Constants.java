@@ -23,5 +23,11 @@ public interface Constants { // NOPMD
 	int ZERO = 0;
 	/** HashCode base number **/
 	int HASH_BASE = 31;
+	// ~ Simple Response Code ================================
+	
+	/** 成功返回值 **/
+	int RC_SUCCESS = ZERO;
+	/** 失败返回值 **/
+	int RC_FAILURE = -1;
 	// ~ Constructors ========================================
 }
