@@ -2,6 +2,9 @@ package com.prayer.meta.builder;
 
 import java.text.MessageFormat;
 
+import com.prayer.constant.Resources;
+import com.prayer.util.PropertyKit;
+
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -26,7 +29,9 @@ final class MsSqlHelper {
 	 */
 	private final static String SQL_TB_EXIST = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE=''BASE TABLE'' AND TABLE_CATALOG = ''{0}'' AND TABLE_NAME = ''{1}''";
 
-	//
+	/** 数据库配置资源加载器 **/
+	private static final PropertyKit LOADER = new PropertyKit(MsSqlHelper.class, Resources.DB_CFG_FILE);
+
 	// AND OBJECTPROPERTY(ID, ''IsTable'') = 1";
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -36,7 +41,8 @@ final class MsSqlHelper {
 	 * @param tableName
 	 * @return
 	 */
-	public static String getSqlTableExist(@NotNull final String database, @NotNull final String tableName) {
+	public static String getSqlTableExist(@NotNull final String tableName) {
+		final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
 		return MessageFormat.format(SQL_TB_EXIST, database, tableName);
 	}
 

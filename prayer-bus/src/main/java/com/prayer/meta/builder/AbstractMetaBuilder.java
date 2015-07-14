@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.prayer.constant.Resources;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.meta.Builder;
@@ -15,7 +14,6 @@ import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
 import com.prayer.mod.meta.MetaModel;
 import com.prayer.mod.meta.SystemEnum.KeyCategory;
-import com.prayer.util.PropertyKit;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
@@ -61,8 +59,6 @@ abstract class AbstractMetaBuilder implements Builder {
 	/** 当前Model中的主键 **/
 	@MinSize(1)
 	private transient final List<FieldModel> primaryKeys;
-	/** 数据库配置资源加载器 **/
-	protected transient final PropertyKit LOADER = new PropertyKit(getClass(), Resources.DB_CFG_FILE);
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -169,16 +165,6 @@ abstract class AbstractMetaBuilder implements Builder {
 	protected String getTable() {
 		return table;
 	}
-
-	/**
-	 * 获取数据库信息
-	 * 
-	 * @return
-	 */
-	protected String getDatabase() {
-		return this.LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
-	}
-
 	/**
 	 * @return the foreignField
 	 */

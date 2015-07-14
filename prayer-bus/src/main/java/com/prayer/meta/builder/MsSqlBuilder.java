@@ -83,7 +83,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	 */
 	@Override
 	public boolean existTable() {
-		final String sql = MsSqlHelper.getSqlTableExist(this.getDatabase(), this.getTable());
+		final String sql = MsSqlHelper.getSqlTableExist(this.getTable());
 		final long counter = this.getContext().count(sql);
 		info(LOGGER, "[I] Location: existTable(), Table Counter Result: " + counter);
 		return 0 < counter;
