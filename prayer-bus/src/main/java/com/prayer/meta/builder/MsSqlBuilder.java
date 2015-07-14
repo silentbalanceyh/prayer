@@ -1,6 +1,7 @@
 package com.prayer.meta.builder;
 
 import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.singleton;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -30,21 +31,17 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class MsSqlBuilder extends AbstractMetaBuilder {
+public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlBuilder.class);
-	/** 类型后跟Length，类似：{ VARCHAR(256) } **/
-	private static final String[] LENGTH_TYPES = new String[] { "CHAR", "VARCHAR", "NCHAR", "NVARCHAR" };
-	/** 类型后边跟精度，类似：{ DECIMAL(2,4) } **/
-	private static final String[] PRECISION_TYPES = new String[] { "DECIMAL" };
-	/** SQL Server 特殊关键字 **/
-	private static final String IDENTITY = "IDENTITY";
-
-	/** 检查表是否存在 **/
-	private final static String SQL_TB_EXIST = "SELECT COUNT(name) FROM dbo.SYSOBJECTS WHERE ID = OBJECT_ID(N''{0}'') AND OBJECTPROPERTY(ID, ''IsTable'') = 1";
 
 	// ~ Instance Fields =====================================
+	/** 从当前数据库读取到的Schema **/
+	private transient GenericSchema databaseSchema;
+	/** Sql Server 元数据读取器 **/
+	private transient final MsSqlMetaReader reader;
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -52,6 +49,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder {
 	@PostValidateThis
 	public MsSqlBuilder(@NotNull final GenericSchema schema) {
 		super(schema);
+		this.reader = singleton(MsSqlMetaReader.class, this.getContext());
 	}
 
 	// ~ Abstract Methods ====================================
@@ -61,7 +59,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder {
 	 */
 	@Override
 	protected String[] lengthTypes() {
-		return Arrays.copyOf(LENGTH_TYPES, LENGTH_TYPES.length);
+		return Arrays.copyOf(MsSqlMetaReader.LENGTH_TYPES, MsSqlMetaReader.LENGTH_TYPES.length);
 	}
 
 	/**
@@ -69,7 +67,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder {
 	 */
 	@Override
 	protected String[] precisionTypes() {
-		return Arrays.copyOf(PRECISION_TYPES, PRECISION_TYPES.length);
+		return Arrays.copyOf(MsSqlMetaReader.PRECISION_TYPES, MsSqlMetaReader.PRECISION_TYPES.length);
 	}
 
 	/**
@@ -88,8 +86,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder {
 	 */
 	@Override
 	public boolean existTable() {
-		final String sql = MessageFormat.format(SQL_TB_EXIST, this.getTable());
-		final long counter = this.getContext().count(sql);
+		final long counter = this.reader.countTable(this.getTable());
 		info(LOGGER, "[I] Location: existTable(), Table Counter Result: " + counter);
 		return 0 < counter;
 	}
@@ -129,7 +126,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder {
 			final MetaPolicy policy = getSchema().getMeta().getPolicy();
 			final Collection<KeyModel> keys = this.getKeys();
 			for (final KeyModel key : keys) {
-				// INCREMENT已经在前边生成过主键行了，不需要在生成
+				// INCREMENT已经在前边生成过主键行了，不需要重新生成
 				if (KeyCategory.PrimaryKey == key.getCategory() && MetaPolicy.INCREMENT == policy) {
 					continue;
 				}
@@ -163,12 +160,12 @@ public class MsSqlBuilder extends AbstractMetaBuilder {
 		final StringBuilder pkSql = new StringBuilder();
 		final FieldModel field = this.getPrimaryKeys().get(Constants.ZERO);
 		// 1.1.主键字段和数据类型
-		final String columnType = DB_TYPES.get(field.getColumnType());
+		final String columnType = SqlStatement.DB_TYPES.get(field.getColumnType());
 
-		// 2.字段名、数据类型
+		// 2.字段名、数据类型，SQL Server独有：NAME INT PRIMARY KEY IDENTITY
 		pkSql.append(field.getColumnName()).append(SPACE).append(columnType).append(PRIMARY).append(SPACE).append(KEY)
-				.append(SPACE).append(IDENTITY).append(BRACKET_SL).append(meta.getSeqInit()).append(COMMA)
-				.append(meta.getSeqStep()).append(BRACKET_SR);
+				.append(SPACE).append(MsSqlMetaReader.IDENTITY).append(BRACKET_SL).append(meta.getSeqInit())
+				.append(COMMA).append(meta.getSeqStep()).append(BRACKET_SR);
 		return pkSql.toString();
 	}
 	// ~ Get/Set =============================================

@@ -42,5 +42,4 @@ interface SqlSegment {	// NOPMD
 	String TB_CREATE = "CREATE TABLE {0} ( {1} )";
 	/** 删除表的语句模板 **/
 	String TB_DROP = "DROP TABLE {0}";
-
 }

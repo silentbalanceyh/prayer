@@ -22,6 +22,7 @@ public class MsSqlBuilderTestCase extends AbstractBuilderTestCase {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final String DB_CATEGORY = "MSSQL";
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -29,7 +30,7 @@ public class MsSqlBuilderTestCase extends AbstractBuilderTestCase {
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
-/*	*//** **//*
+	/** **/
 	@Before
 	public void setUp() {
 		if (StringUtil.equals(Resources.DB_CATEGORY, DB_CATEGORY) && null != this.builder) {
@@ -40,7 +41,7 @@ public class MsSqlBuilderTestCase extends AbstractBuilderTestCase {
 		}
 	}
 
-	*//** **//*
+	/** **/
 	@Test
 	public void testCreateTable() {
 		if (StringUtil.equals(Resources.DB_CATEGORY, DB_CATEGORY) && null != this.builder) {
@@ -53,7 +54,7 @@ public class MsSqlBuilderTestCase extends AbstractBuilderTestCase {
 		}
 	}
 
-	*//** **//*
+	/** **/
 	@Test
 	public void testPurgeTable() {
 		if (StringUtil.equals(Resources.DB_CATEGORY, DB_CATEGORY) && null != this.builder) {
@@ -68,16 +69,16 @@ public class MsSqlBuilderTestCase extends AbstractBuilderTestCase {
 		}
 	}
 
-	*//** **//*
+	/** **/
 	@After
 	public void setDown() {
 		if (StringUtil.equals(Resources.DB_CATEGORY, DB_CATEGORY) && null != this.builder) {
 			// 测试完成过后保证系统中存在一张表
-			// if (!this.builder.existTable()) {
-				// this.builder.createTable();
-			// }
+			if (!this.builder.existTable()) {
+				this.builder.createTable();
+			}
 		}
-	}*/
+	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
