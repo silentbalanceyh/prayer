@@ -40,7 +40,7 @@ public class XmlType extends StringType implements Value<String> {
 			DocumentHelper.parseText(value);
 			ret = true;
 		} catch (DocumentException ex) {
-			info(LOGGER, "[E] Script error! Input = " + value, ex);
+			info(LOGGER, "[E] Script error! Output = " + value, ex);
 			ret = false;
 		}
 		return ret;

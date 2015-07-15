@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +16,12 @@ import com.prayer.mod.meta.FieldModel;
 import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
 import com.prayer.mod.meta.MetaModel;
+import com.prayer.mod.meta.SystemEnum.KeyCategory;
 import com.prayer.mod.meta.SystemEnum.MetaPolicy;
 import com.prayer.util.StringKit;
 
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -33,10 +37,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlBuilder.class);
-
 	// ~ Instance Fields =====================================
-	/** 从当前数据库读取到的Schema **/
-	private transient GenericSchema databaseSchema;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -66,6 +67,16 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	}
 
 	/**
+	 * 
+	 * @param column
+	 * @return
+	 */
+	@Override
+	protected Long nullRows(@NotNull @NotBlank @NotEmpty final String column) {
+		return this.getContext().count(MsSqlHelper.getSqlNull(this.getTable(), column));
+	}
+
+	/**
 	 * 创建新的数据表
 	 */
 	@Override
@@ -88,9 +99,12 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 		return 0 < counter;
 	}
 
+	/**
+	 * 传入参数schema是最新从H2中拿到的元数据信息
+	 */
 	@Override
-	public void syncTable() {
-		// TODO Auto-generated method stub
+	public void syncTable(@NotNull final GenericSchema schema) {
+
 	}
 
 	/** **/
@@ -104,6 +118,102 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+
+	private String genUpdateSql(final GenericSchema schema) {
+		// 1.清除SQL行
+		this.getSqlLines().clear();
+		final Long rows = this.getRows();
+		// 2.清除约束
+		{
+			final Collection<String> csSet = this.getCSNames();
+			for (final String name : csSet) {
+				addSqlLine(this.genDropConstraints(name));
+			}
+		}
+		final ConcurrentMap<StatusFlag, Collection<String>> statusMap = this.getStatusMap(schema);
+		// 3.删除列操作
+		{
+			final Collection<String> columns = statusMap.get(StatusFlag.DELETE);
+			for (final String column : columns) {
+				addSqlLine(this.genDropColumns(column));
+			}
+		}
+		// 4.添加列操作
+		{
+			this.genAddColumnLines(statusMap, schema, rows);
+		}
+		// 5.修改列操作
+		{
+			this.genAlterColumnLines(statusMap, schema, rows);
+		}
+		// 6.添加约束
+		{
+			final Collection<KeyModel> keys = schema.getKeys().values();
+			for (final KeyModel key : keys) {
+				if (KeyCategory.ForeignKey == key.getCategory()) {
+					final String column = key.getColumns().get(Constants.ZERO);
+					final FieldModel field = schema.getColumn(column);
+					addSqlLine(this.genAddCsLine(key, field));
+				} else {
+					addSqlLine(this.genAddCsLine(key, null));
+				}
+			}
+		}
+		return StringKit.join(this.getSqlLines(), SEMICOLON);
+	}
+
+	private void genAlterColumnLines(final ConcurrentMap<StatusFlag, Collection<String>> statusMap,
+			final GenericSchema schema, final long rows) {
+		final Collection<String> columns = statusMap.get(StatusFlag.UPDATE);
+		for (final String column : columns) {
+			final FieldModel field = schema.getColumn(column);
+			if (Constants.ZERO == rows) {
+				addSqlLine(this.genAlterColumns(field));
+			} else if (Constants.ZERO < rows) {
+				final Long nullRows = this.nullRows(column);
+				if (Constants.ZERO == nullRows) {
+					addSqlLine(this.genAlterColumns(field));
+				} else {
+					if (field.isNullable()) {
+						addSqlLine(this.genAlterColumns(field));
+					} else {
+						// TODO：如果修改的列中数据包含了空数据，而且Schema是非空列，则会抛出异常
+					}
+				}
+			}
+		}
+	}
+
+	private void genAddColumnLines(final ConcurrentMap<StatusFlag, Collection<String>> statusMap,
+			final GenericSchema schema, final long rows) {
+		final Collection<String> columns = statusMap.get(StatusFlag.ADD);
+		for (final String column : columns) {
+			final FieldModel field = schema.getColumn(column);
+			if (Constants.ZERO == rows) {
+				addSqlLine(this.genAddColumns(field));
+			} else {
+				if (field.isNullable()) {
+					addSqlLine(this.genAddColumns(field));
+				} else {
+					// TODO：如果新的Schema是非空列，在有数据的情况下会抛出异常
+				}
+			}
+		}
+	}
+
+	private ConcurrentMap<StatusFlag, Collection<String>> getStatusMap(final GenericSchema schema) {
+		// 获取新列集合
+		final Collection<String> newColumns = GenericSchema.getColumns(schema.getFields().values());
+		// 获取旧列集合
+		final String sql = MsSqlHelper.getSqlColumns(this.getTable());
+		final Collection<String> oldColumns = this.getContext().select(sql, MsSqlHelper.COL_TB_COLUMN);
+		return this.getColumnStatus(oldColumns, newColumns);
+	}
+
+	private Collection<String> getCSNames() {
+		final String sql = MsSqlHelper.getSqlConstraints(this.getTable());
+		return this.getContext().select(sql, MsSqlHelper.COL_TB_CONSTRAINT);
+	}
 
 	private String genCreateSql() {
 		// 1.主键定义行

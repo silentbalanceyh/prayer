@@ -48,6 +48,9 @@ public class KeyModel implements Serializable { // NOPMD
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+
+	// ~ Methods =============================================
+	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 
 	/**
@@ -139,8 +142,6 @@ public class KeyModel implements Serializable { // NOPMD
 		this.refMetaId = refMetaId;
 	}
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
 	// ~ hashCode,equals,toString ============================
 	/** **/
 	@Override

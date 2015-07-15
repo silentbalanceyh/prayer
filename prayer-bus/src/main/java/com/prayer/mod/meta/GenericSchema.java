@@ -1,6 +1,8 @@
 package com.prayer.mod.meta;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -8,13 +10,18 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.Constants;
 import com.prayer.util.StringKit;
 
+import jodd.util.StringUtil;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+
 /**
  * Json的Schema信息
  * 
  * @author Lang
  * @see
  */
-public class GenericSchema implements Serializable {	// NOPMD
+public class GenericSchema implements Serializable { // NOPMD
 
 	// ~ Static Fields =======================================
 	/**
@@ -35,38 +42,56 @@ public class GenericSchema implements Serializable {	// NOPMD
 	// ~ Static Methods ======================================
 	/**
 	 * 功能函数
+	 * 
 	 * @param keys
 	 * @return
 	 */
-	public static ConcurrentMap<String, KeyModel> getKeysMap(final List<KeyModel> keys){
+	public static ConcurrentMap<String, KeyModel> getKeysMap(final List<KeyModel> keys) {
 		final ConcurrentMap<String, KeyModel> retMap = new ConcurrentHashMap<>();
-		for(final KeyModel key: keys){
-			if(StringKit.isNonNil(key.getName())){
+		for (final KeyModel key : keys) {
+			if (StringKit.isNonNil(key.getName())) {
 				retMap.put(key.getName(), key);
 			}
 		}
 		return retMap;
 	}
+
 	/**
 	 * 功能函数
+	 * 
 	 * @param fields
 	 * @return
 	 */
-	public static ConcurrentMap<String, FieldModel> getFieldsMap(final List<FieldModel> fields){
+	public static ConcurrentMap<String, FieldModel> getFieldsMap(final List<FieldModel> fields) {
 		final ConcurrentMap<String, FieldModel> retMap = new ConcurrentHashMap<>();
-		for(final FieldModel field: fields){
-			if(StringKit.isNonNil(field.getName())){
+		for (final FieldModel field : fields) {
+			if (StringKit.isNonNil(field.getName())) {
 				retMap.put(field.getName(), field);
 			}
 		}
 		return retMap;
 	}
+
+	/**
+	 * 获取列集合
+	 * 
+	 * @param fields
+	 * @return
+	 */
+	public static Collection<String> getColumns(final Collection<FieldModel> fields) {
+		final Collection<String> columns = new HashSet<>();
+		for (final FieldModel field : fields) {
+			if (StringKit.isNonNil(field.getColumnName())) {
+				columns.add(field.getColumnName());
+			}
+		}
+		return columns;
+	}
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
-	
-	
+
 	// ~ Private Methods =====================================
 	// ~ Get / Set ===========================================
 	/**
@@ -127,6 +152,23 @@ public class GenericSchema implements Serializable {	// NOPMD
 	 */
 	public void setFields(final ConcurrentMap<String, FieldModel> fields) {
 		this.fields = fields;
+	}
+
+	/**
+	 * 按照列名获取FieldModel
+	 * 
+	 * @param colName
+	 * @return
+	 */
+	public FieldModel getColumn(@NotNull @NotBlank @NotEmpty final String colName) {
+		FieldModel ret = null;
+		for (final FieldModel field : this.getFields().values()) {
+			if (StringKit.isNonNil(field.getColumnName()) && StringUtil.equals(colName, field.getColumnName())) {
+				ret = field;
+				break;
+			}
+		}
+		return ret;
 	}
 
 	/**

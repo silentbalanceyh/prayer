@@ -44,7 +44,7 @@ public class ScriptType extends StringType implements Value<String> {
 			ENGINE.eval(value);
 			ret = true;
 		} catch (ScriptException ex) {
-			info(LOGGER, "[E] Script error! Input = " + value, ex);
+			info(LOGGER, "[E] Script error! Output = " + value, ex);
 			ret = false;
 		}
 		return ret;

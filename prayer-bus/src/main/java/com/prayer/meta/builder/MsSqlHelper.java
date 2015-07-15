@@ -29,17 +29,23 @@ final class MsSqlHelper {
 	 */
 	private final static String SQL_TB_EXIST = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE=''BASE TABLE'' AND TABLE_CATALOG = ''{0}'' AND TABLE_NAME = ''{1}''";
 	/** **/
-	private final static String SQL_TB_META = "";
-
+	private final static String SQL_TB_COLUMN = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG=''{0}'' AND TABLE_NAME=''{1}''";
+	/** **/
+	private final static String SQL_TB_CONSTRAINT = "SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_CATALOG=''{0}'' AND TABLE_NAME=''{1}''";
+	/** 列空值检测 **/
+	private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
 	/** 数据库配置资源加载器 **/
 	private static final PropertyKit LOADER = new PropertyKit(MsSqlHelper.class, Resources.DB_CFG_FILE);
-
-	// AND OBJECTPROPERTY(ID, ''IsTable'') = 1";
+	
+	/** **/
+	public final static String COL_TB_COLUMN = "COLUMN_NAME"; // new String[]{"COLUMN_NAME"};
+	/** **/
+	public final static String COL_TB_CONSTRAINT = "CONSTRAINT_NAME"; // new String[]{"CONSTRAINT_NAME"};
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	/**
-	 * 
+	 * 统计系统中的表的SQL
 	 * @param tableName
 	 * @return
 	 */
@@ -48,6 +54,34 @@ final class MsSqlHelper {
 		return MessageFormat.format(SQL_TB_EXIST, database, tableName);
 	}
 
+	/**
+	 * 获取系统中列集合的SQL
+	 * @param tableName
+	 * @return
+	 */
+	public static String getSqlColumns(@NotNull final String tableName) {
+		final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+		return MessageFormat.format(SQL_TB_COLUMN, database, tableName);
+	}
+	/**
+	 * 获取系统中的约束的SQL
+	 * @param tableName
+	 * @return
+	 */
+	public static String getSqlConstraints(@NotNull final String tableName){
+		final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+		return MessageFormat.format(SQL_TB_CONSTRAINT, database, tableName);
+	}
+	/**
+	 * 检查表中指定列是否有空数据的SQL语句
+	 * @param tableName
+	 * @param colName
+	 * @return
+	 */
+	public static String getSqlNull(@NotNull final String tableName, @NotNull final String colName){
+		return MessageFormat.format(SQL_TB_NULL, tableName, colName);
+	}
+	
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

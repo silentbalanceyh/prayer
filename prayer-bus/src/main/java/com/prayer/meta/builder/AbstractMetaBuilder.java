@@ -4,7 +4,10 @@ import static com.prayer.util.Instance.singleton;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
@@ -27,12 +30,18 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-abstract class AbstractMetaBuilder implements Builder {
+abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	// ~ Static Fields =======================================
 	/** 成功的String字面量 **/
 	protected static final String SUCCESS = "SUCCESS";
 	/** 失败的String字面量 **/
 	protected static final String FAILURE = "FAILURE";
+
+	/** **/
+	protected static enum StatusFlag {
+		UPDATE, ADD, DELETE
+	}
+
 	// ~ Instance Fields =====================================
 	/** 数据库连接 **/
 	@NotNull
@@ -94,8 +103,55 @@ abstract class AbstractMetaBuilder implements Builder {
 	 */
 	protected abstract String[] precisionTypes();
 
+	/**
+	 * 获取值为Null的指定列
+	 * 
+	 * @param column
+	 * @return
+	 */
+	protected abstract Long nullRows(String column);
+
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
+	/**
+	 * 生成删除约束的语句：类似：{ ALTER TABLE TABLE_NAME DROP CONSTRAINT C_NAME }
+	 * 
+	 * @return
+	 */
+	protected String genDropConstraints(@NotNull final String name) {
+		return SqlStatement.dropCSSql(this.getTable(), name);
+	}
+
+	/**
+	 * 生成删除列的语句：类似：{ ALTER TABLE TABLE_NAME DROP COLUMN C_NAME }
+	 * 
+	 * @param column
+	 * @return
+	 */
+	protected String genDropColumns(@NotNull final String column) {
+		return SqlStatement.dropColSql(this.getTable(), column);
+	}
+
+	/**
+	 * 生成添加列的语句：ALTER TABLE TABLE_NAME ADD [COLUMN LINE]
+	 * 
+	 * @param field
+	 * @return
+	 */
+	protected String genAddColumns(@NotNull final FieldModel field) {
+		return SqlStatement.addColSql(this.getTable(), this.genColumnLine(field));
+	}
+
+	/**
+	 * 生成修改列的语句：ALTER TABLE TABLE_NAME ALTER COLUMN [COLUMN LINE]
+	 * 
+	 * @param field
+	 * @return
+	 */
+	protected String genAlterColumns(@NotNull final FieldModel field) {
+		return SqlStatement.alterColSql(this.getTable(), this.genColumnLine(field));
+	}
+
 	/**
 	 * 生成Foreign Key的行，类似：{ CONSTRAINT FK_NAME FOREIGN KEY (COLUMN) REFERENCES
 	 * REF_TABLE(REF_ID) }
@@ -125,6 +181,22 @@ abstract class AbstractMetaBuilder implements Builder {
 	}
 
 	/**
+	 * 生成约束
+	 * 
+	 * @param key
+	 * @return
+	 */
+	protected String genAddCsLine(@NotNull final KeyModel key, final FieldModel field) {
+		String sql = null;
+		if (KeyCategory.ForeignKey == key.getCategory()) {
+			sql = SqlStatement.addCSSql(this.getTable(), this.genKeyLine(key));
+		} else {
+			sql = SqlStatement.addCSSql(this.getTable(), SqlStatement.newFKSql(key, field));
+		}
+		return sql;
+	}
+
+	/**
 	 * 生成普通行SQL不带末尾逗号，类似：{ NAME VARCHAR(256) NOT NULL }
 	 * 
 	 * @param field
@@ -133,14 +205,54 @@ abstract class AbstractMetaBuilder implements Builder {
 	protected String genColumnLine(@NotNull final FieldModel field) {
 		return SqlStatement.newColumnSql(lengthTypes(), precisionTypes(), field);
 	}
+
+	/**
+	 * 统计表中有多少数据
+	 * 
+	 * @return
+	 */
+	protected Long getRows() {
+		return this.getContext().count(SqlStatement.genCountRowsSql(this.getTable()));
+	}
+
 	/**
 	 * 过滤空行SQL
+	 * 
 	 * @param line
 	 */
-	protected void addSqlLine(final String line){
-		if(StringKit.isNonNil(line)){
+	protected void addSqlLine(final String line) {
+		if (StringKit.isNonNil(line)) {
 			this.getSqlLines().add(line);
 		}
+	}
+
+	/**
+	 * 计算UPDATE，ADD, DELETE的三个列集合
+	 * 
+	 * @param oldCols
+	 * @param newCols
+	 * @return
+	 */
+	protected ConcurrentMap<StatusFlag, Collection<String>> getColumnStatus(
+			@MinSize(1) final Collection<String> oldCols, @MinSize(1) final Collection<String> newCols) {
+		final ConcurrentMap<StatusFlag, Collection<String>> statusMap = new ConcurrentHashMap<>();
+		final Collection<String> exchangeSet = new HashSet<>();
+		// ADD：新集合减去旧的集合
+		exchangeSet.clear();
+		exchangeSet.addAll(newCols);
+		exchangeSet.removeAll(oldCols);
+		statusMap.put(StatusFlag.ADD, exchangeSet);
+		// DELET：旧集合减去新的集合
+		exchangeSet.clear();
+		exchangeSet.addAll(oldCols);
+		exchangeSet.removeAll(newCols);
+		statusMap.put(StatusFlag.DELETE, exchangeSet);
+		// UPDATE：两个集合的交集
+		exchangeSet.clear();
+		exchangeSet.addAll(oldCols);
+		exchangeSet.retainAll(newCols);
+		statusMap.put(StatusFlag.UPDATE, exchangeSet);
+		return statusMap;
 	}
 	// ~ Private Methods =====================================
 
@@ -175,6 +287,7 @@ abstract class AbstractMetaBuilder implements Builder {
 	protected String getTable() {
 		return table;
 	}
+
 	/**
 	 * @return the foreignField
 	 */

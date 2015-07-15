@@ -4,13 +4,16 @@ import static com.prayer.constant.Accessors.pool;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
+import java.util.List;
+import java.util.concurrent.ConcurrentMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import com.prayer.constant.Constants;
 import com.prayer.db.conn.JdbcContext;
+import com.prayer.db.conn.handler.Output;
 import com.prayer.db.pool.AbstractDbPool;
 
 import net.sf.oval.constraint.NotNull;
@@ -34,15 +37,17 @@ public class JdbcConnImpl implements JdbcContext {
 	/** **/
 	@NotNull
 	private transient final JdbcTemplate jdbc;
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public JdbcConnImpl(){
+	public JdbcConnImpl() {
 		final AbstractDbPool dbPool = singleton(pool());
 		this.jdbc = dbPool.getJdbc();
 	}
+
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/** **/
@@ -53,29 +58,29 @@ public class JdbcConnImpl implements JdbcContext {
 		this.jdbc.execute(sql);
 		return Constants.RC_SUCCESS;
 	}
+
 	/** **/
 	@Override
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
-	public Long count(@NotNull final String sql){
+	public Long count(@NotNull final String sql) {
 		info(LOGGER, "count(sql) : " + sql);
 		return this.jdbc.queryForObject(sql, Long.class);
 	}
+
+	/** **/
 	@Override
-	public int update(String sql, Object[] values, int... types) {
-		// TODO Auto-generated method stub
-		return 0;
+	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
+	public List<ConcurrentMap<String, String>> select(@NotNull final String sql, final String... columns) {
+		info(LOGGER, "List<ConcurrentMap<String,String>> query(sql) : " + sql);
+		return this.jdbc.query(sql, Output.extractDataList(columns));
 	}
 
+	/** **/
 	@Override
-	public int update(String sql, Object... params) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public <T> T select(String sql, RowMapper<T> rowMapper, Object... params) {
-		// TODO Auto-generated method stub
-		return null;
+	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
+	public List<String> select(@NotNull final String sql, @NotNull final String column) {
+		info(LOGGER, "List<String> query(sql) : " + sql);
+		return this.jdbc.query(sql, Output.extractColumnList(column));
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

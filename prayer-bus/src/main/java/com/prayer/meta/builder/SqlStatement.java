@@ -1,5 +1,6 @@
 package com.prayer.meta.builder;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -136,6 +137,94 @@ final class SqlStatement implements SqlSegment {
 			sql.append(NOT).append(SPACE).append(NULL);
 		}
 		return sql.toString();
+	}
+
+	/**
+	 * 生成删除约束的Sql语句：ALTER TABLE TABLE_NAME DROP CONSTRAINT C_NAME
+	 * 
+	 * @param table
+	 * @param name
+	 * @return
+	 */
+	public static String dropCSSql(@NotNull final String table, @NotNull final String name) {
+		// 1.初始化缓冲区
+		final StringBuilder sql = new StringBuilder();
+		// 2.填充模板第二部分
+		sql.append(DROP).append(SPACE).append(CONSTRAINT).append(SPACE).append(name);
+		// 3.返回最终语句
+		return MessageFormat.format(TB_ALTER, table, sql.toString());
+	}
+
+	/**
+	 * 生成删除列的Sql语句：ALTER TABLE TABLE_NAME DROP COLUMN C_NAME
+	 * 
+	 * @param table
+	 * @param name
+	 * @return
+	 */
+	public static String dropColSql(@NotNull final String table, @NotNull final String name) {
+		// 1.初始化缓冲区
+		final StringBuilder sql = new StringBuilder();
+		// 2.填充模板第二部分
+		sql.append(DROP).append(SPACE).append(COLUMN).append(SPACE).append(name);
+		// 3.返回最终语句
+		return MessageFormat.format(TB_ALTER, table, sql.toString());
+	}
+
+	/**
+	 * 生成添加列的Sql语句：ALTER TABLE TABLE_NAME ADD [COLUMN LINE]
+	 * 
+	 * @param table
+	 * @param columnLine
+	 * @return
+	 */
+	public static String addColSql(@NotNull final String table, @NotNull final String columnLine) {
+		// 1.初始化缓冲区
+		final StringBuilder sql = new StringBuilder();
+		// 2.填充模板的第二部分
+		sql.append(ADD).append(SPACE).append(columnLine);
+		// 3.返回最终语句
+		return MessageFormat.format(TB_ALTER, table, sql.toString());
+	}
+
+	/**
+	 * 生成修改列的Sql语句：ALTER TABLE TABLE_NAME ALTER COLULMN [COLUMN LINE]
+	 * 
+	 * @param table
+	 * @param columnLine
+	 * @return
+	 */
+	public static String alterColSql(@NotNull final String table, @NotNull final String columnLine) {
+		// 1.初始化缓冲区
+		final StringBuilder sql = new StringBuilder();
+		// 2.填充模板的第二部分
+		sql.append(ALTER).append(SPACE).append(COLUMN).append(SPACE).append(columnLine);
+		// 3.返回最终语句
+		return MessageFormat.format(TB_ALTER, table, sql.toString());
+	}
+	/**
+	 * 生成添加约束的Sql语句：ALTER TABLE TABLE_NAME ADD [CONATRAINT LINE]
+	 * @param table
+	 * @param csLine
+	 * @return
+	 */
+	public static String addCSSql(@NotNull final String table, @NotNull final String csLine){
+		// 1.初始化缓冲区
+		final StringBuilder sql = new StringBuilder();
+		// 2.填充模板的第二部分
+		sql.append(ADD).append(SPACE).append(csLine);
+		// 3.返回最终语句
+		return MessageFormat.format(TB_ALTER, table, sql.toString());
+	}
+
+	/**
+	 * 生成表统计数据
+	 * 
+	 * @param table
+	 * @return
+	 */
+	public static String genCountRowsSql(@NotNull final String table) {
+		return MessageFormat.format(TB_COUNT, table);
 	}
 
 	// ~ Constructors ========================================

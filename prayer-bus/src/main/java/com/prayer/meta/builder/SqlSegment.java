@@ -14,6 +14,12 @@ interface SqlSegment {	// NOPMD
 	char BRACKET_SL = '(';
 	/** 右小括号 **/
 	char BRACKET_SR = ')';
+	/** COMMA关键字 **/
+	String COMMA = ",";
+	/** SEMICOLON关键字 **/
+	String SEMICOLON = ";";
+	/** 换行符 **/
+	String NEW_LINE = "\n";
 
 	// ~ SQL关键字 ==========================================
 	/** NOT关键字 **/
@@ -32,14 +38,25 @@ interface SqlSegment {	// NOPMD
 	String FOREIGN = "FOREIGN";
 	/** REFERENCES关键字 **/ 
 	String REFERENCES = "REFERENCES";
-	/** COMMA关键字 **/
-	String COMMA = ",";
-	/** 换行符 **/
-	String NEW_LINE = "\n";
+	/** DROP关键字 **/
+	String DROP = "DROP";
+	/** COLUMN关键字 **/
+	String COLUMN = "COLUMN";
+	/** ADD关键字 **/
+	String ADD = "ADD";
+	/** WHERE关键字 **/
+	String WHERE = "WHERE";
+	/** ALTER关键字 **/
+	String ALTER = "ALTER";
 	
 	// ~ SQL语句模板 ========================================
 	/** 创建表的语句模板 **/
 	String TB_CREATE = "CREATE TABLE {0} ( {1} )";
 	/** 删除表的语句模板 **/
 	String TB_DROP = "DROP TABLE {0}";
+	/** 修改表的语句模板 **/
+	String TB_ALTER = "ALTER TABLE {0} {1}";
+	
+	/** 统计表中有多少行数据 **/
+	String TB_COUNT = "SELECT COUNT(*) FROM {0}";
 }

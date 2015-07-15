@@ -1,6 +1,7 @@
 package com.prayer.db.conn;
 
-import org.springframework.jdbc.core.RowMapper;
+import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * JDBC Interface
@@ -22,29 +23,16 @@ public interface JdbcContext {
 	 */
 	Long count(String sql);
 	/**
-	 * Publish interface of jdbc template
-	 *
+	 * 读取所有Columns中的数据
 	 * @param sql
-	 * @param values
-	 * @param types
-	 */
-	int update(String sql, Object[] values, int... types); 
-
-	/**
-	 * Publish interface of jdbc template
-	 *
-	 * @param sql
-	 * @param params
 	 * @return
 	 */
-	int update(String sql, Object... params);
-
+	List<ConcurrentMap<String,String>> select(String sql, String... columns);
 	/**
-	 * Select data from database table
-	 *
+	 * 单列读取
 	 * @param sql
-	 * @param params
+	 * @param column
 	 * @return
 	 */
-	<T> T select(String sql, RowMapper<T> rowMapper, Object... params);
+	List<String> select(String sql, String column);
 }

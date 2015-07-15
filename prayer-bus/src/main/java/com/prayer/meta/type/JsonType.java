@@ -40,7 +40,7 @@ public class JsonType extends StringType implements Value<String> {
 			ret = true;
 		} catch (JsonException ex) {
 			if(LOGGER.isErrorEnabled()){
-				LOGGER.error("[E] Json format error! Input = " + value,ex);
+				LOGGER.error("[E] Json format error! Output = " + value,ex);
 			}
 			ret = false;
 		}

@@ -1,5 +1,7 @@
 package com.prayer.meta;
 
+import com.prayer.mod.meta.GenericSchema;
+
 /**
  * 元数据构造表的接口
  * 
@@ -26,7 +28,7 @@ public interface Builder {
 	 * 
 	 * @param schema
 	 */
-	void syncTable();
+	void syncTable(GenericSchema schema);
 
 	/**
 	 * 删除数据表

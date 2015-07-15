@@ -1,4 +1,4 @@
-package com.prayer.mod.meta;	// NOPMD
+package com.prayer.mod.meta; // NOPMD
 
 import java.io.Serializable;
 
@@ -17,7 +17,7 @@ import com.prayer.mod.meta.SystemEnum.MetaPolicy;
  * @author Lang
  * @see
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="uniqueId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
 public class MetaModel implements Serializable { // NOPMD
 	// ~ Static Fields =======================================
 	/**
@@ -92,6 +92,9 @@ public class MetaModel implements Serializable { // NOPMD
 
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	// ~ Methods =============================================
+
+	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	/**
 	 * @return the uniqueId
@@ -348,8 +351,6 @@ public class MetaModel implements Serializable { // NOPMD
 		this.seqInit = seqInit;
 	}
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
 	// ~ hashCode,equals,toString ============================
 	/** **/
 	@Override
@@ -363,7 +364,7 @@ public class MetaModel implements Serializable { // NOPMD
 
 	/** **/
 	@Override
-	public int hashCode() {	// NOPMD
+	public int hashCode() { // NOPMD
 		final int prime = Constants.HASH_BASE;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
@@ -378,7 +379,7 @@ public class MetaModel implements Serializable { // NOPMD
 
 	/** **/
 	@Override
-	public boolean equals(final Object obj) {	// NOPMD
+	public boolean equals(final Object obj) { // NOPMD
 		if (this == obj) {
 			return true;
 		}
