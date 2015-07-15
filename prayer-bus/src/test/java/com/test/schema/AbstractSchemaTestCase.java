@@ -24,6 +24,8 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 	protected transient Importer importer;
 	/** **/
 	protected transient Serializer serializer;
+	/** **/
+	protected static final String SCHEMA_ROOT = "/schema/data/json/validation/";
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -47,7 +49,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 	protected void testImport(final String inputFile, final String errMsg)
 			throws AbstractSchemaException {
 		setMethod(M_IMPORT_FILE);
-		importer = new CommunionImporter("/schema/system/data/json/" + inputFile);
+		importer = new CommunionImporter(SCHEMA_ROOT + inputFile);
 		try {
 			importer.importFile();
 			importer.ensureSchema();

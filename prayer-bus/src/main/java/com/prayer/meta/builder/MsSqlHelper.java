@@ -28,6 +28,8 @@ final class MsSqlHelper {
 	 * dbo.SYSOBJECTS WHERE ID = OBJECT_ID(N''{0}'')
 	 */
 	private final static String SQL_TB_EXIST = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE=''BASE TABLE'' AND TABLE_CATALOG = ''{0}'' AND TABLE_NAME = ''{1}''";
+	
+	private final static String SQL_TB_META = "";
 
 	/** 数据库配置资源加载器 **/
 	private static final PropertyKit LOADER = new PropertyKit(MsSqlHelper.class, Resources.DB_CFG_FILE);
