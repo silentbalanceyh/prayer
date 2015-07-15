@@ -1,6 +1,7 @@
 package com.test.meta.builder;
 
 import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
 import org.slf4j.Logger;
@@ -87,7 +88,7 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 			if (null == schema) {
 				this.executeNotMatch();
 			} else {
-				this.builder = singleton(getBuilder(), schema);
+				this.builder = instance(getBuilder().getName(), schema);
 			}
 		}
 	}

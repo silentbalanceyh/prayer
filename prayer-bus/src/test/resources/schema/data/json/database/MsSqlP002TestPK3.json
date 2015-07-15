@@ -2,18 +2,18 @@
 	"__meta__": 
 	{
 		"namespace": "com.prayer.model.test",
-		"name": "Test1",
+		"name": "TestPK3",
 		"category": "ENTITY",
-		"table": "TST_UK1",
-		"identifier": "tst.mod.uk1",
+		"table": "TST_PK3",
+		"identifier": "tst.mod.pk3",
 		"mapping": "DIRECT",
-		"policy": "GUID"
+		"policy": "ASSIGNED"
 	},
 
 	"__keys__": 
 	[
 		{
-			"name": "PK_T1_ID",
+			"name": "PK_T5_ID",
 			"category": "PrimaryKey",
 			"multi": false,
 			"columns": 
@@ -23,23 +23,12 @@
 		},
 
 		{
-			"name": "UK_T1_UK1",
+			"name": "UK_T5_UK1",
 			"category": "UniqueKey",
 			"multi": false,
 			"columns": 
 			[
 				"T_UK1"
-			]
-		},
-
-		{
-			"name": "UK_T1_MUK1",
-			"category": "UniqueKey",
-			"multi": true,
-			"columns": 
-			[
-				"T_MUK1",
-				"T_MUK2"
 			]
 		}
 	],
@@ -49,8 +38,8 @@
 		{
 			"columnName": "T_ID",
 			"name": "tId",
-			"type": "StringType",
-			"columnType": "STRING1",
+			"type": "LongType",
+			"columnType": "LONG",
 			"primarykey": true,
 			"length": 192
 		},

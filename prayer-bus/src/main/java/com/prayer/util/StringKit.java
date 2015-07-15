@@ -3,6 +3,8 @@ package com.prayer.util;
 import java.util.Collection;
 
 import jodd.util.StringUtil;
+import net.sf.oval.constraint.MinSize;
+import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -25,15 +27,17 @@ public final class StringKit {
 	 * @param collection
 	 * @return
 	 */
-	public static String join(final Collection<String> collection, final String separator){
+	public static String join(@MinSize(1) final Collection<String> collection, @NotNull final String separator) {
 		final StringBuilder retStr = new StringBuilder();
 		int idx = 0;
-		for(final String item: collection){
-			retStr.append(item);
-			if(idx < collection.size() - 1){
-				retStr.append(separator);
+		for (final String item : collection) {
+			if (isNonNil(item)) {
+				retStr.append(item);
+				if (idx < (collection.size() - 1)) {
+					retStr.append(separator);
+				}
+				idx++;
 			}
-			idx++;
 		}
 		return retStr.toString();
 	}

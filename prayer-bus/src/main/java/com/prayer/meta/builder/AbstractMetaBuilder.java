@@ -14,6 +14,7 @@ import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
 import com.prayer.mod.meta.MetaModel;
 import com.prayer.mod.meta.SystemEnum.KeyCategory;
+import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
@@ -131,6 +132,15 @@ abstract class AbstractMetaBuilder implements Builder {
 	 */
 	protected String genColumnLine(@NotNull final FieldModel field) {
 		return SqlStatement.newColumnSql(lengthTypes(), precisionTypes(), field);
+	}
+	/**
+	 * 过滤空行SQL
+	 * @param line
+	 */
+	protected void addSqlLine(final String line){
+		if(StringKit.isNonNil(line)){
+			this.getSqlLines().add(line);
+		}
 	}
 	// ~ Private Methods =====================================
 

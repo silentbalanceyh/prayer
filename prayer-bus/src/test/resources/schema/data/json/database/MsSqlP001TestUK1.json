@@ -1,0 +1,88 @@
+{
+	"__meta__": 
+	{
+		"namespace": "com.prayer.model.test",
+		"name": "TestUK1",
+		"category": "ENTITY",
+		"table": "TST_UK1",
+		"identifier": "tst.mod.uk1",
+		"mapping": "DIRECT",
+		"policy": "GUID"
+	},
+
+	"__keys__": 
+	[
+		{
+			"name": "PK_T1_ID",
+			"category": "PrimaryKey",
+			"multi": false,
+			"columns": 
+			[
+				"T_ID"
+			]
+		},
+
+		{
+			"name": "UK_T1_UK1",
+			"category": "UniqueKey",
+			"multi": false,
+			"columns": 
+			[
+				"T_UK1"
+			]
+		},
+
+		{
+			"name": "UK_T1_MUK1",
+			"category": "UniqueKey",
+			"multi": true,
+			"columns": 
+			[
+				"T_MUK1",
+				"T_MUK2"
+			]
+		}
+	],
+
+	"__fields__": 
+	[
+		{
+			"columnName": "T_ID",
+			"name": "tId",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"primarykey": true,
+			"length": 192
+		},
+
+		{
+			"columnName": "T_UK1",
+			"name": "uk1",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique": true,
+			"nullable": false,
+			"length": 256
+		},
+
+		{
+			"columnName": "T_MUK1",
+			"name": "muk1",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique":false,
+			"nullable": false,
+			"length": 256
+		},
+
+		{
+			"columnName": "T_MUK2",
+			"name": "muk2",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique":false,
+			"nullable": false,
+			"length": 256
+		}
+	]
+}

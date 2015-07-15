@@ -15,7 +15,6 @@ import com.prayer.mod.meta.FieldModel;
 import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
 import com.prayer.mod.meta.MetaModel;
-import com.prayer.mod.meta.SystemEnum.KeyCategory;
 import com.prayer.mod.meta.SystemEnum.MetaPolicy;
 import com.prayer.util.StringKit;
 
@@ -117,25 +116,23 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 			final Collection<FieldModel> fields = this.getFields();
 			for (final FieldModel field : fields) {
 				if (!field.isPrimaryKey()) {
-					this.getSqlLines().add(this.genColumnLine(field));
+					addSqlLine(this.genColumnLine(field));
+					// this.getSqlLines().add(this.genColumnLine(field));
 				}
 			}
 		}
 		// 3.添加Unique/Primary Key约束
 		{
-			final MetaPolicy policy = getSchema().getMeta().getPolicy();
 			final Collection<KeyModel> keys = this.getKeys();
 			for (final KeyModel key : keys) {
 				// INCREMENT已经在前边生成过主键行了，不需要重新生成
-				if (KeyCategory.PrimaryKey == key.getCategory() && MetaPolicy.INCREMENT == policy) {
-					continue;
-				}
-				this.getSqlLines().add(this.genKeyLine(key));
+				addSqlLine(this.genKeyLine(key));
+				// this.getSqlLines().add(this.genKeyLine(key));
 			}
 		}
 		// 4.添加Foreign Key约束
 		{
-			this.getSqlLines().add(this.genForeignKey());
+			addSqlLine(this.genForeignKey());
 		}
 		// 5.生成最终SQL语句
 		return MessageFormat.format(TB_CREATE, this.getTable(), StringKit.join(this.getSqlLines(), COMMA));
@@ -144,15 +141,18 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	private void genPrimaryKeyLines() {
 		final MetaPolicy policy = getSchema().getMeta().getPolicy();
 		if (MetaPolicy.INCREMENT == policy) {
-			this.getSqlLines().add(this.genIdentityLine(getSchema().getMeta()));
+			addSqlLine(this.genIdentityLine(getSchema().getMeta()));
+			// this.getSqlLines().add(this.genIdentityLine(getSchema().getMeta()));
 		} else if (MetaPolicy.COLLECTION == policy) {
 			final List<FieldModel> pkFields = this.getPrimaryKeys();
 			for (final FieldModel field : pkFields) {
-				this.getSqlLines().add(this.genColumnLine(field));
+				addSqlLine(this.genColumnLine(field));
+				// this.getSqlLines().add(this.genColumnLine(field));
 			}
 		} else {
 			final FieldModel field = this.getPrimaryKeys().get(Constants.ZERO);
-			this.getSqlLines().add(this.genColumnLine(field));
+			addSqlLine(this.genColumnLine(field));
+			// this.getSqlLines().add(this.genColumnLine(field));
 		}
 	}
 
@@ -163,9 +163,9 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 		final String columnType = SqlStatement.DB_TYPES.get(field.getColumnType());
 
 		// 2.字段名、数据类型，SQL Server独有：NAME INT PRIMARY KEY IDENTITY
-		pkSql.append(field.getColumnName()).append(SPACE).append(columnType).append(PRIMARY).append(SPACE).append(KEY)
-				.append(SPACE).append(MsSqlHelper.IDENTITY).append(BRACKET_SL).append(meta.getSeqInit()).append(COMMA)
-				.append(meta.getSeqStep()).append(BRACKET_SR);
+		pkSql.append(field.getColumnName()).append(SPACE).append(columnType).append(SPACE).append(MsSqlHelper.IDENTITY)
+				.append(BRACKET_SL).append(meta.getSeqInit()).append(COMMA).append(meta.getSeqStep())
+				.append(BRACKET_SR);
 		return pkSql.toString();
 	}
 	// ~ Get/Set =============================================

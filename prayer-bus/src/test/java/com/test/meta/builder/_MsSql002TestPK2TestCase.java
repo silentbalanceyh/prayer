@@ -4,7 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,12 +17,13 @@ import com.prayer.meta.builder.MsSqlBuilder;
  * @author Lang
  *
  */
-public class _MsSql00TestUKTestCase extends AbstractBuilderCPTestCase {	// NOPMD
+@FixMethodOrder(MethodSorters.DEFAULT)
+public class _MsSql002TestPK2TestCase extends AbstractBuilderCPTestCase {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final String DB_CATEGORY = "MSSQL";
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql00TestUKTestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql002TestPK2TestCase.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -50,12 +53,12 @@ public class _MsSql00TestUKTestCase extends AbstractBuilderCPTestCase {	// NOPMD
 	/** **/
 	@Before
 	public void setUp() {
-		this.beforeExecute("_MsSql00TestUK.json", "tst.mod.uk1");
+		this.beforeExecute("MsSqlP002TestPK2.json", "tst.mod.pk2");
 	}
 
 	/** **/
 	@Test
-	public void test00UKCreate() {
+	public void test001UKCreate() {
 		final boolean ret = this.createTable();
 		assertTrue("[T] Created Table Successfully ! Result = " + ret, ret);
 		// Post
@@ -66,7 +69,7 @@ public class _MsSql00TestUKTestCase extends AbstractBuilderCPTestCase {	// NOPMD
 
 	/** **/
 	@Test
-	public void test00UKPurge() {
+	public void test001UKPurge() {
 		final boolean ret = this.purgeTable();
 		assertTrue("[T] Purge Table Successfully ! Result = " + ret, ret);
 	}
