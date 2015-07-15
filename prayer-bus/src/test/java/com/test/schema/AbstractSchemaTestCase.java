@@ -18,14 +18,14 @@ import com.test.AbstractTestCase;
 public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 	// ~ Static Fields =======================================
 	/** **/
+	protected static final String SCHEMA_ROOT = "/schema/data/json/validation/";
+	/** **/
 	protected static final String M_IMPORT_FILE = "importFile()";
 	// ~ Instance Fields =====================================
 	/** **/
 	protected transient Importer importer;
 	/** **/
 	protected transient Serializer serializer;
-	/** **/
-	protected static final String SCHEMA_ROOT = "/schema/data/json/validation/";
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================

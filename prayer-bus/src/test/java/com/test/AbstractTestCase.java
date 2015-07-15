@@ -43,6 +43,12 @@ public class AbstractTestCase {
 		this.targetName = targetName;
 		this.method = "EMPTY";
 	}
+	/**
+	 * 抽象构造函数
+	 */
+	protected AbstractTestCase(){
+		this("EMPTY");
+	}
 
 	// ~ Methods =============================================
 

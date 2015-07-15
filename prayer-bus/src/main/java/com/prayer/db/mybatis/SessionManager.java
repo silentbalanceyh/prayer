@@ -32,8 +32,7 @@ public final class SessionManager {
 		if (null == sessionFactory) {
 			final InputStream inStream = IOKit.getFile(Resources.T_CFG_MYBATIS);
 			if (null != inStream) {
-				sessionFactory = new SqlSessionFactoryBuilder().build(inStream,
-						Resources.T_CFG_MB_ENV);
+				sessionFactory = new SqlSessionFactoryBuilder().build(inStream, Resources.T_CFG_MB_ENV);
 			}
 		}
 	}
@@ -42,11 +41,7 @@ public final class SessionManager {
 	/** 获取Session实例 **/
 	@NotNull
 	public static SqlSession getSession() {
-		SqlSession session = null;
-		if (null != sessionFactory) {
-			session = sessionFactory.openSession();
-		}
-		return session;
+		return sessionFactory.openSession();
 	}
 
 	// ~ Constructors ========================================

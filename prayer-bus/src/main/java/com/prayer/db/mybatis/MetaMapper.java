@@ -10,7 +10,7 @@ import com.prayer.mod.meta.MetaModel;
  * @author Lang
  * @see
  */
-public interface MetaMapper {
+public interface MetaMapper {	// NOPMD
 	/**
 	 * 添加元数据记录
 	 * 

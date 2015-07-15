@@ -52,7 +52,7 @@ interface Attributes { 	// NOPMD
 	/** **/
 	String RGX_M_CATEGORY = "(ENTITY|RELATION){1}";
 	/** **/
-	String RGX_M_IDENTIFITER = "[a-z]{2,4}(\\.[a-z]{2,})+";
+	String RGX_M_IDENTIFITER = "[a-z]{2,4}(\\.[a-z0-9]{2,})+";
 	/** **/
 	String RGX_M_MAPPING = "(DIRECT|COMBINATED|PARTIAL){1}";
 	/** **/
@@ -84,7 +84,7 @@ interface Attributes { 	// NOPMD
 	/** **/
 	String RGX_F_TYPE = "(BooleanType|IntType|LongType|DecimalType|DateType|StringType|JsonType|XmlType|ScriptType|BinaryType)";
 	/** **/
-	String RGX_F_COL_NAME = "[A-Z]{1,3}\\_[A-Z\\_]+";
+	String RGX_F_COL_NAME = "[A-Z]{1,3}\\_[A-Z0-9\\_]+";
 	/** **/
 	String RGX_F_COL_TYPE = "(BOOLEAN|INT|LONG|DECIMAL|DATE|STRING|JSON|XML|SCRIPT|BINARY)[0-9]*";
 

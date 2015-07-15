@@ -4,7 +4,7 @@
 		"namespace":"com.prayer.mod.sec",
 		"category":"ENTITY",
 		"table":"SEC_ROLE",
-		"identifier":"sys.sec.2role",
+		"identifier":"sys.sec.^%$role",
 		"mapping":"DIRECT",
 		"policy":"GUID"
 	},

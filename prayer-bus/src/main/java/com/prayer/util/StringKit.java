@@ -30,10 +30,10 @@ public final class StringKit {
 		int idx = 0;
 		for(final String item: collection){
 			retStr.append(item);
-			idx++;
 			if(idx < collection.size() - 1){
 				retStr.append(separator);
 			}
+			idx++;
 		}
 		return retStr.toString();
 	}
