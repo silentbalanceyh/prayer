@@ -4,7 +4,7 @@
 		"namespace": "com.prayer.model.test",
 		"name": "TestPK3",
 		"category": "ENTITY",
-		"table": "TST_PK3",
+		"table": "TST_PK3ASSIGNED",
 		"identifier": "tst.mod.pk3",
 		"mapping": "DIRECT",
 		"policy": "ASSIGNED"

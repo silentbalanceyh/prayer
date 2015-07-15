@@ -4,7 +4,7 @@
 		"namespace": "com.prayer.model.test",
 		"name": "TestPK4",
 		"category": "ENTITY",
-		"table": "TST_PK4",
+		"table": "TST_PK4COLLECTION",
 		"identifier": "tst.mod.pk4",
 		"mapping": "DIRECT",
 		"policy": "COLLECTION"

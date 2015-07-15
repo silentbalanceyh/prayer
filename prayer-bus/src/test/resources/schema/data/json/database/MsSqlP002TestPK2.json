@@ -4,7 +4,7 @@
 		"namespace": "com.prayer.model.test",
 		"name": "TestPK2",
 		"category": "ENTITY",
-		"table": "TST_PK2",
+		"table": "TST_PK2INCREMENT",
 		"identifier": "tst.mod.pk2",
 		"mapping": "DIRECT",
 		"policy": "INCREMENT",
