@@ -198,10 +198,12 @@ public class SchemaSevImpl implements SchemaService {
 			}
 		}
 		/*
-		 * finally { try { transaction.close(); } catch (SQLException ex) {
-		 * throwExp = new DataLoadingException(getClass(), "Close");
-		 * debug(LOGGER, getClass(), "E20005", throwExp, "Close"); info(LOGGER,
-		 * "Close SQL Exception.", ex); } }
+		 * finally { try { final Connection conn = transaction.getConnection();
+		 * // NOPMD if (null != conn && !conn.isClosed()) { transaction.close();
+		 * } } catch (SQLException ex) { throwExp = new
+		 * DataLoadingException(getClass(), "Close"); debug(LOGGER, getClass(),
+		 * "E20005", throwExp, "Close"); info(LOGGER, "Close SQL Exception.",
+		 * ex); } }
 		 */
 		return throwExp;
 	}
