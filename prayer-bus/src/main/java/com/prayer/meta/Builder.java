@@ -28,7 +28,7 @@ public interface Builder {
 	 * 
 	 * @param schema
 	 */
-	void syncTable(GenericSchema schema);
+	boolean syncTable(GenericSchema schema);
 
 	/**
 	 * 删除数据表

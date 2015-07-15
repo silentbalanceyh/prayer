@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.meta.builder.MsSqlBuilder;
+import com.prayer.mod.meta.GenericSchema;
 
 /**
  * 
@@ -54,6 +55,8 @@ public class _MsSql003TestFK1TestCase extends AbstractBuilderCPTestCase {	// NOP
 	@Before
 	public void setUp() {
 		this.beforeExecute("MsSqlP003TestFK1.json", "tst.mod.fk1");
+		final GenericSchema prepSchema = this.getService().findModel("tst.mod.fk1");
+		this.builder.syncTable(prepSchema);
 	}
 
 	/** **/

@@ -103,8 +103,13 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	 * 传入参数schema是最新从H2中拿到的元数据信息
 	 */
 	@Override
-	public void syncTable(@NotNull final GenericSchema schema) {
-
+	public boolean syncTable(@NotNull final GenericSchema schema) {
+		final String sql = this.genUpdateSql(schema);
+		info(LOGGER, "[I] Sql: " + sql);
+		final int respCode = 0; // this.getContext().execute(sql);
+		final String respStr = (Constants.RC_SUCCESS == respCode ? SUCCESS : FAILURE);
+		info(LOGGER, "[I] Location: syncTable(GenericSchema), Result : " + respStr);
+		return Constants.RC_SUCCESS == respCode;
 	}
 
 	/** **/

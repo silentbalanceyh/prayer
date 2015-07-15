@@ -133,7 +133,7 @@ final class SqlStatement implements SqlSegment {
 		// 4.中间空白字符
 		sql.append(SPACE);
 		// 5.字段是否为空的设置
-		if (!field.isNullable()) {
+		if (!field.isNullable() || field.isPrimaryKey()) {
 			sql.append(NOT).append(SPACE).append(NULL);
 		}
 		return sql.toString();

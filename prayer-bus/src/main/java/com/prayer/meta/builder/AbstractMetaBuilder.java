@@ -189,9 +189,9 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	protected String genAddCsLine(@NotNull final KeyModel key, final FieldModel field) {
 		String sql = null;
 		if (KeyCategory.ForeignKey == key.getCategory()) {
-			sql = SqlStatement.addCSSql(this.getTable(), this.genKeyLine(key));
-		} else {
 			sql = SqlStatement.addCSSql(this.getTable(), SqlStatement.newFKSql(key, field));
+		} else {
+			sql = SqlStatement.addCSSql(this.getTable(), this.genKeyLine(key));
 		}
 		return sql;
 	}
@@ -236,18 +236,20 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	protected ConcurrentMap<StatusFlag, Collection<String>> getColumnStatus(
 			@MinSize(1) final Collection<String> oldCols, @MinSize(1) final Collection<String> newCols) {
 		final ConcurrentMap<StatusFlag, Collection<String>> statusMap = new ConcurrentHashMap<>();
-		final Collection<String> exchangeSet = new HashSet<>();
+		Collection<String> exchangeSet = new HashSet<>();
 		// ADD：新集合减去旧的集合
 		exchangeSet.clear();
 		exchangeSet.addAll(newCols);
 		exchangeSet.removeAll(oldCols);
 		statusMap.put(StatusFlag.ADD, exchangeSet);
 		// DELET：旧集合减去新的集合
+		exchangeSet = new HashSet<>();
 		exchangeSet.clear();
 		exchangeSet.addAll(oldCols);
 		exchangeSet.removeAll(newCols);
 		statusMap.put(StatusFlag.DELETE, exchangeSet);
 		// UPDATE：两个集合的交集
+		exchangeSet = new HashSet<>();
 		exchangeSet.clear();
 		exchangeSet.addAll(oldCols);
 		exchangeSet.retainAll(newCols);
