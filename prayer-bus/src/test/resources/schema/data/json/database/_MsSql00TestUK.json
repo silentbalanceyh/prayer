@@ -4,7 +4,7 @@
 		"namespace": "com.prayer.model.test",
 		"name": "Test1",
 		"category": "ENTITY",
-		"table": "TST_ONE",
+		"table": "TST_UK1",
 		"identifier": "tst.mod.uk1",
 		"mapping": "DIRECT",
 		"policy": "GUID"

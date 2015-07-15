@@ -58,11 +58,11 @@ interface Attributes { 	// NOPMD
 	/** **/
 	String RGX_M_POLICY = "(GUID|INCREMENT|ASSIGNED|COLLECTION){1}";
 	/** **/
-	String RGX_M_TABLE = "[A-Z]{2,4}\\_[A-Z\\_]+";
+	String RGX_M_TABLE = "[A-Z]{2,4}\\_[A-Z\\_0-9]*";
 	/** **/
 	String RGX_M_SUB_TABLE = RGX_M_TABLE;
 	/** **/
-	String RGX_M_SEQ_NAME = "REQ_[A-Z\\_]+";
+	String RGX_M_SEQ_NAME = "REQ_[A-Z\\_0-9]*";
 	/** **/
 	String RGX_M_SEQ_INIT = "[0-9]+";
 	/** **/
@@ -84,7 +84,7 @@ interface Attributes { 	// NOPMD
 	/** **/
 	String RGX_F_TYPE = "(BooleanType|IntType|LongType|DecimalType|DateType|StringType|JsonType|XmlType|ScriptType|BinaryType)";
 	/** **/
-	String RGX_F_COL_NAME = "[A-Z]{1,3}\\_[A-Z0-9\\_]+";
+	String RGX_F_COL_NAME = "[A-Z]{1,3}\\_[A-Z]{1}[A-Z\\_0-9]*";
 	/** **/
 	String RGX_F_COL_TYPE = "(BOOLEAN|INT|LONG|DECIMAL|DATE|STRING|JSON|XML|SCRIPT|BINARY)[0-9]*";
 
@@ -164,7 +164,7 @@ interface Attributes { 	// NOPMD
 	String K_COLUMNS = "columns";
 	// ---------------------- __keys__ Required Regex ------------------
 	/** **/
-	String RGX_K_NAME = "(PK|UK|FK)\\_[A-Z\\_0-9]+";
+	String RGX_K_NAME = "(PK|UK|FK)\\_[A-Z\\_0-9]*";
 	/** **/
 	String RGX_K_CATEGORY = "PrimaryKey|ForeignKey|UniqueKey";
 	/** **/

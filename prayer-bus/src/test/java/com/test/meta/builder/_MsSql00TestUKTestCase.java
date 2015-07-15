@@ -15,7 +15,7 @@ import com.prayer.meta.builder.MsSqlBuilder;
  * @author Lang
  *
  */
-public class _MsSql00TestUKTestCase extends AbstractBuilderCPTestCase {
+public class _MsSql00TestUKTestCase extends AbstractBuilderCPTestCase {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final String DB_CATEGORY = "MSSQL";
