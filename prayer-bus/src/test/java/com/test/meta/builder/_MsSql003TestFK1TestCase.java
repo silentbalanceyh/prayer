@@ -55,7 +55,7 @@ public class _MsSql003TestFK1TestCase extends AbstractBuilderCPTestCase {	// NOP
 	@Before
 	public void setUp() {
 		this.beforeExecute("MsSqlP003TestFK1.json", "tst.mod.fk1");
-		final GenericSchema prepSchema = this.getService().findModel("tst.mod.fk1");
+		final GenericSchema prepSchema = this.getService().getById("tst.mod.fk1");
 		this.builder.syncTable(prepSchema);
 	}
 

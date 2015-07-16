@@ -10,9 +10,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
 import com.prayer.meta.DataType;
+import com.prayer.mod.SystemEnum.FieldDatetime;
 import com.prayer.mod.jackson.DataTypeDeserializer;
 import com.prayer.mod.jackson.DataTypeSerializer;
-import com.prayer.mod.meta.SystemEnum.FieldDatetime;
 
 /**
  * 对应表SYS_FIELDS

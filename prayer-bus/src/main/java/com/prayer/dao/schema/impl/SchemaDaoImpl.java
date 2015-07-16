@@ -65,7 +65,7 @@ public class SchemaDaoImpl implements SchemaDao {
 	@Override
 	@NotNull
 	@PreValidateThis
-	public GenericSchema buildModel(@NotNull final GenericSchema schema) throws DataLoadingException {
+	public GenericSchema create(@NotNull final GenericSchema schema) throws DataLoadingException {
 		// 1.数据准备
 		if (StringKit.isNonNil(schema.getMeta().getUniqueId())) {
 			schema.getMeta().setUniqueId(null);
@@ -95,7 +95,7 @@ public class SchemaDaoImpl implements SchemaDao {
 	@Override
 	@NotNull
 	@PreValidateThis
-	public GenericSchema syncModel(@NotNull final GenericSchema schema) throws DataLoadingException {
+	public GenericSchema synchronize(@NotNull final GenericSchema schema) throws DataLoadingException {
 		// 1.刷新数据库中的Schema数据
 		final GenericSchema latestSchema = this.refreshData(schema);
 		// 2.数据准备
@@ -125,7 +125,7 @@ public class SchemaDaoImpl implements SchemaDao {
 	/** **/
 	@Override
 	@PreValidateThis
-	public GenericSchema findModel(@NotNull final String globalId) {
+	public GenericSchema getById(@NotNull final String globalId) {
 		// 1.读取Meta
 		final MetaMapper metaMapper = this.getMetaMapper();
 		final MetaModel meta = metaMapper.selectByGlobalId(globalId);
@@ -139,10 +139,11 @@ public class SchemaDaoImpl implements SchemaDao {
 	 */
 	@Override
 	@PreValidateThis
-	public boolean removeModel(@NotNull final GenericSchema schema) throws DataLoadingException {
+	public boolean deleteById(@NotNull final String identifier) throws DataLoadingException {
 		// 1.开启Mybatis的事务
 		final TransactionFactory tranFactory = new JdbcTransactionFactory();
 		final Transaction transaction = tranFactory.newTransaction(session().getConnection());
+		final GenericSchema schema = this.getById(identifier);
 		final String metaId = schema.getMeta().getUniqueId();
 		// 2.删除Keys
 		final KeyMapper keyMapper = this.getKeyMapper();
@@ -225,7 +226,7 @@ public class SchemaDaoImpl implements SchemaDao {
 	 */
 	private GenericSchema refreshData(final GenericSchema schema) {
 		// 1.从数据库中读取原始schema
-		final GenericSchema original = this.findModel(schema.getIdentifier());
+		final GenericSchema original = this.getById(schema.getIdentifier());
 		// 2.拷贝Meta中的数据到original中执行Overwrite
 		// uniqueId不执行更新
 		// initOrder不执行更新

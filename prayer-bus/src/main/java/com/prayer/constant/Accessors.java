@@ -13,7 +13,9 @@ import net.sf.oval.guard.Guarded;
 public final class Accessors {
 	// ~ Static Fields =======================================
 	/** 默认值 **/
-	private static final String DEFAULT_DB_POOL = "com.prayer.db.pool.BoneCPPool";
+	private static final String DFT_DB_POOL = "com.prayer.db.pool.BoneCPPool";
+	/** Builder 默认值 **/
+	private static final String DFT_DB_BUILDER = "com.prayer.meta.builder.MsSqlBuilder";
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 
@@ -25,7 +27,17 @@ public final class Accessors {
 	 */
 	@NotNull
 	public static String pool() {
-		return null == Resources.DB_POOL ? DEFAULT_DB_POOL : Resources.DB_POOL;
+		return null == Resources.DB_POOL ? DFT_DB_POOL : Resources.DB_POOL;
+	}
+
+	/**
+	 * 获取Builder类名
+	 * 
+	 * @return
+	 */
+	@NotNull
+	public static String builder() {
+		return null == Resources.DB_BUILDER ? DFT_DB_BUILDER : Resources.DB_BUILDER;
 	}
 
 	// ~ Constructors ========================================

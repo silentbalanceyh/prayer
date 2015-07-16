@@ -1,42 +1,39 @@
-package com.prayer.exception;
+package com.prayer.exception.system;
+
+import com.prayer.exception.AbstractSystemException;
 
 /**
+ * 【Checked】Error-20007：Schema从H2数据库中移除过程出错
  * 
  * @author Lang
  *
  */
-public abstract class AbstractException extends Exception {
+public class SchemaRemovingException extends AbstractSystemException {
 	// ~ Static Fields =======================================
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3478027283838490966L;
+	private static final long serialVersionUID = -2587298477734592516L;
 
 	// ~ Instance Fields =====================================
-	/** **/
-	protected transient String errorMessage;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/**
-	 * @param message
-	 */
-	public AbstractException(final String message) {
-		super(message);
-		this.errorMessage = message;
+	/** **/
+	public SchemaRemovingException(final Class<?> clazz, final String identifier) {
+		super(clazz, -20007, identifier);
 	}
 
 	// ~ Abstract Methods ====================================
-	/** 获取错误代码 **/
-	public abstract int getErrorCode();
-	/** 获取错误信息 **/
-	public String getErrorMessage(){
-		return this.errorMessage;
-	}
 	// ~ Override Methods ====================================
+	/** **/
+	@Override
+	public int getErrorCode() {
+		return -20007;
+	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
-
 }

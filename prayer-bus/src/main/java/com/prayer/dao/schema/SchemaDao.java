@@ -15,25 +15,25 @@ public interface SchemaDao {
 	 * @return
 	 * @throws DataLoadingException
 	 */
-	GenericSchema buildModel(GenericSchema schema) throws DataLoadingException;
+	GenericSchema create(GenericSchema schema) throws DataLoadingException;
 	/**
 	 * 
 	 * @param schema
 	 * @return
 	 * @throws DataLoadingException
 	 */
-	GenericSchema syncModel(GenericSchema schema) throws DataLoadingException;
+	GenericSchema synchronize(GenericSchema schema) throws DataLoadingException;
 	/**
 	 * 
-	 * @param globalId
+	 * @param identifier
 	 * @return
 	 */
-	GenericSchema findModel(String globalId);
+	GenericSchema getById(String identifier);
 	/**
 	 * 
-	 * @param schema
+	 * @param identifier
 	 * @return
 	 * @throws DataLoadingException
 	 */
-	boolean removeModel(GenericSchema schema) throws DataLoadingException;
+	boolean deleteById(String identifier) throws DataLoadingException;
 }

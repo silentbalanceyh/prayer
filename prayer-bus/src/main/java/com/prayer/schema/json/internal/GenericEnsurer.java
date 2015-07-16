@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.mod.meta.SystemEnum.MetaMapping;
-import com.prayer.mod.meta.SystemEnum.MetaPolicy;
-import com.prayer.schema.Ensurer;
+import com.prayer.mod.SystemEnum.MetaMapping;
+import com.prayer.mod.SystemEnum.MetaPolicy;
+import com.prayer.schema.ExternalEnsurer;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotNull;
@@ -25,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  * @see
  */
 @Guarded
-final class GenericEnsurer implements Ensurer { // NOPMD
+final class GenericEnsurer implements ExternalEnsurer { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(GenericEnsurer.class);

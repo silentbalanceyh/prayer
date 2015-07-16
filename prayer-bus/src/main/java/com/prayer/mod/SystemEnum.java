@@ -1,4 +1,4 @@
-package com.prayer.mod.meta;
+package com.prayer.mod;
 /**
  * 系统使用的基础枚举类
  *
@@ -34,6 +34,12 @@ public final class SystemEnum { 	// NOPMD
 	public static enum FieldDatetime{
 		STRING,
 		TIMER
+	}
+	/** 从Business的相应标记 **/
+	public static enum ResponseCode{
+		SUCCESS,	// 成功返回
+		FAILURE,	// 非系统运行异常失败返回
+		ERROR		// 系统运行异常失败返回
 	}
 	// ~ Constructors ========================================
 	private SystemEnum(){}

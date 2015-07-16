@@ -25,6 +25,7 @@ public final class StringKit {
 	/**
 	 * 
 	 * @param collection
+	 * @param separator
 	 * @return
 	 */
 	public static String join(@MinSize(1) final Collection<String> collection, @NotNull final String separator) {
@@ -37,6 +38,21 @@ public final class StringKit {
 					retStr.append(separator);
 				}
 				idx++;
+			}
+		}
+		return retStr.toString();
+	}
+	/**
+	 * 
+	 * @param collection
+	 * @param separator
+	 * @return
+	 */
+	public static String pureJoin(@MinSize(1) final Collection<String> collection, @NotNull final String separator){
+		final StringBuilder retStr = new StringBuilder();
+		for(final String item: collection){
+			if(isNonNil(item)){
+				retStr.append(item).append(separator);
 			}
 		}
 		return retStr.toString();

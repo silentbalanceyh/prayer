@@ -20,12 +20,11 @@ import com.prayer.mod.meta.FieldModel;
 import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
 import com.prayer.mod.meta.MetaModel;
-import com.prayer.schema.Ensurer;
+import com.prayer.schema.ExternalEnsurer;
 import com.prayer.schema.Importer;
 import com.prayer.schema.Serializer;
 import com.prayer.schema.json.CommunionSerializer;
 import com.prayer.util.JsonKit;
-import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -52,7 +51,7 @@ public class CommunionImporter implements Importer {
 	private transient String filePath;
 	/** **/
 	@NotNull
-	private transient Ensurer ensurer;
+	private transient ExternalEnsurer ensurer;
 	/** **/
 	@NotNull
 	private transient Serializer serializer;
@@ -155,12 +154,12 @@ public class CommunionImporter implements Importer {
 	public boolean syncSchema(@NotNull final GenericSchema schema) throws DataLoadingException {
 		GenericSchema retSchema = null;
 		info(LOGGER, "[I] UniqueId = " + schema.getMeta().getUniqueId());
-		if (StringKit.isNil(schema.getMeta().getUniqueId())) {
+		if (null == this.schemaDao.getById(schema.getIdentifier())) {
 			info(LOGGER, "[I] Going to Build Model: Create Process! Input Meta: " + schema.getMeta());
-			retSchema = schemaDao.buildModel(schema);
+			retSchema = schemaDao.create(schema);
 		} else {
 			info(LOGGER, "[I] Going to Sync Model: Update Process! Input Meta: " + schema.getMeta());
-			retSchema = schemaDao.syncModel(schema);
+			retSchema = schemaDao.synchronize(schema);
 		}
 		boolean result = false;
 		if (null != retSchema) {
@@ -179,7 +178,7 @@ public class CommunionImporter implements Importer {
 	 * 
 	 */
 	@Override
-	public Ensurer getEnsurer() {
+	public ExternalEnsurer getEnsurer() {
 		return this.ensurer;
 	}
 

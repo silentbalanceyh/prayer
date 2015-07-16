@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.constant.Constants;
-import com.prayer.mod.meta.SystemEnum.MetaCategory;
-import com.prayer.mod.meta.SystemEnum.MetaMapping;
-import com.prayer.mod.meta.SystemEnum.MetaPolicy;
+import com.prayer.mod.SystemEnum.MetaCategory;
+import com.prayer.mod.SystemEnum.MetaMapping;
+import com.prayer.mod.SystemEnum.MetaPolicy;
 
 /**
  * 对应表SYS_META

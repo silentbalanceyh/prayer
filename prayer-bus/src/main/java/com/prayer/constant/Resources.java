@@ -41,6 +41,8 @@ public final class Resources { // NOPMD
 	public static final String DB_CATEGORY;
 	/** JDBC配置文件路径 **/
 	public static final String DB_CFG_FILE;
+	/** 数据库的Builder **/
+	public static final String DB_BUILDER;
 
 	// Database Type Mapping =================================
 	/** 数据库类型映射文件地址 **/
@@ -103,6 +105,10 @@ public final class Resources { // NOPMD
 		DB_TYPES_FILE = LOADER.getString("database.mapping");
 		if (null == DB_TYPES_FILE) {
 			debug(LOGGER, ERR_SYS_NULL, "DB_TYPES_FILE", DB_TYPES_FILE);
+		}
+		DB_BUILDER = LOADER.getString("database.meta.builder");
+		if (null == DB_BUILDER) {
+			debug(LOGGER, ERR_SYS_NULL, "DB_BUILDER", DB_BUILDER);
 		}
 
 		// Open Source

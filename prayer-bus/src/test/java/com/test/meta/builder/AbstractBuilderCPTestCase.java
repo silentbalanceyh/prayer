@@ -146,7 +146,7 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 			this.importer.readSchema();
 			this.importer.ensureSchema();
 			schema = this.importer.transformSchema();
-			final GenericSchema prepSchema = this.service.findModel(globalId);
+			final GenericSchema prepSchema = this.service.getById(globalId);
 			if (null == prepSchema) {
 				this.importer.syncSchema(schema);
 			}

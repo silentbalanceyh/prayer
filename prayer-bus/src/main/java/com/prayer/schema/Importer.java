@@ -54,5 +54,5 @@ public interface Importer {
 	 * 
 	 * @return
 	 */
-	Ensurer getEnsurer();
+	ExternalEnsurer getEnsurer();
 }

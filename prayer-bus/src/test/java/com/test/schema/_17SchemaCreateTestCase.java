@@ -171,7 +171,7 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
 		boolean result = false;
 		try {
 			schema = this.importer.transformSchema();
-			final GenericSchema prepSchema = this.service.findModel("sys.sec.role");
+			final GenericSchema prepSchema = this.service.getById("sys.sec.role");
 			if(null == prepSchema){
 				result = this.importer.syncSchema(schema);
 			}else{

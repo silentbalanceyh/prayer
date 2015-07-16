@@ -58,7 +58,7 @@ public class _18SchemaUpdate1TestCase extends AbstractSchemaTestCase { // NOPMD
 	 */
 	@Test
 	public void testSchemaUpdate() {
-		final GenericSchema oldSchema = this.service.findModel(IDENTIFIER);
+		final GenericSchema oldSchema = this.service.getById(IDENTIFIER);
 		info(LOGGER, "[T] Old Schema Meta : => " + oldSchema.getMeta());
 		this.importer.refreshSchema("/schema/data/json/validation/P012meta-schema1-to.json");
 		this.executeSync(IDENTIFIER);

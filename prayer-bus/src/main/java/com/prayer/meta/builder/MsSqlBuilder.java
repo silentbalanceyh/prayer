@@ -12,12 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
+import com.prayer.mod.SystemEnum.KeyCategory;
+import com.prayer.mod.SystemEnum.MetaPolicy;
 import com.prayer.mod.meta.FieldModel;
 import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
 import com.prayer.mod.meta.MetaModel;
-import com.prayer.mod.meta.SystemEnum.KeyCategory;
-import com.prayer.mod.meta.SystemEnum.MetaPolicy;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotBlank;
@@ -106,7 +106,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	public boolean syncTable(@NotNull final GenericSchema schema) {
 		final String sql = this.genUpdateSql(schema);
 		info(LOGGER, "[I] Sql: " + sql);
-		final int respCode = 0; // this.getContext().execute(sql);
+		final int respCode = this.getContext().execute(sql);
 		final String respStr = (Constants.RC_SUCCESS == respCode ? SUCCESS : FAILURE);
 		info(LOGGER, "[I] Location: syncTable(GenericSchema), Result : " + respStr);
 		return Constants.RC_SUCCESS == respCode;
@@ -164,7 +164,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 				}
 			}
 		}
-		return StringKit.join(this.getSqlLines(), SEMICOLON);
+		return StringKit.pureJoin(this.getSqlLines(), SEMICOLON);
 	}
 
 	private void genAlterColumnLines(final ConcurrentMap<StatusFlag, Collection<String>> statusMap,

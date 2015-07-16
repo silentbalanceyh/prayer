@@ -74,9 +74,9 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 	protected void executeSync(final String identifier) {
 		try {
 			// 如果存在旧的先删除
-			GenericSchema dbSchema = this.service.findModel(identifier);
+			GenericSchema dbSchema = this.service.getById(identifier);
 			if(null != dbSchema){
-				this.service.removeModel(dbSchema);
+				this.service.deleteById(dbSchema.getIdentifier());
 			}
 			// 1.读取Schema信息
 			importer.readSchema();
@@ -85,7 +85,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 			// 3.转换Schema
 			final GenericSchema schema = this.importer.transformSchema();
 			// 4.同步数据
-			dbSchema = this.service.findModel(identifier);
+			dbSchema = this.service.getById(identifier);
 			if(null == dbSchema){
 				this.importer.syncSchema(schema);
 			}

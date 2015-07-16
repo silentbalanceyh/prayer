@@ -33,6 +33,5 @@ public abstract class AbstractSystemException extends AbstractException {
 	public AbstractSystemException(final Class<?> clazz, final int errorCode, final Object... params) {
 		this(error(clazz, errorCode, params));
 	}
-
 	// ~ Abstract Methods ====================================
 }

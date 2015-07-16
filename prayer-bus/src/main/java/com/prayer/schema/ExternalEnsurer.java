@@ -8,7 +8,7 @@ import com.prayer.exception.AbstractSchemaException;
  * @author Lang
  * @see
  */
-public interface Ensurer {
+public interface ExternalEnsurer {
 	/**
 	 * 从JsonMap中导入数据
 	 * @param rootNode

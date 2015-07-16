@@ -12,11 +12,11 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.meta.Builder;
+import com.prayer.mod.SystemEnum.KeyCategory;
 import com.prayer.mod.meta.FieldModel;
 import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
 import com.prayer.mod.meta.MetaModel;
-import com.prayer.mod.meta.SystemEnum.KeyCategory;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.MinSize;
