@@ -1,16 +1,17 @@
 package com.test.meta.builder;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.meta.builder.MsSqlBuilder;
+import com.prayer.mod.SystemEnum.ResponseCode;
+import com.prayer.mod.bus.ServiceResult;
+import com.prayer.mod.meta.GenericSchema;
 
 /**
  * 
@@ -18,12 +19,12 @@ import com.prayer.meta.builder.MsSqlBuilder;
  *
  */
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class _MsSql002TestPK3TestCase extends AbstractBCPTestCase {	// NOPMD
+public class _MsSql004UpdateUK1TestCase extends AbstractBUPTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final String DB_CATEGORY = "MSSQL";
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql002TestPK3TestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql004UpdateUK1TestCase.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -43,41 +44,27 @@ public class _MsSql002TestPK3TestCase extends AbstractBCPTestCase {	// NOPMD
 		return DB_CATEGORY;
 	}
 
-	/** **/
-	@Override
-	protected Class<?> getBuilder() {
-		return MsSqlBuilder.class;
-	}
-
 	// ~ Methods =============================================
 	/** **/
-	@Before
-	public void setUp() {
-		this.beforeExecute("MsSqlP002TestPK3.json", "tst.mod.pk3");
+	@Test
+	public void testDatabaseUpdate1() {
+		final ServiceResult<GenericSchema> ret = this.testUpdating("MsSqlP004Update1FromUK1.json",
+				"MsSqlP004Update1ToUK1.json", "[T] Update schema met errors !");
+		assertEquals(ret.getErrorMessage(), ResponseCode.SUCCESS, ret.getResponseCode());
 	}
-
+	
 	/** **/
 	@Test
-	public void test001UKCreate() {
-		final boolean ret = this.createTable();
-		assertTrue("[T] Created Table Successfully ! Result = " + ret, ret);
-		// Post
-		if (ret) {
-			this.builder.purgeTable();
-		}
-	}
-
-	/** **/
-	@Test
-	public void test001UKPurge() {
-		final boolean ret = this.purgeTable();
-		assertTrue("[T] Purge Table Successfully ! Result = " + ret, ret);
+	public void testDatabaseUpdate2() {
+		final ServiceResult<GenericSchema> ret = this.testUpdating("MsSqlP004Update2FromUK2.json",
+				"MsSqlP004Update2ToUK2.json", "[T] Update schema met errors !");
+		assertEquals(ret.getErrorMessage(), ResponseCode.SUCCESS, ret.getResponseCode());
 	}
 
 	/** **/
 	@After
 	public void setDown() {
-		this.afterExecute();
+		// this.afterExecute();
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

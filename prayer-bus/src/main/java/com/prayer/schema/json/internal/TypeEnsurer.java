@@ -43,15 +43,15 @@ final class TypeEnsurer implements InternalEnsurer {
 	static {
 		// Required Mapping ( Remove name, type, columnName, columnType )
 		T_REQUIRED.put(DataType.STRING, new String[] { Attributes.F_LENGTH });
-		T_REQUIRED.put(DataType.XML, new String[] { Attributes.F_LENGTH });
-		T_REQUIRED.put(DataType.JSON, new String[] { Attributes.F_LENGTH });
+		T_REQUIRED.put(DataType.XML, new String[] {});
+		T_REQUIRED.put(DataType.JSON, new String[] {});
 		T_REQUIRED.put(DataType.DATE, new String[] { Attributes.F_DATETIME, Attributes.F_DATEFORMAT });
 		T_REQUIRED.put(DataType.LONG, new String[] {});
 		T_REQUIRED.put(DataType.INT, new String[] {});
 		T_REQUIRED.put(DataType.DECIMAL, new String[] { Attributes.F_LENGTH, Attributes.F_PRECISION });
 		T_REQUIRED.put(DataType.BOOLEAN, new String[] {});
 		T_REQUIRED.put(DataType.BINARY, new String[] { Attributes.F_LENGTH });
-		T_REQUIRED.put(DataType.SCRIPT, new String[] { Attributes.F_LENGTH });
+		T_REQUIRED.put(DataType.SCRIPT, new String[] {});
 		// Supported Attributes
 		T_SUPPORT.put(DataType.STRING,
 				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,

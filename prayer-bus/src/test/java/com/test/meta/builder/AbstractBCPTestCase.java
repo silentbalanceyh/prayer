@@ -28,13 +28,13 @@ import jodd.util.StringUtil;
  * @author Lang
  *
  */
-public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOPMD
+public abstract class AbstractBCPTestCase extends AbstractTestCase{ // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	protected static final String BUILDER_FILE = "/schema/data/json/database/";
 	// ~ Instance Fields =====================================
 	/** **/
-	private transient final SchemaDao service;
+	private transient final SchemaDao dao;
 	/** **/
 	private transient final JdbcContext context;
 	/** **/
@@ -48,9 +48,9 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 	/**
 	 * 
 	 */
-	public AbstractBuilderCPTestCase() {
+	public AbstractBCPTestCase() {
 		super();
-		this.service = singleton(SchemaDaoImpl.class);
+		this.dao = singleton(SchemaDaoImpl.class);
 		this.context = singleton(JdbcConnImpl.class);
 	}
 
@@ -68,7 +68,7 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 	// ~ Methods =============================================
 	/** **/
 	protected SchemaDao getService() {
-		return this.service;
+		return this.dao;
 	}
 
 	/** **/
@@ -116,6 +116,7 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 			}
 		}else{
 			this.executeNotMatch();
+			ret = true;
 		}
 		return ret;
 	}
@@ -133,6 +134,7 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 			}
 		}else{
 			this.executeNotMatch();
+			ret = true;
 		}
 		return ret;
 	}
@@ -146,7 +148,7 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 			this.importer.readSchema();
 			this.importer.ensureSchema();
 			schema = this.importer.transformSchema();
-			final GenericSchema prepSchema = this.service.getById(globalId);
+			final GenericSchema prepSchema = this.dao.getById(globalId);
 			if (null == prepSchema) {
 				this.importer.syncSchema(schema);
 			}

@@ -18,7 +18,7 @@ import com.prayer.meta.builder.MsSqlBuilder;
  *
  */
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class _MsSql001TestUK1TestCase extends AbstractBuilderCPTestCase {	// NOPMD
+public class _MsSql001TestUK1TestCase extends AbstractBCPTestCase {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final String DB_CATEGORY = "MSSQL";

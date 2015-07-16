@@ -105,13 +105,13 @@ public class SchemaDaoImpl implements SchemaDao {
 		final Transaction transaction = tranFactory.newTransaction(session().getConnection());
 		{
 			// 4.MetaModel的更新
-			this.getMetaMapper().update(schema.getMeta());
+			this.getMetaMapper().update(latestSchema.getMeta());
 			// 5.KeyModel的更新
-			this.getKeyMapper().deleteByMeta(schema.getMeta().getUniqueId());
-			this.getKeyMapper().batchInsert(new ArrayList<>(schema.getKeys().values()));
+			this.getKeyMapper().deleteByMeta(latestSchema.getMeta().getUniqueId());
+			this.getKeyMapper().batchInsert(new ArrayList<>(latestSchema.getKeys().values()));
 			// 6.FieldModel的更新
-			this.getFieldMapper().deleteByMeta(schema.getMeta().getUniqueId());
-			this.getFieldMapper().batchInsert(new ArrayList<>(schema.getFields().values()));
+			this.getFieldMapper().deleteByMeta(latestSchema.getMeta().getUniqueId());
+			this.getFieldMapper().batchInsert(new ArrayList<>(latestSchema.getFields().values()));
 		}
 		// 6.事务完成提交
 		// 6.事务完成提交

@@ -1,0 +1,67 @@
+{
+	"__meta__": 
+	{
+		"namespace": "com.prayer.model.test",
+		"name": "UpdateUK1",
+		"category": "ENTITY",
+		"table": "TST_UPDATE_UT1",
+		"identifier": "tst.mod.ut1",
+		"mapping": "DIRECT",
+		"policy": "GUID"
+	},
+
+	"__keys__": 
+	[
+		{
+			"name": "PK_UPDATE_UT1_ID",
+			"category": "PrimaryKey",
+			"multi": false,
+			"columns": 
+			[
+				"T_ID"
+			]
+		},
+
+		{
+			"name": "UK_UPDATE_UT1_UK1",
+			"category": "UniqueKey",
+			"multi": false,
+			"columns": 
+			[
+				"T_UK1"
+			]
+		}
+	],
+
+	"__fields__": 
+	[
+		{
+			"columnName": "T_ID",
+			"name": "tId",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"primarykey": true,
+			"length": 192
+		},
+
+		{
+			"columnName": "T_UK1",
+			"name": "uk1",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique": true,
+			"nullable": false,
+			"length": 256
+		},
+
+		{
+			"columnName": "T_MUK2",
+			"name": "muk2",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique":false,
+			"nullable": false,
+			"length": 256
+		}
+	]
+}
