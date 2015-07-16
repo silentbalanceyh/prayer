@@ -236,8 +236,8 @@ public class AbstractMetaCase {
 		}
 		meta.setOobFile("OOBFILE-" + uuid());
 		meta.setUsing(bool());
-		meta.setInitOrder(number(50));
-		meta.setInitSubOrder(number(50));
+		//meta.setInitOrder(number(50));
+		//meta.setInitSubOrder(number(50));
 		
 		meta.setName("NAME-" + uuid());
 		meta.setNamespace("NAMESPACE-" + uuid());

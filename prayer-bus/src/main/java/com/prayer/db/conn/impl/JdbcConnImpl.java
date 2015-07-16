@@ -44,8 +44,10 @@ public class JdbcConnImpl implements JdbcContext {
 	/** **/
 	@PostValidateThis
 	public JdbcConnImpl() {
-		final AbstractDbPool dbPool = singleton(pool());
-		this.jdbc = dbPool.getJdbc();
+		synchronized(getClass()){
+			final AbstractDbPool dbPool = singleton(pool());
+			this.jdbc = dbPool.getJdbc();
+		}
 	}
 
 	// ~ Abstract Methods ====================================

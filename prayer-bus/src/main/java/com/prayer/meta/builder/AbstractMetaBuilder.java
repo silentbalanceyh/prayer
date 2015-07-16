@@ -1,5 +1,6 @@
 package com.prayer.meta.builder;
 
+import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ import net.sf.oval.guard.PostValidateThis;
 @Guarded
 abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	// ~ Static Fields =======================================
-
+	/** **/
+	private static final ConcurrentMap<String,JdbcContext> JDBC_POOL = new ConcurrentHashMap<>();
 	/** **/
 	protected static enum StatusFlag {
 		UPDATE, ADD, DELETE
@@ -60,7 +62,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 */
 	@PostValidateThis
 	public AbstractMetaBuilder(@NotNull final GenericSchema schema) {
-		this.context = singleton(JdbcConnImpl.class);
+		this.context = reservoir(JDBC_POOL,schema.getIdentifier(),JdbcConnImpl.class);
 		this.sqlLines = new ArrayList<>();
 		this.metadata = singleton(BuilderMetaData.class,schema);
 	}

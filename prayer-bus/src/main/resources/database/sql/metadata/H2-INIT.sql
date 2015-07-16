@@ -6,10 +6,6 @@ CREATE TABLE SYS_META(
 	-- 模型的配置属性
 	C_OOBDATA_FILE VARCHAR(256),				-- OOB数据文件目录，CSV文件
 	C_IN_USE BOOLEAN NOT NULL, 				-- 是否正在使用
-	C_INIT_ORDER INT NOT NULL					-- 初始化顺序
-		CHECK(C_INIT_ORDER > 0),
-	C_INIT_SUBORDER INT NOT NULL 				-- 初始化子顺序
-		CHECK(C_INIT_SUBORDER > 0),
 	-- 模型的配置属性
 	S_NAME VARCHAR(256) NOT NULL, 			-- 模型名称
 	S_NAMESPACE VARCHAR(256) NOT NULL,		-- 模型名空间

@@ -35,12 +35,6 @@ public class MetaModel implements Serializable { // NOPMD
 	/** C_IN_USE：当前Model是否正在使用 **/
 	@JsonIgnore
 	private boolean using;
-	/** C_INIT_ORDER：初始化当前Model的顺序 **/
-	@JsonIgnore
-	private int initOrder = 1;
-	/** C_INIT_SUBORDER：初始化当前Model的子顺序 **/
-	@JsonIgnore
-	private int initSubOrder = 1;
 
 	// !Meta基本配置数据---------------------------------------
 	/** S_NAME：Meta对应的Model名称 **/
@@ -139,36 +133,6 @@ public class MetaModel implements Serializable { // NOPMD
 	 */
 	public void setUsing(final boolean using) {
 		this.using = using;
-	}
-
-	/**
-	 * @return the initOrder
-	 */
-	public int getInitOrder() {
-		return initOrder;
-	}
-
-	/**
-	 * @param initOrder
-	 *            the initOrder to set
-	 */
-	public void setInitOrder(final int initOrder) {
-		this.initOrder = initOrder;
-	}
-
-	/**
-	 * @return the initSubOrder
-	 */
-	public int getInitSubOrder() {
-		return initSubOrder;
-	}
-
-	/**
-	 * @param initSubOrder
-	 *            the initSubOrder to set
-	 */
-	public void setInitSubOrder(final int initSubOrder) {
-		this.initSubOrder = initSubOrder;
 	}
 
 	/**
@@ -355,8 +319,7 @@ public class MetaModel implements Serializable { // NOPMD
 	/** **/
 	@Override
 	public String toString() {
-		return "MetaModel [uniqueId=" + uniqueId + ", oobFile=" + oobFile + ", using=" + using + ", initOrder="
-				+ initOrder + ", initSubOrder=" + initSubOrder + ", name=" + name + ", namespace=" + namespace
+		return "MetaModel [uniqueId=" + uniqueId + ", oobFile=" + oobFile + ", using=" + using + ", name=" + name + ", namespace=" + namespace
 				+ ", category=" + category + ", globalId=" + globalId + ", mapping=" + mapping + ", policy=" + policy
 				+ ", table=" + table + ", subTable=" + subTable + ", subKey=" + subKey + ", seqName=" + seqName
 				+ ", seqStep=" + seqStep + ", seqInit=" + seqInit + "]";

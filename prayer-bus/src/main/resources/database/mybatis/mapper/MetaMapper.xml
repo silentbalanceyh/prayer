@@ -7,8 +7,6 @@
 		<id column="K_ID" property="uniqueId" />
 		<result column="C_OOBDATA_FILE" property="oobFile" />
 		<result column="C_IN_USE" property="using" />
-		<result column="C_INIT_ORDER" property="initOrder" />
-		<result column="C_INIT_SUBORDER" property="initSubOrder" />
 
 		<result column="S_NAME" property="name" />
 		<result column="S_NAMESPACE" property="namespace" />
@@ -34,8 +32,6 @@
 				K_ID,
 				C_OOBDATA_FILE,
 				C_IN_USE,
-				C_INIT_ORDER,
-				C_INIT_SUBORDER,
 				S_NAME,
 				S_NAMESPACE,
 				S_CATEGORY,
@@ -52,8 +48,6 @@
 				#{uniqueId},
 				#{oobFile},
 				#{using},
-				#{initOrder},
-				#{initSubOrder},
 				#{name},
 				#{namespace},
 				#{category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
@@ -75,8 +69,6 @@
 				K_ID,
 				C_OOBDATA_FILE,
 				C_IN_USE,
-				C_INIT_ORDER,
-				C_INIT_SUBORDER,
 				S_NAME,
 				S_NAMESPACE,
 				S_CATEGORY,
@@ -97,8 +89,6 @@
 				#{item.uniqueId},
 				#{item.oobFile},
 				#{item.using},
-				#{item.initOrder},
-				#{item.initSubOrder},
 				#{item.name},
 				#{item.namespace},
 				#{item.category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
@@ -120,8 +110,6 @@
 			UPDATE SYS_META SET
 				C_OOBDATA_FILE=#{oobFile},
 				C_IN_USE=#{using},
-				C_INIT_ORDER=#{initOrder},
-				C_INIT_SUBORDER=#{initSubOrder},
 				S_NAME=#{name},
 				S_NAMESPACE=#{namespace},
 				S_CATEGORY=#{category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
