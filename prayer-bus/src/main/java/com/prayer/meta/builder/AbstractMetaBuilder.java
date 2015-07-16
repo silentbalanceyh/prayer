@@ -265,6 +265,13 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	public AbstractBuilderException getError() {
 		return this.error;
 	}
+	/**
+	 * 
+	 * @param error
+	 */
+	protected void setError(final AbstractBuilderException error){
+		this.error = error;
+	}
 
 	// ~ hashCode,equals,toString ============================
 }

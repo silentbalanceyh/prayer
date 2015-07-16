@@ -98,7 +98,10 @@ public class SchemaSevImpl implements SchemaService {
 		} else {
 			builder.createTable();
 		}
-		return new ServiceResult<>(schema, null);
+		// 如果有错误则getError()就不是null值则会导致Build异常
+		final ServiceResult<GenericSchema> result = new ServiceResult<>();
+		result.setResponse(schema, builder.getError());
+		return result;
 	}
 
 	/** **/

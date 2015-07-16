@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
+import com.prayer.exception.builder.NullableAddException;
+import com.prayer.exception.builder.NullableAlterException;
 import com.prayer.mod.SystemEnum.KeyCategory;
 import com.prayer.mod.SystemEnum.MetaPolicy;
 import com.prayer.mod.SystemEnum.ResponseCode;
@@ -186,7 +188,8 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 					if (field.isNullable()) {
 						addSqlLine(this.genAlterColumns(field));
 					} else {
-						// TODO：如果修改的列中数据包含了空数据，而且Schema是非空列，则会抛出异常
+						this.setError(new NullableAlterException(getClass(), field.getColumnName(), // NOPMD
+								this.getMetadata().getTable()));
 					}
 				}
 			}
@@ -204,7 +207,8 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 				if (field.isNullable()) {
 					addSqlLine(this.genAddColumns(field));
 				} else {
-					// TODO：如果新的Schema是非空列，在有数据的情况下会抛出异常
+					this.setError(
+							new NullableAddException(getClass(), field.getColumnName(), this.getMetadata().getTable())); // NOPMD
 				}
 			}
 		}
