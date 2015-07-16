@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.mod.SystemEnum.KeyCategory;
 import com.prayer.mod.SystemEnum.MetaPolicy;
+import com.prayer.mod.SystemEnum.ResponseCode;
 import com.prayer.mod.meta.FieldModel;
 import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
@@ -37,8 +38,8 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlBuilder.class);
-	// ~ Instance Fields =====================================
 
+	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -73,7 +74,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	 */
 	@Override
 	protected Long nullRows(@NotNull @NotBlank @NotEmpty final String column) {
-		return this.getContext().count(MsSqlHelper.getSqlNull(this.getTable(), column));
+		return this.getContext().count(MsSqlHelper.getSqlNull(this.getMetadata().getTable(), column));
 	}
 
 	/**
@@ -83,7 +84,8 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	public boolean createTable() {
 		final String sql = genCreateSql();
 		final int respCode = this.getContext().execute(sql);
-		final String respStr = (Constants.RC_SUCCESS == respCode ? SUCCESS : FAILURE);
+		final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
+				: ResponseCode.FAILURE.toString());
 		info(LOGGER, "[I] Location: createTable(), Result : " + respStr);
 		return Constants.RC_SUCCESS == respCode;
 	}
@@ -93,7 +95,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	 */
 	@Override
 	public boolean existTable() {
-		final String sql = MsSqlHelper.getSqlTableExist(this.getTable());
+		final String sql = MsSqlHelper.getSqlTableExist(this.getMetadata().getTable());
 		final long counter = this.getContext().count(sql);
 		info(LOGGER, "[I] Location: existTable(), Table Counter Result: " + counter);
 		return 0 < counter;
@@ -107,7 +109,8 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 		final String sql = this.genUpdateSql(schema);
 		info(LOGGER, "[I] Sql: " + sql);
 		final int respCode = this.getContext().execute(sql);
-		final String respStr = (Constants.RC_SUCCESS == respCode ? SUCCESS : FAILURE);
+		final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
+				: ResponseCode.FAILURE.toString());
 		info(LOGGER, "[I] Location: syncTable(GenericSchema), Result : " + respStr);
 		return Constants.RC_SUCCESS == respCode;
 	}
@@ -115,9 +118,10 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 	/** **/
 	@Override
 	public boolean purgeTable() {
-		final String sql = MessageFormat.format(TB_DROP, this.getTable());
+		final String sql = MessageFormat.format(TB_DROP, this.getMetadata().getTable());
 		final int respCode = this.getContext().execute(sql);
-		final String respStr = (Constants.RC_SUCCESS == respCode ? SUCCESS : FAILURE);
+		final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
+				: ResponseCode.FAILURE.toString());
 		info(LOGGER, "[I] Location: purgeTable(), Result : " + respStr);
 		return Constants.RC_SUCCESS == respCode;
 	}
@@ -210,13 +214,13 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 		// 获取新列集合
 		final Collection<String> newColumns = GenericSchema.getColumns(schema.getFields().values());
 		// 获取旧列集合
-		final String sql = MsSqlHelper.getSqlColumns(this.getTable());
+		final String sql = MsSqlHelper.getSqlColumns(this.getMetadata().getTable());
 		final Collection<String> oldColumns = this.getContext().select(sql, MsSqlHelper.COL_TB_COLUMN);
 		return this.getColumnStatus(oldColumns, newColumns);
 	}
 
 	private Collection<String> getCSNames() {
-		final String sql = MsSqlHelper.getSqlConstraints(this.getTable());
+		final String sql = MsSqlHelper.getSqlConstraints(this.getMetadata().getTable());
 		return this.getContext().select(sql, MsSqlHelper.COL_TB_CONSTRAINT);
 	}
 
@@ -228,7 +232,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 		}
 		// 2.字段定义行
 		{
-			final Collection<FieldModel> fields = this.getFields();
+			final Collection<FieldModel> fields = this.getMetadata().getFields();
 			for (final FieldModel field : fields) {
 				if (!field.isPrimaryKey()) {
 					addSqlLine(this.genColumnLine(field));
@@ -238,7 +242,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 		}
 		// 3.添加Unique/Primary Key约束
 		{
-			final Collection<KeyModel> keys = this.getKeys();
+			final Collection<KeyModel> keys = this.getMetadata().getKeys();
 			for (final KeyModel key : keys) {
 				// INCREMENT已经在前边生成过主键行了，不需要重新生成
 				addSqlLine(this.genKeyLine(key));
@@ -250,22 +254,23 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 			addSqlLine(this.genForeignKey());
 		}
 		// 5.生成最终SQL语句
-		return MessageFormat.format(TB_CREATE, this.getTable(), StringKit.join(this.getSqlLines(), COMMA));
+		return MessageFormat.format(TB_CREATE, this.getMetadata().getTable(),
+				StringKit.join(this.getSqlLines(), COMMA));
 	}
 
 	private void genPrimaryKeyLines() {
-		final MetaPolicy policy = getSchema().getMeta().getPolicy();
+		final MetaPolicy policy = getMetadata().getSchema().getMeta().getPolicy();
 		if (MetaPolicy.INCREMENT == policy) {
-			addSqlLine(this.genIdentityLine(getSchema().getMeta()));
+			addSqlLine(this.genIdentityLine(getMetadata().getSchema().getMeta()));
 			// this.getSqlLines().add(this.genIdentityLine(getSchema().getMeta()));
 		} else if (MetaPolicy.COLLECTION == policy) {
-			final List<FieldModel> pkFields = this.getPrimaryKeys();
+			final List<FieldModel> pkFields = this.getMetadata().getPrimaryKeys();
 			for (final FieldModel field : pkFields) {
 				addSqlLine(this.genColumnLine(field));
 				// this.getSqlLines().add(this.genColumnLine(field));
 			}
 		} else {
-			final FieldModel field = this.getPrimaryKeys().get(Constants.ZERO);
+			final FieldModel field = this.getMetadata().getPrimaryKeys().get(Constants.ZERO);
 			addSqlLine(this.genColumnLine(field));
 			// this.getSqlLines().add(this.genColumnLine(field));
 		}
@@ -273,7 +278,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 
 	private String genIdentityLine(final MetaModel meta) {
 		final StringBuilder pkSql = new StringBuilder();
-		final FieldModel field = this.getPrimaryKeys().get(Constants.ZERO);
+		final FieldModel field = this.getMetadata().getPrimaryKeys().get(Constants.ZERO);
 		// 1.1.主键字段和数据类型
 		final String columnType = SqlStatement.DB_TYPES.get(field.getColumnType());
 

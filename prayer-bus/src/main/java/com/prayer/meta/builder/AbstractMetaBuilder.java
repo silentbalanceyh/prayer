@@ -11,12 +11,12 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
+import com.prayer.exception.AbstractBuilderException;
 import com.prayer.meta.Builder;
 import com.prayer.mod.SystemEnum.KeyCategory;
 import com.prayer.mod.meta.FieldModel;
 import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
-import com.prayer.mod.meta.MetaModel;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.MinSize;
@@ -32,10 +32,6 @@ import net.sf.oval.guard.PostValidateThis;
 @Guarded
 abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	// ~ Static Fields =======================================
-	/** 成功的String字面量 **/
-	protected static final String SUCCESS = "SUCCESS";
-	/** 失败的String字面量 **/
-	protected static final String FAILURE = "FAILURE";
 
 	/** **/
 	protected static enum StatusFlag {
@@ -49,26 +45,11 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	/** 创建表的Sql语句 **/
 	@NotNull
 	private transient final List<String> sqlLines;
-	/** 传入Schema的引用，从H2中读取的元数据信息 **/
+	/** Metadata对象 **/
 	@NotNull
-	private transient final GenericSchema schema;
-
-	/** 从H2中读取到的元数据信息 **/
-	@NotNull
-	private transient String table;
-	/** 如果有外键列则该值属于外键 **/
-	private transient FieldModel foreignField;
-	/** 带外键名的值 **/
-	private transient KeyModel foreignKey;
-	/** 当前Model中所有键值 **/
-	@MinSize(1)
-	private transient Collection<KeyModel> keys;
-	/** 当前Model中所有字段 **/
-	@MinSize(1)
-	private transient Collection<FieldModel> fields;
-	/** 当前Model中的主键 **/
-	@MinSize(1)
-	private transient final List<FieldModel> primaryKeys;
+	private transient final BuilderMetaData metadata;
+	/** 构建过程中的Error信息 **/
+	private transient AbstractBuilderException error;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -79,13 +60,9 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 */
 	@PostValidateThis
 	public AbstractMetaBuilder(@NotNull final GenericSchema schema) {
-		this.schema = schema;
 		this.context = singleton(JdbcConnImpl.class);
 		this.sqlLines = new ArrayList<>();
-		this.primaryKeys = new ArrayList<>();
-		if (null != schema.getMeta()) {
-			this.initialize(schema);
-		}
+		this.metadata = new BuilderMetaData(schema);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -119,7 +96,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genDropConstraints(@NotNull final String name) {
-		return SqlStatement.dropCSSql(this.getTable(), name);
+		return SqlStatement.dropCSSql(this.metadata.getTable(), name);
 	}
 
 	/**
@@ -129,7 +106,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genDropColumns(@NotNull final String column) {
-		return SqlStatement.dropColSql(this.getTable(), column);
+		return SqlStatement.dropColSql(this.metadata.getTable(), column);
 	}
 
 	/**
@@ -139,7 +116,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genAddColumns(@NotNull final FieldModel field) {
-		return SqlStatement.addColSql(this.getTable(), this.genColumnLine(field));
+		return SqlStatement.addColSql(this.metadata.getTable(), this.genColumnLine(field));
 	}
 
 	/**
@@ -149,7 +126,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genAlterColumns(@NotNull final FieldModel field) {
-		return SqlStatement.alterColSql(this.getTable(), this.genColumnLine(field));
+		return SqlStatement.alterColSql(this.metadata.getTable(), this.genColumnLine(field));
 	}
 
 	/**
@@ -161,7 +138,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genForeignKey() {
-		return SqlStatement.newFKSql(foreignKey, foreignField);
+		return SqlStatement.newFKSql(this.metadata.getForeignKey(), this.metadata.getForeignField());
 	}
 
 	/**
@@ -189,9 +166,9 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	protected String genAddCsLine(@NotNull final KeyModel key, final FieldModel field) {
 		String sql = null;
 		if (KeyCategory.ForeignKey == key.getCategory()) {
-			sql = SqlStatement.addCSSql(this.getTable(), SqlStatement.newFKSql(key, field));
+			sql = SqlStatement.addCSSql(this.metadata.getTable(), SqlStatement.newFKSql(key, field));
 		} else {
-			sql = SqlStatement.addCSSql(this.getTable(), this.genKeyLine(key));
+			sql = SqlStatement.addCSSql(this.metadata.getTable(), this.genKeyLine(key));
 		}
 		return sql;
 	}
@@ -212,7 +189,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected Long getRows() {
-		return this.getContext().count(SqlStatement.genCountRowsSql(this.getTable()));
+		return this.getContext().count(SqlStatement.genCountRowsSql(this.metadata.getTable()));
 	}
 
 	/**
@@ -257,93 +234,36 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 		return statusMap;
 	}
 	// ~ Private Methods =====================================
-
-	private void initialize(final GenericSchema schema) {
-		if (null != schema.getMeta()) {
-			// 1.获取Metadata
-			final MetaModel meta = schema.getMeta();
-			this.table = meta.getTable();
-			// 2.获取外键KeyModel
-			this.keys = schema.getKeys().values();
-			for (final KeyModel key : this.keys) {
-				if (KeyCategory.ForeignKey == key.getCategory()) {
-					this.foreignKey = key;
-				}
-			}
-			// 3.根据外键列读取对应的Field配置，并且获取主键规范
-			this.fields = schema.getFields().values();
-			for (final FieldModel field : this.fields) {
-				if (field.isForeignKey()) {
-					this.foreignField = field;
-				} else if (field.isPrimaryKey()) {
-					this.primaryKeys.add(field);
-				}
-			}
-		}
-	}
-
 	// ~ Get/Set =============================================
 	/**
-	 * @return the table
+	 * 
+	 * @return
 	 */
-	protected String getTable() {
-		return table;
+	@NotNull
+	protected BuilderMetaData getMetadata(){
+		return metadata;
 	}
-
-	/**
-	 * @return the foreignField
-	 */
-	protected FieldModel getForeignField() {
-		return foreignField;
-	}
-
-	/**
-	 * @return the foreignKey
-	 */
-	protected KeyModel getForeignKey() {
-		return foreignKey;
-	}
-
-	/**
-	 * @return the keys
-	 */
-	protected Collection<KeyModel> getKeys() {
-		return keys;
-	}
-
-	/**
-	 * @return the fields
-	 */
-	protected Collection<FieldModel> getFields() {
-		return fields;
-	}
-
-	/**
-	 * @return the primaryKeys
-	 */
-	public List<FieldModel> getPrimaryKeys() {
-		return primaryKeys;
-	}
-
 	/**
 	 * @return the context
 	 */
-	public JdbcContext getContext() {
+	@NotNull
+	protected JdbcContext getContext() {
 		return context;
 	}
 
 	/**
 	 * @return the sqlLines
 	 */
-	public List<String> getSqlLines() {
+	protected List<String> getSqlLines() {
 		return sqlLines;
 	}
 
 	/**
-	 * @return the schema
+	 * 
 	 */
-	public GenericSchema getSchema() {
-		return schema;
+	@Override
+	public AbstractBuilderException getError() {
+		return this.error;
 	}
 
 	// ~ hashCode,equals,toString ============================

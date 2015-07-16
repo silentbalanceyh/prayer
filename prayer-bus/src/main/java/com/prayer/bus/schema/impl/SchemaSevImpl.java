@@ -39,12 +39,10 @@ public class SchemaSevImpl implements SchemaService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchemaSevImpl.class);
 	// ~ Instance Fields =====================================
 	/** H2数据库的Importer **/
-	private transient Importer importer = null;
-	/** SQL数据库的Builder **/
-	private transient Builder builder = null;
+	private transient Importer importer;
 	/** 访问H2的Schema数据层接口 **/
 	@NotNull
-	private transient SchemaDao dao = null;
+	private transient final SchemaDao dao;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -61,7 +59,7 @@ public class SchemaSevImpl implements SchemaService {
 	 * 
 	 */
 	@Override
-	public ServiceResult<GenericSchema> syncSchema(@NotNull @NotEmpty @NotBlank String filePath) {
+	public ServiceResult<GenericSchema> syncSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
 		this.importer = this.getImporter(filePath);
 		final ServiceResult<GenericSchema> result = new ServiceResult<>();
 		try {
@@ -93,19 +91,19 @@ public class SchemaSevImpl implements SchemaService {
 
 	/** **/
 	@Override
-	public ServiceResult<GenericSchema> syncMetadata(@NotNull GenericSchema schema) {
-		this.builder = singleton(Accessors.builder(), schema);
-		if (this.builder.existTable()) {
-			this.builder.syncTable(schema);
+	public ServiceResult<GenericSchema> syncMetadata(@NotNull final GenericSchema schema) {
+		final Builder builder = singleton(Accessors.builder(), schema);
+		if (builder.existTable()) {
+			builder.syncTable(schema);
 		} else {
-			this.builder.createTable();
+			builder.createTable();
 		}
 		return new ServiceResult<>(schema, null);
 	}
 
 	/** **/
 	@Override
-	public ServiceResult<GenericSchema> findSchema(String identifier) {
+	public ServiceResult<GenericSchema> findSchema(final String identifier) {
 		final GenericSchema schema = this.dao.getById(identifier);
 		final ServiceResult<GenericSchema> result = new ServiceResult<>();
 		if (null == schema) {
@@ -116,9 +114,18 @@ public class SchemaSevImpl implements SchemaService {
 		return result;
 	}
 
+	/** **/
 	@Override
-	public ServiceResult<Boolean> removeSchema(String identifier) {
-		return null;
+	public ServiceResult<Boolean> removeSchema(final String identifier) {
+		final ServiceResult<Boolean> result = new ServiceResult<>();
+		try {
+			final Boolean ret = this.dao.deleteById(identifier);
+			result.setResponse(ret, null);
+		} catch (DataLoadingException ex) {
+			info(LOGGER, "[I-BUS] Removing Schame met error...", ex);
+			result.setResponse(null, ex);
+		}
+		return result;
 	}
 
 	// ~ Methods =============================================

@@ -1,5 +1,6 @@
 package com.prayer.meta;
 
+import com.prayer.exception.AbstractBuilderException;
 import com.prayer.mod.meta.GenericSchema;
 
 /**
@@ -36,4 +37,9 @@ public interface Builder {
 	 * @param schema
 	 */
 	boolean purgeTable();
+	/**
+	 * 获取执行步骤中的Exception
+	 * @return
+	 */
+	AbstractBuilderException getError();
 }

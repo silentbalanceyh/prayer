@@ -1,19 +1,18 @@
-package com.prayer.exception.system;
+package com.prayer.exception.builder;
 
-import com.prayer.exception.AbstractSystemException;
+import com.prayer.exception.AbstractBuilderException;
 
 /**
- * 【Checked】Error-20005：Loading Schema异常
+ * 【Checked】-11001，将一个字段从NULL改成NOT NULL时因为该字段本身有null值，所以不可更改
  * @author Lang
  *
  */
-public class DataLoadingException extends AbstractSystemException{
+public class NullableAlterException extends AbstractBuilderException{
 	// ~ Static Fields =======================================
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4340358874356913965L;
+	private static final long serialVersionUID = -8643000244105817309L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -21,10 +20,10 @@ public class DataLoadingException extends AbstractSystemException{
 	/**
 	 * 
 	 * @param clazz
-	 * @param process
+	 * @param column
 	 */
-	public DataLoadingException(final Class<?> clazz, final String process){
-		super(clazz,-20005, process);
+	public NullableAlterException(final Class<?> clazz, final String column){
+		super(clazz, -11001, column);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
@@ -33,7 +32,7 @@ public class DataLoadingException extends AbstractSystemException{
 	 */
 	@Override
 	public int getErrorCode(){
-		return -20005;
+		return -11001;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

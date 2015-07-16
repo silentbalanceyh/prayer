@@ -1,40 +1,37 @@
-package com.prayer.exception.system;
+package com.prayer.exception;
 
-import com.prayer.exception.AbstractSystemException;
+import static com.prayer.util.Error.error;
 
 /**
- * 【Checked】Error-20005：Loading Schema异常
+ * Builder处理元数据过程的抽象异常类，在生成数据库信息时候出现异常
  * @author Lang
  *
  */
-public class DataLoadingException extends AbstractSystemException{
+public abstract class AbstractBuilderException extends AbstractException{
 	// ~ Static Fields =======================================
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4340358874356913965L;
+	private static final long serialVersionUID = -3587573542243637734L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	/** **/
+	public AbstractBuilderException(final String message){
+		super(message);
+	}
 	/**
 	 * 
 	 * @param clazz
-	 * @param process
+	 * @param errorCode
+	 * @param params
 	 */
-	public DataLoadingException(final Class<?> clazz, final String process){
-		super(clazz,-20005, process);
+	public AbstractBuilderException(final Class<?> clazz, final int errorCode, final Object... params) {
+		this(error(clazz, errorCode, params));
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public int getErrorCode(){
-		return -20005;
-	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
