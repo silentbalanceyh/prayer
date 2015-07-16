@@ -28,11 +28,13 @@ public final class SessionManager {
 	// ~ Static Block ========================================
 	/** 静态初始化 **/
 	static {
-		/** 简单的单例实现 **/
-		if (null == sessionFactory) {
-			final InputStream inStream = IOKit.getFile(Resources.T_CFG_MYBATIS);
-			if (null != inStream) {
-				sessionFactory = new SqlSessionFactoryBuilder().build(inStream, Resources.T_CFG_MB_ENV);
+		synchronized (SessionManager.class) {
+			/** 简单的单例实现 **/
+			if (null == sessionFactory) {
+				final InputStream inStream = IOKit.getFile(Resources.T_CFG_MYBATIS);
+				if (null != inStream) {
+					sessionFactory = new SqlSessionFactoryBuilder().build(inStream, Resources.T_CFG_MB_ENV);
+				}
 			}
 		}
 	}

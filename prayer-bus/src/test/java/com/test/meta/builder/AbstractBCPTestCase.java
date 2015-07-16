@@ -51,7 +51,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase{ // NOPMD
 	public AbstractBCPTestCase() {
 		super();
 		this.dao = singleton(SchemaDaoImpl.class);
-		this.context = singleton(JdbcConnImpl.class);
+		this.context = instance(JdbcConnImpl.class.getName());
 	}
 
 	// ~ Abstract Methods ====================================
