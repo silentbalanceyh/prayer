@@ -6,9 +6,9 @@ import static com.prayer.util.Instance.singleton;
 
 import org.slf4j.Logger;
 
-import com.prayer.bus.schema.SchemaService;
-import com.prayer.bus.schema.impl.SchemaSevImpl;
 import com.prayer.constant.Resources;
+import com.prayer.dao.schema.SchemaDao;
+import com.prayer.dao.schema.impl.SchemaDaoImpl;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.exception.AbstractSchemaException;
@@ -34,7 +34,7 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 	protected static final String BUILDER_FILE = "/schema/data/json/database/";
 	// ~ Instance Fields =====================================
 	/** **/
-	private transient final SchemaService service;
+	private transient final SchemaDao service;
 	/** **/
 	private transient final JdbcContext context;
 	/** **/
@@ -50,7 +50,7 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 	 */
 	public AbstractBuilderCPTestCase() {
 		super();
-		this.service = singleton(SchemaSevImpl.class);
+		this.service = singleton(SchemaDaoImpl.class);
 		this.context = singleton(JdbcConnImpl.class);
 	}
 
@@ -67,7 +67,7 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	/** **/
-	protected SchemaService getService() {
+	protected SchemaDao getService() {
 		return this.service;
 	}
 
@@ -143,12 +143,12 @@ public abstract class AbstractBuilderCPTestCase extends AbstractTestCase{ // NOP
 		this.importer = new CommunionImporter(BUILDER_FILE + inputFile);
 		GenericSchema schema = null;
 		try {
-			this.importer.importFile();
+			this.importer.readSchema();
 			this.importer.ensureSchema();
-			schema = this.importer.transformModel();
+			schema = this.importer.transformSchema();
 			final GenericSchema prepSchema = this.service.findModel(globalId);
 			if (null == prepSchema) {
-				this.importer.loadData(schema);
+				this.importer.syncSchema(schema);
 			}
 		} catch (SerializationException ex) {
 			info(getLogger(), ex.getMessage(), ex);

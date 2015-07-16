@@ -19,7 +19,7 @@ public interface Importer {
 	 * @param filePath
 	 * @throws AbstractSystemException
 	 */
-	void importFile() throws AbstractSystemException;
+	void readSchema() throws AbstractSystemException;
 
 	/**
 	 * 2. 1XXXX Error，验证JsonSchema文件
@@ -32,14 +32,24 @@ public interface Importer {
 	 * 3. 20004 Error，序列化JsonNode转换成节点类型
 	 * @throws SerializationException
 	 */
-	GenericSchema transformModel() throws SerializationException;
+	GenericSchema transformSchema() throws SerializationException;
 	/**
 	 * 4. 20005 Error, 导入数据异常
 	 * @param schema
 	 * @return
 	 * @throws DataLoadingException
 	 */
-	boolean loadData(GenericSchema schema) throws DataLoadingException;
+	boolean syncSchema(GenericSchema schema) throws DataLoadingException;
+	/**
+	 * 刷新数据设置新的filePath
+	 * @param schema
+	 */
+	void refreshSchema(String filePath);
+	/**
+	 * 直接获取当前Importer执行的最新Schema
+	 * @return
+	 */
+	GenericSchema getSchema();
 	/**
 	 * 
 	 * @return

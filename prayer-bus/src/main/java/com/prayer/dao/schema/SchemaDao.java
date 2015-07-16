@@ -1,4 +1,4 @@
-package com.prayer.bus.schema;
+package com.prayer.dao.schema;
 
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.mod.meta.GenericSchema;
@@ -8,7 +8,7 @@ import com.prayer.mod.meta.GenericSchema;
  * @author Lang
  *
  */
-public interface SchemaService {
+public interface SchemaDao {
 	/**
 	 * 
 	 * @param schema
@@ -16,15 +16,13 @@ public interface SchemaService {
 	 * @throws DataLoadingException
 	 */
 	GenericSchema buildModel(GenericSchema schema) throws DataLoadingException;
-
 	/**
 	 * 
-	 * @param namespace
-	 * @param name
+	 * @param schema
 	 * @return
 	 * @throws DataLoadingException
 	 */
-	GenericSchema findModel(String namespace, String name);
+	GenericSchema syncModel(GenericSchema schema) throws DataLoadingException;
 	/**
 	 * 
 	 * @param globalId

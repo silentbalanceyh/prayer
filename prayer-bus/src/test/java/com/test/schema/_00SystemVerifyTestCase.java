@@ -68,7 +68,7 @@ public class _00SystemVerifyTestCase extends AbstractSchemaTestCase {	// NOPMD
 	public void testP000System20003() throws AbstractSystemException {
 		setMethod("importFile()");
 		importer = new CommunionImporter(SCHEMA_ROOT + "P000json20003.txt");
-		importer.importFile();
+		importer.readSchema();
 		failure("[E20003] Json Parser ==> (Failure) There is unexpected exception!");
 	}
 
@@ -77,7 +77,7 @@ public class _00SystemVerifyTestCase extends AbstractSchemaTestCase {	// NOPMD
 	public void testP000System20002() throws AbstractSystemException {
 		setMethod("importFile()");
 		importer = new CommunionImporter(SCHEMA_ROOT + "P000json20003.json");
-		importer.importFile();
+		importer.readSchema();
 		failure("[E20002] Resource IO ==> (Failure) There is no expected exception!");
 	}
 	// ~ Private Methods =====================================

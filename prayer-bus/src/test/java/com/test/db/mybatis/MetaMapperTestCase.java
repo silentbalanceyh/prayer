@@ -109,7 +109,9 @@ public class MetaMapperTestCase extends AbstractMetaCase {		// NOPMD
 			final boolean ret = metas.size() <= queriedMetas.size() && !queriedMetas.isEmpty();
 			assertTrue("[E] Insert & Select Error!",ret);
 			// 清除系统中的所有数据
-			mapper.purgeData();
+			for(final MetaModel model: metas){
+				mapper.deleteById(model.getUniqueId());
+			}
 			this.session().commit();
 		}
 	}

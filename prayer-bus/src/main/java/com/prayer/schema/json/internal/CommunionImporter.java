@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.prayer.bus.schema.SchemaService;
-import com.prayer.bus.schema.impl.SchemaSevImpl;
+import com.prayer.dao.schema.SchemaDao;
+import com.prayer.dao.schema.impl.SchemaDaoImpl;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
@@ -25,6 +25,7 @@ import com.prayer.schema.Importer;
 import com.prayer.schema.Serializer;
 import com.prayer.schema.json.CommunionSerializer;
 import com.prayer.util.JsonKit;
+import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -48,16 +49,16 @@ public class CommunionImporter implements Importer {
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
-	private transient final String filePath;
+	private transient String filePath;
 	/** **/
 	@NotNull
-	private transient final Ensurer ensurer;
+	private transient Ensurer ensurer;
 	/** **/
 	@NotNull
-	private transient final Serializer serializer;
+	private transient Serializer serializer;
 	/** **/
 	@NotNull
-	private transient final SchemaService schemaSev;
+	private transient SchemaDao schemaDao;
 	/** **/
 	private transient JsonNode rawData;
 	/** **/
@@ -72,15 +73,10 @@ public class CommunionImporter implements Importer {
 	 */
 	@PostValidateThis
 	public CommunionImporter(@NotNull @NotEmpty @NotBlank final String filePath) {
-		this.filePath = filePath;
-		this.schema = new GenericSchema();
-		// Singleton
-		this.ensurer = singleton(GenericEnsurer.class);
-		this.serializer = singleton(CommunionSerializer.class);
-		this.schemaSev = singleton(SchemaSevImpl.class);
+		this.initialize(filePath);
 		if (null == this.filePath) {
 			info(LOGGER, "[E] File path initializing met error!",
-					new TypeInitException(getClass(), "Constructor: GenericImporter(String)", this.filePath));
+					new TypeInitException(getClass(), "Constructor: CommunionImporter(String)", this.filePath));
 		}
 	}
 
@@ -91,7 +87,7 @@ public class CommunionImporter implements Importer {
 	 */
 	@Override
 	@PreValidateThis
-	public void importFile() throws AbstractSystemException {
+	public void readSchema() throws AbstractSystemException {
 		final JsonNode schemaData = JsonKit.readJson(this.filePath);
 		/**
 		 * JsonKit.readJson本身会抛出AbstractSystemException
@@ -123,8 +119,21 @@ public class CommunionImporter implements Importer {
 	 * 
 	 */
 	@Override
+	@PreValidateThis
+	public void refreshSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
+		this.initialize(filePath);
+		if (null == this.filePath) {
+			info(LOGGER, "[E] File path initializing met error!",
+					new TypeInitException(getClass(), "void refreshSchema(String)", this.filePath));
+		}
+	}
+
+	/**
+	 * 
+	 */
+	@Override
 	@Pre(expr = "_this.schema != null && _this.rawData != null", lang = "groovy")
-	public GenericSchema transformModel() throws SerializationException {
+	public GenericSchema transformSchema() throws SerializationException {
 		final MetaModel meta = this.readMeta();
 		try {
 			schema.setMeta(meta);
@@ -142,13 +151,28 @@ public class CommunionImporter implements Importer {
 	 * 
 	 */
 	@Override
-	public boolean loadData(@NotNull final GenericSchema schema) throws DataLoadingException {
-		final GenericSchema retSchema = schemaSev.buildModel(schema);
+	@PreValidateThis
+	public boolean syncSchema(@NotNull final GenericSchema schema) throws DataLoadingException {
+		GenericSchema retSchema = null;
+		info(LOGGER, "[I] UniqueId = " + schema.getMeta().getUniqueId());
+		if (StringKit.isNil(schema.getMeta().getUniqueId())) {
+			info(LOGGER, "[I] Going to Build Model: Create Process! Input Meta: " + schema.getMeta());
+			retSchema = schemaDao.buildModel(schema);
+		} else {
+			info(LOGGER, "[I] Going to Sync Model: Update Process! Input Meta: " + schema.getMeta());
+			retSchema = schemaDao.syncModel(schema);
+		}
 		boolean result = false;
 		if (null != retSchema) {
 			result = true;
 		}
 		return result;
+	}
+
+	/** **/
+	@Override
+	public GenericSchema getSchema() {
+		return this.schema;
 	}
 
 	/**
@@ -161,6 +185,15 @@ public class CommunionImporter implements Importer {
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+
+	private void initialize(final String filePath) {
+		this.filePath = filePath;
+		this.schema = new GenericSchema();
+		// Singleton
+		this.ensurer = singleton(GenericEnsurer.class);
+		this.serializer = singleton(CommunionSerializer.class);
+		this.schemaDao = singleton(SchemaDaoImpl.class);
+	}
 
 	private MetaModel readMeta() throws SerializationException {
 		return this.serializer.readMeta(this.rawData.path("__meta__"));

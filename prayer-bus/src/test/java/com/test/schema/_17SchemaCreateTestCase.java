@@ -1,7 +1,6 @@
 package com.test.schema;	// NOPMD
 
 import static com.prayer.util.Error.info;
-import static com.prayer.util.Instance.singleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -15,8 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.prayer.bus.schema.SchemaService;
-import com.prayer.bus.schema.impl.SchemaSevImpl;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
@@ -33,16 +30,14 @@ import com.prayer.util.JsonKit;
  * @author Lang
  *
  */
-public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
+public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(_17DeserializerTestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(_17SchemaCreateTestCase.class);
 
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient JsonNode rootNode = null; // NOPMD
-
-	private transient SchemaService service;	// NOPMD
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -63,24 +58,19 @@ public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
 	 */
 	@Before
 	public void setUp() {
-		service = singleton(SchemaSevImpl.class);
 		importer = new CommunionImporter("/schema/system/data/json/role.json");
 		// 1.Read Schema File
 		try {
-			importer.importFile();
+			importer.readSchema();
 		} catch (AbstractSystemException ex) {
-			if (getLogger().isDebugEnabled()) {
-				getLogger().debug("1.Error when reading json schema file.", ex);
-			}
+			info(getLogger(),"1.Error when reading json schema file.",ex);
 			failure(ex.toString());
 		}
 		// 2.Validate Schema File
 		try {
 			importer.ensureSchema();
 		} catch (AbstractSchemaException ex) {
-			if (getLogger().isDebugEnabled()) {
-				getLogger().debug("2.Error when verifying json schema.", ex);
-			}
+			info(getLogger(),"2.Error when verifying json schema.",ex);
 			failure(ex.toString());
 		}
 		// 3.Extract Raw Data
@@ -97,10 +87,10 @@ public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
 			try {
 				final MetaModel meta = this.serializer.readMeta(metaNode);
 				info(getLogger(), "Json Data : \"__meta__\" = " + metaNode.toString() + ", Model Data : " + meta);
-				assertNotNull("[T] Serialization result should not be null !", meta);
+				assertNotNull("[T-ERROR] Serialization result should not be null !", meta);
 			} catch (SerializationException ex) {
 				info(getLogger(), "Serialization Exception, \"__meta__\" = " + metaNode.toString(), ex);
-				failure("Serialization Exception, \"__meta__\" = " + metaNode.toString());
+				failure("[T-ERROR] Serialization Exception, \"__meta__\" = " + metaNode.toString());
 			}
 		}
 	}
@@ -123,10 +113,10 @@ public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
 					info(getLogger(), "Json Data: \"__keys__\" = " + keysNode.toString() + ", Keys List Data : "
 							+ builder.toString());
 				}
-				assertEquals("[T] Serialization result size should be the same.", 3, keys.size());
+				assertEquals("[T-ERROR] Serialization result size should be the same.", 3, keys.size());
 			} catch (SerializationException ex) {
 				info(getLogger(), "Serialization Exception, \"__keys__\" = " + keysNode.toString(), ex);
-				failure("Serialization Exception, \"__keys__\" = " + keysNode.toString());
+				failure("[T-ERROR] Serialization Exception, \"__keys__\" = " + keysNode.toString());
 			}
 		}
 	}
@@ -149,10 +139,10 @@ public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
 					info(getLogger(), "Json Data: \"__fields__\" = " + fieldsNode.toString() + ", Fields List Data : "
 							+ builder.toString());
 				}
-				assertEquals("[T] Serialization result size should not be the same.", 5, fields.size());
+				assertEquals("[T-ERROR] Serialization result size should not be the same.", 5, fields.size());
 			} catch (SerializationException ex) {
 				info(getLogger(), "Serialization Exception, \"__fields__\" = " + fieldsNode.toString(), ex);
-				failure("Serialization Exception, \"__fields__\" = " + fieldsNode.toString());
+				failure("[T-ERROR] Serialization Exception, \"__fields__\" = " + fieldsNode.toString());
 			}
 		}
 	}
@@ -164,12 +154,12 @@ public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
 	public void testTransformModel() {
 		GenericSchema schema = null;
 		try {
-			schema = this.importer.transformModel();
+			schema = this.importer.transformSchema();
 		} catch (SerializationException ex) {
 			info(getLogger(), "Serialization Exception. ", ex);
-			failure("Searialization Exception. ");
+			failure("[T-ERROR] Searialization Exception. ");
 		}
-		assertNotNull("[T] Deserialization result must not be null.", schema);
+		assertNotNull("[T-ERROR] Deserialization result must not be null.", schema);
 	}
 
 	/**
@@ -180,10 +170,10 @@ public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
 		GenericSchema schema = null;
 		boolean result = false;
 		try {
-			schema = this.importer.transformModel();
-			final GenericSchema prepSchema = this.service.findModel("com.prayer.model.sec", "Role");
+			schema = this.importer.transformSchema();
+			final GenericSchema prepSchema = this.service.findModel("sys.sec.role");
 			if(null == prepSchema){
-				result = this.importer.loadData(schema);
+				result = this.importer.syncSchema(schema);
 			}else{
 				// Skip Test Case
 				result = true;
@@ -192,9 +182,9 @@ public class _17DeserializerTestCase extends AbstractSchemaTestCase { // NOPMD
 			info(getLogger(), "Serialization Exception. ", ex);
 		} catch (DataLoadingException ex) {
 			info(getLogger(), "Data Loading Exception. Loading Data...", ex);
-			failure("Data Loading Exception. Loading Data...");
+			failure("[T-ERROR] Data Loading Exception. Loading Data...");
 		}
-		assertTrue("[T] Data loading result must be \"true\".", result);
+		assertTrue("[T-ERROR] Data loading result must be \"true\".", result);
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

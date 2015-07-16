@@ -87,6 +87,8 @@ public class GenericSchema implements Serializable { // NOPMD
 		}
 		return columns;
 	}
+	
+	
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

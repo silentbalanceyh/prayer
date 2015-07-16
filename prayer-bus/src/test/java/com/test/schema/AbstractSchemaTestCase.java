@@ -1,9 +1,17 @@
 package com.test.schema;
 
+import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.singleton;
+
 import org.slf4j.Logger;
 
+import com.prayer.dao.schema.SchemaDao;
+import com.prayer.dao.schema.impl.SchemaDaoImpl;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
+import com.prayer.exception.system.DataLoadingException;
+import com.prayer.exception.system.SerializationException;
+import com.prayer.mod.meta.GenericSchema;
 import com.prayer.schema.Importer;
 import com.prayer.schema.Serializer;
 import com.prayer.schema.json.CommunionSerializer;
@@ -26,6 +34,9 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 	protected transient Importer importer;
 	/** **/
 	protected transient Serializer serializer;
+	/** **/
+	protected transient SchemaDao service;	// NOPMD
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -33,6 +44,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 	public AbstractSchemaTestCase() {
 		super(CommunionImporter.class.getName());
 		this.serializer = new CommunionSerializer();
+		this.service = singleton(SchemaDaoImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -46,19 +58,47 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 	 * @param inputFile
 	 * @param errMsg
 	 */
-	protected void testImport(final String inputFile, final String errMsg)
-			throws AbstractSchemaException {
+	protected void testImport(final String inputFile, final String errMsg) throws AbstractSchemaException {
 		setMethod(M_IMPORT_FILE);
 		importer = new CommunionImporter(SCHEMA_ROOT + inputFile);
 		try {
-			importer.importFile();
+			importer.readSchema();
 			importer.ensureSchema();
 		} catch (AbstractSystemException ex) {
-			if (getLogger().isDebugEnabled()) {
-				getLogger().debug(errMsg, ex);
-			}
+			info(getLogger(),errMsg,ex);
 		}
-		failure(errMsg);
+		failure("[T-ERROR] " + errMsg);
+	}
+
+	/** **/
+	protected void executeSync(final String identifier) {
+		try {
+			// 如果存在旧的先删除
+			GenericSchema dbSchema = this.service.findModel(identifier);
+			if(null != dbSchema){
+				this.service.removeModel(dbSchema);
+			}
+			// 1.读取Schema信息
+			importer.readSchema();
+			// 2.验证Schema文件
+			importer.ensureSchema();
+			// 3.转换Schema
+			final GenericSchema schema = this.importer.transformSchema();
+			// 4.同步数据
+			dbSchema = this.service.findModel(identifier);
+			if(null == dbSchema){
+				this.importer.syncSchema(schema);
+			}
+			info(getLogger(),"[T] =======================> Prepare Data Finished! ");
+		} catch (DataLoadingException ex) {
+			info(getLogger(), "4.Data Loading Exception. Loading Data...", ex);
+		} catch (SerializationException ex) {
+			info(getLogger(), "3.Serialization Exception. ", ex);
+		} catch (AbstractSystemException ex) {
+			info(getLogger(), "1.Reading json schema file.", ex);
+		} catch (AbstractSchemaException ex) {
+			info(getLogger(), "2.Error when verifying json schema.", ex);
+		}
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
