@@ -62,7 +62,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	public AbstractMetaBuilder(@NotNull final GenericSchema schema) {
 		this.context = singleton(JdbcConnImpl.class);
 		this.sqlLines = new ArrayList<>();
-		this.metadata = new BuilderMetaData(schema);
+		this.metadata = singleton(BuilderMetaData.class,schema);
 	}
 
 	// ~ Abstract Methods ====================================
