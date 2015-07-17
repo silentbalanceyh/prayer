@@ -170,7 +170,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {
 				}
 			}
 		}
-		return StringKit.pureJoin(this.getSqlLines(), SEMICOLON);
+		return StringKit.join(this.getSqlLines(), SEMICOLON, true);
 	}
 
 	private void genAlterColumnLines(final ConcurrentMap<StatusFlag, Collection<String>> statusMap,

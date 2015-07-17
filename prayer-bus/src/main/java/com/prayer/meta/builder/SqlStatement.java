@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
+import com.prayer.constant.Symbol;
 import com.prayer.mod.SystemEnum.KeyCategory;
 import com.prayer.mod.meta.FieldModel;
 import com.prayer.mod.meta.KeyModel;
@@ -25,7 +26,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class SqlStatement implements SqlSegment {
+final class SqlStatement implements SqlSegment,Symbol {
 	// ~ Static Fields =======================================
 	/** 数据库类型映射 **/
 	public static final ConcurrentMap<String, String> DB_TYPES = new ConcurrentHashMap<>();

@@ -14,10 +14,6 @@ interface SqlSegment {	// NOPMD
 	char BRACKET_SL = '(';
 	/** 右小括号 **/
 	char BRACKET_SR = ')';
-	/** COMMA关键字 **/
-	String COMMA = ",";
-	/** SEMICOLON关键字 **/
-	String SEMICOLON = ";";
 	/** 换行符 **/
 	String NEW_LINE = "\n";
 

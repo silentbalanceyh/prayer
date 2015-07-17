@@ -8,13 +8,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 资源文件探索器
@@ -90,12 +90,16 @@ public final class IOKit {
 		if (null != file && file.exists() && file.isFile()) {
 			try {
 				retStream = new FileInputStream(file);
-				info(LOGGER, "[I] <== ( Value -> " + retStream + " ) Read from FileInputStream(file).");
+				info(LOGGER, "[I] <== ( Value -> " + file.getAbsolutePath() + " ) Read from FileInputStream(file).");
 			} catch (FileNotFoundException ex) {
 				debug(LOGGER, "SYS.KIT.IO.FILE", ex, file.getAbsolutePath(), retStream);
 			}
 		} else {
-			debug(LOGGER, "SYS.KIT.IO.ERR.FILE", file.getAbsolutePath());
+			if (null == file) {
+				debug(LOGGER, "SYS.KIT.IO.ERR.FILE", file);
+			} else {
+				debug(LOGGER, "SYS.KIT.IO.ERR.FILE", file.getAbsolutePath());
+			}
 		}
 		return retStream;
 	}

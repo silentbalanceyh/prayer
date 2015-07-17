@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.Symbol;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.exception.AbstractBuilderException;
@@ -31,7 +32,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-abstract class AbstractMetaBuilder implements Builder { // NOPMD
+abstract class AbstractMetaBuilder implements Builder, Symbol { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String,JdbcContext> JDBC_POOL = new ConcurrentHashMap<>();

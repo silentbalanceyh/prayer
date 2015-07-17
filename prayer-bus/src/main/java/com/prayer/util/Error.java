@@ -50,7 +50,7 @@ public final class Error { // NOPMD
 	 */
 	public static String error(@NotNull final Class<?> clazz, @Max(-10000) final int errorCode,
 			final Object... params) {
-		return message(clazz, 'E', errorCode, params);
+		return format(clazz, errorKey('E', errorCode), params);
 	}
 
 	/**
@@ -62,13 +62,14 @@ public final class Error { // NOPMD
 	 * @param params
 	 */
 	public static void debug(@NotNull final Logger logger, @NotNull final Class<?> clazz, final String errKey,
-			@NotNull final AbstractException exp, final Object... params) {
-		if (StringKit.isNil(errKey)) {
-			debug(logger, clazz, exp, params);
-		} else {
-			final StringBuilder errMsg = new StringBuilder("[D] ==> ");
-			errMsg.append(message(clazz, errKey, exp.getErrorCode(), params));
-			if (logger.isDebugEnabled()) {
+			final AbstractException exp, final Object... params) {
+		final StringBuilder errMsg = new StringBuilder("[D] ==> ");
+		if (logger.isDebugEnabled()) {
+			if (StringKit.isNil(errKey)) {
+				errMsg.append(format(clazz, errorKey('D', exp.getErrorCode()), params));
+				logger.debug(errMsg.toString(), exp);
+			} else {
+				errMsg.append(format(clazz, errKey, exp.getErrorCode(), params));
 				logger.debug(errMsg.toString(), exp);
 			}
 		}
@@ -82,9 +83,7 @@ public final class Error { // NOPMD
 	 * @param params
 	 */
 	public static void debug(@NotNull final Logger logger, @NotNull final String errKey, final Object... params) {
-		if (logger.isDebugEnabled()) {
-			logger.debug(message(errKey, params));
-		}
+		debug(logger, errKey, null, params);
 	}
 
 	/**
@@ -94,10 +93,14 @@ public final class Error { // NOPMD
 	 * @param exp
 	 * @param params
 	 */
-	public static void debug(@NotNull final Logger logger, @NotNull final String errKey, @NotNull final Throwable exp,
+	public static void debug(@NotNull final Logger logger, @NotNull final String errKey, final Throwable exp,
 			final Object... params) {
 		if (logger.isDebugEnabled()) {
-			logger.debug(message(errKey, params), exp);
+			if (null == exp) {
+				logger.debug(message(errKey, params), params);
+			} else {
+				logger.debug(message(errKey, params), params, exp);
+			}
 		}
 	}
 
@@ -118,13 +121,7 @@ public final class Error { // NOPMD
 	 */
 	public static void info(@NotNull final Logger logger, @NotNull @NotBlank @NotEmpty final String message,
 			final Throwable exp) {
-		if (logger.isDebugEnabled()) {
-			if (null == exp) {
-				logger.debug(message);
-			} else {
-				logger.debug(message, exp);
-			}
-		} else if (logger.isInfoEnabled()) {
+		if (logger.isInfoEnabled()) {
 			if (null == exp) {
 				logger.info(message);
 			} else {
@@ -134,13 +131,14 @@ public final class Error { // NOPMD
 	}
 
 	/**
+	 * 直接从属性文件中提取Patterns，然后根据参数执行格式化
 	 * 
-	 * @param key
+	 * @param errKey
 	 * @param params
 	 * @return
 	 */
-	public static String message(@NotNull @NotBlank @NotEmpty final String key, final Object... params) {
-		return null == loader ? "" : MessageFormat.format(loader.getString(key), params);
+	public static String message(@NotNull final String errKey, final Object... params) {
+		return null == loader ? "" : MessageFormat.format(loader.getString(errKey), params);
 	}
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
@@ -148,39 +146,18 @@ public final class Error { // NOPMD
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 
-	private static String message(final Class<?> clazz, final char prefix, final int errorCode, // NOPMD
-			final Object... params) {
-		// Error Code Key in property file.
-		final String errKey = prefix + String.valueOf(Math.abs(errorCode));
-		return message(clazz, errKey, errorCode, params);
+	private static String errorKey(final char prefix, final int errorCode) {
+		return prefix + String.valueOf(Math.abs(errorCode));
 	}
 
-	private static String message(final Class<?> clazz, final String errKey, final int errorCode,
-			final Object... params) {
-		// Error message generation
+	private static String format(final Class<?> clazz, final String errKey, final Object... params) {
 		final StringBuilder errMsg = new StringBuilder(32);
-		errMsg.append("[ERR").append(errorCode).append(']');
+		errMsg.append('[').append(errKey).append(']');
 		if (null != clazz) {
 			errMsg.append(" Class -> " + clazz.getName() + " |");
 		}
-		errMsg.append(' ').append(MessageFormat.format(loader.getString(errKey), params));
+		errMsg.append(' ').append(message(errKey, params));
 		return errMsg.toString();
-	}
-
-	/**
-	 * 
-	 * @param logger
-	 * @param clazz
-	 * @param exp
-	 * @param params
-	 */
-	private static void debug(final Logger logger, final Class<?> clazz, final AbstractException exp, // NOPMD
-			final Object... params) {
-		if (logger.isDebugEnabled()) {
-			final StringBuilder errMsg = new StringBuilder("[D] ==> ");
-			errMsg.append(message(clazz, 'D', exp.getErrorCode(), params));
-			logger.debug(errMsg.toString(), exp);
-		}
 	}
 
 	private Error() {

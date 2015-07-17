@@ -2,6 +2,8 @@ package com.prayer.util;
 
 import java.util.Collection;
 
+import com.prayer.constant.Constants;
+
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
@@ -28,31 +30,32 @@ public final class StringKit {
 	 * @param separator
 	 * @return
 	 */
-	public static String join(@MinSize(1) final Collection<String> collection, @NotNull final String separator) {
-		final StringBuilder retStr = new StringBuilder();
-		int idx = 0;
-		for (final String item : collection) {
-			if (isNonNil(item)) {
-				retStr.append(item);
-				if (idx < (collection.size() - 1)) {
-					retStr.append(separator);
-				}
-				idx++;
-			}
-		}
-		return retStr.toString();
+	@NotNull
+	public static String join(@NotNull @MinSize(1) final Collection<String> collection, final char separator) {
+		return join(collection, separator, false);
 	}
+
 	/**
+	 * 如果appendEnd为false则效果同上
 	 * 
 	 * @param collection
 	 * @param separator
 	 * @return
 	 */
-	public static String pureJoin(@MinSize(1) final Collection<String> collection, @NotNull final String separator){
+	@NotNull
+	public static String join(@NotNull @MinSize(1) final Collection<String> collection, final char separator,
+			final boolean appendEnd) {
 		final StringBuilder retStr = new StringBuilder();
-		for(final String item: collection){
-			if(isNonNil(item)){
-				retStr.append(item).append(separator);
+		if (Constants.ONE == collection.size()) {
+			retStr.append(collection.iterator().next());
+		} else {
+			for (final String item : collection) {
+				if (isNonNil(item)) {
+					retStr.append(item).append(separator);
+				}
+			}
+			if (!appendEnd) {
+				retStr.deleteCharAt(retStr.length() - 1);
 			}
 		}
 		return retStr.toString();
