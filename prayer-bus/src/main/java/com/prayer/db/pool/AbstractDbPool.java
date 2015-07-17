@@ -33,17 +33,12 @@ public abstract class AbstractDbPool {
 	public static final ConcurrentMap<String, DataSource> DS_POOL = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/**
-	 * Spring JDBC Template实例：jdbc这个变量没有执行Pre的@NotNull约束，因为构造函数调用了子类中的两个方法，
-	 * 而这个变量使用了@NotNull过后会导致PreValidateThis的构造失败
-	 */
-	protected transient JdbcTemplate jdbc;
-	/**
 	 * 数据库的种类： MSSQL,PGSQL,ORACLE,MYSQL,MONGODB
 	 */
 	@NotNull
 	@NotEmpty
 	@NotBlank
-	protected transient String category;	// NOPMD
+	protected transient String category; // NOPMD
 	/**
 	 * 资源加载器
 	 */
@@ -74,8 +69,6 @@ public abstract class AbstractDbPool {
 			this.initJdbc();
 			// 初始化连接池属性
 			this.initPool();
-			// 初始化Template
-			this.jdbc = new JdbcTemplate(this.getDataSource());
 		}
 	}
 
@@ -108,9 +101,8 @@ public abstract class AbstractDbPool {
 	 * 
 	 * @return
 	 */
-	@Pre(expr = "_this.jdbc != null", lang = Constants.LANG_GROOVY)
 	public JdbcTemplate getJdbc() {
-		return this.jdbc;
+		return new JdbcTemplate(this.getDataSource());
 	}
 
 	/**

@@ -32,11 +32,10 @@ public class JdbcConnImpl implements JdbcContext {
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(JdbcConnImpl.class);
 	/** **/
-	private static final String PRE_CONDITION = "_this.jdbc != null";
+	private static final String PRE_CONDITION = "_this.dbPool != null";
 	// ~ Instance Fields =====================================
 	/** **/
-	@NotNull
-	private transient final JdbcTemplate jdbc;
+	private transient final AbstractDbPool dbPool;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -45,8 +44,7 @@ public class JdbcConnImpl implements JdbcContext {
 	@PostValidateThis
 	public JdbcConnImpl() {
 		synchronized(getClass()){
-			final AbstractDbPool dbPool = singleton(pool());
-			this.jdbc = dbPool.getJdbc();
+			this.dbPool = singleton(pool());
 		}
 	}
 
@@ -57,7 +55,8 @@ public class JdbcConnImpl implements JdbcContext {
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
 	public int execute(@NotNull final String sql) {
 		info(LOGGER, "execute(sql) : " + sql);
-		this.jdbc.execute(sql);
+		final JdbcTemplate jdbc = this.dbPool.getJdbc();
+		jdbc.execute(sql);
 		return Constants.RC_SUCCESS;
 	}
 
@@ -66,7 +65,8 @@ public class JdbcConnImpl implements JdbcContext {
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
 	public Long count(@NotNull final String sql) {
 		info(LOGGER, "count(sql) : " + sql);
-		return this.jdbc.queryForObject(sql, Long.class);
+		final JdbcTemplate jdbc = this.dbPool.getJdbc();
+		return jdbc.queryForObject(sql, Long.class);
 	}
 
 	/** **/
@@ -74,7 +74,8 @@ public class JdbcConnImpl implements JdbcContext {
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
 	public List<ConcurrentMap<String, String>> select(@NotNull final String sql, final String... columns) {
 		info(LOGGER, "List<ConcurrentMap<String,String>> query(sql) : " + sql);
-		return this.jdbc.query(sql, Output.extractDataList(columns));
+		final JdbcTemplate jdbc = this.dbPool.getJdbc();
+		return jdbc.query(sql, Output.extractDataList(columns));
 	}
 
 	/** **/
@@ -82,7 +83,8 @@ public class JdbcConnImpl implements JdbcContext {
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
 	public List<String> select(@NotNull final String sql, @NotNull final String column) {
 		info(LOGGER, "List<String> query(sql) : " + sql);
-		return this.jdbc.query(sql, Output.extractColumnList(column));
+		final JdbcTemplate jdbc = this.dbPool.getJdbc();
+		return jdbc.query(sql, Output.extractColumnList(column));
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

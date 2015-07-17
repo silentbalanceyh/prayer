@@ -67,6 +67,7 @@ public class MetadataConnImpl implements MetadataConn {
 			 * 因为metadata和runner在try块中，所以不能设置成final修饰，否则编译会无法通过
 			 */
 			metadata = new Metadata(sqlMeta, dbPool.getCategory());
+			conn.close();
 		} catch (SQLException ex) {
 			debug(LOGGER, "JVM.SQL", "public MetadataConnImpl()", ex);
 		}
@@ -94,6 +95,7 @@ public class MetadataConnImpl implements MetadataConn {
 		try (final Connection conn = this.dbPool.getJdbc().getDataSource().getConnection()) {
 			this.runScript(conn, sqlFile);
 			// 默认日志级别输出SQL语句是DEBUG级别，只要不是级别则不会输出
+			conn.close();
 			ret = true;
 		} catch (SQLException ex) {
 			debug(LOGGER, "JVM.SQL", "public boolean loadSqlFile(InputStream)", ex);
@@ -110,6 +112,7 @@ public class MetadataConnImpl implements MetadataConn {
 		boolean ret = false;
 		try (final Connection conn = this.h2Pool.getJdbc().getDataSource().getConnection()) {
 			this.runScript(conn, sqlFile);
+			conn.close();
 			ret = true;
 		} catch (SQLException ex) {
 			debug(LOGGER, "JVM.SQL", "public boolean initMeta(InputStream)", ex);

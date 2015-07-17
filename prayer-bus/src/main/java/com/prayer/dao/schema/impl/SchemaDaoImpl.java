@@ -29,7 +29,6 @@ import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.PreValidateThis;
 
 /**
@@ -38,27 +37,16 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public class SchemaDaoImpl implements SchemaDao {
+public class SchemaDaoImpl implements SchemaDao { // NOPMD
 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchemaDaoImpl.class);
-	// ~ Instance Fields =====================================
-	/** **/
-	@NotNull
-	private transient SqlSession sqlSession;
 
+	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/**
-	 * 
-	 */
-	@PostValidateThis
-	public SchemaDaoImpl() {
-		sqlSession = SessionManager.getSession();
-	}
-
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/** **/
@@ -73,15 +61,16 @@ public class SchemaDaoImpl implements SchemaDao {
 		this.prepareData(schema);
 		// 2.开启Mybatis的事务
 		final TransactionFactory tranFactory = new JdbcTransactionFactory();
-		final Transaction transaction = tranFactory.newTransaction(session().getConnection());
+		final SqlSession session = SessionManager.getSession();
+		final Transaction transaction = tranFactory.newTransaction(session.getConnection());
 
 		{
 			// 3.MetaModel的导入
-			this.getMetaMapper().insert(schema.getMeta());
+			session.getMapper(MetaMapper.class).insert(schema.getMeta());
 			// 4.KeyModel的导入
-			this.getKeyMapper().batchInsert(new ArrayList<>(schema.getKeys().values()));
+			session.getMapper(KeyMapper.class).batchInsert(new ArrayList<>(schema.getKeys().values()));
 			// 5.FieldModel的导入
-			this.getFieldMapper().batchInsert(new ArrayList<>(schema.getFields().values()));
+			session.getMapper(FieldMapper.class).batchInsert(new ArrayList<>(schema.getFields().values()));
 		}
 		// 6.事务完成提交
 		final DataLoadingException exp = submit(transaction);
@@ -102,16 +91,19 @@ public class SchemaDaoImpl implements SchemaDao {
 		this.prepareData(latestSchema);
 		// 3.开启Mybatis的事务
 		final TransactionFactory tranFactory = new JdbcTransactionFactory();
-		final Transaction transaction = tranFactory.newTransaction(session().getConnection());
+		final SqlSession session = SessionManager.getSession();
+		final Transaction transaction = tranFactory.newTransaction(session.getConnection());
 		{
 			// 4.MetaModel的更新
-			this.getMetaMapper().update(latestSchema.getMeta());
+			session.getMapper(MetaMapper.class).update(latestSchema.getMeta());
 			// 5.KeyModel的更新
-			this.getKeyMapper().deleteByMeta(latestSchema.getMeta().getUniqueId());
-			this.getKeyMapper().batchInsert(new ArrayList<>(latestSchema.getKeys().values()));
+			final KeyMapper keyMapper = session.getMapper(KeyMapper.class);
+			keyMapper.deleteByMeta(latestSchema.getMeta().getUniqueId());
+			keyMapper.batchInsert(new ArrayList<>(latestSchema.getKeys().values()));
 			// 6.FieldModel的更新
-			this.getFieldMapper().deleteByMeta(latestSchema.getMeta().getUniqueId());
-			this.getFieldMapper().batchInsert(new ArrayList<>(latestSchema.getFields().values()));
+			final FieldMapper fieldMapper = session.getMapper(FieldMapper.class);
+			fieldMapper.deleteByMeta(latestSchema.getMeta().getUniqueId());
+			fieldMapper.batchInsert(new ArrayList<>(latestSchema.getFields().values()));
 		}
 		// 6.事务完成提交
 		// 6.事务完成提交
@@ -127,10 +119,12 @@ public class SchemaDaoImpl implements SchemaDao {
 	@PreValidateThis
 	public GenericSchema getById(@NotNull final String globalId) {
 		// 1.读取Meta
-		final MetaMapper metaMapper = this.getMetaMapper();
+		final SqlSession session = SessionManager.getSession();
+		final MetaMapper metaMapper = session.getMapper(MetaMapper.class);
 		final MetaModel meta = metaMapper.selectByGlobalId(globalId);
 
 		// 2.返回GenericSchema
+		session.close();
 		return extractSchema(meta);
 	}
 
@@ -142,17 +136,18 @@ public class SchemaDaoImpl implements SchemaDao {
 	public boolean deleteById(@NotNull final String identifier) throws DataLoadingException {
 		// 1.开启Mybatis的事务
 		final TransactionFactory tranFactory = new JdbcTransactionFactory();
-		final Transaction transaction = tranFactory.newTransaction(session().getConnection());
+		final SqlSession session = SessionManager.getSession();
+		final Transaction transaction = tranFactory.newTransaction(session.getConnection());
 		final GenericSchema schema = this.getById(identifier);
 		final String metaId = schema.getMeta().getUniqueId();
 		// 2.删除Keys
-		final KeyMapper keyMapper = this.getKeyMapper();
+		final KeyMapper keyMapper = session.getMapper(KeyMapper.class);
 		keyMapper.deleteByMeta(metaId);
 		// 3.删除Fields
-		final FieldMapper fieldMapper = this.getFieldMapper();
+		final FieldMapper fieldMapper = session.getMapper(FieldMapper.class);
 		fieldMapper.deleteByMeta(metaId);
 		// 4.删除Meta
-		final MetaMapper metaMapper = this.getMetaMapper();
+		final MetaMapper metaMapper = session.getMapper(MetaMapper.class);
 		metaMapper.deleteById(metaId);
 		// 6.事务完成提交
 		final DataLoadingException exp = submit(transaction);
@@ -173,16 +168,18 @@ public class SchemaDaoImpl implements SchemaDao {
 	private GenericSchema extractSchema(final MetaModel meta) {
 		// 1.读取Keys -> List
 		List<KeyModel> keys = null;
+		final SqlSession session = SessionManager.getSession();
 		if (null != meta && null != meta.getUniqueId()) {
-			final KeyMapper keyMapper = this.getKeyMapper();
+			final KeyMapper keyMapper = session.getMapper(KeyMapper.class);
 			keys = keyMapper.selectByMeta(meta.getUniqueId());
 		}
 		// 2.读取Fields -> List
 		List<FieldModel> fields = null;
 		if (null != meta && null != meta.getUniqueId()) {
-			final FieldMapper fieldMapper = this.getFieldMapper();
+			final FieldMapper fieldMapper = session.getMapper(FieldMapper.class);
 			fields = fieldMapper.selectByMeta(meta.getUniqueId());
 		}
+		session.close();
 		return extractSchema(meta, keys, fields);
 	}
 
@@ -206,13 +203,18 @@ public class SchemaDaoImpl implements SchemaDao {
 		} catch (SQLException ex) {
 			throwExp = new DataLoadingException(getClass(), "Commit");
 			debug(LOGGER, getClass(), "E20005", throwExp, "Commit");
-			info(LOGGER, "Commit SQL Exception.", ex);
 			try {
 				transaction.rollback();
 			} catch (SQLException exp) {
 				throwExp = new DataLoadingException(getClass(), "Rollback");
 				debug(LOGGER, getClass(), "E20005", throwExp, "Rollback");
-				info(LOGGER, "Rollback SQL Exception.", ex);
+			}
+		} finally {
+			try {
+				transaction.close();
+			} catch (SQLException ex) {
+				throwExp = new DataLoadingException(getClass(), "Close");
+				debug(LOGGER, getClass(), "E20005", throwExp, "Close");
 			}
 		}
 		return throwExp;
@@ -276,25 +278,6 @@ public class SchemaDaoImpl implements SchemaDao {
 			model.setUniqueId(uuid());
 			model.setRefMetaId(metaId);
 		}
-	}
-
-	private SqlSession session() {
-		if (null == sqlSession) {
-			sqlSession = SessionManager.getSession();
-		}
-		return sqlSession;
-	}
-
-	private KeyMapper getKeyMapper() {
-		return session().getMapper(KeyMapper.class);
-	}
-
-	private MetaMapper getMetaMapper() {
-		return session().getMapper(MetaMapper.class);
-	}
-
-	private FieldMapper getFieldMapper() {
-		return session().getMapper(FieldMapper.class);
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
