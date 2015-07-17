@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.db.mybatis.KeyMapper">
+<mapper namespace="com.prayer.schema.db.KeyMapper">
 	<resultMap type="Key" id="keyObject">
 		<id column="K_ID" property="uniqueId" />
 		<result column="S_NAME" property="name" />
@@ -10,7 +10,7 @@
 			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 		<result column="IS_MULTI" property="multi" />
 		<result column="S_COLUMNS" property="columns"
-			typeHandler="com.prayer.db.mybatis.handler.ArrayJsonHandler" />
+			typeHandler="com.prayer.schema.db.handler.ArrayJsonHandler" />
 		<result column="R_META_ID" property="refMetaId" />
 	</resultMap>
 	<insert id="insert" parameterType="Key" keyColumn="K_ID"
@@ -28,7 +28,7 @@
 				#{name},
 				#{category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{multi},
-				#{columns, typeHandler=com.prayer.db.mybatis.handler.ArrayJsonHandler},
+				#{columns, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
 				#{refMetaId}
 			)
 		]]>
@@ -51,7 +51,7 @@
 				#{item.name},
 				#{item.category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{item.multi},
-				#{item.columns, typeHandler=com.prayer.db.mybatis.handler.ArrayJsonHandler},
+				#{item.columns, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
 				#{item.refMetaId}
 			)]]>
 		</foreach>
@@ -63,7 +63,7 @@
 				S_NAME=#{name},
 				S_CATEGORY=#{category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				IS_MULTI=#{multi},
-				S_COLUMNS=#{columns, typeHandler=com.prayer.db.mybatis.handler.ArrayJsonHandler},
+				S_COLUMNS=#{columns, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
 				R_META_ID=#{refMetaId}
 			WHERE K_ID=#{uniqueId}
 		]]>

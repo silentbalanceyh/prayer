@@ -10,8 +10,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.db.mybatis.MetaMapper;
 import com.prayer.mod.meta.MetaModel;
+import com.prayer.schema.db.MetaMapper;
 
 /**
  * 

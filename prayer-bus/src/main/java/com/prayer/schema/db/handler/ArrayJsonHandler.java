@@ -1,4 +1,4 @@
-package com.prayer.db.mybatis.handler;
+package com.prayer.schema.db.handler;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;

@@ -1,4 +1,4 @@
-package com.prayer.dao.schema;
+package com.prayer.schema.dao;
 
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.mod.meta.GenericSchema;

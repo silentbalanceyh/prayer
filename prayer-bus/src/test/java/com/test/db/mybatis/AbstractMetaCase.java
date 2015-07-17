@@ -10,10 +10,6 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.prayer.db.mybatis.FieldMapper;
-import com.prayer.db.mybatis.KeyMapper;
-import com.prayer.db.mybatis.MetaMapper;
-import com.prayer.db.mybatis.SessionManager;
 import com.prayer.meta.DataType;
 import com.prayer.mod.SystemEnum.FieldDatetime;
 import com.prayer.mod.SystemEnum.KeyCategory;
@@ -23,6 +19,10 @@ import com.prayer.mod.SystemEnum.MetaPolicy;
 import com.prayer.mod.meta.FieldModel;
 import com.prayer.mod.meta.KeyModel;
 import com.prayer.mod.meta.MetaModel;
+import com.prayer.schema.db.FieldMapper;
+import com.prayer.schema.db.KeyMapper;
+import com.prayer.schema.db.MetaMapper;
+import com.prayer.schema.db.SessionManager;
 
 /**
  * 

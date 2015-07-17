@@ -1,4 +1,4 @@
-package com.prayer.dao.schema.impl;
+package com.prayer.schema.dao.impl;
 
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
@@ -15,16 +15,16 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.schema.SchemaDao;
-import com.prayer.db.mybatis.FieldMapper;
-import com.prayer.db.mybatis.KeyMapper;
-import com.prayer.db.mybatis.MetaMapper;
-import com.prayer.db.mybatis.SessionManager;
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.mod.meta.FieldModel;
 import com.prayer.mod.meta.GenericSchema;
 import com.prayer.mod.meta.KeyModel;
 import com.prayer.mod.meta.MetaModel;
+import com.prayer.schema.dao.SchemaDao;
+import com.prayer.schema.db.FieldMapper;
+import com.prayer.schema.db.KeyMapper;
+import com.prayer.schema.db.MetaMapper;
+import com.prayer.schema.db.SessionManager;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotNull;

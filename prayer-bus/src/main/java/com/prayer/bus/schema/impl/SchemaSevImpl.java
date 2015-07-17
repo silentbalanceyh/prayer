@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.schema.SchemaService;
 import com.prayer.constant.Accessors;
-import com.prayer.dao.schema.SchemaDao;
-import com.prayer.dao.schema.impl.SchemaDaoImpl;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
@@ -19,6 +17,8 @@ import com.prayer.meta.Builder;
 import com.prayer.mod.bus.ServiceResult;
 import com.prayer.mod.meta.GenericSchema;
 import com.prayer.schema.Importer;
+import com.prayer.schema.dao.SchemaDao;
+import com.prayer.schema.dao.impl.SchemaDaoImpl;
 import com.prayer.schema.json.internal.CommunionImporter;
 
 import net.sf.oval.constraint.NotBlank;

@@ -2,12 +2,12 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.db.mybatis.FieldMapper">
+<mapper namespace="com.prayer.schema.db.FieldMapper">
 	<resultMap type="Field" id="fieldObject">
 		<id column="K_ID" property="uniqueId" />
 		<result column="S_NAME" property="name" />
 		<result column="S_TYPE" property="type"
-			typeHandler="com.prayer.db.mybatis.handler.DataTypeHandler" />
+			typeHandler="com.prayer.schema.db.handler.DataTypeHandler" />
 
 		<result column="C_PATTERN" property="pattern" />
 		<result column="C_VALIDATOR" property="validator" />
@@ -66,7 +66,7 @@
 			) VALUES (
 				#{uniqueId},
 				#{name},
-				#{type, typeHandler=com.prayer.db.mybatis.handler.DataTypeHandler},
+				#{type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
 				#{pattern},
 				#{validator},
 				#{length},
@@ -125,7 +125,7 @@
 			<![CDATA[(
 				#{item.uniqueId},
 				#{item.name},
-				#{item.type, typeHandler=com.prayer.db.mybatis.handler.DataTypeHandler},
+				#{item.type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
 				#{item.pattern},
 				#{item.validator},
 				#{item.length},
@@ -155,7 +155,7 @@
 		<![CDATA[
 			UPDATE SYS_FIELDS SET
 				S_NAME=#{name},
-				S_TYPE=#{type, typeHandler=com.prayer.db.mybatis.handler.DataTypeHandler},
+				S_TYPE=#{type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
 				C_PATTERN=#{pattern},
 				C_VALIDATOR=#{validator},
 				C_LENGTH=#{length},

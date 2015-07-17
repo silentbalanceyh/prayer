@@ -7,8 +7,6 @@ import static com.prayer.util.Instance.singleton;
 import org.slf4j.Logger;
 
 import com.prayer.constant.Resources;
-import com.prayer.dao.schema.SchemaDao;
-import com.prayer.dao.schema.impl.SchemaDaoImpl;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.exception.AbstractSchemaException;
@@ -18,6 +16,8 @@ import com.prayer.exception.system.SerializationException;
 import com.prayer.meta.Builder;
 import com.prayer.mod.meta.GenericSchema;
 import com.prayer.schema.Importer;
+import com.prayer.schema.dao.SchemaDao;
+import com.prayer.schema.dao.impl.SchemaDaoImpl;
 import com.prayer.schema.json.internal.CommunionImporter;
 import com.test.AbstractTestCase;
 

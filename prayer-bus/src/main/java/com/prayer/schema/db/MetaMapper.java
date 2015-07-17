@@ -1,4 +1,4 @@
-package com.prayer.db.mybatis;
+package com.prayer.schema.db;
 
 import java.util.List;
 

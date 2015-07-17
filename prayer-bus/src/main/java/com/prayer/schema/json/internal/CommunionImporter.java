@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.prayer.dao.schema.SchemaDao;
-import com.prayer.dao.schema.impl.SchemaDaoImpl;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
@@ -23,6 +21,8 @@ import com.prayer.mod.meta.MetaModel;
 import com.prayer.schema.ExternalEnsurer;
 import com.prayer.schema.Importer;
 import com.prayer.schema.Serializer;
+import com.prayer.schema.dao.SchemaDao;
+import com.prayer.schema.dao.impl.SchemaDaoImpl;
 import com.prayer.schema.json.CommunionSerializer;
 import com.prayer.util.JsonKit;
 
