@@ -1,7 +1,7 @@
 package com.prayer.meta;
 
 import com.prayer.exception.AbstractBuilderException;
-import com.prayer.mod.meta.GenericSchema;
+import com.prayer.model.meta.GenericSchema;
 
 /**
  * 元数据构造表的接口

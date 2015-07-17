@@ -76,6 +76,11 @@ public enum DataType {
 		return DT_MAP.get(storedValue);
 	}
 
+	/** 从DataType到String **/
+	public static String toClass(final DataType type) {
+		return DataType.class.getPackage().getName() + '.' + type.toString();
+	}
+
 	/** 重写toString **/
 	@Override
 	public String toString() {

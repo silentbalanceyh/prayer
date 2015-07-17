@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.mod.meta.GenericSchema;
+import com.prayer.model.meta.GenericSchema;
 import com.prayer.schema.dao.SchemaDao;
 import com.prayer.schema.dao.impl.SchemaDaoImpl;
 import com.prayer.schema.json.internal.CommunionImporter;

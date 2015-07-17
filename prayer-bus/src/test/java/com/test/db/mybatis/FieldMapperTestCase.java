@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.mod.meta.FieldModel;
+import com.prayer.model.meta.FieldModel;
 import com.prayer.schema.db.FieldMapper;
 
 /**

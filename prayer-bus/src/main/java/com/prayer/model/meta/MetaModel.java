@@ -1,4 +1,4 @@
-package com.prayer.mod.meta; // NOPMD
+package com.prayer.model.meta; // NOPMD
 
 import java.io.Serializable;
 
@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.constant.Constants;
-import com.prayer.mod.SystemEnum.MetaCategory;
-import com.prayer.mod.SystemEnum.MetaMapping;
-import com.prayer.mod.SystemEnum.MetaPolicy;
+import com.prayer.model.SystemEnum.MetaCategory;
+import com.prayer.model.SystemEnum.MetaMapping;
+import com.prayer.model.SystemEnum.MetaPolicy;
 
 /**
  * 对应表SYS_META

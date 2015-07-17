@@ -15,10 +15,10 @@ import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.exception.AbstractBuilderException;
 import com.prayer.meta.Builder;
-import com.prayer.mod.SystemEnum.KeyCategory;
-import com.prayer.mod.meta.FieldModel;
-import com.prayer.mod.meta.GenericSchema;
-import com.prayer.mod.meta.KeyModel;
+import com.prayer.model.SystemEnum.KeyCategory;
+import com.prayer.model.meta.FieldModel;
+import com.prayer.model.meta.GenericSchema;
+import com.prayer.model.meta.KeyModel;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.MinSize;

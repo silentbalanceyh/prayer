@@ -9,7 +9,7 @@ import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.mod.meta.GenericSchema;
+import com.prayer.model.meta.GenericSchema;
 import com.prayer.schema.Importer;
 import com.prayer.schema.Serializer;
 import com.prayer.schema.dao.SchemaDao;

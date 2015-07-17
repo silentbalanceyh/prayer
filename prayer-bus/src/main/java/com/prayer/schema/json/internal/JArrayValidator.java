@@ -31,7 +31,7 @@ import com.prayer.exception.schema.PKMissingException;
 import com.prayer.exception.schema.PKPolicyConflictException;
 import com.prayer.exception.schema.SubtableWrongException;
 import com.prayer.exception.schema.ZeroLengthException;
-import com.prayer.mod.SystemEnum.MetaPolicy;
+import com.prayer.model.SystemEnum.MetaPolicy;
 import com.prayer.util.JsonKit;
 
 import net.sf.oval.constraint.Min;

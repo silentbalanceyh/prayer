@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.prayer.mod.SystemEnum.KeyCategory;
-import com.prayer.mod.meta.FieldModel;
-import com.prayer.mod.meta.GenericSchema;
-import com.prayer.mod.meta.KeyModel;
-import com.prayer.mod.meta.MetaModel;
+import com.prayer.model.SystemEnum.KeyCategory;
+import com.prayer.model.meta.FieldModel;
+import com.prayer.model.meta.GenericSchema;
+import com.prayer.model.meta.KeyModel;
+import com.prayer.model.meta.MetaModel;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;

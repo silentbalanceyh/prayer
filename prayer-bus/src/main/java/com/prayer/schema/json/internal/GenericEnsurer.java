@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.mod.SystemEnum.MetaMapping;
-import com.prayer.mod.SystemEnum.MetaPolicy;
+import com.prayer.model.SystemEnum.MetaMapping;
+import com.prayer.model.SystemEnum.MetaPolicy;
 import com.prayer.schema.ExternalEnsurer;
 import com.prayer.util.StringKit;
 

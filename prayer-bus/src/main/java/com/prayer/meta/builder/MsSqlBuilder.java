@@ -14,13 +14,13 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.exception.builder.NullableAddException;
 import com.prayer.exception.builder.NullableAlterException;
-import com.prayer.mod.SystemEnum.KeyCategory;
-import com.prayer.mod.SystemEnum.MetaPolicy;
-import com.prayer.mod.SystemEnum.ResponseCode;
-import com.prayer.mod.meta.FieldModel;
-import com.prayer.mod.meta.GenericSchema;
-import com.prayer.mod.meta.KeyModel;
-import com.prayer.mod.meta.MetaModel;
+import com.prayer.model.SystemEnum.KeyCategory;
+import com.prayer.model.SystemEnum.MetaPolicy;
+import com.prayer.model.SystemEnum.ResponseCode;
+import com.prayer.model.meta.FieldModel;
+import com.prayer.model.meta.GenericSchema;
+import com.prayer.model.meta.KeyModel;
+import com.prayer.model.meta.MetaModel;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotBlank;
@@ -216,7 +216,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {	//
 
 	private ConcurrentMap<StatusFlag, Collection<String>> getStatusMap(final GenericSchema schema) {
 		// 获取新列集合
-		final Collection<String> newColumns = GenericSchema.getColumns(schema.getFields().values());
+		final Collection<String> newColumns = schema.getColumns();
 		// 获取旧列集合
 		final String sql = MsSqlHelper.getSqlColumns(this.getMetadata().getTable());
 		final Collection<String> oldColumns = this.getContext().select(sql, MsSqlHelper.COL_TB_COLUMN);

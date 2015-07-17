@@ -1,4 +1,4 @@
-package com.prayer.mod.jackson;
+package com.prayer.model.jackson;
 
 import java.io.IOException;
 

@@ -16,10 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.system.DataLoadingException;
-import com.prayer.mod.meta.FieldModel;
-import com.prayer.mod.meta.GenericSchema;
-import com.prayer.mod.meta.KeyModel;
-import com.prayer.mod.meta.MetaModel;
+import com.prayer.model.meta.FieldModel;
+import com.prayer.model.meta.GenericSchema;
+import com.prayer.model.meta.KeyModel;
+import com.prayer.model.meta.MetaModel;
 import com.prayer.schema.dao.SchemaDao;
 import com.prayer.schema.db.FieldMapper;
 import com.prayer.schema.db.KeyMapper;

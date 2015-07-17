@@ -2,7 +2,7 @@ package com.prayer.schema.db;
 
 import java.util.List;
 
-import com.prayer.mod.meta.MetaModel;
+import com.prayer.model.meta.MetaModel;
 
 /**
  * 

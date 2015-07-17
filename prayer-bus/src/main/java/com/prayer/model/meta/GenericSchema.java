@@ -1,9 +1,9 @@
-package com.prayer.mod.meta;
+package com.prayer.model.meta;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -71,29 +71,12 @@ public class GenericSchema implements Serializable { // NOPMD
 		}
 		return retMap;
 	}
-
-	/**
-	 * 获取列集合
-	 * 
-	 * @param fields
-	 * @return
-	 */
-	public static Collection<String> getColumns(final Collection<FieldModel> fields) {
-		final Collection<String> columns = new HashSet<>();
-		for (final FieldModel field : fields) {
-			if (StringKit.isNonNil(field.getColumnName())) {
-				columns.add(field.getColumnName());
-			}
-		}
-		return columns;
-	}
 	
 	
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
-
 	// ~ Private Methods =====================================
 	// ~ Get / Set ===========================================
 	/**
@@ -154,6 +137,19 @@ public class GenericSchema implements Serializable { // NOPMD
 	 */
 	public void setFields(final ConcurrentMap<String, FieldModel> fields) {
 		this.fields = fields;
+	}
+	/**
+	 * 排序列出数据列，PK在最前边
+	 * @return
+	 */
+	public Set<String> getColumns(){
+		final Set<String> columns = new TreeSet<>();
+		for (final FieldModel field : this.getFields().values()) {
+			if (StringKit.isNonNil(field.getColumnName())) {
+				columns.add(field.getColumnName());
+			}
+		}
+		return columns;
 	}
 
 	/**

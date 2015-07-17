@@ -1,4 +1,4 @@
-package com.prayer.mod;
+package com.prayer.model;
 /**
  * 系统使用的基础枚举类
  *

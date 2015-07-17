@@ -2,6 +2,8 @@ package com.prayer.meta;
 
 import java.util.Set;
 
+import com.prayer.model.meta.GenericSchema;
+
 /**
  * Record接口
  * 
@@ -37,12 +39,17 @@ public interface Record {
 	 * 
 	 * @return
 	 */
-	String name();
+	String identifier();
 
 	/**
 	 * 获取当前记录的字段集合
 	 * 
 	 * @return
 	 */
-	Set<String> fields();
+	Set<String> columns();
+	/**
+	 * 获取当前Record对应的Schema
+	 * @return
+	 */
+	GenericSchema schema();
 }
