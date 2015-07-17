@@ -46,15 +46,15 @@ public final class ServiceResult<T> implements Serializable{	// NOPMD
 	 */
 	public void setResponse(final T result, final AbstractException error){
 		if( null == error ){
-			this.errorCode = Constants.RC_SUCCESS;
-			this.errorMessage = null;	// NOPMD
-			this.responseCode = ResponseCode.SUCCESS;
+			this.setErrorCode(Constants.RC_SUCCESS);
+			this.setErrorMessage(null);	// NOPMD
+			this.setResponseCode(ResponseCode.SUCCESS);
 		}else{
-			this.errorCode = error.getErrorCode();
-			this.errorMessage = error.getErrorMessage();
-			this.responseCode = ResponseCode.FAILURE;
+			this.setErrorCode(error.getErrorCode());
+			this.setErrorMessage(error.getErrorMessage());
+			this.setResponseCode(ResponseCode.FAILURE);
 		}
-		this.result = result;
+		this.setResult(result);
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

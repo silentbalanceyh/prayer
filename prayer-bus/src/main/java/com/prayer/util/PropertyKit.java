@@ -61,7 +61,7 @@ public final class PropertyKit {
 		} catch (IOException ex) {
 			debug(LOGGER, "JVM.IO", ex, resource);
 		}
-		debug(LOGGER, "SYS.KIT.PROP", prop, null == prop ? 0 : prop.hashCode());
+		// debug(LOGGER, "SYS.KIT.PROP", prop, null == prop ? 0 : prop.hashCode());
 		PROP_POOL.put(resource, this.prop);
 		// Monitor Pool if debug
 	}

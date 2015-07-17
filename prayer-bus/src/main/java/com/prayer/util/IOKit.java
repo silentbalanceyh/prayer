@@ -47,7 +47,6 @@ public final class IOKit {
 	 * @return
 	 */
 	public static InputStream getFile(@NotNull @NotEmpty @NotBlank final String fileName, final Class<?> clazz) {
-		debug(LOGGER, "SYS.KIT.IO.PARAM", fileName, clazz);
 		InputStream retStream = null;
 		if (null == clazz) {
 			// 直接从文件File file = new File()中读取InputStream
