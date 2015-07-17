@@ -1,4 +1,4 @@
-package com.prayer.db.conn.handler;
+package com.prayer.db.conn.tools;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
