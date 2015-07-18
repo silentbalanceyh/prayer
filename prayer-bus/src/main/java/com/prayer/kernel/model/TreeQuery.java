@@ -1,11 +1,16 @@
 package com.prayer.kernel.model;
-
-public class GenericQuery {
+/**
+ * 
+ * @author Lang
+ *
+ */
+public class TreeQuery {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================

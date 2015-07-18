@@ -22,12 +22,12 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
- * 
+ * 内部使用的SchemaLocator，保证系统中仅存在一份Schema
  * @author Lang
  *
  */
 @Guarded
-public final class SchemaLocator {
+final class SchemaLocator {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String, GenericSchema> SCHEMA_MAP = new ConcurrentHashMap<>();

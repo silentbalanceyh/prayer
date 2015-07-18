@@ -34,5 +34,5 @@ public interface RecordDao {
 	 * @param uniqueId
 	 * @return
 	 */
-	boolean deleteById(Value<?>... uniqueId);
+	boolean deleteById(Value<?>... uniqueId) throws AbstractDatabaseException;
 }

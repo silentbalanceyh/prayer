@@ -17,6 +17,7 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
+import com.prayer.kernel.SqlSegment;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.KeyModel;

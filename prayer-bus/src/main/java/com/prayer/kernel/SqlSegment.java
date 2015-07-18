@@ -1,4 +1,4 @@
-package com.prayer.metadata.builder;
+package com.prayer.kernel;
 
 /**
  * SQL片断常量文件
@@ -6,7 +6,7 @@ package com.prayer.metadata.builder;
  * @author Lang
  *
  */
-interface SqlSegment {	// NOPMD
+public interface SqlSegment {	// NOPMD
 	// ~ SQL关键字 ==========================================
 	/** NOT关键字 **/
 	String NOT = "NOT";
@@ -45,4 +45,18 @@ interface SqlSegment {	// NOPMD
 	
 	/** 统计表中有多少行数据 **/
 	String TB_COUNT = "SELECT COUNT(*) FROM {0}";
+	
+	// ~ SQL连接关键字 =====================================
+	/** AND连接符 **/
+	String AND = "AND";
+	/** OR连接符 **/
+	String OR = "OR";	// NOPMD
+	/** AS关键字 **/
+	String AS = "AS";	// NOPMD
+	/** IS关键字 **/
+	String IS = "IS";	// NOPMD
+	/** IN关键字 **/
+	String IN = "IN";	// NOPMD
+	
+	// ~ SQL比较关键字 ====================================
 }

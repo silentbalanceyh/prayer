@@ -9,6 +9,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.KeyCategory;
+import com.prayer.kernel.SqlSegment;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.KeyModel;
 import com.prayer.util.PropertyKit;
