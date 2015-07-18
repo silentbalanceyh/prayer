@@ -1,7 +1,7 @@
 package com.prayer.bus.schema;
 
+import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.meta.GenericSchema;
 
 /**
  * 

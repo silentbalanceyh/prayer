@@ -16,8 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.system.DataLoadingException;
+import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.meta.FieldModel;
-import com.prayer.model.meta.GenericSchema;
 import com.prayer.model.meta.KeyModel;
 import com.prayer.model.meta.MetaModel;
 import com.prayer.schema.dao.SchemaDao;

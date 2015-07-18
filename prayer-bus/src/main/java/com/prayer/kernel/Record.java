@@ -3,7 +3,7 @@ package com.prayer.kernel;
 import java.util.Set;
 
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.model.meta.GenericSchema;
+import com.prayer.kernel.model.GenericSchema;
 
 /**
  * Record接口

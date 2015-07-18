@@ -150,7 +150,7 @@ public class MetaMapperTestCase extends AbstractMetaCase {		// NOPMD
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("[TD] Queried by (namespace + name) successfully: " + targetMeta);
 			}
-			assertEquals("[E] (Speical Query) failure.",meta,targetMeta);
+			assertEquals("[E] (Speical GenericQuery) failure.",meta,targetMeta);
 			
 			final boolean flag = mapper.deleteByModel(namespace, name);
 			this.session().commit();

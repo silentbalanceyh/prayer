@@ -1,4 +1,4 @@
-package com.prayer.model.record;
+package com.prayer.kernel.model;
 
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.instance;
@@ -16,7 +16,6 @@ import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
-import com.prayer.model.meta.GenericSchema;
 import com.prayer.model.type.DataType;
 
 import net.sf.oval.constraint.NotBlank;

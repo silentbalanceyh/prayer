@@ -4,7 +4,7 @@ import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.model.meta.GenericSchema;
+import com.prayer.kernel.model.GenericSchema;
 
 /**
  * 导入接口流程

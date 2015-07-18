@@ -1,4 +1,4 @@
-package com.prayer.model.record;
+package com.prayer.kernel.model;
 
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
@@ -14,7 +14,6 @@ import com.prayer.bus.schema.impl.SchemaSevImpl;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.meta.GenericSchema;
 import com.prayer.schema.json.internal.CommunionImporter;
 
 import net.sf.oval.constraint.NotBlank;

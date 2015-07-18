@@ -2,7 +2,7 @@ package com.prayer.kernel;
 
 import com.prayer.constant.Symbol;
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.model.meta.GenericSchema;
+import com.prayer.kernel.model.GenericSchema;
 
 /**
  * 元数据构造表的接口

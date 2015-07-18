@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import com.prayer.constant.SystemEnum.KeyCategory;
+import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.meta.FieldModel;
-import com.prayer.model.meta.GenericSchema;
 import com.prayer.model.meta.KeyModel;
 import com.prayer.model.meta.MetaModel;
 

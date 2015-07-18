@@ -1,7 +1,7 @@
 package com.prayer.schema.dao;
 
 import com.prayer.exception.system.DataLoadingException;
-import com.prayer.model.meta.GenericSchema;
+import com.prayer.kernel.model.GenericSchema;
 
 /**
  * 

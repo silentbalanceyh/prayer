@@ -1,4 +1,4 @@
-package com.prayer.model.meta;
+package com.prayer.kernel.model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,6 +8,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
+import com.prayer.model.meta.FieldModel;
+import com.prayer.model.meta.KeyModel;
+import com.prayer.model.meta.MetaModel;
 import com.prayer.util.StringKit;
 
 import jodd.util.StringUtil;
