@@ -37,7 +37,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment{	// NOPMD
+public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlBuilder.class);
@@ -195,6 +195,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment{	// 
 					} else {
 						this.setError(new NullableAlterException(getClass(), field.getColumnName(), // NOPMD
 								this.getMetadata().getTable()));
+						break;
 					}
 				}
 			}
@@ -214,6 +215,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment{	// 
 				} else {
 					this.setError(
 							new NullableAddException(getClass(), field.getColumnName(), this.getMetadata().getTable())); // NOPMD
+					break;
 				}
 			}
 		}

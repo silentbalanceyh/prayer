@@ -1,7 +1,8 @@
-package com.prayer.metadata;
+package com.prayer.kernel;
 
 import java.util.Set;
 
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.model.meta.GenericSchema;
 
 /**
@@ -17,14 +18,14 @@ public interface Record {
 	 * @param name
 	 * @param value
 	 */
-	void set(String name, Value<?> value);
+	void set(String name, Value<?> value) throws AbstractDatabaseException;
 
 	/**
 	 * 
 	 * @param name
 	 * @param value
 	 */
-	void set(String name, String value);
+	void set(String name, String value) throws AbstractDatabaseException;
 
 	/**
 	 * 从当前记录中获取对应属性值
@@ -32,7 +33,7 @@ public interface Record {
 	 * @param name
 	 * @return
 	 */
-	Value<?> get(String name);
+	Value<?> get(String name) throws AbstractDatabaseException;
 
 	/**
 	 * 获取当前记录的模型名

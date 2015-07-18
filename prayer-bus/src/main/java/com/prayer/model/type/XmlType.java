@@ -7,7 +7,7 @@ import org.dom4j.DocumentHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.metadata.Value;
+import com.prayer.kernel.Value;
 
 /**
  * 类型：Xml格式

@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 
 import com.prayer.constant.Constants;
-import com.prayer.metadata.Value;
+import com.prayer.kernel.Value;
 
 /**
  * 字节数组

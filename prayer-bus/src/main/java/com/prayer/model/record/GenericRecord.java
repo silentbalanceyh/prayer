@@ -11,9 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.AbstractSystemException;
-import com.prayer.metadata.Record;
-import com.prayer.metadata.Value;
+import com.prayer.exception.database.FieldInvalidException;
+import com.prayer.kernel.Record;
+import com.prayer.kernel.Value;
 import com.prayer.model.meta.GenericSchema;
 import com.prayer.model.type.DataType;
 
@@ -68,14 +70,17 @@ public class GenericRecord implements Record {
 	/** **/
 	@Override
 	@Pre(expr = "_this.data != null", lang = Constants.LANG_GROOVY)
-	public void set(@NotNull @NotBlank @NotEmpty final String name, final Value<?> value) {
+	public void set(@NotNull @NotBlank @NotEmpty final String name, final Value<?> value)
+			throws AbstractDatabaseException {
 		this.data.put(name, value);
 	}
 
 	/** **/
 	@Override
 	@Pre(expr = "_this._schema != null", lang = Constants.LANG_GROOVY)
-	public void set(@NotNull @NotBlank @NotEmpty final String name, final String value) {
+	public void set(@NotNull @NotBlank @NotEmpty final String name, final String value)
+			throws AbstractDatabaseException {
+		this.verifyField(name);
 		final DataType type = this._schema.getFields().get(name).getType();
 		final Value<?> wrapperValue = instance(DataType.toClass(type), value);
 		this.set(name, wrapperValue);
@@ -83,7 +88,8 @@ public class GenericRecord implements Record {
 
 	/** **/
 	@Override
-	public Value<?> get(@NotNull @NotBlank @NotEmpty final String name) {
+	public Value<?> get(@NotNull @NotBlank @NotEmpty final String name) throws AbstractDatabaseException {
+		this.verifyField(name);
 		return this.data.get(name);
 	}
 
@@ -111,6 +117,12 @@ public class GenericRecord implements Record {
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+
+	private void verifyField(final String name) throws AbstractDatabaseException {
+		if (!this._schema.getFields().containsKey(name)) {
+			throw new FieldInvalidException(getClass(), name, this._schema.getIdentifier());
+		}
+	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

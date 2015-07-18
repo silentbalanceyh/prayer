@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.TypeInitException;
-import com.prayer.metadata.Validator;
-import com.prayer.metadata.Value;
+import com.prayer.kernel.Validator;
+import com.prayer.kernel.Value;
 
 /**
  * 类型：字符串类型

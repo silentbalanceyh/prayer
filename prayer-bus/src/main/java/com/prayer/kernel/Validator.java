@@ -1,4 +1,4 @@
-package com.prayer.metadata;
+package com.prayer.kernel;
 
 /**
  * 格式校验接口

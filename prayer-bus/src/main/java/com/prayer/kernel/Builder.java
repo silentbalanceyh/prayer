@@ -1,4 +1,4 @@
-package com.prayer.metadata;
+package com.prayer.kernel;
 
 import com.prayer.constant.Symbol;
 import com.prayer.exception.AbstractDatabaseException;

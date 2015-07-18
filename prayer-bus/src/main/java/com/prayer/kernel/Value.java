@@ -1,4 +1,4 @@
-package com.prayer.metadata;
+package com.prayer.kernel;
 
 import java.lang.reflect.Type;
 
