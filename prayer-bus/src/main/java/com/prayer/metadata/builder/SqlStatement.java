@@ -1,4 +1,4 @@
-package com.prayer.meta.builder;
+package com.prayer.metadata.builder;
 
 import java.text.MessageFormat;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
-import com.prayer.model.SystemEnum.KeyCategory;
+import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.KeyModel;
 import com.prayer.util.PropertyKit;

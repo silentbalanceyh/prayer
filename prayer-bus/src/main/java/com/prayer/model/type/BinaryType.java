@@ -1,11 +1,10 @@
-package com.prayer.meta.type;
+package com.prayer.model.type;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
 import com.prayer.constant.Constants;
-import com.prayer.meta.DataType;
-import com.prayer.meta.Value;
+import com.prayer.metadata.Value;
 
 /**
  * 字节数组

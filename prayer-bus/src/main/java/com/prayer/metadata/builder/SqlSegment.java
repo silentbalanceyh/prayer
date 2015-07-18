@@ -1,4 +1,4 @@
-package com.prayer.meta.builder;
+package com.prayer.metadata.builder;
 
 /**
  * SQL片断常量文件
@@ -7,16 +7,6 @@ package com.prayer.meta.builder;
  *
  */
 interface SqlSegment {	// NOPMD
-	// ~ 系统字符常量 =======================================
-	/** 空白字符 **/
-	char SPACE = ' ';
-	/** 左小括号 **/
-	char BRACKET_SL = '(';
-	/** 右小括号 **/
-	char BRACKET_SR = ')';
-	/** 换行符 **/
-	String NEW_LINE = "\n";
-
 	// ~ SQL关键字 ==========================================
 	/** NOT关键字 **/
 	String NOT = "NOT";

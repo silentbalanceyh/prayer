@@ -9,10 +9,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
-import com.prayer.meta.DataType;
-import com.prayer.model.SystemEnum.FieldDatetime;
+import com.prayer.constant.SystemEnum.FieldDatetime;
 import com.prayer.model.jackson.DataTypeDeserializer;
 import com.prayer.model.jackson.DataTypeSerializer;
+import com.prayer.model.type.DataType;
 
 /**
  * 对应表SYS_FIELDS

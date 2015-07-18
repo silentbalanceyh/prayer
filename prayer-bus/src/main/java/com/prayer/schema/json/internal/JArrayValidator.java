@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.DuplicatedAttrException;
 import com.prayer.exception.schema.DuplicatedColumnException;
@@ -31,7 +32,6 @@ import com.prayer.exception.schema.PKMissingException;
 import com.prayer.exception.schema.PKPolicyConflictException;
 import com.prayer.exception.schema.SubtableWrongException;
 import com.prayer.exception.schema.ZeroLengthException;
-import com.prayer.model.SystemEnum.MetaPolicy;
 import com.prayer.util.JsonKit;
 
 import net.sf.oval.constraint.Min;

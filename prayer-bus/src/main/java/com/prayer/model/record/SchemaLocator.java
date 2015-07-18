@@ -1,4 +1,4 @@
-package com.prayer.meta.record;
+package com.prayer.model.record;
 
 import static com.prayer.util.Instance.singleton;
 
@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.bus.schema.SchemaService;
 import com.prayer.bus.schema.impl.SchemaSevImpl;
-import com.prayer.model.SystemEnum.ResponseCode;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.meta.GenericSchema;
 

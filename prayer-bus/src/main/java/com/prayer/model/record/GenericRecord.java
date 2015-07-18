@@ -1,4 +1,4 @@
-package com.prayer.meta.record;
+package com.prayer.model.record;
 
 import static com.prayer.util.Instance.instance;
 
@@ -6,10 +6,10 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.meta.DataType;
-import com.prayer.meta.Record;
-import com.prayer.meta.Value;
+import com.prayer.metadata.Record;
+import com.prayer.metadata.Value;
 import com.prayer.model.meta.GenericSchema;
+import com.prayer.model.type.DataType;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

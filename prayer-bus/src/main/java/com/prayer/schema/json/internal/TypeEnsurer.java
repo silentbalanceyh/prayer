@@ -14,7 +14,7 @@ import net.sf.oval.guard.PostValidateThis;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.meta.DataType;
+import com.prayer.model.type.DataType;
 import com.prayer.util.StringKit;
 
 /**

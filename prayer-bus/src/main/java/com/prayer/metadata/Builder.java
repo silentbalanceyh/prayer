@@ -1,5 +1,6 @@
-package com.prayer.meta;
+package com.prayer.metadata;
 
+import com.prayer.constant.Symbol;
 import com.prayer.exception.AbstractBuilderException;
 import com.prayer.model.meta.GenericSchema;
 
@@ -9,7 +10,7 @@ import com.prayer.model.meta.GenericSchema;
  * @author Lang
  *
  */
-public interface Builder {
+public interface Builder extends Symbol{
 	/**
 	 * 创建数据表
 	 * 

@@ -1,4 +1,4 @@
-package com.prayer.meta.builder;
+package com.prayer.metadata.builder;
 
 import static com.prayer.util.Error.info;
 
@@ -12,11 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.KeyCategory;
+import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.builder.NullableAddException;
 import com.prayer.exception.builder.NullableAlterException;
-import com.prayer.model.SystemEnum.KeyCategory;
-import com.prayer.model.SystemEnum.MetaPolicy;
-import com.prayer.model.SystemEnum.ResponseCode;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.GenericSchema;
 import com.prayer.model.meta.KeyModel;
@@ -36,7 +36,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment {	// NOPMD
+public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment{	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlBuilder.class);

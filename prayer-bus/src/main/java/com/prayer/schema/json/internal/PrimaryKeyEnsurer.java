@@ -18,11 +18,11 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.PKNullableConflictException;
 import com.prayer.exception.schema.PKUniqueConflictException;
-import com.prayer.meta.DataType;
-import com.prayer.model.SystemEnum.MetaPolicy;
+import com.prayer.model.type.DataType;
 import com.prayer.util.StringKit;
 
 /**

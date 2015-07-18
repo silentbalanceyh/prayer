@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import com.prayer.meta.DataType;
+import com.prayer.model.type.DataType;
 
 /**
  * 为ENUM枚举类型定制的TypeHandler

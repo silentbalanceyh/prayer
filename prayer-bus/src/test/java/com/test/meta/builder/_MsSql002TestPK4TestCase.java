@@ -10,7 +10,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.meta.builder.MsSqlBuilder;
+import com.prayer.metadata.builder.MsSqlBuilder;
 
 /**
  * 

@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
-import com.prayer.meta.DataType;
-import com.prayer.meta.type.DecimalType;
+import com.prayer.model.type.DataType;
+import com.prayer.model.type.DecimalType;
 
 import static org.junit.Assert.assertEquals;
 

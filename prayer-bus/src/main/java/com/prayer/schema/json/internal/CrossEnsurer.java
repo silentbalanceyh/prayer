@@ -17,14 +17,14 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.KeyCategory;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.ColumnsMissingException;
 import com.prayer.exception.schema.FKNotOnlyOneException;
 import com.prayer.exception.schema.MultiForPKPolicyException;
 import com.prayer.exception.schema.PKNotOnlyOneException;
 import com.prayer.exception.schema.WrongTimeAttrException;
-import com.prayer.model.SystemEnum.KeyCategory;
-import com.prayer.model.SystemEnum.MetaPolicy;
 import com.prayer.util.JsonKit;
 
 /**

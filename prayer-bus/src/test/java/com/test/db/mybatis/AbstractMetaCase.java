@@ -10,15 +10,15 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.prayer.meta.DataType;
-import com.prayer.model.SystemEnum.FieldDatetime;
-import com.prayer.model.SystemEnum.KeyCategory;
-import com.prayer.model.SystemEnum.MetaCategory;
-import com.prayer.model.SystemEnum.MetaMapping;
-import com.prayer.model.SystemEnum.MetaPolicy;
+import com.prayer.constant.SystemEnum.FieldDatetime;
+import com.prayer.constant.SystemEnum.KeyCategory;
+import com.prayer.constant.SystemEnum.MetaCategory;
+import com.prayer.constant.SystemEnum.MetaMapping;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.KeyModel;
 import com.prayer.model.meta.MetaModel;
+import com.prayer.model.type.DataType;
 import com.prayer.schema.db.FieldMapper;
 import com.prayer.schema.db.KeyMapper;
 import com.prayer.schema.db.MetaMapper;

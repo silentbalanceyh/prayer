@@ -15,7 +15,7 @@ public final class Accessors {
 	/** 默认值 **/
 	private static final String DFT_DB_POOL = "com.prayer.db.pool.BoneCPPool";
 	/** Builder 默认值 **/
-	private static final String DFT_DB_BUILDER = "com.prayer.meta.builder.MsSqlBuilder";
+	private static final String DFT_DB_BUILDER = "com.prayer.metadata.builder.MsSqlBuilder";
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 

@@ -1,10 +1,10 @@
-package com.prayer.meta.builder;
+package com.prayer.metadata.builder;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.prayer.model.SystemEnum.KeyCategory;
+import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.GenericSchema;
 import com.prayer.model.meta.KeyModel;

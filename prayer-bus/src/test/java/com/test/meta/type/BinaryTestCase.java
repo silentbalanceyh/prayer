@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import com.prayer.meta.DataType;
-import com.prayer.meta.type.BinaryType;
+import com.prayer.model.type.BinaryType;
+import com.prayer.model.type.DataType;
 
 /**
  * 

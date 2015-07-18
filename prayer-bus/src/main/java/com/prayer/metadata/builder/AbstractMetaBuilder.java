@@ -1,4 +1,4 @@
-package com.prayer.meta.builder;
+package com.prayer.metadata.builder;
 
 import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
@@ -10,12 +10,11 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Symbol;
+import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.exception.AbstractBuilderException;
-import com.prayer.meta.Builder;
-import com.prayer.model.SystemEnum.KeyCategory;
+import com.prayer.metadata.Builder;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.GenericSchema;
 import com.prayer.model.meta.KeyModel;
@@ -32,7 +31,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-abstract class AbstractMetaBuilder implements Builder, Symbol { // NOPMD
+abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String,JdbcContext> JDBC_POOL = new ConcurrentHashMap<>();

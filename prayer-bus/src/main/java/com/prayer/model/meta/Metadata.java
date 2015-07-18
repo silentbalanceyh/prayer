@@ -1,4 +1,4 @@
-package com.prayer.meta.database;
+package com.prayer.model.meta;
 
 import static com.prayer.util.Error.debug;
 

@@ -13,7 +13,7 @@ import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.meta.Builder;
+import com.prayer.metadata.Builder;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.meta.GenericSchema;
 import com.prayer.schema.Importer;

@@ -1,4 +1,4 @@
-package com.prayer.meta;
+package com.prayer.metadata;
 
 import java.util.Set;
 

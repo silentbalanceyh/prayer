@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.constant.Constants;
-import com.prayer.model.SystemEnum.KeyCategory;
+import com.prayer.constant.SystemEnum.KeyCategory;
 
 /**
  * 对应表SYS_KEYS

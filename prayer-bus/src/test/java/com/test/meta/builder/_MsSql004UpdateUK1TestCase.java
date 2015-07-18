@@ -9,7 +9,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.model.SystemEnum.ResponseCode;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.meta.GenericSchema;
 

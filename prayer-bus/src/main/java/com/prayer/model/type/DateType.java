@@ -1,85 +1,92 @@
-package com.prayer.meta.type;
+package com.prayer.model.type;
 
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
+import java.util.Date;
 
 import jodd.typeconverter.Convert;
 
 import com.prayer.constant.Constants;
-import com.prayer.meta.DataType;
-import com.prayer.meta.Value;
+import com.prayer.metadata.Value;
 
 /**
- * 类型：浮点类型
+ * 类型：时间/日期类型
  *
  * @author Lang
  * @see
  */
-public class DecimalType implements Value<BigDecimal> {
+public class DateType implements Value<Date> {
 	// ~ Instance Fields =====================================
 	/** **/
-	private BigDecimal value = DEFAULT;
-	/** **/
-	private static final BigDecimal DEFAULT = BigDecimal.valueOf(0.00);
+	private Date value = new Date();
 
 	// ~ Constructors ========================================
 	/** **/
-	public DecimalType() {
-		this(DEFAULT);
+	public DateType() {
+		this(new Date());
 	}
 
 	/** **/
-	public DecimalType(final BigDecimal value) {
+	public DateType(final Long value) {
+		this.value = new Date(value);
+	}
+
+	/** **/
+	public DateType(final String value) {
+		this.value = Convert.toDate(value, new Date());
+	}
+
+	/** **/
+	public DateType(final Date value) {
 		this.value = value;
-	}
-
-	/** **/
-	public DecimalType(final String value) {
-		this.value = Convert.toBigDecimal(value, DEFAULT);
 	}
 
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	public BigDecimal getValue() {
+	public Date getValue() {
 		return this.value;
 	}
 
 	/** **/
 	@Override
-	public void setValue(final BigDecimal value) {
+	public void setValue(final Date value) {
 		this.value = value;
 	}
 
 	/** **/
 	@Override
 	public Type getType() {
-		return BigDecimal.class;
+		return Date.class;
 	}
 
 	/** **/
 	@Override
 	public DataType getDataType() {
-		return DataType.DECIMAL;
+		return DataType.DATE;
 	}
 
 	// ~ Methods =============================================
 	/** **/
+	public void setValue(final Long value) {
+		this.value = new Date(value);
+	}
+
+	/** **/
 	public void setValue(final String value) {
-		this.value = Convert.toBigDecimal(value, DEFAULT);
+		this.value = Convert.toDate(value, new Date());
 	}
 
 	// ~ hashCode,equals,toString ============================
 	/** **/
 	@Override
 	public String toString() {
-		return "DecimalType [value=" + value + "]";
+		return "DateType [value=" + value + "]";
 	}
 
 	/** **/
 	@Override
 	public int hashCode() {
-		final int prime = Constants.HASH_BASE; 
+		final int prime = Constants.HASH_BASE;  
 		int result = 1;
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
@@ -97,7 +104,7 @@ public class DecimalType implements Value<BigDecimal> {
 		if (getClass() != obj.getClass()) {
 			return false; 
 		}
-		final DecimalType other = (DecimalType) obj;
+		final DateType other = (DateType) obj;
 		if (value == null) {
 			if (other.value != null) {
 				return false; 

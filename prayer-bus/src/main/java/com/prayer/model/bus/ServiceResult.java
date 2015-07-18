@@ -3,8 +3,8 @@ package com.prayer.model.bus;
 import java.io.Serializable;
 
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractException;
-import com.prayer.model.SystemEnum.ResponseCode;
 /**
  * 
  * @author Lang

@@ -1,6 +1,8 @@
-package com.prayer.meta;
+package com.prayer.metadata;
 
 import java.lang.reflect.Type;
+
+import com.prayer.model.type.DataType;
 
 /**
  * 所有数据类型必须实现Value<R> R：Raw Type T：Type

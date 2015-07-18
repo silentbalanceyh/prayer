@@ -1,4 +1,4 @@
-package com.prayer.meta.type;
+package com.prayer.model.type;
 
 import static com.prayer.util.Error.info;
 
@@ -10,9 +10,8 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.TypeInitException;
-import com.prayer.meta.DataType;
-import com.prayer.meta.Validator;
-import com.prayer.meta.Value;
+import com.prayer.metadata.Validator;
+import com.prayer.metadata.Value;
 
 /**
  * 类型：字符串类型

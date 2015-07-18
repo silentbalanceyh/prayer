@@ -18,11 +18,11 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.MultiForFKPolicyException;
 import com.prayer.exception.schema.KeysNameSpecificationException;
 import com.prayer.exception.schema.PatternNotMatchException;
-import com.prayer.model.SystemEnum.KeyCategory;
 import com.prayer.util.JsonKit;
 
 /**

@@ -2,8 +2,8 @@ package com.test.meta.type;
 
 import java.util.Date;
 
-import com.prayer.meta.DataType;
-import com.prayer.meta.type.DateType;
+import com.prayer.model.type.DataType;
+import com.prayer.model.type.DateType;
 
 import static org.junit.Assert.assertEquals;
 

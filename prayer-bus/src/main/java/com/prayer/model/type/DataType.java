@@ -1,4 +1,4 @@
-package com.prayer.meta;
+package com.prayer.model.type;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

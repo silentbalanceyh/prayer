@@ -1,4 +1,4 @@
-package com.prayer.model;
+package com.prayer.constant;
 /**
  * 系统使用的基础枚举类
  *
