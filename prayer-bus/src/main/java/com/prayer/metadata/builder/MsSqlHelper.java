@@ -5,6 +5,8 @@ import java.text.MessageFormat;
 import com.prayer.constant.Resources;
 import com.prayer.util.PropertyKit;
 
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -36,52 +38,66 @@ final class MsSqlHelper {
 	private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
 	/** 数据库配置资源加载器 **/
 	private static final PropertyKit LOADER = new PropertyKit(MsSqlHelper.class, Resources.DB_CFG_FILE);
-	
+
 	/** **/
-	public final static String COL_TB_COLUMN = "COLUMN_NAME"; // new String[]{"COLUMN_NAME"};
+	public final static String COL_TB_COLUMN = "COLUMN_NAME"; // new
+																// String[]{"COLUMN_NAME"};
 	/** **/
-	public final static String COL_TB_CONSTRAINT = "CONSTRAINT_NAME"; // new String[]{"CONSTRAINT_NAME"};
+	public final static String COL_TB_CONSTRAINT = "CONSTRAINT_NAME"; // new
+																		// String[]{"CONSTRAINT_NAME"};
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+
 	/**
 	 * 统计系统中的表的SQL
+	 * 
 	 * @param tableName
 	 * @return
 	 */
-	public static String getSqlTableExist(@NotNull final String tableName) {
+	@NotNull
+	public static String getSqlTableExist(@NotNull @NotBlank @NotEmpty final String tableName) {
 		final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
 		return MessageFormat.format(SQL_TB_EXIST, database, tableName);
 	}
 
 	/**
 	 * 获取系统中列集合的SQL
+	 * 
 	 * @param tableName
 	 * @return
 	 */
-	public static String getSqlColumns(@NotNull final String tableName) {
+	@NotNull
+	public static String getSqlColumns(@NotNull @NotBlank @NotEmpty final String tableName) {
 		final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
 		return MessageFormat.format(SQL_TB_COLUMN, database, tableName);
 	}
+
 	/**
 	 * 获取系统中的约束的SQL
+	 * 
 	 * @param tableName
 	 * @return
 	 */
-	public static String getSqlConstraints(@NotNull final String tableName){
+	@NotNull
+	public static String getSqlConstraints(@NotNull @NotBlank @NotEmpty final String tableName) {
 		final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
 		return MessageFormat.format(SQL_TB_CONSTRAINT, database, tableName);
 	}
+
 	/**
 	 * 检查表中指定列是否有空数据的SQL语句
+	 * 
 	 * @param tableName
 	 * @param colName
 	 * @return
 	 */
-	public static String getSqlNull(@NotNull final String tableName, @NotNull final String colName){
+	@NotNull
+	public static String getSqlNull(@NotNull @NotBlank @NotEmpty final String tableName,
+			@NotNull @NotBlank @NotEmpty final String colName) {
 		return MessageFormat.format(SQL_TB_NULL, tableName, colName);
 	}
-	
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

@@ -13,6 +13,8 @@ import com.prayer.model.meta.MetaModel;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -49,6 +51,7 @@ final class BuilderMetaData {
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** 构造函数 **/
+	@PostValidateThis
 	public BuilderMetaData(@NotNull final GenericSchema schema) {
 		this.schema = schema;
 		if (null != schema.getMeta()) {
@@ -91,6 +94,7 @@ final class BuilderMetaData {
 	/**
 	 * @return the table
 	 */
+	@PreValidateThis
 	public String getTable() {
 		return table;
 	}
@@ -98,6 +102,7 @@ final class BuilderMetaData {
 	/**
 	 * @return the foreignField
 	 */
+	@PreValidateThis
 	public FieldModel getForeignField() {
 		return foreignField;
 	}
@@ -105,6 +110,7 @@ final class BuilderMetaData {
 	/**
 	 * @return the foreignKey
 	 */
+	@PreValidateThis
 	public KeyModel getForeignKey() {
 		return foreignKey;
 	}
@@ -112,6 +118,7 @@ final class BuilderMetaData {
 	/**
 	 * @return the keys
 	 */
+	@PreValidateThis
 	public Collection<KeyModel> getKeys() {
 		return keys;
 	}
@@ -119,6 +126,7 @@ final class BuilderMetaData {
 	/**
 	 * @return the fields
 	 */
+	@PreValidateThis
 	public Collection<FieldModel> getFields() {
 		return fields;
 	}
@@ -126,6 +134,7 @@ final class BuilderMetaData {
 	/**
 	 * @return the primaryKeys
 	 */
+	@PreValidateThis
 	public List<FieldModel> getPrimaryKeys() {
 		return primaryKeys;
 	}
@@ -133,6 +142,7 @@ final class BuilderMetaData {
 	/**
 	 * @return the schema
 	 */
+	@PreValidateThis
 	public GenericSchema getSchema() {
 		return schema;
 	}

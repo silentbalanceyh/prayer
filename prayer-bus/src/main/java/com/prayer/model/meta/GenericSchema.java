@@ -14,6 +14,7 @@ import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * Json的Schema信息
@@ -21,6 +22,7 @@ import net.sf.oval.constraint.NotNull;
  * @author Lang
  * @see
  */
+@Guarded
 public class GenericSchema implements Serializable { // NOPMD
 
 	// ~ Static Fields =======================================
@@ -158,7 +160,7 @@ public class GenericSchema implements Serializable { // NOPMD
 	 * @param colName
 	 * @return
 	 */
-	public FieldModel getColumn(@NotNull @NotBlank @NotEmpty final String colName) {
+	public FieldModel getColumn(@NotNull @NotBlank @NotEmpty final String colName){
 		FieldModel ret = null;
 		for (final FieldModel field : this.getFields().values()) {
 			if (StringKit.isNonNil(field.getColumnName()) && StringUtil.equals(colName, field.getColumnName())) {

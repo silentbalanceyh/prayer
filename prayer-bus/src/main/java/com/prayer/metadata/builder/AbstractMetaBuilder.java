@@ -21,6 +21,8 @@ import com.prayer.model.meta.KeyModel;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.MinSize;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -97,7 +99,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * 
 	 * @return
 	 */
-	protected String genDropConstraints(@NotNull final String name) {
+	protected String genDropConstraints(@NotNull @NotEmpty @NotBlank final String name) {
 		return SqlStatement.dropCSSql(this.metadata.getTable(), name);
 	}
 
@@ -107,7 +109,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @param column
 	 * @return
 	 */
-	protected String genDropColumns(@NotNull final String column) {
+	protected String genDropColumns(@NotNull @NotEmpty @NotBlank final String column) {
 		return SqlStatement.dropColSql(this.metadata.getTable(), column);
 	}
 

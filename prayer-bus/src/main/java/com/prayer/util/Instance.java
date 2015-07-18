@@ -8,12 +8,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import net.sf.oval.exception.ConstraintsViolatedException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.reflectasm.ConstructorAccess;
+
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.exception.ConstraintsViolatedException;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 不启用OVal，因为反射部分需要知道的是实际对象的约束防御异常，而不是当前的
@@ -22,6 +26,7 @@ import com.esotericsoftware.reflectasm.ConstructorAccess;
  * @see
  */
 @SuppressWarnings("unchecked")
+@Guarded
 public final class Instance {
 	// ~ Static Fields =======================================
 	/** **/
@@ -41,8 +46,8 @@ public final class Instance {
 	 * @param params
 	 * @return
 	 */
-	public static <T> T reservoir(final ConcurrentMap<String, T> objectPool, final String key, final String className,
-			final Object... params) {
+	public static <T> T reservoir(@NotNull final ConcurrentMap<String, T> objectPool, final String key,
+			@NotNull @NotBlank @NotEmpty final String className, final Object... params) {
 		T ret = objectPool.get(null == key ? "" : key);
 		if (null == ret) {
 			ret = instance(className, params);
@@ -62,8 +67,8 @@ public final class Instance {
 	 * @param params
 	 * @return
 	 */
-	public static <T> T reservoir(final ConcurrentMap<String, T> objectPool, final String key, final Class<?> clazz,
-			final Object... params) {
+	public static <T> T reservoir(@NotNull final ConcurrentMap<String, T> objectPool, final String key,
+			@NotNull final Class<?> clazz, final Object... params) {
 		T ret = objectPool.get(null == key ? "" : key);
 		if (null == ret) {
 			ret = instance(clazz, params);
@@ -80,7 +85,7 @@ public final class Instance {
 	 * @param params
 	 * @return
 	 */
-	public static <T> T singleton(final Class<?> clazz, final Object... params) {
+	public static <T> T singleton(@NotNull final Class<?> clazz, final Object... params) {
 		return (T) reservoir(OBJ_POOLS, clazz.getName(), clazz, params);
 	}
 
@@ -91,7 +96,7 @@ public final class Instance {
 	 * @param params
 	 * @return
 	 */
-	public static <T> T singleton(final String className, final Object... params) {
+	public static <T> T singleton(@NotNull @NotBlank @NotEmpty final String className, final Object... params) {
 		return (T) reservoir(OBJ_POOLS, className, className, params);
 	}
 
@@ -102,7 +107,7 @@ public final class Instance {
 	 * @param params
 	 * @return
 	 */
-	public static <T> T instance(final String className, final Object... params) {
+	public static <T> T instance(@NotNull @NotBlank @NotEmpty final String className, final Object... params) {
 		final Class<?> clazz = clazz(className);
 		return instance(clazz, params);
 	}
@@ -112,7 +117,7 @@ public final class Instance {
 	 * @param className
 	 * @return
 	 */
-	public static Class<?> clazz(final String className) {
+	public static Class<?> clazz(@NotNull @NotBlank @NotEmpty final String className) {
 		Class<?> ret = null;
 		try {
 			ret = Class.forName(className);
@@ -139,18 +144,16 @@ public final class Instance {
 	 */
 	private static <T> T instance(final Class<?> clazz, final Object... params) {
 		T ret = null;
-		if (null != clazz) {
-			try {
-				if (0 == params.length) {
-					ret = construct(clazz);
-				} else {
-					ret = construct(clazz, params);
-				}
-			} catch (ConstraintsViolatedException ex) { // NOPMD
-				throw ex;
-			} catch (SecurityException ex) {
-				info(LOGGER, "[E] Security issue happen.", ex);
+		try {
+			if (0 == params.length) {
+				ret = construct(clazz);
+			} else {
+				ret = construct(clazz, params);
 			}
+		} catch (ConstraintsViolatedException ex) { // NOPMD
+			throw ex;
+		} catch (SecurityException ex) {
+			info(LOGGER, "[E] Security issue happen.", ex);
 		}
 		return ret;
 	}

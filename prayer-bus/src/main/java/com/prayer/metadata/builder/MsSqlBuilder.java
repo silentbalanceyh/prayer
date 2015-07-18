@@ -28,6 +28,7 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * SQL Server的元数据生成器
@@ -83,6 +84,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment{	// 
 	 * 创建新的数据表
 	 */
 	@Override
+	@PreValidateThis
 	public boolean createTable() {
 		final String sql = genCreateSql();
 		final int respCode = this.getContext().execute(sql);
@@ -96,6 +98,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment{	// 
 	 * 检查数据表是否存在
 	 */
 	@Override
+	@PreValidateThis
 	public boolean existTable() {
 		final String sql = MsSqlHelper.getSqlTableExist(this.getMetadata().getTable());
 		final long counter = this.getContext().count(sql);
@@ -107,6 +110,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment{	// 
 	 * 传入参数schema是最新从H2中拿到的元数据信息
 	 */
 	@Override
+	@PreValidateThis
 	public boolean syncTable(@NotNull final GenericSchema schema) {
 		final String sql = this.genUpdateSql(schema);
 		info(LOGGER, "[I] Sql: " + sql);
@@ -119,6 +123,7 @@ public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment{	// 
 
 	/** **/
 	@Override
+	@PreValidateThis
 	public boolean purgeTable() {
 		final String sql = MessageFormat.format(TB_DROP, this.getMetadata().getTable());
 		final int respCode = this.getContext().execute(sql);

@@ -33,7 +33,8 @@ public final class Converter {
 	 * @param sets
 	 * @return
 	 */
-	public static String toStr(@MinSize(1) final Set<String> sets) {
+	@NotNull @NotEmpty @NotBlank
+	public static String toStr(@NotNull @MinSize(1) final Set<String> sets) {
 		return toStr(sets.toArray(new String[] {}));
 	}
 
@@ -42,7 +43,8 @@ public final class Converter {
 	 * @param setArr
 	 * @return
 	 */
-	public static String toStr(@MinLength(1) final String... setArr) {
+	@NotNull @NotEmpty @NotBlank
+	public static String toStr(@NotNull @MinLength(1) final String... setArr) {
 		final StringBuilder retStr = new StringBuilder();
 		for (int i = 0; i < setArr.length; i++) {
 			retStr.append(setArr[i]);

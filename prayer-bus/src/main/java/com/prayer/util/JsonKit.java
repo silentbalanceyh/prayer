@@ -23,6 +23,9 @@ import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
 
 import jodd.util.StringUtil;
+import net.sf.oval.constraint.Digits;
+import net.sf.oval.constraint.Max;
+import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -128,6 +131,7 @@ public final class JsonKit {
 	 * @param arrayNode
 	 * @return
 	 */
+	@NotNull
 	public static List<JsonNode> fromJArray(@NotNull final ArrayNode arrayNode) {
 		final List<JsonNode> jnList = new ArrayList<>();
 		final Iterator<JsonNode> jnIt = arrayNode.iterator();
@@ -147,6 +151,9 @@ public final class JsonKit {
 	 * @param attr
 	 * @return
 	 */
+	@Digits
+	@Min(0)
+	@Max(Integer.MAX_VALUE)
 	public static int occursAttr(@NotNull final JsonNode jsonNode, @NotNull @NotBlank @NotEmpty final String attr) {
 		int occurs = 0;
 		final Iterator<String> attrIt = jsonNode.fieldNames();
@@ -165,6 +172,9 @@ public final class JsonKit {
 	 * @param attr
 	 * @return
 	 */
+	@Digits
+	@Min(0)
+	@Max(Integer.MAX_VALUE)
 	public static int occursAttr(@NotNull final ArrayNode arrayNode, @NotNull @NotBlank @NotEmpty final String attr) {
 		int occurs = 0;
 		final Iterator<JsonNode> nodeIt = arrayNode.iterator();
@@ -181,6 +191,9 @@ public final class JsonKit {
 	 * @param caseSensitive
 	 * @return
 	 */
+	@Digits
+	@Min(0)
+	@Max(Integer.MAX_VALUE)
 	public static int occursAttr(@NotNull final ArrayNode arrayNode, @NotNull @NotBlank @NotEmpty final String attr,
 			final Object value, final boolean caseSensitive) {
 		int occurs = 0;
@@ -199,6 +212,9 @@ public final class JsonKit {
 	 * @param caseSensitive
 	 * @return
 	 */
+	@Digits
+	@Min(0)
+	@Max(Integer.MAX_VALUE)
 	public static int occursAttr(@NotNull final JsonNode jsonNode, @NotNull @NotBlank @NotEmpty final String attr,
 			final Object value, final boolean caseSensitive) {
 		int occurs = 0;
@@ -254,6 +270,7 @@ public final class JsonKit {
 	 * @param filter
 	 * @return
 	 */
+	@NotNull
 	public static List<JsonNode> findNodes(@NotNull final ArrayNode arrayNode,
 			final ConcurrentMap<String, Object> filter) {
 		final List<JsonNode> jnList = new ArrayList<>();

@@ -26,6 +26,7 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -59,6 +60,7 @@ public class SchemaSevImpl implements SchemaService {
 	 * 
 	 */
 	@Override
+	@PreValidateThis
 	public ServiceResult<GenericSchema> syncSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
 		this.importer = this.getImporter(filePath);
 		final ServiceResult<GenericSchema> result = new ServiceResult<>();
@@ -91,6 +93,7 @@ public class SchemaSevImpl implements SchemaService {
 
 	/** **/
 	@Override
+	@PreValidateThis
 	public ServiceResult<GenericSchema> syncMetadata(@NotNull final GenericSchema schema) {
 		final Builder builder = singleton(Accessors.builder(), schema);
 		if (builder.existTable()) {
@@ -106,7 +109,8 @@ public class SchemaSevImpl implements SchemaService {
 
 	/** **/
 	@Override
-	public ServiceResult<GenericSchema> findSchema(final String identifier) {
+	@PreValidateThis
+	public ServiceResult<GenericSchema> findSchema(@NotNull @NotEmpty @NotBlank final String identifier) {
 		final GenericSchema schema = this.dao.getById(identifier);
 		final ServiceResult<GenericSchema> result = new ServiceResult<>();
 		if (null == schema) {
@@ -119,7 +123,8 @@ public class SchemaSevImpl implements SchemaService {
 
 	/** **/
 	@Override
-	public ServiceResult<Boolean> removeSchema(final String identifier) {
+	@PreValidateThis
+	public ServiceResult<Boolean> removeSchema(@NotNull @NotEmpty @NotBlank final String identifier) {
 		final ServiceResult<Boolean> result = new ServiceResult<>();
 		try {
 			final Boolean ret = this.dao.deleteById(identifier);

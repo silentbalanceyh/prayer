@@ -8,6 +8,10 @@ import com.prayer.metadata.Record;
  *
  */
 public interface RecordDao {
-	
+	/**
+	 * 
+	 * @param record
+	 * @return
+	 */
 	Record insert(Record record);
 }
