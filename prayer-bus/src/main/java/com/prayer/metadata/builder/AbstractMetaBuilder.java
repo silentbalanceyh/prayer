@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
-import com.prayer.exception.AbstractBuilderException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.metadata.Builder;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.GenericSchema;
@@ -51,7 +51,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	@NotNull
 	private transient final BuilderMetaData metadata;
 	/** 构建过程中的Error信息 **/
-	private transient AbstractBuilderException error;
+	private transient AbstractDatabaseException error;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -264,14 +264,14 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * 
 	 */
 	@Override
-	public AbstractBuilderException getError() {
+	public AbstractDatabaseException getError() {
 		return this.error;
 	}
 	/**
 	 * 
 	 * @param error
 	 */
-	protected void setError(final AbstractBuilderException error){
+	protected void setError(final AbstractDatabaseException error){
 		this.error = error;
 	}
 

@@ -1,37 +1,38 @@
-package com.prayer.exception;
+package com.prayer.exception.database;
 
-import static com.prayer.util.Error.error;
+import com.prayer.exception.AbstractDatabaseException;
 
 /**
- * Builder处理元数据过程的抽象异常类，在生成数据库信息时候出现异常
+ * 【Checked】-11002，在有数据的时候，如果添加NOT NULL字段不允许
  * @author Lang
  *
  */
-public abstract class AbstractBuilderException extends AbstractException{
+public class NullableAddException extends AbstractDatabaseException{
 	// ~ Static Fields =======================================
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3587573542243637734L;
+	private static final long serialVersionUID = -2883182193513474727L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/** **/
-	public AbstractBuilderException(final String message){
-		super(message);
-	}
 	/**
 	 * 
 	 * @param clazz
-	 * @param errorCode
-	 * @param params
+	 * @param column
+	 * @param table
 	 */
-	public AbstractBuilderException(final Class<?> clazz, final int errorCode, final Object... params) {
-		this(error(clazz, errorCode, params));
+	public NullableAddException(final Class<?> clazz, final String column, final String table){
+		super(clazz, -11001, column, table);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/** **/
+	@Override
+	public int getErrorCode(){
+		return -11002;
+	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

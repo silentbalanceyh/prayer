@@ -1,4 +1,7 @@
 package com.prayer.dao.record;
+
+import com.prayer.metadata.Record;
+
 /**
  * 
  * @author Lang
@@ -6,4 +9,5 @@ package com.prayer.dao.record;
  */
 public interface RecordDao {
 	
+	Record insert(Record record);
 }
