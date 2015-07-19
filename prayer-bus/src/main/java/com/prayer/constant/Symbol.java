@@ -16,6 +16,10 @@ public interface Symbol {	// NOPMD
 	char BRACKET_SL = '(';
 	/** 右小括号 **/
 	char BRACKET_SR = ')';
+	/** 单引号 **/
+	char S_QUOTES = '\'';
+	/** 双引号 **/
+	char D_QUOTES = '"';
 	/** 换行符 **/
 	String NEW_LINE = "\n";
 }

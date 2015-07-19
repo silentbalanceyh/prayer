@@ -1,7 +1,7 @@
 package com.prayer.metadata.builder;
 
+import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.reservoir;
-import static com.prayer.util.Instance.singleton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -66,7 +66,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	public AbstractMetaBuilder(@NotNull final GenericSchema schema) {
 		this.context = reservoir(JDBC_POOL,schema.getIdentifier(),JdbcConnImpl.class);
 		this.sqlLines = new ArrayList<>();
-		this.metadata = singleton(BuilderMetaData.class,schema);
+		this.metadata = instance(BuilderMetaData.class.getName(),schema);
 	}
 
 	// ~ Abstract Methods ====================================

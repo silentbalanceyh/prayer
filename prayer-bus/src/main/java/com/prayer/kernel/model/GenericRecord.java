@@ -44,7 +44,6 @@ public class GenericRecord implements Record {
 	private transient GenericSchema _schema; // NOPMD
 	/** 当前Record中的数据 **/
 	private transient final ConcurrentMap<String, Value<?>> data;
-
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================

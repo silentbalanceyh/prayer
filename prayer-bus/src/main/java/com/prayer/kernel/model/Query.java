@@ -1,5 +1,9 @@
 package com.prayer.kernel.model;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.prayer.constant.Symbol;
 import com.prayer.kernel.SqlSegment;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
@@ -35,6 +39,7 @@ public class Query implements SqlSegment {
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	// ~ and和or属于连接词，可以针对Query进行连接，这种情况不需要任何语句的封装
 	/**
 	 * (A Condition) AND (B Condition)
 	 * 
@@ -57,6 +62,7 @@ public class Query implements SqlSegment {
 		return new Query(left, OR, right);
 	}
 
+	// ~ 下边属于操作符部分，所以可直接进行最小语句设置
 	/**
 	 * (Column = Value)
 	 * 
@@ -90,10 +96,70 @@ public class Query implements SqlSegment {
 		return buildQuery(column, LESS_THAN, value);
 	}
 
+	/**
+	 * (Column <= Value)
+	 * 
+	 * @param column
+	 * @param value
+	 * @return
+	 */
+	public static Query le(@NotNull @NotEmpty @NotBlank final String column, @NotNull final Value<?> value) { // NOPMD
+		return buildQuery(column, LESS_EQ_THAN, value);
+	}
+
+	/**
+	 * (Column > Value)
+	 * 
+	 * @param column
+	 * @param value
+	 * @return
+	 */
+	public static Query gt(@NotNull @NotEmpty @NotBlank final String column, @NotNull final Value<?> value) { // NOPMD
+		return buildQuery(column, GREATER_THAN, value);
+	}
+
+	/**
+	 * (Column >= Value)
+	 * 
+	 * @param column
+	 * @param value
+	 * @return
+	 */
+	public static Query ge(@NotNull @NotEmpty @NotBlank final String column, @NotNull final Value<?> value) { // NOPMD
+		return buildQuery(column, GREATER_EQ_THAN, value);
+	}
+
+	/**
+	 * (Column IS NULL)
+	 * 
+	 * @param column
+	 * @return
+	 */
+	public static Query nul(@NotNull @NotEmpty @NotBlank final String column) {
+		return buildQuery(column, IS, new StringType(NULL));
+	}
+
+	/**
+	 * (Column IS NOT NULL)
+	 * 
+	 * @param column
+	 * @return
+	 */
+	public static Query nil(@NotNull @NotEmpty @NotBlank final String column) {
+		return buildQuery(column, IS, new StringType(NOT + Symbol.SPACE + NULL));
+	}
+
 	/** **/
 	private static Query buildQuery(final String column, final String operator, final Value<?> value) {
 		final Query left = new Query(column);
-		final Query right = new Query(value.literal());
+		final List<DataType> wrapperTypes = Arrays.asList(WRAPPER_TYPES);
+		Query right = null;
+		if (wrapperTypes.contains(value.getDataType())) {
+			// 针对特殊类型需要封装
+			right = new Query(Symbol.S_QUOTES + value.literal() + Symbol.S_QUOTES);
+		} else {
+			right = new Query(value.literal());
+		}
 		return new Query(left, operator, right);
 	}
 
@@ -114,19 +180,6 @@ public class Query implements SqlSegment {
 
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		if (null == left && null == right) {
-			builder.append(data.replaceAll("\"", "'"));
-		} else if (null != left && null != right) { // NOPMD
-			builder.append(left).append(data).append(right);
-		} else {
-			
-		}
-		return builder.toString();
-	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
@@ -152,9 +205,4 @@ public class Query implements SqlSegment {
 		return data;
 	}
 	// ~ hashCode,equals,toString ============================
-
-	public static void main(String args[]) {
-		Query tree = Query.eq("TEST", new StringType("XY"));
-		System.out.println(tree);
-	}
 }
