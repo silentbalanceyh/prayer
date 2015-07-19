@@ -17,16 +17,16 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class QueryTree implements SqlSegment {
+public class Query implements SqlSegment {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final DataType[] WRAPPER_TYPES = { DataType.STRING, DataType.DATE, DataType.JSON, DataType.SCRIPT,
 			DataType.XML, DataType.JSON };
 	// ~ Instance Fields =====================================
 	/** **/
-	private transient QueryTree left;
+	private transient Query left;
 	/** **/
-	private transient QueryTree right;
+	private transient Query right;
 	/** **/
 	@NotNull
 	@NotEmpty
@@ -42,8 +42,8 @@ public class QueryTree implements SqlSegment {
 	 * @param right
 	 * @return
 	 */
-	public static QueryTree and(@NotNull final QueryTree left, @NotNull final QueryTree right) {
-		return new QueryTree(left, AND, right);
+	public static Query and(@NotNull final Query left, @NotNull final Query right) {
+		return new Query(left, AND, right);
 	}
 
 	/**
@@ -53,8 +53,8 @@ public class QueryTree implements SqlSegment {
 	 * @param right
 	 * @return
 	 */
-	public static QueryTree or(@NotNull final QueryTree left, @NotNull final QueryTree right) { // NOPMD
-		return new QueryTree(left, OR, right);
+	public static Query or(@NotNull final Query left, @NotNull final Query right) { // NOPMD
+		return new Query(left, OR, right);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class QueryTree implements SqlSegment {
 	 * @param value
 	 * @return
 	 */
-	public static QueryTree eq(@NotNull @NotEmpty @NotBlank final String column, @NotNull final Value<?> value) { // NOPMD
+	public static Query eq(@NotNull @NotEmpty @NotBlank final String column, @NotNull final Value<?> value) { // NOPMD
 		return buildQuery(column, EQUAL, value);
 	}
 
@@ -75,7 +75,7 @@ public class QueryTree implements SqlSegment {
 	 * @param value
 	 * @return
 	 */
-	public static QueryTree neq(@NotNull @NotEmpty @NotBlank final String column, @NotNull final Value<?> value) { // NOPMD
+	public static Query neq(@NotNull @NotEmpty @NotBlank final String column, @NotNull final Value<?> value) { // NOPMD
 		return buildQuery(column, NOT_EQUAL, value);
 	}
 
@@ -86,27 +86,27 @@ public class QueryTree implements SqlSegment {
 	 * @param value
 	 * @return
 	 */
-	public static QueryTree lt(@NotNull @NotEmpty @NotBlank final String column, @NotNull final Value<?> value) { // NOPMD
+	public static Query lt(@NotNull @NotEmpty @NotBlank final String column, @NotNull final Value<?> value) { // NOPMD
 		return buildQuery(column, LESS_THAN, value);
 	}
 
 	/** **/
-	private static QueryTree buildQuery(final String column, final String operator, final Value<?> value) {
-		final QueryTree left = new QueryTree(column);
-		final QueryTree right = new QueryTree(value.literal());
-		return new QueryTree(left, operator, right);
+	private static Query buildQuery(final String column, final String operator, final Value<?> value) {
+		final Query left = new Query(column);
+		final Query right = new Query(value.literal());
+		return new Query(left, operator, right);
 	}
 
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	private QueryTree(@NotNull @NotEmpty @NotBlank final String data) {
+	private Query(@NotNull @NotEmpty @NotBlank final String data) {
 		this(null, data, null);
 	}
 
 	/** **/
 	@PostValidateThis
-	private QueryTree(final QueryTree left, @NotNull @NotEmpty @NotBlank final String data, final QueryTree right) {
+	private Query(final Query left, @NotNull @NotEmpty @NotBlank final String data, final Query right) {
 		this.left = left;
 		this.right = right;
 		this.data = data;
@@ -119,7 +119,7 @@ public class QueryTree implements SqlSegment {
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
 		if (null == left && null == right) {
-			builder.append(data);
+			builder.append(data.replaceAll("\"", "'"));
 		} else if (null != left && null != right) { // NOPMD
 			builder.append(left).append(data).append(right);
 		} else {
@@ -134,14 +134,14 @@ public class QueryTree implements SqlSegment {
 	/**
 	 * @return the left
 	 */
-	public QueryTree getLeft() {
+	public Query getLeft() {
 		return left;
 	}
 
 	/**
 	 * @return the right
 	 */
-	public QueryTree getRight() {
+	public Query getRight() {
 		return right;
 	}
 
@@ -154,7 +154,7 @@ public class QueryTree implements SqlSegment {
 	// ~ hashCode,equals,toString ============================
 
 	public static void main(String args[]) {
-		QueryTree tree = QueryTree.eq("TEST", new StringType("XY"));
+		Query tree = Query.eq("TEST", new StringType("XY"));
 		System.out.println(tree);
 	}
 }
