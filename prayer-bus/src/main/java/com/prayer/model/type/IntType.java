@@ -88,6 +88,13 @@ public class IntType implements Value<Integer> {
 	public DataType getDataType() {
 		return DataType.INT;
 	}
+	/**
+	 * 
+	 */
+	@Override
+	public String literal(){
+		return String.valueOf(this.value.getValue());
+	}
 
 	// ~ Methods =============================================
 	/**

@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 
 import jodd.mutable.MutableBoolean;
 import jodd.typeconverter.Convert;
+import jodd.util.StringUtil;
 
 import com.prayer.constant.Constants;
 import com.prayer.kernel.Value;
@@ -84,6 +85,14 @@ public class BooleanType implements Value<Boolean> {
 		return DataType.BOOLEAN;
 	}
 
+	/**
+	 * 
+	 */
+	@Override
+	public String literal() {
+		return StringUtil.toLowerCase(String.valueOf(this.value.getValue()));
+	}
+
 	// ~ Methods =============================================
 	/**
 	 * set重载
@@ -112,7 +121,7 @@ public class BooleanType implements Value<Boolean> {
 	/** **/
 	@Override
 	public int hashCode() {
-		final int prime = Constants.HASH_BASE;  
+		final int prime = Constants.HASH_BASE;
 		int result = 1;
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
@@ -122,21 +131,21 @@ public class BooleanType implements Value<Boolean> {
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
-			return true; 
+			return true;
 		}
 		if (obj == null) {
-			return false; 
+			return false;
 		}
 		if (getClass() != obj.getClass()) {
-			return false; 
+			return false;
 		}
 		final BooleanType other = (BooleanType) obj;
 		if (value == null) {
 			if (other.value != null) {
-				return false; 
+				return false;
 			}
 		} else if (!value.equals(other.value)) {
-			return false; 
+			return false;
 		}
 		return true;
 	}

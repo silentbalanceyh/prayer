@@ -6,7 +6,7 @@ package com.prayer.kernel;
  * @author Lang
  *
  */
-public interface SqlSegment {	// NOPMD
+public interface SqlSegment { // NOPMD
 	// ~ SQL关键字 ==========================================
 	/** NOT关键字 **/
 	String NOT = "NOT";
@@ -22,7 +22,7 @@ public interface SqlSegment {	// NOPMD
 	String KEY = "KEY";
 	/** FOREIGN关键字 **/
 	String FOREIGN = "FOREIGN";
-	/** REFERENCES关键字 **/ 
+	/** REFERENCES关键字 **/
 	String REFERENCES = "REFERENCES";
 	/** DROP关键字 **/
 	String DROP = "DROP";
@@ -34,7 +34,7 @@ public interface SqlSegment {	// NOPMD
 	String WHERE = "WHERE";
 	/** ALTER关键字 **/
 	String ALTER = "ALTER";
-	
+
 	// ~ SQL语句模板 ========================================
 	/** 创建表的语句模板 **/
 	String TB_CREATE = "CREATE TABLE {0} ( {1} )";
@@ -42,21 +42,33 @@ public interface SqlSegment {	// NOPMD
 	String TB_DROP = "DROP TABLE {0}";
 	/** 修改表的语句模板 **/
 	String TB_ALTER = "ALTER TABLE {0} {1}";
-	
+
 	/** 统计表中有多少行数据 **/
 	String TB_COUNT = "SELECT COUNT(*) FROM {0}";
-	
+
 	// ~ SQL连接关键字 =====================================
 	/** AND连接符 **/
 	String AND = "AND";
 	/** OR连接符 **/
-	String OR = "OR";	// NOPMD
+	String OR = "OR"; // NOPMD
 	/** AS关键字 **/
-	String AS = "AS";	// NOPMD
+	String AS = "AS"; // NOPMD
 	/** IS关键字 **/
-	String IS = "IS";	// NOPMD
+	String IS = "IS"; // NOPMD
 	/** IN关键字 **/
-	String IN = "IN";	// NOPMD
-	
+	String IN = "IN"; // NOPMD
+	/** =符号 **/
+	String EQUAL = "="; // NOPMD
+	/** <符号 **/
+	String LESS_THAN = "<"; // NOPMD
+	/** >符号 **/
+	String GREATER_THAN = ">"; // NOPMD
+	/** <>符号 **/
+	String NOT_EQUAL = LESS_THAN + GREATER_THAN; // NOPMD
+	/** <=符号 **/
+	String LESS_EQ_THAN = LESS_THAN + EQUAL; // NOPMD
+	/** >=符号 **/
+	String GREATER_EQ_THAN = GREATER_THAN + EQUAL; // NOPMD
+
 	// ~ SQL比较关键字 ====================================
 }

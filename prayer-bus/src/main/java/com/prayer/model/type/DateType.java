@@ -64,6 +64,11 @@ public class DateType implements Value<Date> {
 	public DataType getDataType() {
 		return DataType.DATE;
 	}
+	/** **/
+	@Override
+	public String literal(){
+		return this.value.toString();
+	}
 
 	// ~ Methods =============================================
 	/** **/

@@ -95,6 +95,14 @@ public class StringType implements Value<String>, Validator {
 		return true;
 	}
 
+	/**
+	 * 获取字面量
+	 */
+	@Override
+	public String literal() {
+		return null == this.value ? "null" : this.value.toString();
+	}
+
 	// ~ Methods =============================================
 	/** **/
 	public AbstractSystemException getError() {

@@ -64,6 +64,11 @@ public class LongType implements Value<Long> {
 	public DataType getDataType() {
 		return DataType.LONG;
 	}
+	/** **/
+	@Override
+	public String literal(){
+		return String.valueOf(this.value.getValue());
+	}
 
 	// ~ Methods =============================================
 	/** **/

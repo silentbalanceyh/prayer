@@ -37,4 +37,9 @@ public interface Value<R> {
 	 * @return
 	 */
 	DataType getDataType();
+	/**
+	 * 获取这种类型值的字面量
+	 * @return
+	 */
+	String literal();
 }

@@ -61,6 +61,11 @@ public class DecimalType implements Value<BigDecimal> {
 	public DataType getDataType() {
 		return DataType.DECIMAL;
 	}
+	/** **/
+	@Override
+	public String literal(){
+		return String.valueOf(this.value.doubleValue());
+	}
 
 	// ~ Methods =============================================
 	/** **/
