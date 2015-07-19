@@ -1,6 +1,6 @@
 package com.test.meta.builder;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Instance.instance;
 
 import org.slf4j.Logger;
 
@@ -33,7 +33,7 @@ public abstract class AbstractBUPTestCase extends AbstractTestCase { // NOPMD
 	/** **/
 	public AbstractBUPTestCase() {
 		super();
-		this.service = singleton(SchemaSevImpl.class);
+		this.service = instance(SchemaSevImpl.class.getName());
 	}
 
 	// ~ Abstract Methods ====================================

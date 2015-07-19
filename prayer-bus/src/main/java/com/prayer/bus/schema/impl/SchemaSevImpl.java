@@ -1,6 +1,7 @@
 package com.prayer.bus.schema.impl;
 
 import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
 import org.slf4j.Logger;
@@ -95,7 +96,7 @@ public class SchemaSevImpl implements SchemaService {
 	@Override
 	@PreValidateThis
 	public ServiceResult<GenericSchema> syncMetadata(@NotNull final GenericSchema schema) {
-		final Builder builder = singleton(Accessors.builder(), schema);
+		final Builder builder = instance(Accessors.builder(), schema);
 		if (builder.existTable()) {
 			builder.syncTable(schema);
 		} else {
