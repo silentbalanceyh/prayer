@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.model.meta.MetaModel;
+import com.prayer.model.h2.MetaModel;
 import com.prayer.schema.db.MetaMapper;
 
 /**

@@ -5,9 +5,9 @@ import java.util.List;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.model.meta.FieldModel;
-import com.prayer.model.meta.KeyModel;
-import com.prayer.model.meta.MetaModel;
+import com.prayer.model.h2.FieldModel;
+import com.prayer.model.h2.KeyModel;
+import com.prayer.model.h2.MetaModel;
 
 /**
  * 

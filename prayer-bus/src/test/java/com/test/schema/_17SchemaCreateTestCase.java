@@ -19,9 +19,9 @@ import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.kernel.model.GenericSchema;
-import com.prayer.model.meta.FieldModel;
-import com.prayer.model.meta.KeyModel;
-import com.prayer.model.meta.MetaModel;
+import com.prayer.model.h2.FieldModel;
+import com.prayer.model.h2.KeyModel;
+import com.prayer.model.h2.MetaModel;
 import com.prayer.schema.json.internal.CommunionImporter;
 import com.prayer.util.JsonKit;
 

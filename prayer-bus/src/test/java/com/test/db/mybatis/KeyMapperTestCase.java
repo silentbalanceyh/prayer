@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.model.meta.KeyModel;
+import com.prayer.model.h2.KeyModel;
 import com.prayer.schema.db.KeyMapper;
 
 /**

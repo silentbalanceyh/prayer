@@ -2,7 +2,7 @@ package com.prayer.db.conn;
 
 import java.io.InputStream;
 
-import com.prayer.model.meta.Metadata;
+import com.prayer.model.h2.Metadata;
 
 /**
  * 元数据操作

@@ -1,4 +1,4 @@
-package com.prayer.model.meta; // NOPMD
+package com.prayer.model.h2; // NOPMD
 
 import java.io.Serializable;
 

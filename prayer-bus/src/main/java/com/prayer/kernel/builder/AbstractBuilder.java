@@ -17,8 +17,8 @@ import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Builder;
 import com.prayer.kernel.model.GenericSchema;
-import com.prayer.model.meta.FieldModel;
-import com.prayer.model.meta.KeyModel;
+import com.prayer.model.h2.FieldModel;
+import com.prayer.model.h2.KeyModel;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.MinSize;

@@ -11,9 +11,9 @@
 		<setting name="useColumnLabel" value="true" />
 	</settings>
 	<typeAliases>
-		<typeAlias type="com.prayer.model.meta.KeyModel" alias="Key" />
-		<typeAlias type="com.prayer.model.meta.FieldModel" alias="Field" />
-		<typeAlias type="com.prayer.model.meta.MetaModel" alias="Meta" />
+		<typeAlias type="com.prayer.model.h2.KeyModel" alias="Key" />
+		<typeAlias type="com.prayer.model.h2.FieldModel" alias="Field" />
+		<typeAlias type="com.prayer.model.h2.MetaModel" alias="Meta" />
 	</typeAliases>
 	<environments default="H2Environment">
 		<environment id="H2Environment">

@@ -20,9 +20,9 @@ import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
 import com.prayer.kernel.model.GenericSchema;
-import com.prayer.model.meta.FieldModel;
-import com.prayer.model.meta.KeyModel;
-import com.prayer.model.meta.MetaModel;
+import com.prayer.model.h2.FieldModel;
+import com.prayer.model.h2.KeyModel;
+import com.prayer.model.h2.MetaModel;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotBlank;

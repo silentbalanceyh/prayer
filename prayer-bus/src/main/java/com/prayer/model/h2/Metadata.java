@@ -1,4 +1,4 @@
-package com.prayer.model.meta;
+package com.prayer.model.h2;
 
 import static com.prayer.util.Error.debug;
 
