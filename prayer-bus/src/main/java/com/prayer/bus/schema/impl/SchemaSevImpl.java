@@ -43,7 +43,9 @@ public class SchemaSevImpl implements SchemaService {
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchemaSevImpl.class);
 	/** **/
-	private static final ConcurrentMap<String,Builder> BD_POOLS = new ConcurrentHashMap<>();
+	private static final ConcurrentMap<String, Builder> BD_POOLS = new ConcurrentHashMap<>();
+	/** **/
+	private static final ConcurrentMap<String, Importer> I_POOLS = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/** H2数据库的Importer **/
 	private transient Importer importer;
@@ -102,7 +104,7 @@ public class SchemaSevImpl implements SchemaService {
 	@PreValidateThis
 	public ServiceResult<GenericSchema> syncMetadata(@NotNull final GenericSchema schema) {
 		// 使用池化单件模式，每一个ID的Schema拥有一个Builder
-		final Builder builder = reservoir(BD_POOLS,schema.getIdentifier(),Accessors.builder(), schema);
+		final Builder builder = reservoir(BD_POOLS, schema.getIdentifier(), Accessors.builder(), schema);
 		if (builder.existTable()) {
 			builder.syncTable(schema);
 		} else {
@@ -145,10 +147,13 @@ public class SchemaSevImpl implements SchemaService {
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	/** **/
+	/**
+	 * 注意Importer本身的刷新流程，根据文件路径刷新了filePath
+	 **/
 	private Importer getImporter(final String filePath) {
 		if (null == this.importer) {
-			this.importer = new CommunionImporter(filePath);
+			this.importer = reservoir(I_POOLS, filePath, CommunionImporter.class, filePath);// new
+																							// CommunionImporter(filePath);
 			info(LOGGER, "[I] Init new importer: file = " + filePath);
 		} else {
 			this.importer.refreshSchema(filePath);
