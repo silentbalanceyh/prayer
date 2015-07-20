@@ -15,4 +15,6 @@ public interface ErrorKeys {	// NOPMD
 	String TST_TF = "TST.TF";
 	/** **/
 	String TST_INFO_SQL = "TST.INFO.SQL";
+	/** Database Exception异常 **/
+	String TST_PR = "TST.PR";
 }
