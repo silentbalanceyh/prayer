@@ -13,6 +13,7 @@ import net.sf.oval.guard.PostValidateThis;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.model.type.DataType;
 import com.prayer.util.StringKit;
@@ -43,15 +44,15 @@ final class TypeEnsurer implements InternalEnsurer {
 	static {
 		// Required Mapping ( Remove name, type, columnName, columnType )
 		T_REQUIRED.put(DataType.STRING, new String[] { Attributes.F_LENGTH });
-		T_REQUIRED.put(DataType.XML, new String[] {});
-		T_REQUIRED.put(DataType.JSON, new String[] {});
+		T_REQUIRED.put(DataType.XML, Constants.T_STR_ARR);
+		T_REQUIRED.put(DataType.JSON, Constants.T_STR_ARR);
 		T_REQUIRED.put(DataType.DATE, new String[] { Attributes.F_DATETIME, Attributes.F_DATEFORMAT });
-		T_REQUIRED.put(DataType.LONG, new String[] {});
-		T_REQUIRED.put(DataType.INT, new String[] {});
+		T_REQUIRED.put(DataType.LONG, Constants.T_STR_ARR);
+		T_REQUIRED.put(DataType.INT, Constants.T_STR_ARR);
 		T_REQUIRED.put(DataType.DECIMAL, new String[] { Attributes.F_LENGTH, Attributes.F_PRECISION });
-		T_REQUIRED.put(DataType.BOOLEAN, new String[] {});
+		T_REQUIRED.put(DataType.BOOLEAN, Constants.T_STR_ARR);
 		T_REQUIRED.put(DataType.BINARY, new String[] { Attributes.F_LENGTH });
-		T_REQUIRED.put(DataType.SCRIPT, new String[] {});
+		T_REQUIRED.put(DataType.SCRIPT, Constants.T_STR_ARR);
 		// Supported Attributes
 		T_SUPPORT.put(DataType.STRING,
 				new String[] { Attributes.F_NAME, Attributes.F_TYPE, Attributes.F_COL_NAME, Attributes.F_COL_TYPE,

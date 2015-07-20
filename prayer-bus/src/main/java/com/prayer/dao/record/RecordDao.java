@@ -33,7 +33,7 @@ public interface RecordDao {
 	 */
 	Record selectById(Value<?>... uniqueId);
 	/**
-	 * 
+	 * 无序操作，设置笛卡尔积来完成参数的匹配，长度最大为4
 	 * @param uniqueId
 	 * @return
 	 */

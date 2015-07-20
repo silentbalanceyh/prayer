@@ -29,5 +29,7 @@ public interface Constants { // NOPMD
 	int RC_SUCCESS = ZERO;
 	/** 失败返回值 **/
 	int RC_FAILURE = -1;
-	// ~ Constructors ========================================
+	// ~ Type Constants ======================================
+	/** 字符串数组类型 **/
+	String[] T_STR_ARR = new String[]{};
 }

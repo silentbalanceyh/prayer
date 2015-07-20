@@ -15,7 +15,9 @@ public final class Accessors {
 	/** 默认值 **/
 	private static final String DFT_DB_POOL = "com.prayer.db.pool.BoneCPPool";
 	/** Builder 默认值 **/
-	private static final String DFT_DB_BUILDER = "com.prayer.metadata.builder.MsSqlBuilder";
+	private static final String DFT_DB_BUILDER = "com.prayer.kernel.builder.MsSqlBuilder";
+	/** Dao 默认值 **/
+	private static final String DFT_DB_DAO = "com.prayer.dao.record.impl.MsSqlDaoImpl";
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 
@@ -38,6 +40,16 @@ public final class Accessors {
 	@NotNull
 	public static String builder() {
 		return null == Resources.DB_BUILDER ? DFT_DB_BUILDER : Resources.DB_BUILDER;
+	}
+
+	/**
+	 * 获取Dao类实现
+	 * 
+	 * @return
+	 */
+	@NotNull
+	public static String dao() {
+		return null == Resources.DB_DAO ? DFT_DB_DAO : Resources.DB_DAO;
 	}
 
 	// ~ Constructors ========================================

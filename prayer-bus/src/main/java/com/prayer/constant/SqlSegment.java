@@ -45,6 +45,8 @@ public interface SqlSegment { // NOPMD
 	/** 统计表中有多少行数据 **/
 	String TB_COUNT = "SELECT COUNT(*) FROM {0}";
 	
+	/** 插入语句的SQL模板 **/
+	String TB_INSERT = "INSERT INTO {0} ({1}) VALUES ({2})";
 
 	// ~ SQL连接关键字 =====================================
 	/** AND连接符 **/

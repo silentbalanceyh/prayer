@@ -1,5 +1,6 @@
 package com.prayer.db.conn.tools;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,8 +9,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
+import com.prayer.constant.Constants;
+import com.prayer.kernel.Value;
+import com.prayer.model.type.DataType;
+import com.prayer.model.type.IntType;
+import com.prayer.model.type.LongType;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.MinLength;
@@ -28,6 +35,36 @@ public final class Output {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
+	/**
+	 * 直接获取自增长字段的值
+	 * 
+	 * @return
+	 */
+	public static PreparedStatementCallback<Value<?>> extractIncrement(final DataType retType) {
+		return new PreparedStatementCallback<Value<?>>() {
+			/** **/
+			@Override
+			public Value<?> doInPreparedStatement(final PreparedStatement stmt)
+					throws SQLException, DataAccessException {
+				final int rows = stmt.executeUpdate();
+				Value<?> retValue = null;
+				if (Constants.ZERO <= rows) {
+					try (final ResultSet ret = stmt.getGeneratedKeys()) {
+						if (ret.next()) {
+							if (DataType.INT == retType) {
+								retValue = new IntType(ret.getInt(1));
+							} else if (DataType.LONG == retType) { // NOPMD
+								retValue = new LongType(ret.getLong(1));
+							}
+						}
+					}
+				}
+				return retValue;
+			}
+
+		};
+	}
+
 	/**
 	 * 结果集获取
 	 * 

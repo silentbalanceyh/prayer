@@ -36,6 +36,15 @@ public interface Record {
 	Value<?> get(String name) throws AbstractDatabaseException;
 
 	/**
+	 * 根据列名查找对应的属性值
+	 * 
+	 * @param column
+	 * @return
+	 * @throws AbstractDatabaseException
+	 */
+	Value<?> column(String column);
+
+	/**
 	 * 获取当前记录的模型名
 	 * 
 	 * @return
@@ -48,9 +57,18 @@ public interface Record {
 	 * @return
 	 */
 	Set<String> columns();
+
 	/**
 	 * 获取当前Record对应的Schema
+	 * 
 	 * @return
 	 */
 	GenericSchema schema();
+
+	/**
+	 * 获取当前记录的操作表名
+	 * 
+	 * @return
+	 */
+	String table();
 }

@@ -86,6 +86,7 @@ public final class SchemaExpander {
 	 * @return
 	 */
 	public static Set<String> getColumns(@NotNull @MinSize(0) final ConcurrentMap<String, FieldModel> fields) {
+		// 因为列顺序会对SQL语句生成影响，所以使用了TreeSet的自然排序
 		final Set<String> columns = new TreeSet<>();
 		for (final FieldModel field : fields.values()) {
 			if (StringKit.isNonNil(field.getColumnName())) {

@@ -24,7 +24,6 @@ public class _MsSql001TestUK1TestCase extends AbstractBCPTestCase {	// NOPMD
 	private static final String DB_CATEGORY = "MSSQL";
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql001TestUK1TestCase.class);
-
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================

@@ -13,9 +13,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.prayer.constant.Constants;
 import com.prayer.db.conn.JdbcContext;
+import com.prayer.db.conn.tools.Input;
 import com.prayer.db.conn.tools.Output;
 import com.prayer.db.pool.AbstractDbPool;
+import com.prayer.kernel.Value;
+import com.prayer.model.type.DataType;
 
+import net.sf.oval.constraint.MinSize;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -43,7 +49,7 @@ public class JdbcConnImpl implements JdbcContext {
 	/** **/
 	@PostValidateThis
 	public JdbcConnImpl() {
-		synchronized(getClass()){
+		synchronized (getClass()) {
 			this.dbPool = singleton(pool());
 		}
 	}
@@ -85,6 +91,16 @@ public class JdbcConnImpl implements JdbcContext {
 		info(LOGGER, "List<String> query(sql) : " + sql);
 		final JdbcTemplate jdbc = this.dbPool.getJdbc();
 		return jdbc.query(sql, Output.extractColumnList(column));
+	}
+
+	/** **/
+	@Override
+	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
+	public Value<?> insert(@NotNull @NotBlank @NotEmpty final String sql,
+			@NotNull @MinSize(1) final List<Value<?>> values, final boolean isRetKey, final DataType retType) {
+		info(LOGGER, "Value<?> insert(String,List<Value<?>>,boolean) : " + sql);
+		final JdbcTemplate jdbc = this.dbPool.getJdbc();
+		return jdbc.execute(Input.prepStmt(sql, values, isRetKey), Output.extractIncrement(retType));
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

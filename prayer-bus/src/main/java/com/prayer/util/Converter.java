@@ -7,6 +7,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Constants;
+import com.prayer.constant.Symbol;
+
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
@@ -35,7 +38,7 @@ public final class Converter {
 	 */
 	@NotNull @NotEmpty @NotBlank
 	public static String toStr(@NotNull @MinSize(1) final Set<String> sets) {
-		return toStr(sets.toArray(new String[] {}));
+		return toStr(sets.toArray(Constants.T_STR_ARR));
 	}
 
 	/**
@@ -49,7 +52,7 @@ public final class Converter {
 		for (int i = 0; i < setArr.length; i++) {
 			retStr.append(setArr[i]);
 			if (i < setArr.length - 1) {
-				retStr.append(',');
+				retStr.append(Symbol.COMMA);
 			}
 		}
 		return retStr.toString();

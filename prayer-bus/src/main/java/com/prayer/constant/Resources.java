@@ -43,6 +43,8 @@ public final class Resources { // NOPMD
 	public static final String DB_CFG_FILE;
 	/** 数据库的Builder **/
 	public static final String DB_BUILDER;
+	/** 数据库访问Record的Dao实现 **/
+	public static final String DB_DAO;
 
 	// Database Type Mapping =================================
 	/** 数据库类型映射文件地址 **/
@@ -109,6 +111,10 @@ public final class Resources { // NOPMD
 		DB_BUILDER = LOADER.getString("database.meta.builder");
 		if (null == DB_BUILDER) {
 			debug(LOGGER, ERR_SYS_NULL, "DB_BUILDER", DB_BUILDER);
+		}
+		DB_DAO = LOADER.getString("database.dao");
+		if (null == DB_DAO) {
+			debug(LOGGER, ERR_SYS_NULL, "DB_DAO", DB_DAO);
 		}
 
 		// Open Source

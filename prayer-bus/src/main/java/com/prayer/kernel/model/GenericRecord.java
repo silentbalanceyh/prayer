@@ -16,6 +16,7 @@ import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
+import com.prayer.model.h2.FieldModel;
 import com.prayer.model.type.DataType;
 
 import net.sf.oval.constraint.NotBlank;
@@ -35,6 +36,8 @@ public class GenericRecord implements Record {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(GenericRecord.class);
+	/** 前置条件 **/
+	private static final String PRE_SCHEMA_CON = "_this._schema != null";
 	// ~ Instance Fields =====================================
 	/** 全局标识符 **/
 	@NotNull
@@ -44,6 +47,7 @@ public class GenericRecord implements Record {
 	private transient GenericSchema _schema; // NOPMD
 	/** 当前Record中的数据 **/
 	private transient final ConcurrentMap<String, Value<?>> data;
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -75,7 +79,7 @@ public class GenericRecord implements Record {
 
 	/** **/
 	@Override
-	@Pre(expr = "_this._schema != null", lang = Constants.LANG_GROOVY)
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
 	public void set(@NotNull @NotBlank @NotEmpty final String name, final String value)
 			throws AbstractDatabaseException {
 		this.verifyField(name);
@@ -91,6 +95,14 @@ public class GenericRecord implements Record {
 		return this.data.get(name);
 	}
 
+	/** **/
+	@Override
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
+	public Value<?> column(@NotNull @NotBlank @NotEmpty final String column){
+		final FieldModel colInfo = this._schema.getColumn(column);
+		return this.data.get(colInfo.getName());
+	}
+
 	/**
 	 * 获取全局标识符
 	 */
@@ -102,7 +114,7 @@ public class GenericRecord implements Record {
 
 	/** 获取数据库列集 **/
 	@Override
-	@Pre(expr = "_this._schema != null", lang = Constants.LANG_GROOVY)
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
 	public Set<String> columns() {
 		return this._schema.getColumns();
 	}
@@ -112,6 +124,13 @@ public class GenericRecord implements Record {
 	@NotNull
 	public GenericSchema schema() {
 		return this._schema;
+	}
+
+	/** 获取表名 **/
+	@Override
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
+	public String table() {
+		return this._schema.getMeta().getTable();
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
