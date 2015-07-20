@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.kernel.model.GenericSchema;
+import com.prayer.kernel.model.SchemaExpander;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.KeyModel;
 import com.prayer.model.meta.MetaModel;
@@ -191,8 +192,8 @@ public class SchemaDaoImpl implements SchemaDao { // NOPMD
 		final GenericSchema schema = new GenericSchema();
 		schema.setIdentifier(meta.getGlobalId());
 		schema.setMeta(meta);
-		schema.setKeys(GenericSchema.getKeysMap(keys));
-		schema.setFields(GenericSchema.getFieldsMap(fields));
+		schema.setKeys(SchemaExpander.toKeysMap(keys));
+		schema.setFields(SchemaExpander.toFieldsMap(fields));
 		return schema;
 	}
 

@@ -39,7 +39,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public class MsSqlBuilder extends AbstractMetaBuilder implements SqlSegment { // NOPMD
+public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlBuilder.class);

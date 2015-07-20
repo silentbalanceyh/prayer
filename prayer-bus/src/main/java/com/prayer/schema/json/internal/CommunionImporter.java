@@ -15,6 +15,7 @@ import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.exception.system.TypeInitException;
 import com.prayer.kernel.model.GenericSchema;
+import com.prayer.kernel.model.SchemaExpander;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.KeyModel;
 import com.prayer.model.meta.MetaModel;
@@ -199,12 +200,12 @@ public class CommunionImporter implements Importer {
 	}
 
 	private ConcurrentMap<String, FieldModel> readFields() throws SerializationException {
-		return GenericSchema
-				.getFieldsMap(this.serializer.readFields(JsonKit.fromJObject(this.rawData.path("__fields__"))));
+		return SchemaExpander
+				.toFieldsMap(this.serializer.readFields(JsonKit.fromJObject(this.rawData.path("__fields__"))));
 	}
 
 	private ConcurrentMap<String, KeyModel> readKeys() throws SerializationException {
-		return GenericSchema.getKeysMap(this.serializer.readKeys(JsonKit.fromJObject(this.rawData.path("__keys__"))));
+		return SchemaExpander.toKeysMap(this.serializer.readKeys(JsonKit.fromJObject(this.rawData.path("__keys__"))));
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

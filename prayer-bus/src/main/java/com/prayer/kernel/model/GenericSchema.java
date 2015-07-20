@@ -1,21 +1,16 @@
 package com.prayer.kernel.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
-import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.KeyModel;
 import com.prayer.model.meta.MetaModel;
-import com.prayer.util.StringKit;
 
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -47,54 +42,17 @@ public class GenericSchema implements Serializable { // NOPMD
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
-	/**
-	 * 功能函数
-	 * 
-	 * @param keys
-	 * @return
-	 */
-	public static ConcurrentMap<String, KeyModel> getKeysMap(final List<KeyModel> keys) {
-		final ConcurrentMap<String, KeyModel> retMap = new ConcurrentHashMap<>();
-		for (final KeyModel key : keys) {
-			if (StringKit.isNonNil(key.getName())) {
-				retMap.put(key.getName(), key);
-			}
-		}
-		return retMap;
-	}
-
-	/**
-	 * 功能函数
-	 * 
-	 * @param fields
-	 * @return
-	 */
-	public static ConcurrentMap<String, FieldModel> getFieldsMap(final List<FieldModel> fields) {
-		final ConcurrentMap<String, FieldModel> retMap = new ConcurrentHashMap<>();
-		for (final FieldModel field : fields) {
-			if (StringKit.isNonNil(field.getName())) {
-				retMap.put(field.getName(), field);
-			}
-		}
-		return retMap;
-	}
-	
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	/**
 	 * 排序列出数据列，PK在最前边
+	 * 
 	 * @return
 	 */
-	public Set<String> getColumns(){
-		final Set<String> columns = new TreeSet<>();
-		for (final FieldModel field : this.getFields().values()) {
-			if (StringKit.isNonNil(field.getColumnName())) {
-				columns.add(field.getColumnName());
-			}
-		}
-		return columns;
+	public Set<String> getColumns() {
+		return SchemaExpander.getColumns(this.getFields());
 	}
 
 	/**
@@ -103,59 +61,37 @@ public class GenericSchema implements Serializable { // NOPMD
 	 * @param colName
 	 * @return
 	 */
-	public FieldModel getColumn(@NotNull @NotBlank @NotEmpty final String colName){
-		FieldModel ret = null;
-		for (final FieldModel field : this.getFields().values()) {
-			if (StringKit.isNonNil(field.getColumnName()) && StringUtil.equals(colName, field.getColumnName())) {
-				ret = field;
-				break;
-			}
-		}
-		return ret;
+	public FieldModel getColumn(@NotNull @NotBlank @NotEmpty final String colName) {
+		return SchemaExpander.getColumn(this.getFields(), colName);
 	}
+
 	/**
 	 * 获取主键的Schema，有可能是多个主键
+	 * 
 	 * @return
 	 */
-	public List<FieldModel> getPrimaryKeys(){
-		final List<FieldModel> retList = new ArrayList<>();
-		if(null != this.getMeta()){
-			for(final FieldModel field: this.fields.values()){
-				if(field.isPrimaryKey()){
-					retList.add(field);
-				}
-			}
-		}
-		return retList;
+	public List<FieldModel> getPrimaryKeys() {
+		return SchemaExpander.getPrimaryKeys(this.getFields());
 	}
+
 	/**
 	 * 获取外键规范
+	 * 
 	 * @return
 	 */
-	public FieldModel getForeignField(){
-		FieldModel foreignField = null;
-		for(final FieldModel field: this.fields.values()){
-			if(field.isForeignKey()){
-				foreignField = field;
-				break;
-			}
-		}
-		return foreignField;
+	public FieldModel getForeignField() {
+		return SchemaExpander.getForeignField(this.getFields());
 	}
+
 	/**
 	 * 获取外键定义
+	 * 
 	 * @return
 	 */
-	public KeyModel getForeignKey(){
-		KeyModel foreignKey = null;
-		for(final KeyModel key: this.keys.values()){
-			if(KeyCategory.ForeignKey == key.getCategory()){
-				foreignKey = key;
-				break;
-			}
-		}
-		return foreignKey;
+	public KeyModel getForeignKey() {
+		return SchemaExpander.getForeignKey(this.getKeys());
 	}
+
 	// ~ Private Methods =====================================
 	// ~ Get / Set ===========================================
 	/**

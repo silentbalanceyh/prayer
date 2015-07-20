@@ -35,7 +35,7 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
-abstract class AbstractMetaBuilder implements Builder { // NOPMD
+abstract class AbstractBuilder implements Builder { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String,JdbcContext> JDBC_POOL = new ConcurrentHashMap<>();
@@ -61,7 +61,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @param schema
 	 */
 	@PostValidateThis
-	public AbstractMetaBuilder(@NotNull final GenericSchema schema) {
+	public AbstractBuilder(@NotNull final GenericSchema schema) {
 		this.context = reservoir(JDBC_POOL,schema.getIdentifier(),JdbcConnImpl.class);
 		this.sqlLines = new ArrayList<>();
 		this.schema = schema;
