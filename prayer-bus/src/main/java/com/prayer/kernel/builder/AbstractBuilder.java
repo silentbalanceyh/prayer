@@ -1,4 +1,4 @@
-package com.prayer.metadata.builder;
+package com.prayer.kernel.builder;
 
 import static com.prayer.util.Instance.reservoir;
 

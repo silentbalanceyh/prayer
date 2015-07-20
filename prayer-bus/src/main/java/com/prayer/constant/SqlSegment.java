@@ -42,9 +42,9 @@ public interface SqlSegment { // NOPMD
 	String TB_DROP = "DROP TABLE {0}";
 	/** 修改表的语句模板 **/
 	String TB_ALTER = "ALTER TABLE {0} {1}";
-
 	/** 统计表中有多少行数据 **/
 	String TB_COUNT = "SELECT COUNT(*) FROM {0}";
+	
 
 	// ~ SQL连接关键字 =====================================
 	/** AND连接符 **/

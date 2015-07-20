@@ -1,4 +1,4 @@
-package com.prayer.metadata.builder;
+package com.prayer.kernel.builder;
 
 import java.text.MessageFormat;
 import java.util.Properties;
