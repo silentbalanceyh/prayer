@@ -13,7 +13,6 @@ import com.prayer.kernel.Expression;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.IntType;
 import com.prayer.model.type.StringType;
-import com.prayer.util.StringKitJoinTestCase;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 
@@ -25,7 +24,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 public class Restrictions01EQTestCase extends AbstractTestTool {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(StringKitJoinTestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Restrictions01EQTestCase.class);
 	/** **/
 	private static final Value<?> STR_VAL = new StringType("Value");
 	/** **/

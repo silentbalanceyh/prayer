@@ -9,4 +9,9 @@ public interface Expression {
 	 * @return
 	 */
 	String toSql();
+	/**
+	 * 判断当前Expression是否复杂表达式
+	 * @return
+	 */
+	boolean isComplex();
 }

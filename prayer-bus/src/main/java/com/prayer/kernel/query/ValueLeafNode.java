@@ -45,6 +45,13 @@ final class ValueLeafNode extends AbstractExpression implements Expression{
 		super(quote(value));
 	}
 	/**
+	 * 直接使用String来构造值对象
+	 * @param value
+	 */
+	public ValueLeafNode(final String value){
+		super(value);
+	}
+	/**
 	 * ?带参数值构造
 	 */
 	public ValueLeafNode(){

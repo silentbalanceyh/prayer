@@ -8,9 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractTestTool;
 import com.prayer.kernel.Expression;
-import com.prayer.kernel.Value;
-import com.prayer.model.type.IntType;
-import com.prayer.model.type.StringType;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 
@@ -19,14 +16,10 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  *
  */
-public class Restrictions05LETestCase extends AbstractTestTool { // NOPMD
+public class Restrictions07NullableTestCase extends AbstractTestTool { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(Restrictions05LETestCase.class);
-	/** **/
-	private static final Value<?> STR_VAL = new StringType("Value");
-	/** **/
-	private static final Value<?> INT_VAL = new IntType(22);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Restrictions07NullableTestCase.class);
 	/** **/
 	private static final String COL_NAME = "COL";
 
@@ -49,78 +42,62 @@ public class Restrictions05LETestCase extends AbstractTestTool { // NOPMD
 	// ~ Methods =============================================
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05029Mle() {
-		Restrictions.le(null);
+	public void testE05043MisNull() {
+		Restrictions.isNull(null);
 		failure(TST_OVAL);
 	}
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05030Mle() {
-		Restrictions.le("");
+	public void testE05044MisNull() {
+		Restrictions.isNull("");
 		failure(TST_OVAL);
 	}
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05031Mle() {
-		Restrictions.le("   ");
+	public void testE05045MisNull() {
+		Restrictions.isNull("   ");
 		failure(TST_OVAL);
 	}
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05032Mle() {
-		Restrictions.le(null, STR_VAL);
+	public void testE05046isNotNull() {
+		Restrictions.isNotNull(null);
 		failure(TST_OVAL);
 	}
-
+	
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05033Mle() {
-		Restrictions.le("", STR_VAL);
+	public void testE05047isNotNull() {
+		Restrictions.isNotNull("");
 		failure(TST_OVAL);
 	}
-
+	
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05034Mle() {
-		Restrictions.le("   ", STR_VAL);
-		failure(TST_OVAL);
-	}
-
-	/** **/
-	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05035Mle() {
-		Restrictions.le(COL_NAME, null);
+	public void testE05048isNotNull() {
+		Restrictions.isNotNull("   ");
 		failure(TST_OVAL);
 	}
 
 	/** **/
 	@Test
-	public void testT05013Mle() {
-		final Expression expr = Restrictions.le(COL_NAME);
+	public void testT05019MisNull() {
+		final Expression expr = Restrictions.isNull(COL_NAME);
 		final String sqlSeg = expr.toSql();
 		info(LOGGER, TST_INFO_SQL, sqlSeg);
-		assertEquals(message(TST_EQUAL), COL_NAME + "<=?", sqlSeg);
+		assertEquals(message(TST_EQUAL), COL_NAME + " IS NULL", sqlSeg);
 	}
 
 	/** **/
 	@Test
-	public void testT05014Mle() {
-		final Expression expr = Restrictions.le(COL_NAME, STR_VAL);
+	public void testT05020MisNotNull() {
+		final Expression expr = Restrictions.isNotNull(COL_NAME);
 		final String sqlSeg = expr.toSql();
 		info(LOGGER, TST_INFO_SQL, sqlSeg);
-		assertEquals(message(TST_EQUAL), COL_NAME + "<='Value'", sqlSeg);
-	}
-
-	/** **/
-	@Test
-	public void testT05015Mle() {
-		final Expression expr = Restrictions.le(COL_NAME, INT_VAL);
-		final String sqlSeg = expr.toSql();
-		info(LOGGER, TST_INFO_SQL, sqlSeg);
-		assertEquals(message(TST_EQUAL), COL_NAME + "<=22", sqlSeg);
+		assertEquals(message(TST_EQUAL), COL_NAME + " IS NOT NULL", sqlSeg);
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

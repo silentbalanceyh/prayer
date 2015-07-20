@@ -69,6 +69,8 @@ public interface SqlSegment { // NOPMD
 	String LESS_EQ_THAN = LESS_THAN + EQUAL; // NOPMD
 	/** >=符号 **/
 	String GREATER_EQ_THAN = GREATER_THAN + EQUAL; // NOPMD
+	/** LIKE关键字 **/
+	String LIKE = "LIKE";
 
 	// ~ SQL比较关键字 ====================================
 }

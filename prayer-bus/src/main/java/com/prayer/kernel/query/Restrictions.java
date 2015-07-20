@@ -1,5 +1,12 @@
 package com.prayer.kernel.query;
 
+import static com.prayer.util.Error.info;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.database.ProjectionInvalidException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.SqlSegment;
 import com.prayer.kernel.Value;
@@ -16,6 +23,14 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class Restrictions implements SqlSegment {
 	// ~ Static Fields =======================================
+
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(Restrictions.class);
+	/** 左表达式 **/
+	private static final String LEFT = "left";
+	/** 右表达式 **/
+	private static final String RIGHT = "right";
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -157,11 +172,96 @@ public final class Restrictions implements SqlSegment {
 		return new StandardExpression(column, GREATER_EQ_THAN);
 	}
 
+	/**
+	 * 
+	 * @param column
+	 * @param value
+	 * @return
+	 */
+	@NotNull
+	public static Expression like(@NotNull @NotBlank @NotEmpty final String column, @NotNull final Value<?> value,
+			@NotNull final MatchMode matchMode) { // NOPMD
+		return new LikeExpression(column, value, matchMode);
+	}
+
+	/**
+	 * COLUMN IS NULL
+	 * 
+	 * @param column
+	 * @return
+	 */
+	@NotNull
+	public static Expression isNull(@NotNull @NotBlank @NotEmpty final String column) { // NOPMD
+		return NullableExpression.getIsNull(column);
+	}
+
+	/**
+	 * COLUMN IS NOT NULL
+	 * 
+	 * @param column
+	 * @return
+	 */
+	@NotNull
+	public static Expression isNotNull(@NotNull @NotBlank @NotEmpty final String column) { // NOPMD
+		return NullableExpression.getIsNotNull(column);
+	}
+
+	/**
+	 * Expr1 AND Expr2
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	@NotNull
+	public static Expression and(@NotNull final Expression left, @NotNull final Expression right)
+			throws AbstractDatabaseException {
+		verifyExpr(left, right);
+		return ProjectionExpression.and(left, right);
+	}
+
+	/**
+	 * Expr1 OR Expr2
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	@NotNull
+	public static Expression or(@NotNull final Expression left, @NotNull final Expression right) // NOPMD
+			throws AbstractDatabaseException {
+		verifyExpr(left, right);
+		return ProjectionExpression.or(left, right);
+	}
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+
+	private static void verifyExpr(final Expression left, final Expression right) throws AbstractDatabaseException {
+		AbstractDatabaseException exp = null;
+		if (left instanceof ColumnLeafNode) {
+			exp = new ProjectionInvalidException(Restrictions.class, LEFT, ColumnLeafNode.class.getName());
+		} else if (left instanceof ValueLeafNode) {
+			exp = new ProjectionInvalidException(Restrictions.class, LEFT, ValueLeafNode.class.getName());
+		}
+		if (null != exp) {
+			info(LOGGER, exp.getErrorMessage());
+			throw exp;
+		}
+		if (right instanceof ColumnLeafNode) {
+			exp = new ProjectionInvalidException(Restrictions.class, RIGHT, ColumnLeafNode.class.getName());
+		} else if (right instanceof ValueLeafNode) {
+			exp = new ProjectionInvalidException(Restrictions.class, RIGHT, ValueLeafNode.class.getName());
+		}
+		if (null != exp) {
+			info(LOGGER, exp.getErrorMessage());
+			throw exp;
+		}
+	}
+
 	private Restrictions() {
 	}
 	// ~ Get/Set =============================================
