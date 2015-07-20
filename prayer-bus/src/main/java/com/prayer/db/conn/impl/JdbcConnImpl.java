@@ -100,7 +100,7 @@ public class JdbcConnImpl implements JdbcContext {
 			@NotNull @MinSize(1) final List<Value<?>> values, final boolean isRetKey, final DataType retType) {
 		info(LOGGER, "Value<?> insert(String,List<Value<?>>,boolean) : " + sql);
 		final JdbcTemplate jdbc = this.dbPool.getJdbc();
-		return jdbc.execute(Input.prepStmt(sql, values, isRetKey), Output.extractIncrement(retType));
+		return jdbc.execute(Input.prepStmt(sql, values, isRetKey), Output.extractIncrement(isRetKey, retType));
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

@@ -110,11 +110,22 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
 	}
 
 	/** **/
-	protected void afterExecute(){
+	protected void afterExecute() {
 		if (this.isValidDB() && null != this.builder) {
 			if (!this.builder.existTable()) {
 				this.builder.createTable();
 			}
+		} else {
+			this.executeNotMatch();
+		}
+	}
+	/** Push Data via Insert **/
+	protected void pushData(final String identifier) throws AbstractDatabaseException {
+		if (this.isValidDB()) {
+			final Record before = this.getRecord(identifier);
+			info(getLogger(), "[T] Before Insert : " + before);
+			final Record after = this.getRecordDao().insert(before);
+			info(getLogger(), "[T] After Insert : " + after);
 		} else {
 			this.executeNotMatch();
 		}

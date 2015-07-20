@@ -78,6 +78,7 @@ public class _MsSql001TestUK1TestCase extends AbstractBCPTestCase {	// NOPMD
 	@After
 	public void setDown() throws AbstractDatabaseException{
 		this.afterExecute();
+		this.pushData("tst.mod.uk1");
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

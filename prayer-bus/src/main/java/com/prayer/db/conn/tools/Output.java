@@ -40,7 +40,7 @@ public final class Output {
 	 * 
 	 * @return
 	 */
-	public static PreparedStatementCallback<Value<?>> extractIncrement(final DataType retType) {
+	public static PreparedStatementCallback<Value<?>> extractIncrement(final boolean isRetKey, final DataType retType) {
 		return new PreparedStatementCallback<Value<?>>() {
 			/** **/
 			@Override
@@ -48,7 +48,7 @@ public final class Output {
 					throws SQLException, DataAccessException {
 				final int rows = stmt.executeUpdate();
 				Value<?> retValue = null;
-				if (Constants.ZERO <= rows) {
+				if (Constants.ZERO <= rows && isRetKey) {
 					try (final ResultSet ret = stmt.getGeneratedKeys()) {
 						if (ret.next()) {
 							if (DataType.INT == retType) {

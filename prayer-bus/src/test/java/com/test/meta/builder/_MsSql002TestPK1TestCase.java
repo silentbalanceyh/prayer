@@ -10,6 +10,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.builder.MsSqlBuilder;
 
 /**
@@ -76,8 +77,9 @@ public class _MsSql002TestPK1TestCase extends AbstractBCPTestCase {	// NOPMD
 
 	/** **/
 	@After
-	public void setDown() {
+	public void setDown() throws AbstractDatabaseException{
 		this.afterExecute();
+		this.pushData("tst.mod.pk1");
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
