@@ -72,7 +72,7 @@ public class StringKitJoinTestCase extends AbstractTestTool {	// NOPMD
 	/** **/
 	@Test
 	public void testC00001Constructor() {
-		assertNotNull(message(TST_CONS, getTarget().getName()), Assistant.instance(StringKit.class));
+		assertNotNull(message(TST_CONS, getTarget().getName()), Assistant.instance(getTarget()));
 	}
 
 	/** **/

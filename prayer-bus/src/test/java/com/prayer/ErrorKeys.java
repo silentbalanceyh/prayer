@@ -13,4 +13,6 @@ public interface ErrorKeys {	// NOPMD
 	String TST_EQUAL = "TST.EQUAL";
 	/** 返回结果为Boolean异常 **/
 	String TST_TF = "TST.TF";
+	/** **/
+	String TST_INFO_SQL = "TST.INFO.SQL";
 }

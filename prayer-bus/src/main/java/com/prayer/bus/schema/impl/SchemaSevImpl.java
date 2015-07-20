@@ -152,8 +152,7 @@ public class SchemaSevImpl implements SchemaService {
 	 **/
 	private Importer getImporter(final String filePath) {
 		if (null == this.importer) {
-			this.importer = reservoir(I_POOLS, filePath, CommunionImporter.class, filePath);// new
-																							// CommunionImporter(filePath);
+			this.importer = reservoir(I_POOLS, filePath, CommunionImporter.class, filePath);
 			info(LOGGER, "[I] Init new importer: file = " + filePath);
 		} else {
 			this.importer.refreshSchema(filePath);

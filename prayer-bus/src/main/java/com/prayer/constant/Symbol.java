@@ -20,6 +20,8 @@ public interface Symbol {	// NOPMD
 	char S_QUOTES = '\'';
 	/** 双引号 **/
 	char D_QUOTES = '"';
+	/** 问号 **/
+	char QUESTION = '?';
 	/** 换行符 **/
 	String NEW_LINE = "\n";
 }
