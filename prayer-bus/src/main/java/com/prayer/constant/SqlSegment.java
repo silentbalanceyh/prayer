@@ -1,4 +1,4 @@
-package com.prayer.kernel;
+package com.prayer.constant;
 
 /**
  * SQL片断常量文件
@@ -72,5 +72,5 @@ public interface SqlSegment { // NOPMD
 	/** LIKE关键字 **/
 	String LIKE = "LIKE";
 
-	// ~ SQL比较关键字 ====================================
+	// ~ SQL基本操作关键字 ====================================
 }

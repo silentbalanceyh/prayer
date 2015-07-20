@@ -12,13 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
+import com.prayer.constant.SqlSegment;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
-import com.prayer.kernel.SqlSegment;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.KeyModel;
@@ -314,7 +314,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
 		final StringBuilder pkSql = new StringBuilder();
 		final FieldModel field = this.getSchema().getPrimaryKeys().get(Constants.ZERO);
 		// 1.1.主键字段和数据类型
-		final String columnType = SqlStatement.DB_TYPES.get(field.getColumnType());
+		final String columnType = SqlDdlStatement.DB_TYPES.get(field.getColumnType());
 
 		// 2.字段名、数据类型，SQL Server独有：NAME INT PRIMARY KEY IDENTITY
 		pkSql.append(field.getColumnName()).append(SPACE).append(columnType).append(SPACE).append(MsSqlHelper.IDENTITY)

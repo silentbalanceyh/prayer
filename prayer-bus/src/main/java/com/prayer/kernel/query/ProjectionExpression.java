@@ -1,8 +1,8 @@
 package com.prayer.kernel.query;
 
+import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.kernel.Expression;
-import com.prayer.kernel.SqlSegment;
 
 import net.sf.oval.guard.Guarded;
 

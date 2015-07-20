@@ -1,6 +1,9 @@
 package com.prayer.dao.record;
 
+import java.util.List;
+
 import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 
@@ -28,11 +31,19 @@ public interface RecordDao {
 	 * @param uniqueId
 	 * @return
 	 */
-	Record getById(Value<?>... uniqueId);
+	Record selectById(Value<?>... uniqueId);
 	/**
 	 * 
 	 * @param uniqueId
 	 * @return
 	 */
 	boolean deleteById(Value<?>... uniqueId) throws AbstractDatabaseException;
+	/**
+	 * 
+	 * @param columns
+	 * @param filter
+	 * @return
+	 * @throws AbstractDatabaseException
+	 */
+	List<Record> queryByFilter(String[] columns, Expression filter) throws AbstractDatabaseException;
 }

@@ -98,7 +98,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genDropConstraints(@NotNull @NotEmpty @NotBlank final String name) {
-		return SqlStatement.dropCSSql(this.getTable(), name);
+		return SqlDdlStatement.dropCSSql(this.getTable(), name);
 	}
 
 	/**
@@ -108,7 +108,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genDropColumns(@NotNull @NotEmpty @NotBlank final String column) {
-		return SqlStatement.dropColSql(this.getTable(), column);
+		return SqlDdlStatement.dropColSql(this.getTable(), column);
 	}
 
 	/**
@@ -118,7 +118,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genAddColumns(@NotNull final FieldModel field) {
-		return SqlStatement.addColSql(this.getTable(), this.genColumnLine(field));
+		return SqlDdlStatement.addColSql(this.getTable(), this.genColumnLine(field));
 	}
 
 	/**
@@ -128,7 +128,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genAlterColumns(@NotNull final FieldModel field) {
-		return SqlStatement.alterColSql(this.getTable(), this.genColumnLine(field));
+		return SqlDdlStatement.alterColSql(this.getTable(), this.genColumnLine(field));
 	}
 
 	/**
@@ -140,7 +140,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genForeignKey() {
-		return SqlStatement.newFKSql(this.schema.getForeignKey(), this.schema.getForeignField());
+		return SqlDdlStatement.newFKSql(this.schema.getForeignKey(), this.schema.getForeignField());
 	}
 
 	/**
@@ -152,9 +152,9 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	protected String genKeyLine(@NotNull final KeyModel key) {
 		String sql = null;
 		if (KeyCategory.UniqueKey == key.getCategory()) {
-			sql = SqlStatement.newUKSql(key);
+			sql = SqlDdlStatement.newUKSql(key);
 		} else if (KeyCategory.PrimaryKey == key.getCategory()) {
-			sql = SqlStatement.newPKSql(key);
+			sql = SqlDdlStatement.newPKSql(key);
 		}
 		return sql;
 	}
@@ -168,9 +168,9 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	protected String genAddCsLine(@NotNull final KeyModel key, final FieldModel field) {
 		String sql = null;
 		if (KeyCategory.ForeignKey == key.getCategory()) {
-			sql = SqlStatement.addCSSql(this.getTable(), SqlStatement.newFKSql(key, field));
+			sql = SqlDdlStatement.addCSSql(this.getTable(), SqlDdlStatement.newFKSql(key, field));
 		} else {
-			sql = SqlStatement.addCSSql(this.getTable(), this.genKeyLine(key));
+			sql = SqlDdlStatement.addCSSql(this.getTable(), this.genKeyLine(key));
 		}
 		return sql;
 	}
@@ -182,7 +182,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genColumnLine(@NotNull final FieldModel field) {
-		return SqlStatement.newColumnSql(lengthTypes(), precisionTypes(), field);
+		return SqlDdlStatement.newColumnSql(lengthTypes(), precisionTypes(), field);
 	}
 
 	/**
@@ -191,7 +191,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected Long getRows() {
-		return this.getContext().count(SqlStatement.genCountRowsSql(this.getTable()));
+		return this.getContext().count(SqlDdlStatement.genCountRowsSql(this.getTable()));
 	}
 
 	/**
