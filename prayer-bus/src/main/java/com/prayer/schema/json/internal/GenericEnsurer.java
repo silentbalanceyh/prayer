@@ -1,12 +1,8 @@
 package com.prayer.schema.json.internal;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.Error.info;
 import static com.prayer.util.JsonKit.fromJObject;
 import static com.prayer.util.JsonKit.occursAttr;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -27,8 +23,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 final class GenericEnsurer implements ExternalEnsurer { // NOPMD
 	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(GenericEnsurer.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient InternalEnsurer metaEnsurer;
@@ -205,9 +199,7 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
 			this.fieldsEnsurer = new FieldsEnsurer(fieldsNode);
 			// 主键验证器
 			final String table = this.rootNode.path(Attributes.R_META).path(Attributes.M_TABLE).asText();
-			info(LOGGER, "[I] ==> table = " + table);
 			final String policy = this.rootNode.path(Attributes.R_META).path(Attributes.M_POLICY).asText();
-			info(LOGGER, "[I] ==> policy = " + policy);
 			/**
 			 * 判断policy和table的情况，必须保证policy和table两个值，
 			 * 也就是__meta__中验证OK了过后才能执行PrimaryKey对应的验证
@@ -250,7 +242,6 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
 	 */
 	private MetaMapping getMapping() {
 		final String mapping = this.rootNode.path(Attributes.R_META).path(Attributes.M_MAPPING).asText();
-		info(LOGGER, "[I] ==> mapping = " + mapping);
 		// mapping为null会触发fromStr方法的Vol
 		return StringKit.isNil(mapping) ? MetaMapping.DIRECT : fromStr(MetaMapping.class, mapping);
 	}

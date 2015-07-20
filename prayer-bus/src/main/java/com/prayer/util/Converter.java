@@ -70,7 +70,7 @@ public final class Converter {
 		try {
 			retEnum = Enum.valueOf(clazz, inputStr);
 		} catch (IllegalArgumentException ex) {
-			info(LOGGER, "[E] Enum value invalid: " + inputStr, ex);
+			info(LOGGER, "[E] Enum value invalid: " + inputStr);
 		}
 		return retEnum;
 	}

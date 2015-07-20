@@ -65,7 +65,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 			importer.readSchema();
 			importer.ensureSchema();
 		} catch (AbstractSystemException ex) {
-			info(getLogger(),errMsg,ex);
+			info(getLogger(),errMsg + " Error : " + ex.getErrorMessage());
 		}
 		failure("[T-ERROR] " + errMsg);
 	}
@@ -91,13 +91,13 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 			}
 			info(getLogger(),"[T] =======================> Prepare Data Finished! ");
 		} catch (DataLoadingException ex) {
-			info(getLogger(), "4.Data Loading Exception. Loading Data...", ex);
+			info(getLogger(), "4.Data Loading Exception. Loading Data... Error : " + ex.getErrorMessage());
 		} catch (SerializationException ex) {
-			info(getLogger(), "3.Serialization Exception. ", ex);
+			info(getLogger(), "3.Serialization Exception. Error : " + ex.getErrorMessage());
 		} catch (AbstractSystemException ex) {
-			info(getLogger(), "1.Reading json schema file.", ex);
+			info(getLogger(), "1.Reading json schema file. Error : " + ex.getErrorMessage());
 		} catch (AbstractSchemaException ex) {
-			info(getLogger(), "2.Error when verifying json schema.", ex);
+			info(getLogger(), "2.Error when verifying json schema. Error : " + ex.getErrorMessage());
 		}
 	}
 	// ~ Private Methods =====================================

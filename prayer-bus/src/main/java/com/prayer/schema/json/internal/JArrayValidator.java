@@ -2,7 +2,6 @@ package com.prayer.schema.json.internal; // NOPMD
 
 import static com.prayer.util.Converter.toStr;
 import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 
 import java.util.HashSet;
@@ -263,8 +262,6 @@ final class JArrayValidator { // NOPMD
 	public AbstractSchemaException verifyPKeyNonCOPolicy(@NotNull @NotBlank @NotEmpty final String attr,
 			@NotNull final MetaPolicy policy) {
 		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, Boolean.TRUE, false);
-		info(LOGGER, "[I] ==> (policy != COLLECTION) occurs = " + occurs);
-
 		AbstractSchemaException retExp = null;
 		if (Constants.ONE != occurs) {
 			retExp = new PKPolicyConflictException(getClass(), policy.toString(), this.table);
@@ -285,8 +282,6 @@ final class JArrayValidator { // NOPMD
 	public AbstractSchemaException verifyPKeyCOPolicy(@NotNull @NotBlank @NotEmpty final String attr,
 			@NotNull final MetaPolicy policy) {
 		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, Boolean.TRUE, false);
-		info(LOGGER, "[I] ==> (policy == COLLECTION) occurs = " + occurs);
-
 		AbstractSchemaException retExp = null;
 		if (Constants.ONE >= occurs) {
 			retExp = new PKPolicyConflictException(getClass(), policy.toString(), this.table);
@@ -306,8 +301,6 @@ final class JArrayValidator { // NOPMD
 			@Min(1) final int minOccurs) {
 		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
 		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, value, false);
-		info(LOGGER, "[I] ==> minOccurs = " + minOccurs + ", occurs = " + occurs);
-
 		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {
 			retExp = new SubtableWrongException(getClass());
@@ -330,7 +323,6 @@ final class JArrayValidator { // NOPMD
 			@Min(1) final int minOccurs) {
 		// Pre Condition：假设attr是存在的，即上边verifyMissing函数已经验证通过
 		final int occurs = JsonKit.occursAttr(this.verifiedNodes, attr, value, false);
-		info(LOGGER, "[I] ==> minOccurs = " + minOccurs + ", occurs = " + occurs);
 
 		AbstractSchemaException retExp = null;
 		if (minOccurs > occurs) {

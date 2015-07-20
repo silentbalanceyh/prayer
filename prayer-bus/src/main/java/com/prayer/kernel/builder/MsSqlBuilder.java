@@ -94,6 +94,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
 			return false;
 		} else {
 			final String sql = genCreateSql();
+			info(LOGGER, "[I] Sql: " + sql);
 			final int respCode = this.getContext().execute(sql);
 			final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
 					: ResponseCode.FAILURE.toString());
@@ -110,7 +111,6 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
 	public boolean existTable() {
 		final String sql = MsSqlHelper.getSqlTableExist(this.getTable());
 		final long counter = this.getContext().count(sql);
-		info(LOGGER, "[I] Location: existTable(), Table Counter Result: " + counter);
 		return 0 < counter;
 	}
 
