@@ -1,6 +1,7 @@
 package com.prayer.kernel.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -8,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.model.meta.FieldModel;
 import com.prayer.model.meta.KeyModel;
 import com.prayer.model.meta.MetaModel;
@@ -77,11 +79,83 @@ public class GenericSchema implements Serializable { // NOPMD
 		return retMap;
 	}
 	
-	
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
+	/**
+	 * 排序列出数据列，PK在最前边
+	 * @return
+	 */
+	public Set<String> getColumns(){
+		final Set<String> columns = new TreeSet<>();
+		for (final FieldModel field : this.getFields().values()) {
+			if (StringKit.isNonNil(field.getColumnName())) {
+				columns.add(field.getColumnName());
+			}
+		}
+		return columns;
+	}
+
+	/**
+	 * 按照列名获取FieldModel
+	 * 
+	 * @param colName
+	 * @return
+	 */
+	public FieldModel getColumn(@NotNull @NotBlank @NotEmpty final String colName){
+		FieldModel ret = null;
+		for (final FieldModel field : this.getFields().values()) {
+			if (StringKit.isNonNil(field.getColumnName()) && StringUtil.equals(colName, field.getColumnName())) {
+				ret = field;
+				break;
+			}
+		}
+		return ret;
+	}
+	/**
+	 * 获取主键的Schema，有可能是多个主键
+	 * @return
+	 */
+	public List<FieldModel> getPrimaryKeys(){
+		final List<FieldModel> retList = new ArrayList<>();
+		if(null != this.getMeta()){
+			for(final FieldModel field: this.fields.values()){
+				if(field.isPrimaryKey()){
+					retList.add(field);
+				}
+			}
+		}
+		return retList;
+	}
+	/**
+	 * 获取外键规范
+	 * @return
+	 */
+	public FieldModel getForeignField(){
+		FieldModel foreignField = null;
+		for(final FieldModel field: this.fields.values()){
+			if(field.isForeignKey()){
+				foreignField = field;
+				break;
+			}
+		}
+		return foreignField;
+	}
+	/**
+	 * 获取外键定义
+	 * @return
+	 */
+	public KeyModel getForeignKey(){
+		KeyModel foreignKey = null;
+		for(final KeyModel key: this.keys.values()){
+			if(KeyCategory.ForeignKey == key.getCategory()){
+				foreignKey = key;
+				break;
+			}
+		}
+		return foreignKey;
+	}
 	// ~ Private Methods =====================================
 	// ~ Get / Set ===========================================
 	/**
@@ -143,37 +217,8 @@ public class GenericSchema implements Serializable { // NOPMD
 	public void setFields(final ConcurrentMap<String, FieldModel> fields) {
 		this.fields = fields;
 	}
-	/**
-	 * 排序列出数据列，PK在最前边
-	 * @return
-	 */
-	public Set<String> getColumns(){
-		final Set<String> columns = new TreeSet<>();
-		for (final FieldModel field : this.getFields().values()) {
-			if (StringKit.isNonNil(field.getColumnName())) {
-				columns.add(field.getColumnName());
-			}
-		}
-		return columns;
-	}
 
-	/**
-	 * 按照列名获取FieldModel
-	 * 
-	 * @param colName
-	 * @return
-	 */
-	public FieldModel getColumn(@NotNull @NotBlank @NotEmpty final String colName){
-		FieldModel ret = null;
-		for (final FieldModel field : this.getFields().values()) {
-			if (StringKit.isNonNil(field.getColumnName()) && StringUtil.equals(colName, field.getColumnName())) {
-				ret = field;
-				break;
-			}
-		}
-		return ret;
-	}
-
+	// ~ hashCode,equals,toString ============================
 	/**
 	 * 
 	 */
@@ -204,7 +249,4 @@ public class GenericSchema implements Serializable { // NOPMD
 			return false;
 		return true;
 	}
-
-	// ~ hashCode,equals,toString ============================
-
 }

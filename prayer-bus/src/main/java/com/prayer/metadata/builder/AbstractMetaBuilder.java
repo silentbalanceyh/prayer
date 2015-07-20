@@ -1,6 +1,5 @@
 package com.prayer.metadata.builder;
 
-import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.reservoir;
 
 import java.util.ArrayList;
@@ -10,7 +9,9 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.KeyCategory;
+import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.exception.AbstractDatabaseException;
@@ -26,6 +27,7 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.Pre;
 
 /**
  * 
@@ -37,10 +39,6 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final ConcurrentMap<String,JdbcContext> JDBC_POOL = new ConcurrentHashMap<>();
-	/** **/
-	protected static enum StatusFlag {
-		UPDATE, ADD, DELETE
-	}
 
 	// ~ Instance Fields =====================================
 	/** 数据库连接 **/
@@ -51,7 +49,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	private transient final List<String> sqlLines;
 	/** Metadata对象 **/
 	@NotNull
-	private transient final BuilderMetaData metadata;
+	private transient final GenericSchema schema;
 	/** 构建过程中的Error信息 **/
 	private transient AbstractDatabaseException error;
 
@@ -66,7 +64,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	public AbstractMetaBuilder(@NotNull final GenericSchema schema) {
 		this.context = reservoir(JDBC_POOL,schema.getIdentifier(),JdbcConnImpl.class);
 		this.sqlLines = new ArrayList<>();
-		this.metadata = instance(BuilderMetaData.class.getName(),schema);
+		this.schema = schema;
 	}
 
 	// ~ Abstract Methods ====================================
@@ -100,7 +98,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genDropConstraints(@NotNull @NotEmpty @NotBlank final String name) {
-		return SqlStatement.dropCSSql(this.metadata.getTable(), name);
+		return SqlStatement.dropCSSql(this.getTable(), name);
 	}
 
 	/**
@@ -110,7 +108,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genDropColumns(@NotNull @NotEmpty @NotBlank final String column) {
-		return SqlStatement.dropColSql(this.metadata.getTable(), column);
+		return SqlStatement.dropColSql(this.getTable(), column);
 	}
 
 	/**
@@ -120,7 +118,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genAddColumns(@NotNull final FieldModel field) {
-		return SqlStatement.addColSql(this.metadata.getTable(), this.genColumnLine(field));
+		return SqlStatement.addColSql(this.getTable(), this.genColumnLine(field));
 	}
 
 	/**
@@ -130,7 +128,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genAlterColumns(@NotNull final FieldModel field) {
-		return SqlStatement.alterColSql(this.metadata.getTable(), this.genColumnLine(field));
+		return SqlStatement.alterColSql(this.getTable(), this.genColumnLine(field));
 	}
 
 	/**
@@ -142,7 +140,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected String genForeignKey() {
-		return SqlStatement.newFKSql(this.metadata.getForeignKey(), this.metadata.getForeignField());
+		return SqlStatement.newFKSql(this.schema.getForeignKey(), this.schema.getForeignField());
 	}
 
 	/**
@@ -170,9 +168,9 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	protected String genAddCsLine(@NotNull final KeyModel key, final FieldModel field) {
 		String sql = null;
 		if (KeyCategory.ForeignKey == key.getCategory()) {
-			sql = SqlStatement.addCSSql(this.metadata.getTable(), SqlStatement.newFKSql(key, field));
+			sql = SqlStatement.addCSSql(this.getTable(), SqlStatement.newFKSql(key, field));
 		} else {
-			sql = SqlStatement.addCSSql(this.metadata.getTable(), this.genKeyLine(key));
+			sql = SqlStatement.addCSSql(this.getTable(), this.genKeyLine(key));
 		}
 		return sql;
 	}
@@ -193,7 +191,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected Long getRows() {
-		return this.getContext().count(SqlStatement.genCountRowsSql(this.metadata.getTable()));
+		return this.getContext().count(SqlStatement.genCountRowsSql(this.getTable()));
 	}
 
 	/**
@@ -215,7 +213,7 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * @return
 	 */
 	protected ConcurrentMap<StatusFlag, Collection<String>> getColumnStatus(
-			@MinSize(1) final Collection<String> oldCols, @MinSize(1) final Collection<String> newCols) {
+			@MinSize(0) final Collection<String> oldCols, @MinSize(0) final Collection<String> newCols) {
 		final ConcurrentMap<StatusFlag, Collection<String>> statusMap = new ConcurrentHashMap<>();
 		Collection<String> exchangeSet = new HashSet<>();
 		// ADD：新集合减去旧的集合
@@ -243,9 +241,13 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	 * 
 	 * @return
 	 */
-	@NotNull
-	protected BuilderMetaData getMetadata(){
-		return metadata;
+	@Pre(expr = "_this.schema != null",lang = Constants.LANG_GROOVY)
+	protected String getTable(){
+		String table = null;
+		if(null != this.schema.getMeta()){
+			table = this.schema.getMeta().getTable();
+		}
+		return table;
 	}
 	/**
 	 * @return the context
@@ -253,6 +255,13 @@ abstract class AbstractMetaBuilder implements Builder { // NOPMD
 	@NotNull
 	protected JdbcContext getContext() {
 		return context;
+	}
+	/**
+	 * @return the schema
+	 */
+	@NotNull
+	protected GenericSchema getSchema(){
+		return schema;
 	}
 
 	/**

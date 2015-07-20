@@ -41,6 +41,12 @@ public final class SystemEnum { 	// NOPMD
 		FAILURE,	// 非系统运行异常失败返回
 		ERROR		// 系统运行异常失败返回
 	}
+	/** **/
+	public static enum StatusFlag{
+		UPDATE,		// 需要更新的列
+		ADD,		// 需要添加的列
+		DELETE		// 需要删除的列
+	}
 	// ~ Constructors ========================================
 	private SystemEnum(){}
 }

@@ -1,8 +1,11 @@
 package com.prayer.bus.schema.impl;
 
 import static com.prayer.util.Error.info;
-import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +42,8 @@ public class SchemaSevImpl implements SchemaService {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchemaSevImpl.class);
+	/** **/
+	private static final ConcurrentMap<String,Builder> BD_POOLS = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/** H2数据库的Importer **/
 	private transient Importer importer;
@@ -96,7 +101,8 @@ public class SchemaSevImpl implements SchemaService {
 	@Override
 	@PreValidateThis
 	public ServiceResult<GenericSchema> syncMetadata(@NotNull final GenericSchema schema) {
-		final Builder builder = instance(Accessors.builder(), schema);
+		// 使用池化单件模式，每一个ID的Schema拥有一个Builder
+		final Builder builder = reservoir(BD_POOLS,schema.getIdentifier(),Accessors.builder(), schema);
 		if (builder.existTable()) {
 			builder.syncTable(schema);
 		} else {
