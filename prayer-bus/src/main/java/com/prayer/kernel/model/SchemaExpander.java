@@ -35,7 +35,7 @@ public final class SchemaExpander {
 	 * @param keys
 	 * @return
 	 */
-	public static ConcurrentMap<String, KeyModel> toKeysMap(@MinSize(1) final List<KeyModel> keys) {
+	public static ConcurrentMap<String, KeyModel> toKeysMap(@MinSize(0) final List<KeyModel> keys) {
 		final ConcurrentMap<String, KeyModel> retMap = new ConcurrentHashMap<>();
 		for (final KeyModel key : keys) {
 			if (StringKit.isNonNil(key.getName())) {
@@ -51,7 +51,7 @@ public final class SchemaExpander {
 	 * @param fields
 	 * @return
 	 */
-	public static ConcurrentMap<String, FieldModel> toFieldsMap(@MinSize(1) final List<FieldModel> fields) {
+	public static ConcurrentMap<String, FieldModel> toFieldsMap(@MinSize(0) final List<FieldModel> fields) {
 		final ConcurrentMap<String, FieldModel> retMap = new ConcurrentHashMap<>();
 		for (final FieldModel field : fields) {
 			if (StringKit.isNonNil(field.getName())) {
@@ -67,7 +67,7 @@ public final class SchemaExpander {
 	 * @param colName
 	 * @return
 	 */
-	public static FieldModel getColumn(@NotNull @MinSize(1) final ConcurrentMap<String, FieldModel> fields,
+	public static FieldModel getColumn(@NotNull @MinSize(0) final ConcurrentMap<String, FieldModel> fields,
 			@NotNull @NotBlank @NotEmpty final String colName) {
 		FieldModel colField = null;
 		for (final FieldModel field : fields.values()) {
@@ -85,7 +85,7 @@ public final class SchemaExpander {
 	 * @param fields
 	 * @return
 	 */
-	public static Set<String> getColumns(@NotNull @MinSize(1) final ConcurrentMap<String, FieldModel> fields) {
+	public static Set<String> getColumns(@NotNull @MinSize(0) final ConcurrentMap<String, FieldModel> fields) {
 		final Set<String> columns = new TreeSet<>();
 		for (final FieldModel field : fields.values()) {
 			if (StringKit.isNonNil(field.getColumnName())) {
@@ -101,7 +101,7 @@ public final class SchemaExpander {
 	 * @param fields
 	 * @return
 	 */
-	public static List<FieldModel> getPrimaryKeys(@NotNull @MinSize(1) final ConcurrentMap<String, FieldModel> fields) {
+	public static List<FieldModel> getPrimaryKeys(@NotNull @MinSize(0) final ConcurrentMap<String, FieldModel> fields) {
 		final List<FieldModel> retList = new ArrayList<>();
 		for (final FieldModel field : fields.values()) {
 			if (field.isPrimaryKey()) {
@@ -117,7 +117,7 @@ public final class SchemaExpander {
 	 * @param keys
 	 * @return
 	 */
-	public static KeyModel getForeignKey(@NotNull @MinSize(1) final ConcurrentMap<String, KeyModel> keys) {
+	public static KeyModel getForeignKey(@NotNull @MinSize(0) final ConcurrentMap<String, KeyModel> keys) {
 		KeyModel foreignKey = null;
 		for (final KeyModel key : keys.values()) {
 			if (KeyCategory.ForeignKey == key.getCategory()) {
@@ -134,7 +134,7 @@ public final class SchemaExpander {
 	 * @param fields
 	 * @return
 	 */
-	public static FieldModel getForeignField(@NotNull @MinSize(1) final ConcurrentMap<String, FieldModel> fields) {
+	public static FieldModel getForeignField(@NotNull @MinSize(0) final ConcurrentMap<String, FieldModel> fields) {
 		FieldModel foreignField = null;
 		for (final FieldModel field : fields.values()) {
 			if (field.isForeignKey()) {

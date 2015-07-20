@@ -20,7 +20,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  *
  */
-public class RestrictionsLTTestCase extends AbstractTestTool { // NOPMD
+public class Restrictions02NEQTestCase extends AbstractTestTool {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(StringKitJoinTestCase.class);
@@ -50,78 +50,75 @@ public class RestrictionsLTTestCase extends AbstractTestTool { // NOPMD
 	// ~ Methods =============================================
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05015Mlt() {
-		Restrictions.lt(null);
+	public void testE05008Mneq() {
+		Restrictions.neq(null);
 		failure(TST_OVAL);
 	}
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05016Mlt() {
-		Restrictions.lt("");
+	public void testE05009Mneq() {
+		Restrictions.neq("");
 		failure(TST_OVAL);
 	}
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05017Mlt() {
-		Restrictions.lt("   ");
+	public void testE05010Mneq() {
+		Restrictions.neq("   ");
 		failure(TST_OVAL);
 	}
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05018Mlt() {
-		Restrictions.lt(null, STR_VAL);
+	public void testE05011Mneq() {
+		Restrictions.neq(null, STR_VAL);
 		failure(TST_OVAL);
 	}
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05019Mlt() {
-		Restrictions.lt("", STR_VAL);
+	public void testE05012Mneq() {
+		Restrictions.neq("", STR_VAL);
 		failure(TST_OVAL);
 	}
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05020Mlt() {
-		Restrictions.lt("   ", STR_VAL);
+	public void testE05013Mneq() {
+		Restrictions.neq("   ", STR_VAL);
 		failure(TST_OVAL);
 	}
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05021Mlt() {
-		Restrictions.lt(COL_NAME, null);
+	public void testE05014Mneq() {
+		Restrictions.neq(COL_NAME, null);
 		failure(TST_OVAL);
 	}
-
 	/** **/
 	@Test
-	public void testT05007Mlt() {
-		final Expression expr = Restrictions.lt(COL_NAME);
+	public void testT05004Mneq(){
+		final Expression expr = Restrictions.neq(COL_NAME);
 		final String sqlSeg = expr.toSql();
-		info(LOGGER, TST_INFO_SQL, sqlSeg);
-		assertEquals(message(TST_EQUAL), COL_NAME + "<?", sqlSeg);
+		info(LOGGER,TST_INFO_SQL,sqlSeg);
+		assertEquals(message(TST_EQUAL),COL_NAME + "<>?",sqlSeg);
 	}
-
 	/** **/
 	@Test
-	public void testT05008Mlt() {
-		final Expression expr = Restrictions.lt(COL_NAME, STR_VAL);
+	public void testT05005Mneq(){
+		final Expression expr = Restrictions.neq(COL_NAME,STR_VAL);
 		final String sqlSeg = expr.toSql();
-		info(LOGGER, TST_INFO_SQL, sqlSeg);
-		assertEquals(message(TST_EQUAL), COL_NAME + "<'Value'", sqlSeg);
+		info(LOGGER,TST_INFO_SQL,sqlSeg);
+		assertEquals(message(TST_EQUAL),COL_NAME + "<>'Value'",sqlSeg);
 	}
-
 	/** **/
 	@Test
-	public void testT05009Mlt() {
-		final Expression expr = Restrictions.lt(COL_NAME, INT_VAL);
+	public void testT05006Mneq(){
+		final Expression expr = Restrictions.neq(COL_NAME,INT_VAL);
 		final String sqlSeg = expr.toSql();
-		info(LOGGER, TST_INFO_SQL, sqlSeg);
-		assertEquals(message(TST_EQUAL), COL_NAME + "<22", sqlSeg);
+		info(LOGGER,TST_INFO_SQL,sqlSeg);
+		assertEquals(message(TST_EQUAL),COL_NAME + "<>22",sqlSeg);
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

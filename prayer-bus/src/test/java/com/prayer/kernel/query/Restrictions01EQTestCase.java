@@ -22,7 +22,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  *
  */
-public class RestrictionsEQTestCase extends AbstractTestTool {	// NOPMD
+public class Restrictions01EQTestCase extends AbstractTestTool {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(StringKitJoinTestCase.class);
