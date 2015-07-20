@@ -4,6 +4,7 @@ import static com.prayer.util.Instance.reservoir;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -61,7 +62,10 @@ abstract class AbstractDaoImpl implements RecordDao {
 	 */
 	@NotNull
 	protected String prepInsertSQL(@NotNull final Record record, @NotNull @MinLength(0) final String... filters) {
-		final Set<String> columns = record.columns();
+		final Set<String> columns = new HashSet<>();	// 不可直接引用record.columns()，否则会修改掉Columns
+		for(final String injectCol: record.columns()){
+			columns.add(injectCol);
+		}
 		columns.removeAll(Arrays.asList(filters));
 		return SqlDmlStatement.prepInsertSQL(record.table(), columns);
 	}
@@ -76,7 +80,10 @@ abstract class AbstractDaoImpl implements RecordDao {
 	@NotNull
 	protected List<Value<?>> prepInsertParam(@NotNull final Record record,
 			@NotNull @MinLength(0) final String... filters) {
-		final Set<String> columns = record.columns();
+		final Set<String> columns = new HashSet<>();	// 不可直接引用record.columns()，否则会修改掉Columns
+		for(final String injectCol: record.columns()){
+			columns.add(injectCol);
+		}
 		columns.removeAll(Arrays.asList(filters));
 		final List<Value<?>> retParam = new ArrayList<>();
 		for (final String column : columns) {

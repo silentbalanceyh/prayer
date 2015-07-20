@@ -1,12 +1,8 @@
 package com.prayer.dao.record.impl;
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Generator.uuid;
 
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
@@ -28,9 +24,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 final class MsSqlDaoImpl extends AbstractDaoImpl {
 	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlDaoImpl.class);
-
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================

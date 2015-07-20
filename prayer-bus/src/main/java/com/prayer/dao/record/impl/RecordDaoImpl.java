@@ -39,8 +39,8 @@ public class RecordDaoImpl implements RecordDao {
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public RecordDaoImpl(@NotNull final Record record) {
-		this.dao = instance(Resources.DB_DAO, record);
+	public RecordDaoImpl() {
+		this.dao = instance(Resources.DB_DAO);
 	}
 
 	// ~ Abstract Methods ====================================

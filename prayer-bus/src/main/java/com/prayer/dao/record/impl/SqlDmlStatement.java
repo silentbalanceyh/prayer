@@ -1,7 +1,8 @@
 package com.prayer.dao.record.impl;
 
 import java.text.MessageFormat;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.prayer.constant.SqlSegment;
@@ -33,7 +34,7 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
 	public static String prepInsertSQL(@NotNull final String table, @MinSize(1) final Set<String> columns) {
 		// 1.构造INSERT部分
 		final int paramLength = columns.size();
-		final Set<String> params = new HashSet<>();
+		final List<String> params = new ArrayList<>();	// 必须使用List，否则?,?,?这种会因为Set的原因直接导致最终的参数尺寸问题
 		for (int idx = 0; idx < paramLength; idx++) {
 			params.add(String.valueOf(Symbol.QUESTION));
 		}

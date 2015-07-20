@@ -1,8 +1,12 @@
 package com.prayer;
 
+import static com.prayer.util.Generator.uuid;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +14,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
+import com.prayer.kernel.Value;
+import com.prayer.model.type.BooleanType;
+import com.prayer.model.type.DataType;
+import com.prayer.model.type.DateType;
+import com.prayer.model.type.DecimalType;
+import com.prayer.model.type.IntType;
+import com.prayer.model.type.JsonType;
+import com.prayer.model.type.LongType;
+import com.prayer.model.type.ScriptType;
+import com.prayer.model.type.StringType;
+import com.prayer.model.type.XmlType;
 import com.prayer.util.Instance;
 
 /**
@@ -17,7 +32,7 @@ import com.prayer.util.Instance;
  * @author Lang
  *
  */
-public final class Assistant {
+public final class Assistant { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(Assistant.class);
@@ -25,6 +40,43 @@ public final class Assistant {
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/** **/
+	public static Value<?> generate(final DataType type) { // NOPMD
+		Value<?> ret = null;
+		switch (type) {
+		case INT:
+			ret = new IntType(22);
+			break;
+		case LONG:
+			ret = new LongType(1000L);
+			break;
+		case BOOLEAN:
+			ret = new BooleanType(true);
+			break;
+		case STRING:
+			ret = new StringType(uuid());
+			break;
+		case DATE:
+			ret = new DateType(new Date());
+			break;
+		case JSON:
+			ret = new JsonType("{}");
+			break;
+		case SCRIPT:
+			ret = new ScriptType("var i = 0;");
+			break;
+		case XML:
+			ret = new XmlType("<node></node>");
+			break;
+		case DECIMAL:
+			ret = new DecimalType(BigDecimal.valueOf(3.14));
+			break;
+		default:
+			break;
+		}
+		return ret;
+	}
+
 	/** 生成字符串集合 **/
 	public static Set<String> set(final int size) {
 		final Set<String> retSet = new HashSet<>();

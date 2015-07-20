@@ -4,17 +4,26 @@ import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
+import java.util.Collection;
+
 import org.slf4j.Logger;
 
+import com.prayer.Assistant;
 import com.prayer.constant.Resources;
+import com.prayer.dao.record.RecordDao;
+import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.kernel.Builder;
+import com.prayer.kernel.Record;
+import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.model.GenericSchema;
+import com.prayer.model.h2.FieldModel;
 import com.prayer.schema.Importer;
 import com.prayer.schema.dao.SchemaDao;
 import com.prayer.schema.dao.impl.SchemaDaoImpl;
@@ -28,7 +37,7 @@ import jodd.util.StringUtil;
  * @author Lang
  *
  */
-public abstract class AbstractBCPTestCase extends AbstractTestCase{ // NOPMD
+public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	protected static final String BUILDER_FILE = "/schema/data/json/database/";
@@ -37,6 +46,8 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase{ // NOPMD
 	private transient final SchemaDao dao;
 	/** **/
 	private transient final JdbcContext context;
+	/** **/
+	private transient RecordDao recordDao;
 	/** **/
 	protected transient Builder builder;
 	/** **/
@@ -72,6 +83,11 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase{ // NOPMD
 	}
 
 	/** **/
+	protected RecordDao getRecordDao() {
+		return this.recordDao;
+	}
+
+	/** **/
 	protected JdbcContext getContext() {
 		return this.context;
 	}
@@ -92,51 +108,70 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase{ // NOPMD
 			}
 		}
 	}
+
 	/** **/
 	protected void afterExecute(){
-		if(this.isValidDB() && null != this.builder){
-			if(!this.builder.existTable()){
+		if (this.isValidDB() && null != this.builder) {
+			if (!this.builder.existTable()) {
 				this.builder.createTable();
 			}
-		}else{
+		} else {
 			this.executeNotMatch();
 		}
 	}
+
 	/** **/
-	protected boolean createTable(){
+	protected boolean createTable() {
 		boolean ret = false;
-		if(this.isValidDB() && null != this.builder){
+		if (this.isValidDB() && null != this.builder) {
 			boolean exist = this.builder.existTable();
-			if(exist){
+			if (exist) {
 				this.builder.purgeTable();
 			}
 			exist = this.builder.existTable();
-			if(!exist){
+			if (!exist) {
 				ret = this.builder.createTable();
 			}
-		}else{
+		} else {
 			this.executeNotMatch();
 			ret = true;
 		}
 		return ret;
 	}
+
 	/** **/
-	protected boolean purgeTable(){
+	protected boolean purgeTable() {
 		boolean ret = false;
-		if(this.isValidDB() && null != this.builder){
+		if (this.isValidDB() && null != this.builder) {
 			boolean exist = this.builder.existTable();
-			if(!exist){
+			if (!exist) {
 				this.builder.createTable();
 			}
 			exist = this.builder.existTable();
-			if(exist){
+			if (exist) {
 				ret = this.builder.purgeTable();
 			}
-		}else{
+		} else {
 			this.executeNotMatch();
 			ret = true;
 		}
 		return ret;
+	}
+
+	/** **/
+	protected Record getRecord(final String identifier) {
+		final Record record = instance(GenericRecord.class.getName(), identifier);
+		this.recordDao = singleton(RecordDaoImpl.class);
+		final GenericSchema schema = record.schema();
+		final Collection<FieldModel> fields = schema.getFields().values();
+		for (final FieldModel field : fields) {
+			try {
+				record.set(field.getName(), Assistant.generate(field.getType()));
+			} catch (AbstractDatabaseException ex) {
+				info(getLogger(), ex.getErrorMessage(), ex);
+			}
+		}
+		return record;
 	}
 	// ~ Private Methods =====================================
 
@@ -153,13 +188,13 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase{ // NOPMD
 				this.importer.syncSchema(schema);
 			}
 		} catch (SerializationException ex) {
-			info(getLogger(), ex.getMessage(), ex);
+			info(getLogger(), ex.getErrorMessage(), ex);
 		} catch (DataLoadingException ex) {
-			info(getLogger(), ex.getMessage(), ex);
+			info(getLogger(), ex.getErrorMessage(), ex);
 		} catch (AbstractSystemException ex) {
-			info(getLogger(), ex.getMessage(), ex);
+			info(getLogger(), ex.getErrorMessage(), ex);
 		} catch (AbstractSchemaException ex) {
-			info(getLogger(), ex.getMessage(), ex);
+			info(getLogger(), ex.getErrorMessage(), ex);
 		}
 		return schema;
 	}

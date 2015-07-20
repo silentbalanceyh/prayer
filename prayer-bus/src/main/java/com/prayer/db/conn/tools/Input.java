@@ -58,8 +58,9 @@ public final class Input {
 					stmt = con.prepareStatement(sql);
 				}
 				final int size = values.size();
-				for (int idx = 0; idx < size; idx++) {
-					final Value<?> item = values.get(idx);
+				for (int idx = 1; idx <= size; idx++) {
+					final Value<?> item = values.get(idx - 1);
+					// 以数据库的Index为主，数据库从1开始索引，数组本身从0开始索引
 					setParameters(stmt, idx, item);
 				}
 				return stmt;
