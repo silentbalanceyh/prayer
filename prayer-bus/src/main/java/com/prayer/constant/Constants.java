@@ -1,5 +1,10 @@
 package com.prayer.constant;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * 
  * @author Lang
@@ -32,4 +37,8 @@ public interface Constants { // NOPMD
 	// ~ Type Constants ======================================
 	/** 字符串数组类型 **/
 	String[] T_STR_ARR = new String[]{};
+	/** 空集合：仅用于传参 **/
+	Set<String> T_STR_SET = new HashSet<>();
+	/** 空列表 ：仅用于传参 **/
+	List<String> T_STR_LST = new ArrayList<>();
 }

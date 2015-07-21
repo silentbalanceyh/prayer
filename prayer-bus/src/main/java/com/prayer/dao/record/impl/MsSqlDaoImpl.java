@@ -3,6 +3,7 @@ package com.prayer.dao.record.impl;
 import static com.prayer.util.Generator.uuid;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
@@ -31,42 +32,27 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/**
-	 * Insert的第一个版本完成
+	 * INCREMENT中需要过滤ID列，这个方法用于获取ID列
+	 */
+	@Override
+	public String getIdColumn(@NotNull final Record record){
+		final MetaPolicy policy = record.schema().getMeta().getPolicy();
+		String idCol = null;
+		if(MetaPolicy.INCREMENT == policy){
+			final FieldModel pkSchema = record.schema().getPrimaryKeys().get(Constants.ZERO);
+			idCol = pkSchema.getColumnName();
+		}
+		return idCol;
+	}
+	
+	/**
+	 * Insert的第一个版本完成，调用共享Insert方法
 	 */
 	@Override
 	public Record insert(@NotNull final Record record) throws AbstractDatabaseException {
-		final JdbcContext jdbc = this.getContext(record.identifier());
-		// 获取主键Policy策略
-		final MetaPolicy policy = record.schema().getMeta().getPolicy();
-		String sql = null;
-		List<Value<?>> params = null;
-		if (MetaPolicy.INCREMENT == policy) {
-			/**
-			 * 如果主键是自增长的，在插入数据的时候不需要传参，并且插入成功过后需要获取返回值
-			 */
-			final FieldModel pkSchema = record.schema().getPrimaryKeys().get(Constants.ZERO);
-			final String idCol = pkSchema.getColumnName();
-
-			// 父类方法，过滤掉主键传参
-			sql = this.prepInsertSQL(record, idCol);
-			params = this.prepInsertParam(record, idCol);
-
-			final Value<?> ret = jdbc.insert(sql, params, true, pkSchema.getType());
-			// <== 填充返回主键
-			record.set(pkSchema.getName(), ret);
-		} else {
-			if (MetaPolicy.GUID == policy) {
-				// 如果主键是GUID的策略，则需要预处理主键的赋值
-				final FieldModel pkSchema = record.schema().getPrimaryKeys().get(Constants.ZERO);
-				record.set(pkSchema.getName(), uuid());
-			}
-
-			// 父类方法，不过滤任何传参流程
-			sql = this.prepInsertSQL(record, Constants.T_STR_ARR);
-			params = this.prepInsertParam(record, Constants.T_STR_ARR);
-
-			jdbc.insert(sql, params, false, null);
-		}
+		// 1.调用父类方法
+		super.sharedInsert(record);
+		// 2.返回修改过的record
 		return record;
 	}
 
@@ -77,19 +63,31 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 	}
 
 	@Override
-	public Record selectById(Value<?>... uniqueId) {
-		// TODO Auto-generated method stub
+	public Record selectById(final Record record, final Value<?> uniqueId) throws AbstractDatabaseException {
+		// 获取主键Policy策略以及Jdbc访问器
+		final MetaPolicy policy = record.schema().getMeta().getPolicy();
+		if(MetaPolicy.COLLECTION == policy){
+			
+		}
 		return null;
 	}
-
+	/** **/
 	@Override
-	public boolean deleteById(Value<?>... uniqueId) throws AbstractDatabaseException {
+	public boolean delete(final Record record) throws AbstractDatabaseException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public List<Record> queryByFilter(String[] columns, Expression filter) throws AbstractDatabaseException {
+	public List<Record> queryByFilter(final Record record, String[] columns, Expression filter)
+			throws AbstractDatabaseException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Record selectById(Record record, ConcurrentMap<String, Value<?>> uniqueIds)
+			throws AbstractDatabaseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -97,4 +95,5 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
+
 }

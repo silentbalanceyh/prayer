@@ -2,14 +2,18 @@ package com.prayer.dao.record.impl;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
+import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
+import com.prayer.kernel.Expression;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.MinSize;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -31,10 +35,11 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
 	 * @return
 	 */
 	@NotNull
-	public static String prepInsertSQL(@NotNull final String table, @MinSize(1) final Set<String> columns) {
+	public static String prepInsertSQL(@NotNull @NotBlank @NotEmpty final String table,
+			@MinSize(1) final Collection<String> columns) {
 		// 1.构造INSERT部分
 		final int paramLength = columns.size();
-		final List<String> params = new ArrayList<>();	// 必须使用List，否则?,?,?这种会因为Set的原因直接导致最终的参数尺寸问题
+		final List<String> params = new ArrayList<>(); // 必须使用List，否则?,?,?这种会因为Set的原因直接导致最终的参数尺寸问题
 		for (int idx = 0; idx < paramLength; idx++) {
 			params.add(String.valueOf(Symbol.QUESTION));
 		}
@@ -42,12 +47,32 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
 		return MessageFormat.format(TB_INSERT, table, StringKit.join(columns, Symbol.COMMA),
 				StringKit.join(params, Symbol.COMMA));
 	}
+
+	/**
+	 * 
+	 * @param columns
+	 * @param whereExpr
+	 * @return
+	 */
+	@NotNull
+	public static String prepSelectSQL(@NotNull @NotBlank @NotEmpty final String table,
+			@NotNull @MinSize(0) final List<String> columns, @NotNull final Expression whereExpr) {
+		// 1.构造列部分
+		String cols = "*";
+		if (Constants.ZERO < columns.size()) {
+			cols = StringKit.join(columns, COMMA);
+		}
+		// 2.使用模板构造参数语句
+		return MessageFormat.format(TB_SELECT, cols, table, whereExpr.toSql());
+	}
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	private SqlDmlStatement(){}
+	private SqlDmlStatement() {
+	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

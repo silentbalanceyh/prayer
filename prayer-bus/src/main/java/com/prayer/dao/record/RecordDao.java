@@ -1,6 +1,7 @@
 package com.prayer.dao.record;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Expression;
@@ -19,6 +20,7 @@ public interface RecordDao {
 	 * @return
 	 */
 	Record insert(Record record) throws AbstractDatabaseException;
+
 	/**
 	 * 
 	 * @param record
@@ -26,24 +28,35 @@ public interface RecordDao {
 	 * @throws AbstractDatabaseException
 	 */
 	Record update(Record record) throws AbstractDatabaseException;
+
 	/**
-	 * 
+	 * 主键策略：GUID, ASSIGNED, INCREMENT
+	 * @param record
 	 * @param uniqueId
 	 * @return
 	 */
-	Record selectById(Value<?>... uniqueId);
+	Record selectById(Record record, Value<?> uniqueId) throws AbstractDatabaseException;
 	/**
-	 * 无序操作，设置笛卡尔积来完成参数的匹配，长度最大为4
+	 * 主键策略：COLLECTION
+	 * @param record
+	 * @param uniqueIds
+	 * @return
+	 */
+	Record selectById(Record record, ConcurrentMap<String,Value<?>> uniqueIds) throws AbstractDatabaseException;
+	/**
+	 * 
+	 * @param record
 	 * @param uniqueId
 	 * @return
 	 */
-	boolean deleteById(Value<?>... uniqueId) throws AbstractDatabaseException;
+	boolean delete(Record record) throws AbstractDatabaseException;
 	/**
 	 * 
+	 * @param record
 	 * @param columns
 	 * @param filter
 	 * @return
 	 * @throws AbstractDatabaseException
 	 */
-	List<Record> queryByFilter(String[] columns, Expression filter) throws AbstractDatabaseException;
+	List<Record> queryByFilter(Record record, String[] columns, Expression filter) throws AbstractDatabaseException;
 }

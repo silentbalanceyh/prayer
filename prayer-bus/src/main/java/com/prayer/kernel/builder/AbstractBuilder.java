@@ -1,10 +1,11 @@
 package com.prayer.kernel.builder;
 
+import static com.prayer.util.Calculator.diff;
+import static com.prayer.util.Calculator.intersect;
 import static com.prayer.util.Instance.reservoir;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -215,24 +216,12 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	protected ConcurrentMap<StatusFlag, Collection<String>> getColumnStatus(
 			@MinSize(0) final Collection<String> oldCols, @MinSize(0) final Collection<String> newCols) {
 		final ConcurrentMap<StatusFlag, Collection<String>> statusMap = new ConcurrentHashMap<>();
-		Collection<String> exchangeSet = new HashSet<>();
 		// ADD：新集合减去旧的集合
-		exchangeSet.clear();
-		exchangeSet.addAll(newCols);
-		exchangeSet.removeAll(oldCols);
-		statusMap.put(StatusFlag.ADD, exchangeSet);
+		statusMap.put(StatusFlag.ADD, diff(newCols,oldCols));
 		// DELET：旧集合减去新的集合
-		exchangeSet = new HashSet<>();
-		exchangeSet.clear();
-		exchangeSet.addAll(oldCols);
-		exchangeSet.removeAll(newCols);
-		statusMap.put(StatusFlag.DELETE, exchangeSet);
+		statusMap.put(StatusFlag.DELETE, diff(oldCols,newCols));
 		// UPDATE：两个集合的交集
-		exchangeSet = new HashSet<>();
-		exchangeSet.clear();
-		exchangeSet.addAll(oldCols);
-		exchangeSet.retainAll(newCols);
-		statusMap.put(StatusFlag.UPDATE, exchangeSet);
+		statusMap.put(StatusFlag.UPDATE, intersect(oldCols,newCols));
 		return statusMap;
 	}
 	// ~ Private Methods =====================================
