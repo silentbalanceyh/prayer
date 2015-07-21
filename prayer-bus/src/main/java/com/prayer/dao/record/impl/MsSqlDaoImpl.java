@@ -41,7 +41,9 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 		String sql = null;
 		List<Value<?>> params = null;
 		if (MetaPolicy.INCREMENT == policy) {
-			// 如果主键是自增长字段，则需要填充返回值
+			/**
+			 * 如果主键是自增长的，在插入数据的时候不需要传参，并且插入成功过后需要获取返回值
+			 */
 			final FieldModel pkSchema = record.schema().getPrimaryKeys().get(Constants.ZERO);
 			final String idCol = pkSchema.getColumnName();
 
