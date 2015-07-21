@@ -31,7 +31,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/**
-	 * 
+	 * Insert的第一个版本完成
 	 */
 	@Override
 	public Record insert(@NotNull final Record record) throws AbstractDatabaseException {
