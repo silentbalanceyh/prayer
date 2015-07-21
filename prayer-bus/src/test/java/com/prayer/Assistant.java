@@ -7,8 +7,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +36,10 @@ public final class Assistant { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(Assistant.class);
+	/** 测试用枚举 **/
+	public static enum TestEnum{
+		TEST1,TEST2,TEST3
+	}
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -79,13 +83,17 @@ public final class Assistant { // NOPMD
 
 	/** 生成字符串集合 **/
 	public static Set<String> set(final int size) {
-		final Set<String> retSet = new HashSet<>();
+		final Set<String> retSet = new TreeSet<>();
 		if (0 < size) {
 			for (int idx = 0; idx < size; idx++) {
 				retSet.add("Set" + idx);
 			}
 		}
 		return retSet;
+	}
+	/** 生成字符串数组 **/
+	public static String[] array(final int size){
+		return set(size).toArray(Constants.T_STR_ARR);
 	}
 
 	/** 创建一个新的实例的方法 **/
