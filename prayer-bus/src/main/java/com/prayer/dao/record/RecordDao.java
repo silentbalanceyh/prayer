@@ -31,18 +31,22 @@ public interface RecordDao {
 
 	/**
 	 * 主键策略：GUID, ASSIGNED, INCREMENT
+	 * 
 	 * @param record
 	 * @param uniqueId
 	 * @return
 	 */
 	Record selectById(Record record, Value<?> uniqueId) throws AbstractDatabaseException;
+
 	/**
 	 * 主键策略：COLLECTION
+	 * 
 	 * @param record
 	 * @param uniqueIds
 	 * @return
 	 */
-	Record selectById(Record record, ConcurrentMap<String,Value<?>> uniqueIds) throws AbstractDatabaseException;
+	Record selectById(Record record, ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException;
+
 	/**
 	 * 
 	 * @param record
@@ -50,6 +54,7 @@ public interface RecordDao {
 	 * @return
 	 */
 	boolean delete(Record record) throws AbstractDatabaseException;
+
 	/**
 	 * 
 	 * @param record
@@ -58,5 +63,6 @@ public interface RecordDao {
 	 * @return
 	 * @throws AbstractDatabaseException
 	 */
-	List<Record> queryByFilter(Record record, String[] columns, Expression filter) throws AbstractDatabaseException;
+	List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters)
+			throws AbstractDatabaseException;
 }

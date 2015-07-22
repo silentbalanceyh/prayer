@@ -24,6 +24,7 @@ import com.prayer.dao.record.RecordDao;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.database.PKValueMissingException;
 import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
@@ -33,6 +34,7 @@ import com.prayer.kernel.query.Restrictions;
 import com.prayer.model.h2.FieldModel;
 import com.prayer.model.h2.MetaModel;
 
+import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -128,20 +130,35 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 		// 1.获取主键Policy策略以及Jdbc访问器，验证Policy
 		final MetaModel metadata = record.schema().getMeta();
 		interrupt(metadata.getPolicy(), false);
-		final JdbcContext jdbc = this.getContext(record.identifier());
 		// 2.生成Expression
 		final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
-		final Expression whereExpr = this.getPKexpr(paramCols);
-		// 3.生成SQL语句
-		final String sql = SqlDmlStatement.prepSelectSQL(metadata.getTable(), new ArrayList<>(record.columns()),
-				whereExpr);
-		// 4.生成参数表
+		// 3.生成参数表
 		final List<Value<?>> paramValues = new ArrayList<>();
 		for (final String column : paramCols) {
 			paramValues.add(record.column(column));
 		}
-		// 5.查询结果
-		return extractData(record, jdbc.select(sql, paramValues, record.columns().toArray(Constants.T_STR_ARR)));
+		return sharedSelect(record,record.columns().toArray(Constants.T_STR_ARR),paramValues,this.getAndExpr(paramCols));
+	}
+
+	/**
+	 * 生成查询结果集
+	 * 
+	 * @param record
+	 * @param columns
+	 * @param params
+	 * @param filters
+	 * @return
+	 * @throws AbstractDatabaseException
+	 */
+	protected List<Record> sharedSelect(@NotNull final Record record, @NotNull @MinSize(1) final String[] columns,
+			final List<Value<?>> params, final Expression filters) throws AbstractDatabaseException {
+		// 1.获取JDBC访问器
+		final MetaModel metadata = record.schema().getMeta();
+		final JdbcContext jdbc = this.getContext(record.identifier());
+		// 2.生成SQL语句
+		final String sql = SqlDmlStatement.prepSelectSQL(metadata.getTable(), Arrays.asList(columns), filters);
+		// 3.根据参数表生成查询结果集
+		return extractData(record, jdbc.select(sql, params, columns));
 	}
 
 	/**
@@ -159,7 +176,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 		final JdbcContext jdbc = this.getContext(record.identifier());
 		// 2.生成Expression
 		final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
-		final Expression whereExpr = this.getPKexpr(paramCols);
+		final Expression whereExpr = this.getAndExpr(paramCols);
 		// 3.生成SQL语句
 		final String sql = SqlDmlStatement.prepDeleteSQL(metadata.getTable(), whereExpr);
 		// 4.生成参数表
@@ -226,7 +243,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 *            传入一个TreeSet
 	 * @return
 	 */
-	protected Expression getPKexpr(@NotNull final Set<String> columns) {
+	protected Expression getAndExpr(@NotNull final Set<String> columns) {
 		Expression ret = null;
 		// 记得使用TreeSet
 		for (final String column : columns) {
@@ -243,6 +260,23 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 			}
 		}
 		return ret;
+	}
+
+	/**
+	 * 主键带值验证
+	 * 
+	 * @param record
+	 * @throws AbstractDatabaseException
+	 */
+	protected void interrupt(@NotNull final Record record) throws AbstractDatabaseException {
+		final List<FieldModel> pkSchemas = record.schema().getPrimaryKeys();
+		for (final FieldModel field : pkSchemas) {
+			final Value<?> value = record.get(field.getName());
+			if (null == value) {
+				throw new PKValueMissingException(getClass(), field.getColumnName(),
+						record.schema().getMeta().getTable());
+			}
+		}
 	}
 
 	// ~ Exception Throws ====================================

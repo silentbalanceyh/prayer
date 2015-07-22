@@ -102,8 +102,8 @@ public class RecordDaoImpl implements RecordDao {
 	@Override
 	@Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
 	public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinLength(1) final String[] columns,
-			@NotNull final Expression filter) throws AbstractDatabaseException {
-		return this.dao.queryByFilter(record, columns, filter);
+			final List<Value<?>> params, @NotNull final Expression filters) throws AbstractDatabaseException {
+		return this.dao.queryByFilter(record, columns, params, filters);
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

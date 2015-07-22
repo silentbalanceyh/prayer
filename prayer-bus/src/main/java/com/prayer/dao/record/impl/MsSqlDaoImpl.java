@@ -61,11 +61,13 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	/**
 	 * 
 	 */
 	@Override
-	public Record selectById(@NotNull final Record record, @NotNull final Value<?> uniqueId) throws AbstractDatabaseException {
+	public Record selectById(@NotNull final Record record, @NotNull final Value<?> uniqueId)
+			throws AbstractDatabaseException {
 		// 1.填充主键参数
 		final FieldModel pkField = record.schema().getPrimaryKeys().get(Constants.ZERO);
 		final ConcurrentMap<String, Value<?>> paramMap = new ConcurrentHashMap<>();
@@ -76,23 +78,28 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 
 	/** **/
 	@Override
-	public boolean delete(final Record record) throws AbstractDatabaseException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(@NotNull final Record record) throws AbstractDatabaseException {
+		// 1.主键值验证
+		this.interrupt(record);
+		// 2.获取主键表达式
+		final ConcurrentMap<String, Value<?>> paramMap = this.getPKs(record);
+		// 3.调用父类函数
+		return super.sharedDelete(record, paramMap);
 	}
 
+	/** **/
 	@Override
-	public List<Record> queryByFilter(final Record record, String[] columns, Expression filter)
-			throws AbstractDatabaseException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinSize(1) final String[] columns,
+			final List<Value<?>> params, final Expression filters) throws AbstractDatabaseException {
+		return super.sharedSelect(record, columns, params, filters);
 	}
+
 	/**
 	 * 
 	 */
 	@Override
-	public Record selectById(@NotNull final Record record, @NotNull @MinSize(1) ConcurrentMap<String, Value<?>> uniqueIds)
-			throws AbstractDatabaseException {
+	public Record selectById(@NotNull final Record record,
+			@NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException {
 		// 1.填充主键参数
 		final List<Record> records = this.sharedSelect(record, uniqueIds);
 		if (Constants.ONE < records.size()) {
