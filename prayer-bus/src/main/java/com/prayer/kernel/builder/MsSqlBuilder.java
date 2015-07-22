@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
@@ -43,6 +44,8 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlBuilder.class);
+	/** 针对整个系统的表统计管理 **/
+	private static final ConcurrentMap<String, Boolean> TB_COUNT_MAP = new ConcurrentHashMap<>();
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -99,7 +102,12 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
 			final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
 					: ResponseCode.FAILURE.toString());
 			info(LOGGER, "[I] Location: createTable(), Result : " + respStr);
-			return Constants.RC_SUCCESS == respCode;
+			// EXIST：新表创建成功过后添加缓存
+			final boolean ret = Constants.RC_SUCCESS == respCode;
+			if (ret) {
+				TB_COUNT_MAP.put(this.getTable(), Boolean.TRUE);
+			}
+			return ret;
 		}
 	}
 
@@ -109,9 +117,19 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
 	@Override
 	@PreValidateThis
 	public boolean existTable() {
-		final String sql = MsSqlHelper.getSqlTableExist(this.getTable());
-		final long counter = this.getContext().count(sql);
-		return 0 < counter;
+		// 缓存统计结果
+		Boolean exist = TB_COUNT_MAP.get(this.getTable());
+		// 理论上这个Hash表中只可能有TRUE的值，没有FALSE
+		if (null == exist || !exist) {
+			final String sql = MsSqlHelper.getSqlTableExist(this.getTable());
+			final Long counter = this.getContext().count(sql);
+			exist = 0 < counter;
+			// EXIST：直接判断添加缓存
+			if (exist) {
+				TB_COUNT_MAP.put(this.getTable(), Boolean.TRUE);
+			}
+		}
+		return exist;
 	}
 
 	/**
@@ -147,6 +165,11 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
 			final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
 					: ResponseCode.FAILURE.toString());
 			info(LOGGER, "[I] Location: purgeTable(), Result : " + respStr);
+			// EXIST：删除成功过后移除缓存
+			final boolean ret = Constants.RC_SUCCESS == respCode;
+			if (ret && TB_COUNT_MAP.containsKey(this.getTable())) {
+				TB_COUNT_MAP.remove(this.getTable());
+			}
 			return Constants.RC_SUCCESS == respCode;
 		} else {
 			info(LOGGER, "[I] Location: purgeTable(), Table does not exist : " + this.getTable());

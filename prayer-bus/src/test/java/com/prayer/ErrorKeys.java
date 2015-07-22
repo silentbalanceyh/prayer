@@ -19,4 +19,6 @@ public interface ErrorKeys {	// NOPMD
 	String TST_INFO_SQL = "TST.INFO.SQL";
 	/** Database Exception异常 **/
 	String TST_PR = "TST.PR";
+	/** 数据准备过程异常 **/
+	String TST_PREP = "TST.PREP";
 }

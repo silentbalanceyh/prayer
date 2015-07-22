@@ -1,0 +1,9 @@
+Test Case新编号
+1.原始迁移编号：
+Exception --> E00009
+Constructor --> C00002
+Common Testing --> T00016
+2.数据层直接测试的新编号：
+Exception --> E05062
+Constructor --> C05002
+Common Testing --> T05028

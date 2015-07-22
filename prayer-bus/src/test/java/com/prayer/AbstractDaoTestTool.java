@@ -1,8 +1,6 @@
-package com.test.meta.builder;
+package com.prayer;
 
 import static com.prayer.util.Instance.instance;
-
-import org.slf4j.Logger;
 
 import com.prayer.bus.schema.SchemaService;
 import com.prayer.bus.schema.impl.SchemaSevImpl;
@@ -10,65 +8,58 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
-import com.test.AbstractTestCase;
 
 import jodd.util.StringUtil;
 
 /**
+ * Dao数据层测试基类
  * 
  * @author Lang
  *
  */
-public abstract class AbstractBUPTestCase extends AbstractTestCase { // NOPMD
+public abstract class AbstractDaoTestTool extends AbstractTestTool {
 	// ~ Static Fields =======================================
 	/** **/
-	protected static final String BUILDER_FILE = "/schema/data/json/database/";
+	protected static final String DAO_DATA_PATH = "/schema/data/json/dao/";
 	// ~ Instance Fields =====================================
-	/** **/
+	/** Schema服务层接口 **/
 	private transient final SchemaService service;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
-	public AbstractBUPTestCase() {
+	public AbstractDaoTestTool() {
 		super();
 		this.service = instance(SchemaSevImpl.class.getName());
 	}
 
 	// ~ Abstract Methods ====================================
-	/** **/
-	protected abstract Logger getLogger();
-
-	/** **/
+	/** 获取数据库类型 **/
 	protected abstract String getDbCategory();
 
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
-	/** **/
-	protected SchemaService getService() {
-		return this.service;
-	}
-
-	/** **/
+	/** 当前访问的Database是否合法 **/
 	protected boolean isValidDB() {
 		return StringUtil.equals(getDbCategory(), Resources.DB_CATEGORY);
 	}
 
-	/** **/
-	protected ServiceResult<GenericSchema> testUpdating(final String fromPath, final String toPath,
-			final String errMsg) {
+	/** 获取服务层访问接口 **/
+	protected SchemaService getService() {
+		return this.service;
+	}
+
+	/** 从Json到H2并且读取Metadata同步到对应数据库 **/
+	protected ServiceResult<GenericSchema> syncMetadata(final String filePath) {
 		ServiceResult<GenericSchema> finalRet = new ServiceResult<>(null, null);
 		if (this.isValidDB()) {
-			// From：基础数据
-			ServiceResult<GenericSchema> syncRet = this.getService().syncSchema(BUILDER_FILE + fromPath);
-			syncRet = this.getService().syncMetadata(syncRet.getResult());
-			// To：第二次的数据，更新过后的数据
+			// 基础数据
+			final ServiceResult<GenericSchema> syncRet = this.getService().syncSchema(DAO_DATA_PATH + filePath);
 			if (ResponseCode.SUCCESS == syncRet.getResponseCode()) {
-				syncRet = this.getService().syncSchema(BUILDER_FILE + toPath);
 				finalRet = this.getService().syncMetadata(syncRet.getResult());
-			} else {
-				failure(errMsg);
+			}else{
+				finalRet = syncRet;
 			}
 		}
 		return finalRet;
