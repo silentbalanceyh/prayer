@@ -22,6 +22,8 @@ public interface Symbol {	// NOPMD
 	char D_QUOTES = '"';
 	/** 问号 **/
 	char QUESTION = '?';
+	/** 等于符号 **/
+	char EQUAL = '=';
 	/** 换行符 **/
 	String NEW_LINE = "\n";
 }

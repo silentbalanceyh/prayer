@@ -50,6 +50,27 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
 
 	/**
 	 * 
+	 * @param table
+	 * @param columns
+	 * @return
+	 */
+	@NotNull
+	public static String prepUpdateSQL(@NotNull @NotBlank @NotEmpty final String table,
+			@MinSize(1) final Collection<String> columns, @NotNull final Expression whereExpr) {
+		// 1.构造UPDATE部分
+		final String[] columnArr = columns.toArray(Constants.T_STR_ARR);
+		final List<String> params = new ArrayList<>();
+		for (int idx = 0; idx < columnArr.length; idx++) {
+			params.add(columnArr[idx] + Symbol.EQUAL + Symbol.QUESTION);
+		}
+		// 2.使用模板构造参数语句
+		final String majorClouse = MessageFormat.format(TB_UPDATE, StringKit.join(params, Symbol.COMMA), table);
+		final String whereClouse = MessageFormat.format(TB_WHERE, whereExpr.toSql());
+		return majorClouse + SPACE + whereClouse;
+	}
+
+	/**
+	 * 
 	 * @param columns
 	 * @param whereExpr
 	 * @return

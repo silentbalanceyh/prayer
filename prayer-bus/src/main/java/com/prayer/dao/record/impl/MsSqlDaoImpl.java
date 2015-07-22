@@ -25,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class MsSqlDaoImpl extends AbstractDaoImpl {
+final class MsSqlDaoImpl extends AbstractDaoImpl {	 // NOPMD
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -40,7 +40,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 	public Set<String> getPKFilters(@NotNull final Record record) {
 		final MetaPolicy policy = record.schema().getMeta().getPolicy();
 		if (MetaPolicy.INCREMENT == policy) {
-			return this.getPKs(record).keySet();
+			return SqlHelper.prepPKWhere(record).keySet();
 		}
 		return new HashSet<>();
 	}
@@ -55,11 +55,19 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 		// 2.返回修改过的record
 		return record;
 	}
-
+	/** **/
 	@Override
-	public Record update(Record record) throws AbstractDatabaseException {
-		// TODO Auto-generated method stub
-		return null;
+	public Record update(@NotNull final Record record) throws AbstractDatabaseException {
+		// 1.主键值验证
+		this.interrupt(record);
+		// 2.调用父类函数
+		final boolean ret = super.sharedUpdate(record);
+		// 3.返回最终修改过的record
+		if(ret){
+			return record;
+		}else{
+			return null;
+		}
 	}
 
 	/**
@@ -82,7 +90,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 		// 1.主键值验证
 		this.interrupt(record);
 		// 2.获取主键表达式
-		final ConcurrentMap<String, Value<?>> paramMap = this.getPKs(record);
+		final ConcurrentMap<String, Value<?>> paramMap = SqlHelper.prepPKWhere(record);
 		// 3.调用父类函数
 		return super.sharedDelete(record, paramMap);
 	}
