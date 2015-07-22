@@ -15,14 +15,6 @@ import com.prayer.model.type.DataType;
 public interface JdbcContext {
 
 	/**
-	 * 聚集函数COUNT
-	 * 
-	 * @param sql
-	 * @return
-	 */
-	Long count(String sql);
-
-	/**
 	 * 单列读取
 	 * 
 	 * @param sql
@@ -40,6 +32,13 @@ public interface JdbcContext {
 	 * @return
 	 */
 	int execute(String sql, List<Value<?>> values);
+	/**
+	 * 带参数的聚集函数
+	 * @param sql
+	 * @param values
+	 * @return
+	 */
+	Long count(String sql);
 	/**
 	 * 带参数查询
 	 * 
