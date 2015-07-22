@@ -1,4 +1,4 @@
-package com.prayer.dao.record.impl;		// NOPMD
+package com.prayer.dao.record.impl; // NOPMD
 
 import static com.prayer.util.Calculator.diff;
 import static com.prayer.util.Generator.uuid;
@@ -44,6 +44,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	// ~ Static Fields =======================================
 	/** JDBC的Context的延迟池化技术 **/
 	private static final ConcurrentMap<String, JdbcContext> JDBC_POOLS = new ConcurrentHashMap<>();
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -107,7 +108,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * @param record
 	 * @throws AbstractDatabaseException
 	 */
-	protected void sharedInsert(@NotNull final Record record) throws AbstractDatabaseException {
+	protected boolean sharedInsert(@NotNull final Record record) throws AbstractDatabaseException {
 		// 获取主键Policy策略以及Jdbc访问器
 		final MetaPolicy policy = record.schema().getMeta().getPolicy();
 		final JdbcContext jdbc = this.getContext(record.identifier());
@@ -118,7 +119,8 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 			final FieldModel pkSchema = record.schema().getPrimaryKeys().get(Constants.ZERO);
 			// 父类方法，过滤掉主键传参
 			final String sql = SqlHelper.prepInsertSQL(record, getPKFilters(record).toArray(Constants.T_STR_ARR));
-			final List<Value<?>> params = SqlHelper.prepParam(record, getPKFilters(record).toArray(Constants.T_STR_ARR));
+			final List<Value<?>> params = SqlHelper.prepParam(record,
+					getPKFilters(record).toArray(Constants.T_STR_ARR));
 
 			final Value<?> ret = jdbc.insert(sql, params, true, pkSchema.getType());
 			// <== 填充返回主键
@@ -136,6 +138,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 
 			jdbc.insert(sql, params, false, null);
 		}
+		return true;
 	}
 
 	/**

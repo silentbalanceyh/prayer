@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.database.ExecuteFailureException;
 import com.prayer.exception.database.MoreThanOneException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
@@ -25,7 +26,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class MsSqlDaoImpl extends AbstractDaoImpl {	 // NOPMD
+final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -51,10 +52,13 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {	 // NOPMD
 	@Override
 	public Record insert(@NotNull final Record record) throws AbstractDatabaseException {
 		// 1.调用父类方法
-		super.sharedInsert(record);
-		// 2.返回修改过的record
+		final boolean ret = super.sharedInsert(record);
+		// 2.后期执行检查
+		interrupt(ret);
+		// 3.返回修改过的record
 		return record;
 	}
+
 	/** **/
 	@Override
 	public Record update(@NotNull final Record record) throws AbstractDatabaseException {
@@ -62,12 +66,10 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {	 // NOPMD
 		this.interrupt(record);
 		// 2.调用父类函数
 		final boolean ret = super.sharedUpdate(record);
-		// 3.返回最终修改过的record
-		if(ret){
-			return record;
-		}else{
-			return null;
-		}
+		// 3.后期执行检查
+		interrupt(ret);
+		// 4.返回最终修改过的record
+		return record;
 	}
 
 	/**
@@ -92,7 +94,10 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {	 // NOPMD
 		// 2.获取主键表达式
 		final ConcurrentMap<String, Value<?>> paramMap = SqlHelper.prepPKWhere(record);
 		// 3.调用父类函数
-		return super.sharedDelete(record, paramMap);
+		final boolean ret = super.sharedDelete(record, paramMap);
+		// 4.后期执行检查
+		interrupt(ret);
+		return ret;
 	}
 
 	/** **/
@@ -116,8 +121,14 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {	 // NOPMD
 		// 2.根据查询结果返回
 		return Constants.ZERO == records.size() ? null : records.get(Constants.ZERO);
 	}
+
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	private void interrupt(final boolean retFlag) throws AbstractDatabaseException {
+		if (!retFlag) {
+			throw new ExecuteFailureException(getClass());
+		}
+	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 
