@@ -95,7 +95,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
 		} else {
 			final String sql = genCreateSql();
 			info(LOGGER, "[I] Sql: " + sql);
-			final int respCode = this.getContext().execute(sql);
+			final int respCode = this.getContext().execute(sql, null);
 			final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
 					: ResponseCode.FAILURE.toString());
 			info(LOGGER, "[I] Location: createTable(), Result : " + respStr);
@@ -124,7 +124,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
 		if (exist) {
 			final String sql = this.genUpdateSql(schema);
 			info(LOGGER, "[I] Sql: " + sql);
-			final int respCode = this.getContext().execute(sql);
+			final int respCode = this.getContext().execute(sql, null);
 			final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
 					: ResponseCode.FAILURE.toString());
 			info(LOGGER, "[I] Location: syncTable(GenericSchema), Result : " + respStr);
@@ -143,7 +143,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
 		final boolean exist = this.existTable();
 		if (exist) {
 			final String sql = MessageFormat.format(TB_DROP, this.getTable());
-			final int respCode = this.getContext().execute(sql);
+			final int respCode = this.getContext().execute(sql, null);
 			final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
 					: ResponseCode.FAILURE.toString());
 			info(LOGGER, "[I] Location: purgeTable(), Result : " + respStr);

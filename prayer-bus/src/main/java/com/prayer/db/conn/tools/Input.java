@@ -39,7 +39,7 @@ public final class Input {
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	/**
-	 * Insert语句的参数设置
+	 * Insert语句的参数设置，不可不传参
 	 * @param sql
 	 * @param values
 	 * @param isRetKey
@@ -59,12 +59,33 @@ public final class Input {
 				}
 				final int size = values.size();
 				for (int idx = 1; idx <= size; idx++) {
-					final Value<?> item = values.get(idx - 1);
 					// 以数据库的Index为主，数据库从1开始索引，数组本身从0开始索引
-					setParameters(stmt, idx, item);
+					setParameters(stmt, idx, values.get(idx - 1));
 				}
 				return stmt;
 			}
+		};
+	}
+
+	/**
+	 * Select语句的参数设置，可不传参，则表示Select所有
+	 * @param sql
+	 * @param values
+	 * @return
+	 */
+	public static PreparedStatementCreator prepStmt(@NotNull @NotBlank @NotEmpty final String sql,
+			@NotNull @MinSize(0) final List<Value<?>> values) {
+		return new PreparedStatementCreator() {
+			/** **/
+			@Override
+			public PreparedStatement createPreparedStatement(final Connection con) throws SQLException {
+				final PreparedStatement stmt = con.prepareStatement(sql);
+				final int size = values.size();
+				for (int idx = 1; idx <= size; idx++) {
+					setParameters(stmt, idx, values.get(idx - 1));
+				}
+				return stmt;
+			};
 		};
 	}
 
@@ -116,6 +137,7 @@ public final class Input {
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	private Input(){}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

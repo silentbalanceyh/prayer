@@ -57,7 +57,6 @@ public final class Converter {
 		}
 		return retStr.toString();
 	}
-
 	/**
 	 * 
 	 * @param clazz

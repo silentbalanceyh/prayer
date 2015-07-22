@@ -13,13 +13,6 @@ import com.prayer.model.type.DataType;
  * @see
  */
 public interface JdbcContext {
-	/**
-	 * 直接执行SQL语句
-	 * 
-	 * @param sql
-	 * @return
-	 */
-	int execute(String sql);
 
 	/**
 	 * 聚集函数COUNT
@@ -30,14 +23,6 @@ public interface JdbcContext {
 	Long count(String sql);
 
 	/**
-	 * 读取所有Columns中的数据
-	 * 
-	 * @param sql
-	 * @return
-	 */
-	List<ConcurrentMap<String, String>> select(String sql, String... columns);
-
-	/**
 	 * 单列读取
 	 * 
 	 * @param sql
@@ -46,7 +31,24 @@ public interface JdbcContext {
 	 */
 	List<String> select(String sql, String column);
 
-	// ~ 插入语句 ==================================================================
+	// ~ 带参数语句
+	// ==================================================================
+	/**
+	 * 带参数执行
+	 * @param sql
+	 * @param values
+	 * @return
+	 */
+	int execute(String sql, List<Value<?>> values);
+	/**
+	 * 带参数查询
+	 * 
+	 * @param sql
+	 * @param values
+	 * @param columns
+	 * @return
+	 */
+	List<ConcurrentMap<String, String>> select(String sql, List<Value<?>> values, String... columns);
 	/**
 	 * 返回插入过后的主键值，主要针对Increment的Policy才会使用后边的方法
 	 * 

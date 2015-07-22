@@ -63,7 +63,24 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
 			cols = StringKit.join(columns, COMMA);
 		}
 		// 2.使用模板构造参数语句
-		return MessageFormat.format(TB_SELECT, cols, table, whereExpr.toSql());
+		final String majorClouse = MessageFormat.format(TB_SELECT, cols, table);
+		final String whereClouse = MessageFormat.format(TB_WHERE, whereExpr.toSql());
+		return majorClouse + SPACE + whereClouse;
+	}
+
+	/**
+	 * 
+	 * @param table
+	 * @param whereExpr
+	 * @return
+	 */
+	@NotNull
+	public static String prepDeleteSQL(@NotNull @NotBlank @NotEmpty final String table,
+			@NotNull final Expression whereExpr) {
+		// 1.使用模板构造参数语句
+		final String majorClouse = MessageFormat.format(TB_DELETE, table);
+		final String whereClouse = MessageFormat.format(TB_WHERE, whereExpr.toSql());
+		return majorClouse + SPACE + whereClouse;
 	}
 
 	// ~ Constructors ========================================

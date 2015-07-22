@@ -48,7 +48,11 @@ public interface SqlSegment { // NOPMD
 	/** 插入语句的SQL模板 **/
 	String TB_INSERT = "INSERT INTO {0} ({1}) VALUES ({2})";
 	/** 查询语句的SQL模板 **/
-	String TB_SELECT = "SELECT {0} FROM {1} WHERE {2}";
+	String TB_SELECT = "SELECT {0} FROM {1}";
+	/** 删除数据的SQL模板 **/
+	String TB_DELETE = "DELETE FROM {0}";
+	/** WHERE子句模板 **/
+	String TB_WHERE = "WHERE {0}";
 
 	// ~ SQL连接关键字 =====================================
 	/** AND连接符 **/

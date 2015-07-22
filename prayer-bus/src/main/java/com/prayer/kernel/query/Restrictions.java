@@ -21,7 +21,7 @@ import net.sf.oval.guard.Guarded;
  * @author Lang
  */
 @Guarded
-public final class Restrictions implements SqlSegment {
+public final class Restrictions implements SqlSegment {	// NOPMD
 	// ~ Static Fields =======================================
 
 	/** **/

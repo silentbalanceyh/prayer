@@ -54,16 +54,20 @@ public class JdbcConnImpl implements JdbcContext {
 	/** **/
 	@Override
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
-	public int execute(@NotNull final String sql) {
+	public int execute(@NotNull @NotBlank @NotEmpty final String sql, final List<Value<?>> params) {
 		final JdbcTemplate jdbc = this.dbPool.getJdbc();
-		jdbc.execute(sql);
+		if (null == params) {
+			jdbc.execute(sql);
+		} else {
+			jdbc.execute(Input.prepStmt(sql, params), null);
+		}
 		return Constants.RC_SUCCESS;
 	}
 
 	/** **/
 	@Override
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
-	public Long count(@NotNull final String sql) {
+	public Long count(@NotNull @NotBlank @NotEmpty final String sql) {
 		final JdbcTemplate jdbc = this.dbPool.getJdbc();
 		return jdbc.queryForObject(sql, Long.class);
 	}
@@ -71,15 +75,21 @@ public class JdbcConnImpl implements JdbcContext {
 	/** **/
 	@Override
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
-	public List<ConcurrentMap<String, String>> select(@NotNull final String sql, final String... columns) {
+	public List<ConcurrentMap<String, String>> select(@NotNull @NotBlank @NotEmpty final String sql,
+			final List<Value<?>> params, @MinSize(1) final String... columns) {
 		final JdbcTemplate jdbc = this.dbPool.getJdbc();
-		return jdbc.query(sql, Output.extractDataList(columns));
+		if (null == params) {
+			return jdbc.query(sql, Output.extractDataList(columns));
+		} else {
+			return jdbc.query(Input.prepStmt(sql, params), Output.extractDataList(columns));
+		}
 	}
 
 	/** **/
 	@Override
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
-	public List<String> select(@NotNull final String sql, @NotNull final String column) {
+	public List<String> select(@NotNull @NotBlank @NotEmpty final String sql,
+			@NotNull @NotBlank @NotEmpty final String column) {
 		final JdbcTemplate jdbc = this.dbPool.getJdbc();
 		return jdbc.query(sql, Output.extractColumnList(column));
 	}

@@ -1,19 +1,21 @@
 package com.prayer.dao.record.impl;
 
-import static com.prayer.util.Generator.uuid;
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.db.conn.JdbcContext;
 import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.database.MoreThanOneException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.model.h2.FieldModel;
 
+import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -35,16 +37,14 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 	 * INCREMENT中需要过滤ID列，这个方法用于获取ID列
 	 */
 	@Override
-	public String getIdColumn(@NotNull final Record record){
+	public Set<String> getPKFilters(@NotNull final Record record) {
 		final MetaPolicy policy = record.schema().getMeta().getPolicy();
-		String idCol = null;
-		if(MetaPolicy.INCREMENT == policy){
-			final FieldModel pkSchema = record.schema().getPrimaryKeys().get(Constants.ZERO);
-			idCol = pkSchema.getColumnName();
+		if (MetaPolicy.INCREMENT == policy) {
+			return this.getPKs(record).keySet();
 		}
-		return idCol;
+		return new HashSet<>();
 	}
-	
+
 	/**
 	 * Insert的第一个版本完成，调用共享Insert方法
 	 */
@@ -61,16 +61,19 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/**
+	 * 
+	 */
 	@Override
-	public Record selectById(final Record record, final Value<?> uniqueId) throws AbstractDatabaseException {
-		// 获取主键Policy策略以及Jdbc访问器
-		final MetaPolicy policy = record.schema().getMeta().getPolicy();
-		if(MetaPolicy.COLLECTION == policy){
-			
-		}
-		return null;
+	public Record selectById(@NotNull final Record record, @NotNull final Value<?> uniqueId) throws AbstractDatabaseException {
+		// 1.填充主键参数
+		final FieldModel pkField = record.schema().getPrimaryKeys().get(Constants.ZERO);
+		final ConcurrentMap<String, Value<?>> paramMap = new ConcurrentHashMap<>();
+		paramMap.put(pkField.getColumnName(), uniqueId);
+		// 2.调用内部函数
+		return this.selectById(record, paramMap);
 	}
+
 	/** **/
 	@Override
 	public boolean delete(final Record record) throws AbstractDatabaseException {
@@ -84,12 +87,19 @@ final class MsSqlDaoImpl extends AbstractDaoImpl {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/**
+	 * 
+	 */
 	@Override
-	public Record selectById(Record record, ConcurrentMap<String, Value<?>> uniqueIds)
+	public Record selectById(@NotNull final Record record, @NotNull @MinSize(1) ConcurrentMap<String, Value<?>> uniqueIds)
 			throws AbstractDatabaseException {
-		// TODO Auto-generated method stub
-		return null;
+		// 1.填充主键参数
+		final List<Record> records = this.sharedSelect(record, uniqueIds);
+		if (Constants.ONE < records.size()) {
+			throw new MoreThanOneException(getClass(), record.schema().getMeta().getTable());
+		}
+		// 2.根据查询结果返回
+		return Constants.ZERO == records.size() ? null : records.get(Constants.ZERO);
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

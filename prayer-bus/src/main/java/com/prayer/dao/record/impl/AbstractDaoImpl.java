@@ -1,15 +1,22 @@
 package com.prayer.dao.record.impl;
 
 import static com.prayer.util.Calculator.diff;
+import static com.prayer.util.Error.info;
 import static com.prayer.util.Generator.uuid;
+import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.reservoir;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
@@ -17,9 +24,14 @@ import com.prayer.dao.record.RecordDao;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.database.PolicyConflictCallException;
+import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
+import com.prayer.kernel.model.GenericRecord;
+import com.prayer.kernel.query.Restrictions;
 import com.prayer.model.h2.FieldModel;
+import com.prayer.model.h2.MetaModel;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -36,6 +48,8 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	// ~ Static Fields =======================================
 	/** JDBC的Context的延迟池化技术 **/
 	private static final ConcurrentMap<String, JdbcContext> JDBC_POOLS = new ConcurrentHashMap<>();
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDaoImpl.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -45,11 +59,12 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	/**
 	 * 获取Increment中需要过滤的ID列
 	 **/
-	protected abstract String getIdColumn(Record record);
+	protected abstract Set<String> getPKFilters(Record record);
 
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	/**
+	 * 获取JDBC访问器
 	 * 
 	 * @return
 	 */
@@ -62,6 +77,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 		return context;
 	}
 
+	// ~ Major Logical =======================================
 	/**
 	 * 共享Inert语句，根据不同的Policy设置SQL语句并且实现共享传参 这个方法必然会修改传入参数Record
 	 * 
@@ -78,8 +94,9 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 			 */
 			final FieldModel pkSchema = record.schema().getPrimaryKeys().get(Constants.ZERO);
 			// 父类方法，过滤掉主键传参
-			final String sql = this.prepInsertSQL(record, getIdColumn(record));
-			final List<Value<?>> params = this.prepInsertParam(record, getIdColumn(record));
+			final String sql = this.prepInsertSQL(record, getPKFilters(record).toArray(Constants.T_STR_ARR));
+			final List<Value<?>> params = this.prepInsertParam(record,
+					getPKFilters(record).toArray(Constants.T_STR_ARR));
 
 			final Value<?> ret = jdbc.insert(sql, params, true, pkSchema.getType());
 			// <== 填充返回主键
@@ -98,10 +115,152 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 			jdbc.insert(sql, params, false, null);
 		}
 	}
-	
-	
 
+	/**
+	 * 共享主键查询语句
+	 * 
+	 * @param record
+	 * @param paramMap
+	 * @throws AbstractDatabaseException
+	 */
+	protected List<Record> sharedSelect(@NotNull final Record record,
+			@NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
+		// 1.获取主键Policy策略以及Jdbc访问器，验证Policy
+		final MetaModel metadata = record.schema().getMeta();
+		interrupt(metadata.getPolicy(), false);
+		final JdbcContext jdbc = this.getContext(record.identifier());
+		// 2.生成Expression
+		final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
+		final Expression whereExpr = this.getPKexpr(paramCols);
+		// 3.生成SQL语句
+		final String sql = SqlDmlStatement.prepSelectSQL(metadata.getTable(), new ArrayList<>(record.columns()),
+				whereExpr);
+		// 4.生成参数表
+		final List<Value<?>> paramValues = new ArrayList<>();
+		for (final String column : paramCols) {
+			paramValues.add(record.column(column));
+		}
+		// 5.查询结果
+		return extractData(record, jdbc.select(sql, paramValues, record.columns().toArray(Constants.T_STR_ARR)));
+	}
+
+	/**
+	 * 共享主键删除语句
+	 * 
+	 * @param record
+	 * @param paramMap
+	 * @return
+	 * @throws AbstractDatabaseException
+	 */
+	protected boolean sharedDelete(@NotNull final Record record,
+			@NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
+		// 1.获取JDBC访问器
+		final MetaModel metadata = record.schema().getMeta();
+		final JdbcContext jdbc = this.getContext(record.identifier());
+		// 2.生成Expression
+		final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
+		final Expression whereExpr = this.getPKexpr(paramCols);
+		// 3.生成SQL语句
+		final String sql = SqlDmlStatement.prepDeleteSQL(metadata.getTable(), whereExpr);
+		// 4.生成参数表
+		final List<Value<?>> paramValues = new ArrayList<>();
+		for (final String column : paramCols) {
+			paramValues.add(record.column(column));
+		}
+		// 5.执行
+		final int ret = jdbc.execute(sql, paramValues);
+		return ret > Constants.RC_SUCCESS;
+	}
+
+	// ~ Assistant Methods ===================================
+	/**
+	 * 将查询的结果集List<ConcurrentMap<String,String>>转换成List<Record>
+	 * 
+	 * @param record
+	 * @param result
+	 */
+	protected List<Record> extractData(@NotNull final Record record,
+			@NotNull final List<ConcurrentMap<String, String>> resultData) {
+		final String identifier = record.identifier();
+		// 从List中抽取记录
+		final List<Record> retList = new ArrayList<>();
+		for (final ConcurrentMap<String, String> item : resultData) {
+			// 从Map中抽取字段
+			final Record ret = instance(GenericRecord.class.getName(), identifier);
+			for (final String column : item.keySet()) {
+				final String field = record.schema().getColumn(column).getName();
+				try {
+					ret.set(field, item.get(column));
+				} catch (AbstractDatabaseException ex) {
+					info(LOGGER, ex.getErrorMessage());
+				}
+			}
+			retList.add(ret);
+		}
+		return retList;
+	}
+
+	/**
+	 * 获取当前记录中的主键列：列名 = Value的键值对
+	 * 
+	 * @param record
+	 * @return
+	 */
+	protected ConcurrentMap<String, Value<?>> getPKs(@NotNull final Record record) {
+		final ConcurrentMap<String, Value<?>> idCols = new ConcurrentHashMap<>();
+		for (final FieldModel field : record.schema().getPrimaryKeys()) {
+			try {
+				idCols.put(field.getColumnName(), record.get(field.getName()));
+			} catch (AbstractDatabaseException ex) {
+				idCols.clear();
+				info(LOGGER, ex.getErrorMessage());
+			}
+		}
+		return idCols;
+	}
+
+	/**
+	 * 获取主键WHERE子句
+	 * 
+	 * @param columns
+	 *            传入一个TreeSet
+	 * @return
+	 */
+	protected Expression getPKexpr(@NotNull final Set<String> columns) {
+		Expression ret = null;
+		// 记得使用TreeSet
+		for (final String column : columns) {
+			if (ret == null) {
+				// 单个条件
+				ret = Restrictions.eq(column);
+			} else {
+				// 多个条件组合
+				try {
+					ret = Restrictions.and(ret, Restrictions.eq(column));
+				} catch (AbstractDatabaseException ex) {
+					info(LOGGER, ex.getErrorMessage());
+				}
+			}
+		}
+		return ret;
+	}
+
+	// ~ Exception Throws ====================================
 	// ~ Private Methods =====================================
+	/**
+	 * 
+	 * @param policy
+	 * @param isMulti
+	 * @throws AbstractDatabaseException
+	 */
+	private void interrupt(@NotNull final MetaPolicy policy, final boolean isMulti) throws AbstractDatabaseException {
+		if (isMulti && MetaPolicy.COLLECTION != policy) {
+			throw new PolicyConflictCallException(getClass(), policy.toString());
+		} else if (!isMulti && MetaPolicy.COLLECTION == policy) {
+			throw new PolicyConflictCallException(getClass(), policy.toString());
+		}
+	}
+
 	/**
 	 * 生成Insert语句
 	 * 
