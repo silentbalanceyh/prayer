@@ -11,7 +11,7 @@ import com.prayer.model.h2.FieldModel;
  * @author Lang
  *
  */
-public interface RecordPK {
+interface RecordPK {
 	/**
 	 * 主键的Policy
 	 * 

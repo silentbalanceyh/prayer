@@ -8,7 +8,7 @@ import com.prayer.exception.AbstractDatabaseException;
  * @author Lang
  *
  */
-public interface RecordDB {
+interface RecordDB {
 
 	/**
 	 * 根据列名查找对应的属性值
