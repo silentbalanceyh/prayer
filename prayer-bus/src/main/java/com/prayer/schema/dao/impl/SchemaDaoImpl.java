@@ -252,6 +252,10 @@ public class SchemaDaoImpl implements SchemaDao { // NOPMD
 			original.getMeta().setSubKey(schema.getMeta().getSubKey());
 			original.getMeta().setSubTable(schema.getMeta().getSubTable());
 			original.getMeta().setTable(schema.getMeta().getTable());
+			// 设置其他内容
+			original.setFields(schema.getFields());
+			original.setKeys(schema.getKeys());
+			original.setIdentifier(schema.getIdentifier());
 		}
 		return original;
 	}

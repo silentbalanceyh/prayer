@@ -112,7 +112,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 		// 获取主键Policy策略以及Jdbc访问器
 		final MetaPolicy policy = record.schema().getMeta().getPolicy();
 		final JdbcContext jdbc = this.getContext(record.identifier());
-		if (MetaPolicy.INCREMENT == policy) {
+		if (MetaPolicy.INCREMENT == policy && Constants.ZERO < record.schema().getPrimaryKeys().size()) {
 			/**
 			 * 如果主键是自增长的，在插入数据的时候不需要传参，并且插入成功过后需要获取返回值
 			 */
@@ -126,7 +126,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 			// <== 填充返回主键
 			record.set(pkSchema.getName(), ret);
 		} else {
-			if (MetaPolicy.GUID == policy) {
+			if (MetaPolicy.GUID == policy && Constants.ZERO < record.schema().getPrimaryKeys().size()) {
 				// 如果主键是GUID的策略，则需要预处理主键的赋值
 				final FieldModel pkSchema = record.schema().getPrimaryKeys().get(Constants.ZERO);
 				record.set(pkSchema.getName(), uuid());

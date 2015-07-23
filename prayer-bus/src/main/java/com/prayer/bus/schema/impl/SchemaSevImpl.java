@@ -157,7 +157,7 @@ public class SchemaSevImpl implements SchemaService {
 			importer.refreshSchema(filePath);
 			info(LOGGER, "[IP] Refresh schema of importer: file = " + filePath);
 		}
-		return importer;
+		return importer;//instance(CommunionImporter.class.getName(), filePath);
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

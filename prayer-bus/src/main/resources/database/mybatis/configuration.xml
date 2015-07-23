@@ -23,8 +23,8 @@
 				<property name="url" value="${H2.jdbc.url}" />
 				<property name="username" value="${H2.jdbc.username}" />
 				<property name="password" value="${H2.jdbc.password}" />
-				<property name="poolMaximumActiveConnections" value="20" />
-                <property name="poolMaximumIdleConnections" value="10" />
+				<property name="poolMaximumActiveConnections" value="100" />
+                <property name="poolMaximumIdleConnections" value="20" />
 			</dataSource>
 		</environment>
 	</environments>

@@ -1,6 +1,5 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 
 import java.lang.reflect.Constructor;
@@ -172,15 +171,9 @@ public final class Instance {
 					break;
 				}
 			}
-			if (null != ret) {
-				debug(LOGGER, "SYS.KIT.OBJ.JDK", ret, ret.hashCode(), clazz.getName());
-			}
 		} else {
 			final ConstructorAccess<?> access = ConstructorAccess.get(clazz);
 			ret = (T) access.newInstance();
-			if (null != ret) {
-				debug(LOGGER, "SYS.KIT.OBJ.ASM", ret, ret.hashCode(), clazz.getName());
-			}
 		}
 		return ret;
 	}
