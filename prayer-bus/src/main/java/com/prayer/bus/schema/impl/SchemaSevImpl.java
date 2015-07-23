@@ -4,14 +4,12 @@ import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.schema.SchemaService;
 import com.prayer.constant.Accessors;
+import com.prayer.constant.MemoryPool;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
@@ -42,10 +40,6 @@ public class SchemaSevImpl implements SchemaService {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchemaSevImpl.class);
-	/** **/
-	private static final ConcurrentMap<String, Builder> BD_POOLS = new ConcurrentHashMap<>();
-	/** **/
-	private static final ConcurrentMap<String, Importer> I_POOLS = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/** 访问H2的Schema数据层接口 **/
 	@NotNull
@@ -102,7 +96,7 @@ public class SchemaSevImpl implements SchemaService {
 	@PreValidateThis
 	public ServiceResult<GenericSchema> syncMetadata(@NotNull final GenericSchema schema) {
 		// 使用池化单件模式，每一个ID的Schema拥有一个Builder
-		final Builder builder = reservoir(BD_POOLS, schema.getIdentifier(), Accessors.builder(), schema);
+		final Builder builder = reservoir(MemoryPool.POOL_BUILDER, schema.getIdentifier(), Accessors.builder(), schema);
 		if (builder.existTable()) {
 			builder.syncTable(schema);
 		} else {
@@ -149,9 +143,9 @@ public class SchemaSevImpl implements SchemaService {
 	 * 注意Importer本身的刷新流程，根据文件路径刷新了filePath
 	 **/
 	private Importer getImporter(final String filePath) {
-		Importer importer = I_POOLS.get(filePath);
+		Importer importer = MemoryPool.POOL_IMPORTER.get(filePath);
 		if (null == importer) {
-			importer = reservoir(I_POOLS, filePath, CommunionImporter.class, filePath);
+			importer = reservoir(MemoryPool.POOL_IMPORTER, filePath, CommunionImporter.class, filePath);
 			info(LOGGER, "[IP] Init new importer: file = " + filePath);
 		} else {
 			importer.refreshSchema(filePath);

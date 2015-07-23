@@ -54,18 +54,13 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
 	protected ServiceResult<GenericSchema> syncMetadata(final String filePath, final String identifier) {
 		ServiceResult<GenericSchema> finalRet = new ServiceResult<>(null, null);
 		if (this.isValidDB()) {
-			final ServiceResult<GenericSchema> checkRet = this.getService().findSchema(identifier);
-			if (ResponseCode.SUCCESS == checkRet.getResponseCode() && null != checkRet.getResult()) {
-				finalRet = checkRet;
+			// 基础数据
+			final ServiceResult<GenericSchema> syncRet = this.getService().syncSchema(DAO_DATA_PATH + filePath);
+			if (ResponseCode.SUCCESS == syncRet.getResponseCode()) {
+				finalRet = this.getService().syncMetadata(syncRet.getResult());
 			} else {
-				// 基础数据
-				final ServiceResult<GenericSchema> syncRet = this.getService().syncSchema(DAO_DATA_PATH + filePath);
-				if (ResponseCode.SUCCESS == syncRet.getResponseCode()) {
-					finalRet = this.getService().syncMetadata(syncRet.getResult());
-				} else {
-					info(getLogger(), syncRet.getErrorMessage());
-					finalRet = syncRet;
-				}
+				info(getLogger(), syncRet.getErrorMessage());
+				finalRet = syncRet;
 			}
 		}
 		return finalRet;

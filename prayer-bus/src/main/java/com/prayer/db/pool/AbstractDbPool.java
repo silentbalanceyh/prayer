@@ -1,8 +1,5 @@
 package com.prayer.db.pool;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,10 +24,6 @@ import net.sf.oval.guard.Pre;
 @Guarded
 public abstract class AbstractDbPool {
 	// ~ Static Fields =======================================
-	/**
-	 * 数据源的Mapping
-	 */
-	public static final ConcurrentMap<String, DataSource> DS_POOL = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
 	/**
 	 * 数据库的种类： MSSQL,PGSQL,ORACLE,MYSQL,MONGODB

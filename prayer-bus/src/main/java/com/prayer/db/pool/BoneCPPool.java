@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jolbox.bonecp.BoneCPDataSource;
+import com.prayer.constant.MemoryPool;
 
 /**
  * Bone CP连接池
@@ -86,7 +87,7 @@ public class BoneCPPool extends AbstractDbPool {
 			/**
 			 * 池化数据源的信息，默认： Internal: H2 = DataSource 可配置的外围的：MSSQL = DataSource
 			 */
-			dataSource = reservoir(AbstractDbPool.DS_POOL, this.getCategory(), BoneCPDataSource.class);
+			dataSource = reservoir(MemoryPool.POOL_DATA_SOURCE, this.getCategory(), BoneCPDataSource.class);
 		}
 	}
 

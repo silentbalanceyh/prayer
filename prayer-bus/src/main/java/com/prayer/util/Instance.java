@@ -4,13 +4,13 @@ import static com.prayer.util.Error.info;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.reflectasm.ConstructorAccess;
+import com.prayer.constant.MemoryPool;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -30,8 +30,7 @@ public final class Instance {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(Instance.class);
-	/** KEY -> POOL **/
-	private static final ConcurrentMap<String, Object> OBJ_POOLS = new ConcurrentHashMap<>();
+	
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -85,7 +84,7 @@ public final class Instance {
 	 * @return
 	 */
 	public static <T> T singleton(@NotNull final Class<?> clazz, final Object... params) {
-		return (T) reservoir(OBJ_POOLS, clazz.getName(), clazz, params);
+		return (T) reservoir(MemoryPool.POOL_OBJECT, clazz.getName(), clazz, params);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public final class Instance {
 	 * @return
 	 */
 	public static <T> T singleton(@NotNull @NotBlank @NotEmpty final String className, final Object... params) {
-		return (T) reservoir(OBJ_POOLS, className, className, params);
+		return (T) reservoir(MemoryPool.POOL_OBJECT, className, className, params);
 	}
 
 	/**

@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
+import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.db.conn.JdbcContext;
@@ -38,9 +39,6 @@ import net.sf.oval.guard.Pre;
 @Guarded
 abstract class AbstractBuilder implements Builder { // NOPMD
 	// ~ Static Fields =======================================
-	/** **/
-	private static final ConcurrentMap<String,JdbcContext> JDBC_POOL = new ConcurrentHashMap<>();
-
 	// ~ Instance Fields =====================================
 	/** 数据库连接 **/
 	@NotNull
@@ -63,7 +61,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	 */
 	@PostValidateThis
 	public AbstractBuilder(@NotNull final GenericSchema schema) {
-		this.context = reservoir(JDBC_POOL,schema.getIdentifier(),JdbcConnImpl.class);
+		this.context = reservoir(MemoryPool.POOL_JDBC,schema.getIdentifier(),JdbcConnImpl.class);
 		this.sqlLines = new ArrayList<>();
 		this.schema = schema;
 	}

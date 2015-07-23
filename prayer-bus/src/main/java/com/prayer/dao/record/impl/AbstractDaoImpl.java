@@ -10,10 +10,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
+import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.record.RecordDao;
 import com.prayer.db.conn.JdbcContext;
@@ -42,9 +42,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	// ~ Static Fields =======================================
-	/** JDBC的Context的延迟池化技术 **/
-	private static final ConcurrentMap<String, JdbcContext> JDBC_POOLS = new ConcurrentHashMap<>();
-
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -64,9 +61,9 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 */
 	@NotNull
 	protected JdbcContext getContext(@NotNull @NotEmpty @NotBlank final String identifier) {
-		JdbcContext context = JDBC_POOLS.get(identifier);
+		JdbcContext context = MemoryPool.POOL_JDBC.get(identifier);
 		if (null == context) {
-			context = reservoir(JDBC_POOLS, identifier, JdbcConnImpl.class);
+			context = reservoir(MemoryPool.POOL_JDBC, identifier, JdbcConnImpl.class);
 		}
 		return context;
 	}

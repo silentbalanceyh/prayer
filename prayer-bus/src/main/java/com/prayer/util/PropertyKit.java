@@ -6,11 +6,11 @@ import static com.prayer.util.Instance.reservoir;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.prayer.constant.MemoryPool;
 
 import jodd.util.StringPool;
 import jodd.util.StringUtil;
@@ -33,8 +33,6 @@ import net.sf.oval.guard.PreValidateThis;
 @Guarded
 public final class PropertyKit {
 	// ~ Static Fields =======================================
-	/** 资源文件池 **/
-	private static final ConcurrentMap<String, Properties> PROP_POOL = new ConcurrentHashMap<>();
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(PropertyKit.class);
 	// ~ Instance Fields =====================================
@@ -52,7 +50,7 @@ public final class PropertyKit {
 	 */
 	@PostValidateThis
 	public PropertyKit(final Class<?> clazz, @NotNull @NotEmpty @NotBlank final String resource) {
-		this.prop = reservoir(PROP_POOL, resource, Properties.class);
+		this.prop = reservoir(MemoryPool.POOL_PROP, resource, Properties.class);
 		try {
 			final InputStream inStream = IOKit.getFile(resource, clazz);
 			if (null != inStream) {
@@ -62,7 +60,7 @@ public final class PropertyKit {
 			debug(LOGGER, "JVM.IO", ex, resource);
 		}
 		// debug(LOGGER, "SYS.KIT.PROP", prop, null == prop ? 0 : prop.hashCode());
-		PROP_POOL.put(resource, this.prop);
+		MemoryPool.POOL_PROP.put(resource, this.prop);
 		// Monitor Pool if debug
 	}
 
@@ -153,7 +151,7 @@ public final class PropertyKit {
 	 * @return
 	 */
 	public Properties getProp(@NotNull @NotEmpty @NotBlank final String resource) {
-		return PROP_POOL.get(resource);
+		return MemoryPool.POOL_PROP.get(resource);
 	}
 	// ~ Private Methods =====================================
 

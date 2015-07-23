@@ -3,14 +3,12 @@ package com.prayer.kernel.model;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.schema.SchemaService;
 import com.prayer.bus.schema.impl.SchemaSevImpl;
+import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.model.bus.ServiceResult;
@@ -30,8 +28,6 @@ import net.sf.oval.guard.Guarded;
 final class SchemaLocator {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final ConcurrentMap<String, GenericSchema> SCHEMA_MAP = new ConcurrentHashMap<>();
-	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommunionImporter.class);
 
 	// ~ Instance Fields =====================================
@@ -50,7 +46,7 @@ final class SchemaLocator {
 	@NotNull
 	public static GenericSchema getSchema(@NotNull @NotBlank @NotEmpty final String identifier)
 			throws SchemaNotFoundException {
-		GenericSchema schema = SCHEMA_MAP.get(identifier);
+		GenericSchema schema = MemoryPool.POOL_SCHEMA.get(identifier);
 		if (null == schema) {
 			info(LOGGER, "[I] Look up schema from H2 Database : identifier = " + identifier);
 			// 如果schema没有存在于MAP中则直接从H2的数据库中读取对应的Schema
@@ -58,7 +54,7 @@ final class SchemaLocator {
 			final ServiceResult<GenericSchema> result = service.findSchema(identifier);
 			if (ResponseCode.SUCCESS == result.getResponseCode()) {
 				schema = result.getResult();
-				SCHEMA_MAP.put(identifier, schema);
+				MemoryPool.POOL_SCHEMA.put(identifier, schema);
 			} else {
 				throw new SchemaNotFoundException(SchemaLocator.class, identifier);
 			}
