@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
@@ -21,7 +20,6 @@ import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.query.Restrictions;
-import com.prayer.model.h2.FieldModel;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -79,8 +77,8 @@ final class SqlHelper {
 			// 从Map中抽取字段
 			final Record ret = instance(GenericRecord.class.getName(), identifier);
 			for (final String column : item.keySet()) {
-				final String field = record.schema().getColumn(column).getName();
 				try {
+					final String field = record.toField(column);
 					ret.set(field, item.get(column));
 				} catch (AbstractDatabaseException ex) {
 					info(LOGGER, ex.getErrorMessage());
@@ -116,21 +114,6 @@ final class SqlHelper {
 			retParam.add(record.column(column));
 		}
 		return retParam;
-	}
-
-	/**
-	 * 获取主键参数表
-	 * 
-	 * @param record
-	 * @return
-	 */
-	public static ConcurrentMap<String, Value<?>> prepPKWhere(final Record record) throws AbstractDatabaseException{
-		final List<FieldModel> pkFields = record.schema().getPrimaryKeys();
-		final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
-		for (final FieldModel field : pkFields) {
-			retMap.put(field.getColumnName(), record.column(field.getColumnName()));
-		}
-		return retMap;
 	}
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================

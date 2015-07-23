@@ -38,10 +38,10 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	 * INCREMENT中需要过滤ID列，这个方法用于获取ID列
 	 */
 	@Override
-	public Set<String> getPKFilters(@NotNull final Record record) throws AbstractDatabaseException{
-		final MetaPolicy policy = record.schema().getMeta().getPolicy();
+	public Set<String> getPKFilters(@NotNull final Record record) throws AbstractDatabaseException {
+		final MetaPolicy policy = record.policy();
 		if (MetaPolicy.INCREMENT == policy) {
-			return SqlHelper.prepPKWhere(record).keySet();
+			return record.idKV().keySet();// SqlHelper.prepPKWhere(record).keySet();
 		}
 		return new HashSet<>();
 	}
@@ -79,7 +79,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	public Record selectById(@NotNull final Record record, @NotNull final Value<?> uniqueId)
 			throws AbstractDatabaseException {
 		// 1.填充主键参数
-		final FieldModel pkField = record.schema().getPrimaryKeys().get(Constants.ZERO);
+		final FieldModel pkField = record.idschema().get(Constants.ZERO);
 		final ConcurrentMap<String, Value<?>> paramMap = new ConcurrentHashMap<>();
 		paramMap.put(pkField.getColumnName(), uniqueId);
 		// 2.调用内部函数
@@ -91,11 +91,9 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	public boolean delete(@NotNull final Record record) throws AbstractDatabaseException {
 		// 1.主键值验证
 		this.interrupt(record);
-		// 2.获取主键表达式
-		final ConcurrentMap<String, Value<?>> paramMap = SqlHelper.prepPKWhere(record);
-		// 3.调用父类函数
-		final boolean ret = super.sharedDelete(record, paramMap);
-		// 4.后期执行检查
+		// 2.调用父类函数
+		final boolean ret = super.sharedDelete(record, record.idKV());
+		// 3.后期执行检查
 		interrupt(ret);
 		return ret;
 	}
@@ -116,7 +114,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 		// 1.填充主键参数
 		final List<Record> records = this.sharedSelect(record, uniqueIds);
 		if (Constants.ONE < records.size()) {
-			throw new MoreThanOneException(getClass(), record.schema().getMeta().getTable());
+			throw new MoreThanOneException(getClass(), record.table());
 		}
 		// 2.根据查询结果返回
 		return Constants.ZERO == records.size() ? null : records.get(Constants.ZERO);

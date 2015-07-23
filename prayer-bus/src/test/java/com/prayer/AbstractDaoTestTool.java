@@ -1,11 +1,17 @@
 package com.prayer;
 
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Instance.singleton;
 
 import com.prayer.bus.schema.SchemaService;
 import com.prayer.bus.schema.impl.SchemaSevImpl;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.dao.record.RecordDao;
+import com.prayer.dao.record.impl.RecordDaoImpl;
+import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.kernel.Record;
+import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
 
@@ -24,7 +30,8 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
 	// ~ Instance Fields =====================================
 	/** Schema服务层接口 **/
 	private transient final SchemaService service;
-
+	/** Record数据访问层 **/
+	private transient final RecordDao recordDao;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -32,6 +39,7 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
 	public AbstractDaoTestTool() {
 		super();
 		this.service = instance(SchemaSevImpl.class.getName());
+		this.recordDao = singleton(RecordDaoImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -64,6 +72,22 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
 			}
 		}
 		return finalRet;
+	}
+	/** **/
+	protected Record getRecord(final String identifier) {
+		final Record record = instance(GenericRecord.class.getName(), identifier);
+		for(final String field: record.fields().keySet()){
+			try {
+				record.set(field, Assistant.generate(record.fields().get(field)));
+			} catch (AbstractDatabaseException ex) {
+				info(getLogger(), ex.getErrorMessage(), ex);
+			}
+		}
+		return record;
+	}
+	/** **/
+	protected RecordDao getRecordDao(){
+		return this.recordDao;
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

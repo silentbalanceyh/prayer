@@ -26,7 +26,6 @@ import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.model.h2.FieldModel;
-import com.prayer.model.h2.MetaModel;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
@@ -76,10 +75,11 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 */
 	protected boolean sharedUpdate(@NotNull final Record record) throws AbstractDatabaseException {
 		// 1.获取主键条件语句
-		final ConcurrentMap<String, Value<?>> params = SqlHelper.prepPKWhere(record);
+		// final ConcurrentMap<String, Value<?>> params =
+		// SqlHelper.prepPKWhere(record);
 		// 2.获取参数列表
 		final List<Value<?>> paramValues = new ArrayList<>();
-		final Set<String> pkCols = new TreeSet<>(params.keySet());
+		final Set<String> pkCols = new TreeSet<>(record.idKV().keySet());
 		for (final String column : pkCols) {
 			paramValues.add(record.column(column));
 		}
@@ -89,8 +89,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 		final Collection<String> columns = diff(record.columns(), pkCols);
 		final List<Value<?>> updatedValues = SqlHelper.prepParam(record, pkCols.toArray(Constants.T_STR_ARR));
 		// 5.SQL语句
-		final MetaModel metadata = record.schema().getMeta();
-		final String sql = SqlDmlStatement.prepUpdateSQL(metadata.getTable(), columns, whereExpr);
+		final String sql = SqlDmlStatement.prepUpdateSQL(record.table(), columns, whereExpr);
 		// 6.最终参数表
 		paramValues.addAll(updatedValues);
 		// 7.执行
@@ -107,13 +106,13 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 */
 	protected boolean sharedInsert(@NotNull final Record record) throws AbstractDatabaseException {
 		// 获取主键Policy策略以及Jdbc访问器
-		final MetaPolicy policy = record.schema().getMeta().getPolicy();
+		final MetaPolicy policy = record.policy();
 		final JdbcContext jdbc = this.getContext(record.identifier());
-		if (MetaPolicy.INCREMENT == policy && Constants.ZERO < record.schema().getPrimaryKeys().size()) {
+		if (MetaPolicy.INCREMENT == policy && Constants.ZERO < record.idschema().size()) {
 			/**
 			 * 如果主键是自增长的，在插入数据的时候不需要传参，并且插入成功过后需要获取返回值
 			 */
-			final FieldModel pkSchema = record.schema().getPrimaryKeys().get(Constants.ZERO);
+			final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
 			// 父类方法，过滤掉主键传参
 			final String sql = SqlHelper.prepInsertSQL(record, getPKFilters(record).toArray(Constants.T_STR_ARR));
 			final List<Value<?>> params = SqlHelper.prepParam(record,
@@ -123,9 +122,9 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 			// <== 填充返回主键
 			record.set(pkSchema.getName(), ret);
 		} else {
-			if (MetaPolicy.GUID == policy && Constants.ZERO < record.schema().getPrimaryKeys().size()) {
+			if (MetaPolicy.GUID == policy && Constants.ZERO < record.idschema().size()) {
 				// 如果主键是GUID的策略，则需要预处理主键的赋值
-				final FieldModel pkSchema = record.schema().getPrimaryKeys().get(Constants.ZERO);
+				final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
 				record.set(pkSchema.getName(), uuid());
 			}
 
@@ -148,8 +147,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	protected List<Record> sharedSelect(@NotNull final Record record,
 			@NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
 		// 1.获取主键Policy策略以及Jdbc访问器，验证Policy
-		final MetaModel metadata = record.schema().getMeta();
-		interrupt(metadata.getPolicy(), false);
+		interrupt(record.policy(), false);
 		// 2.生成Expression所需要的主键Where子句列，验证查询条件是否主键列
 		final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
 		interrupt(record, paramCols);
@@ -175,10 +173,9 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	protected List<Record> sharedSelect(@NotNull final Record record, @NotNull @MinSize(1) final String[] columns,
 			final List<Value<?>> params, final Expression filters) throws AbstractDatabaseException {
 		// 1.获取JDBC访问器
-		final MetaModel metadata = record.schema().getMeta();
 		final JdbcContext jdbc = this.getContext(record.identifier());
 		// 2.生成SQL语句
-		final String sql = SqlDmlStatement.prepSelectSQL(metadata.getTable(), Arrays.asList(columns), filters);
+		final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters);
 		// 3.根据参数表生成查询结果集
 		return SqlHelper.extractData(record, jdbc.select(sql, params, columns));
 	}
@@ -194,13 +191,12 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	protected boolean sharedDelete(@NotNull final Record record,
 			@NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
 		// 1.获取JDBC访问器
-		final MetaModel metadata = record.schema().getMeta();
 		final JdbcContext jdbc = this.getContext(record.identifier());
 		// 2.生成Expression
 		final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
 		final Expression whereExpr = SqlHelper.getAndExpr(paramCols);
 		// 3.生成SQL语句
-		final String sql = SqlDmlStatement.prepDeleteSQL(metadata.getTable(), whereExpr);
+		final String sql = SqlDmlStatement.prepDeleteSQL(record.table(), whereExpr);
 		// 4.生成参数表
 		final List<Value<?>> paramValues = new ArrayList<>();
 		for (final String column : paramCols) {
@@ -219,12 +215,10 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * @throws AbstractDatabaseException
 	 */
 	protected void interrupt(@NotNull final Record record) throws AbstractDatabaseException {
-		final List<FieldModel> pkSchemas = record.schema().getPrimaryKeys();
-		for (final FieldModel field : pkSchemas) {
+		for (final FieldModel field : record.idschema()) {
 			final Value<?> value = record.get(field.getName());
 			if (null == value) {
-				throw new PKValueMissingException(getClass(), field.getColumnName(),
-						record.schema().getMeta().getTable());
+				throw new PKValueMissingException(getClass(), field.getColumnName(), record.table());
 			}
 		}
 	}
@@ -240,10 +234,9 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 */
 	private void interrupt(@NotNull final Record record, @NotNull @MinSize(1) final Collection<String> pkeys)
 			throws AbstractDatabaseException {
-		for (final String pkey : pkeys) {
-			final FieldModel pkSchema = record.schema().getColumn(pkey);
-			if (!pkSchema.isPrimaryKey()) {
-				throw new InvalidPKParameterException(getClass(), pkey, record.schema().getMeta().getTable());
+		for (final FieldModel pkSchema : record.idschema()) {
+			if (!pkeys.contains(pkSchema.getColumnName())) {
+				throw new InvalidPKParameterException(getClass(), pkSchema.getColumnName(), record.table());
 			}
 		}
 	}

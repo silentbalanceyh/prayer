@@ -4,6 +4,7 @@ import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.database.ColumnInvalidException;
@@ -36,7 +38,7 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
-public class GenericRecord implements Record {
+public class GenericRecord implements Record { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(GenericRecord.class);
@@ -131,8 +133,8 @@ public class GenericRecord implements Record {
 	@Override
 	@NotNull
 	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-	public GenericSchema schema() {
-		return this._schema;
+	public MetaPolicy policy() {
+		return this._schema.getMeta().getPolicy();
 	}
 
 	/** 获取表名 **/
@@ -143,6 +145,66 @@ public class GenericRecord implements Record {
 		return this._schema.getMeta().getTable();
 	}
 
+	/** **/
+	@Override
+	@NotNull
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
+	public String toField(@NotNull @NotBlank @NotEmpty final String column) throws AbstractDatabaseException {
+		this.verifyColumn(column);
+		final FieldModel field = this._schema.getColumn(column);
+		return field.getName();
+	}
+
+	/** **/
+	@Override
+	@NotNull
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
+	public String toColumn(@NotNull @NotBlank @NotEmpty final String field) throws AbstractDatabaseException {
+		this.verifyField(field);
+		final FieldModel column = this._schema.getFields().get(field);
+		return column.getColumnName();
+	}
+
+	/** **/
+	@Override
+	@NotNull
+	@MinSize(1)
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
+	public ConcurrentMap<String, Value<?>> idKV() {
+		final List<FieldModel> pkFields = this._schema.getPrimaryKeys();
+		final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
+		for (final FieldModel field : pkFields) {
+			try {
+				retMap.put(field.getColumnName(), this.column(field.getColumnName()));
+			} catch (AbstractDatabaseException ex) {
+				info(LOGGER, ex.getErrorMessage());
+			}
+		}
+		return retMap;
+	}
+
+	/** **/
+	@Override
+	@NotNull
+	@MinSize(1)
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
+	public List<FieldModel> idschema() {
+		return this._schema.getPrimaryKeys();
+	}
+
+	/** **/
+	@Override
+	@NotNull
+	@MinSize(1)
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
+	public ConcurrentMap<String, DataType> fields() {
+		final ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
+		for (final String name : this._schema.getFields().keySet()) {
+			retMap.put(name, this._schema.getFields().get(name).getType());
+		}
+		return retMap;
+	}
+
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 
@@ -151,10 +213,10 @@ public class GenericRecord implements Record {
 			throw new FieldInvalidException(getClass(), name, this._schema.getIdentifier());
 		}
 	}
-	
-	private void verifyColumn(final String column) throws AbstractDatabaseException{
-		if(!this._schema.getColumns().contains(column)){
-			throw new ColumnInvalidException(getClass(),column, this.table());
+
+	private void verifyColumn(final String column) throws AbstractDatabaseException {
+		if (!this._schema.getColumns().contains(column)) {
+			throw new ColumnInvalidException(getClass(), column, this.table());
 		}
 	}
 

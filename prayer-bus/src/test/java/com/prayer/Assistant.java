@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.kernel.Value;
+import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.DateType;
@@ -74,6 +75,9 @@ public final class Assistant { // NOPMD
 			break;
 		case DECIMAL:
 			ret = new DecimalType(BigDecimal.valueOf(3.14));
+			break;
+		case BINARY:
+			ret = new BinaryType("lang.yu@hp.com".getBytes());
 			break;
 		default:
 			break;

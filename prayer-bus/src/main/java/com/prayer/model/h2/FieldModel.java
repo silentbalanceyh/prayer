@@ -53,7 +53,7 @@ public class FieldModel implements Serializable { // NOPMD
 	@JsonProperty("datetime")
 	private FieldDatetime datetime;
 	/** C_DATEFORMAT：时间格式Pattern **/
-	@JsonProperty("dateFormat")
+	@JsonProperty("dateformat")
 	private String dateFormat;
 	/** C_PRECISION：浮点数精度描述 **/
 	@JsonProperty("precision")

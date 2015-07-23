@@ -5,7 +5,6 @@ import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
 
-import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -26,7 +25,6 @@ import com.prayer.kernel.Builder;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.model.GenericSchema;
-import com.prayer.model.h2.FieldModel;
 import com.prayer.schema.Importer;
 import com.prayer.schema.dao.SchemaDao;
 import com.prayer.schema.dao.impl.SchemaDaoImpl;
@@ -175,13 +173,11 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
 
 	/** **/
 	protected Record getRecord(final String identifier) {
-		final Record record = instance(GenericRecord.class.getName(), identifier);
 		this.recordDao = singleton(RecordDaoImpl.class);
-		final GenericSchema schema = record.schema();
-		final Collection<FieldModel> fields = schema.getFields().values();
-		for (final FieldModel field : fields) {
+		final Record record = instance(GenericRecord.class.getName(), identifier);
+		for(final String field: record.fields().keySet()){
 			try {
-				record.set(field.getName(), Assistant.generate(field.getType()));
+				record.set(field, Assistant.generate(record.fields().get(field)));
 			} catch (AbstractDatabaseException ex) {
 				info(getLogger(), ex.getErrorMessage(), ex);
 			}
