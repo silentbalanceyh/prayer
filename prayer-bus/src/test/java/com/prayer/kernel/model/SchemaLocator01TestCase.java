@@ -20,10 +20,10 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  *
  */
-public class MsSqlSchemaLocator01TestCase extends AbstractDaoTestTool {	// NOPMD
+public class SchemaLocator01TestCase extends AbstractDaoTestTool {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlSchemaLocator01TestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SchemaLocator01TestCase.class);
 	/** **/
 	private static final String DB_CATEGORY = "MSSQL";
 

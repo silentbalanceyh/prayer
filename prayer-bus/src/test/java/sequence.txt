@@ -4,6 +4,6 @@ Exception --> E00009
 Constructor --> C00002
 Common Testing --> T00016
 2.数据层直接测试的新编号：
-Exception --> E05062
-Constructor --> C05002
-Common Testing --> T05028
+Exception --> E05072
+Constructor --> C05003
+Common Testing --> T05039

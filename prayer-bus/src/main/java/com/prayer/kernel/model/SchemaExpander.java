@@ -35,7 +35,7 @@ public final class SchemaExpander {
 	 * @param keys
 	 * @return
 	 */
-	public static ConcurrentMap<String, KeyModel> toKeysMap(@MinSize(0) final List<KeyModel> keys) {
+	public static ConcurrentMap<String, KeyModel> toKeysMap(@NotNull @MinSize(0) final List<KeyModel> keys) {
 		final ConcurrentMap<String, KeyModel> retMap = new ConcurrentHashMap<>();
 		for (final KeyModel key : keys) {
 			if (StringKit.isNonNil(key.getName())) {
@@ -51,7 +51,7 @@ public final class SchemaExpander {
 	 * @param fields
 	 * @return
 	 */
-	public static ConcurrentMap<String, FieldModel> toFieldsMap(@MinSize(0) final List<FieldModel> fields) {
+	public static ConcurrentMap<String, FieldModel> toFieldsMap(@NotNull @MinSize(0) final List<FieldModel> fields) {
 		final ConcurrentMap<String, FieldModel> retMap = new ConcurrentHashMap<>();
 		for (final FieldModel field : fields) {
 			if (StringKit.isNonNil(field.getName())) {

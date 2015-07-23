@@ -59,6 +59,7 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
 			if (ResponseCode.SUCCESS == syncRet.getResponseCode()) {
 				finalRet = this.getService().syncMetadata(syncRet.getResult());
 			}else{
+				info(getLogger(),syncRet.getErrorMessage());
 				finalRet = syncRet;
 			}
 		}

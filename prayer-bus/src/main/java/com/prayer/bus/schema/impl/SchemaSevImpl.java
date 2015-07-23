@@ -47,8 +47,6 @@ public class SchemaSevImpl implements SchemaService {
 	/** **/
 	private static final ConcurrentMap<String, Importer> I_POOLS = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
-	/** H2数据库的Importer **/
-	private transient Importer importer;
 	/** 访问H2的Schema数据层接口 **/
 	@NotNull
 	private transient final SchemaDao dao;
@@ -70,17 +68,17 @@ public class SchemaSevImpl implements SchemaService {
 	@Override
 	@PreValidateThis
 	public ServiceResult<GenericSchema> syncSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
-		this.importer = this.getImporter(filePath);
+		final Importer importer = this.getImporter(filePath);
 		final ServiceResult<GenericSchema> result = new ServiceResult<>();
 		try {
 			// 1.读取filePath -> AbstractSystemException
-			this.importer.readSchema();
+			importer.readSchema();
 			// 2.验证Schema文件流程
-			this.importer.ensureSchema();
+			importer.ensureSchema();
 			// 3.转换Schema文件
-			final GenericSchema schema = this.importer.transformSchema();
+			final GenericSchema schema = importer.transformSchema();
 			// 4.因为importer中已经检查过，所以不需要再检查
-			this.importer.syncSchema(schema);
+			importer.syncSchema(schema);
 			// 5.成功代码
 			result.setResponse(schema, null);
 		} catch (DataLoadingException ex) {
@@ -151,14 +149,15 @@ public class SchemaSevImpl implements SchemaService {
 	 * 注意Importer本身的刷新流程，根据文件路径刷新了filePath
 	 **/
 	private Importer getImporter(final String filePath) {
-		if (null == this.importer) {
-			this.importer = reservoir(I_POOLS, filePath, CommunionImporter.class, filePath);
-			info(LOGGER, "[I] Init new importer: file = " + filePath);
+		Importer importer = I_POOLS.get(filePath);
+		if (null == importer) {
+			importer = reservoir(I_POOLS, filePath, CommunionImporter.class, filePath);
+			info(LOGGER, "[IP] Init new importer: file = " + filePath);
 		} else {
-			this.importer.refreshSchema(filePath);
-			info(LOGGER, "[I] Refresh schema of importer: file = " + filePath);
+			importer.refreshSchema(filePath);
+			info(LOGGER, "[IP] Refresh schema of importer: file = " + filePath);
 		}
-		return this.importer;
+		return importer;
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
