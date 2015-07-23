@@ -82,6 +82,7 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
 		// 2.外键类型定义验证
 		validateFKType();
 		interrupt();
+		// TODO: 外键引用表和字段验证
 	}
 
 	/**
