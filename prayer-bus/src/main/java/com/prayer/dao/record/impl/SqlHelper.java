@@ -109,7 +109,7 @@ final class SqlHelper {
 	 * @param filters
 	 * @return
 	 */
-	public static List<Value<?>> prepParam(final Record record, final String... filters) {
+	public static List<Value<?>> prepParam(final Record record, final String... filters) throws AbstractDatabaseException{
 		final Collection<String> columns = diff(record.columns(), Arrays.asList(filters));
 		final List<Value<?>> retParam = new ArrayList<>();
 		for (final String column : columns) {
@@ -124,7 +124,7 @@ final class SqlHelper {
 	 * @param record
 	 * @return
 	 */
-	public static ConcurrentMap<String, Value<?>> prepPKWhere(final Record record) {
+	public static ConcurrentMap<String, Value<?>> prepPKWhere(final Record record) throws AbstractDatabaseException{
 		final List<FieldModel> pkFields = record.schema().getPrimaryKeys();
 		final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
 		for (final FieldModel field : pkFields) {

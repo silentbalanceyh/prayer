@@ -1,0 +1,108 @@
+{
+	"__meta__": 
+	{
+		"namespace": "com.prayer.model.test",
+		"name": "TestDAO3",
+		"category": "ENTITY",
+		"table": "TST_DAO3",
+		"identifier": "tst.mod.dao3",
+		"mapping": "DIRECT",
+		"policy": "GUID"
+	},
+
+	"__keys__": 
+	[
+		{
+			"name": "PK_DAO3_ID",
+			"category": "PrimaryKey",
+			"multi": false,
+			"columns": 
+			[
+				"T_ID"
+			]
+		},
+		
+		{
+			"name":"FK_DAO3_ID",
+			"category":"ForeignKey",
+			"multi":false,
+			"columns":[
+				"REF_DAO_ID"
+			]
+		},
+
+		{
+			"name": "UK_DAO3_UK1",
+			"category": "UniqueKey",
+			"multi": false,
+			"columns": 
+			[
+				"T_UK1"
+			]
+		},
+
+		{
+			"name": "UK_DAO3_MUK1",
+			"category": "UniqueKey",
+			"multi": true,
+			"columns": 
+			[
+				"T_MUK1",
+				"T_MUK2"
+			]
+		}
+	],
+
+	"__fields__": 
+	[
+		{
+			"columnName": "T_ID",
+			"name": "tId",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"primarykey": true,
+			"length": 256
+		},
+
+		{
+			"columnName": "T_UK1",
+			"name": "uk1",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique": true,
+			"nullable": false,
+			"length": 256
+		},
+
+		{
+			"columnName": "T_MUK1",
+			"name": "muk1",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique":false,
+			"nullable": false,
+			"length": 256
+		},
+
+		{
+			"columnName": "T_MUK2",
+			"name": "muk2",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique":false,
+			"nullable": false,
+			"length": 256
+		},
+		{
+			"columnName": "REF_DAO_ID",
+			"name": "refId",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"nullable": false,
+			"length": 256,
+			"foreignkey":true,
+			"refTable":"TST_DAO3",
+			"refId":"T_ID"
+		}
+	]
+}

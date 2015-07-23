@@ -42,7 +42,7 @@ public interface Record {
 	 * @return
 	 * @throws AbstractDatabaseException
 	 */
-	Value<?> column(String column);
+	Value<?> column(String column) throws AbstractDatabaseException;
 
 	/**
 	 * 获取当前记录的模型名

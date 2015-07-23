@@ -1,6 +1,7 @@
 package com.prayer.kernel.model;
 
 import static com.prayer.util.Error.debug;
+import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 
 import java.util.Set;
@@ -14,12 +15,14 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.AbstractSystemException;
+import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.model.h2.FieldModel;
 import com.prayer.model.type.DataType;
 
+import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -58,9 +61,9 @@ public class GenericRecord implements Record {
 	 */
 	@PostValidateThis
 	public GenericRecord(@NotNull @NotBlank @NotEmpty final String identifier) {
-		this._identifier = identifier;
+		this._identifier = identifier.trim();
 		try {
-			this._schema = SchemaLocator.getSchema(identifier);
+			this._schema = SchemaLocator.getSchema(identifier.trim());
 		} catch (AbstractSystemException ex) {
 			this._schema = null; // NOPMD
 			debug(LOGGER, getClass(), "D20006", ex, identifier);
@@ -75,6 +78,7 @@ public class GenericRecord implements Record {
 	@Pre(expr = "_this.data != null", lang = Constants.LANG_GROOVY)
 	public void set(@NotNull @NotBlank @NotEmpty final String name, final Value<?> value)
 			throws AbstractDatabaseException {
+		this.verifyField(name);
 		this.data.put(name, value);
 	}
 
@@ -99,7 +103,8 @@ public class GenericRecord implements Record {
 	/** **/
 	@Override
 	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-	public Value<?> column(@NotNull @NotBlank @NotEmpty final String column) {
+	public Value<?> column(@NotNull @NotBlank @NotEmpty final String column) throws AbstractDatabaseException {
+		this.verifyColumn(column);
 		final FieldModel colInfo = this._schema.getColumn(column);
 		return this.data.get(colInfo.getName());
 	}
@@ -115,6 +120,8 @@ public class GenericRecord implements Record {
 
 	/** 获取数据库列集 **/
 	@Override
+	@NotNull
+	@MinSize(1)
 	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
 	public Set<String> columns() {
 		return this._schema.getColumns();
@@ -123,12 +130,14 @@ public class GenericRecord implements Record {
 	/** 获取当前Record的Schema定义 **/
 	@Override
 	@NotNull
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
 	public GenericSchema schema() {
 		return this._schema;
 	}
 
 	/** 获取表名 **/
 	@Override
+	@NotNull
 	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
 	public String table() {
 		return this._schema.getMeta().getTable();
@@ -142,6 +151,12 @@ public class GenericRecord implements Record {
 			throw new FieldInvalidException(getClass(), name, this._schema.getIdentifier());
 		}
 	}
+	
+	private void verifyColumn(final String column) throws AbstractDatabaseException{
+		if(!this._schema.getColumns().contains(column)){
+			throw new ColumnInvalidException(getClass(),column, this.table());
+		}
+	}
 
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
@@ -151,8 +166,12 @@ public class GenericRecord implements Record {
 		final StringBuilder retStr = new StringBuilder(100);
 		retStr.append("======================> : Record Data ");
 		for (final String col : this.columns()) {
-			final String value = null == this.column(col) ? "" : this.column(col).toString();
-			retStr.append(col).append(" : ").append(value).append(Symbol.COMMA);
+			try {
+				final String value = null == this.column(col) ? "" : this.column(col).toString();
+				retStr.append(col).append(" : ").append(value).append(Symbol.COMMA);
+			} catch (AbstractDatabaseException ex) {
+				info(LOGGER, ex.getErrorMessage());
+			}
 		}
 		return retStr.toString();
 	}

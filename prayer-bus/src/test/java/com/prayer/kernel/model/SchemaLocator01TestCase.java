@@ -55,7 +55,7 @@ public class SchemaLocator01TestCase extends AbstractDaoTestTool {	// NOPMD
 	/** **/
 	@Before
 	public void setUp() {
-		final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO1.json");
+		final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO1.json","tst.mod.dao1");
 		if (ResponseCode.FAILURE == ret.getResponseCode()) {
 			failure(TST_PREP, ret.getErrorMessage());
 		}

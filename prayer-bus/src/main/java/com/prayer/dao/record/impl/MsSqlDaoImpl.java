@@ -38,7 +38,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	 * INCREMENT中需要过滤ID列，这个方法用于获取ID列
 	 */
 	@Override
-	public Set<String> getPKFilters(@NotNull final Record record) {
+	public Set<String> getPKFilters(@NotNull final Record record) throws AbstractDatabaseException{
 		final MetaPolicy policy = record.schema().getMeta().getPolicy();
 		if (MetaPolicy.INCREMENT == policy) {
 			return SqlHelper.prepPKWhere(record).keySet();

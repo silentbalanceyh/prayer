@@ -53,7 +53,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	/**
 	 * 获取Increment中需要过滤的ID列
 	 **/
-	protected abstract Set<String> getPKFilters(Record record);
+	protected abstract Set<String> getPKFilters(Record record) throws AbstractDatabaseException;
 
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================

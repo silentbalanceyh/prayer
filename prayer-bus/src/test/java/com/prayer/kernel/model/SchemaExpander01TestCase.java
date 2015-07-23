@@ -59,7 +59,7 @@ public class SchemaExpander01TestCase extends AbstractDaoTestTool { // NOPMD
 	@Before
 	public void setUp() {
 		if (null == this.schema) {
-			final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO2.json");
+			final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO2.json","tst.mod.dao2");
 			if (ResponseCode.FAILURE == ret.getResponseCode()) {
 				failure(TST_PREP, ret.getErrorMessage());
 			} else {

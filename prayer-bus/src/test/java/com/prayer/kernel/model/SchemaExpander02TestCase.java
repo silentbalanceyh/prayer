@@ -66,7 +66,7 @@ public class SchemaExpander02TestCase extends AbstractDaoTestTool { // NOPMD
 	@Before
 	public void setUp() {
 		if (null == this.schema) {
-			final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO2.json");
+			final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO2.json","tst.mod.dao2");
 			if (ResponseCode.FAILURE == ret.getResponseCode()) {
 				failure(TST_PREP, ret.getErrorMessage());
 			} else {
@@ -147,7 +147,7 @@ public class SchemaExpander02TestCase extends AbstractDaoTestTool { // NOPMD
 	/** **/
 	@Test
 	public void testT05037MgetForeignKey(){
-		final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO1.json");
+		final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO1.json","tst.mod.dao1");
 		if(ResponseCode.SUCCESS == ret.getResponseCode()){
 			final GenericSchema schema = ret.getResult();
 			final KeyModel actual = SchemaExpander.getForeignKey(schema.getKeys());
@@ -167,7 +167,7 @@ public class SchemaExpander02TestCase extends AbstractDaoTestTool { // NOPMD
 	/** **/
 	@Test
 	public void testT05039MgetForeignField(){
-		final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO1.json");
+		final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO1.json","tst.mod.dao1");
 		if(ResponseCode.SUCCESS == ret.getResponseCode()){
 			final GenericSchema schema = ret.getResult();
 			final FieldModel actual = SchemaExpander.getForeignField(schema.getFields());
