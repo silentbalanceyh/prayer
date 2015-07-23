@@ -61,7 +61,7 @@
 			"type": "StringType",
 			"columnType": "STRING1",
 			"primarykey": true,
-			"length": 192
+			"length": 256
 		},
 
 		{
