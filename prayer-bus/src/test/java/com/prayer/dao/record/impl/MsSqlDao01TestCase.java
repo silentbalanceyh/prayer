@@ -1,5 +1,7 @@
 package com.prayer.dao.record.impl;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -62,11 +64,12 @@ public class MsSqlDao01TestCase extends AbstractDaoTestTool { // NOPMD
 	}
 	/** **/
 	@Test
-	public void testInsert() throws AbstractDatabaseException {
+	public void testT05040Minsert() throws AbstractDatabaseException {
 		if(this.isValidDB()){
-			Record record = this.getRecord(IDENTIFIER);
-			record = this.getRecordDao().insert(record);
-			
+			final Record before = this.getRecord(IDENTIFIER);
+			final Record after = this.getRecordDao().insert(before);
+			final boolean ret = before == after;	// NOPMD
+			assertTrue(message(TST_TF,Boolean.TRUE),ret);
 		}
 	}
 	// ~ Methods =============================================
