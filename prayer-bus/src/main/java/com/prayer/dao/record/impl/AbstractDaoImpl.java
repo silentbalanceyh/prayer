@@ -1,6 +1,7 @@
 package com.prayer.dao.record.impl; // NOPMD
 
 import static com.prayer.util.Calculator.diff;
+import static com.prayer.util.Error.debug;
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.Instance.reservoir;
 
@@ -11,6 +12,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
@@ -41,6 +45,10 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	// ~ Static Fields =======================================
+
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDaoImpl.class);
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -80,9 +88,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 		// 2.获取参数列表
 		final List<Value<?>> paramValues = new ArrayList<>();
 		final Set<String> pkCols = new TreeSet<>(record.idKV().keySet());
-		for (final String column : pkCols) {
-			paramValues.add(record.column(column));
-		}
+
 		// 3.准备Update语句的Where部分
 		final Expression whereExpr = SqlHelper.getAndExpr(pkCols);
 		// 4.移除主键本身的更新
@@ -90,8 +96,14 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 		final List<Value<?>> updatedValues = SqlHelper.prepParam(record, pkCols.toArray(Constants.T_STR_ARR));
 		// 5.SQL语句
 		final String sql = SqlDmlStatement.prepUpdateSQL(record.table(), columns, whereExpr);
-		// 6.最终参数表
+		// 6.最终参数表，先添加基本参数，再添加主键
 		paramValues.addAll(updatedValues);
+		/**
+		 * 注意：JDBC中主键放在SQL语句的参数表后边，因为WHERE在后边，所以其Index索引是根据SQL语句中的定义来的
+		 */
+		for (final String column : pkCols) {
+			paramValues.add(record.column(column));
+		}
 		// 7.执行
 		final JdbcContext jdbc = this.getContext(record.identifier());
 		final int ret = jdbc.execute(sql, paramValues);
@@ -246,8 +258,15 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * @throws AbstractDatabaseException
 	 */
 	protected void interrupt(@NotNull final MetaPolicy policy, final boolean isMulti) throws AbstractDatabaseException {
-		if (MetaPolicy.COLLECTION == policy) {
-			if (isMulti) {
+		if (isMulti) {
+			if (MetaPolicy.COLLECTION != policy) {
+				debug(LOGGER, "Multi = true, policy must be COLLECTION");
+				throw new PolicyConflictCallException(getClass(), policy.toString());
+			}
+		}
+		if (!isMulti) {
+			if (MetaPolicy.COLLECTION == policy) {
+				debug(LOGGER, "Multi = false, policy must not be COLLECTION");
 				throw new PolicyConflictCallException(getClass(), policy.toString());
 			}
 		}

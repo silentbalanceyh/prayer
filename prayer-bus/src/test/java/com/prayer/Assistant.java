@@ -46,7 +46,7 @@ public final class Assistant { // NOPMD
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	/** **/
-	public static Value<?> generate(final DataType type) { // NOPMD
+	public static Value<?> generate(final DataType type,final boolean isUpdate) { // NOPMD
 		Value<?> ret = null;
 		switch (type) {
 		case INT:

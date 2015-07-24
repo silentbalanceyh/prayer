@@ -64,7 +64,7 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
 			params.add(columnArr[idx] + Symbol.EQUAL + Symbol.QUESTION);
 		}
 		// 2.使用模板构造参数语句
-		final String majorClouse = MessageFormat.format(TB_UPDATE, StringKit.join(params, Symbol.COMMA), table);
+		final String majorClouse = MessageFormat.format(TB_UPDATE, table, StringKit.join(params, Symbol.COMMA));
 		final String whereClouse = MessageFormat.format(TB_WHERE, whereExpr.toSql());
 		return majorClouse + SPACE + whereClouse;
 	}

@@ -177,7 +177,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
 		final Record record = instance(GenericRecord.class.getName(), identifier);
 		for(final String field: record.fields().keySet()){
 			try {
-				record.set(field, Assistant.generate(record.fields().get(field)));
+				record.set(field, Assistant.generate(record.fields().get(field),false));
 			} catch (AbstractDatabaseException ex) {
 				info(getLogger(), ex.getErrorMessage(), ex);
 			}

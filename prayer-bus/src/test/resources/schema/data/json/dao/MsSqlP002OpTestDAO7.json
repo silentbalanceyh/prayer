@@ -2,28 +2,29 @@
 	"__meta__": 
 	{
 		"namespace": "com.prayer.model.test",
-		"name": "TestDAO4",
+		"name": "TestDAO7",
 		"category": "ENTITY",
-		"table": "TST_DAO4",
-		"identifier": "tst.mod.dao4",
+		"table": "TST_DAO7",
+		"identifier": "tst.mod.dao7",
 		"mapping": "DIRECT",
-		"policy": "GUID"
+		"policy": "COLLECTION"
 	},
 
 	"__keys__": 
 	[
 		{
-			"name": "PK_DAO4_ID",
+			"name": "PK_DAO7_ID",
 			"category": "PrimaryKey",
-			"multi": false,
+			"multi": true,
 			"columns": 
 			[
-				"T_ID"
+				"T_ID",
+				"T_UK2"
 			]
 		},
 
 		{
-			"name": "UK_DAO4_UK1",
+			"name": "UK_DAO7_UK1",
 			"category": "UniqueKey",
 			"multi": false,
 			"columns": 
@@ -33,7 +34,7 @@
 		},
 
 		{
-			"name": "UK_DAO4_MUK1",
+			"name": "UK_DAO7_MUK1",
 			"category": "UniqueKey",
 			"multi": true,
 			"columns": 
@@ -49,6 +50,15 @@
 		{
 			"columnName": "T_ID",
 			"name": "tId",
+			"type": "LongType",
+			"columnType": "LONG",
+			"primarykey": true,
+			"length": 192
+		},
+
+		{
+			"columnName": "T_UK2",
+			"name": "uk2",
 			"type": "StringType",
 			"columnType": "STRING1",
 			"primarykey": true,
@@ -158,7 +168,7 @@
 			"name": "tbinary",
 			"type": "BinaryType",
 			"columnType": "BINARY",
-			"length":2048
+			"length": 2048
 		}
 	]
 }

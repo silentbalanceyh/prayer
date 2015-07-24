@@ -45,6 +45,8 @@ public final class Resources { // NOPMD
 	public static final String DB_BUILDER;
 	/** 数据库访问Record的Dao实现 **/
 	public static final String DB_DAO;
+	/** 数据类型转换器 **/
+	public static final String DB_TRANSDUCER;
 
 	// Database Type Mapping =================================
 	/** 数据库类型映射文件地址 **/
@@ -115,6 +117,10 @@ public final class Resources { // NOPMD
 		DB_DAO = LOADER.getString("database.dao");
 		if (null == DB_DAO) {
 			debug(LOGGER, ERR_SYS_NULL, "DB_DAO", DB_DAO);
+		}
+		DB_TRANSDUCER = LOADER.getString("database.dao.transducer");
+		if (null == DB_TRANSDUCER) {
+			debug(LOGGER, ERR_SYS_NULL, "DB_TRANSDUCER", DB_TRANSDUCER);
 		}
 
 		// Open Source

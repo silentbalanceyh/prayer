@@ -3,6 +3,10 @@ package com.prayer;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.prayer.bus.schema.SchemaService;
 import com.prayer.bus.schema.impl.SchemaSevImpl;
 import com.prayer.constant.Resources;
@@ -14,6 +18,7 @@ import com.prayer.kernel.Record;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.h2.FieldModel;
 
 import jodd.util.StringUtil;
 
@@ -32,6 +37,7 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
 	private transient final SchemaService service;
 	/** Record数据访问层 **/
 	private transient final RecordDao recordDao;
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -73,20 +79,42 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
 		}
 		return finalRet;
 	}
+
 	/** **/
 	protected Record getRecord(final String identifier) {
 		final Record record = instance(GenericRecord.class.getName(), identifier);
-		for(final String field: record.fields().keySet()){
+		for (final String field : record.fields().keySet()) {
 			try {
-				record.set(field, Assistant.generate(record.fields().get(field)));
+				record.set(field, Assistant.generate(record.fields().get(field), false));
 			} catch (AbstractDatabaseException ex) {
 				info(getLogger(), ex.getErrorMessage(), ex);
 			}
 		}
 		return record;
 	}
+
 	/** **/
-	protected RecordDao getRecordDao(){
+	protected void updateRecord(final Record record) {
+		// ID不可更新
+		final List<FieldModel> pkeys = record.idschema();
+		final Set<String> ids = new HashSet<>();
+		for (final FieldModel pkey : pkeys) {
+			ids.add(pkey.getName());
+		}
+		// 和添加不一样，这里面存在一个判断
+		for (final String field : record.fields().keySet()) {
+			try {
+				if (!ids.contains(field)) {
+					record.set(field, Assistant.generate(record.fields().get(field), true));
+				}
+			} catch (AbstractDatabaseException ex) {
+				info(getLogger(), ex.getErrorMessage(), ex);
+			}
+		}
+	}
+
+	/** **/
+	protected RecordDao getRecordDao() {
 		return this.recordDao;
 	}
 	// ~ Private Methods =====================================

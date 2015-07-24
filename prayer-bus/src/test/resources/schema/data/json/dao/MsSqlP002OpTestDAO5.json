@@ -2,18 +2,18 @@
 	"__meta__": 
 	{
 		"namespace": "com.prayer.model.test",
-		"name": "TestDAO4",
+		"name": "TestDAO5",
 		"category": "ENTITY",
-		"table": "TST_DAO4",
-		"identifier": "tst.mod.dao4",
+		"table": "TST_DAO5",
+		"identifier": "tst.mod.dao5",
 		"mapping": "DIRECT",
-		"policy": "GUID"
+		"policy": "ASSIGNED"
 	},
 
 	"__keys__": 
 	[
 		{
-			"name": "PK_DAO4_ID",
+			"name": "PK_DAO5_ID",
 			"category": "PrimaryKey",
 			"multi": false,
 			"columns": 
@@ -23,7 +23,7 @@
 		},
 
 		{
-			"name": "UK_DAO4_UK1",
+			"name": "UK_DAO5_UK1",
 			"category": "UniqueKey",
 			"multi": false,
 			"columns": 
@@ -33,7 +33,7 @@
 		},
 
 		{
-			"name": "UK_DAO4_MUK1",
+			"name": "UK_DAO5_MUK1",
 			"category": "UniqueKey",
 			"multi": true,
 			"columns": 

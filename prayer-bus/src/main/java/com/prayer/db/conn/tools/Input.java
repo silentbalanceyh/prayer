@@ -1,26 +1,20 @@
 package com.prayer.db.conn.tools;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import static com.prayer.util.Error.debug;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 
+import com.prayer.db.conn.tools.Transducer.T;
 import com.prayer.kernel.Value;
-import com.prayer.model.type.BinaryType;
-import com.prayer.model.type.BooleanType;
-import com.prayer.model.type.DateType;
-import com.prayer.model.type.DecimalType;
-import com.prayer.model.type.IntType;
-import com.prayer.model.type.LongType;
-import com.prayer.model.type.StringType;
 
-import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -35,6 +29,9 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class Input {
 	// ~ Static Fields =======================================
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(Input.class);
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -61,7 +58,8 @@ public final class Input {
 				final int size = values.size();
 				for (int idx = 1; idx <= size; idx++) {
 					// 以数据库的Index为主，数据库从1开始索引，数组本身从0开始索引
-					setParameters(stmt, idx, values.get(idx - 1));
+					debug(LOGGER, "[DB-INPUT] (Insert) Index = " + idx + ", Value = " + values.get(idx - 1));
+					T.get().injectArgs(stmt, idx, values.get(idx - 1));
 				}
 				return stmt;
 			}
@@ -84,56 +82,13 @@ public final class Input {
 				final PreparedStatement stmt = con.prepareStatement(sql);
 				final int size = values.size();
 				for (int idx = 1; idx <= size; idx++) {
-					setParameters(stmt, idx, values.get(idx - 1));
+					// 以数据库的Index为主，数据库从1开始索引，数组本身从0开始索引
+					debug(LOGGER, "[DB-INPUT] Index = " + idx + ", Value = " + values.get(idx - 1));
+					T.get().injectArgs(stmt, idx, values.get(idx - 1));
 				}
 				return stmt;
 			};
 		};
-	}
-
-	/**
-	 * 
-	 * @param stmt
-	 * @param idx
-	 * @param value
-	 * @throws SQLException
-	 */
-	public static void setParameters(@NotNull final PreparedStatement stmt, @Min(0) final int idx,
-			@NotNull final Value<?> value) throws SQLException {
-		switch (value.getDataType()) {
-		case INT: {
-			stmt.setInt(idx, ((IntType) value).getValue());
-		}
-			break;
-		case LONG: {
-			stmt.setLong(idx, ((LongType) value).getValue());
-		}
-			break;
-		case BOOLEAN: {
-			stmt.setBoolean(idx, ((BooleanType) value).getValue());
-		}
-			break;
-		case DECIMAL: {
-			stmt.setBigDecimal(idx, ((DecimalType) value).getValue());
-		}
-			break;
-		case DATE: {
-			// 是不是SQL Server独有
-			final Date datetime = ((DateType) value).getValue();
-			stmt.setTimestamp(idx, new java.sql.Timestamp(datetime.getTime()));
-		}
-			break;
-		case BINARY: {
-			final InputStream stream = new ByteArrayInputStream(((BinaryType) value).getValue());
-			stmt.setBinaryStream(idx, stream);
-		}
-			break;
-		default: // Default for XML, STRING, SCRIPT, JSON
-		{
-			stmt.setString(idx, ((StringType) value).getValue());
-		}
-			break;
-		}
 	}
 
 	// ~ Constructors ========================================

@@ -1,13 +1,11 @@
-package com.prayer.db.conn.tools;	// NOPMD
+package com.prayer.db.conn.tools; // NOPMD
 
 import static com.prayer.util.Error.debug;
 
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -19,18 +17,11 @@ import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 import com.prayer.constant.Constants;
+import com.prayer.db.conn.tools.Transducer.T;
 import com.prayer.kernel.Value;
-import com.prayer.model.type.BinaryType;
-import com.prayer.model.type.BooleanType;
 import com.prayer.model.type.DataType;
-import com.prayer.model.type.DateType;
-import com.prayer.model.type.DecimalType;
 import com.prayer.model.type.IntType;
-import com.prayer.model.type.JsonType;
 import com.prayer.model.type.LongType;
-import com.prayer.model.type.ScriptType;
-import com.prayer.model.type.StringType;
-import com.prayer.model.type.XmlType;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.MinLength;
@@ -46,7 +37,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class Output {		// NOPMD
+public final class Output { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(Output.class);
@@ -118,7 +109,7 @@ public final class Output {		// NOPMD
 				while (retSet.next()) {
 					final ConcurrentMap<String, Value<?>> record = new ConcurrentHashMap<>();
 					for (final String column : columns) {
-						record.put(column, getValue(retSet, columnTypes.get(column), column));
+						record.put(column, T.get().getValue(retSet, columnTypes.get(column), column));
 					}
 					retList.add(record);
 				}
@@ -149,71 +140,6 @@ public final class Output {		// NOPMD
 				return retList;
 			}
 		};
-	}
-
-	/**
-	 * 
-	 * @param type
-	 * @param column
-	 * @return
-	 */
-	public static Value<?> getValue(@NotNull final ResultSet retSet, @NotNull final DataType type,	// NOPMD
-			@NotNull @NotEmpty @NotBlank final String column) throws SQLException {
-		Value<?> ret = null;
-		switch (type) {
-		case INT: {
-			final int value = retSet.getInt(column);
-			ret = new IntType(value);
-		}
-			break;
-		case LONG: {
-			final long value = retSet.getLong(column);
-			ret = new LongType(value);
-		}
-			break;
-		case BOOLEAN: {
-			final boolean value = retSet.getBoolean(column);
-			ret = new BooleanType(value);
-		}
-			break;
-		case DECIMAL: {
-			final BigDecimal value = retSet.getBigDecimal(column);
-			ret = new DecimalType(value);
-		}
-			break;
-		case DATE: {
-			// 是不是SQL Server特有
-			final java.sql.Timestamp value = retSet.getTimestamp(column);
-			ret = new DateType(new Date(value.getTime()));
-		}
-			break;
-		case BINARY: {
-			final byte[] value = retSet.getBytes(column);
-			ret = new BinaryType(value);
-		}
-			break;
-		case XML: {
-			final String value = retSet.getString(column);
-			ret = new XmlType(value);
-		}
-			break;
-		case JSON: {
-			final String value = retSet.getString(column);
-			ret = new JsonType(value);
-		}
-			break;
-		case SCRIPT: {
-			final String value = retSet.getString(column);
-			ret = new ScriptType(value);
-		}
-			break;
-		default: {
-			final String value = retSet.getString(column);
-			ret = new StringType(value);
-		}
-			break;
-		}
-		return ret;
 	}
 
 	// ~ Static Methods ======================================

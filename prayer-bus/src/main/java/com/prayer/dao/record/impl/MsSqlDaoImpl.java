@@ -79,13 +79,13 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	public Record selectById(@NotNull final Record record, @NotNull final Value<?> uniqueId)
 			throws AbstractDatabaseException {
 		// 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy
-		this.interrupt(record.policy(),true);
+		this.interrupt(record.policy(), false);
 		// 1.填充主键参数
 		final FieldModel pkField = record.idschema().get(Constants.ZERO);
 		final ConcurrentMap<String, Value<?>> paramMap = new ConcurrentHashMap<>();
 		paramMap.put(pkField.getColumnName(), uniqueId);
 		// 2.调用内部函数
-		return this.selectById(record, paramMap);
+		return this.select(record, paramMap);
 	}
 
 	/** **/
@@ -113,6 +113,17 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	@Override
 	public Record selectById(@NotNull final Record record,
 			@NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException {
+		// 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy，这个地方必须过滤
+		this.interrupt(record.policy(), true);
+		// 1.调用内部函数
+		return this.select(record, uniqueIds);
+	}
+
+	// ~ Methods =============================================
+	// ~ Private Methods =====================================
+
+	private Record select(final Record record, final ConcurrentMap<String, Value<?>> uniqueIds)
+			throws AbstractDatabaseException {
 		// 1.填充主键参数
 		final List<Record> records = this.sharedSelect(record, uniqueIds);
 		if (Constants.ONE < records.size()) {
@@ -122,8 +133,6 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 		return Constants.ZERO == records.size() ? null : records.get(Constants.ZERO);
 	}
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
 	private void interrupt(final boolean retFlag) throws AbstractDatabaseException {
 		if (!retFlag) {
 			throw new ExecuteFailureException(getClass());

@@ -18,6 +18,8 @@ public final class Accessors {
 	private static final String DFT_DB_BUILDER = "com.prayer.kernel.builder.MsSqlBuilder";
 	/** Dao 默认值 **/
 	private static final String DFT_DB_DAO = "com.prayer.dao.record.impl.MsSqlDaoImpl";
+	/** Transverter默认值 **/
+	private static final String DFT_DB_TRANS = "com.prayer.db.conn.tools.MsSqlTransducer";
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 
@@ -50,6 +52,16 @@ public final class Accessors {
 	@NotNull
 	public static String dao() {
 		return null == Resources.DB_DAO ? DFT_DB_DAO : Resources.DB_DAO;
+	}
+
+	/**
+	 * 获取transverter实现
+	 * 
+	 * @return
+	 */
+	@NotNull
+	public static String transducer() {
+		return null == Resources.DB_TRANSDUCER ? DFT_DB_TRANS : Resources.DB_TRANSDUCER;
 	}
 
 	// ~ Constructors ========================================

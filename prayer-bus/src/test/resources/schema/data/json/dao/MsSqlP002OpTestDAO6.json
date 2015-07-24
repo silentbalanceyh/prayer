@@ -2,18 +2,20 @@
 	"__meta__": 
 	{
 		"namespace": "com.prayer.model.test",
-		"name": "TestDAO4",
+		"name": "TestDAO6",
 		"category": "ENTITY",
-		"table": "TST_DAO4",
-		"identifier": "tst.mod.dao4",
+		"table": "TST_DAO6",
+		"identifier": "tst.mod.dao6",
 		"mapping": "DIRECT",
-		"policy": "GUID"
+		"policy": "INCREMENT",
+		"seqinit": 1,
+		"seqstep": 1
 	},
 
 	"__keys__": 
 	[
 		{
-			"name": "PK_DAO4_ID",
+			"name": "PK_DAO6_ID",
 			"category": "PrimaryKey",
 			"multi": false,
 			"columns": 
@@ -23,7 +25,7 @@
 		},
 
 		{
-			"name": "UK_DAO4_UK1",
+			"name": "UK_DAO6_UK1",
 			"category": "UniqueKey",
 			"multi": false,
 			"columns": 
@@ -33,7 +35,7 @@
 		},
 
 		{
-			"name": "UK_DAO4_MUK1",
+			"name": "UK_DAO6_MUK1",
 			"category": "UniqueKey",
 			"multi": true,
 			"columns": 
@@ -49,10 +51,9 @@
 		{
 			"columnName": "T_ID",
 			"name": "tId",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"primarykey": true,
-			"length": 256
+			"type": "LongType",
+			"columnType": "LONG",
+			"primarykey": true
 		},
 
 		{
@@ -158,7 +159,7 @@
 			"name": "tbinary",
 			"type": "BinaryType",
 			"columnType": "BINARY",
-			"length":2048
+			"length": 2048
 		}
 	]
 }
