@@ -1,8 +1,10 @@
 package com.prayer.kernel;
 
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.model.type.DataType;
 /**
  * 
  * @author Lang
@@ -31,4 +33,9 @@ interface RecordDB {
 	 * @return
 	 */
 	Set<String> columns();
+	/**
+	 * 获取当前记录的列类型Mapping
+	 * @return
+	 */
+	ConcurrentMap<String,DataType> columnTypes();
 }

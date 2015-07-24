@@ -35,19 +35,20 @@ public class Restrictions01EQTestCase extends AbstractTestTool {	// NOPMD
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	// ~ Constructors ========================================
+	// ~ Abstract Methods ====================================
+	// ~ Override Methods ====================================
 	/** **/
+	@Override
 	protected Logger getLogger() {
 		return LOGGER;
 	}
 
 	/** **/
+	@Override
 	protected Class<?> getTarget() {
 		return Restrictions.class;
 	}
-
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	/** **/
 	@Test

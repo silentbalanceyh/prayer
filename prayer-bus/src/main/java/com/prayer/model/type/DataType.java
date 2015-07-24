@@ -58,7 +58,7 @@ public enum DataType {
 	DataType(final String dataType, final int rawValue) {
 		this.dataType = dataType;
 		this.rawValue = rawValue;
-		this.className = "com.lyra.meta.type." + dataType;
+		this.className = "com.prayer.model.type." + dataType;
 	}
 
 	/** 返回类型的原始值 **/
@@ -74,11 +74,6 @@ public enum DataType {
 	/** 从String转换的类 **/
 	public static DataType fromString(final String storedValue) {
 		return DT_MAP.get(storedValue);
-	}
-
-	/** 从DataType到String **/
-	public static String toClass(final DataType type) {
-		return DataType.class.getPackage().getName() + '.' + type.toString();
 	}
 
 	/** 重写toString **/

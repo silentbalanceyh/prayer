@@ -40,6 +40,7 @@ public final class Input {
 	// ~ Static Methods ======================================
 	/**
 	 * Insert语句的参数设置，不可不传参
+	 * 
 	 * @param sql
 	 * @param values
 	 * @param isRetKey
@@ -69,6 +70,7 @@ public final class Input {
 
 	/**
 	 * Select语句的参数设置，可不传参，则表示Select所有
+	 * 
 	 * @param sql
 	 * @param values
 	 * @return
@@ -116,8 +118,9 @@ public final class Input {
 		}
 			break;
 		case DATE: {
+			// 是不是SQL Server独有
 			final Date datetime = ((DateType) value).getValue();
-			stmt.setDate(idx, new java.sql.Date(datetime.getTime()));
+			stmt.setTimestamp(idx, new java.sql.Timestamp(datetime.getTime()));
 		}
 			break;
 		case BINARY: {
@@ -132,12 +135,14 @@ public final class Input {
 			break;
 		}
 	}
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	private Input(){}
+	private Input() {
+	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

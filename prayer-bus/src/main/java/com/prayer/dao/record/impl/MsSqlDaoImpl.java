@@ -78,6 +78,8 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	@Override
 	public Record selectById(@NotNull final Record record, @NotNull final Value<?> uniqueId)
 			throws AbstractDatabaseException {
+		// 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy
+		this.interrupt(record.policy(),true);
 		// 1.填充主键参数
 		final FieldModel pkField = record.idschema().get(Constants.ZERO);
 		final ConcurrentMap<String, Value<?>> paramMap = new ConcurrentHashMap<>();

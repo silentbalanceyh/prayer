@@ -1,6 +1,7 @@
 package com.prayer.dao.record.impl;
 
 import static com.prayer.util.Calculator.diff;
+import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 
@@ -69,16 +70,17 @@ final class SqlHelper {
 	 * @param result
 	 */
 	public static List<Record> extractData(@NotNull final Record record,
-			@NotNull final List<ConcurrentMap<String, String>> resultData) {
+			@NotNull final List<ConcurrentMap<String, Value<?>>> resultData) {
 		final String identifier = record.identifier();
 		// 从List中抽取记录
 		final List<Record> retList = new ArrayList<>();
-		for (final ConcurrentMap<String, String> item : resultData) {
+		for (final ConcurrentMap<String, Value<?>> item : resultData) {
 			// 从Map中抽取字段
 			final Record ret = instance(GenericRecord.class.getName(), identifier);
 			for (final String column : item.keySet()) {
 				try {
 					final String field = record.toField(column);
+					debug(LOGGER, "[Record] set: name=" + field + ",value=" + item.get(column));
 					ret.set(field, item.get(column));
 				} catch (AbstractDatabaseException ex) {
 					info(LOGGER, ex.getErrorMessage());

@@ -91,7 +91,7 @@ public class GenericRecord implements Record { // NOPMD
 			throws AbstractDatabaseException {
 		this.verifyField(name);
 		final DataType type = this._schema.getFields().get(name).getType();
-		final Value<?> wrapperValue = instance(DataType.toClass(type), value);
+		final Value<?> wrapperValue = instance(type.getClassName(), value);
 		this.set(name, wrapperValue);
 	}
 
@@ -201,6 +201,19 @@ public class GenericRecord implements Record { // NOPMD
 		final ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
 		for (final String name : this._schema.getFields().keySet()) {
 			retMap.put(name, this._schema.getFields().get(name).getType());
+		}
+		return retMap;
+	}
+	
+	/** **/
+	@Override
+	@NotNull
+	@MinSize(1)
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
+	public ConcurrentMap<String, DataType> columnTypes() {
+		final ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
+		for (final String name : this._schema.getFields().keySet()) {
+			retMap.put(this._schema.getFields().get(name).getColumnName(), this._schema.getFields().get(name).getType());
 		}
 		return retMap;
 	}

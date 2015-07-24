@@ -103,6 +103,16 @@ public final class Error { // NOPMD
 			}
 		}
 	}
+	/**
+	 * 
+	 * @param logger
+	 * @param message
+	 */
+	public static void debug(@NotNull final Logger logger, @NotNull @NotBlank @NotEmpty final String message){
+		if(logger.isDebugEnabled()){
+			logger.debug(message);
+		}
+	}
 
 	/**
 	 * 

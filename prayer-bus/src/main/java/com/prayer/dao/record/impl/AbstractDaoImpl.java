@@ -146,12 +146,10 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 */
 	protected List<Record> sharedSelect(@NotNull final Record record,
 			@NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
-		// 1.获取主键Policy策略以及Jdbc访问器，验证Policy
-		interrupt(record.policy(), false);
-		// 2.生成Expression所需要的主键Where子句列，验证查询条件是否主键列
+		// 1.生成Expression所需要的主键Where子句列，验证查询条件是否主键列
 		final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
 		interrupt(record, paramCols);
-		// 3.生成参数表
+		// 2.生成参数表
 		final List<Value<?>> paramValues = new ArrayList<>();
 		for (final String column : paramCols) {
 			paramValues.add(record.column(column));
@@ -177,7 +175,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 		// 2.生成SQL语句
 		final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters);
 		// 3.根据参数表生成查询结果集
-		return SqlHelper.extractData(record, jdbc.select(sql, params, columns));
+		return SqlHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), columns));
 	}
 
 	/**
@@ -247,11 +245,11 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * @param isMulti
 	 * @throws AbstractDatabaseException
 	 */
-	private void interrupt(@NotNull final MetaPolicy policy, final boolean isMulti) throws AbstractDatabaseException {
-		if (isMulti && MetaPolicy.COLLECTION != policy) {
-			throw new PolicyConflictCallException(getClass(), policy.toString());
-		} else if (!isMulti && MetaPolicy.COLLECTION == policy) {
-			throw new PolicyConflictCallException(getClass(), policy.toString());
+	protected void interrupt(@NotNull final MetaPolicy policy, final boolean isMulti) throws AbstractDatabaseException {
+		if (MetaPolicy.COLLECTION == policy) {
+			if (isMulti) {
+				throw new PolicyConflictCallException(getClass(), policy.toString());
+			}
 		}
 	}
 	// ~ Get/Set =============================================

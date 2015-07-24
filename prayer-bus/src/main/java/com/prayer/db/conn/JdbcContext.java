@@ -47,7 +47,7 @@ public interface JdbcContext {
 	 * @param columns
 	 * @return
 	 */
-	List<ConcurrentMap<String, String>> select(String sql, List<Value<?>> values, String... columns);
+	List<ConcurrentMap<String, Value<?>>> select(String sql, List<Value<?>> values, ConcurrentMap<String,DataType> columnMap, String... columns);
 	/**
 	 * 返回插入过后的主键值，主要针对Increment的Policy才会使用后边的方法
 	 * 
