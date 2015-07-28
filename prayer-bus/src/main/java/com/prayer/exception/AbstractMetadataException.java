@@ -7,7 +7,7 @@ import static com.prayer.util.Error.error;
  * @author Lang
  *
  */
-public abstract class AbstractDatabaseException extends AbstractException{
+public abstract class AbstractMetadataException extends AbstractException{
 	// ~ Static Fields =======================================
 	/**
 	 * 
@@ -18,7 +18,7 @@ public abstract class AbstractDatabaseException extends AbstractException{
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
-	public AbstractDatabaseException(final String message){
+	public AbstractMetadataException(final String message){
 		super(message);
 	}
 	/**
@@ -27,7 +27,7 @@ public abstract class AbstractDatabaseException extends AbstractException{
 	 * @param errorCode
 	 * @param params
 	 */
-	public AbstractDatabaseException(final Class<?> clazz, final int errorCode, final Object... params) {
+	public AbstractMetadataException(final Class<?> clazz, final int errorCode, final Object... params) {
 		this(error(clazz, errorCode, params));
 	}
 	// ~ Abstract Methods ====================================

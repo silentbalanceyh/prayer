@@ -16,7 +16,7 @@ import com.prayer.dao.record.RecordDao;
 import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.DataLoadingException;
@@ -122,7 +122,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
 	}
 
 	/** Push Data via Insert **/
-	protected void pushData(final String identifier) throws AbstractDatabaseException {
+	protected void pushData(final String identifier) throws AbstractMetadataException {
 		if (this.isValidDB()) {
 			final Record before = this.getRecord(identifier);
 			info(getLogger(), "[T] Before Insert : " + before);
@@ -178,7 +178,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
 		for(final String field: record.fields().keySet()){
 			try {
 				record.set(field, Assistant.generate(record.fields().get(field),false));
-			} catch (AbstractDatabaseException ex) {
+			} catch (AbstractMetadataException ex) {
 				info(getLogger(), ex.getErrorMessage(), ex);
 			}
 		}

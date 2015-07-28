@@ -22,7 +22,7 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.record.RecordDao;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.exception.database.InvalidPKParameterException;
 import com.prayer.exception.database.PKValueMissingException;
 import com.prayer.exception.database.PolicyConflictCallException;
@@ -57,7 +57,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	/**
 	 * 获取Increment中需要过滤的ID列
 	 **/
-	protected abstract Set<String> getPKFilters(Record record) throws AbstractDatabaseException;
+	protected abstract Set<String> getPKFilters(Record record) throws AbstractMetadataException;
 
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
@@ -79,9 +79,9 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	/**
 	 * 
 	 * @param record
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
-	protected boolean sharedUpdate(@NotNull final Record record) throws AbstractDatabaseException {
+	protected boolean sharedUpdate(@NotNull final Record record) throws AbstractMetadataException {
 		// 1.获取主键条件语句
 		// final ConcurrentMap<String, Value<?>> params =
 		// SqlHelper.prepPKWhere(record);
@@ -114,9 +114,9 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * 共享Inert语句，根据不同的Policy设置SQL语句并且实现共享传参 这个方法必然会修改传入参数Record
 	 * 
 	 * @param record
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
-	protected boolean sharedInsert(@NotNull final Record record) throws AbstractDatabaseException {
+	protected boolean sharedInsert(@NotNull final Record record) throws AbstractMetadataException {
 		// 获取主键Policy策略以及Jdbc访问器
 		final MetaPolicy policy = record.policy();
 		final JdbcContext jdbc = this.getContext(record.identifier());
@@ -154,10 +154,10 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * 
 	 * @param record
 	 * @param paramMap
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
 	protected List<Record> sharedSelect(@NotNull final Record record,
-			@NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
+			@NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractMetadataException {
 		// 1.生成Expression所需要的主键Where子句列，验证查询条件是否主键列
 		final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
 		interrupt(record, paramCols);
@@ -178,10 +178,10 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * @param params
 	 * @param filters
 	 * @return
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
 	protected List<Record> sharedSelect(@NotNull final Record record, @NotNull @MinSize(1) final String[] columns,
-			final List<Value<?>> params, final Expression filters) throws AbstractDatabaseException {
+			final List<Value<?>> params, final Expression filters) throws AbstractMetadataException {
 		// 1.获取JDBC访问器
 		final JdbcContext jdbc = this.getContext(record.identifier());
 		// 2.生成SQL语句
@@ -196,10 +196,10 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * @param record
 	 * @param paramMap
 	 * @return
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
 	protected boolean sharedDelete(@NotNull final Record record,
-			@NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
+			@NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractMetadataException {
 		// 1.获取JDBC访问器
 		final JdbcContext jdbc = this.getContext(record.identifier());
 		// 2.生成Expression
@@ -222,9 +222,9 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * 主键带值验证
 	 * 
 	 * @param record
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
-	protected void interrupt(@NotNull final Record record) throws AbstractDatabaseException {
+	protected void interrupt(@NotNull final Record record) throws AbstractMetadataException {
 		for (final FieldModel field : record.idschema()) {
 			final Value<?> value = record.get(field.getName());
 			if (null == value) {
@@ -240,10 +240,10 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * 
 	 * @param record
 	 * @param pkeys
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
 	private void interrupt(@NotNull final Record record, @NotNull @MinSize(1) final Collection<String> pkeys)
-			throws AbstractDatabaseException {
+			throws AbstractMetadataException {
 		for (final FieldModel pkSchema : record.idschema()) {
 			if (!pkeys.contains(pkSchema.getColumnName())) {
 				throw new InvalidPKParameterException(getClass(), pkSchema.getColumnName(), record.table());
@@ -255,9 +255,9 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * 
 	 * @param policy
 	 * @param isMulti
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
-	protected void interrupt(@NotNull final MetaPolicy policy, final boolean isMulti) throws AbstractDatabaseException {
+	protected void interrupt(@NotNull final MetaPolicy policy, final boolean isMulti) throws AbstractMetadataException {
 		if (isMulti) {
 			if (MetaPolicy.COLLECTION != policy) {
 				debug(LOGGER, "Multi = true, policy must be COLLECTION");

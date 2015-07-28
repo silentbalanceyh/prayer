@@ -1,28 +1,17 @@
 package com.prayer.model.type;
 
-import static com.prayer.util.Error.info;
-
 import java.lang.reflect.Type;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.TypeInitException;
-import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 
 /**
- * 类型：字符串类型
- * 
- * @author Lang
- * @see
+ * ee
  */
-public class StringType implements Value<String>, Validator {
+public class StringType implements Value<String> {
 	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(StringType.class);
 	// ~ Instance Fields =====================================
 	/**
 	 * 字符串缓冲池
@@ -88,14 +77,6 @@ public class StringType implements Value<String>, Validator {
 	}
 
 	/**
-	 * 字符串验证规则
-	 */
-	@Override
-	public boolean validate(final String value) {
-		return true;
-	}
-
-	/**
 	 * 获取字面量
 	 */
 	@Override
@@ -119,17 +100,9 @@ public class StringType implements Value<String>, Validator {
 		if (null == value) {
 			this.value = null; // NOPMD
 		} else {
-			// StringType直接返回true
-			if (this.validate(value)) {
-				this.value.delete(0, this.value.length());
-				this.value.append(value);
-			} else {
-				// 验证不通过初始化失败
-				this.exp = new TypeInitException(getClass(), "void init(String)", value);
-				info(LOGGER, "[E] String initializing met error!", this.exp);
-			}
+			this.value.delete(0, this.value.length());
+			this.value.append(value);
 		}
-
 	}
 
 	// ~ hashCode,equals,toString ============================

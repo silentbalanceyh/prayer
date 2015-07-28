@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.exception.database.ExecuteFailureException;
 import com.prayer.exception.database.MoreThanOneException;
 import com.prayer.kernel.Expression;
@@ -38,7 +38,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	 * INCREMENT中需要过滤ID列，这个方法用于获取ID列
 	 */
 	@Override
-	public Set<String> getPKFilters(@NotNull final Record record) throws AbstractDatabaseException {
+	public Set<String> getPKFilters(@NotNull final Record record) throws AbstractMetadataException {
 		final MetaPolicy policy = record.policy();
 		if (MetaPolicy.INCREMENT == policy) {
 			return record.idKV().keySet();// SqlHelper.prepPKWhere(record).keySet();
@@ -50,7 +50,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	 * Insert的第一个版本完成，调用共享Insert方法
 	 */
 	@Override
-	public Record insert(@NotNull final Record record) throws AbstractDatabaseException {
+	public Record insert(@NotNull final Record record) throws AbstractMetadataException {
 		// 1.调用父类方法
 		final boolean ret = super.sharedInsert(record);
 		// 2.后期执行检查
@@ -61,7 +61,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 
 	/** **/
 	@Override
-	public Record update(@NotNull final Record record) throws AbstractDatabaseException {
+	public Record update(@NotNull final Record record) throws AbstractMetadataException {
 		// 1.主键值验证
 		this.interrupt(record);
 		// 2.调用父类函数
@@ -77,7 +77,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	 */
 	@Override
 	public Record selectById(@NotNull final Record record, @NotNull final Value<?> uniqueId)
-			throws AbstractDatabaseException {
+			throws AbstractMetadataException {
 		// 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy
 		this.interrupt(record.policy(), false);
 		// 1.填充主键参数
@@ -90,7 +90,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 
 	/** **/
 	@Override
-	public boolean delete(@NotNull final Record record) throws AbstractDatabaseException {
+	public boolean delete(@NotNull final Record record) throws AbstractMetadataException {
 		// 1.主键值验证
 		this.interrupt(record);
 		// 2.调用父类函数
@@ -103,7 +103,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	/** **/
 	@Override
 	public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinSize(1) final String[] columns,
-			final List<Value<?>> params, final Expression filters) throws AbstractDatabaseException {
+			final List<Value<?>> params, final Expression filters) throws AbstractMetadataException {
 		return super.sharedSelect(record, columns, params, filters);
 	}
 
@@ -112,7 +112,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	 */
 	@Override
 	public Record selectById(@NotNull final Record record,
-			@NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException {
+			@NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractMetadataException {
 		// 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy，这个地方必须过滤
 		this.interrupt(record.policy(), true);
 		// 1.调用内部函数
@@ -123,7 +123,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 	// ~ Private Methods =====================================
 
 	private Record select(final Record record, final ConcurrentMap<String, Value<?>> uniqueIds)
-			throws AbstractDatabaseException {
+			throws AbstractMetadataException {
 		// 1.填充主键参数
 		final List<Record> records = this.sharedSelect(record, uniqueIds);
 		if (Constants.ONE < records.size()) {
@@ -133,7 +133,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 		return Constants.ZERO == records.size() ? null : records.get(Constants.ZERO);
 	}
 
-	private void interrupt(final boolean retFlag) throws AbstractDatabaseException {
+	private void interrupt(final boolean retFlag) throws AbstractMetadataException {
 		if (!retFlag) {
 			throw new ExecuteFailureException(getClass());
 		}

@@ -2,7 +2,7 @@ package com.prayer.kernel;
 
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.model.type.DataType;
 
 /**
@@ -18,14 +18,14 @@ public interface Record extends RecordPK, RecordDB{
 	 * @param name
 	 * @param value
 	 */
-	void set(String name, Value<?> value) throws AbstractDatabaseException;
+	void set(String name, Value<?> value) throws AbstractMetadataException;
 
 	/**
 	 * 
 	 * @param name
 	 * @param value
 	 */
-	void set(String name, String value) throws AbstractDatabaseException;
+	void set(String name, String value) throws AbstractMetadataException;
 
 	/**
 	 * 从当前记录中获取对应属性值
@@ -33,7 +33,7 @@ public interface Record extends RecordPK, RecordDB{
 	 * @param name
 	 * @return
 	 */
-	Value<?> get(String name) throws AbstractDatabaseException;
+	Value<?> get(String name) throws AbstractMetadataException;
 
 	// ~ Metadata 元数据需要使用的相关接口 ===========================
 	/**
@@ -46,16 +46,16 @@ public interface Record extends RecordPK, RecordDB{
 	 * 根据列名获取field名称
 	 * @param column
 	 * @return
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
-	String toField(String column) throws AbstractDatabaseException;
+	String toField(String column) throws AbstractMetadataException;
 	/**
 	 * 根据field名获取列名称
 	 * @param field
 	 * @return
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
-	String toColumn(String field) throws AbstractDatabaseException;
+	String toColumn(String field) throws AbstractMetadataException;
 	/**
 	 * 获取fields的数据类型：name = DataType
 	 * @return

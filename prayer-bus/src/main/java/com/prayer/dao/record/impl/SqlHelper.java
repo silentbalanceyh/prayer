@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
@@ -56,7 +56,7 @@ final class SqlHelper {
 				// 多个条件组合
 				try {
 					ret = Restrictions.and(ret, Restrictions.eq(column));
-				} catch (AbstractDatabaseException ex) {
+				} catch (AbstractMetadataException ex) {
 					info(LOGGER, ex.getErrorMessage());
 				}
 			}
@@ -82,7 +82,7 @@ final class SqlHelper {
 					final String field = record.toField(column);
 					debug(LOGGER, "[Record] set: name=" + field + ",value=" + item.get(column));
 					ret.set(field, item.get(column));
-				} catch (AbstractDatabaseException ex) {
+				} catch (AbstractMetadataException ex) {
 					info(LOGGER, ex.getErrorMessage());
 				}
 			}
@@ -109,7 +109,7 @@ final class SqlHelper {
 	 * @param filters
 	 * @return
 	 */
-	public static List<Value<?>> prepParam(final Record record, final String... filters) throws AbstractDatabaseException{
+	public static List<Value<?>> prepParam(final Record record, final String... filters) throws AbstractMetadataException{
 		final Collection<String> columns = diff(record.columns(), Arrays.asList(filters));
 		final List<Value<?>> retParam = new ArrayList<>();
 		for (final String column : columns) {

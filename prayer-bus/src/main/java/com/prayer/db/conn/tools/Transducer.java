@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.prayer.constant.Accessors;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
 
@@ -32,8 +33,9 @@ interface Transducer {
 	 * @param column
 	 * @return
 	 * @throws SQLException
+	 * @throws AbstractMetadataException 
 	 */
-	Value<?> getValue(ResultSet retSet, DataType type, String column) throws SQLException;
+	Value<?> getValue(ResultSet retSet, DataType type, String column) throws SQLException, AbstractMetadataException;
 	/**
 	 * 内部类
 	 * @author Lang

@@ -16,7 +16,7 @@ import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.db.conn.impl.JdbcConnImpl;
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Builder;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.h2.FieldModel;
@@ -50,7 +50,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	@NotNull
 	private transient final GenericSchema schema;
 	/** 构建过程中的Error信息 **/
-	private transient AbstractDatabaseException error;
+	private transient AbstractMetadataException error;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -262,14 +262,14 @@ abstract class AbstractBuilder implements Builder { // NOPMD
 	 * 
 	 */
 	@Override
-	public AbstractDatabaseException getError() {
+	public AbstractMetadataException getError() {
 		return this.error;
 	}
 	/**
 	 * 
 	 * @param error
 	 */
-	protected void setError(final AbstractDatabaseException error){
+	protected void setError(final AbstractMetadataException error){
 		this.error = error;
 	}
 

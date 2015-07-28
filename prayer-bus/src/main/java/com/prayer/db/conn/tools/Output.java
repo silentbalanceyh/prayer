@@ -1,6 +1,7 @@
 package com.prayer.db.conn.tools; // NOPMD
 
 import static com.prayer.util.Error.debug;
+import static com.prayer.util.Error.info;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 
 import com.prayer.constant.Constants;
 import com.prayer.db.conn.tools.Transducer.T;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.IntType;
@@ -109,7 +111,11 @@ public final class Output { // NOPMD
 				while (retSet.next()) {
 					final ConcurrentMap<String, Value<?>> record = new ConcurrentHashMap<>();
 					for (final String column : columns) {
-						record.put(column, T.get().getValue(retSet, columnTypes.get(column), column));
+						try {
+							record.put(column, T.get().getValue(retSet, columnTypes.get(column), column));
+						} catch (AbstractMetadataException ex) {
+							info(LOGGER, "[DB-OUT] Exception: " + ex.getErrorMessage(), ex);
+						}
 					}
 					retList.add(record);
 				}

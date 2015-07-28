@@ -1,39 +1,49 @@
-package com.prayer.exception.database;
+package com.prayer.kernel.validator;
+
+import static com.prayer.util.Error.info;
+
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractMetadataException;
+import com.prayer.kernel.Validator;
+import com.prayer.kernel.Value;
+
 /**
  * 
  * @author Lang
  *
  */
-public class PKValueMissingException extends AbstractMetadataException{
+public class XmlValidator implements Validator{
+
 	// ~ Static Fields =======================================
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2638975545160960973L;
+
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(XmlValidator.class);
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param colName
-	 * @param table
-	 */
-	public PKValueMissingException(final Class<?> clazz, final String colName, final String table){
-		super(clazz, -11007, colName, table);
-	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	public int getErrorCode(){
-		return -11007;
+	public boolean validate(Value<?> value) throws AbstractMetadataException {
+		boolean ret = false;
+		try {
+			DocumentHelper.parseText(value.literal());
+			ret = true;
+		} catch (DocumentException ex) {
+			info(LOGGER, "[E] Xml Data Format Error! Output = " + value, ex);
+			ret = false;
+		}
+		return ret;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
+
 }

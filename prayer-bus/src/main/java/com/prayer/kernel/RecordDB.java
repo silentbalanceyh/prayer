@@ -3,7 +3,7 @@ package com.prayer.kernel;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.model.type.DataType;
 /**
  * 
@@ -17,9 +17,9 @@ interface RecordDB {
 	 * 
 	 * @param column
 	 * @return
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
-	Value<?> column(String column) throws AbstractDatabaseException;
+	Value<?> column(String column) throws AbstractMetadataException;
 
 	/**
 	 * 获取当前记录的操作表名

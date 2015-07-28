@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractDaoTestTool;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.kernel.Record;
@@ -100,7 +100,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05076Mcolumn() throws AbstractDatabaseException{
+	public void testE05076Mcolumn() throws AbstractMetadataException{
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.column(null);
 		failure(TST_OVAL);
@@ -108,7 +108,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05077Mcolumn() throws AbstractDatabaseException{
+	public void testE05077Mcolumn() throws AbstractMetadataException{
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.column("");
 		failure(TST_OVAL);
@@ -116,7 +116,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05078Mcolumn() throws AbstractDatabaseException{
+	public void testE05078Mcolumn() throws AbstractMetadataException{
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.column("  ");
 		failure(TST_OVAL);
@@ -124,7 +124,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05079Mget() throws AbstractDatabaseException {
+	public void testE05079Mget() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.get(null);
 		failure(TST_OVAL);
@@ -132,7 +132,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05080Mget() throws AbstractDatabaseException {
+	public void testE05080Mget() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.get("");
 		failure(TST_OVAL);
@@ -140,7 +140,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05081Mget() throws AbstractDatabaseException {
+	public void testE05081Mget() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.get("  ");
 		failure(TST_OVAL);
@@ -148,7 +148,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05082Mset() throws AbstractDatabaseException {
+	public void testE05082Mset() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.set(null, "");
 		failure(TST_OVAL);
@@ -156,7 +156,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05083Mset() throws AbstractDatabaseException {
+	public void testE05083Mset() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.set("", "");
 		failure(TST_OVAL);
@@ -164,7 +164,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05084Mset() throws AbstractDatabaseException {
+	public void testE05084Mset() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.set("   ", "");
 		failure(TST_OVAL);
@@ -172,7 +172,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05085Mset() throws AbstractDatabaseException {
+	public void testE05085Mset() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.set(null, STR_VAL);
 		failure(TST_OVAL);
@@ -180,7 +180,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05086Mset() throws AbstractDatabaseException {
+	public void testE05086Mset() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.set("", STR_VAL);
 		failure(TST_OVAL);
@@ -188,28 +188,28 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 
 	/** **/
 	@Test(expected = ConstraintsViolatedException.class)
-	public void testE05087Mset() throws AbstractDatabaseException {
+	public void testE05087Mset() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.set("   ", STR_VAL);
 		failure(TST_OVAL);
 	}
 	/** **/
 	@Test(expected = FieldInvalidException.class)
-	public void testE05088Mset() throws AbstractDatabaseException {
+	public void testE05088Mset() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.set("ukxx88", STR_VAL);
 		failure(TST_PR);
 	}
 	/** **/
 	@Test(expected = FieldInvalidException.class)
-	public void testE05089Mset() throws AbstractDatabaseException {
+	public void testE05089Mset() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.set("ukxx89", "");
 		failure(TST_PR);
 	}
 	/** **/
 	@Test(expected = FieldInvalidException.class)
-	public void testE05090Mget() throws AbstractDatabaseException {
+	public void testE05090Mget() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.get("ukxx89");
 		failure(TST_PR);
@@ -217,7 +217,7 @@ public class GenericRecord01TestCase extends AbstractDaoTestTool { // NOPMD
 	
 	/** **/
 	@Test(expected = ColumnInvalidException.class)
-	public void testE05091Mcolumn() throws AbstractDatabaseException {
+	public void testE05091Mcolumn() throws AbstractMetadataException {
 		final Record record = new GenericRecord(IDENTIFIER);
 		record.column("XXX");
 		failure(TST_PR);

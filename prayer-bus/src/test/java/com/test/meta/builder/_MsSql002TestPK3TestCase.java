@@ -10,7 +10,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.builder.MsSqlBuilder;
 
 /**
@@ -77,7 +77,7 @@ public class _MsSql002TestPK3TestCase extends AbstractBCPTestCase {	// NOPMD
 
 	/** **/
 	@After
-	public void setDown() throws AbstractDatabaseException{
+	public void setDown() throws AbstractMetadataException{
 		this.afterExecute();
 		this.pushData("tst.mod.pk3");
 	}

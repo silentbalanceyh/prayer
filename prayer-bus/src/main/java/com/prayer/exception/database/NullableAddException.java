@@ -1,13 +1,13 @@
 package com.prayer.exception.database;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 
 /**
  * 【Checked】-11002，在有数据的时候，如果添加NOT NULL字段不允许
  * @author Lang
  *
  */
-public class NullableAddException extends AbstractDatabaseException{
+public class NullableAddException extends AbstractMetadataException{
 	// ~ Static Fields =======================================
 	/**
 	 * 

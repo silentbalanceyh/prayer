@@ -1,13 +1,13 @@
 package com.prayer.exception.database;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 
 /**
  * 使用AND和OR连接Expression时不可连接LeafNode
  * @author Lang
  *
  */
-public class ProjectionInvalidException extends AbstractDatabaseException{
+public class ProjectionInvalidException extends AbstractMetadataException{
 	// ~ Static Fields =======================================
 	/**
 	 * 

@@ -1,13 +1,13 @@
 package com.prayer.exception.database;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class MoreThanOneException extends AbstractDatabaseException{
+public class MoreThanOneException extends AbstractMetadataException{
 	// ~ Static Fields =======================================
 	/**
 	 * 

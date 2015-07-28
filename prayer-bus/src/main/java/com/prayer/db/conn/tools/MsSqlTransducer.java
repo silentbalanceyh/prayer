@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
@@ -84,7 +85,7 @@ final class MsSqlTransducer implements Transducer { // NOPMD
 	/** **/
 	@Override
 	public Value<?> getValue(@NotNull final ResultSet retSet, @NotNull final DataType type, // NOPMD
-			@NotNull @NotEmpty @NotBlank final String column) throws SQLException {
+			@NotNull @NotEmpty @NotBlank final String column) throws SQLException,AbstractMetadataException {
 		Value<?> ret = null;
 		switch (type) {
 		case INT: {

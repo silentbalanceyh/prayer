@@ -1,0 +1,165 @@
+{
+	"__meta__": 
+	{
+		"namespace": "com.prayer.model.test",
+		"name": "TestDAO8",
+		"category": "ENTITY",
+		"table": "TST_DAO8",
+		"identifier": "tst.mod.dao8",
+		"mapping": "DIRECT",
+		"policy": "GUID"
+	},
+
+	"__keys__": 
+	[
+		{
+			"name": "PK_DAO8_ID",
+			"category": "PrimaryKey",
+			"multi": false,
+			"columns": 
+			[
+				"T_ID"
+			]
+		},
+
+		{
+			"name": "UK_DAO8_UK1",
+			"category": "UniqueKey",
+			"multi": false,
+			"columns": 
+			[
+				"T_UK1"
+			]
+		},
+
+		{
+			"name": "UK_DAO8_MUK1",
+			"category": "UniqueKey",
+			"multi": true,
+			"columns": 
+			[
+				"T_MUK1",
+				"T_MUK2"
+			]
+		}
+	],
+
+	"__fields__": 
+	[
+		{
+			"columnName": "T_ID",
+			"name": "tId",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"primarykey": true,
+			"length": 256
+		},
+
+		{
+			"columnName": "T_UK1",
+			"name": "uk1",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique": true,
+			"nullable": false,
+			"length": 256,
+			"pattern": "[0-9]*"
+		},
+
+		{
+			"columnName": "T_MUK1",
+			"name": "muk1",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique": false,
+			"nullable": false,
+			"length": 256
+		},
+
+		{
+			"columnName": "T_MUK2",
+			"name": "muk2",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"unique": false,
+			"nullable": false,
+			"length": 256
+		},
+
+		{
+			"columnName": "T_STRING",
+			"name": "tstring",
+			"type": "StringType",
+			"columnType": "STRING1",
+			"length": 256
+		},
+
+		{
+			"columnName": "T_LONG",
+			"name": "tlong",
+			"type": "LongType",
+			"columnType": "LONG"
+		},
+
+		{
+			"columnName": "T_INT",
+			"name": "tint",
+			"type": "IntType",
+			"columnType": "INT"
+		},
+
+		{
+			"columnName": "T_XML",
+			"name": "txml",
+			"type": "XmlType",
+			"columnType": "XML"
+		},
+
+		{
+			"columnName": "T_JSON",
+			"name": "tjson",
+			"type": "JsonType",
+			"columnType": "JSON"
+		},
+
+		{
+			"columnName": "T_SCRIPT",
+			"name": "tscript",
+			"type": "ScriptType",
+			"columnType": "SCRIPT"
+		},
+
+		{
+			"columnName": "T_DECIMAL",
+			"name": "tdecimal",
+			"type": "DecimalType",
+			"columnType": "DECIMAL",
+			"length": 10,
+			"precision": 2
+		},
+
+		{
+			"columnName": "T_DATE",
+			"name": "tdate",
+			"type": "DateType",
+			"columnType": "DATE2",
+			"datetime": "STRING",
+			"dateformat": "yyyy-MM-dd"
+		},
+
+		{
+			"columnName": "T_BOOLEAN",
+			"name": "tboolean",
+			"type": "BooleanType",
+			"columnType": "BOOLEAN"
+		},
+
+		{
+			"columnName": "T_BINARY",
+			"name": "tbinary",
+			"type": "BinaryType",
+			"columnType": "BINARY",
+			"length":2048
+		}
+	]
+}

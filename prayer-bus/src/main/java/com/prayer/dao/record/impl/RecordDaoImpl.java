@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.dao.record.RecordDao;
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
@@ -50,11 +50,11 @@ public class RecordDaoImpl implements RecordDao {
 	 * 
 	 * @param record
 	 * @return
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
 	@Override
 	@Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-	public Record insert(@NotNull final Record record) throws AbstractDatabaseException {
+	public Record insert(@NotNull final Record record) throws AbstractMetadataException {
 		return this.dao.insert(record);
 	}
 
@@ -63,7 +63,7 @@ public class RecordDaoImpl implements RecordDao {
 	 */
 	@Override
 	@Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-	public Record update(@NotNull final Record record) throws AbstractDatabaseException {
+	public Record update(@NotNull final Record record) throws AbstractMetadataException {
 		return this.dao.update(record);
 	}
 
@@ -73,7 +73,7 @@ public class RecordDaoImpl implements RecordDao {
 	@Override
 	@Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
 	public Record selectById(@NotNull final Record record, @NotNull final Value<?> uniqueId)
-			throws AbstractDatabaseException {
+			throws AbstractMetadataException {
 		return this.dao.selectById(record, uniqueId);
 	}
 
@@ -83,7 +83,7 @@ public class RecordDaoImpl implements RecordDao {
 	@Override
 	@Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
 	public Record selectById(@NotNull final Record record,
-			@NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException {
+			@NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractMetadataException {
 		return this.dao.selectById(record, uniqueIds);
 	}
 
@@ -92,7 +92,7 @@ public class RecordDaoImpl implements RecordDao {
 	 */
 	@Override
 	@Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-	public boolean delete(@NotNull final Record record) throws AbstractDatabaseException {
+	public boolean delete(@NotNull final Record record) throws AbstractMetadataException {
 		return this.dao.delete(record);
 	}
 
@@ -102,7 +102,7 @@ public class RecordDaoImpl implements RecordDao {
 	@Override
 	@Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
 	public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinLength(1) final String[] columns,
-			final List<Value<?>> params, @NotNull final Expression filters) throws AbstractDatabaseException {
+			final List<Value<?>> params, @NotNull final Expression filters) throws AbstractMetadataException {
 		return this.dao.queryByFilter(record, columns, params, filters);
 	}
 	// ~ Methods =============================================

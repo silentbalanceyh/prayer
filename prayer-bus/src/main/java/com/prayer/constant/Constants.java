@@ -26,6 +26,8 @@ public interface Constants { // NOPMD
 	int ONE = 1;
 	/** System value 0 **/
 	int ZERO = 0;
+	/** 系统边界值：-1，用于很多地方的临界值使用 **/
+	int RANGE = -1;
 	/** HashCode base number **/
 	int HASH_BASE = 31;
 	// ~ Simple Response Code ================================

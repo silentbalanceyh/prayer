@@ -1,12 +1,11 @@
 package com.prayer.model.type;
 
-import jodd.json.JsonException;
-import jodd.json.JsonParser;
+import static com.prayer.util.Instance.singleton;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.prayer.exception.AbstractMetadataException;
+import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
+import com.prayer.kernel.validator.JsonValidator;
 
 /**
  * 类型: Xml格式的字符串
@@ -17,35 +16,20 @@ import com.prayer.kernel.Value;
 public class JsonType extends StringType implements Value<String> {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(JsonType.class);
-	/** **/
-	private static final JsonParser PARSER = new JsonParser();
+	private transient Validator innerValidator = singleton(JsonValidator.class);
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
-	public JsonType(final String value){
+	public JsonType(final String value) throws AbstractMetadataException{
 		super(value);
+		// Json内容验证代码
+		this.innerValidator.validate(new StringType(value));
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public boolean validate(final String value) {
-		boolean ret = false;
-		try {
-			PARSER.parse(value);
-			ret = true;
-		} catch (JsonException ex) {
-			if(LOGGER.isErrorEnabled()){
-				LOGGER.error("[E] Json format error! Output = " + value,ex);
-			}
-			ret = false;
-		}
-		return ret;
-	}
-
 	/** **/
 	@Override
 	public DataType getDataType() {

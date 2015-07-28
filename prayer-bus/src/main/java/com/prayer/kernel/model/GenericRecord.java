@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
@@ -43,7 +43,7 @@ public class GenericRecord implements Record { // NOPMD
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(GenericRecord.class);
 	/** 前置条件 **/
-	private static final String PRE_SCHEMA_CON = "_this._schema != null";
+	private static final String PRE_SCHEMA_CON = "_this._schema != null && _this.data != null";
 	// ~ Instance Fields =====================================
 	/** 全局标识符 **/
 	@NotNull
@@ -77,9 +77,9 @@ public class GenericRecord implements Record { // NOPMD
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	@Pre(expr = "_this.data != null", lang = Constants.LANG_GROOVY)
+	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
 	public void set(@NotNull @NotBlank @NotEmpty final String name, final Value<?> value)
-			throws AbstractDatabaseException {
+			throws AbstractMetadataException {
 		this.verifyField(name);
 		this.data.put(name, value);
 	}
@@ -88,7 +88,7 @@ public class GenericRecord implements Record { // NOPMD
 	@Override
 	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
 	public void set(@NotNull @NotBlank @NotEmpty final String name, final String value)
-			throws AbstractDatabaseException {
+			throws AbstractMetadataException {
 		this.verifyField(name);
 		final DataType type = this._schema.getFields().get(name).getType();
 		final Value<?> wrapperValue = instance(type.getClassName(), value);
@@ -97,7 +97,7 @@ public class GenericRecord implements Record { // NOPMD
 
 	/** **/
 	@Override
-	public Value<?> get(@NotNull @NotBlank @NotEmpty final String name) throws AbstractDatabaseException {
+	public Value<?> get(@NotNull @NotBlank @NotEmpty final String name) throws AbstractMetadataException {
 		this.verifyField(name);
 		return this.data.get(name);
 	}
@@ -105,15 +105,13 @@ public class GenericRecord implements Record { // NOPMD
 	/** **/
 	@Override
 	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-	public Value<?> column(@NotNull @NotBlank @NotEmpty final String column) throws AbstractDatabaseException {
+	public Value<?> column(@NotNull @NotBlank @NotEmpty final String column) throws AbstractMetadataException {
 		this.verifyColumn(column);
 		final FieldModel colInfo = this._schema.getColumn(column);
 		return this.data.get(colInfo.getName());
 	}
 
-	/**
-	 * 获取全局标识符
-	 */
+	/** 获取全局标识符 **/
 	@Override
 	@NotNull
 	public String identifier() {
@@ -149,7 +147,7 @@ public class GenericRecord implements Record { // NOPMD
 	@Override
 	@NotNull
 	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-	public String toField(@NotNull @NotBlank @NotEmpty final String column) throws AbstractDatabaseException {
+	public String toField(@NotNull @NotBlank @NotEmpty final String column) throws AbstractMetadataException {
 		this.verifyColumn(column);
 		final FieldModel field = this._schema.getColumn(column);
 		return field.getName();
@@ -159,7 +157,7 @@ public class GenericRecord implements Record { // NOPMD
 	@Override
 	@NotNull
 	@Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-	public String toColumn(@NotNull @NotBlank @NotEmpty final String field) throws AbstractDatabaseException {
+	public String toColumn(@NotNull @NotBlank @NotEmpty final String field) throws AbstractMetadataException {
 		this.verifyField(field);
 		final FieldModel column = this._schema.getFields().get(field);
 		return column.getColumnName();
@@ -176,7 +174,7 @@ public class GenericRecord implements Record { // NOPMD
 		for (final FieldModel field : pkFields) {
 			try {
 				retMap.put(field.getColumnName(), this.column(field.getColumnName()));
-			} catch (AbstractDatabaseException ex) {
+			} catch (AbstractMetadataException ex) {
 				info(LOGGER, ex.getErrorMessage());
 			}
 		}
@@ -221,13 +219,13 @@ public class GenericRecord implements Record { // NOPMD
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 
-	private void verifyField(final String name) throws AbstractDatabaseException {
+	private void verifyField(final String name) throws AbstractMetadataException {
 		if (!this._schema.getFields().containsKey(name)) {
 			throw new FieldInvalidException(getClass(), name, this._schema.getIdentifier());
 		}
 	}
 
-	private void verifyColumn(final String column) throws AbstractDatabaseException {
+	private void verifyColumn(final String column) throws AbstractMetadataException {
 		if (!this._schema.getColumns().contains(column)) {
 			throw new ColumnInvalidException(getClass(), column, this.table());
 		}
@@ -244,7 +242,7 @@ public class GenericRecord implements Record { // NOPMD
 			try {
 				final String value = null == this.column(col) ? "" : this.column(col).toString();
 				retStr.append(col).append(" : ").append(value).append(Symbol.COMMA);
-			} catch (AbstractDatabaseException ex) {
+			} catch (AbstractMetadataException ex) {
 				info(LOGGER, ex.getErrorMessage());
 			}
 		}

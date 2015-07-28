@@ -1,5 +1,7 @@
 package com.prayer.kernel;
 
+import com.prayer.exception.AbstractMetadataException;
+
 /**
  * 格式校验接口
  *
@@ -12,5 +14,5 @@ public interface Validator {
 	 * 
 	 * @return
 	 */
-	boolean validate(String value);
+	boolean validate(Value<?> value) throws AbstractMetadataException;
 }

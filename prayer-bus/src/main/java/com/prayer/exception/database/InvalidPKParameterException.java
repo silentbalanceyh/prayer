@@ -1,12 +1,12 @@
 package com.prayer.exception.database;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 /**
  * 
  * @author Lang
  *
  */
-public class InvalidPKParameterException extends AbstractDatabaseException {
+public class InvalidPKParameterException extends AbstractMetadataException {
 	// ~ Static Fields =======================================
 	/**
 	 * 

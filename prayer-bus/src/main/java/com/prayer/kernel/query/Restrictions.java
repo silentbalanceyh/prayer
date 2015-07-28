@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.SqlSegment;
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.exception.database.ProjectionInvalidException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Value;
@@ -215,7 +215,7 @@ public final class Restrictions implements SqlSegment {	// NOPMD
 	 */
 	@NotNull
 	public static Expression and(@NotNull final Expression left, @NotNull final Expression right)
-			throws AbstractDatabaseException {
+			throws AbstractMetadataException {
 		verifyExpr(left, right);
 		return ProjectionExpression.and(left, right);
 	}
@@ -229,7 +229,7 @@ public final class Restrictions implements SqlSegment {	// NOPMD
 	 */
 	@NotNull
 	public static Expression or(@NotNull final Expression left, @NotNull final Expression right) // NOPMD
-			throws AbstractDatabaseException {
+			throws AbstractMetadataException {
 		verifyExpr(left, right);
 		return ProjectionExpression.or(left, right);
 	}
@@ -240,8 +240,8 @@ public final class Restrictions implements SqlSegment {	// NOPMD
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 
-	private static void verifyExpr(final Expression left, final Expression right) throws AbstractDatabaseException {
-		AbstractDatabaseException exp = null;
+	private static void verifyExpr(final Expression left, final Expression right) throws AbstractMetadataException {
+		AbstractMetadataException exp = null;
 		if (left instanceof ColumnLeafNode) {
 			exp = new ProjectionInvalidException(Restrictions.class, LEFT, ColumnLeafNode.class.getName());
 		} else if (left instanceof ValueLeafNode) {

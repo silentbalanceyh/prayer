@@ -3,7 +3,7 @@ package com.prayer.dao.record;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
@@ -19,15 +19,15 @@ public interface RecordDao {
 	 * @param record
 	 * @return
 	 */
-	Record insert(Record record) throws AbstractDatabaseException;
+	Record insert(Record record) throws AbstractMetadataException;
 
 	/**
 	 * 
 	 * @param record
 	 * @return
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
-	Record update(Record record) throws AbstractDatabaseException;
+	Record update(Record record) throws AbstractMetadataException;
 
 	/**
 	 * 主键策略：GUID, ASSIGNED, INCREMENT
@@ -36,7 +36,7 @@ public interface RecordDao {
 	 * @param uniqueId
 	 * @return
 	 */
-	Record selectById(Record record, Value<?> uniqueId) throws AbstractDatabaseException;
+	Record selectById(Record record, Value<?> uniqueId) throws AbstractMetadataException;
 
 	/**
 	 * 主键策略：COLLECTION
@@ -45,7 +45,7 @@ public interface RecordDao {
 	 * @param uniqueIds
 	 * @return
 	 */
-	Record selectById(Record record, ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException;
+	Record selectById(Record record, ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractMetadataException;
 
 	/**
 	 * 
@@ -53,7 +53,7 @@ public interface RecordDao {
 	 * @param uniqueId
 	 * @return
 	 */
-	boolean delete(Record record) throws AbstractDatabaseException;
+	boolean delete(Record record) throws AbstractMetadataException;
 
 	/**
 	 * 
@@ -61,8 +61,8 @@ public interface RecordDao {
 	 * @param columns
 	 * @param filter
 	 * @return
-	 * @throws AbstractDatabaseException
+	 * @throws AbstractMetadataException
 	 */
 	List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters)
-			throws AbstractDatabaseException;
+			throws AbstractMetadataException;
 }
