@@ -17,5 +17,6 @@ public aspect ValidatorsAspect {
 	/** 针对pattern拦截点的实现 **/
 	before(String field, Value<?> value): PatternCut(field,value) {
 		System.out.println(field + "=" + value.literal());
+		
 	}
 }
