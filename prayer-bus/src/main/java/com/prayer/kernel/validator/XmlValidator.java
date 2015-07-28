@@ -12,17 +12,21 @@ import com.prayer.exception.metadata.ContentErrorException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+
 /**
  * 
  * @author Lang
  *
  */
-public class XmlValidator implements Validator{
+@Guarded
+public class XmlValidator implements Validator {
 
 	// ~ Static Fields =======================================
-
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(XmlValidator.class);
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -31,14 +35,14 @@ public class XmlValidator implements Validator{
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	public boolean validate(Value<?> value) throws AbstractMetadataException {
+	public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractMetadataException {
 		boolean ret = false;
 		try {
 			DocumentHelper.parseText(value.literal());
 			ret = true;
 		} catch (DocumentException ex) {
 			info(LOGGER, "[E] Xml Data Format Error! Output = " + value, ex);
-			throw new ContentErrorException(getClass(),"Xml",value.literal());
+			throw new ContentErrorException(getClass(), "Xml", value.literal());
 		}
 		return ret;
 	}

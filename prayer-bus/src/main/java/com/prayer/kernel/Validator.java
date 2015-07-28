@@ -14,5 +14,5 @@ public interface Validator {
 	 * 
 	 * @return
 	 */
-	boolean validate(Value<?> value) throws AbstractMetadataException;
+	boolean validate(Value<?> value, Object... params) throws AbstractMetadataException;
 }

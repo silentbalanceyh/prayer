@@ -12,6 +12,8 @@ import com.prayer.kernel.Value;
 
 import jodd.json.JsonException;
 import jodd.json.JsonParser;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * Internal Format：Json格式验证器
@@ -19,6 +21,7 @@ import jodd.json.JsonParser;
  * @author Lang
  *
  */
+@Guarded
 public class JsonValidator implements Validator {
 	// ~ Static Fields =======================================
 	/** **/
@@ -32,8 +35,9 @@ public class JsonValidator implements Validator {
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/** **/
 	@Override
-	public boolean validate(Value<?> value) throws AbstractMetadataException {
+	public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractMetadataException {
 		boolean ret = false;
 		if (null == value) {
 			ret = true;
@@ -43,7 +47,7 @@ public class JsonValidator implements Validator {
 				ret = true;
 			} catch (JsonException ex) {
 				info(LOGGER, "[E] Json Format Error! Output = " + value.literal(), ex);
-				throw new ContentErrorException(getClass(),"Json",value.literal());
+				throw new ContentErrorException(getClass(), "Json", value.literal());
 			}
 
 		}

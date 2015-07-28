@@ -15,11 +15,16 @@ import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.ScriptType;
 
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+
 /**
  * Internal Format：Script格式验证器
+ * 
  * @author Lang
  *
  */
+@Guarded
 public class ScriptValidator implements Validator {
 	// ~ Static Fields =======================================
 	/** **/
@@ -35,7 +40,7 @@ public class ScriptValidator implements Validator {
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	public boolean validate(final Value<?> value) throws AbstractMetadataException {
+	public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractMetadataException {
 		boolean ret = false;
 		if (null == value) {
 			ret = true;
@@ -45,7 +50,7 @@ public class ScriptValidator implements Validator {
 				ret = true;
 			} catch (ScriptException ex) {
 				info(LOGGER, "[E] Script error! Output = " + value, ex);
-				throw new ContentErrorException(getClass(),"JavaScript",value.literal());
+				throw new ContentErrorException(getClass(), "JavaScript", value.literal());
 			}
 		}
 		return ret;

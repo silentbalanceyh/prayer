@@ -3,6 +3,7 @@ package com.prayer.util;
 import static com.prayer.util.Error.info;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ConcurrentMap;
 
@@ -30,7 +31,6 @@ public final class Instance {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(Instance.class);
-	
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -121,6 +121,30 @@ public final class Instance {
 			ret = Class.forName(className);
 		} catch (ClassNotFoundException ex) {
 			info(LOGGER, "[E] Class Not found: " + className, ex);
+		}
+		return ret;
+	}
+
+	/**
+	 * 获取instance中field的信息
+	 * 
+	 * @param instance
+	 * @param name
+	 * @return
+	 */
+	public static <T extends Object> T field(@NotNull final Object instance,
+			@NotNull @NotBlank @NotEmpty final String name) {
+		T ret = null;
+		final Class<?> clazz = instance.getClass();
+		try {
+			final Field field = clazz.getDeclaredField(name);
+			// 打开属性访问标记
+			if (null != field) {
+				field.setAccessible(true);
+			}
+			ret = (T) field.get(instance);
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex) {
+			info(LOGGER, "[E] Field get exception: Class = " + clazz.getName() + ",Field = " + name, ex);
 		}
 		return ret;
 	}
