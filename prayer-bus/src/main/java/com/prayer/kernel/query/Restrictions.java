@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.SqlSegment;
 import com.prayer.exception.AbstractMetadataException;
-import com.prayer.exception.database.ProjectionInvalidException;
+import com.prayer.exception.metadata.ProjectionInvalidException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Value;
 

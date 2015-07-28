@@ -1,18 +1,18 @@
-package com.prayer.exception.database;
+package com.prayer.exception.metadata;
 
 import com.prayer.exception.AbstractMetadataException;
 
 /**
- * 使用AND和OR连接Expression时不可连接LeafNode
+ * 【Checked】-11002，在有数据的时候，如果添加NOT NULL字段不允许
  * @author Lang
  *
  */
-public class ProjectionInvalidException extends AbstractMetadataException{
+public class NullableAddException extends AbstractMetadataException{
 	// ~ Static Fields =======================================
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6734581549794307281L;
+	private static final long serialVersionUID = -2883182193513474727L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -20,18 +20,18 @@ public class ProjectionInvalidException extends AbstractMetadataException{
 	/**
 	 * 
 	 * @param clazz
-	 * @param expr
-	 * @param type
+	 * @param column
+	 * @param table
 	 */
-	public ProjectionInvalidException(final Class<?> clazz, final String expr, final String type){
-		super(clazz, -11004, expr, type);
+	public NullableAddException(final Class<?> clazz, final String column, final String table){
+		super(clazz, -11001, column, table);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
 	public int getErrorCode(){
-		return -11004;
+		return -11002;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

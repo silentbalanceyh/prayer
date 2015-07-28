@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.metadata.ContentErrorException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 
@@ -37,7 +38,7 @@ public class XmlValidator implements Validator{
 			ret = true;
 		} catch (DocumentException ex) {
 			info(LOGGER, "[E] Xml Data Format Error! Output = " + value, ex);
-			ret = false;
+			throw new ContentErrorException(getClass(),"Xml",value.literal());
 		}
 		return ret;
 	}

@@ -1,17 +1,18 @@
-package com.prayer.exception.database;
+package com.prayer.exception.metadata;
 
 import com.prayer.exception.AbstractMetadataException;
+
 /**
  * 
  * @author Lang
  *
  */
-public class InvalidPKParameterException extends AbstractMetadataException {
+public class MoreThanOneException extends AbstractMetadataException{
 	// ~ Static Fields =======================================
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2040080955697695940L;
+	private static final long serialVersionUID = -6275237200199786236L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -19,21 +20,20 @@ public class InvalidPKParameterException extends AbstractMetadataException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param param
-	 * @param value
 	 * @param table
 	 */
-	public InvalidPKParameterException(final Class<?> clazz, final String param, final String table){
-		super(clazz, -11008, param, table);
+	public MoreThanOneException(final Class<?> clazz, final String table){
+		super(clazz, -11006, table);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/**
 	 * 
+	 * @return
 	 */
 	@Override
 	public int getErrorCode(){
-		return -11008;
+		return -11006;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

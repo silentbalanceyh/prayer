@@ -1,18 +1,17 @@
-package com.prayer.exception.database;
+package com.prayer.exception.metadata;
 
 import com.prayer.exception.AbstractMetadataException;
-
 /**
- * 调用方法出现了Policy不匹配的情况
+ * 
  * @author Lang
  *
  */
-public class PolicyConflictCallException extends AbstractMetadataException{
+public class FieldInvalidException extends AbstractMetadataException{
 	// ~ Static Fields =======================================
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4020476570010818829L;
+	private static final long serialVersionUID = 8391592601758189290L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -20,17 +19,18 @@ public class PolicyConflictCallException extends AbstractMetadataException{
 	/**
 	 * 
 	 * @param clazz
-	 * @param policy
+	 * @param field
+	 * @param identifier
 	 */
-	public PolicyConflictCallException(final Class<?> clazz, final String policy){
-		super(clazz,-11005,policy);
+	public FieldInvalidException(final Class<?> clazz, final String field, final String identifier){
+		super(clazz, -11003, field, identifier);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
 	public int getErrorCode(){
-		return -11005;
+		return -11003;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

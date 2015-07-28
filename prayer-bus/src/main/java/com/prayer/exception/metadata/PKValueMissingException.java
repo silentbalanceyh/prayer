@@ -1,18 +1,17 @@
-package com.prayer.exception.database;
+package com.prayer.exception.metadata;
 
 import com.prayer.exception.AbstractMetadataException;
-
 /**
  * 
  * @author Lang
  *
  */
-public class MoreThanOneException extends AbstractMetadataException{
+public class PKValueMissingException extends AbstractMetadataException{
 	// ~ Static Fields =======================================
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6275237200199786236L;
+	private static final long serialVersionUID = 2638975545160960973L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -20,20 +19,18 @@ public class MoreThanOneException extends AbstractMetadataException{
 	/**
 	 * 
 	 * @param clazz
+	 * @param colName
 	 * @param table
 	 */
-	public MoreThanOneException(final Class<?> clazz, final String table){
-		super(clazz, -11006, table);
+	public PKValueMissingException(final Class<?> clazz, final String colName, final String table){
+		super(clazz, -11007, colName, table);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/**
-	 * 
-	 * @return
-	 */
+	/** **/
 	@Override
 	public int getErrorCode(){
-		return -11006;
+		return -11007;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

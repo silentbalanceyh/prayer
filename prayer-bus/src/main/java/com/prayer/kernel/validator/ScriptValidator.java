@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.metadata.ContentErrorException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.ScriptType;
@@ -44,7 +45,7 @@ public class ScriptValidator implements Validator {
 				ret = true;
 			} catch (ScriptException ex) {
 				info(LOGGER, "[E] Script error! Output = " + value, ex);
-				ret = false;
+				throw new ContentErrorException(getClass(),"JavaScript",value.literal());
 			}
 		}
 		return ret;

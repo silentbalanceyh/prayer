@@ -1,17 +1,18 @@
-package com.prayer.exception.database;
+package com.prayer.exception.metadata;
 
 import com.prayer.exception.AbstractMetadataException;
+
 /**
- * 
+ * 【Checked】-11001，将一个字段从NULL改成NOT NULL时因为该字段本身有null值，所以不可更改
  * @author Lang
  *
  */
-public class FieldInvalidException extends AbstractMetadataException{
+public class NullableAlterException extends AbstractMetadataException{
 	// ~ Static Fields =======================================
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8391592601758189290L;
+	private static final long serialVersionUID = -8643000244105817309L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -19,18 +20,20 @@ public class FieldInvalidException extends AbstractMetadataException{
 	/**
 	 * 
 	 * @param clazz
-	 * @param field
-	 * @param identifier
+	 * @param column
+	 * @param table
 	 */
-	public FieldInvalidException(final Class<?> clazz, final String field, final String identifier){
-		super(clazz, -11003, field, identifier);
+	public NullableAlterException(final Class<?> clazz, final String column, final String table){
+		super(clazz, -11001, column, table);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/** **/
+	/**
+	 * 
+	 */
 	@Override
 	public int getErrorCode(){
-		return -11003;
+		return -11001;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

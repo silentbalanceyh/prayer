@@ -15,7 +15,7 @@ import com.prayer.AbstractDaoTestTool;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractMetadataException;
-import com.prayer.exception.database.PolicyConflictCallException;
+import com.prayer.exception.metadata.PolicyConflictCallException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;

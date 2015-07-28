@@ -1,36 +1,26 @@
-package com.prayer.exception.database;
+package com.prayer.kernel.validator;
 
 import com.prayer.exception.AbstractMetadataException;
+import com.prayer.kernel.Validator;
+import com.prayer.kernel.Value;
+
 /**
- * 
+ * pattern属性验证器
  * @author Lang
  *
  */
-public class PKValueMissingException extends AbstractMetadataException{
+public class PatternValidator implements Validator{
 	// ~ Static Fields =======================================
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2638975545160960973L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param colName
-	 * @param table
-	 */
-	public PKValueMissingException(final Class<?> clazz, final String colName, final String table){
-		super(clazz, -11007, colName, table);
-	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/** **/
 	@Override
-	public int getErrorCode(){
-		return -11007;
+	public boolean validate(Value<?> value) throws AbstractMetadataException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
