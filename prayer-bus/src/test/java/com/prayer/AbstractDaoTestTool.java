@@ -7,8 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.prayer.bus.schema.SchemaService;
-import com.prayer.bus.schema.impl.SchemaSevImpl;
+import com.prayer.bus.SchemaService;
+import com.prayer.bus.impl.SchemaSevImpl;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.record.RecordDao;

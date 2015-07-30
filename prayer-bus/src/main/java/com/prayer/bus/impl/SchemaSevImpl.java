@@ -1,4 +1,4 @@
-package com.prayer.bus.schema.impl;
+package com.prayer.bus.impl;
 
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.reservoir;
@@ -7,7 +7,7 @@ import static com.prayer.util.Instance.singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.schema.SchemaService;
+import com.prayer.bus.SchemaService;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.MemoryPool;
 import com.prayer.exception.AbstractSchemaException;

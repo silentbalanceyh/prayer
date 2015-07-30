@@ -1,4 +1,4 @@
-package com.prayer.bus.schema;
+package com.prayer.bus;
 
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
