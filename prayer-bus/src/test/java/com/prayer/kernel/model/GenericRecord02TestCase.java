@@ -1,5 +1,7 @@
 package com.prayer.kernel.model;
 
+import static com.prayer.util.Instance.instance;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -8,10 +10,9 @@ import org.slf4j.LoggerFactory;
 import com.prayer.AbstractDaoTestTool;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.validator.PatternFailureException;
 import com.prayer.kernel.Record;
-import com.prayer.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.type.StringType;
 
 /**
  * 
@@ -26,8 +27,6 @@ public class GenericRecord02TestCase extends AbstractDaoTestTool { // NOPMD
 	private static final String DB_CATEGORY = "MSSQL";
 	/** **/
 	private static final String IDENTIFIER = "tst.mod.dao8";
-	/** **/
-	private static final Value<?> STR_VAL = new StringType("");
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -65,9 +64,9 @@ public class GenericRecord02TestCase extends AbstractDaoTestTool { // NOPMD
 
 	// ~ Methods =============================================
 	/** **/
-	@Test
-	public void testT05059Mset() throws AbstractMetadataException{
-		final Record record = this.getRecord(IDENTIFIER);
+	@Test(expected = PatternFailureException.class)
+	public void testT05059Mset() throws AbstractMetadataException {
+		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
 		record.set("uk1", "Validator");
 	}
 	// ~ Private Methods =====================================

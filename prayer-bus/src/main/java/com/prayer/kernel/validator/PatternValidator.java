@@ -15,8 +15,8 @@ import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
 
-import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.NotNull;
+import net.sf.oval.constraint.Size;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -41,7 +41,7 @@ public class PatternValidator implements Validator {
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	public boolean validate(@NotNull final Value<?> value, @NotNull @Length(min = 1, max = 1) final Object... params)
+	public boolean validate(@NotNull final Value<?> value, @NotNull @Size(min = 1, max = 1) final Object... params)
 			throws AbstractMetadataException {
 		// 冲突
 		if (!Arrays.asList(T_REQUIRED).contains(value.getDataType())) {
