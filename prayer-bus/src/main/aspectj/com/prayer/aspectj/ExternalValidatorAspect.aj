@@ -27,14 +27,16 @@ public aspect ExternalValidatorAspect extends AbstractValidatorAspect {
 	// ~ Point Cut Implementation ============================
 	/** 针对pattern拦截点的实现，需要抛出异常信息 **/
 	after(final String field, final Value<?> value) throws AbstractMetadataException: ValidatorPointCut(field,value){
-		// 7.获取被拦截的字段的Schema
+		// 1.获取被拦截的字段的Schema
 		final FieldModel schema = this.getField(thisJoinPoint.getTarget(), field);
-		// 2.获取Validator名称
-		final String validatorClass = schema.getValidator();
-		if (StringKit.isNonNil(validatorClass)) {
-			final Validator validator = singleton(validatorClass);
-			if (!validator.validate(value)) {
-				throw new CustomValidatorException(getClass(), validatorClass);
+		if (null != schema) {
+			// 2.获取Validator名称
+			final String validatorClass = schema.getValidator();
+			if (StringKit.isNonNil(validatorClass)) {
+				final Validator validator = singleton(validatorClass);
+				if (!validator.validate(value)) {
+					throw new CustomValidatorException(getClass(), validatorClass);
+				}
 			}
 		}
 	}
