@@ -13,8 +13,11 @@ import com.prayer.util.Instance;
 public abstract class AbstractValidatorAspect {
 	// ~ Static Fields =======================================
 	/** 符合该验证器的属性 **/
-	protected static final DataType[] T_PATTERNS = new DataType[] { DataType.STRING, DataType.XML, DataType.JSON,
+	protected static final DataType[] T_TEXT = new DataType[] { DataType.STRING, DataType.XML, DataType.JSON,
 			DataType.SCRIPT };
+	/** 数值类型 **/
+	protected static final DataType[] T_NUMBER = new DataType[] { DataType.INT, DataType.LONG};
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -23,10 +26,10 @@ public abstract class AbstractValidatorAspect {
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	/** **/
-	protected FieldModel getField(final Object instance, final String field){
-		final GenericSchema schema = Instance.field(instance,"_schema");
+	protected FieldModel getField(final Object instance, final String field) {
+		final GenericSchema schema = Instance.field(instance, "_schema");
 		FieldModel fieldSchema = null;
-		if(null != schema && null != field){
+		if (null != schema && null != field) {
 			fieldSchema = schema.getFields().get(field);
 		}
 		return fieldSchema;

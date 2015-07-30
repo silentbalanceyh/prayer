@@ -23,14 +23,13 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class MinLengthValidator implements Validator {
+public class MinValidator implements Validator {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(MinLengthValidator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MinValidator.class);
 	/** 符合该验证器的属性 **/
-	// TODO: 等待加入Binary验证
-	private static final DataType[] T_REQUIRED = new DataType[] { DataType.STRING, DataType.XML, DataType.JSON,
-			DataType.SCRIPT };
+	// TODO：等待加入Date验证
+	private static final DataType[] T_REQUIRED = new DataType[] { DataType.INT, DataType.LONG };
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -44,22 +43,23 @@ public class MinLengthValidator implements Validator {
 			throws AbstractMetadataException {
 		// 类型冲突
 		if (!Arrays.asList(T_REQUIRED).contains(value.getDataType())) {
-			throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "minLength");
+			throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "min");
 		}
 		boolean ret = false;
 		if (null != params[0]) {
-			final int length = value.literal().length();
-			final int minLength = Integer.parseInt(params[0].toString());
-			if (minLength <= length) {
-				ret = true;
-			} else {
+			final Long minValue = Long.parseLong(params[0].toString());
+			final Long range = Long.parseLong(value.getValue().toString());
+			if (range < minValue) {
 				ret = false;
+			} else {
+				ret = true;
 			}
 		} else {
 			info(LOGGER, "[E] Param[0] is null and execution error!");
 		}
 		return ret;
 	}
+
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

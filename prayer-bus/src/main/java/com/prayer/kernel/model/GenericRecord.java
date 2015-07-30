@@ -2,7 +2,6 @@ package com.prayer.kernel.model;
 
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
-import static com.prayer.util.Instance.instance;
 
 import java.util.List;
 import java.util.Set;
@@ -21,6 +20,7 @@ import com.prayer.exception.metadata.ColumnInvalidException;
 import com.prayer.exception.metadata.FieldInvalidException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
+import com.prayer.kernel.model.Transducer.V;
 import com.prayer.model.h2.FieldModel;
 import com.prayer.model.type.DataType;
 
@@ -91,7 +91,7 @@ public class GenericRecord implements Record { // NOPMD
 			throws AbstractMetadataException {
 		this.verifyField(name);
 		final DataType type = this._schema.getFields().get(name).getType();
-		final Value<?> wrapperValue = instance(type.getClassName(), value);
+		final Value<?> wrapperValue = V.get().getValue(type, value);
 		this.set(name, wrapperValue);
 	}
 

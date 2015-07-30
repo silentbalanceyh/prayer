@@ -9,11 +9,14 @@ import com.prayer.exception.AbstractMetadataException;
 import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;
+import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 import com.prayer.kernel.validator.MaxLengthValidator;
+import com.prayer.kernel.validator.MaxValidator;
 import com.prayer.kernel.validator.MinLengthValidator;
+import com.prayer.kernel.validator.MinValidator;
 import com.prayer.kernel.validator.NotNullValidator;
 import com.prayer.kernel.validator.PatternValidator;
 import com.prayer.model.h2.FieldModel;
@@ -25,7 +28,7 @@ import com.prayer.util.StringKit;
  * @author Lang
  *
  */
-public aspect ValidatorsAspect extends AbstractValidatorAspect {
+public aspect InternalValidatorAspect extends AbstractValidatorAspect {
 	// ~ Point Cut ===========================================
 	/**
 	 * 针对pattern的拦截点，因为set(String,String)内部调用了set(String,Value
@@ -44,12 +47,35 @@ public aspect ValidatorsAspect extends AbstractValidatorAspect {
 		this.verifyPattern(schema, value);
 		// 4.Length的验证：minLength和maxLength
 		this.verifyLength(schema, value);
+		// 5.Range的验证：min和max
+		this.verifyRange(schema, value);
 	}
 
 	// ~ Private Methods =====================================
 
+	private void verifyRange(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
+		if (null != schema && (Arrays.asList(T_NUMBER).contains(value.getDataType()))) {
+			final long min = schema.getMin();
+			if (Constants.RANGE != min) {
+				final Validator validator = singleton(MinValidator.class);
+				if (!validator.validate(value, min)) {
+					throw new RangeFailureException(getClass(), "min", schema.getName(), String.valueOf(min),
+							value.literal());
+				}
+			}
+			final long max = schema.getMax();
+			if (Constants.RANGE != max) {
+				final Validator validator = singleton(MaxValidator.class);
+				if (!validator.validate(value, max)) {
+					throw new RangeFailureException(getClass(), "max", schema.getName(), String.valueOf(max),
+							value.literal());
+				}
+			}
+		}
+	}
+
 	private void verifyLength(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
-		if (null != schema && (Arrays.asList(T_PATTERNS).contains(value.getDataType()))) {
+		if (null != schema && (Arrays.asList(T_TEXT).contains(value.getDataType()))) {
 			final int minLength = schema.getMinLength();
 			if (Constants.RANGE != minLength) {
 				final Validator validator = singleton(MinLengthValidator.class);
@@ -83,7 +109,7 @@ public aspect ValidatorsAspect extends AbstractValidatorAspect {
 
 	/** **/
 	private void verifyPattern(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
-		if (null != schema && (Arrays.asList(T_PATTERNS).contains(value.getDataType()))) {
+		if (null != schema && (Arrays.asList(T_TEXT).contains(value.getDataType()))) {
 			final String pattern = schema.getPattern();
 			if (StringKit.isNonNil(pattern)) {
 				final Validator validator = singleton(PatternValidator.class);

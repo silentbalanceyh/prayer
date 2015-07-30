@@ -69,10 +69,10 @@ public class FieldModel implements Serializable { // NOPMD
 	private int minLength = -1;
 	/** C_MIN：数值的最小值 **/
 	@JsonProperty("min")
-	private long min = 0;
+	private long min = -1;
 	/** C_MAX：数值的最大值 **/
 	@JsonProperty("max")
-	private long max = 0;
+	private long max = -1;
 
 	// !数据库Boolean约束数据----------------------------------
 	/** IS_PRIMARY_KEY：当前字段是否主键 **/

@@ -100,14 +100,18 @@
 			"columnName": "T_LONG",
 			"name": "tlong",
 			"type": "LongType",
-			"columnType": "LONG"
+			"columnType": "LONG",
+			"min":4,
+			"max":222
 		},
 
 		{
 			"columnName": "T_INT",
 			"name": "tint",
 			"type": "IntType",
-			"columnType": "INT"
+			"columnType": "INT",
+			"min":4,
+			"max":222
 		},
 
 		{

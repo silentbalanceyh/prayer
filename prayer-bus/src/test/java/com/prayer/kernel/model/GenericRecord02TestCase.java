@@ -13,6 +13,7 @@ import com.prayer.exception.AbstractMetadataException;
 import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;
+import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
 
@@ -88,6 +89,30 @@ public class GenericRecord02TestCase extends AbstractDaoTestTool { // NOPMD
 	public void testT05062Mset() throws AbstractMetadataException{
 		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
 		record.set("muk1", "lang.yu@hp.com");
+	}
+	/** **/
+	@Test(expected = RangeFailureException.class)
+	public void testT05063Mset() throws AbstractMetadataException{
+		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+		record.set("tint","2");
+	}
+	/** **/
+	@Test(expected = RangeFailureException.class)
+	public void testT05064Mset() throws AbstractMetadataException{
+		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+		record.set("tint","20000");
+	}
+	/** **/
+	@Test(expected = RangeFailureException.class)
+	public void testT05065Mset() throws AbstractMetadataException{
+		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+		record.set("tlong","2");
+	}
+	/** **/
+	@Test(expected = RangeFailureException.class)
+	public void testT05066Mset() throws AbstractMetadataException{
+		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+		record.set("tlong","223");
 	}
 	// ~ Private Methods =====================================
 
