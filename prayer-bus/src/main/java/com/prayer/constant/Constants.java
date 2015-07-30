@@ -39,6 +39,8 @@ public interface Constants { // NOPMD
 	// ~ Type Constants ======================================
 	/** 字符串数组类型 **/
 	String[] T_STR_ARR = new String[]{};
+	/** 用于传参数 **/
+	Object[] T_OBJ_ARR = new Object[]{};
 	/** 空集合：仅用于传参 **/
 	Set<String> T_STR_SET = new HashSet<>();
 	/** 空列表 ：仅用于传参 **/
