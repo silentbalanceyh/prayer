@@ -64,7 +64,7 @@ public class DecimalType implements Value<BigDecimal> {
 	/** **/
 	@Override
 	public String literal(){
-		return String.valueOf(this.value.doubleValue());
+		return this.value.toString();
 	}
 
 	// ~ Methods =============================================

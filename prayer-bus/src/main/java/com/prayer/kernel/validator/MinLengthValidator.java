@@ -23,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class MinLengthValidator implements Validator {
+final class MinLengthValidator implements Validator {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MinLengthValidator.class);

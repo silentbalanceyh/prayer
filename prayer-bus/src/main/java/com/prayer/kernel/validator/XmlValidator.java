@@ -21,7 +21,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class XmlValidator implements Validator {
+final class XmlValidator implements Validator {
 
 	// ~ Static Fields =======================================
 	/** **/

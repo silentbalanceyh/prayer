@@ -15,7 +15,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class NotNullValidator implements Validator {
+final class NotNullValidator implements Validator {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================

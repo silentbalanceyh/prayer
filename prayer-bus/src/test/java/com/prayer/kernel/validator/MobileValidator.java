@@ -1,35 +1,33 @@
-package com.prayer.exception.validator;
+package com.prayer.kernel.validator;
 
 import com.prayer.exception.AbstractMetadataException;
+import com.prayer.kernel.Validator;
+import com.prayer.kernel.Value;
+import com.prayer.model.type.DataType;
 
 /**
  * 
  * @author Lang
  *
  */
-public class PrecisionFailureException extends AbstractMetadataException {
+public class MobileValidator implements Validator{
 	// ~ Static Fields =======================================
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3394477319420070931L;
-
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/** **/
-	public PrecisionFailureException(final Class<?> clazz, final String field, final String length,
-			final String precision, final String value) {
-		super(clazz, -12005, field, length, precision, value);
-	}
-
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	public int getErrorCode() {
-		return -12005;
+	public boolean validate(Value<?> value, Object... params) throws AbstractMetadataException {
+		boolean ret = false;
+		if(DataType.STRING == value.getDataType()){
+			if(value.literal().trim().equals("15922611447")){
+				ret = true;
+			}
+		}
+		return ret;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

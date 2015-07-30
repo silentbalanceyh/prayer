@@ -25,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class ScriptValidator implements Validator {
+final class ScriptValidator implements Validator {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScriptType.class);

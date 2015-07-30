@@ -23,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class MaxValidator implements Validator {
+final class MaxValidator implements Validator {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MaxValidator.class);

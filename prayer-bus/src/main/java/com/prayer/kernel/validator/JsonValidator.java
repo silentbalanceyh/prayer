@@ -22,7 +22,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class JsonValidator implements Validator {
+final class JsonValidator implements Validator {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(JsonValidator.class);

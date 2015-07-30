@@ -5,7 +5,6 @@ import static com.prayer.util.Instance.singleton;
 import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
-import com.prayer.kernel.validator.ScriptValidator;
 
 /**
  * 类型：Script格式【默认JavaScript】
@@ -16,7 +15,7 @@ import com.prayer.kernel.validator.ScriptValidator;
 public class ScriptType extends StringType implements Value<String> {
 	// ~ Static Fields =======================================
 	/** **/
-	private transient Validator innerValidator = singleton(ScriptValidator.class);
+	private transient Validator innerValidator = singleton("com.prayer.kernel.validator.ScriptValidator");
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================

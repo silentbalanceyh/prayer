@@ -10,9 +10,11 @@ import org.slf4j.LoggerFactory;
 import com.prayer.AbstractDaoTestTool;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;
+import com.prayer.exception.validator.PrecisionFailureException;
 import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
@@ -113,6 +115,25 @@ public class GenericRecord02TestCase extends AbstractDaoTestTool { // NOPMD
 	public void testT05066Mset() throws AbstractMetadataException{
 		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
 		record.set("tlong","223");
+	}
+	/** **/
+	@Test(expected = PrecisionFailureException.class)
+	public void testT05067Mset() throws AbstractMetadataException{
+		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+		record.set("tdecimal","781111211.34");
+	}
+	/** **/
+	@Test(expected = PrecisionFailureException.class)
+	public void testT05068Mset() throws AbstractMetadataException{
+		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+		record.set("tdecimal","73.3");
+	}
+	
+	/** **/
+	@Test(expected = CustomValidatorException.class)
+	public void testT05069Mset() throws AbstractMetadataException{
+		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+		record.set("tstring","15922611448");
 	}
 	// ~ Private Methods =====================================
 

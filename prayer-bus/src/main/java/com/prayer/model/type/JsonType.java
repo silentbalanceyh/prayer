@@ -5,7 +5,6 @@ import static com.prayer.util.Instance.singleton;
 import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
-import com.prayer.kernel.validator.JsonValidator;
 
 /**
  * 类型: Xml格式的字符串
@@ -16,7 +15,7 @@ import com.prayer.kernel.validator.JsonValidator;
 public class JsonType extends StringType implements Value<String> {
 	// ~ Static Fields =======================================
 	/** **/
-	private transient Validator innerValidator = singleton(JsonValidator.class);
+	private transient Validator innerValidator = singleton("com.prayer.kernel.validator.JsonValidator");
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================

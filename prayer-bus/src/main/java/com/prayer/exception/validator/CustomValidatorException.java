@@ -7,21 +7,20 @@ import com.prayer.exception.AbstractMetadataException;
  * @author Lang
  *
  */
-public class PrecisionFailureException extends AbstractMetadataException {
+public class CustomValidatorException extends AbstractMetadataException {
 	// ~ Static Fields =======================================
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3394477319420070931L;
+	private static final long serialVersionUID = 6815396914443294901L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
-	public PrecisionFailureException(final Class<?> clazz, final String field, final String length,
-			final String precision, final String value) {
-		super(clazz, -12005, field, length, precision, value);
+	public CustomValidatorException(final Class<?> clazz, final String validator) {
+		super(clazz, -12006, validator);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -29,11 +28,10 @@ public class PrecisionFailureException extends AbstractMetadataException {
 	/** **/
 	@Override
 	public int getErrorCode() {
-		return -12005;
+		return -12006;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
-
 }

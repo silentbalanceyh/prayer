@@ -131,7 +131,7 @@ interface Attributes { 	// NOPMD
 	/** **/
 	String RGX_F_REF_ID = RGX_F_COL_NAME;
 	/** **/
-	String RGX_F_VALIDATOR = "[a-z]+(\\.[a-z])*(\\.[A-Z]{1}[a-zA-Z0-9]+)";
+	String RGX_F_VALIDATOR = "[a-z]+(\\.[a-z]+)*(\\.[A-Z]{1}[a-zA-Z0-9]+)";
 	/** **/
 	String RGX_F_PK = "((true|false){1})|((TRUE|FALSE){1})";
 	/** **/
