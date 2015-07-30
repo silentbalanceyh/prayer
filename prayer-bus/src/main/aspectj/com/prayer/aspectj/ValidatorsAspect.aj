@@ -47,21 +47,23 @@ public aspect ValidatorsAspect extends AbstractValidatorAspect {
 	}
 
 	// ~ Private Methods =====================================
-	
-	private void verifyLength(final FieldModel schema, final Value<?> value) throws AbstractMetadataException{
-		if(null != schema && (Arrays.asList(T_PATTERNS).contains(value.getDataType()))){
+
+	private void verifyLength(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
+		if (null != schema && (Arrays.asList(T_PATTERNS).contains(value.getDataType()))) {
 			final int minLength = schema.getMinLength();
-			if(Constants.RANGE != minLength){
+			if (Constants.RANGE != minLength) {
 				final Validator validator = singleton(MinLengthValidator.class);
-				if(!validator.validate(value,minLength)){
-					throw new LengthFailureException(getClass(), "min", schema.getName(), String.valueOf(minLength), value.literal());
+				if (!validator.validate(value, minLength)) {
+					throw new LengthFailureException(getClass(), "min", schema.getName(), String.valueOf(minLength),
+							value.literal() + ", Length = " + value.literal().length());
 				}
 			}
 			final int maxLength = schema.getMaxLength();
-			if(Constants.RANGE != maxLength){
+			if (Constants.RANGE != maxLength) {
 				final Validator validator = singleton(MaxLengthValidator.class);
-				if(!validator.validate(value,maxLength)){
-					throw new LengthFailureException(getClass(), "max", schema.getName(), String.valueOf(minLength), value.literal());
+				if (!validator.validate(value, maxLength)) {
+					throw new LengthFailureException(getClass(), "max", schema.getName(), String.valueOf(minLength),
+							value.literal() + ", Length = " + value.literal().length());
 				}
 			}
 		}
@@ -80,8 +82,7 @@ public aspect ValidatorsAspect extends AbstractValidatorAspect {
 	}
 
 	/** **/
-	private void verifyPattern(final FieldModel schema, final Value<?> value)
-			throws AbstractMetadataException {
+	private void verifyPattern(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
 		if (null != schema && (Arrays.asList(T_PATTERNS).contains(value.getDataType()))) {
 			final String pattern = schema.getPattern();
 			if (StringKit.isNonNil(pattern)) {

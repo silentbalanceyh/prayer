@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.AbstractDaoTestTool;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;
 import com.prayer.kernel.Record;
@@ -75,6 +76,18 @@ public class GenericRecord02TestCase extends AbstractDaoTestTool { // NOPMD
 	public void testT05060Mset() throws AbstractMetadataException{
 		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
 		record.set("uk1", "");
+	}
+	/** **/
+	@Test(expected = LengthFailureException.class)
+	public void testT05061Mset() throws AbstractMetadataException{
+		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+		record.set("muk1", "tst");
+	}
+	/** **/
+	@Test(expected = LengthFailureException.class)
+	public void testT05062Mset() throws AbstractMetadataException{
+		final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+		record.set("muk1", "lang.yu@hp.com");
 	}
 	// ~ Private Methods =====================================
 
