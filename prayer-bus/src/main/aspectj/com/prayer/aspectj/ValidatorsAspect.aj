@@ -6,11 +6,14 @@ import java.util.Arrays;
 
 import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
+import com.prayer.kernel.validator.MaxLengthValidator;
+import com.prayer.kernel.validator.MinLengthValidator;
 import com.prayer.kernel.validator.NotNullValidator;
 import com.prayer.kernel.validator.PatternValidator;
 import com.prayer.model.h2.FieldModel;
@@ -38,11 +41,31 @@ public aspect ValidatorsAspect extends AbstractValidatorAspect {
 		// 2.Nullable的验证
 		this.verifyNullable(schema, value);
 		// 3.Pattern的验证
-		this.verifyPattern(schema, field, value);
-
+		this.verifyPattern(schema, value);
+		// 4.Length的验证：minLength和maxLength
+		this.verifyLength(schema, value);
 	}
 
 	// ~ Private Methods =====================================
+	
+	private void verifyLength(final FieldModel schema, final Value<?> value) throws AbstractMetadataException{
+		if(null != schema && (Arrays.asList(T_PATTERNS).contains(value.getDataType()))){
+			final int minLength = schema.getMinLength();
+			if(Constants.RANGE != minLength){
+				final Validator validator = singleton(MinLengthValidator.class);
+				if(!validator.validate(value,minLength)){
+					throw new LengthFailureException(getClass(), "min", schema.getName(), String.valueOf(minLength), value.literal());
+				}
+			}
+			final int maxLength = schema.getMaxLength();
+			if(Constants.RANGE != maxLength){
+				final Validator validator = singleton(MaxLengthValidator.class);
+				if(!validator.validate(value,maxLength)){
+					throw new LengthFailureException(getClass(), "max", schema.getName(), String.valueOf(minLength), value.literal());
+				}
+			}
+		}
+	}
 
 	private void verifyNullable(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
 		if (null != schema) {
@@ -57,14 +80,14 @@ public aspect ValidatorsAspect extends AbstractValidatorAspect {
 	}
 
 	/** **/
-	private void verifyPattern(final FieldModel schema, final String field, final Value<?> value)
+	private void verifyPattern(final FieldModel schema, final Value<?> value)
 			throws AbstractMetadataException {
-		if (null != schema) {
+		if (null != schema && (Arrays.asList(T_PATTERNS).contains(value.getDataType()))) {
 			final String pattern = schema.getPattern();
-			if (StringKit.isNonNil(pattern) && (Arrays.asList(T_PATTERNS).contains(value.getDataType()))) {
+			if (StringKit.isNonNil(pattern)) {
 				final Validator validator = singleton(PatternValidator.class);
 				if (!validator.validate(value, pattern)) {
-					throw new PatternFailureException(getClass(), value.literal(), field, pattern);
+					throw new PatternFailureException(getClass(), value.literal(), schema.getName(), pattern);
 				}
 			}
 		}

@@ -73,7 +73,9 @@
 			"columnType": "STRING1",
 			"unique": false,
 			"nullable": false,
-			"length": 256
+			"length": 256,
+			"maxLength": 10,
+			"minLength": 4
 		},
 
 		{
