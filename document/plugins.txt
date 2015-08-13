@@ -6,3 +6,4 @@ http://update.eclemma.org/
 http://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/
 4.JBoss
 http://download.jboss.org/jbosstools/updates/stable/luna/
+
