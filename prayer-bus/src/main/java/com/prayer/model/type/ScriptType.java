@@ -15,7 +15,7 @@ import com.prayer.kernel.Value;
 public class ScriptType extends StringType implements Value<String> {
 	// ~ Static Fields =======================================
 	/** **/
-	private transient Validator innerValidator = singleton("com.prayer.kernel.validator.ScriptValidator");
+	private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.ScriptValidator");
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================

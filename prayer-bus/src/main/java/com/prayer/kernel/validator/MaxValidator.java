@@ -23,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class MaxValidator implements Validator {
+final class MaxValidator implements Validator { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MaxValidator.class);
@@ -46,7 +46,9 @@ final class MaxValidator implements Validator {
 			throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "min");
 		}
 		boolean ret = false;
-		if (null != params[0]) {
+		if (null == params[0]) {
+			info(LOGGER, "[E] Param[0] is null and execution error!");
+		} else {
 			final Long maxValue = Long.parseLong(params[0].toString());
 			final Long range = Long.parseLong(value.getValue().toString());
 			if (maxValue < range) {
@@ -54,8 +56,6 @@ final class MaxValidator implements Validator {
 			} else {
 				ret = true;
 			}
-		} else {
-			info(LOGGER, "[E] Param[0] is null and execution error!");
 		}
 		return ret;
 	}

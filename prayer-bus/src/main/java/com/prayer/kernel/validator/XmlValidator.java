@@ -21,7 +21,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class XmlValidator implements Validator {
+final class XmlValidator implements Validator {	// NOPMD
 
 	// ~ Static Fields =======================================
 	/** **/
@@ -42,7 +42,7 @@ final class XmlValidator implements Validator {
 			ret = true;
 		} catch (DocumentException ex) {
 			info(LOGGER, "[E] Xml Data Format Error! Output = " + value, ex);
-			throw new ContentErrorException(getClass(), "Xml", value.literal());
+			throw new ContentErrorException(getClass(), "Xml", value.literal());	// NOPMD
 		}
 		return ret;
 	}

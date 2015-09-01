@@ -23,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class MaxLengthValidator implements Validator {
+final class MaxLengthValidator implements Validator {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MaxLengthValidator.class);
@@ -46,7 +46,9 @@ final class MaxLengthValidator implements Validator {
 			throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "maxLength");
 		}
 		boolean ret = false;
-		if (null != params[0]) {
+		if (null == params[0]) {
+			info(LOGGER, "[E] Param[0] is null and execution error!");
+		} else {
 			final int length = value.literal().length();
 			final int maxLength = Integer.parseInt(params[0].toString());
 			if (length <= maxLength) {
@@ -54,8 +56,6 @@ final class MaxLengthValidator implements Validator {
 			} else {
 				ret = false;
 			}
-		} else {
-			info(LOGGER, "[E] Param[0] is null and execution error!");
 		}
 		return ret;
 	}

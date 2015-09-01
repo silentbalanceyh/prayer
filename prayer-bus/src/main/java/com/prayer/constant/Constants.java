@@ -45,4 +45,12 @@ public interface Constants { // NOPMD
 	Set<String> T_STR_SET = new HashSet<>();
 	/** 空列表 ：仅用于传参 **/
 	List<String> T_STR_LST = new ArrayList<>();
+	
+	// ~ Spec Literal ========================================
+	/** Json空对象 **/
+	String EMPTY_JOBJ = "{}";
+	/** Json空数组 **/
+	String EMPTY_JARR = "[]";
+	/** String空字符串 **/
+	String EMPTY_STR = "";
 }

@@ -19,7 +19,7 @@ import com.prayer.model.type.XmlType;
  * @author Lang
  *
  */
-final class ValueTransducer implements Transducer {
+final class ValueTransducer implements Transducer {	// NOPMD
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -29,7 +29,7 @@ final class ValueTransducer implements Transducer {
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	public Value<?> getValue(DataType type, String value) throws AbstractMetadataException{
+	public Value<?> getValue(final DataType type, final String value) throws AbstractMetadataException{	// NOPMD
 		Value<?> ret = null;
 		switch (type) {
 		case BOOLEAN:

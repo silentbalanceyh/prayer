@@ -24,7 +24,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class PrecisionValidator implements Validator {
+final class PrecisionValidator implements Validator {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(PrecisionValidator.class);
@@ -44,7 +44,9 @@ final class PrecisionValidator implements Validator {
 			throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "precision");
 		}
 		boolean ret = false;
-		if (null != params[0] && null != params[1]) {
+		if (null == params[0] || null == params[1]) {
+			info(LOGGER, "[E] Param[0] or Param[1] is null and execution error!");
+		} else {
 			final BigDecimal currentValue = (BigDecimal) value.getValue();
 			if (currentValue.scale() == Integer.parseInt(params[0].toString())
 					&& currentValue.precision() <= Integer.parseInt(params[1].toString())) {
@@ -52,8 +54,6 @@ final class PrecisionValidator implements Validator {
 			} else {
 				ret = false;
 			}
-		} else {
-			info(LOGGER, "[E] Param[0] is null and execution error!");
 		}
 		return ret;
 	}
@@ -62,12 +62,4 @@ final class PrecisionValidator implements Validator {
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
-	public static void main(String args[]) {
-		BigDecimal big1 = new BigDecimal("3.145");
-		BigDecimal big2 = new BigDecimal("35");
-		System.out.println(big1.precision());
-		System.out.println(big1.scale());
-		System.out.println(big2.precision());
-		System.out.println(big2.scale());
-	}
 }

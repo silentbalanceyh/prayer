@@ -23,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class MinLengthValidator implements Validator {
+final class MinLengthValidator implements Validator {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(MinLengthValidator.class);
@@ -47,7 +47,9 @@ final class MinLengthValidator implements Validator {
 			throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "minLength");
 		}
 		boolean ret = false;
-		if (null != params[0]) {
+		if (null == params[0]) {
+			info(LOGGER, "[E] Param[0] is null and execution error!");
+		} else {
 			final int length = value.literal().length();
 			final int minLength = Integer.parseInt(params[0].toString());
 			if (minLength <= length) {
@@ -55,8 +57,6 @@ final class MinLengthValidator implements Validator {
 			} else {
 				ret = false;
 			}
-		} else {
-			info(LOGGER, "[E] Param[0] is null and execution error!");
 		}
 		return ret;
 	}

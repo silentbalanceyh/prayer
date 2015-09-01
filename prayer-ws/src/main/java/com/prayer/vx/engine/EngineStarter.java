@@ -1,38 +1,24 @@
-package com.prayer.kernel.validator;
-
-import com.prayer.exception.AbstractMetadataException;
-import com.prayer.kernel.Validator;
-import com.prayer.kernel.Value;
-import com.prayer.util.StringKit;
-
-import net.sf.oval.constraint.MinSize;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-
+package com.prayer.vx.engine;
 /**
- * 
+ * Prayer启动器，整个Prayer Framework的入口程序
  * @author Lang
  *
  */
-@Guarded
-final class NotNullValidator implements Validator {	// NOPMD
+public class EngineStarter {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/**
+	 * 
+	 * @param args
+	 */
+	public static void main(final String args[]){
+		
+	}
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public boolean validate(@NotNull final Value<?> value, @NotNull @MinSize(0) final Object... params)
-			throws AbstractMetadataException {
-		boolean ret = false;
-		if (null != value.getValue() && StringKit.isNonNil(value.getValue().toString())) {
-			ret = true;
-		}
-		return ret;
-	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

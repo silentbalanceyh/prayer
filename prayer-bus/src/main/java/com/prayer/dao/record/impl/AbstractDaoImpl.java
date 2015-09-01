@@ -258,17 +258,13 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * @throws AbstractMetadataException
 	 */
 	protected void interrupt(@NotNull final MetaPolicy policy, final boolean isMulti) throws AbstractMetadataException {
-		if (isMulti) {
-			if (MetaPolicy.COLLECTION != policy) {
-				debug(LOGGER, "Multi = true, policy must be COLLECTION");
-				throw new PolicyConflictCallException(getClass(), policy.toString());
-			}
+		if (isMulti && MetaPolicy.COLLECTION != policy) {
+			debug(LOGGER, "Multi = true, policy must be COLLECTION");
+			throw new PolicyConflictCallException(getClass(), policy.toString());
 		}
-		if (!isMulti) {
-			if (MetaPolicy.COLLECTION == policy) {
-				debug(LOGGER, "Multi = false, policy must not be COLLECTION");
-				throw new PolicyConflictCallException(getClass(), policy.toString());
-			}
+		if (!isMulti && MetaPolicy.COLLECTION == policy) {
+			debug(LOGGER, "Multi = false, policy must not be COLLECTION");
+			throw new PolicyConflictCallException(getClass(), policy.toString());
 		}
 	}
 	// ~ Get/Set =============================================

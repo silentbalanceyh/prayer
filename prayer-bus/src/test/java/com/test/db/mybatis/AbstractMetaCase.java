@@ -18,11 +18,13 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.model.h2.FieldModel;
 import com.prayer.model.h2.KeyModel;
 import com.prayer.model.h2.MetaModel;
+import com.prayer.model.h2.vx.VerticleModel;
 import com.prayer.model.type.DataType;
 import com.prayer.schema.db.FieldMapper;
 import com.prayer.schema.db.KeyMapper;
 import com.prayer.schema.db.MetaMapper;
 import com.prayer.schema.db.SessionManager;
+import com.prayer.schema.db.VerticleMapper;
 
 /**
  * 
@@ -75,7 +77,8 @@ public class AbstractMetaCase {
 	private transient final MetaMapper metaMapper;
 	/** **/
 	private transient final FieldMapper fieldMapper;
-
+	/** **/
+	private transient final VerticleMapper verticleMapper;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -86,11 +89,12 @@ public class AbstractMetaCase {
 			keyMapper = null;
 			metaMapper = null;
 			fieldMapper = null;
+			verticleMapper = null;
 		} else {
 			keyMapper = _session.getMapper(KeyMapper.class);
 			metaMapper = _session.getMapper(MetaMapper.class);
 			fieldMapper = _session.getMapper(FieldMapper.class);
-
+			verticleMapper = _session.getMapper(VerticleMapper.class);
 		}
 	}
 
@@ -117,7 +121,53 @@ public class AbstractMetaCase {
 	protected FieldMapper getFieldMapper() {
 		return this.fieldMapper;
 	}
-
+	/** **/
+	protected VerticleMapper getVerticleMapper(){
+		return this.verticleMapper;
+	}
+	/**
+	 * 
+	 * @param uniqueId
+	 * @return
+	 */
+	protected VerticleModel getVerticle(final String uniqueId){
+		VerticleModel verticle;
+		if(null == uniqueId){
+			verticle = new VerticleModel();
+			verticle.setUniqueId(uuid());
+		}else{
+			verticle = this.verticleMapper.selectById(uniqueId);
+			this._session.commit();
+		}
+		verticle.setGroup("GROUP-" + uuid());
+		verticle.setName("CLASS-" + uuid());
+		verticle.setInstances(index(10) + 1);
+		verticle.setJsonConfig(uuid());
+		verticle.setIsolatedClasses(genValues("ISOLATEDCLS-"));
+		verticle.setExtraCp(genValues("EXTRACP-"));
+		verticle.setHa(bool());
+		verticle.setMulti(bool());
+		verticle.setWorker(bool());
+		return verticle;
+	}
+	/**
+	 * 
+	 * @param uniqueIds
+	 * @return
+	 */
+	protected List<VerticleModel> getVerticles(final List<String> uniqueIds){
+		final List<VerticleModel> list = new ArrayList<>();
+		if(null == uniqueIds){
+			for(int i = 0; i < BATCH_SIZE; i++ ){
+				list.add(getVerticle(null));
+			}
+		}else{
+			for(final String uniqueId: uniqueIds){
+				list.add(getVerticle(uniqueId));
+			}
+		}
+		return list;
+	}
 	/**
 	 * 获取一个Key Model
 	 * 
@@ -134,11 +184,7 @@ public class AbstractMetaCase {
 			this._session.commit();
 		}
 		key.setName("NAME-" + uuid());
-		final List<String> columns = new ArrayList<>();
-		for( int i = 0; i < 5; i++ ){
-			columns.add("COLUMNS-" + uuid());
-		}
-		key.setColumns(columns);
+		key.setColumns(genValues("COLUMNS-"));
 		key.setMulti(bool());
 		key.setCategory(KEY_CATEGORIES[index(3)]);
 		return key;
@@ -273,5 +319,13 @@ public class AbstractMetaCase {
 		return list;
 	}
 	// ~ Private Methods =====================================
+	
+	private List<String> genValues(final String prefix){
+		final List<String> values = new ArrayList<>();
+		for( int i = 0; i < 5; i++ ){
+			values.add(prefix + uuid());
+		}
+		return values;
+	}
 	// ~ hashCode,equals,toString ============================
 }

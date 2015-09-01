@@ -25,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class PatternValidator implements Validator {
+final class PatternValidator implements Validator {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(PatternValidator.class);
@@ -49,12 +49,12 @@ final class PatternValidator implements Validator {
 		}
 		boolean ret = false;
 		// 检查Pattern是否符合
-		if (null != params[0]) {
+		if (null == params[0]) {
+			info(LOGGER, "[E] Param[0] is null and execution error !");
+		} else {
 			final Pattern pattern = Pattern.compile(params[0].toString());
 			final Matcher matcher = pattern.matcher(value.literal());
 			ret = matcher.matches();
-		} else {
-			info(LOGGER, "[E] Param[0] is null and execution error !");
 		}
 		return ret;
 	}

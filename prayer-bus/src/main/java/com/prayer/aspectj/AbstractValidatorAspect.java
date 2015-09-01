@@ -10,7 +10,7 @@ import com.prayer.util.Instance;
  * @author Lang
  *
  */
-public abstract class AbstractValidatorAspect {
+public abstract class AbstractValidatorAspect {		// NOPMD
 	// ~ Static Fields =======================================
 	/** 符合该验证器的属性 **/
 	protected static final DataType[] T_TEXT = new DataType[] { DataType.STRING, DataType.XML, DataType.JSON,

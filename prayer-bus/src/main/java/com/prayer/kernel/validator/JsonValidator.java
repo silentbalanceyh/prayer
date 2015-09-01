@@ -22,12 +22,12 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class JsonValidator implements Validator {
+final class JsonValidator implements Validator { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(JsonValidator.class);
 	/** **/
-	private static final JsonParser PARSER = new JsonParser();
+	private transient final JsonParser PARSER = new JsonParser();
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -47,7 +47,7 @@ final class JsonValidator implements Validator {
 				ret = true;
 			} catch (JsonException ex) {
 				info(LOGGER, "[E] Json Format Error! Output = " + value.literal(), ex);
-				throw new ContentErrorException(getClass(), "Json", value.literal());
+				throw new ContentErrorException(getClass(), "Json", value.literal()); // NOPMD
 			}
 
 		}

@@ -19,6 +19,12 @@
 			<artifactId>h2</artifactId>
 			<version>${h2db.version}</version>
 		</dependency>
+		<!-- Vert.X Core -->
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-core</artifactId>
+			<version>${vertx.version}</version>
+		</dependency>
 		<!-- ScriptRunner -->
 		<dependency>
 			<groupId>org.mybatis</groupId>

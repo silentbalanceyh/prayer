@@ -25,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class ScriptValidator implements Validator {
+final class ScriptValidator implements Validator {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScriptType.class);
@@ -50,7 +50,7 @@ final class ScriptValidator implements Validator {
 				ret = true;
 			} catch (ScriptException ex) {
 				info(LOGGER, "[E] Script error! Output = " + value, ex);
-				throw new ContentErrorException(getClass(), "JavaScript", value.literal());
+				throw new ContentErrorException(getClass(), "JavaScript", value.literal());	// NOPMD
 			}
 		}
 		return ret;

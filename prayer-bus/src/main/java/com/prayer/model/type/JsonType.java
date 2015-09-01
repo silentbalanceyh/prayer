@@ -15,7 +15,7 @@ import com.prayer.kernel.Value;
 public class JsonType extends StringType implements Value<String> {
 	// ~ Static Fields =======================================
 	/** **/
-	private transient Validator innerValidator = singleton("com.prayer.kernel.validator.JsonValidator");
+	private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.JsonValidator");
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================

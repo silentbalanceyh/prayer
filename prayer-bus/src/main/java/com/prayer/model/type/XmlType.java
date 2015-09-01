@@ -16,7 +16,7 @@ public class XmlType extends StringType implements Value<String> {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/
-	private transient Validator innerValidator = singleton("com.prayer.kernel.validator.XmlValidator");
+	private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.XmlValidator");
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
