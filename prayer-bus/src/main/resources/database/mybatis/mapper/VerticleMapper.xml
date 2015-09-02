@@ -18,6 +18,9 @@
 		<result column="IS_HA" property="ha" />
 		<result column="IS_WORKER" property="worker" />
 		<result column="IS_MULTI" property="multi" />
+		
+		<result column="DP_ORDER" property="deployOrder"/>
+		<result column="DP_ASYNC" property="deployAsync"/>
 	</resultMap>
 	<insert id="insert" parameterType="Verticle" keyColumn="K_ID"
 		keyProperty="uniqueId">
@@ -32,7 +35,9 @@
 				CP_EXT,
 				IS_HA,
 				IS_WORKER,
-				IS_MULTI
+				IS_MULTI,
+				DP_ORDER,
+				DP_ASYNC
 			) VALUES (
 				#{uniqueId},
 				#{name},
@@ -43,7 +48,9 @@
 				#{extraCp, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
 				#{ha},
 				#{worker},
-				#{multi}
+				#{multi},
+				#{deployOrder},
+				#{deployAsync}
 			)
 		]]>
 	</insert>
@@ -59,7 +66,9 @@
 				CP_EXT,
 				IS_HA,
 				IS_WORKER,
-				IS_MULTI
+				IS_MULTI,
+				DP_ORDER,
+				DP_ASYNC
 			) VALUES
 		]]>
 		<foreach collection="list" item="item" index="index"
@@ -74,7 +83,9 @@
 				#{item.extraCp, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
 				#{item.ha},
 				#{item.worker},
-				#{item.multi}
+				#{item.multi},
+				#{item.deployOrder},
+				#{item.deployAsync}
 			)]]>
 		</foreach>
 	</insert>
@@ -90,7 +101,9 @@
 				CP_EXT=#{extraCp, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
 				IS_HA=#{ha},
 				IS_WORKER=#{worker},
-				IS_MULTI=#{multi}
+				IS_MULTI=#{multi},
+				DP_ORDER=#{deployOrder},
+				DP_ASYNC=#{deployAsync}
 			WHERE K_ID=#{uniqueId}
 		]]>
 	</update>

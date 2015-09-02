@@ -148,6 +148,8 @@ public class AbstractMetaCase {
 		verticle.setHa(bool());
 		verticle.setMulti(bool());
 		verticle.setWorker(bool());
+		verticle.setDeployAsync(bool());
+		verticle.setDeployOrder(index(10) + 1);
 		return verticle;
 	}
 	/**

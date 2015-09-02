@@ -57,6 +57,14 @@ public class VerticleModel implements Serializable {	// NOPMD
 	/** IS_MULTI **/
 	@JsonProperty("multi")
 	private boolean multi = false; // NOPMD
+	
+	// ~ !和发布相关的配置====================================
+	/** DP_ORDER **/
+	@JsonProperty("deployOrder")
+	private long deployOrder = 1L;
+	/** DP_ASYNC **/
+	@JsonProperty("deployAsync")
+	private boolean deployAsync = false;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -206,6 +214,35 @@ public class VerticleModel implements Serializable {	// NOPMD
 	public void setMulti(final boolean multi) {
 		this.multi = multi;
 	}
+	
+	/**
+	 * @return the deployOrder
+	 */
+	public long getDeployOrder() {
+		return deployOrder;
+	}
+
+	/**
+	 * @param deployOrder the deployOrder to set
+	 */
+	public void setDeployOrder(final long deployOrder) {
+		this.deployOrder = deployOrder;
+	}
+
+	/**
+	 * @return the deployAsync
+	 */
+	public boolean isDeployAsync() {
+		return deployAsync;
+	}
+
+	/**
+	 * @param deployAsync the deployAsync to set
+	 */
+	public void setDeployAsync(final boolean deployAsync) {
+		this.deployAsync = deployAsync;
+	}
+
 	// ~ hashCode,equals,toString ============================
 	/**
 	 * 

@@ -28,7 +28,7 @@ public abstract class AbstractMetadataException extends AbstractException{
 	 * @param params
 	 */
 	public AbstractMetadataException(final Class<?> clazz, final int errorCode, final Object... params) {
-		this(error(clazz, errorCode, params));
+		super(error(clazz, errorCode, params));
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
