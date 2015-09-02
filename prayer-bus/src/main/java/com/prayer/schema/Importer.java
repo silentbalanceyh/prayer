@@ -2,6 +2,7 @@ package com.prayer.schema;
 
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
+import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.kernel.model.GenericSchema;
@@ -39,7 +40,7 @@ public interface Importer {
 	 * @return
 	 * @throws DataLoadingException
 	 */
-	boolean syncSchema(GenericSchema schema) throws DataLoadingException;
+	boolean syncSchema(GenericSchema schema) throws AbstractTransactionException;
 	/**
 	 * 刷新数据设置新的filePath
 	 * @param schema

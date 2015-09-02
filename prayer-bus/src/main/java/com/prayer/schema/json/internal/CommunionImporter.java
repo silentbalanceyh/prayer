@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.system.DataLoadingException;
+import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.exception.system.TypeInitException;
 import com.prayer.kernel.model.GenericSchema;
@@ -152,7 +152,7 @@ public class CommunionImporter implements Importer {
 	 */
 	@Override
 	@PreValidateThis
-	public boolean syncSchema(@NotNull final GenericSchema schema) throws DataLoadingException {
+	public boolean syncSchema(@NotNull final GenericSchema schema) throws AbstractTransactionException {
 		GenericSchema retSchema = null;
 		info(LOGGER, "[I] UniqueId = " + schema.getMeta().getUniqueId());
 		if (null == this.schemaDao.getById(schema.getIdentifier())) {

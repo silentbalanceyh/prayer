@@ -1,21 +1,17 @@
 package com.prayer.schema.dao.impl;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Generator.uuid;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.Transaction;
-import org.apache.ibatis.transaction.TransactionFactory;
-import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.system.DataLoadingException;
+import com.prayer.exception.AbstractTransactionException;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.kernel.model.SchemaExpander;
 import com.prayer.model.h2.FieldModel;
@@ -28,9 +24,10 @@ import com.prayer.schema.db.MetaMapper;
 import com.prayer.schema.db.SessionManager;
 import com.prayer.util.StringKit;
 
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -38,11 +35,13 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public class SchemaDaoImpl implements SchemaDao { // NOPMD
+public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOPMD
 
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchemaDaoImpl.class);
+	/** Exception Class **/
+	private static final String EXP_CLASS = "com.prayer.exception.system.DataLoadingException";
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -50,21 +49,24 @@ public class SchemaDaoImpl implements SchemaDao { // NOPMD
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/** 日志记录器 **/
+	@Override
+	public Logger getLogger() {
+		return LOGGER;
+	}
+
 	/** **/
 	@Override
 	@NotNull
-	@PreValidateThis
-	public GenericSchema create(@NotNull final GenericSchema schema) throws DataLoadingException {
+	public GenericSchema create(@NotNull final GenericSchema schema) throws AbstractTransactionException {
 		// 1.数据准备
 		if (StringKit.isNonNil(schema.getMeta().getUniqueId())) {
 			schema.getMeta().setUniqueId(null);
 		}
 		this.prepareData(schema);
 		// 2.开启Mybatis的事务
-		final TransactionFactory tranFactory = new JdbcTransactionFactory();
 		final SqlSession session = SessionManager.getSession();
-		final Transaction transaction = tranFactory.newTransaction(session.getConnection());
-
+		final Transaction transaction = transaction(session);
 		{
 			// 3.MetaModel的导入
 			session.getMapper(MetaMapper.class).insert(schema.getMeta());
@@ -74,26 +76,21 @@ public class SchemaDaoImpl implements SchemaDao { // NOPMD
 			session.getMapper(FieldMapper.class).batchInsert(new ArrayList<>(schema.getFields().values()));
 		}
 		// 6.事务完成提交
-		final DataLoadingException exp = submit(transaction);
-		if (null != exp) {
-			throw exp;
-		}
+		submit(transaction, EXP_CLASS);
 		return schema;
 	}
 
 	/** **/
 	@Override
 	@NotNull
-	@PreValidateThis
-	public GenericSchema synchronize(@NotNull final GenericSchema schema) throws DataLoadingException {
+	public GenericSchema synchronize(@NotNull final GenericSchema schema) throws AbstractTransactionException {
 		// 1.刷新数据库中的Schema数据
 		final GenericSchema latestSchema = this.refreshData(schema);
 		// 2.数据准备
 		this.prepareData(latestSchema);
 		// 3.开启Mybatis的事务
-		final TransactionFactory tranFactory = new JdbcTransactionFactory();
 		final SqlSession session = SessionManager.getSession();
-		final Transaction transaction = tranFactory.newTransaction(session.getConnection());
+		final Transaction transaction = transaction(session);
 		{
 			// 4.MetaModel的更新
 			session.getMapper(MetaMapper.class).update(latestSchema.getMeta());
@@ -107,18 +104,13 @@ public class SchemaDaoImpl implements SchemaDao { // NOPMD
 			fieldMapper.batchInsert(new ArrayList<>(latestSchema.getFields().values()));
 		}
 		// 6.事务完成提交
-		// 6.事务完成提交
-		final DataLoadingException exp = submit(transaction);
-		if (null != exp) {
-			throw exp;
-		}
+		submit(transaction, EXP_CLASS);
 		return latestSchema;
 	}
 
 	/** **/
 	@Override
-	@PreValidateThis
-	public GenericSchema getById(@NotNull final String globalId) {
+	public GenericSchema getById(@NotNull @NotBlank @NotEmpty final String globalId) {
 		// 1.读取Meta
 		final SqlSession session = SessionManager.getSession();
 		final MetaMapper metaMapper = session.getMapper(MetaMapper.class);
@@ -133,12 +125,10 @@ public class SchemaDaoImpl implements SchemaDao { // NOPMD
 	 * 
 	 */
 	@Override
-	@PreValidateThis
-	public boolean deleteById(@NotNull final String identifier) throws DataLoadingException {
+	public boolean deleteById(@NotNull @NotBlank @NotEmpty final String identifier) throws AbstractTransactionException {
 		// 1.开启Mybatis的事务
-		final TransactionFactory tranFactory = new JdbcTransactionFactory();
 		final SqlSession session = SessionManager.getSession();
-		final Transaction transaction = tranFactory.newTransaction(session.getConnection());
+		final Transaction transaction = transaction(session);
 		final GenericSchema schema = this.getById(identifier);
 		final String metaId = schema.getMeta().getUniqueId();
 		// 2.删除Keys
@@ -151,12 +141,8 @@ public class SchemaDaoImpl implements SchemaDao { // NOPMD
 		final MetaMapper metaMapper = session.getMapper(MetaMapper.class);
 		metaMapper.deleteById(metaId);
 		// 6.事务完成提交
-		final DataLoadingException exp = submit(transaction);
-		final boolean ret = null == exp;
-		if (!ret) {
-			throw exp;
-		}
-		return ret;
+		submit(transaction, EXP_CLASS);
+		return true;
 	}
 
 	// ~ Methods =============================================
@@ -195,30 +181,6 @@ public class SchemaDaoImpl implements SchemaDao { // NOPMD
 		schema.setKeys(SchemaExpander.toKeysMap(keys));
 		schema.setFields(SchemaExpander.toFieldsMap(fields));
 		return schema;
-	}
-
-	private DataLoadingException submit(final Transaction transaction) {
-		DataLoadingException throwExp = null;
-		try {
-			transaction.commit();
-		} catch (SQLException ex) {
-			throwExp = new DataLoadingException(getClass(), "Commit");
-			debug(LOGGER, getClass(), "E20005", throwExp, "Commit");
-			try {
-				transaction.rollback();
-			} catch (SQLException exp) {
-				throwExp = new DataLoadingException(getClass(), "Rollback");
-				debug(LOGGER, getClass(), "E20005", throwExp, "Rollback");
-			}
-		} finally {
-			try {
-				transaction.close();
-			} catch (SQLException ex) {
-				throwExp = new DataLoadingException(getClass(), "Close");
-				debug(LOGGER, getClass(), "E20005", throwExp, "Close");
-			}
-		}
-		return throwExp;
 	}
 
 	/**

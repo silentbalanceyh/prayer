@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.system.DataLoadingException;
+import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.schema.Importer;
@@ -90,7 +90,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
 				this.importer.syncSchema(schema);
 			}
 			info(getLogger(),"[T] =======================> Prepare Data Finished! ");
-		} catch (DataLoadingException ex) {
+		} catch (AbstractTransactionException ex) {
 			info(getLogger(), "4.Data Loading Exception. Loading Data... Error : " + ex.getErrorMessage());
 		} catch (SerializationException ex) {
 			info(getLogger(), "3.Serialization Exception. Error : " + ex.getErrorMessage());

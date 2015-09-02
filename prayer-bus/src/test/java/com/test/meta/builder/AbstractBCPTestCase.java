@@ -19,7 +19,7 @@ import com.prayer.db.conn.impl.JdbcConnImpl;
 import com.prayer.exception.AbstractMetadataException;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.system.DataLoadingException;
+import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.kernel.Builder;
 import com.prayer.kernel.Record;
@@ -200,7 +200,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
 			}
 		} catch (SerializationException ex) {
 			info(getLogger(), ex.getErrorMessage(), ex);
-		} catch (DataLoadingException ex) {
+		} catch (AbstractTransactionException ex) {
 			info(getLogger(), ex.getErrorMessage(), ex);
 		} catch (AbstractSystemException ex) {
 			info(getLogger(), ex.getErrorMessage(), ex);

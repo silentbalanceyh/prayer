@@ -1,13 +1,13 @@
 package com.prayer.exception.vertx;
 
-import com.prayer.exception.AbstractVertXException;
+import com.prayer.exception.AbstractTransactionException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class DataAccessException extends AbstractVertXException {
+public class DataAccessException extends AbstractTransactionException {
 	// ~ Static Fields =======================================
 
 	/**
@@ -20,8 +20,8 @@ public class DataAccessException extends AbstractVertXException {
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
-	public DataAccessException(final Class<?> clazz) {
-		super(clazz, -15001);
+	public DataAccessException(final Class<?> clazz, final String process) {
+		super(clazz, -15001, process);
 	}
 
 	// ~ Abstract Methods ====================================

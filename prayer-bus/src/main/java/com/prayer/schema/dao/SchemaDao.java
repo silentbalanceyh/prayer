@@ -1,5 +1,6 @@
 package com.prayer.schema.dao;
 
+import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.kernel.model.GenericSchema;
 
@@ -15,14 +16,14 @@ public interface SchemaDao {
 	 * @return
 	 * @throws DataLoadingException
 	 */
-	GenericSchema create(GenericSchema schema) throws DataLoadingException;
+	GenericSchema create(GenericSchema schema) throws AbstractTransactionException;
 	/**
 	 * 
 	 * @param schema
 	 * @return
 	 * @throws DataLoadingException
 	 */
-	GenericSchema synchronize(GenericSchema schema) throws DataLoadingException;
+	GenericSchema synchronize(GenericSchema schema) throws AbstractTransactionException;
 	/**
 	 * 
 	 * @param identifier
@@ -35,5 +36,5 @@ public interface SchemaDao {
 	 * @return
 	 * @throws DataLoadingException
 	 */
-	boolean deleteById(String identifier) throws DataLoadingException;
+	boolean deleteById(String identifier) throws AbstractTransactionException;
 }

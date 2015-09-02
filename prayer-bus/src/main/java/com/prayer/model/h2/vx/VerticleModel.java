@@ -64,7 +64,7 @@ public class VerticleModel implements Serializable {	// NOPMD
 	private long deployOrder = 1L;
 	/** DP_ASYNC **/
 	@JsonProperty("deployAsync")
-	private boolean deployAsync = false;
+	private boolean deployAsync = false;	// NOPMD
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================

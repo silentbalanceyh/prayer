@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.system.DataLoadingException;
+import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.h2.FieldModel;
@@ -180,7 +180,7 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
 			}
 		} catch (SerializationException ex) {
 			info(getLogger(), "Serialization Exception. ", ex);
-		} catch (DataLoadingException ex) {
+		} catch (AbstractTransactionException ex) {
 			info(getLogger(), "Data Loading Exception. Loading Data...", ex);
 			failure("[T-ERROR] Data Loading Exception. Loading Data...");
 		}

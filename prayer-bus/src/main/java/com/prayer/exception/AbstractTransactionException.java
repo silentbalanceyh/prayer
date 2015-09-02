@@ -1,43 +1,33 @@
-package com.prayer.exception.system;
+package com.prayer.exception;
 
-import com.prayer.exception.AbstractTransactionException;
+import static com.prayer.util.Error.error;
 
 /**
- * 【Checked】Error-20005：Loading Schema异常
  * 
  * @author Lang
  *
  */
-public class DataLoadingException extends AbstractTransactionException {
+public abstract class AbstractTransactionException extends AbstractException {
 	// ~ Static Fields =======================================
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4340358874356913965L;
+	private static final long serialVersionUID = 4040980881677364462L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param process
-	 */
-	public DataLoadingException(final Class<?> clazz, final String process) {
-		super(clazz, -20005, process);
+	/** 特殊数据处理异常 **/
+	public AbstractTransactionException(final Class<?> clazz, final int errorCode, final String process) {
+		super(error(clazz, errorCode, process));
 	}
 
 	// ~ Abstract Methods ====================================
+	/** **/
+	public abstract int getErrorCode();
 	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public int getErrorCode() {
-		return -20005;
-	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

@@ -57,7 +57,13 @@ public interface VerticleMapper {
 	 * @param name
 	 * @return
 	 */
-	List<VerticleModel> selectByName(String name);
+	VerticleModel selectByName(String name);
+	/**
+	 * 
+	 * @param group
+	 * @return
+	 */
+	List<VerticleModel> selectByGroup(String group);
 	/**
 	 * 
 	 * @return

@@ -12,7 +12,7 @@ import com.prayer.constant.Accessors;
 import com.prayer.constant.MemoryPool;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.system.DataLoadingException;
+import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.kernel.Builder;
@@ -75,7 +75,7 @@ public class SchemaSevImpl implements SchemaService {
 			importer.syncSchema(schema);
 			// 5.成功代码
 			result.setResponse(schema, null);
-		} catch (DataLoadingException ex) {
+		} catch (AbstractTransactionException ex) {
 			info(LOGGER, "[I-BUS] 4.Data Loading Exception. Loading Data...", ex);
 			result.setResponse(null, ex);
 		} catch (SerializationException ex) {
@@ -130,7 +130,7 @@ public class SchemaSevImpl implements SchemaService {
 		try {
 			final Boolean ret = this.dao.deleteById(identifier);
 			result.setResponse(ret, null);
-		} catch (DataLoadingException ex) {
+		} catch (AbstractTransactionException ex) {
 			info(LOGGER, "[I-BUS] Removing Schame met error...", ex);
 			result.setResponse(null, ex);
 		}

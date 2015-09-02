@@ -62,7 +62,7 @@ public final class VerticleChain implements Serializable{
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 	/**
