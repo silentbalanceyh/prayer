@@ -59,7 +59,8 @@ public final class PropertyKit {
 		} catch (IOException ex) {
 			debug(LOGGER, "JVM.IO", ex, resource);
 		}
-		// debug(LOGGER, "SYS.KIT.PROP", prop, null == prop ? 0 : prop.hashCode());
+		// debug(LOGGER, "SYS.KIT.PROP", prop, null == prop ? 0 :
+		// prop.hashCode());
 		MemoryPool.POOL_PROP.put(resource, this.prop);
 		// Monitor Pool if debug
 	}
@@ -84,7 +85,12 @@ public final class PropertyKit {
 	@Max(Long.MAX_VALUE)
 	@Min(Long.MIN_VALUE)
 	public long getLong(@NotNull @NotEmpty @NotBlank final String propKey) {
-		return this.getInt(propKey);
+		final String orgValue = this.getString(propKey);
+		long retValue = -1;
+		if (null != orgValue && StringUtil.containsOnlyDigitsAndSigns(orgValue)) {
+			retValue = Long.parseLong(orgValue.trim());
+		}
+		return retValue;
 	}
 
 	/**

@@ -1,11 +1,10 @@
 package com.prayer.vx.engine;
 
+import static com.prayer.util.Instance.singleton;
+
 import com.prayer.exception.AbstractException;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
-import io.vertx.core.impl.VertxFactoryImpl;
-import io.vertx.core.spi.VertxFactory;
 
 /**
  * Prayer启动器，整个Prayer Framework的入口程序
@@ -23,8 +22,8 @@ public class EngineStarter {
 	 */
 	public static void main(final String args[]) throws AbstractException{
 		// 1.构造Vertx整体环境
-		final VertxFactory factory = new VertxFactoryImpl();
-		final Vertx vertx = factory.vertx();
+		final EngineCluster cluster = singleton(EngineCluster.class);
+		final Vertx vertx = cluster.getVertx("PRAYER");
 		// 2.使用Vertx发布配置部署的Verticle
 		final EngineDeployer deployer = new EngineDeployer(vertx);
 		deployer.deploySyncVerticles();

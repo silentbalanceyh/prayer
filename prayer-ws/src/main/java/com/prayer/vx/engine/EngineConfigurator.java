@@ -56,7 +56,6 @@ public class EngineConfigurator {
 		this.service = singleton(ConfigSevImpl.class);
 		this.initDataMap();
 	}
-
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
