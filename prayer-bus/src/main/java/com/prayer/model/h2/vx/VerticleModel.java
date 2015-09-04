@@ -33,10 +33,10 @@ public class VerticleModel implements Serializable {	// NOPMD
 	private String name;
 	/** S_INSTANCES **/
 	@JsonProperty("instances")
-	private long instances = 1L;
+	private int instances = 1;
 	/** S_IGROUP **/
 	@JsonProperty("group")
-	private String group = null;	// NOPMD
+	private String group = Constants.VX_GROUP;	// NOPMD，__DEFAULT__是HA中Group的默认值
 	/** S_JSON_CONFIG **/
 	@JsonProperty("jsonConfig")
 	private String jsonConfig = Constants.EMPTY_JOBJ;	// NOPMD
@@ -62,7 +62,7 @@ public class VerticleModel implements Serializable {	// NOPMD
 	// ~ !和发布相关的配置====================================
 	/** DP_ORDER **/
 	@JsonProperty("deployOrder")
-	private long deployOrder = 1L;
+	private int deployOrder = 1;
 	/** DP_ASYNC **/
 	@JsonProperty("deployAsync")
 	private boolean deployAsync = false;	// NOPMD
@@ -107,14 +107,14 @@ public class VerticleModel implements Serializable {	// NOPMD
 	/**
 	 * @return the instances
 	 */
-	public long getInstances() {
+	public int getInstances() {
 		return instances;
 	}
 
 	/**
 	 * @param instances the instances to set
 	 */
-	public void setInstances(final long instances) {
+	public void setInstances(final int instances) {
 		this.instances = instances;
 	}
 
@@ -219,14 +219,14 @@ public class VerticleModel implements Serializable {	// NOPMD
 	/**
 	 * @return the deployOrder
 	 */
-	public long getDeployOrder() {
+	public int getDeployOrder() {
 		return deployOrder;
 	}
 
 	/**
 	 * @param deployOrder the deployOrder to set
 	 */
-	public void setDeployOrder(final long deployOrder) {
+	public void setDeployOrder(final int deployOrder) {
 		this.deployOrder = deployOrder;
 	}
 

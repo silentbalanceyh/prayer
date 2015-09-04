@@ -2,7 +2,6 @@
 	{
 		"name": "com.prayer.vx.verticle.RouterVerticle",
 		"instances": 100,
-		"group": "Standard",
 		"ha": true,
 		"deployOrder": 1,
 		"deployAsync": false
@@ -11,7 +10,6 @@
 	{
 		"name": "com.prayer.vx.verticle.EntranceVerticle",
 		"instances": 100,
-		"group": "Standard",
 		"ha": true,
 		"deployOrder": 2,
 		"deployAsync": false

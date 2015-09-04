@@ -53,4 +53,8 @@ public interface Constants { // NOPMD
 	String EMPTY_JARR = "[]";
 	/** String空字符串 **/
 	String EMPTY_STR = "";
+	
+	// ~ Vertx Default =======================================
+	/** HA Group Default **/
+	String VX_GROUP = "__DEFAULT__";
 }

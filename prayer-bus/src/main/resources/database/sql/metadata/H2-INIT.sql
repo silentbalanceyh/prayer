@@ -122,7 +122,7 @@ CREATE TABLE EVX_VERTICLE(
 	--主键ID标识符
 	K_ID VARCHAR(192),							--当前Verticle对应的ID标识符
 	S_CLASS VARCHAR(256) NOT NULL,				--当前Verticle的Java类名
-	S_INSTANCES BIGINT							--实例数量
+	S_INSTANCES INT								--实例数量
 		CHECK(S_INSTANCES > 0),
 	S_IGROUP VARCHAR(256),						--Isolation Group信息
 	S_JSON_CONFIG VARCHAR(2000),				--额外的Json配置
@@ -134,9 +134,9 @@ CREATE TABLE EVX_VERTICLE(
 	IS_WORKER BOOLEAN NOT NULL,					--是否是一个Worker
 	IS_MULTI BOOLEAN NOT NULL,					--是否是一个Multi类型的Verticle
 	--创建部署配置
-	DP_ORDER BIGINT								--Deployment Order发布顺序
+	DP_ORDER INT 								--Deployment Order发布顺序
 		CHECK(DP_ORDER > 0),
-	DP_ASYNC BOOLEAN,							--是否执行异步方式的Deployment过程
+	DP_ASYNC BOOLEAN,							--是否执行异步方式的Deployment过程			
 	PRIMARY KEY(K_ID)
 );
 -- EVX_VERTICLE的索引创建
