@@ -1,7 +1,7 @@
 [
 	{
 		"name": "com.prayer.vx.verticle.RouterVerticle",
-		"instances": 100,
+		"instances": 10,
 		"ha": true,
 		"deployOrder": 1,
 		"deployAsync": false
@@ -9,7 +9,7 @@
 
 	{
 		"name": "com.prayer.vx.verticle.MajorVerticle",
-		"instances": 100,
+		"instances": 10,
 		"ha": true,
 		"deployOrder": 2,
 		"deployAsync": false
