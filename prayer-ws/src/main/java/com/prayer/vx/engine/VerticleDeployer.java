@@ -141,7 +141,6 @@ public class VerticleDeployer {
 					throw new VerticleInvalidException(getClass(), className);
 				}
 			}
-
 		}
 	}
 	// ~ Get/Set =============================================

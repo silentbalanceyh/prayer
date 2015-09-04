@@ -1,3 +1,4 @@
+--------------------------------------------------------------------------------------
 -- SYS_META 核心元数据表
 DROP TABLE IF EXISTS SYS_META;
 CREATE TABLE SYS_META(
@@ -5,21 +6,21 @@ CREATE TABLE SYS_META(
 	K_ID VARCHAR(192),							-- Meta元素ID标识符，GUID格式
 	-- 模型的配置属性
 	C_OOBDATA_FILE VARCHAR(256),				-- OOB数据文件目录，CSV文件
-	C_IN_USE BOOLEAN NOT NULL, 				-- 是否正在使用
+	C_IN_USE BOOLEAN NOT NULL, 					-- 是否正在使用
 	-- 模型的配置属性
-	S_NAME VARCHAR(256) NOT NULL, 			-- 模型名称
-	S_NAMESPACE VARCHAR(256) NOT NULL,		-- 模型名空间
+	S_NAME VARCHAR(256) NOT NULL, 				-- 模型名称
+	S_NAMESPACE VARCHAR(256) NOT NULL,			-- 模型名空间
 	S_CATEGORY CHAR(8) NOT NULL 				-- ENTITY | RELATION
 		CHECK(S_CATEGORY = 'ENTITY' OR S_CATEGORY='RELATION'),				
-	S_GLOBAL_ID VARCHAR(256) NOT NULL UNIQUE,-- Global ID
-	S_MAPPING CHAR(10) NOT NULL				-- DIRECT | COMBINATED | PARTIAL
+	S_GLOBAL_ID VARCHAR(256) NOT NULL UNIQUE,	-- Global ID
+	S_MAPPING CHAR(10) NOT NULL					-- DIRECT | COMBINATED | PARTIAL
 		CHECK(S_MAPPING = 'DIRECT' OR S_MAPPING='COMBINATED' OR S_MAPPING='PARTIAL'),
 	S_POLICY CHAR(10) NOT NULL					-- GUID | INCREMENT | ASSIGNED | COLLECTION		
 		CHECK(S_POLICY = 'GUID' OR S_POLICY='INCREMENT' OR S_POLICY='ASSIGNED' OR S_POLICY='COLLECTION'),
 	-- 数据库属性
-	D_TABLE VARCHAR(256) NOT NULL,			-- 数据库表名
+	D_TABLE VARCHAR(256) NOT NULL,				-- 数据库表名
 	D_SUB_TABLE VARCHAR(256),					-- 数据库子表名
-	D_SUB_KEY VARCHAR(256),					-- 数据库子表ID
+	D_SUB_KEY VARCHAR(256),						-- 数据库子表ID
 	D_SEQ_NAME VARCHAR(256),					-- Oracle中使用的序列名
 	D_SEQ_STEP INT								-- 如果使用自增长则表示自增长的梯度
 		CHECK(D_SEQ_STEP > 0),
@@ -37,6 +38,7 @@ CREATE INDEX IDX_META_MAPPING ON SYS_META(S_MAPPING);
 CREATE INDEX IDX_META_POLICY ON SYS_META(S_POLICY);
 CREATE INDEX IDX_META_IN_USE ON SYS_META(C_IN_USE);
 
+--------------------------------------------------------------------------------------
 -- SYS_KEY 核心键值表
 DROP TABLE IF EXISTS SYS_KEYS;
 CREATE TABLE SYS_KEYS(
@@ -45,10 +47,10 @@ CREATE TABLE SYS_KEYS(
 	S_NAME VARCHAR(256) NOT NULL,				-- 系统键名称
 	S_CATEGORY CHAR(10) NOT NULL				-- 键的类型
 		CHECK(S_CATEGORY = 'PrimaryKey' OR S_CATEGORY = 'ForeignKey' OR S_CATEGORY='UniqueKey'),
-	IS_MULTI BOOLEAN NOT NULL,				-- 是否跨字段
+	IS_MULTI BOOLEAN NOT NULL,					-- 是否跨字段
 	S_COLUMNS CLOB NOT NULL,					-- 列信息，Json格式，对应字段名（SYS_FIELDS）的集合
 	-- 关联属性
-	R_META_ID VARCHAR(192),					-- 关联SYS_META表
+	R_META_ID VARCHAR(192),						-- 关联SYS_META表
 	PRIMARY KEY(K_ID),
 	FOREIGN KEY(R_META_ID) REFERENCES SYS_META(K_ID)
 );
@@ -58,6 +60,7 @@ CREATE INDEX IDX_KEYS_CATEGORY ON SYS_KEYS(S_CATEGORY);
 CREATE INDEX IDX_KEYS_IS_MULTI ON SYS_KEYS(IS_MULTI);
 CREATE INDEX RIDX_KEYS_META_ID ON SYS_KEYS(R_META_ID);
 
+--------------------------------------------------------------------------------------
 -- SYS_FIELD 核心字段表
 DROP TABLE IF EXISTS SYS_FIELDS;
 CREATE TABLE SYS_FIELDS(
@@ -70,7 +73,7 @@ CREATE TABLE SYS_FIELDS(
 		OR S_TYPE='DateType' OR S_TYPE='StringType' OR S_TYPE='BinaryType' 
 		OR S_TYPE='DecimalType' OR S_TYPE='JsonType' OR S_TYPE='XmlType' OR S_TYPE='ScriptType'),
 	-- Constraints对应的属性
-	C_PATTERN VARCHAR(256),					-- StringType: 字段需要满足的格式正则表达式
+	C_PATTERN VARCHAR(256),						-- StringType: 字段需要满足的格式正则表达式
 	C_VALIDATOR VARCHAR(256),					-- 验证器对应的Validator
 	C_LENGTH INT								-- 字段的长度
 		CHECK(C_LENGTH >= 0),
@@ -78,7 +81,7 @@ CREATE TABLE SYS_FIELDS(
 		CHECK(C_DATETIME='STRING' OR C_DATETIME='TIMER'),
 	C_DATEFORMAT VARCHAR(32),					-- 时间格式的pattern
 	C_PRECISION SMALLINT(16),					-- 浮点数精度描述
-	C_UNIT VARCHAR(32),						-- 当前数据的单位描述
+	C_UNIT VARCHAR(32),							-- 当前数据的单位描述
 	C_MAX_LENGTH INT							-- 当前字符串最大长度
 		CHECK(C_MAX_LENGTH >= -1),
 	C_MIN_LENGTH INT							-- 当前字符串最小长度
@@ -87,8 +90,8 @@ CREATE TABLE SYS_FIELDS(
 	C_MIN BIGINT,								-- 最小值
 	-- 数据库对应的一部分约束
 	IS_PRIMARY_KEY BOOLEAN NOT NULL,			-- bool: 当前字段是否主键
-	IS_UNIQUE BOOLEAN NOT NULL,				-- bool: 当前字段是否Unique的
-	IS_SUB_TABLE BOOLEAN NOT NULL,			-- bool: 当前字符是否属于子表字段
+	IS_UNIQUE BOOLEAN NOT NULL,					-- bool: 当前字段是否Unique的
+	IS_SUB_TABLE BOOLEAN NOT NULL,				-- bool: 当前字符是否属于子表字段
 	IS_FOREIGN_KEY BOOLEAN NOT NULL,			-- bool: 当前字段是否外键
 	IS_NULLABLE BOOLEAN NOT NULL,				-- bool: 当前字段是否可为null
 	-- 数据库属性
@@ -97,7 +100,7 @@ CREATE TABLE SYS_FIELDS(
 	D_REF_TABLE VARCHAR(256),					-- 当前字段所用于的引用表
 	D_REF_ID VARCHAR(256),						-- 当前字段所用于的表的主键名
 	-- 关联属性
-	R_META_ID VARCHAR(192),					-- 关联SYS_META表 
+	R_META_ID VARCHAR(192),						-- 关联SYS_META表 
 	PRIMARY KEY(K_ID),
 	FOREIGN KEY(R_META_ID) REFERENCES SYS_META(K_ID)
 );
@@ -116,6 +119,8 @@ CREATE INDEX IDX_FIELDS_IS_SUB_TABLE ON SYS_FIELDS(IS_SUB_TABLE);
 CREATE INDEX IDX_FIELDS_IS_FOREIGN_KEY ON SYS_FIELDS(IS_FOREIGN_KEY);
 CREATE INDEX IDX_FIELDS_IS_NULLABLE ON SYS_FIELDS(IS_NULLABLE);
 CREATE INDEX RIDX_FIELDS_META_ID ON SYS_KEYS(R_META_ID);
+
+--------------------------------------------------------------------------------------
 -- EVX_VERTICLE表，保存了所有和VertX相关的元数据配置信息
 DROP TABLE IF EXISTS EVX_VERTICLE;
 CREATE TABLE EVX_VERTICLE(
@@ -146,6 +151,10 @@ CREATE INDEX IDX_VERTICLE_IS_HA ON EVX_VERTICLE(IS_HA);
 CREATE INDEX IDX_VERTICLE_IS_WORKER ON EVX_VERTICLE(IS_WORKER);
 CREATE INDEX IDX_VERTICLE_IS_MULTI ON EVX_VERTICLE(IS_MULTI);
 CREATE INDEX IDX_VERTICLE_DP_ORDER ON EVX_VERTICLE(DP_ORDER);
+
+--------------------------------------------------------------------------------------
+-- EVX_HANDLER表，保存了所有的Handler和路径之间的关联关系
+DROP TABLE IF EXISTS EVX_HANDLER;
 
 
 
