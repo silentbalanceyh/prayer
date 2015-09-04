@@ -53,7 +53,7 @@ public class VerticleModel implements Serializable {	// NOPMD
 	@JsonProperty("ha")
 	private boolean ha = false; // NOPMD
 	/** IS_WORKER **/
-	@JsonProperty("workder")
+	@JsonProperty("worker")
 	private boolean worker = false;	// NOPMD
 	/** IS_MULTI **/
 	@JsonProperty("multi")

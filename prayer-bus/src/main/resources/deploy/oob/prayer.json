@@ -1,36 +1,54 @@
 [
 	{
-		"name": "com.prayer.vx.verticle.RouterVerticle",
+		"name": "com.prayer.vxv.standard.RouterVerticle",
 		"instances": 10,
 		"ha": true,
 		"deployOrder": 1
 	},
 
 	{
-		"name": "com.prayer.vx.verticle.MajorVerticle",
+		"name": "com.prayer.vxv.standard.EngineVerticle",
 		"instances": 10,
 		"ha": true,
 		"deployOrder": 2
 	},
 
 	{
-		"name": "com.prayer.vx.verticle.MetadataVerticle",
+		"name": "com.prayer.vxv.standard.SecurityVerticle",
 		"instances": 10,
 		"ha": true,
 		"deployOrder": 3
 	},
 
 	{
-		"name": "com.prayer.vx.verticle.RecordVerticle",
+		"name": "com.prayer.vxv.worker.MetadataWorker",
 		"instances": 10,
 		"ha": true,
+		"worker": true,
 		"deployOrder": 4
 	},
 
 	{
-		"name": "com.prayer.vx.verticle.SecurityVerticle",
+		"name": "com.prayer.vxv.worker.RecordWorker",
 		"instances": 10,
 		"ha": true,
+		"worker": true,
 		"deployOrder": 5
+	},
+
+	{
+		"name": "com.prayer.vxv.worker.AuthenticationWorker",
+		"instances": 10,
+		"ha": true,
+		"worker": true,
+		"deployOrder": 6
+	},
+
+	{
+		"name": "com.prayer.vxv.worker.AuthorizationWorker",
+		"instances": 10,
+		"ha": true,
+		"worker": true,
+		"deployOrder": 6
 	}
 ]
