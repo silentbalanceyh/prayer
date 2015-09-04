@@ -5,6 +5,9 @@ import static com.prayer.util.Error.info;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
@@ -123,6 +126,45 @@ public final class Instance {
 			info(LOGGER, "[E] Class Not found: " + className, ex);
 		}
 		return ret;
+	}
+
+	/**
+	 * 获取所有父类信息
+	 * 
+	 * @param className
+	 * @return
+	 */
+	public static List<Class<?>> parents(@NotNull @NotBlank @NotEmpty final String className) {
+		final List<Class<?>> parents = new ArrayList<>();
+		final Class<?> current = clazz(className);
+		final Class<?> parent = current.getSuperclass();
+		if (null != current && parent != Object.class) {
+			// 1.添加当前父类
+			parents.add(parent);
+			// 2.递归添加父类
+			parents.addAll(parents(parent.getName()));
+		}
+		return parents;
+	}
+
+	/**
+	 * 获取所有的接口信息，包括父类接口信息
+	 * 
+	 * @param className
+	 * @return
+	 */
+	public static List<Class<?>> interfaces(@NotNull @NotBlank @NotEmpty final String className) {
+		final List<Class<?>> interfaces = new ArrayList<>();
+		final Class<?> current = clazz(className);
+		final Class<?>[] superInter = current.getInterfaces();
+		interfaces.addAll(Arrays.asList(superInter));
+		for (final Class<?> clazz : superInter) {
+			// 2.递归添加
+			if (null != clazz) {
+				interfaces.addAll(interfaces(clazz.getName()));
+			}
+		}
+		return interfaces;
 	}
 
 	/**
