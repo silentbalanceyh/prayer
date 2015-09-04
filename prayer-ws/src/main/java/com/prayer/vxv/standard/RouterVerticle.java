@@ -22,6 +22,7 @@ public class RouterVerticle extends AbstractVerticle {
 	/** **/
 	@Override
 	public void start() {
+		System.out.println("Router");
 		HttpServer server = vertx.createHttpServer();
 
 		Router router = Router.router(vertx);

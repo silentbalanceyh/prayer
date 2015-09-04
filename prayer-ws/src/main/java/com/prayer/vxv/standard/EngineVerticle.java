@@ -20,6 +20,7 @@ public class EngineVerticle extends AbstractVerticle {
 	/** **/
 	@Override
 	public void start(){
+		System.out.println("Engine");
 		HttpServer server = vertx.createHttpServer();
 
 		Router router = Router.router(vertx);
