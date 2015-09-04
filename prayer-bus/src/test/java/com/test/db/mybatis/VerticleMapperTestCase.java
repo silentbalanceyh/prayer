@@ -1,14 +1,18 @@
 package com.test.db.mybatis;
 
+import static com.prayer.util.Instance.singleton;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.bus.ConfigService;
+import com.prayer.bus.impl.ConfigSevImpl;
 import com.prayer.model.h2.vx.VerticleModel;
 import com.prayer.schema.db.VerticleMapper;
 
@@ -20,6 +24,12 @@ public class VerticleMapperTestCase extends AbstractMetaCase { 	// NOPMD
 	// ~ Instance Verticles =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/** **/
+	@AfterClass
+	public static void importH2Data(){
+		final ConfigService service = singleton(ConfigSevImpl.class);
+		service.importToH2("deploy/oob/prayer.json");
+	}
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

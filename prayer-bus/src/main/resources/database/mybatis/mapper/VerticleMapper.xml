@@ -146,12 +146,12 @@
 	</select>
 	<select id="selectByGroup" parameterType="String" resultMap="verticleObject">
 		<![CDATA[
-			SELECT * FROM EVX_VERTICLE WHERE S_IGROUP=#{group}
+			SELECT * FROM EVX_VERTICLE WHERE S_IGROUP=#{group} ORDER BY DP_ORDER ASC
 		]]>
 	</select>
 	<select id="selectAll" resultMap="verticleObject">
 		<![CDATA[
-			SELECT * FROM EVX_VERTICLE
+			SELECT * FROM EVX_VERTICLE ORDER BY DP_ORDER ASC
 		]]>
 	</select>
 </mapper>

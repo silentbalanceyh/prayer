@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.constant.Constants;
@@ -24,7 +25,7 @@ public class VerticleModel implements Serializable {	// NOPMD
 	private static final long serialVersionUID = -1056134069321946140L;
 	// ~ Instance Fields =====================================
 	/** K_ID: EVX_VERTICLE表的主键 **/
-	@JsonProperty("id")
+	@JsonIgnore
 	private String uniqueId;
 	// ~ !基础配置数据 =======================================
 	/** S_CLASS **/

@@ -32,7 +32,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class ConfigDaoImpl extends AbstractDaoImpl implements ConfigDao {	// NOPMD
+public class ConfigDaoImpl extends AbstractDaoImpl implements ConfigDao { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigDaoImpl.class);
@@ -165,6 +165,20 @@ public class ConfigDaoImpl extends AbstractDaoImpl implements ConfigDao {	// NOP
 		// 4.关闭Session并且返回最终结果
 		session.close();
 		return ret;
+	}
+
+	/** 获取所有配置信息列表 **/
+	@Override
+	public List<VerticleModel> getAll() {
+		// 1.初始化SqlSession
+		final SqlSession session = SessionManager.getSession();
+		// 2.获取Mapper
+		final VerticleMapper mapper = session.getMapper(VerticleMapper.class);
+		// 3.读取返回列表
+		final List<VerticleModel> retList = mapper.selectAll();
+		// 4.关闭Session并且返回最终结果
+		session.close();
+		return retList;
 	}
 
 	// ~ Methods =============================================

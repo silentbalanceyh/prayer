@@ -53,6 +53,28 @@ public final class JsonKit {
 	/**
 	 * 
 	 * @param reference
+	 * @param file
+	 * @return
+	 */
+	public static <T> T fromFile(@NotNull final TypeReference<T> reference,
+			@NotNull @NotEmpty @NotBlank final String file) throws AbstractSystemException {
+		T ret = null;
+		try {
+			final InputStream inStream = IOKit.getFile(file, JsonKit.class);
+			ret = MAPPER.readValue(inStream, reference);
+		} catch (JsonParseException ex) {
+			debug(LOGGER, "E20003", ex, ex.toString());
+			throw new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
+		} catch (IOException ex) {
+			debug(LOGGER, "E20002", ex, file);
+			throw new ResourceIOException(JsonKit.class, file); // NOPMD
+		}
+		return ret;
+	}
+
+	/**
+	 * 
+	 * @param reference
 	 * @param content
 	 * @return
 	 */

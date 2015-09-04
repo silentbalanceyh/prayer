@@ -52,4 +52,9 @@ public interface ConfigDao {
 	 * @return
 	 */
 	VerticleModel getByClass(String clazz);
+	/**
+	 * 读取系统中所有的VerticleModel
+	 * @return
+	 */
+	List<VerticleModel> getAll();
 }

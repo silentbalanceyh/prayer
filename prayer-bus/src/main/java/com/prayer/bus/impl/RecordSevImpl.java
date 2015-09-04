@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import com.prayer.bus.RecordService;
 import com.prayer.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.type.ScriptType;
 
 import net.sf.oval.guard.Guarded;
 
@@ -24,7 +23,7 @@ import net.sf.oval.guard.Guarded;
 public class RecordSevImpl implements RecordService{
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(ScriptType.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RecordSevImpl.class);
 	/** **/
 	private static final ScriptEngine ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
 	// ~ Instance Fields =====================================
