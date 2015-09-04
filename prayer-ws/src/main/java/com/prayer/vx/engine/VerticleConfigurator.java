@@ -36,10 +36,10 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public class EngineConfigurator {
+public class VerticleConfigurator {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(EngineConfigurator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VerticleConfigurator.class);
 	/** 系统核心缓存，因为这个类只会在配置时使用，则这个变量保存了H2中所有的信息 **/
 	private static final ConcurrentMap<String, VerticleChain> DATA_MAP = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
@@ -52,7 +52,7 @@ public class EngineConfigurator {
 	// ~ Constructors ========================================
 	/** 公共构造函数 **/
 	@PostValidateThis
-	public EngineConfigurator() {
+	public VerticleConfigurator() {
 		this.service = singleton(ConfigSevImpl.class);
 		this.initDataMap();
 	}

@@ -31,12 +31,12 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class EngineDeployer {
+public class VerticleDeployer {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(EngineDeployer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VerticleDeployer.class);
 	/** **/
-	private static EngineConfigurator configurator;
+	private static VerticleConfigurator configurator;
 	/** 同步队列 **/
 	private static ConcurrentMap<String, DeploymentOptions> DATA_SYNC = new ConcurrentHashMap<>();
 	/** 异步队列 **/
@@ -53,9 +53,9 @@ public class EngineDeployer {
 	// ~ Constructors ========================================
 	/** 构造函数 **/
 	@PostValidateThis
-	public EngineDeployer(@NotNull final Vertx vertxRef) {
+	public VerticleDeployer(@NotNull final Vertx vertxRef) {
 		if (null == configurator) {
-			configurator = singleton(EngineConfigurator.class);
+			configurator = singleton(VerticleConfigurator.class);
 			if (DATA_SYNC.isEmpty()) {
 				DATA_SYNC.putAll(configurator.readSyncConfig());
 			}

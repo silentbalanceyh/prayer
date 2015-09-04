@@ -3,15 +3,34 @@
 		"name": "com.prayer.vx.verticle.RouterVerticle",
 		"instances": 10,
 		"ha": true,
-		"deployOrder": 1,
-		"deployAsync": false
+		"deployOrder": 1
 	},
 
 	{
 		"name": "com.prayer.vx.verticle.MajorVerticle",
 		"instances": 10,
 		"ha": true,
-		"deployOrder": 2,
-		"deployAsync": false
+		"deployOrder": 2
+	},
+
+	{
+		"name": "com.prayer.vx.verticle.MetadataVerticle",
+		"instances": 10,
+		"ha": true,
+		"deployOrder": 3
+	},
+
+	{
+		"name": "com.prayer.vx.verticle.RecordVerticle",
+		"instances": 10,
+		"ha": true,
+		"deployOrder": 4
+	},
+
+	{
+		"name": "com.prayer.vx.verticle.SecurityVerticle",
+		"instances": 10,
+		"ha": true,
+		"deployOrder": 5
 	}
 ]

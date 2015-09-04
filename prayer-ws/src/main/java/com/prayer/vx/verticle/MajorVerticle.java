@@ -1,6 +1,9 @@
 package com.prayer.vx.verticle;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpServerResponse;
+import io.vertx.ext.web.Router;
 /**
  * 
  * @author Lang
@@ -17,7 +20,21 @@ public class MajorVerticle extends AbstractVerticle {
 	/** **/
 	@Override
 	public void start(){
-		System.out.println("Major");
+		HttpServer server = vertx.createHttpServer();
+
+		Router router = Router.router(vertx);
+
+		router.route("/test1").handler(routingContext -> {
+
+			// This handler will be called for every request
+			HttpServerResponse response = routingContext.response();
+			response.putHeader("content-type", "text/plain");
+
+			// Write to the response and end it
+			response.end("Hello World Major from Vert.x-Web!");
+		});
+
+		server.requestHandler(router::accept).listen(8080);
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

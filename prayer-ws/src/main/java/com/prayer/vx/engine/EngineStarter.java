@@ -25,7 +25,7 @@ public class EngineStarter {
 		final EngineCluster cluster = singleton(EngineCluster.class);
 		final Vertx vertx = cluster.getVertx("PRAYER");
 		// 2.使用Vertx发布配置部署的Verticle
-		final EngineDeployer deployer = new EngineDeployer(vertx);
+		final VerticleDeployer deployer = new VerticleDeployer(vertx);
 		deployer.deploySyncVerticles();
 	}
 	// ~ Constructors ========================================
