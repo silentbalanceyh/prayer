@@ -1,34 +1,25 @@
 package com.prayer.vx.engine;
 
-import com.prayer.exception.AbstractException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
-import io.vertx.core.impl.VertxFactoryImpl;
-import io.vertx.core.spi.VertxFactory;
+import com.prayer.constant.Resources;
+import com.prayer.util.PropertyKit;
 
 /**
- * Prayer启动器，整个Prayer Framework的入口程序
+ * 
  * @author Lang
  *
  */
-public class EngineStarter {
+public class EngineCluster {
 	// ~ Static Fields =======================================
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(EngineCluster.class);
 	// ~ Instance Fields =====================================
+	/** 读取全局vertx的属性配置 **/
+	private transient final PropertyKit LOADER = new PropertyKit(getClass(), "/vertx.properties");
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
-	/**
-	 * 
-	 * @param args
-	 */
-	public static void main(final String args[]) throws AbstractException{
-		// 1.构造Vertx整体环境
-		final VertxFactory factory = new VertxFactoryImpl();
-		final Vertx vertx = factory.vertx();
-		// 2.使用Vertx发布配置部署的Verticle
-		final EngineDeployer deployer = new EngineDeployer(vertx);
-		deployer.deploySyncVerticles();
-	}
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

@@ -8,7 +8,7 @@
 	},
 
 	{
-		"name": "com.prayer.vx.verticle.EntranceVerticle",
+		"name": "com.prayer.vx.verticle.MajorVerticle",
 		"instances": 100,
 		"ha": true,
 		"deployOrder": 2,
