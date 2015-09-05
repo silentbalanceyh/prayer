@@ -1,27 +1,27 @@
-package com.prayer.exception.vertx;
+package com.prayer.exception.h2;
 
-import com.prayer.exception.AbstractVertXException;
+import com.prayer.exception.AbstractTransactionException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class VerticleInvalidException extends AbstractVertXException {
+public class MapperClassNullException extends AbstractTransactionException {
 	// ~ Static Fields =======================================
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4366761762961024451L;
+	private static final long serialVersionUID = -3306055554527891091L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
-	public VerticleInvalidException(final Class<?> clazz, final String className) {
-		super(clazz, -15001, className);
+	public MapperClassNullException(final Class<?> clazz, final String className) {
+		super(clazz, -16002, className);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -29,7 +29,7 @@ public class VerticleInvalidException extends AbstractVertXException {
 	/** **/
 	@Override
 	public int getErrorCode() {
-		return -15001;
+		return -16002;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

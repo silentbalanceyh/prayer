@@ -1,7 +1,7 @@
 package com.prayer.schema.dao;
 
 import com.prayer.exception.AbstractTransactionException;
-import com.prayer.exception.vertx.DataAccessException;
+import com.prayer.exception.h2.DataAccessException;
 import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vx.VerticleModel;
 

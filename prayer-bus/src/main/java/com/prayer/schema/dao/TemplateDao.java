@@ -43,7 +43,7 @@ public interface TemplateDao<T, ID extends Serializable> {	// NOPMD
 	 * @return
 	 * @throws AbstractTransactionException
 	 */
-	T getById(ID uniqueId) throws AbstractTransactionException;
+	T getById(ID uniqueId);
 
 	/**
 	 * 

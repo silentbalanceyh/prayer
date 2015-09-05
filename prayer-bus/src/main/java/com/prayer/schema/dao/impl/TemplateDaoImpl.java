@@ -1,5 +1,6 @@
 package com.prayer.schema.dao.impl;
 
+import static com.prayer.util.Error.info;
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.Instance.field;
 
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractTransactionException;
+import com.prayer.exception.h2.MapperClassNullException;
 import com.prayer.schema.dao.TemplateDao;
 import com.prayer.schema.db.H2TMapper;
 import com.prayer.schema.db.SessionManager;
@@ -31,7 +33,7 @@ import net.sf.oval.guard.Guarded;
  */
 @SuppressWarnings("unchecked")
 @Guarded
-public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl implements TemplateDao<T, ID> {	// NOPMD
+public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl implements TemplateDao<T, ID> { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(TemplateDaoImpl.class);
@@ -66,8 +68,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
 		final SqlSession session = SessionManager.getSession();
 		final Transaction transaction = transaction(session);
 		// 3.执行插入操作
-		final Class<?> mapperClass = getMapper();
-		final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapperClass);
+		final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
 		{
 			if (Constants.ONE == entities.length) {
 				final T entity = entities[0];
@@ -103,7 +104,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
 		final SqlSession session = SessionManager.getSession();
 		final Transaction transaction = transaction(session);
 		// 2.获取Mapper
-		final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(getMapper());
+		final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
 		{
 			// 3.更新数据信息
 			mapper.update(entity);
@@ -120,7 +121,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
 		final SqlSession session = SessionManager.getSession();
 		final Transaction transaction = transaction(session);
 		// 2.删除当前记录
-		final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(getMapper());
+		final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
 		mapper.deleteById(uniqueId);
 		// 3.事务提交完成
 		submit(transaction, EXP_CLASS);
@@ -129,15 +130,20 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
 
 	/** 获取实体的模板方法 **/
 	@Override
-	public T getById(final ID uniqueId) throws AbstractTransactionException {
+	public T getById(final ID uniqueId) {
 		// 1.初始化SqlSession
 		final SqlSession session = SessionManager.getSession();
-		// 2.获取Mapper
-		final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(getMapper());
-		// 3.读取返回信息
-		final T ret = mapper.selectById(uniqueId);
-		// 4.关闭Session返回结构
-		session.close();
+		T ret = null;
+		try {
+			// 2.获取Mapper
+			final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
+			// 3.读取返回信息
+			ret = mapper.selectById(uniqueId);
+			// 4.关闭Session返回结构
+			session.close();
+		} catch (AbstractTransactionException ex) {
+			info(getLogger(), "[H2] (T getById(ID)) Exception occurs !", ex);
+		}
 		return ret;
 	}
 
@@ -146,12 +152,17 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
 	public List<T> getAll() {
 		// 1.初始化SqlSession
 		final SqlSession session = SessionManager.getSession();
-		// 2.获取Mapper
-		final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(getMapper());
-		// 3.读取返回列表
-		final List<T> retList = mapper.selectAll();
-		// 4.关闭Session返回最终结果
-		session.close();
+		List<T> retList = null;
+		try {
+			// 2.获取Mapper
+			final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
+			// 3.读取返回列表
+			retList = mapper.selectAll();
+			// 4.关闭Session返回最终结果
+			session.close();
+		} catch (AbstractTransactionException ex) {
+			info(getLogger(), "[H2] (List<T> getAll()) Exception occurs !", ex);
+		}
 		return retList;
 	}
 
@@ -162,14 +173,22 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
 		final SqlSession session = SessionManager.getSession();
 		final Transaction transaction = transaction(session);
 		// 2.删除当前记录
-		final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(getMapper());
+		final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
 		mapper.purgeData();
 		// 3.事务提交完成
 		submit(transaction, EXP_CLASS);
 		return true;
 	}
+
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	private Class<?> mapper() throws AbstractTransactionException {
+		final Class<?> mapperClass = getMapper();
+		if (null == mapperClass) {
+			throw new MapperClassNullException(getClass(), getClass().getName());
+		}
+		return mapperClass;
+	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }
