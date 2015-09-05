@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.prayer.schema.db.VerticleMapper">
+	<!-- 返回对象定义 -->
 	<resultMap type="Verticle" id="verticleObject">
 		<id column="K_ID" property="uniqueId" />
 		<result column="S_CLASS" property="name" />
@@ -18,10 +19,11 @@
 		<result column="IS_HA" property="ha" />
 		<result column="IS_WORKER" property="worker" />
 		<result column="IS_MULTI" property="multi" />
-		
-		<result column="DP_ORDER" property="deployOrder"/>
-		<result column="DP_ASYNC" property="deployAsync"/>
+
+		<result column="DP_ORDER" property="deployOrder" />
+		<result column="DP_ASYNC" property="deployAsync" />
 	</resultMap>
+	<!-- 模板方法 -->
 	<insert id="insert" parameterType="Verticle" keyColumn="K_ID"
 		keyProperty="uniqueId">
 		<![CDATA[
@@ -107,11 +109,16 @@
 			WHERE K_ID=#{uniqueId}
 		]]>
 	</update>
-	<delete id="deleteByName" parameterType="String">
+	<select id="selectAll" resultMap="verticleObject">
 		<![CDATA[
-			DELETE FROM EVX_VERTICLE WHERE S_CLASS=#{name}
+			SELECT * FROM EVX_VERTICLE ORDER BY DP_ORDER ASC
 		]]>
-	</delete>
+	</select>
+	<select id="selectById" parameterType="String" resultMap="verticleObject">
+		<![CDATA[
+			SELECT * FROM EVX_VERTICLE WHERE K_ID=#{uniqueId}
+		]]>
+	</select>
 	<delete id="deleteById" parameterType="String">
 		<![CDATA[
 			DELETE FROM EVX_VERTICLE WHERE K_ID=#{uniqueId}
@@ -133,12 +140,7 @@
 			DELETE FROM EVX_VERTICLE
 		]]>
 	</delete>
-
-	<select id="selectById" parameterType="String" resultMap="verticleObject">
-		<![CDATA[
-			SELECT * FROM EVX_VERTICLE WHERE K_ID=#{uniqueId}
-		]]>
-	</select>
+	<!-- 自定义接口方法 -->
 	<select id="selectByName" parameterType="String" resultMap="verticleObject">
 		<![CDATA[
 			SELECT * FROM EVX_VERTICLE WHERE S_CLASS=#{name}
@@ -149,9 +151,9 @@
 			SELECT * FROM EVX_VERTICLE WHERE S_IGROUP=#{group} ORDER BY DP_ORDER ASC
 		]]>
 	</select>
-	<select id="selectAll" resultMap="verticleObject">
+	<delete id="deleteByName" parameterType="String">
 		<![CDATA[
-			SELECT * FROM EVX_VERTICLE ORDER BY DP_ORDER ASC
+			DELETE FROM EVX_VERTICLE WHERE S_CLASS=#{name}
 		]]>
-	</select>
+	</delete>
 </mapper>

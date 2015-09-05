@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.prayer.schema.db.MetaMapper">
+	<!-- 结果对象定义 -->
 	<resultMap type="Meta" id="metaObject">
 		<id column="K_ID" property="uniqueId" />
 		<result column="C_OOBDATA_FILE" property="oobFile" />
@@ -25,6 +26,7 @@
 		<result column="D_SEQ_STEP" property="seqStep" />
 		<result column="D_SEQ_INIT" property="seqInit" />
 	</resultMap>
+	<!-- 模板方法 -->
 	<insert id="insert" parameterType="Meta" keyColumn="K_ID"
 		keyProperty="uniqueId">
 		<![CDATA[
@@ -125,11 +127,16 @@
 			WHERE K_ID=#{uniqueId}
 		]]>
 	</update>
-	<delete id="deleteByModel">
+	<select id="selectById" parameterType="String" resultMap="metaObject">
 		<![CDATA[
-			DELETE FROM SYS_META WHERE S_NAMESPACE=#{0,jdbcType=VARCHAR} AND S_NAME=#{1,jdbcType=VARCHAR}
+			SELECT * FROM SYS_META WHERE K_ID=#{uniqueId}
 		]]>
-	</delete>
+	</select>
+	<select id="selectAll" resultMap="metaObject">
+		<![CDATA[
+			SELECT * FROM SYS_META
+		]]>
+	</select>
 	<delete id="deleteById" parameterType="String">
 		<![CDATA[
 			DELETE FROM SYS_META WHERE K_ID=#{uniqueId}
@@ -151,12 +158,12 @@
 			DELETE FROM SYS_META
 		]]>
 	</delete>
-
-	<select id="selectById" parameterType="String" resultMap="metaObject">
+	<!-- 扩展接口 -->
+	<delete id="deleteByModel">
 		<![CDATA[
-			SELECT * FROM SYS_META WHERE K_ID=#{uniqueId}
+			DELETE FROM SYS_META WHERE S_NAMESPACE=#{0,jdbcType=VARCHAR} AND S_NAME=#{1,jdbcType=VARCHAR}
 		]]>
-	</select>
+	</delete>
 	<select id="selectByModel" resultMap="metaObject">
 		<![CDATA[
 			SELECT * FROM SYS_META WHERE S_NAMESPACE=#{0,jdbcType=VARCHAR} AND S_NAME=#{1,jdbcType=VARCHAR}
@@ -167,10 +174,4 @@
 			SELECT * FROM SYS_META WHERE S_GLOBAL_ID=#{globalId}
 		]]>
 	</select>
-	<select id="selectAll" resultMap="metaObject">
-		<![CDATA[
-			SELECT * FROM SYS_META
-		]]>
-	</select>
-
 </mapper>

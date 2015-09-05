@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.schema.db.RouteMapper">
+	<resultMap type="Route" id="routeObject">
+		<id column="K_ID" property="uniqueId" />
+		<result column="S_PARENT" property="parent" />
+		<result column="S_PATH" property="path" />
+		<result column="S_METHOD" property="method"
+			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+
+		<result column="S_SHANDLER" property="requestHandler" />
+		<result column="S_FHANDLER" property="failureHandler" />
+
+		<result column="IS_SYNC" property="sync" />
+	</resultMap>
+	<insert id="insert" parameterType="Route" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			INSERT INTO EVX_ROUTE (
+				K_ID,
+				S_PARENT,
+				S_PATH,
+				S_METHOD,
+				S_SHANDLER,
+				S_FHANDLER,
+				IS_SYNC
+			) VALUES (
+				#{uniqueId},
+				#{parent},
+				#{path},
+				#{method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{requestHandler},
+				#{failureHandler},
+				#{sync}
+			)
+		]]>
+	</insert>
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+			INSERT INTO EVX_ROUTE (
+				K_ID,
+				S_PARENT,
+				S_PATH,
+				S_METHOD,
+				S_SHANDLER,
+				S_FHANDLER,
+				IS_SYNC
+			) VALUES
+		]]>
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			<![CDATA[(
+				#{item.uniqueId},
+				#{item.parent},
+				#{item.path},
+				#{item.method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{item.requestHandler},
+				#{item.failureHandler},
+				#{item.sync}
+			)]]>
+		</foreach>
+	</insert>
+	<update id="update" parameterType="Route" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			UPDATE EVX_VERTICLE SET
+				S_PARENT=#{parent},
+				S_PATH=#{path},
+				S_METHOD=#{method,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				S_SHANDLER=#{requestHandler},
+				S_FHANDLER=#{failureHandler},
+				IS_SYNC=#{sync}
+			WHERE K_ID=#{uniqueId}
+		]]>
+	</update>
+	<delete id="deleteById" parameterType="String">
+		<![CDATA[
+			DELETE FROM EVX_ROUTE WHERE K_ID=#{uniqueId}
+		]]>
+	</delete>
+	<delete id="batchDelete" parameterType="java.util.List">
+		<![CDATA[
+			DELETE FROM EVX_ROUTE WHERE K_ID IN
+		]]>
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			<![CDATA[
+				#{item}
+			]]>
+		</foreach>
+	</delete>
+	<delete id="purgeData">
+		<![CDATA[
+			DELETE FROM EVX_ROUTE
+		]]>
+	</delete>
+
+	<select id="selectById" parameterType="String" resultMap="routeObject">
+		<![CDATA[
+			SELECT * FROM EVX_ROUTE WHERE K_ID=#{uniqueId}
+		]]>
+	</select>
+	<select id="selectByPath" resultMap="routeObject">
+		<![CDATA[
+			SELECT * FROM EVX_ROUTE WHERE S_PARENT=#{0,jdbcType=VARCHAR} AND S_PATH=#{1,jdbcType=VARCHAR}
+		]]>
+	</select>
+	<select id="selectAll" resultMap="routeObject">
+		<![CDATA[
+			SELECT * FROM EVX_ROUTE
+		]]>
+	</select>
+</mapper>

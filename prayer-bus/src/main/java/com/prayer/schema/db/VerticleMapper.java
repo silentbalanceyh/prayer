@@ -9,31 +9,7 @@ import com.prayer.model.h2.vx.VerticleModel;
  * @author Lang
  *
  */
-public interface VerticleMapper {
-	/**
-	 * 
-	 * @param verticle
-	 * @return
-	 */
-	int insert(VerticleModel verticle);
-	/**
-	 * 
-	 * @param verticle
-	 * @return
-	 */
-	int batchInsert(List<VerticleModel> verticle);
-	/**
-	 * 
-	 * @param verticle
-	 * @return
-	 */
-	int update(VerticleModel verticle);
-	/**
-	 * 
-	 * @param uniqueId
-	 * @return
-	 */
-	boolean deleteById(String uniqueId);
+public interface VerticleMapper extends H2TMapper<VerticleModel, String> {
 	/**
 	 * 
 	 * @param name
@@ -41,37 +17,16 @@ public interface VerticleMapper {
 	 */
 	boolean deleteByName(String name);
 	/**
-	 * 批量删除
-	 * @param ids
-	 * @return
-	 */
-	boolean batchDelete(List<String> ids);
-	/**
-	 * 
-	 * @param uniqueId
-	 * @return
-	 */
-	VerticleModel selectById(String uniqueId);
-	/**
 	 * 
 	 * @param name
 	 * @return
 	 */
 	VerticleModel selectByName(String name);
+
 	/**
 	 * 
 	 * @param group
 	 * @return
 	 */
 	List<VerticleModel> selectByGroup(String group);
-	/**
-	 * 
-	 * @return
-	 */
-	List<VerticleModel> selectAll();
-	/**
-	 * 清除数据
-	 * @return
-	 */
-	boolean purgeData();
 }

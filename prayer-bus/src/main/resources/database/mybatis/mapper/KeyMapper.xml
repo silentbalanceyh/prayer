@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.prayer.schema.db.KeyMapper">
+	<!-- 返回对象定义 -->
 	<resultMap type="Key" id="keyObject">
 		<id column="K_ID" property="uniqueId" />
 		<result column="S_NAME" property="name" />
@@ -13,6 +14,7 @@
 			typeHandler="com.prayer.schema.db.handler.ArrayJsonHandler" />
 		<result column="R_META_ID" property="refMetaId" />
 	</resultMap>
+	<!-- 模板方法 -->
 	<insert id="insert" parameterType="Key" keyColumn="K_ID"
 		keyProperty="uniqueId">
 		<![CDATA[
@@ -68,17 +70,16 @@
 			WHERE K_ID=#{uniqueId}
 		]]>
 	</update>
-	<!-- MyBatis针对H2 Database不支持这种批量更新，注释为旧代码 <update id="batchUpdate" parameterType="java.util.List" 
-		keyProperty="uniqueId" keyColumn="K_ID"> <foreach collection="list" item="item" 
-		separator=";"> UPDATE SYS_KEYS SET S_NAME=#{item.name}, S_CATEGORY=#{item.category, 
-		typeHandler=org.apache.ibatis.type.EnumTypeHandler}, IS_MULTI=#{item.multi}, 
-		S_COLUMNS=#{item.columns}, R_META_ID=#{item.refMetaId} WHERE K_ID=#{item.uniqueId} 
-		</foreach> </update> -->
-	<delete id="deleteByMeta" parameterType="String">
+	<select id="selectAll" resultMap="keyObject">
 		<![CDATA[
-			DELETE FROM SYS_KEYS WHERE R_META_ID=#{metaId}
+			SELECT * FROM SYS_KEYS
 		]]>
-	</delete>
+	</select>
+	<select id="selectById" parameterType="String" resultMap="keyObject">
+		<![CDATA[
+			SELECT * FROM SYS_KEYS WHERE K_ID=#{uniqueId}
+		]]>
+	</select>
 	<delete id="deleteById" parameterType="String">
 		<![CDATA[
 			DELETE FROM SYS_KEYS WHERE K_ID=#{uniqueId}
@@ -100,19 +101,15 @@
 			DELETE FROM SYS_KEYS
 		]]>
 	</delete>
-	<select id="selectById" parameterType="String" resultMap="keyObject">
+	<!-- 扩展接口 -->
+	<delete id="deleteByMeta" parameterType="String">
 		<![CDATA[
-			SELECT * FROM SYS_KEYS WHERE K_ID=#{uniqueId}
+			DELETE FROM SYS_KEYS WHERE R_META_ID=#{metaId}
 		]]>
-	</select>
+	</delete>
 	<select id="selectByMeta" parameterType="String" resultMap="keyObject">
 		<![CDATA[
 			SELECT * FROM SYS_KEYS WHERE R_META_ID=#{metaId}
-		]]>
-	</select>
-	<select id="selectAll" resultMap="keyObject">
-		<![CDATA[
-			SELECT * FROM SYS_KEYS
 		]]>
 	</select>
 </mapper>

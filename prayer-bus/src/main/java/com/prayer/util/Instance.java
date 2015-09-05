@@ -2,6 +2,7 @@ package com.prayer.util;
 
 import static com.prayer.util.Error.info;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -189,6 +190,28 @@ public final class Instance {
 			info(LOGGER, "[E] Field get exception: Class = " + clazz.getName() + ",Field = " + name, ex);
 		}
 		return ret;
+	}
+
+	/**
+	 * 
+	 * @param instance
+	 * @param name
+	 * @param value
+	 */
+	public static void field(@NotNull final Object instance, @NotNull @NotBlank @NotEmpty final String name,
+			@NotNull final Serializable value) {
+		final Class<?> clazz = instance.getClass();
+		Field field;
+		try {
+			field = clazz.getDeclaredField(name);
+			// 打开访问属性标记
+			if (null != field) {
+				field.setAccessible(true);
+			}
+			field.set(instance, value);
+		} catch (IllegalAccessException | NoSuchFieldException | SecurityException ex) {
+			info(LOGGER, "[E] Field set exception: Class = " + clazz.getName() + ",Field = " + name, ex);
+		}
 	}
 
 	// ~ Constructors ========================================

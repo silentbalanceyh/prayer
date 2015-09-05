@@ -25,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public abstract class AbstractDaoImpl {		// NOPMD
+public abstract class AbstractDaoImpl { // NOPMD
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -34,7 +34,6 @@ public abstract class AbstractDaoImpl {		// NOPMD
 	// ~ Abstract Methods ====================================
 	/** 获取日志记录器 **/
 	protected abstract Logger getLogger();
-
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	/** 开启新事务 **/
@@ -60,14 +59,14 @@ public abstract class AbstractDaoImpl {		// NOPMD
 				debug(getLogger(), getClass(), errKey(throwExp.getErrorCode()), throwExp, "Rollback");
 			}
 		} finally {
-			try{
+			try {
 				transaction.close();
-			}catch(SQLException ex){
+			} catch (SQLException ex) {
 				throwExp = instance(clazz, getClass(), "Close");
 				debug(getLogger(), getClass(), errKey(throwExp.getErrorCode()), throwExp, "Rollback");
 			}
 		}
-		if(null != throwExp){
+		if (null != throwExp) {
 			throw throwExp;
 		}
 	}

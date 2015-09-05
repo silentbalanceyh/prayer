@@ -20,8 +20,8 @@ import com.prayer.exception.AbstractTransactionException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vx.VerticleModel;
-import com.prayer.schema.dao.ConfigDao;
-import com.prayer.schema.dao.impl.ConfigDaoImpl;
+import com.prayer.schema.dao.VerticleDao;
+import com.prayer.schema.dao.impl.VerticleDaoImpl;
 import com.prayer.util.JsonKit;
 import com.prayer.util.StringKit;
 
@@ -44,7 +44,7 @@ public class ConfigSevImpl implements ConfigService {
 	// ~ Instance Fields =====================================
 	/** 访问H2的Database数据库接口 **/
 	@NotNull
-	private transient final ConfigDao dao;
+	private transient final VerticleDao dao;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -52,7 +52,7 @@ public class ConfigSevImpl implements ConfigService {
 	/** **/
 	@PostValidateThis
 	public ConfigSevImpl() {
-		this.dao = singleton(ConfigDaoImpl.class);
+		this.dao = singleton(VerticleDaoImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================

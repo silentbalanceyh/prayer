@@ -125,23 +125,23 @@ CREATE INDEX RIDX_FIELDS_META_ID ON SYS_KEYS(R_META_ID);
 DROP TABLE IF EXISTS EVX_VERTICLE;
 CREATE TABLE EVX_VERTICLE(
 	--主键ID标识符
-	K_ID VARCHAR(192),							--当前Verticle对应的ID标识符
-	S_CLASS VARCHAR(256) NOT NULL,				--当前Verticle的Java类名
-	S_INSTANCES INT								--实例数量
+	K_ID VARCHAR(192),							-- 当前Verticle对应的ID标识符
+	S_CLASS VARCHAR(256) NOT NULL,				-- 当前Verticle的Java类名
+	S_INSTANCES INT								-- 实例数量
 		CHECK(S_INSTANCES > 0),
-	S_IGROUP VARCHAR(256),						--Isolation Group信息
-	S_JSON_CONFIG VARCHAR(2000),				--额外的Json配置
-	S_ISOLATED_CLASSES VARCHAR(2000),			--Isolation Classes
+	S_IGROUP VARCHAR(256),						-- Isolation Group信息
+	S_JSON_CONFIG VARCHAR(2000),				-- 额外的Json配置
+	S_ISOLATED_CLASSES VARCHAR(2000),			-- Isolation Classes
 	--配置项中的两个特殊的类路径
-	CP_EXT VARCHAR(2000),						--Extra Classpath
+	CP_EXT VARCHAR(2000),						-- Extra Classpath
 	--配置属性Boolean类型
-	IS_HA BOOLEAN NOT NULL,						--是否开启了HA
-	IS_WORKER BOOLEAN NOT NULL,					--是否是一个Worker
-	IS_MULTI BOOLEAN NOT NULL,					--是否是一个Multi类型的Verticle
+	IS_HA BOOLEAN NOT NULL,						-- 是否开启了HA
+	IS_WORKER BOOLEAN NOT NULL,					-- 是否是一个Worker
+	IS_MULTI BOOLEAN NOT NULL,					-- 是否是一个Multi类型的Verticle
 	--创建部署配置
-	DP_ORDER INT 								--Deployment Order发布顺序
+	DP_ORDER INT 								-- Deployment Order发布顺序
 		CHECK(DP_ORDER > 0),
-	DP_ASYNC BOOLEAN,							--是否执行异步方式的Deployment过程			
+	DP_ASYNC BOOLEAN,							-- 是否执行异步方式的Deployment过程			
 	PRIMARY KEY(K_ID)
 );
 -- EVX_VERTICLE的索引创建
@@ -153,8 +153,28 @@ CREATE INDEX IDX_VERTICLE_IS_MULTI ON EVX_VERTICLE(IS_MULTI);
 CREATE INDEX IDX_VERTICLE_DP_ORDER ON EVX_VERTICLE(DP_ORDER);
 
 --------------------------------------------------------------------------------------
--- EVX_HANDLER表，保存了所有的Handler和路径之间的关联关系
-DROP TABLE IF EXISTS EVX_HANDLER;
+-- EVX_ROUTE，路由表结构，保存了路由地址以及相关的处理器
+DROP TABLE IF EXISTS EVX_ROUTE;
+CREATE TABLE EVX_ROUTE(
+	--主键ID标识符
+	K_ID VARCHAR(192),							-- 当前Route对应的ID标识符
+	S_PARENT VARCHAR(256) NOT NULL,				-- 当前Route的父PATH
+	S_PATH VARCHAR(256) NOT NULL,				-- 客户端访问的入口URI路径
+	S_METHOD VARCHAR(10) NOT NULL				-- HTTP方法
+		CHECK(S_METHOD = 'GET' OR S_METHOD = 'POST' OR S_METHOD = 'PUT' OR S_METHOD = 'DELETE'),
+	--处理器信息
+	S_SHANDLER VARCHAR(256) NOT NULL,			-- Java处理当前Route的SuccessHandler内容
+	S_FHANDLER VARCHAR(256) NOT NULL,			-- Java处理当前Route的FailureHandler内容
+	--同步还是异步处理
+	IS_SYNC BOOLEAN NOT NULL,					-- 判断是同步还是异步
+	PRIMARY KEY(K_ID)
+);
+-- EVX_ROUTE的索引创建
+CREATE INDEX IDX_ROUTE_PARENT ON EVX_ROUTE(S_PARENT);
+CREATE INDEX IDX_ROUTE_PATH ON EVX_ROUTE(S_PATH);
+CREATE INDEX IDX_ROUTE_METHOD ON EVX_ROUTE(S_METHOD);
+CREATE INDEX IDX_ROUTE_IS_SYNC ON EVX_ROUTE(IS_SYNC);
 
+--------------------------------------------------------------------------------------
 
 

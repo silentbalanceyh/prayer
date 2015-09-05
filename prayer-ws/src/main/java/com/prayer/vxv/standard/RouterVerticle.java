@@ -3,6 +3,7 @@ package com.prayer.vxv.standard;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 
 /**
@@ -26,15 +27,17 @@ public class RouterVerticle extends AbstractVerticle {
 		HttpServer server = vertx.createHttpServer();
 
 		Router router = Router.router(vertx);
+		Route route = router.route();
 
 		router.route("/test").handler(routingContext -> {
 
 			// This handler will be called for every request
 			HttpServerResponse response = routingContext.response();
 			response.putHeader("content-type", "text/plain");
-
 			// Write to the response and end it
-			response.end("Hello World Router from Vert.x-Web!");
+			response.setChunked(true);
+			response.write("Route1");
+			routingContext.next();
 		});
 
 		server.requestHandler(router::accept).listen(8080);
