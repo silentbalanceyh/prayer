@@ -10,16 +10,10 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.prayer.constant.SystemEnum.FieldDatetime;
-import com.prayer.constant.SystemEnum.KeyCategory;
-import com.prayer.constant.SystemEnum.MetaCategory;
-import com.prayer.constant.SystemEnum.MetaMapping;
-import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.model.h2.FieldModel;
 import com.prayer.model.h2.KeyModel;
 import com.prayer.model.h2.MetaModel;
 import com.prayer.model.h2.vx.VerticleModel;
-import com.prayer.model.type.DataType;
 import com.prayer.schema.db.FieldMapper;
 import com.prayer.schema.db.KeyMapper;
 import com.prayer.schema.db.MetaMapper;
@@ -32,40 +26,8 @@ import com.prayer.schema.db.VerticleMapper;
  * @author Lang
  * @see
  */
-public class AbstractMetaCase {
+public class AbstractMetaCase implements EnumArray{
 	// ~ Static Fields =======================================
-	/** **/
-	public static final KeyCategory[] KEY_CATEGORIES = new KeyCategory[] {
-			KeyCategory.ForeignKey, KeyCategory.PrimaryKey,
-			KeyCategory.UniqueKey };
-	/** **/
-	public static final DataType[] DATA_TYPES = new DataType[] {
-			DataType.BOOLEAN, DataType.INT, DataType.LONG, DataType.DECIMAL,
-			DataType.DATE, DataType.STRING, DataType.JSON, DataType.XML,
-			DataType.SCRIPT, DataType.BINARY };
-	/** **/
-	public static final FieldDatetime[] FIELD_DATETIME = new FieldDatetime[]{
-			FieldDatetime.STRING,
-			FieldDatetime.TIMER
-	};
-	/** **/
-	public static final MetaCategory[] META_CATEGORIES = new MetaCategory[]{
-			MetaCategory.ENTITY,
-			MetaCategory.RELATION
-	};
-	/** **/
-	public static final MetaMapping[] META_MAPPINGS = new MetaMapping[]{
-			MetaMapping.COMBINATED,
-			MetaMapping.DIRECT,
-			MetaMapping.PARTIAL
-	};
-	/** **/
-	public static final MetaPolicy[] META_POLICIES = new MetaPolicy[]{
-			MetaPolicy.ASSIGNED,
-			MetaPolicy.INCREMENT,
-			MetaPolicy.GUID,
-			MetaPolicy.COLLECTION
-	};
 	/** **/
 	private static final int BATCH_SIZE = 24;
 	// ~ Instance Fields =====================================
