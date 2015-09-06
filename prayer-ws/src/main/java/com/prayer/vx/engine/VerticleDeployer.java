@@ -14,6 +14,7 @@ import com.prayer.exception.AbstractVertXException;
 import com.prayer.exception.vertx.VerticleInvalidException;
 import com.prayer.exception.vertx.VerticleNotFoundException;
 import com.prayer.util.Instance;
+import com.prayer.vx.configurator.VerticleConfigurator;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;

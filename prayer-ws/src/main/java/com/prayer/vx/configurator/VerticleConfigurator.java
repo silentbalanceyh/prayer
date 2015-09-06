@@ -1,4 +1,4 @@
-package com.prayer.vx.engine;
+package com.prayer.vx.configurator;
 
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
