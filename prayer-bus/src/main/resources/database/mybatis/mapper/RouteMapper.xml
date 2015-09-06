@@ -65,7 +65,7 @@
 	<update id="update" parameterType="Route" keyColumn="K_ID"
 		keyProperty="uniqueId">
 		<![CDATA[
-			UPDATE EVX_VERTICLE SET
+			UPDATE EVX_ROUTE SET
 				S_PARENT=#{parent},
 				S_PATH=#{path},
 				S_METHOD=#{method,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
@@ -96,20 +96,25 @@
 			DELETE FROM EVX_ROUTE
 		]]>
 	</delete>
-
 	<select id="selectById" parameterType="String" resultMap="routeObject">
 		<![CDATA[
 			SELECT * FROM EVX_ROUTE WHERE K_ID=#{uniqueId}
 		]]>
 	</select>
+	<select id="selectAll" resultMap="routeObject">
+		<![CDATA[
+			SELECT * FROM EVX_ROUTE
+		]]>
+	</select>
+
 	<select id="selectByPath" resultMap="routeObject">
 		<![CDATA[
 			SELECT * FROM EVX_ROUTE WHERE S_PARENT=#{0,jdbcType=VARCHAR} AND S_PATH=#{1,jdbcType=VARCHAR}
 		]]>
 	</select>
-	<select id="selectAll" resultMap="routeObject">
+	<select id="selectByParent" resultMap="routeObject">
 		<![CDATA[
-			SELECT * FROM EVX_ROUTE
+			SELECT * FROM EVX_ROUTE WHERE S_PARENT=#{parent}
 		]]>
 	</select>
 </mapper>

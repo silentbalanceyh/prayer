@@ -1,5 +1,7 @@
 package com.prayer.schema.db;
 
+import java.util.List;
+
 import com.prayer.model.h2.vx.RouteModel;
 
 /**
@@ -15,4 +17,10 @@ public interface RouteMapper extends H2TMapper<RouteModel, String>{
 	 * @return
 	 */
 	RouteModel selectByPath(String parent, String path);
+	/**
+	 * 
+	 * @param parent
+	 * @return
+	 */
+	List<RouteModel> selectByParent(String parent);
 }

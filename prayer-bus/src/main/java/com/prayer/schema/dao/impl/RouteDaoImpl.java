@@ -1,5 +1,7 @@
 package com.prayer.schema.dao.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RouteDaoImpl extends TemplateDaoImpl<RouteModel, String>implements RouteDao {	// NOPMD
+public class RouteDaoImpl extends TemplateDaoImpl<RouteModel, String>implements RouteDao { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(RouteDaoImpl.class);
@@ -56,6 +58,20 @@ public class RouteDaoImpl extends TemplateDaoImpl<RouteModel, String>implements 
 		// 4.关闭Session并返回最终结果
 		session.close();
 		return ret;
+	}
+
+	/** 根据根路径查询 **/
+	@Override
+	public List<RouteModel> getByParent(@NotNull @NotBlank @NotEmpty final String parent) {
+		// 1.初始化SqlSession
+		final SqlSession session = SessionManager.getSession();
+		// 2.获取Mapper
+		final RouteMapper mapper = session.getMapper(RouteMapper.class);
+		// 3.读取Model
+		final List<RouteModel> retList = mapper.selectByParent(parent);
+		// 4.关闭Session并返回最终结果
+		session.close();
+		return retList;
 	}
 
 	// ~ Methods =============================================

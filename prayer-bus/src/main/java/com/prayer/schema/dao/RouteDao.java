@@ -1,5 +1,7 @@
 package com.prayer.schema.dao;
 
+import java.util.List;
+
 import com.prayer.model.h2.vx.RouteModel;
 
 /**
@@ -15,4 +17,10 @@ public interface RouteDao extends TemplateDao<RouteModel, String>{
 	 * @return
 	 */
 	RouteModel getByPath(String parent, String path);
+	/**
+	 * 
+	 * @param parent
+	 * @return
+	 */
+	List<RouteModel> getByParent(String parent);
 }

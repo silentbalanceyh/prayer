@@ -19,8 +19,11 @@ import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.AbstractTransactionException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
+import com.prayer.model.h2.vx.RouteModel;
 import com.prayer.model.h2.vx.VerticleModel;
+import com.prayer.schema.dao.RouteDao;
 import com.prayer.schema.dao.VerticleDao;
+import com.prayer.schema.dao.impl.RouteDaoImpl;
 import com.prayer.schema.dao.impl.VerticleDaoImpl;
 import com.prayer.util.JsonKit;
 import com.prayer.util.StringKit;
@@ -42,9 +45,12 @@ public class ConfigSevImpl implements ConfigService {
 	/** 日志记录器 **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigSevImpl.class);
 	// ~ Instance Fields =====================================
-	/** 访问H2的Database数据库接口 **/
+	/** 访问H2的EVX_VERTICLE接口 **/
 	@NotNull
-	private transient final VerticleDao dao;
+	private transient final VerticleDao verticleDao;
+	/** 访问H2的EVX_ROUTE接口 **/
+	@NotNull
+	private transient final RouteDao routeDao;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -52,7 +58,8 @@ public class ConfigSevImpl implements ConfigService {
 	/** **/
 	@PostValidateThis
 	public ConfigSevImpl() {
-		this.dao = singleton(VerticleDaoImpl.class);
+		this.verticleDao = singleton(VerticleDaoImpl.class);
+		this.routeDao = singleton(RouteDaoImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -61,7 +68,7 @@ public class ConfigSevImpl implements ConfigService {
 	@Override
 	public ServiceResult<VerticleChain> findVerticles(@NotNull @NotBlank @NotEmpty final String group) {
 		final ServiceResult<VerticleChain> result = new ServiceResult<>();
-		final VerticleChain chain = this.dao.getByGroup(group);
+		final VerticleChain chain = this.verticleDao.getByGroup(group);
 		result.setResponse(chain, null);
 		return result;
 	}
@@ -86,7 +93,7 @@ public class ConfigSevImpl implements ConfigService {
 		info(LOGGER, "[I-BUS] Input Size: " + dataList.size());
 		// 3.批量创建
 		try {
-			this.dao.insert(dataList.toArray(new VerticleModel[] {}));
+			this.verticleDao.insert(dataList.toArray(new VerticleModel[] {}));
 		} catch (AbstractTransactionException ex) {
 			info(LOGGER, "[I-BUS] Data accessing error !", ex);
 			result.setResponse(null, ex);
@@ -104,9 +111,35 @@ public class ConfigSevImpl implements ConfigService {
 		// 1.构造响应数据
 		final ServiceResult<ConcurrentMap<String, VerticleChain>> result = new ServiceResult<>();
 		// 2.读取所有的VerticleModel相关信息
-		final List<VerticleModel> verticles = this.dao.getAll();
+		final List<VerticleModel> verticles = this.verticleDao.getAll();
 		// 3.设置返回结果
 		result.setResponse(this.extractResult(verticles), null);
+		// 4.返回最终结果
+		return result;
+	}
+
+	/** 读取主路由下的子路由 **/
+	@Override
+	public ServiceResult<List<RouteModel>> findByParent(final String parent) {
+		// 1.构造响应数据
+		final ServiceResult<List<RouteModel>> result = new ServiceResult<>();
+		// 2.读取所有的RouteMode相关信息
+		final List<RouteModel> routes = this.routeDao.getByParent(parent);
+		// 3.设置返回结果
+		result.setResponse(routes, null);
+		// 4.返回最终结果
+		return result;
+	}
+
+	/** 读取所有路由信息 **/
+	@Override
+	public ServiceResult<List<RouteModel>> findAll() {
+		// 1.构造响应数据
+		final ServiceResult<List<RouteModel>> result = new ServiceResult<>();
+		// 2.读取所有的RouteMode相关信息
+		final List<RouteModel> routes = this.routeDao.getAll();
+		// 3.设置返回结果
+		result.setResponse(routes, null);
 		// 4.返回最终结果
 		return result;
 	}

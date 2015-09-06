@@ -1,6 +1,5 @@
 package com.prayer.schema.db;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +7,7 @@ import java.util.List;
  * @author Lang
  *
  */
-public interface H2TMapper<T, ID extends Serializable> {	// NOPMD
+public interface H2TMapper<T, ID> {	// NOPMD
 	/**
 	 * 
 	 * @param entity

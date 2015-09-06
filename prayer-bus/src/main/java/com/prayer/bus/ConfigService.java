@@ -1,9 +1,11 @@
 package com.prayer.bus;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
+import com.prayer.model.h2.vx.RouteModel;
 
 /**
  * 
@@ -18,6 +20,7 @@ public interface ConfigService {
 	 * @return
 	 */
 	ServiceResult<VerticleChain> findVerticles(final String group);
+
 	/**
 	 * 从Json文件导入Verticle配置数据到H2数据库中
 	 * 
@@ -32,4 +35,18 @@ public interface ConfigService {
 	 * @return
 	 */
 	ServiceResult<ConcurrentMap<String, VerticleChain>> readFromH2();
+
+	/**
+	 * 读取主路由下的子路由
+	 * 
+	 * @return
+	 */
+	ServiceResult<List<RouteModel>> findByParent(final String parent);
+
+	/**
+	 * 读取所有的路由表
+	 * 
+	 * @return
+	 */
+	ServiceResult<List<RouteModel>> findAll();
 }
