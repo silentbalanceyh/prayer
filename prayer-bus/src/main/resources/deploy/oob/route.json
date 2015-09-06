@@ -3,7 +3,7 @@
 		"parent": "/auth",
 		"path": "/authorize",
 		"method": "GET",
-		"requestHandler": "xx",
+		"requestHandler": "com.prayer.vx.handler.TestHandler",
 		"failureHandler": "failure"
 	}
 ]

@@ -163,8 +163,8 @@ CREATE TABLE EVX_ROUTE(
 	S_METHOD VARCHAR(10) NOT NULL				-- HTTP方法
 		CHECK(S_METHOD = 'GET' OR S_METHOD = 'POST' OR S_METHOD = 'PUT' OR S_METHOD = 'DELETE'),
 	--处理器信息
-	S_SHANDLER VARCHAR(256) NOT NULL,			-- Java处理当前Route的SuccessHandler内容
-	S_FHANDLER VARCHAR(256) NOT NULL,			-- Java处理当前Route的FailureHandler内容
+	S_SHANDLER VARCHAR(256),					-- Java处理当前Route的SuccessHandler内容
+	S_FHANDLER VARCHAR(256),					-- Java处理当前Route的FailureHandler内容
 	--同步还是异步处理
 	IS_SYNC BOOLEAN NOT NULL,					-- 判断是同步还是异步
 	PRIMARY KEY(K_ID)

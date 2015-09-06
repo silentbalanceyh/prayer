@@ -60,10 +60,12 @@ public final class Resources { // NOPMD
 	// Metadata SQL File Configuration =======================
 	/** 保存的SQL文件地址 **/
 	public static final String DB_SQL_DIR;
-	
-	// Vertx Configuration ===================================
+
+	// File Configuration ====================================
 	/** Vertx的配置文件路径 **/
 	public static final String VX_CFG_FILE;
+	/** Server的配置文件路径 **/
+	public static final String SEV_CFG_FILE;
 
 	/**
 	 * Private singleton resource LOADER. *
@@ -142,11 +144,16 @@ public final class Resources { // NOPMD
 		if (null == DB_SQL_DIR) {
 			debug(LOGGER, ERR_SYS_NULL, "DB_SQL_DIR", DB_SQL_DIR);
 		}
-		
+
 		// Vertx
 		VX_CFG_FILE = LOADER.getString("vertx.config.file");
-		if (null == VX_CFG_FILE){
+		if (null == VX_CFG_FILE) {
 			debug(LOGGER, ERR_SYS_NULL, "VX_CFG_FILE", VX_CFG_FILE);
+		}
+		// Server
+		SEV_CFG_FILE = LOADER.getString("server.config.file");
+		if (null == SEV_CFG_FILE) {
+			debug(LOGGER, ERR_SYS_NULL, "SEV_CFG_FILE", SEV_CFG_FILE);
 		}
 	}
 
