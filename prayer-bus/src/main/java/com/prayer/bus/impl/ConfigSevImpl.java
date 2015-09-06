@@ -75,7 +75,7 @@ public class ConfigSevImpl implements ConfigService {
 
 	/** 将数据从Json文件导入到H2数据库中 **/
 	@Override
-	public ServiceResult<ConcurrentMap<String, VerticleChain>> importToH2(
+	public ServiceResult<ConcurrentMap<String, VerticleChain>> importVerticles(
 			@NotNull @NotBlank @NotEmpty final String jsonPath) {
 		// 1.构造响应数据
 		final ServiceResult<ConcurrentMap<String, VerticleChain>> result = new ServiceResult<>();
@@ -87,40 +87,40 @@ public class ConfigSevImpl implements ConfigService {
 			};
 			dataList = JsonKit.fromFile(typeRef, jsonPath);
 		} catch (AbstractSystemException ex) {
-			info(LOGGER, "[I-BUS] Serialization error when reading data from file : file = " + jsonPath, ex);
+			info(LOGGER, "[I-BUS] (Verticles) Serialization error when reading data from file : file = " + jsonPath,
+					ex);
 			result.setResponse(null, ex);
 		}
-		info(LOGGER, "[I-BUS] Input Size: " + dataList.size());
 		// 3.批量创建
 		try {
 			this.verticleDao.insert(dataList.toArray(new VerticleModel[] {}));
 		} catch (AbstractTransactionException ex) {
-			info(LOGGER, "[I-BUS] Data accessing error !", ex);
+			info(LOGGER, "[I-BUS] (Verticles) Data accessing error !", ex);
 			result.setResponse(null, ex);
 		}
 		// 4.返回最终的Result信息
 		if (ResponseCode.SUCCESS == result.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {
-			result.setResponse(this.extractResult(dataList), null);
+			result.setResponse(this.extractVerticles(dataList), null);
 		}
 		return result;
 	}
 
 	/** 读取数据库中所有的VerticleModel配置信息 **/
 	@Override
-	public ServiceResult<ConcurrentMap<String, VerticleChain>> readFromH2() {
+	public ServiceResult<ConcurrentMap<String, VerticleChain>> findVerticles() {
 		// 1.构造响应数据
 		final ServiceResult<ConcurrentMap<String, VerticleChain>> result = new ServiceResult<>();
 		// 2.读取所有的VerticleModel相关信息
 		final List<VerticleModel> verticles = this.verticleDao.getAll();
 		// 3.设置返回结果
-		result.setResponse(this.extractResult(verticles), null);
+		result.setResponse(this.extractVerticles(verticles), null);
 		// 4.返回最终结果
 		return result;
 	}
 
 	/** 读取主路由下的子路由 **/
 	@Override
-	public ServiceResult<List<RouteModel>> findByParent(final String parent) {
+	public ServiceResult<List<RouteModel>> findRoutes(@NotNull @NotBlank @NotEmpty final String parent) {
 		// 1.构造响应数据
 		final ServiceResult<List<RouteModel>> result = new ServiceResult<>();
 		// 2.读取所有的RouteMode相关信息
@@ -133,20 +133,72 @@ public class ConfigSevImpl implements ConfigService {
 
 	/** 读取所有路由信息 **/
 	@Override
-	public ServiceResult<List<RouteModel>> findAll() {
+	public ServiceResult<ConcurrentMap<String, List<RouteModel>>> findRoutes() {
 		// 1.构造响应数据
-		final ServiceResult<List<RouteModel>> result = new ServiceResult<>();
+		final ServiceResult<ConcurrentMap<String, List<RouteModel>>> result = new ServiceResult<>();
 		// 2.读取所有的RouteMode相关信息
 		final List<RouteModel> routes = this.routeDao.getAll();
 		// 3.设置返回结果
-		result.setResponse(routes, null);
+		result.setResponse(this.extractRoutes(routes), null);
 		// 4.返回最终结果
+		return result;
+	}
+
+	/** 从Json中导入数据到H2数据库 **/
+	@Override
+	public ServiceResult<ConcurrentMap<String, List<RouteModel>>> importRoutes(
+			@NotNull @NotBlank @NotEmpty final String jsonPath) {
+		// 1.构造响应数据
+		final ServiceResult<ConcurrentMap<String, List<RouteModel>>> result = new ServiceResult<>();
+		// 2.从Json中读取List
+		List<RouteModel> dataList = new ArrayList<>();
+		try {
+			// 特殊的Type引用，用于序列化
+			final TypeReference<List<RouteModel>> typeRef = new TypeReference<List<RouteModel>>() {
+			};
+			dataList = JsonKit.fromFile(typeRef, jsonPath);
+		} catch (AbstractSystemException ex) {
+			info(LOGGER, "[I-BUS] (Routes) Serialization error when reading data from file : file = " + jsonPath, ex);
+			result.setResponse(null, ex);
+		}
+		// 3.批量创建
+		try {
+			this.routeDao.insert(dataList.toArray(new RouteModel[] {}));
+		} catch (AbstractTransactionException ex) {
+			info(LOGGER, "[I-BUS] (Routes) Data accessing error !", ex);
+			result.setResponse(null, ex);
+		}
+		// 4.返回最终的Result信息
+		if (ResponseCode.SUCCESS == result.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {
+			result.setResponse(this.extractRoutes(dataList), null);
+		}
 		return result;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 
-	private ConcurrentMap<String, VerticleChain> extractResult(final List<VerticleModel> dataList) {
+	private ConcurrentMap<String, List<RouteModel>> extractRoutes(final List<RouteModel> dataList) {
+		// 1.构造结果
+		final ConcurrentMap<String, List<RouteModel>> retMap = new ConcurrentHashMap<>();
+		// 2.遍历结果集
+		for (final RouteModel item : dataList) {
+			if (StringKit.isNonNil(item.getParent())) {
+				// 3.1.获取某个Parent下的List
+				List<RouteModel> list = retMap.get(item.getParent());
+				// 3.2.判断是否获取到
+				if (null == list) {
+					list = new ArrayList<>(); // NOPMD
+				}
+				// 3.3.添加对象到List中
+				list.add(item);
+				// 3.4.完成过后将内容重新推回到Map中
+				retMap.put(item.getParent(), list);
+			}
+		}
+		return retMap;
+	}
+
+	private ConcurrentMap<String, VerticleChain> extractVerticles(final List<VerticleModel> dataList) {
 		// 1.构造结果
 		final ConcurrentMap<String, VerticleChain> retMap = new ConcurrentHashMap<>();
 		// 2.遍历结果集

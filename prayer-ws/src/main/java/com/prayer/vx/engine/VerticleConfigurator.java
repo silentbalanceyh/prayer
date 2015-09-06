@@ -122,7 +122,7 @@ public class VerticleConfigurator {
 
 	private void initDataMap() {
 		if (DATA_MAP.isEmpty()) {
-			final ServiceResult<ConcurrentMap<String, VerticleChain>> result = this.service.readFromH2();
+			final ServiceResult<ConcurrentMap<String, VerticleChain>> result = this.service.findVerticles();
 			if (ResponseCode.SUCCESS == result.getResponseCode()) {
 				DATA_MAP.putAll(result.getResult());
 			} else {

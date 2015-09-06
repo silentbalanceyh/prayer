@@ -1,15 +1,21 @@
 package com.prayer.schema.db;
 
 import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.singleton;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.bus.ConfigService;
+import com.prayer.bus.impl.ConfigSevImpl;
 import com.prayer.model.h2.vx.RouteModel;
 
 /**
@@ -63,28 +69,46 @@ public class RouteMapperTestCase extends AbstractMapperCase<RouteModel, String> 
 		mapper.deleteById(targetT.getUniqueId());
 		this.session().commit();
 	}
+
 	/** **/
 	@Test
-	public void testSelectByParent(){
-		final RouteMapper mapper = (RouteMapper)this.getMapper();
+	public void testSelectByParent() {
+		final RouteMapper mapper = (RouteMapper) this.getMapper();
 		final List<RouteModel> entities = this.getTs(null);
 		// 重新设置父路径
-		for(int idx = 0; idx < 15; idx++ ){
+		for (int idx = 0; idx < 15; idx++) {
 			entities.get(idx).setParent("/auth");
 		}
 		mapper.batchInsert(entities);
 		this.session().commit();
 		// 从数据库中读取15条数据
 		final List<RouteModel> targetTs = mapper.selectByParent("/auth");
-		info(getLogger(),"[TD] (SelectByParent) Selected by parent = /auth, Size = " + targetTs.size());
+		info(getLogger(), "[TD] (SelectByParent) Selected by parent = /auth, Size = " + targetTs.size());
 		assertEquals("[E] (SelectByParent) Selected size must be the same as expected !", 15, targetTs.size());
 		// 删除插入的数据
 		final List<String> ids = new ArrayList<>();
-		for(final RouteModel entity: entities){
+		for (final RouteModel entity : entities) {
 			ids.add(entity.getUniqueId());
 		}
 		mapper.batchDelete(ids);
 		this.session().commit();
+	}
+
+	// ~ OOB Deployment ======================================
+	/** **/
+	@BeforeClass
+	public static void clearRoutes() {
+		final SqlSession session = SessionManager.getSession();
+		final RouteMapper mapper = session.getMapper(RouteMapper.class);
+		mapper.purgeData();
+		session.commit();
+	}
+
+	/** Import Data into H2 Database **/
+	@AfterClass
+	public static void importRoutes() {
+		final ConfigService service = singleton(ConfigSevImpl.class);
+		service.importRoutes("deploy/oob/route.json");
 	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

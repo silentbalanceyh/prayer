@@ -1,0 +1,9 @@
+[
+	{
+		"parent": "/auth",
+		"path": "/authorize",
+		"method": "GET",
+		"requestHandler": "xx",
+		"failureHandler": "failure"
+	}
+]
