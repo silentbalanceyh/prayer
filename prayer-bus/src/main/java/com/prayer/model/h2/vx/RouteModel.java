@@ -1,6 +1,7 @@
 package com.prayer.model.h2.vx;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,9 +33,19 @@ public class RouteModel implements Serializable { // NOPMD
 	/** S_PATH **/
 	@JsonProperty("path")
 	private String path;
+	/** S_MIME_CONSUMER **/
+	@JsonProperty("consumerMimes")
+	private List<String> consumerMimes;
+	/** S_MIME_PRODUCER **/
+	@JsonProperty("producerMimes")
+	private List<String> producerMimes;
 	/** S_METHOD **/
 	@JsonProperty("method")
 	private HttpMethod method;
+	/** S_ORDER **/
+	@JsonProperty("order")
+	private int order = Constants.VX_DEFAULT_ORDER;
+	
 	/** S_SHANDLER **/
 	@JsonProperty("requestHandler")
 	private String requestHandler;
@@ -157,6 +168,48 @@ public class RouteModel implements Serializable { // NOPMD
 	 */
 	public void setSync(final boolean sync) {
 		this.sync = sync;
+	}
+
+	/**
+	 * @return the order
+	 */
+	public int getOrder() {
+		return order;
+	}
+
+	/**
+	 * @param order the order to set
+	 */
+	public void setOrder(final int order) {
+		this.order = order;
+	}
+
+	/**
+	 * @return the consumerMimes
+	 */
+	public List<String> getConsumerMimes() {
+		return consumerMimes;
+	}
+
+	/**
+	 * @param consumerMimes the consumerMimes to set
+	 */
+	public void setConsumerMimes(final List<String> consumerMimes) {
+		this.consumerMimes = consumerMimes;
+	}
+
+	/**
+	 * @return the producerMimes
+	 */
+	public List<String> getProducerMimes() {
+		return producerMimes;
+	}
+
+	/**
+	 * @param producerMimes the producerMimes to set
+	 */
+	public void setProducerMimes(final List<String> producerMimes) {
+		this.producerMimes = producerMimes;
 	}
 
 	// ~ hashCode,equals,toString ============================

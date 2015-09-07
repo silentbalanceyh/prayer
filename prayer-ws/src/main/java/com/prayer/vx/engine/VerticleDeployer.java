@@ -97,7 +97,7 @@ public class VerticleDeployer {
 				this.vertxRef.deployVerticle(name, DATA_SYNC.get(name));
 			}
 		} else {
-			info(LOGGER, "[I-VX] Vertx reference = " + this.vertxRef + ", size = " + DATA_SYNC.size());
+			info(LOGGER, "[I-VX] (Sync) Vertx reference = " + this.vertxRef + ", size = " + DATA_SYNC.size());
 		}
 	}
 
@@ -116,7 +116,7 @@ public class VerticleDeployer {
 				this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), DeploymentHandler.create());
 			}
 		} else {
-			info(LOGGER, "[I-VX] Vertx reference = " + this.vertxRef + ", size = " + DATA_ASYNC.size());
+			info(LOGGER, "[I-VX] (Async) Vertx reference = " + this.vertxRef + ", size = " + DATA_ASYNC.size());
 		}
 	}
 	

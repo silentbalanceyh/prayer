@@ -130,8 +130,8 @@ CREATE TABLE EVX_VERTICLE(
 	S_INSTANCES INT								-- 实例数量
 		CHECK(S_INSTANCES > 0),
 	S_IGROUP VARCHAR(256),						-- Isolation Group信息
-	S_JSON_CONFIG VARCHAR(2000),				-- 额外的Json配置
-	S_ISOLATED_CLASSES VARCHAR(2000),			-- Isolation Classes
+	S_JSON_CONFIG VARCHAR(2048),				-- 额外的Json配置
+	S_ISOLATED_CLASSES VARCHAR(2048),			-- Isolation Classes
 	--配置项中的两个特殊的类路径
 	CP_EXT VARCHAR(2000),						-- Extra Classpath
 	--配置属性Boolean类型
@@ -162,6 +162,9 @@ CREATE TABLE EVX_ROUTE(
 	S_PATH VARCHAR(256) NOT NULL,				-- 客户端访问的入口URI路径
 	S_METHOD VARCHAR(10) NOT NULL				-- HTTP方法
 		CHECK(S_METHOD = 'GET' OR S_METHOD = 'POST' OR S_METHOD = 'PUT' OR S_METHOD = 'DELETE'),
+	S_MIME_CONSUMER VARCHAR(2048),				-- Consumer Mimes
+	S_MIME_PRODUCER VARCHAR(2048),				-- Producer Mimes
+	S_ORDER INT,								-- 同一个路径下的ORDER，这个值只有路径相同时才会使用
 	--处理器信息
 	S_SHANDLER VARCHAR(256),					-- Java处理当前Route的SuccessHandler内容
 	S_FHANDLER VARCHAR(256),					-- Java处理当前Route的FailureHandler内容

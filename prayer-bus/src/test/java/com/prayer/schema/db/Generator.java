@@ -64,7 +64,7 @@ final class Generator {	// NOPMD
 			ret = random.nextBoolean();
 		} else if (List.class == type) {
 			// 仅支持String类型
-			final int length = random.nextInt(30);
+			final int length = random.nextInt(10);
 			final List<String> list = new ArrayList<>();
 			for (int i = 0; i < length; i++) {
 				list.add(uuid());

@@ -57,4 +57,6 @@ public interface Constants { // NOPMD
 	// ~ Vertx Default =======================================
 	/** HA Group Default **/
 	String VX_GROUP = "__DEFAULT__";
+	/** 默认的顺序，但不设置，作为临界值 **/
+	int VX_DEFAULT_ORDER = -10000;
 }

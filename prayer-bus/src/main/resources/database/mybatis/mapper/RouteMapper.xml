@@ -10,6 +10,13 @@
 		<result column="S_METHOD" property="method"
 			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 
+		<result column="S_MIME_CONSUMER" property="consumerMimes"
+			typeHandler="com.prayer.schema.db.handler.ArrayJsonHandler" />
+		<result column="S_MIME_PRODUCER" property="producerMimes"
+			typeHandler="com.prayer.schema.db.handler.ArrayJsonHandler" />
+
+		<result column="S_ORDER" property="order" />
+
 		<result column="S_SHANDLER" property="requestHandler" />
 		<result column="S_FHANDLER" property="failureHandler" />
 
@@ -23,6 +30,9 @@
 				S_PARENT,
 				S_PATH,
 				S_METHOD,
+				S_MIME_CONSUMER,
+				S_MIME_PRODUCER,
+				S_ORDER,
 				S_SHANDLER,
 				S_FHANDLER,
 				IS_SYNC
@@ -31,6 +41,9 @@
 				#{parent},
 				#{path},
 				#{method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{consumerMimes, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
+				#{producerMimes, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
+				#{order},
 				#{requestHandler},
 				#{failureHandler},
 				#{sync}
@@ -44,6 +57,9 @@
 				S_PARENT,
 				S_PATH,
 				S_METHOD,
+				S_MIME_CONSUMER,
+				S_MIME_PRODUCER,
+				S_ORDER,
 				S_SHANDLER,
 				S_FHANDLER,
 				IS_SYNC
@@ -56,6 +72,9 @@
 				#{item.parent},
 				#{item.path},
 				#{item.method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{item.consumerMimes, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
+				#{item.producerMimes, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
+				#{item.order},
 				#{item.requestHandler},
 				#{item.failureHandler},
 				#{item.sync}
@@ -69,6 +88,9 @@
 				S_PARENT=#{parent},
 				S_PATH=#{path},
 				S_METHOD=#{method,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				S_MIME_CONSUMER=#{consumerMimes, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
+				S_MIME_PRODUCER=#{producerMimes, typeHandler=com.prayer.schema.db.handler.ArrayJsonHandler},
+				S_ORDER=#{order},
 				S_SHANDLER=#{requestHandler},
 				S_FHANDLER=#{failureHandler},
 				IS_SYNC=#{sync}
