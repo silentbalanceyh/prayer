@@ -15,13 +15,12 @@ import com.prayer.exception.vertx.VerticleInvalidException;
 import com.prayer.exception.vertx.VerticleNotFoundException;
 import com.prayer.util.Instance;
 import com.prayer.vx.configurator.VerticleConfigurator;
+import com.prayer.vx.handler.internal.DeploymentHandler;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -71,13 +70,26 @@ public class VerticleDeployer {
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	/**
+	 * 发布所有的Verticles
+	 * 
+	 * @throws AbstractVertXException
+	 */
+	public void deployVerticles() throws AbstractVertXException {
+		// 1. 先同步发布所有SYNC的Verticles
+		this.deploySyncVerticles();
+		// 2. 然后异步发布所有ASYNC的Verticles
+		this.deployAsyncVerticles();
+	}
+
+	// ~ Private Methods =====================================
+	/**
 	 * 发布所有同步的Verticles
 	 * 
 	 * @throws AbstractVertXException
 	 */
-	public void deploySyncVerticles() throws AbstractVertXException {
+	private void deploySyncVerticles() throws AbstractVertXException {
 		if (!DATA_SYNC.isEmpty() && null != this.vertxRef) {
-			info(LOGGER, "[I-VX] Verticle count number:  " + DATA_SYNC.size());
+			info(LOGGER, "[I-VX] (Sync) Verticle count number:  " + DATA_SYNC.size());
 			for (final String name : DATA_SYNC.keySet()) {
 				// 1.检查当前配置
 				this.checkVerticle(name);
@@ -85,8 +97,7 @@ public class VerticleDeployer {
 				this.vertxRef.deployVerticle(name, DATA_SYNC.get(name));
 			}
 		} else {
-			info(LOGGER, "[I-VX] Vertx reference = " + this.vertxRef);
-			info(LOGGER, "[I-VX] Deployment options size = " + DATA_SYNC.size());
+			info(LOGGER, "[I-VX] Vertx reference = " + this.vertxRef + ", size = " + DATA_SYNC.size());
 		}
 	}
 
@@ -95,20 +106,20 @@ public class VerticleDeployer {
 	 * 
 	 * @throws AbstractVertXException
 	 */
-	public void deployAsyncVerticles() throws AbstractVertXException {
-
+	private void deployAsyncVerticles() throws AbstractVertXException {
+		if (!DATA_ASYNC.isEmpty() && null != this.vertxRef) {
+			info(LOGGER, "[I-VX] (Async) Verticle count number:  " + DATA_SYNC.size());
+			for (final String name : DATA_ASYNC.keySet()) {
+				// 1.检查当前配置
+				this.checkVerticle(name);
+				// 2.发布这个Verticle
+				this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), DeploymentHandler.create());
+			}
+		} else {
+			info(LOGGER, "[I-VX] Vertx reference = " + this.vertxRef + ", size = " + DATA_ASYNC.size());
+		}
 	}
-
-	/**
-	 * 
-	 * @param group
-	 * @throws AbstractVertXException
-	 */
-	public void deployVerticles(@NotNull @NotBlank @NotEmpty final String group) throws AbstractVertXException {
-
-	}
-	// ~ Private Methods =====================================
-
+	
 	private void checkVerticle(final String className) throws AbstractVertXException {
 		// 1.检查是否存在这个类
 		Class<?> clazz = Instance.clazz(className);

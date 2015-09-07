@@ -31,7 +31,7 @@ import net.sf.oval.guard.Guarded;
  */
 @SuppressWarnings("unchecked")
 @Guarded
-public final class Instance {
+public final class Instance {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(Instance.class);

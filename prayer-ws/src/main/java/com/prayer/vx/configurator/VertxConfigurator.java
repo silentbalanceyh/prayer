@@ -1,4 +1,4 @@
-package com.prayer.vx.engine;
+package com.prayer.vx.configurator;
 
 import static com.prayer.util.Error.info;
 
@@ -8,13 +8,9 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Resources;
 import com.prayer.util.PropertyKit;
 
-import io.vertx.core.Context;
-import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.impl.VertxFactoryImpl;
 import io.vertx.core.spi.VertxFactory;
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -24,15 +20,15 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class EngineCluster {
+public final class VertxConfigurator {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(EngineCluster.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VertxConfigurator.class);
 	/** 一个EngineCluster中提供的Factory的实例 **/
 	private static final VertxFactory FACTORY = new VertxFactoryImpl();
 	// ~ Instance Fields =====================================
 	/** 读取全局vertx的属性配置 **/
-	private transient final PropertyKit LOADER = new PropertyKit(EngineCluster.class, Resources.VX_CFG_FILE);
+	private transient final PropertyKit LOADER = new PropertyKit(VertxConfigurator.class, Resources.VX_CFG_FILE);
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -40,19 +36,6 @@ public class EngineCluster {
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
-	/**
-	 * 获取Vertx相关信息
-	 * 
-	 * @return
-	 */
-	@NotNull
-	public Vertx getVertx(@NotNull @NotBlank @NotEmpty final String name) {
-		Vertx vertx = null;
-		if (null != FACTORY) {
-			vertx = FACTORY.vertx(this.getOptions(name));
-		}
-		return vertx;
-	}
 
 	/**
 	 * 获取当前VertxFactory提供的Global Context
@@ -60,16 +43,16 @@ public class EngineCluster {
 	 * @return
 	 */
 	@NotNull
-	public Context getContext() {
-		Context context = null;
-		if (null != FACTORY) {
-			context = FACTORY.context();
-		}
-		return context;
+	public VertxFactory getFactory(){
+		return FACTORY;
 	}
-
-	// ~ Private Methods =====================================
-	private VertxOptions getOptions(final String name) {
+	/**
+	 * 获取Vertx的Options
+	 * @param name
+	 * @return
+	 */
+	@NotNull
+	public VertxOptions getOptions(final String name) {
 		VertxOptions options = new VertxOptions();
 		if (null != this.LOADER) {
 			// Pool Size
@@ -98,6 +81,8 @@ public class EngineCluster {
 		}
 		return options;
 	}
+
+	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

@@ -19,7 +19,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class Generator {
+final class Generator {	// NOPMD
 	// ~ Static Fields =======================================
 	/**
 	 * 针对对象中的信息随机设置
