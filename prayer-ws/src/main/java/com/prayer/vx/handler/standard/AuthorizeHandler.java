@@ -1,10 +1,10 @@
-package com.prayer.vx.handler;
+package com.prayer.vx.handler.standard;
 
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 
-public class TestHandler implements Handler<RoutingContext> {
+public class AuthorizeHandler implements Handler<RoutingContext> {
 
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
