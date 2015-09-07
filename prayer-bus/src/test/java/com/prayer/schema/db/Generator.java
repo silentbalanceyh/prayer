@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -19,7 +20,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class Generator {	// NOPMD
+final class Generator { // NOPMD
 	// ~ Static Fields =======================================
 	/**
 	 * 针对对象中的信息随机设置
@@ -48,7 +49,7 @@ final class Generator {	// NOPMD
 		}
 	}
 
-	private static Object generateValue(final Class<?> type, final String name) {
+	private static Object generateValue(final Class<?> type, final String name) {	// NOPMD
 		Object ret = null;
 		final Random random = new Random();
 		if (int.class == type || Integer.class == type) {
@@ -73,6 +74,8 @@ final class Generator {	// NOPMD
 		} else if (null != type.getEnumConstants()) { // NOPMD
 			final int length = type.getEnumConstants().length;
 			ret = type.getEnumConstants()[random.nextInt(length - 1)];
+		} else if (JsonObject.class == type) {
+			ret = new JsonObject("{\"username\":\"Lang\",\"password\":\"pl,okm123\"}");
 		}
 		return ret;
 	}

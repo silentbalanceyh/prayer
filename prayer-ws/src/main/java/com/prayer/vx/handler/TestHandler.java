@@ -15,6 +15,7 @@ public class TestHandler implements Handler<RoutingContext> {
 	// ~ Override Methods ====================================
 	@Override
 	public void handle(RoutingContext routingContext) {
+		System.out.println(routingContext.request().path());
 		// // This handler will be called for every request
 		HttpServerResponse response = routingContext.response();
 		response.putHeader("content-type", "text/plain");

@@ -38,7 +38,7 @@ import net.sf.oval.guard.Guarded;
  * @see
  */
 @Guarded
-public final class JsonKit {	// NOPMD
+public final class JsonKit { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(JsonKit.class);
@@ -66,6 +66,7 @@ public final class JsonKit {	// NOPMD
 			debug(LOGGER, "E20003", ex, ex.toString());
 			throw new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
 		} catch (IOException ex) {
+			// DEBUG: ex.printStackTrace();
 			debug(LOGGER, "E20002", ex, file);
 			throw new ResourceIOException(JsonKit.class, file); // NOPMD
 		}

@@ -54,6 +54,12 @@ public final class SystemEnum { 	// NOPMD
 		PUT,
 		DELETE
 	}
+	/** Http请求参数类型 **/
+	public static enum ParamType{
+		QUERY,		// /uri/:a/:b/, /uri?a=x&b=y
+		FORM,		// 表单上获取
+		BODY		// 直接从Body中获取
+	}
 	// ~ Constructors ========================================
 	private SystemEnum(){}
 }

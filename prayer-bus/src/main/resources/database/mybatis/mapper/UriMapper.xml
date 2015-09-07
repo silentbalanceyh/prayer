@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.schema.db.UriMapper">
+	<resultMap type="Uri" id="uriObject">
+		<id column="K_ID" property="uniqueId" />
+		<result column="S_URI" property="uri" />
+		<result column="S_PARAM_TYPE" property="paramType"
+			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result column="L_REQUIRED_PARAM" property="requiredParam"
+			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
+
+		<result column="J_CONVERTORS" property="convertors"
+			typeHandler="com.prayer.schema.db.handler.JsonHandler" />
+		<result column="J_VALIDATORS" property="validators"
+			typeHandler="com.prayer.schema.db.handler.JsonHandler" />
+	</resultMap>
+	<insert id="insert" parameterType="Uri" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			INSERT INTO EVX_URI (
+				K_ID,
+				S_URI,
+				S_PARAM_TYPE,
+				L_REQUIRED_PARAM,
+				J_CONVERTORS,
+				J_VALIDATORS
+			) VALUES (
+				#{uniqueId},
+				#{uri},
+				#{paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+				#{convertors, typeHandler=com.prayer.schema.db.handler.JsonHandler},
+				#{validators, typeHandler=com.prayer.schema.db.handler.JsonHandler}
+			)
+		]]>
+	</insert>
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+			INSERT INTO EVX_URI (
+				K_ID,
+				S_URI,
+				S_PARAM_TYPE,
+				L_REQUIRED_PARAM,
+				J_CONVERTORS,
+				J_VALIDATORS
+			) VALUES
+		]]>
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			<![CDATA[(
+				#{item.uniqueId},
+				#{item.uri},
+				#{item.paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+				#{item.convertors, typeHandler=com.prayer.schema.db.handler.JsonHandler},
+				#{item.validators, typeHandler=com.prayer.schema.db.handler.JsonHandler}
+			)]]>
+		</foreach>
+	</insert>
+	<update id="update" parameterType="Uri" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			UPDATE EVX_URI SET
+				S_URI=#{uri},
+				S_PARAM_TYPE=#{paramType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+				J_CONVERTORS=#{convertors, typeHandler=com.prayer.schema.db.handler.JsonHandler},
+				J_VALIDATORS=#{validators, typeHandler=com.prayer.schema.db.handler.JsonHandler}
+			WHERE K_ID=#{uniqueId}
+		]]>
+	</update>
+	<delete id="deleteById" parameterType="String">
+		<![CDATA[
+			DELETE FROM EVX_URI WHERE K_ID=#{uniqueId}
+		]]>
+	</delete>
+	<delete id="batchDelete" parameterType="java.util.List">
+		<![CDATA[
+			DELETE FROM EVX_URI WHERE K_ID IN
+		]]>
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			<![CDATA[
+				#{item}
+			]]>
+		</foreach>
+	</delete>
+	<delete id="purgeData">
+		<![CDATA[
+			DELETE FROM EVX_URI
+		]]>
+	</delete>
+	<select id="selectById" parameterType="String" resultMap="uriObject">
+		<![CDATA[
+			SELECT * FROM EVX_URI WHERE K_ID=#{uniqueId}
+		]]>
+	</select>
+	<select id="selectAll" resultMap="uriObject">
+		<![CDATA[
+			SELECT * FROM EVX_URI
+		]]>
+	</select>
+
+	<select id="selectByUri" resultMap="uriObject">
+		<![CDATA[
+			SELECT * FROM EVX_URI WHERE S_URI=#{uri}
+		]]>
+	</select>
+</mapper>

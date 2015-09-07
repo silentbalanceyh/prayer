@@ -18,7 +18,7 @@ import com.prayer.util.JsonKit;
  *
  */
 @SuppressWarnings("unchecked")
-public class ArrayJsonHandler extends BaseTypeHandler<List<String>> { // NOPMD
+public class ArrayHandler extends BaseTypeHandler<List<String>> { // NOPMD
 
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================

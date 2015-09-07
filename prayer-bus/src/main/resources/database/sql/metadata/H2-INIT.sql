@@ -179,5 +179,19 @@ CREATE INDEX IDX_ROUTE_METHOD ON EVX_ROUTE(S_METHOD);
 CREATE INDEX IDX_ROUTE_IS_SYNC ON EVX_ROUTE(IS_SYNC);
 
 --------------------------------------------------------------------------------------
-
+-- EVX_URI, 接口参数验证表，保存了某个接口中的参数获取方式以及参数规范
+DROP TABLE IF EXISTS EVX_URI;
+CREATE TABLE EVX_URI(
+	K_ID VARCHAR(192),							-- 当前URI对应的ID标识符
+	S_URI VARCHAR(256) NOT NULL,				-- 系统中的URI地址，唯一值
+	S_PARAM_TYPE VARCHAR(10) NOT NULL			-- 参数的获取方式
+		CHECK(S_PARAM_TYPE = 'QUERY' OR S_PARAM_TYPE = 'FORM' OR S_PARAM_TYPE = 'BODY'),
+	L_REQUIRED_PARAM VARCHAR(2048),				-- 必须参数列表
+	J_CONVERTORS CLOB,							-- 转换函数，记录每个参数的转换
+	J_VALIDATORS CLOB,							-- 记录每个参数的验证器
+	PRIMARY KEY(K_ID)
+);
+-- EVX_URI的索引创建
+CREATE INDEX IDX_URI_URI ON EVX_URI(S_URI);
+CREATE INDEX IDX_URI_PARAM_TYPE ON EVX_URI(S_PARAM_TYPE);
 

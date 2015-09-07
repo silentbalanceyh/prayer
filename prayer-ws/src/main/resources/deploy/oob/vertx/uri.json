@@ -1,0 +1,13 @@
+[
+	{
+		"uri":"/oauth/authorize",
+		"paramType":"QUERY",
+		"requiredParam":["username","password"],
+		"convertors":{
+			"username":"com.vvv"
+		},
+		"validators":{
+			"username":"com.vvv"
+		}
+	}
+]
