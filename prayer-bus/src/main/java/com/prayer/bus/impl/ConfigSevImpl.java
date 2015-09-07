@@ -1,4 +1,4 @@
-package com.prayer.bus.impl;
+package com.prayer.bus.impl;	// NOPMD
 
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
@@ -33,6 +33,7 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -66,6 +67,7 @@ public class ConfigSevImpl implements ConfigService {
 	// ~ Override Methods ====================================
 	/** 读取的特殊方法，无异常信息抛出。 **/
 	@Override
+	@PreValidateThis
 	public ServiceResult<VerticleChain> findVerticles(@NotNull @NotBlank @NotEmpty final String group) {
 		final ServiceResult<VerticleChain> result = new ServiceResult<>();
 		final VerticleChain chain = this.verticleDao.getByGroup(group);
@@ -75,6 +77,7 @@ public class ConfigSevImpl implements ConfigService {
 
 	/** 将数据从Json文件导入到H2数据库中 **/
 	@Override
+	@PreValidateThis
 	public ServiceResult<ConcurrentMap<String, VerticleChain>> importVerticles(
 			@NotNull @NotBlank @NotEmpty final String jsonPath) {
 		// 1.构造响应数据
@@ -87,7 +90,7 @@ public class ConfigSevImpl implements ConfigService {
 			};
 			dataList = JsonKit.fromFile(typeRef, jsonPath);
 		} catch (AbstractSystemException ex) {
-			info(LOGGER, "[I-BUS] (Verticles) Serialization error when reading data from file : file = " + jsonPath,
+			info(LOGGER, "[E-BUS] (Verticles) Serialization error when reading data from file : file = " + jsonPath,
 					ex);
 			result.setResponse(null, ex);
 		}
@@ -95,7 +98,7 @@ public class ConfigSevImpl implements ConfigService {
 		try {
 			this.verticleDao.insert(dataList.toArray(new VerticleModel[] {}));
 		} catch (AbstractTransactionException ex) {
-			info(LOGGER, "[I-BUS] (Verticles) Data accessing error !", ex);
+			info(LOGGER, "[E-BUS] (Verticles) Data accessing error !", ex);
 			result.setResponse(null, ex);
 		}
 		// 4.返回最终的Result信息
@@ -107,6 +110,7 @@ public class ConfigSevImpl implements ConfigService {
 
 	/** 读取数据库中所有的VerticleModel配置信息 **/
 	@Override
+	@PreValidateThis
 	public ServiceResult<ConcurrentMap<String, VerticleChain>> findVerticles() {
 		// 1.构造响应数据
 		final ServiceResult<ConcurrentMap<String, VerticleChain>> result = new ServiceResult<>();
@@ -118,8 +122,26 @@ public class ConfigSevImpl implements ConfigService {
 		return result;
 	}
 
+	/** 删除所有的配置信息 **/
+	@Override
+	@PreValidateThis
+	public ServiceResult<Boolean> purgeVerticles() {
+		// 1.构造响应数据
+		final ServiceResult<Boolean> result = new ServiceResult<>();
+		// 2.调用删除方法
+		try {
+			this.verticleDao.clear();
+			result.setResponse(Boolean.TRUE, null);
+		} catch (AbstractTransactionException ex) {
+			info(LOGGER, "[E-BUS] (Verticles) Data accessing error !", ex);
+			result.setResponse(Boolean.FALSE, ex);
+		}
+		return result;
+	}
+
 	/** 读取主路由下的子路由 **/
 	@Override
+	@PreValidateThis
 	public ServiceResult<List<RouteModel>> findRoutes(@NotNull @NotBlank @NotEmpty final String parent) {
 		// 1.构造响应数据
 		final ServiceResult<List<RouteModel>> result = new ServiceResult<>();
@@ -133,6 +155,7 @@ public class ConfigSevImpl implements ConfigService {
 
 	/** 读取所有路由信息 **/
 	@Override
+	@PreValidateThis
 	public ServiceResult<ConcurrentMap<String, List<RouteModel>>> findRoutes() {
 		// 1.构造响应数据
 		final ServiceResult<ConcurrentMap<String, List<RouteModel>>> result = new ServiceResult<>();
@@ -146,6 +169,7 @@ public class ConfigSevImpl implements ConfigService {
 
 	/** 从Json中导入数据到H2数据库 **/
 	@Override
+	@PreValidateThis
 	public ServiceResult<ConcurrentMap<String, List<RouteModel>>> importRoutes(
 			@NotNull @NotBlank @NotEmpty final String jsonPath) {
 		// 1.构造响应数据
@@ -158,19 +182,36 @@ public class ConfigSevImpl implements ConfigService {
 			};
 			dataList = JsonKit.fromFile(typeRef, jsonPath);
 		} catch (AbstractSystemException ex) {
-			info(LOGGER, "[I-BUS] (Routes) Serialization error when reading data from file : file = " + jsonPath, ex);
+			info(LOGGER, "[E-BUS] (Routes) Serialization error when reading data from file : file = " + jsonPath, ex);
 			result.setResponse(null, ex);
 		}
 		// 3.批量创建
 		try {
 			this.routeDao.insert(dataList.toArray(new RouteModel[] {}));
 		} catch (AbstractTransactionException ex) {
-			info(LOGGER, "[I-BUS] (Routes) Data accessing error !", ex);
+			info(LOGGER, "[E-BUS] (Routes) Data accessing error !", ex);
 			result.setResponse(null, ex);
 		}
 		// 4.返回最终的Result信息
 		if (ResponseCode.SUCCESS == result.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {
 			result.setResponse(this.extractRoutes(dataList), null);
+		}
+		return result;
+	}
+
+	/** 删除所有的配置信息 **/
+	@Override
+	@PreValidateThis
+	public ServiceResult<Boolean> purgeRoutes() {
+		// 1.构造响应数据
+		final ServiceResult<Boolean> result = new ServiceResult<>();
+		// 2.调用删除方法
+		try {
+			this.routeDao.clear();
+			result.setResponse(Boolean.TRUE, null);
+		} catch (AbstractTransactionException ex) {
+			info(LOGGER, "[E-BUS] (Routes) Data accessing error !", ex);
+			result.setResponse(Boolean.FALSE, ex);
 		}
 		return result;
 	}

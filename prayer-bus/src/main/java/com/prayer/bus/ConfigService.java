@@ -37,6 +37,13 @@ public interface ConfigService {
 	 */
 	ServiceResult<ConcurrentMap<String, VerticleChain>> importVerticles(final String jsonPath);
 
+	/**
+	 * 删除所有的Verticle配置信息
+	 * 
+	 * @return
+	 */
+	ServiceResult<Boolean> purgeVerticles();
+
 	// ~ Route Interface =====================================
 	/**
 	 * 读取主路由下的子路由
@@ -59,4 +66,11 @@ public interface ConfigService {
 	 * @return
 	 */
 	ServiceResult<ConcurrentMap<String, List<RouteModel>>> importRoutes(final String jsonPath);
+
+	/**
+	 * 删除所有的Routes配置信息
+	 * 
+	 * @return
+	 */
+	ServiceResult<Boolean> purgeRoutes();
 }

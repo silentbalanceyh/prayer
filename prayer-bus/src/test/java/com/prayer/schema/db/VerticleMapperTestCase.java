@@ -1,22 +1,16 @@
 package com.prayer.schema.db;
 
 import static com.prayer.util.Error.info;
-import static com.prayer.util.Instance.singleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.ConfigService;
-import com.prayer.bus.impl.ConfigSevImpl;
 import com.prayer.model.h2.vx.VerticleModel;
 
 /**
@@ -110,20 +104,6 @@ public class VerticleMapperTestCase extends AbstractMapperCase<VerticleModel, St
 		assertNull("[E] (DeleteByName) Entity in database has been deleted successfully!", targetT);
 	}
 	// ~ OOB Deployment ======================================
-	/** **/
-	@BeforeClass
-	public static void clearVerticles(){
-		final SqlSession session = SessionManager.getSession();
-		final VerticleMapper mapper = session.getMapper(VerticleMapper.class);
-		mapper.purgeData();
-		session.commit();
-	}
-	/** Import Data into H2 Database **/
-	@AfterClass
-	public static void importVerticles(){
-		final ConfigService service = singleton(ConfigSevImpl.class);
-		service.importVerticles("deploy/oob/verticle.json");
-	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

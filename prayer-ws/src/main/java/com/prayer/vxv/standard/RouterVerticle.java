@@ -58,7 +58,7 @@ public class RouterVerticle extends AbstractVerticle {
 		// 4.设置Sub Router
 		for(final Router subRouter: subRouters.keySet()){
 			final String parent = subRouters.get(subRouter);
-			router.mountSubRouter(parent, subRouter);	
+			router.mountSubRouter(parent, subRouter);
 		}
 		// 5.监听Cluster端口
 		server.requestHandler(router::accept).listen();

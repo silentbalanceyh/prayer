@@ -1,0 +1,40 @@
+[
+	{
+		"name": "com.prayer.vxv.standard.RouterVerticle",
+		"instances": 10,
+		"ha": true,
+		"deployOrder": 1
+	},
+
+	{
+		"name": "com.prayer.vxv.worker.MetadataWorker",
+		"instances": 10,
+		"ha": true,
+		"worker": true,
+		"deployOrder": 2
+	},
+
+	{
+		"name": "com.prayer.vxv.worker.RecordWorker",
+		"instances": 10,
+		"ha": true,
+		"worker": true,
+		"deployOrder": 3
+	},
+
+	{
+		"name": "com.prayer.vxv.worker.AuthenticationWorker",
+		"instances": 10,
+		"ha": true,
+		"worker": true,
+		"deployOrder": 4
+	},
+
+	{
+		"name": "com.prayer.vxv.worker.AuthorizationWorker",
+		"instances": 10,
+		"ha": true,
+		"worker": true,
+		"deployOrder": 5
+	}
+]

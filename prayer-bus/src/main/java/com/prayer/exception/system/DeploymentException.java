@@ -1,27 +1,42 @@
-package com.prayer.vx.handler;
+package com.prayer.exception.system;
 
-import io.vertx.core.Handler;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.web.RoutingContext;
+import com.prayer.exception.AbstractSystemException;
 
-public class TestHandler implements Handler<RoutingContext> {
+/**
+ * 
+ * @author Lang
+ *
+ */
+public class DeploymentException extends AbstractSystemException {
 
 	// ~ Static Fields =======================================
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3591133195003928601L;
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	/**
+	 * 
+	 * @param clazz
+	 * @param process
+	 */
+	public DeploymentException(final Class<?> clazz) {
+		super(clazz, -20008);
+	}
+
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/**
+	 * 
+	 */
 	@Override
-	public void handle(RoutingContext routingContext) {
-		// // This handler will be called for every request
-		HttpServerResponse response = routingContext.response();
-		response.putHeader("content-type", "text/plain");
-		// Write to the response and end it
-		response.setChunked(true);
-		response.write("Route1");
-		routingContext.next();
+	public int getErrorCode() {
+		return -20008;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

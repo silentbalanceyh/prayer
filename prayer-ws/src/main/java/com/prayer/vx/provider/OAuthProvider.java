@@ -1,11 +1,16 @@
-package com.prayer.vx.handler;
+package com.prayer.vx.provider;
 
+import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.web.RoutingContext;
-
-public class TestHandler implements Handler<RoutingContext> {
-
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.AuthProvider;
+import io.vertx.ext.auth.User;
+/**
+ * 
+ * @author Lang
+ *
+ */
+public class OAuthProvider implements AuthProvider{
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -13,15 +18,11 @@ public class TestHandler implements Handler<RoutingContext> {
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/** **/
 	@Override
-	public void handle(RoutingContext routingContext) {
-		// // This handler will be called for every request
-		HttpServerResponse response = routingContext.response();
-		response.putHeader("content-type", "text/plain");
-		// Write to the response and end it
-		response.setChunked(true);
-		response.write("Route1");
-		routingContext.next();
+	public void authenticate(JsonObject arg0, Handler<AsyncResult<User>> arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

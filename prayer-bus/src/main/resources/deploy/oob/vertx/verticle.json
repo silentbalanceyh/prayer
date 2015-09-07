@@ -7,25 +7,11 @@
 	},
 
 	{
-		"name": "com.prayer.vxv.standard.EngineVerticle",
-		"instances": 10,
-		"ha": true,
-		"deployOrder": 2
-	},
-
-	{
-		"name": "com.prayer.vxv.standard.SecurityVerticle",
-		"instances": 10,
-		"ha": true,
-		"deployOrder": 3
-	},
-
-	{
 		"name": "com.prayer.vxv.worker.MetadataWorker",
 		"instances": 10,
 		"ha": true,
 		"worker": true,
-		"deployOrder": 4
+		"deployOrder": 2
 	},
 
 	{
@@ -33,7 +19,7 @@
 		"instances": 10,
 		"ha": true,
 		"worker": true,
-		"deployOrder": 5
+		"deployOrder": 3
 	},
 
 	{
@@ -41,7 +27,7 @@
 		"instances": 10,
 		"ha": true,
 		"worker": true,
-		"deployOrder": 6
+		"deployOrder": 4
 	},
 
 	{
@@ -49,6 +35,6 @@
 		"instances": 10,
 		"ha": true,
 		"worker": true,
-		"deployOrder": 6
+		"deployOrder": 5
 	}
 ]

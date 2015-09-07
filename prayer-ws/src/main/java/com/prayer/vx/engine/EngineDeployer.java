@@ -1,8 +1,10 @@
-package com.prayer.vxv.standard;
-
-import io.vertx.core.AbstractVerticle;
-
-public class SecurityVerticle extends AbstractVerticle {
+package com.prayer.vx.engine;
+/**
+ * 
+ * @author Lang
+ *
+ */
+public class EngineDeployer {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -10,10 +12,6 @@ public class SecurityVerticle extends AbstractVerticle {
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	@Override
-	public void start(){
-		System.out.println("Security");
-	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

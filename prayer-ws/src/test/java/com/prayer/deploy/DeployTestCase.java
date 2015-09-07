@@ -1,29 +1,39 @@
-package com.prayer.vx.handler;
+package com.prayer.deploy;
 
-import io.vertx.core.Handler;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.web.RoutingContext;
+import static com.prayer.util.Instance.singleton;
+import static org.junit.Assert.assertTrue;
 
-public class TestHandler implements Handler<RoutingContext> {
+import org.junit.Test;
 
+import com.prayer.bus.DeployService;
+import com.prayer.bus.impl.DeploySevImpl;
+import com.prayer.model.bus.ServiceResult;
+
+/**
+ * 
+ * @author Lang
+ *
+ */
+public class DeployTestCase {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
+	/** **/
+	private transient DeployService service = singleton(DeploySevImpl.class);
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	@Override
-	public void handle(RoutingContext routingContext) {
-		// // This handler will be called for every request
-		HttpServerResponse response = routingContext.response();
-		response.putHeader("content-type", "text/plain");
-		// Write to the response and end it
-		response.setChunked(true);
-		response.write("Route1");
-		routingContext.next();
-	}
 	// ~ Methods =============================================
+	/**
+	 * 
+	 */
+	@Test
+	public void testDeploy() {
+		ServiceResult<Boolean> ret = this.service.deployPrayerData();
+		assertTrue("[TD] Deploying failure ! ", ret.getResult());
+	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
