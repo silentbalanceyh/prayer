@@ -56,6 +56,7 @@ public class VerticleConfigurator {
 		this.service = singleton(ConfigSevImpl.class);
 		this.initDataMap();
 	}
+
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
@@ -70,9 +71,9 @@ public class VerticleConfigurator {
 		this.initDataMap();
 		// 2.读取结果
 		final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>();
-		for (final String key : DATA_MAP.keySet()) {
-			retMap.putAll(this.getConfig(DATA_MAP.get(key).getSyncList()));
-		}
+		DATA_MAP.values().forEach(item -> {
+			retMap.putAll(this.getConfig(item.getSyncList()));
+		});
 		return retMap;
 	}
 
@@ -133,9 +134,9 @@ public class VerticleConfigurator {
 
 	private Map<String, DeploymentOptions> getConfig(final List<VerticleModel> rawList) {
 		final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>();
-		for (final VerticleModel item : rawList) {
+		rawList.forEach(item -> {
 			retMap.put(item.getName(), this.getOptions(item));
-		}
+		});
 		return retMap;
 	}
 

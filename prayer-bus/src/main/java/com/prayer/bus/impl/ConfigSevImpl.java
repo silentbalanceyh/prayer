@@ -1,4 +1,4 @@
-package com.prayer.bus.impl;	// NOPMD
+package com.prayer.bus.impl; // NOPMD
 
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
@@ -222,20 +222,18 @@ public class ConfigSevImpl implements ConfigService {
 		// 1.构造结果
 		final ConcurrentMap<String, List<RouteModel>> retMap = new ConcurrentHashMap<>();
 		// 2.遍历结果集
-		for (final RouteModel item : dataList) {
-			if (StringKit.isNonNil(item.getParent())) {
-				// 3.1.获取某个Parent下的List
-				List<RouteModel> list = retMap.get(item.getParent());
-				// 3.2.判断是否获取到
-				if (null == list) {
-					list = new ArrayList<>(); // NOPMD
-				}
-				// 3.3.添加对象到List中
-				list.add(item);
-				// 3.4.完成过后将内容重新推回到Map中
-				retMap.put(item.getParent(), list);
+		dataList.stream().filter(item -> StringKit.isNonNil(item.getParent())).forEach(item -> {
+			// 3.1.获取某个Parent下的List
+			List<RouteModel> list = retMap.get(item.getParent());
+			// 3.2.判断是否获取到
+			if (null == list) {
+				list = new ArrayList<>(); // NOPMD
 			}
-		}
+			// 3.3.添加对象到List中
+			list.add(item);
+			// 3.4.完成过后将内容重新推回到Map中
+			retMap.put(item.getParent(), list);
+		});
 		return retMap;
 	}
 
@@ -243,20 +241,18 @@ public class ConfigSevImpl implements ConfigService {
 		// 1.构造结果
 		final ConcurrentMap<String, VerticleChain> retMap = new ConcurrentHashMap<>();
 		// 2.遍历结果集
-		for (final VerticleModel item : dataList) {
-			if (StringKit.isNonNil(item.getGroup())) {
-				// 3.1.获取某个Group的VerticleChain
-				VerticleChain chain = retMap.get(item.getGroup());
-				// 3.2.判断是否获取到，没获取到就重新获取
-				if (null == chain) {
-					chain = new VerticleChain(item.getGroup()); // NOPMD
-				}
-				// 3.3.修改chain引用
-				chain.addVerticle(item);
-				// 3.4.完成过后添加到Map中
-				retMap.put(item.getGroup(), chain);
+		dataList.stream().filter(item -> StringKit.isNonNil(item.getGroup())).forEach(item -> {
+			// 3.1.获取某个Group的VerticleChain
+			VerticleChain chain = retMap.get(item.getGroup());
+			// 3.2.判断是否获取到，没获取到就重新获取
+			if (null == chain) {
+				chain = new VerticleChain(item.getGroup()); // NOPMD
 			}
-		}
+			// 3.3.修改chain引用
+			chain.addVerticle(item);
+			// 3.4.完成过后添加到Map中
+			retMap.put(item.getGroup(), chain);
+		});
 		// 4.返回最终过滤结果
 		return retMap;
 	}

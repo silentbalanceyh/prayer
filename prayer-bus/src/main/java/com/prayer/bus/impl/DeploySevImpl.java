@@ -6,6 +6,7 @@ import static com.prayer.util.Instance.singleton;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -79,14 +80,14 @@ public class DeploySevImpl implements DeployService, OOBPaths {
 		// 2.导入OOB中的Schema定义
 		{
 			final List<String> jsonPathList = this.getSchemaFiles();
-			for (final String jsonPath : jsonPathList) {
+			jsonPathList.forEach(jsonPath -> {
 				ServiceResult<GenericSchema> syncRet = this.schemaService.syncSchema(SCHEMA_FOLDER + jsonPath);
 				info(LOGGER, "[I] Read new schema data : " + syncRet.getResult());
 				syncRet = this.schemaService.syncMetadata(syncRet.getResult());
 				if (ResponseCode.SUCCESS != syncRet.getResponseCode()) {
 					info(LOGGER, "[E] Schema Importing met Error : " + syncRet.getErrorMessage());
 				}
-			}
+			});
 		}
 		// 最终结果
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
@@ -108,10 +109,9 @@ public class DeploySevImpl implements DeployService, OOBPaths {
 		if (null != uri) {
 			final File folder = new File(uri.getPath());
 			if (folder.isDirectory()) {
-				final File[] files = folder.listFiles();
-				for (final File file : files) {
+				Arrays.asList(folder.listFiles()).forEach(file -> {
 					retList.add(file.getName());
-				}
+				});
 			}
 		}
 		return retList;

@@ -119,7 +119,7 @@ public class VerticleDeployer {
 			info(LOGGER, "[I-VX] (Async) Vertx reference = " + this.vertxRef + ", size = " + DATA_ASYNC.size());
 		}
 	}
-	
+
 	private void checkVerticle(final String className) throws AbstractVertXException {
 		// 1.检查是否存在这个类
 		Class<?> clazz = Instance.clazz(className);

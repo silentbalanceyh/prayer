@@ -21,7 +21,7 @@ public class TestHandler implements Handler<RoutingContext> {
 		// Write to the response and end it
 		response.setChunked(true);
 		response.write("Route1");
-		routingContext.next();
+		response.end();
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

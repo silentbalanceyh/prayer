@@ -77,14 +77,13 @@ public class RouteConfigurator {
 		final ConcurrentMap<Router, String> retRouters = new ConcurrentHashMap<>();
 		if (ResponseCode.SUCCESS == result.getResponseCode()) {
 			// 3.Sub Router
-			for (final String route : result.getResult().keySet()) {
-				final List<RouteModel> routeList = result.getResult().get(route);
+			result.getResult().values().forEach(routeList -> {
 				// 4.Sub Router调用
-				for (final RouteModel item : routeList) {
+				routeList.forEach(item -> {
 					final Router router = this.configRouter(item);
 					retRouters.put(router, item.getParent());
-				}
-			}
+				});
+			});
 		} else {
 			info(LOGGER, "[E-VX] No route has been found in H2 database !");
 		}
