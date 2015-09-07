@@ -1,0 +1,88 @@
+{
+	"__meta__": 
+	{
+		"namespace": "com.prayer.model.oauth",
+		"name": "ClientToken",
+		"category": "ENTITY",
+		"table": "OAU_CLIENT_TOKEN",
+		"identifier": "sec.oauth.client.token",
+		"mapping": "DIRECT",
+		"policy": "GUID"
+	},
+
+	"__keys__": 
+	[
+		{
+			"name": "PK_OAU_CT_ID",
+			"category": "PrimaryKey",
+			"multi": false,
+			"columns": 
+			[
+				"PK_ID"
+			]
+		},
+
+		{
+			"name": "UK_OAU_CT_AUTHENTICATION_ID",
+			"category": "UniqueKey",
+			"multi": false,
+			"columns": 
+			[
+				"S_AUTHENTICATION_ID"
+			]
+		}
+	],
+
+	"__fields__": 
+	[
+		{
+			"name": "uniqueId",
+			"type": "StringType",
+			"columnName": "PK_ID",
+			"columnType": "STRING1",
+			"primarykey": true,
+			"length": 192
+		},
+
+		{
+			"name": "tokenId",
+			"type": "StringType",
+			"columnName": "S_TOKEN_ID",
+			"columnType": "STRING1",
+			"length": 256
+		},
+
+		{
+			"name": "token",
+			"type": "BinaryType",
+			"columnName": "S_TOKEN",
+			"columnType": "BINARY",
+			"length": 1024
+		},
+
+		{
+			"name": "authenticationId",
+			"type": "StringType",
+			"columnName": "S_AUTHENTICATION_ID",
+			"columnType": "STRING1",
+			"unique": true,
+			"length": 256
+		},
+
+		{
+			"name": "username",
+			"type": "StringType",
+			"columnName": "S_USER_NAME",
+			"columnType": "STRING1",
+			"length": 256
+		},
+
+		{
+			"name": "clientId",
+			"type": "StringType",
+			"columnName": "S_CLIENT_ID",
+			"columnType": "STRING1",
+			"length": 256
+		}
+	]
+}

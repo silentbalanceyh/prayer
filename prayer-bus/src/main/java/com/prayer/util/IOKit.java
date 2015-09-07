@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,19 @@ public final class IOKit {
 	 */
 	public static InputStream getFile(@NotNull @NotEmpty @NotBlank final String fileName) {
 		return getFile(fileName, null);
+	}
+	/**
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public static URL getURL(@NotNull @NotEmpty @NotBlank final String fileName){
+		URL retURL = null;
+		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		if(null != loader){
+			retURL = loader.getResource(fileName);
+		}
+		return retURL;
 	}
 
 	/**
