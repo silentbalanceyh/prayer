@@ -10,7 +10,7 @@ import com.prayer.exception.AbstractException;
  * @author Lang
  *
  */
-public final class ServiceResult<T> implements Serializable{	// NOPMD
+public class ServiceResult<T> implements Serializable{	// NOPMD
 	// ~ Static Fields =======================================
 	/**
 	 * 

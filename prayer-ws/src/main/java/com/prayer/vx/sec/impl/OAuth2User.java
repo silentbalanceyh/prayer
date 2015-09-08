@@ -1,12 +1,11 @@
-package com.prayer.vx.oauth2.impl;
-
-import com.prayer.vx.oauth2.OAuth2Provider;
+package com.prayer.vx.sec.impl;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.User;
+import io.vertx.ext.auth.AbstractUser;
+import io.vertx.ext.auth.AuthProvider;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -17,27 +16,45 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class OAuth2ProviderImpl implements OAuth2Provider{
-
+public class OAuth2User extends AbstractUser {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
-	/** Vertx实例 **/
+	/** Vert.X 实例引用 **/
 	@NotNull
 	private transient Vertx vertxRef;
+	/** **/
+	private transient JsonObject principal;
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public OAuth2ProviderImpl(@NotNull final Vertx vertxRef){
+	public OAuth2User(@NotNull final Vertx vertxRef) {
 		this.vertxRef = vertxRef;
 	}
+
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	@Override
-	public void authenticate(JsonObject requestInfo, Handler<AsyncResult<User>> arg1) {
-		// TODO Auto-generated method stub
-		System.out.println(requestInfo);
+	public JsonObject principal() {
+		System.out.println("principal");
+		return null;
+	}
+
+	@Override
+	public void setAuthProvider(@NotNull final AuthProvider authProvider) {
+		System.out.println("setAuthProvider");
+		if (authProvider instanceof OAuth2ProviderImpl) {
+			OAuth2ProviderImpl provider = (OAuth2ProviderImpl) authProvider;
+		} else {
+			throw new IllegalArgumentException("Not a OAuth2ProviderImpl");
+		}
+	}
+
+	@Override
+	protected void doIsPermitted(String permission, Handler<AsyncResult<Boolean>> resultHandler) {
+		System.out.println("doIsPermitted");
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

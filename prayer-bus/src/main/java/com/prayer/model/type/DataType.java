@@ -70,12 +70,12 @@ public enum DataType {
 	public String getClassName() {
 		return this.className;
 	}
-
+	// ~ Static Methods ======================================
 	/** 从String转换的类 **/
 	public static DataType fromString(final String storedValue) {
 		return DT_MAP.get(storedValue);
 	}
-
+	// ~ Override Methods ====================================
 	/** 重写toString **/
 	@Override
 	public String toString() {

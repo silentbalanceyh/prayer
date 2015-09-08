@@ -1,4 +1,4 @@
-package com.prayer.vxv.standard;
+package com.prayer.vx.verticle;
 
 import static com.prayer.util.Instance.singleton;
 
@@ -6,7 +6,8 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.vx.configurator.RouteConfigurator;
 import com.prayer.vx.configurator.ServerConfigurator;
-import com.prayer.vx.oauth2.OAuth2Provider;
+import com.prayer.vx.handler.internal.PreRequestHandler;
+import com.prayer.vx.sec.OAuth2Provider;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
@@ -75,12 +76,15 @@ public class RouterVerticle extends AbstractVerticle {
 			router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 		}
 
-		// 6.设置Sub Router
+		// 6.最前端的URL处理
+		router.route("/*").handler(new PreRequestHandler());
+
+		// 7.设置Sub Router
 		subRouters.forEach((subRouter, value) -> {
 			router.mountSubRouter(value, subRouter);
 		});
 
-		// 7.监听Cluster端口
+		// 8.监听Cluster端口
 		server.requestHandler(router::accept).listen();
 	}
 	// ~ Methods =============================================

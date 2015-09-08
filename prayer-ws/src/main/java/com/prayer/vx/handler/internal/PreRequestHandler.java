@@ -1,8 +1,14 @@
-package com.prayer.vxv.worker;
+package com.prayer.vx.handler.internal;
 
-import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Handler;
+import io.vertx.ext.web.RoutingContext;
+/**
+ * 
+ * @author Lang
+ *
+ */
+public class PreRequestHandler implements Handler<RoutingContext>{
 
-public class MetadataWorker extends AbstractVerticle{
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -10,9 +16,14 @@ public class MetadataWorker extends AbstractVerticle{
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+
+	/**
+	 * 
+	 */
 	@Override
-	public void start(){
-		System.out.println("Metadata Worker");
+	public void handle(final RoutingContext routingContext) {
+		System.out.println("Pre: " + routingContext.request().path());
+		routingContext.next();
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

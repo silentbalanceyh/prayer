@@ -1,4 +1,4 @@
-package com.prayer.vxv.worker;
+package com.prayer.vx.verticle;
 
 import io.vertx.core.AbstractVerticle;
 

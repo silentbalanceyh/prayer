@@ -1,8 +1,8 @@
-package com.prayer.vxv.worker;
+package com.prayer.vx.verticle;
 
 import io.vertx.core.AbstractVerticle;
 
-public class AuthorizationWorker extends AbstractVerticle{
+public class RecordWorker extends AbstractVerticle{
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -12,7 +12,7 @@ public class AuthorizationWorker extends AbstractVerticle{
 	// ~ Override Methods ====================================
 	@Override
 	public void start(){
-		System.out.println("Authorization Worker");
+		System.out.println("Record Worker");
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

@@ -135,11 +135,13 @@ public class RouteConfigurator {
 			if (null != metadata.getRequestHandler()) {
 				this.checkHandler(metadata.getRequestHandler());
 				route.handler(instance(metadata.getRequestHandler()));
+				info(LOGGER, "[I-VX] Handler " + metadata.getRequestHandler() + " has been registered to "
+						+ metadata.getParent() + metadata.getPath() + " with order: " + metadata.getOrder());
 			}
 			// FailureHandler
 			if (null != metadata.getFailureHandler()) {
 				this.checkHandler(metadata.getFailureHandler());
-				route.handler(instance(metadata.getFailureHandler()));
+				route.failureHandler(instance(metadata.getFailureHandler()));
 			}
 		} catch (AbstractVertXException ex) {
 			info(LOGGER, "[E-VX] Handler setting met error. Error Message = " + ex.getErrorMessage());
@@ -151,7 +153,7 @@ public class RouteConfigurator {
 		// 1.检查是否存在这个类
 		Class<?> clazz = Instance.clazz(className);
 		if (null == clazz) {
-			info(LOGGER, "[I-VX] Handler class not found: " + className);
+			info(LOGGER, "[E-VX] Handler class not found: " + className);
 			throw new HandlerNotFoundException(getClass(), className);
 		} else {
 			// 2.递归检索接口
@@ -164,7 +166,7 @@ public class RouteConfigurator {
 				}
 			}
 			if (!flag) {
-				info(LOGGER, "[I-VX] Verticle class invalid ( Implementations ): " + className);
+				info(LOGGER, "[E-VX] Verticle class invalid ( Implementations ): " + className);
 				throw new HandlerInvalidException(getClass(), className);
 			}
 		}

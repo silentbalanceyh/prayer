@@ -1,39 +1,35 @@
-package com.prayer.demo.web;
+package com.prayer.model.bus.web;
 
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.http.HttpServer;
-import io.vertx.core.http.HttpServerResponse;
+import java.io.Serializable;
+
+import com.prayer.model.bus.ServiceResult;
+
+import io.vertx.core.json.JsonObject;
+
 /**
- * 
+ * 继承关系，从ServiceResult<T>继承过来
  * @author Lang
  *
  */
-public class BasicHttpServer extends AbstractVerticle{
+public class RestfulResult extends ServiceResult<JsonObject> implements Serializable{
+
 	// ~ Static Fields =======================================
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6434208462744921973L;
 	// ~ Instance Fields =====================================
+	/** HTTP状态代码 **/
+	private transient StatusCode statusCode;
+	
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
-	public void start(){
-		HttpServer server = vertx.createHttpServer();
-
-		server.requestHandler(request -> {
-
-		  // This handler gets called for each request that arrives on the server
-		  HttpServerResponse response = request.response();
-		  response.putHeader("content-type", "text/plain");
-
-		  // Write to the response and end it
-		  response.end("Hello World!");
-		});
-
-		server.listen(8080);
-	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
+	
 	// ~ hashCode,equals,toString ============================
-
 }

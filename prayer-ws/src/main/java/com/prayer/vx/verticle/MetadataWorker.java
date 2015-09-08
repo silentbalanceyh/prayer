@@ -1,14 +1,8 @@
-package com.prayer.demo.core;
+package com.prayer.vx.verticle;
 
 import io.vertx.core.AbstractVerticle;
-/**
- * Type: Java Application
- * Main: io.vertx.core.Starter
- * Program Arguments: run com.prayer.demo.core.DemoHttpServer
- * @author Lang
- *
- */
-public class DemoHttpServer extends AbstractVerticle {
+
+public class MetadataWorker extends AbstractVerticle{
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -16,12 +10,11 @@ public class DemoHttpServer extends AbstractVerticle {
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	// ~ Methods =============================================
-	public void start() {
-		vertx.createHttpServer().requestHandler(req -> {
-			req.response().putHeader("content-type", "text/plain").end("Hello from Vert.x!");
-		}).listen(8080);
+	@Override
+	public void start(){
+		System.out.println("Metadata Worker");
 	}
+	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
