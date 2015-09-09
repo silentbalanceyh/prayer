@@ -42,6 +42,7 @@ public class PreFailureHandler implements ErrorHandler {
 		retData.put("statusCode", webRet.getStatusCode().status());
 		retData.put("error", webRet.getStatusCode().toString());
 		retData.put("errorMessage", webRet.getErrorMessage());
+		retData.put("response", webRet.getResponseCode().toString());
 		// 3.必须加入长度信息，处理Body部分内容
 		final String content = retData.encodePrettily();
 		// 4.日志记录
