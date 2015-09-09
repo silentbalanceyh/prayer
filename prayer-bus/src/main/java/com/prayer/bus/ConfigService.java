@@ -57,8 +57,13 @@ public interface ConfigService {
 	// ~ Uri Parameter Rules ================================
 	/**
 	 * 
+	 * @return
+	 */
+	ServiceResult<ConcurrentMap<String,List<ValidatorModel>>> findValidators();
+	/**
+	 * 
 	 * @param uriId
 	 * @return
 	 */
-	ServiceResult<ConcurrentMap<String,List<ValidatorModel>>> findByUri(String uriId);
+	ServiceResult<ConcurrentMap<String,List<ValidatorModel>>> findValidators(String uriId);
 }

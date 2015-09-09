@@ -6,12 +6,12 @@ import com.prayer.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class UriSpecificationMissingException extends AbstractWebException{
+public class ValidationFailureException extends AbstractWebException{
 	// ~ Static Fields =======================================
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6022461685311274101L;
+	private static final long serialVersionUID = 5055446285552923446L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -19,10 +19,10 @@ public class UriSpecificationMissingException extends AbstractWebException{
 	/**
 	 * 
 	 * @param clazz
-	 * @param path
+	 * @param message
 	 */
-	public UriSpecificationMissingException(final Class<?> clazz, final String path){
-		super(clazz, -30002, path);
+	public ValidationFailureException(final String message){
+		super(message);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
@@ -30,8 +30,8 @@ public class UriSpecificationMissingException extends AbstractWebException{
 	 * 
 	 */
 	@Override
-	public int getErrorCode() {
-		return -30002;
+	public int getErrorCode(){
+		return -30007;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

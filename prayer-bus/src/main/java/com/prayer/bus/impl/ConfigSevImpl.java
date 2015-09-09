@@ -134,16 +134,29 @@ public class ConfigSevImpl implements ConfigService {
 	/** **/
 	@Override
 	@PreValidateThis
-	public ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> findByUri(
-			@NotNull @NotBlank @NotEmpty final String uriId) {
+	public ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> findValidators() {
 		// 1.构造响应数据
 		final ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> result = new ServiceResult<>();
 		// 2.调用读取方法
-		final List<ValidatorModel> ret = this.validatorDao.getByUri(uriId);
+		final List<ValidatorModel> ret = this.validatorDao.getAll();
 		// 3.设置相应信息
 		final ConcurrentMap<String, List<ValidatorModel>> listRet = Extractor.extractList(ret, "refUriId");
 		result.setResponse(listRet, null);
 		// 4.返回最终结果
+		return result;
+	}
+
+	/** **/
+	@Override
+	@PreValidateThis
+	public ServiceResult<ConcurrentMap<String,List<ValidatorModel>>> findValidators(@NotNull @NotBlank @NotEmpty final String uriId) {
+		// 1.构造响应数据
+		final ServiceResult<ConcurrentMap<String,List<ValidatorModel>>> result = new ServiceResult<>();
+		// 2.调用读取方法
+		final List<ValidatorModel> ret = this.validatorDao.getByUri(uriId);
+		// 3.设置响应结果
+		final ConcurrentMap<String, List<ValidatorModel>> listRet = Extractor.extractList(ret, "name");
+		result.setResponse(listRet, null);
 		return result;
 	}
 	// ~ Methods =============================================

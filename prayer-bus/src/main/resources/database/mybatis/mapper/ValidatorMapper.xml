@@ -6,6 +6,8 @@
 	<resultMap type="Validator" id="validatorObject">
 		<id column="K_ID" property="uniqueId" />
 		<result column="S_NAME" property="name" />
+		<result column="S_TYPE" property="type"
+			typeHandler="com.prayer.schema.db.handler.DataTypeHandler" />
 		<result column="S_ORDER" property="order" />
 		<result column="J_VALIDATOR" property="validator" />
 		<result column="J_CONFIG" property="config"
@@ -19,6 +21,7 @@
 			INSERT INTO EVX_PVRULE (
 				K_ID,
 				S_NAME,
+				S_TYPE,
 				S_ORDER,
 				J_VALIDATOR,
 				J_CONFIG,
@@ -27,6 +30,7 @@
 			) VALUES (
 				#{uniqueId},
 				#{name},
+				#{type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
 				#{order},
 				#{validator},
 				#{config, typeHandler=com.prayer.schema.db.handler.JsonHandler},
@@ -40,6 +44,7 @@
 			INSERT INTO EVX_PVRULE (
 				K_ID,
 				S_NAME,
+				S_TYPE,
 				S_ORDER,
 				J_VALIDATOR,
 				J_CONFIG,
@@ -52,6 +57,7 @@
 			<![CDATA[(
 				#{item.uniqueId},
 				#{item.name},
+				#{item.type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
 				#{item.order},
 				#{item.validator},
 				#{item.config, typeHandler=com.prayer.schema.db.handler.JsonHandler},
@@ -65,6 +71,7 @@
 		<![CDATA[
 			UPDATE EVX_PVRULE SET
 				S_NAME=#{name},
+				S_TYPE=#{type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
 				S_ORDER=#{order},
 				J_VALIDATOR=#{validator},
 				J_CONFIG=#{config,typeHandler=com.prayer.schema.db.handler.JsonHandler},

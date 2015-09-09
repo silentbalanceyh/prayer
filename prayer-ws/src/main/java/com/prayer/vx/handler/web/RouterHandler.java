@@ -2,7 +2,9 @@ package com.prayer.vx.handler.web;
 
 import static com.prayer.util.Instance.singleton;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.prayer.bus.ConfigService;
 import com.prayer.bus.impl.ConfigSevImpl;
@@ -10,6 +12,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractException;
+import com.prayer.exception.AbstractWebException;
 import com.prayer.exception.web.InternalServerErrorException;
 import com.prayer.exception.web.MethodNotAllowedException;
 import com.prayer.exception.web.RequiredParamMissingException;
@@ -31,6 +34,7 @@ import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 【Step 1】参数的基本检查，访问接口的第一步
+ * 
  * @author Lang
  *
  */
@@ -63,30 +67,65 @@ public class RouterHandler implements Handler<RoutingContext> {
 		// 1.获取请求Request和相应Response引用
 		final HttpServerRequest request = routingContext.request();
 		final HttpServerResponse response = routingContext.response();
+
 		// 2.从系统中按URI读取接口规范
 		final ServiceResult<UriModel> result = this.service.findUri(request.path());
 		final RestfulResult webRet = new RestfulResult(StatusCode.OK);
+
 		// 3.请求转发，去除掉Error过后的信息
 		AbstractException error = this.requestDispatch(result, webRet, routingContext);
+
 		// 4.根据Error设置
 		if (null == error) {
+			// SUCCESS --> 
 			// 5.1.保存UriModel的数据库ID
-			routingContext.put(Constants.VX_CTX_URI, result.getResult().getUniqueId());
+			final UriModel uri = result.getResult();
+			routingContext.put(Constants.VX_CTX_URI_ID, uri.getUniqueId());
+
+			// 6.1.设置参数到Context中提供给下一个Handler处理
+			final JsonObject params = extractParams(routingContext, uri);
+			routingContext.put(Constants.VX_CTX_PARAMS, params);
 			routingContext.next();
 		} else {
 			response.setStatusCode(webRet.getStatusCode().status());
 			response.setStatusMessage(webRet.getErrorMessage());
+
 			// 5.2.保存RestfulResult到Context中
 			routingContext.put(Constants.VX_CTX_ERROR, webRet);
 			routingContext.fail(webRet.getStatusCode().status());
 		}
 	}
+
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	private JsonObject extractParams(final RoutingContext context, final UriModel uri) {
+		JsonObject retJson = new JsonObject();
+		final HttpServerRequest request = context.request();
+		if (ParamType.QUERY == uri.getParamType()) {
+			retJson.clear();
+			final MultiMap params = request.params();
+			final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
+			while (kvPair.hasNext()) {
+				final Map.Entry<String, String> entity = kvPair.next();
+				retJson.put(entity.getKey(), entity.getValue());
+			}
+		} else if (ParamType.FORM == uri.getParamType()) {
+			retJson.clear();
+			final MultiMap params = request.formAttributes();
+			final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
+			while (kvPair.hasNext()) {
+				final Map.Entry<String, String> entity = kvPair.next();
+				retJson.put(entity.getKey(), entity.getValue());
+			}
+		} else {
+			retJson = context.getBodyAsJson();
+		}
+		return retJson;
+	}
 
-	private AbstractException requestDispatch(final ServiceResult<UriModel> result, final RestfulResult webRef,
+	private AbstractWebException requestDispatch(final ServiceResult<UriModel> result, final RestfulResult webRef,
 			final RoutingContext context) {
-		AbstractException error = null;
+		AbstractWebException error = null;
 		final HttpServerRequest request = context.request();
 		if (ResponseCode.SUCCESS == result.getResponseCode()) {
 			final UriModel uriSpec = result.getResult();
@@ -116,8 +155,8 @@ public class RouterHandler implements Handler<RoutingContext> {
 	}
 
 	// 参数规范的处理流程
-	private AbstractException requestParams(final UriModel uri, final RoutingContext context) {
-		AbstractException error = null;
+	private AbstractWebException requestParams(final UriModel uri, final RoutingContext context) {
+		AbstractWebException error = null;
 		final List<String> paramList = uri.getRequiredParam();
 		final HttpServerRequest request = context.request();
 		if (ParamType.QUERY == uri.getParamType()) {

@@ -1,5 +1,6 @@
 package com.prayer.vx.configurator;
 
+import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
@@ -130,8 +131,9 @@ public class RouteConfigurator {
 		// 1.检查是否存在这个类
 		Class<?> clazz = Instance.clazz(className);
 		if (null == clazz) {
-			info(LOGGER, "[E-VX] Handler class not found: " + className);
-			throw new HandlerNotFoundException(getClass(), className);
+			final AbstractVertXException error = new HandlerNotFoundException(getClass(), className);
+			debug(LOGGER, "SYS.VX.CLASS", error, "Handler", className);
+			throw error;
 		} else {
 			// 2.递归检索接口
 			final List<Class<?>> interfaces = Instance.interfaces(className);
@@ -143,8 +145,9 @@ public class RouteConfigurator {
 				}
 			}
 			if (!flag) {
-				info(LOGGER, "[E-VX] Verticle class invalid ( Implementations ): " + className);
-				throw new HandlerInvalidException(getClass(), className);
+				final AbstractVertXException error = new HandlerInvalidException(getClass(), className);
+				debug(LOGGER, "SYS.VX.INVALID", error, "Handler", className);
+				throw error;
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package com.prayer.vx.engine;
 
+import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
@@ -124,8 +125,9 @@ public class VerticleDeployer {
 		// 1.检查是否存在这个类
 		Class<?> clazz = Instance.clazz(className);
 		if (null == clazz) {
-			info(LOGGER, "[I-VX] Verticle class not found: " + className);
-			throw new VerticleNotFoundException(getClass(), className);
+			final AbstractVertXException error = new VerticleNotFoundException(getClass(), className);
+			debug(LOGGER, "SYS.VX.CLASS", error, "Verticle", className);
+			throw error;
 		} else {
 			// 2.递归检索父类
 			final List<Class<?>> parents = Instance.parents(className);
@@ -137,8 +139,7 @@ public class VerticleDeployer {
 				}
 			}
 			if (!flag) {
-				info(LOGGER, "[I-VX] Verticle class invalid ( Extends ): " + className
-						+ ", Now start to check interfaces...");
+				info(LOGGER, "SYS.VX.INVALID", null, "( Extends ) Verticle", className);
 				// 3.递归检索接口
 				final List<Class<?>> interfaces = Instance.interfaces(className);
 				flag = false;
@@ -149,8 +150,9 @@ public class VerticleDeployer {
 					}
 				}
 				if (!flag) {
-					info(LOGGER, "[I-VX] Verticle class invalid ( Implementations ): " + className);
-					throw new VerticleInvalidException(getClass(), className);
+					final AbstractVertXException error = new VerticleInvalidException(getClass(), className);
+					debug(LOGGER, "SYS.VX.INVALID", error, "( Implementation ) Verticle", className);
+					throw error;
 				}
 			}
 		}

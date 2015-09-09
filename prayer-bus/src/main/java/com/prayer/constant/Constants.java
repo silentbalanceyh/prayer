@@ -62,7 +62,9 @@ public interface Constants { // NOPMD
 	/** Global Error Key **/
 	String VX_CTX_ERROR = "FAILURE.KEY";
 	/** Global URI Key **/
-	String VX_CTX_URI = "URI.ID";
+	String VX_CTX_URI_ID = "URI.ID";
+	/** Request Parameters **/
+	String VX_CTX_PARAMS = "PARAMS";
 	
 	// ~ Vertx Order =========================================
 	/** Body Handler Order **/

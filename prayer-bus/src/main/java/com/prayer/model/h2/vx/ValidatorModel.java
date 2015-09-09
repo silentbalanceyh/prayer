@@ -11,6 +11,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
 import com.prayer.kernel.jackson.JsonObjectDeserializer;
 import com.prayer.kernel.jackson.JsonObjectSerializer;
+import com.prayer.model.jackson.DataTypeDeserializer;
+import com.prayer.model.jackson.DataTypeSerializer;
+import com.prayer.model.type.DataType;
 
 import io.vertx.core.json.JsonObject;
 
@@ -36,6 +39,9 @@ public class ValidatorModel implements Serializable { // NOPMD
 	/** S_NAME **/
 	@JsonProperty("name")
 	private String name;
+	/** S_TYPE：对应的Lyra的数据类型 **/
+	@JsonProperty("type")
+	private DataType type;
 	/** S_ORDER **/
 	@JsonProperty("order")
 	private int order;
@@ -93,6 +99,23 @@ public class ValidatorModel implements Serializable { // NOPMD
 	 */
 	public void setName(final String name) {
 		this.name = name;
+	}
+	
+	/**
+	 * @return the type
+	 */
+	@JsonSerialize(using = DataTypeSerializer.class)
+	public DataType getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	@JsonDeserialize(using = DataTypeDeserializer.class)
+	public void setType(final DataType type) {
+		this.type = type;
 	}
 
 	/**
