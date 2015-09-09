@@ -1,6 +1,6 @@
 [
 	{
-		"parent": "/auth",
+		"parent": "/oauth",
 		"path": "/authorize",
 		"method": "GET",
 		"requestHandler": "com.prayer.vx.handler.web.AuthorizeHandler",

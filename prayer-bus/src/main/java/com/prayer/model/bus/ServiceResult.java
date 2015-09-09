@@ -45,7 +45,7 @@ public class ServiceResult<T> implements Serializable{	// NOPMD
 	 * @param error
 	 */
 	public void setResponse(final T result, final AbstractException error){
-		if( null == error ){
+		if( null == error){
 			this.setErrorCode(Constants.RC_SUCCESS);
 			this.setErrorMessage(null);	// NOPMD
 			this.setResponseCode(ResponseCode.SUCCESS);

@@ -3,10 +3,14 @@ package com.prayer.deploy;
 import static com.prayer.util.Instance.singleton;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.prayer.bus.DeployService;
 import com.prayer.bus.impl.DeploySevImpl;
+import com.prayer.constant.Resources;
+import com.prayer.db.conn.MetadataConn;
+import com.prayer.db.conn.impl.MetadataConnImpl;
 import com.prayer.model.bus.ServiceResult;
 
 /**
@@ -19,6 +23,9 @@ public class DeployTestCase {
 	// ~ Instance Fields =====================================
 	/** **/
 	private transient DeployService service = singleton(DeploySevImpl.class);
+	
+	/** **/
+	private transient final MetadataConn metaConn = singleton(MetadataConnImpl.class);
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -26,6 +33,11 @@ public class DeployTestCase {
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
+	@Before
+	public void setUp(){
+		final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
+		this.metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
+	}
 	/**
 	 * 
 	 */

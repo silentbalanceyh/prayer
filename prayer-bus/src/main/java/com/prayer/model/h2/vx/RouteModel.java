@@ -8,7 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.constant.Constants;
-import com.prayer.constant.SystemEnum.HttpMethod;
+
+import io.vertx.core.http.HttpMethod;
 
 /**
  * 对应表EVX_ROUTE

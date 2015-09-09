@@ -15,6 +15,7 @@ import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.kernel.jackson.JsonObjectDeserializer;
 import com.prayer.kernel.jackson.JsonObjectSerializer;
 
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -38,6 +39,10 @@ public class UriModel implements Serializable { // NOPMD
 	/** S_URI **/
 	@JsonProperty("uri")
 	private String uri;
+
+	/** S_METHOD **/
+	@JsonProperty("method")
+	private HttpMethod method;
 
 	/** S_PARAM_TYPE **/
 	@JsonProperty("paramType")
@@ -95,6 +100,20 @@ public class UriModel implements Serializable { // NOPMD
 	 */
 	public void setUri(final String uri) {
 		this.uri = uri;
+	}
+
+	/**
+	 * @return the method
+	 */
+	public HttpMethod getMethod() {
+		return method;
+	}
+
+	/**
+	 * @param method the method to set
+	 */
+	public void setMethod(final HttpMethod method) {
+		this.method = method;
 	}
 
 	/**
@@ -158,16 +177,15 @@ public class UriModel implements Serializable { // NOPMD
 	}
 
 	// ~ hashCode,equals,toString ============================
-
 	/**
 	 * 
 	 */
 	@Override
 	public String toString() {
-		return "UriModel [uniqueId=" + uniqueId + ", uri=" + uri + ", paramType=" + paramType + ", requiredParam="
-				+ requiredParam + ", convertors=" + convertors + ", validators=" + validators + "]";
+		return "UriModel [uniqueId=" + uniqueId + ", uri=" + uri + ", method=" + method + ", paramType=" + paramType
+				+ ", requiredParam=" + requiredParam + ", convertors=" + convertors + ", validators=" + validators
+				+ "]";
 	}
-
 	/**
 	 * 
 	 */
@@ -175,6 +193,7 @@ public class UriModel implements Serializable { // NOPMD
 	public int hashCode() {
 		final int prime = Constants.HASH_BASE;
 		int result = 1;
+		result = prime * result + ((method == null) ? 0 : method.hashCode());
 		result = prime * result + ((paramType == null) ? 0 : paramType.hashCode());
 		result = prime * result + ((requiredParam == null) ? 0 : requiredParam.hashCode());
 		result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
@@ -196,6 +215,13 @@ public class UriModel implements Serializable { // NOPMD
 		}
 		final UriModel other = (UriModel) obj;
 		if (paramType != other.paramType) {
+			return false;
+		}
+		if (method == null) {
+			if (other.method != null) {
+				return false;
+			}
+		} else if (!method.equals(other.method)) {
 			return false;
 		}
 		if (requiredParam == null) {

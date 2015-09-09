@@ -11,6 +11,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.PreValidateThis;
 
@@ -20,6 +21,7 @@ import net.sf.oval.guard.PreValidateThis;
  * @author Lang
  *
  */
+@Guarded
 public class AuthorizeHandler implements Handler<RoutingContext> {
 
 	// ~ Static Fields =======================================

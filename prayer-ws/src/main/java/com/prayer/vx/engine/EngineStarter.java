@@ -2,6 +2,7 @@ package com.prayer.vx.engine;
 
 import static com.prayer.util.Instance.singleton;
 
+import com.hazelcast.config.Config;
 import com.prayer.exception.AbstractException;
 import com.prayer.vx.configurator.VertxConfigurator;
 import com.prayer.vx.handler.deploy.VertxClusterHandler;
@@ -9,6 +10,8 @@ import com.prayer.vx.handler.deploy.VertxClusterHandler;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.spi.VertxFactory;
+import io.vertx.core.spi.cluster.ClusterManager;
+import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 
 /**
  * Prayer启动器，整个Prayer Framework的入口程序
@@ -34,6 +37,9 @@ public class EngineStarter {
 		final VertxFactory factory = configurator.getFactory();
 		// 2.判断是普通环境还是Cluster环境
 		if (options.isClustered()) {
+			Config hazelcastConfig = new Config();
+			ClusterManager mgr = new HazelcastClusterManager(hazelcastConfig);
+			options.setClusterManager(mgr);
 			factory.clusteredVertx(options, VertxClusterHandler.create());
 		} else {
 			final Vertx vertx = factory.vertx(options);

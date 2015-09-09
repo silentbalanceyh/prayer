@@ -8,6 +8,8 @@
 		<result column="S_URI" property="uri" />
 		<result column="S_PARAM_TYPE" property="paramType"
 			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result column="S_METHOD" property="method"
+			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 		<result column="L_REQUIRED_PARAM" property="requiredParam"
 			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
 
@@ -22,6 +24,7 @@
 			INSERT INTO EVX_URI (
 				K_ID,
 				S_URI,
+				S_METHOD,
 				S_PARAM_TYPE,
 				L_REQUIRED_PARAM,
 				J_CONVERTORS,
@@ -29,6 +32,7 @@
 			) VALUES (
 				#{uniqueId},
 				#{uri},
+				#{method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				#{convertors, typeHandler=com.prayer.schema.db.handler.JsonHandler},
@@ -41,6 +45,7 @@
 			INSERT INTO EVX_URI (
 				K_ID,
 				S_URI,
+				S_METHOD,
 				S_PARAM_TYPE,
 				L_REQUIRED_PARAM,
 				J_CONVERTORS,
@@ -52,6 +57,7 @@
 			<![CDATA[(
 				#{item.uniqueId},
 				#{item.uri},
+				#{item.method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{item.paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				#{item.convertors, typeHandler=com.prayer.schema.db.handler.JsonHandler},
@@ -64,6 +70,7 @@
 		<![CDATA[
 			UPDATE EVX_URI SET
 				S_URI=#{uri},
+				S_METHOD=#{method,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				S_PARAM_TYPE=#{paramType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				J_CONVERTORS=#{convertors, typeHandler=com.prayer.schema.db.handler.JsonHandler},

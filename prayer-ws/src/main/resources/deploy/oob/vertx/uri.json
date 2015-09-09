@@ -1,6 +1,7 @@
 [
 	{
 		"uri":"/oauth/authorize",
+		"method":"GET",
 		"paramType":"QUERY",
 		"requiredParam":["username","password"],
 		"convertors":{

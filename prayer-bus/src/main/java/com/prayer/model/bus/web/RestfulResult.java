@@ -23,7 +23,8 @@ public class RestfulResult extends ServiceResult<JsonObject>implements Serializa
 	// ~ Instance Fields =====================================
 	/** HTTP状态代码 **/
 	private transient StatusCode statusCode;
-
+	/** Exception **/
+	private transient AbstractException error;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -48,11 +49,19 @@ public class RestfulResult extends ServiceResult<JsonObject>implements Serializa
 	public void setResponse(final JsonObject result, final StatusCode statusCode, final AbstractException error) {
 		this.setResponse(result, error);
 		this.statusCode = statusCode;
+		this.error = error;
 	}
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
+	/**
+	 * 
+	 * @return
+	 */
+	public AbstractException getError(){
+		return this.error;
+	}
 	/**
 	 * @return the statusCode
 	 */

@@ -103,6 +103,7 @@ public final class Error { // NOPMD
 			}
 		}
 	}
+	
 	/**
 	 * 
 	 * @param logger
@@ -113,7 +114,22 @@ public final class Error { // NOPMD
 			logger.debug(message);
 		}
 	}
-
+	/**
+	 * 
+	 * @param logger
+	 * @param errKey
+	 * @param exp
+	 * @param params
+	 */
+	public static void info(@NotNull final Logger logger, @NotNull final String errKey, final Throwable exp,final Object... params){
+		if (logger.isInfoEnabled()) {
+			if (null == exp) {
+				logger.info(message(errKey, params), params);
+			} else {
+				logger.info(message(errKey, params), params, exp);
+			}
+		}
+	}
 	/**
 	 * 
 	 * @param logger

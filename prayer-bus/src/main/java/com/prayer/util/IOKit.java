@@ -40,15 +40,16 @@ public final class IOKit {
 	public static InputStream getFile(@NotNull @NotEmpty @NotBlank final String fileName) {
 		return getFile(fileName, null);
 	}
+
 	/**
 	 * 
 	 * @param fileName
 	 * @return
 	 */
-	public static URL getURL(@NotNull @NotEmpty @NotBlank final String fileName){
+	public static URL getURL(@NotNull @NotEmpty @NotBlank final String fileName) {
 		URL retURL = null;
 		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		if(null != loader){
+		if (null != loader) {
 			retURL = loader.getResource(fileName);
 		}
 		return retURL;
@@ -103,7 +104,7 @@ public final class IOKit {
 		if (null != file && file.exists() && file.isFile()) {
 			try {
 				retStream = new FileInputStream(file);
-				info(LOGGER, "[I] <== ( Value -> " + file.getAbsolutePath() + " ) Read from FileInputStream(file).");
+				info(LOGGER, "SYS.KIT.IO.FILE", null, file.getAbsoluteFile(), retStream);
 			} catch (FileNotFoundException ex) {
 				debug(LOGGER, "SYS.KIT.IO.FILE", ex, file.getAbsolutePath(), retStream);
 			}

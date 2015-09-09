@@ -1,21 +1,17 @@
 package com.prayer.exception.web;
 
 import com.prayer.exception.AbstractWebException;
-
 /**
  * 
  * @author Lang
  *
  */
-public class RequiredParamMissingException extends AbstractWebException {
-
+public class UriSpecificationMissingException  extends AbstractWebException{
 	// ~ Static Fields =======================================
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1807839960694798981L;
-
+	private static final long serialVersionUID = -6022461685311274101L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -23,13 +19,10 @@ public class RequiredParamMissingException extends AbstractWebException {
 	/**
 	 * 
 	 * @param clazz
-	 * @param uriPath
-	 * @param paramType
-	 * @param String
+	 * @param path
 	 */
-	public RequiredParamMissingException(final Class<?> clazz, final String uriPath, final String paramType,
-			final String paramName) {
-		super(clazz, -30001, paramType, paramName, uriPath);
+	public UriSpecificationMissingException(final Class<?> clazz, final String path){
+		super(clazz, -30002, path);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
@@ -37,8 +30,8 @@ public class RequiredParamMissingException extends AbstractWebException {
 	 * 
 	 */
 	@Override
-	public int getErrorCode(){
-		return -30001;
+	public int getErrorCode() {
+		return -30002;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

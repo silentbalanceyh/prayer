@@ -59,4 +59,6 @@ public interface Constants { // NOPMD
 	String VX_GROUP = "__DEFAULT__";
 	/** 默认的顺序，但不设置，作为临界值 **/
 	int VX_DEFAULT_ORDER = -10000;
+	/** Global Error Key **/
+	String VX_CTX_ERROR = "FAILURE.KEY";
 }

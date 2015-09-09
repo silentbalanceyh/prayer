@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.vx.configurator.RouteConfigurator;
 import com.prayer.vx.configurator.ServerConfigurator;
+import com.prayer.vx.handler.web.PreFailureHandler;
 import com.prayer.vx.handler.web.PreRequestHandler;
 import com.prayer.vx.sec.OAuth2Provider;
 
@@ -78,6 +79,7 @@ public class RouterVerticle extends AbstractVerticle {
 
 		// 6.最前端的URL处理
 		router.route("/*").handler(new PreRequestHandler());
+		router.route("/*").failureHandler(new PreFailureHandler());
 
 		// 7.设置Sub Router
 		subRouters.forEach((subRouter, value) -> {

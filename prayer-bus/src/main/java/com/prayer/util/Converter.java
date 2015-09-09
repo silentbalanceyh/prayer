@@ -1,6 +1,6 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Error.debug;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -80,9 +80,9 @@ public final class Converter {
 			reader.close();
 			retStr = new String(charArr);
 		} catch (SQLException ex) {
-			info(LOGGER, "[E] Clob to string invalid. ", ex);
+			debug(LOGGER, "JVM.SQL", ex, "Converter.toStr");
 		} catch (IOException ex) {
-			info(LOGGER, "[E] IO Exception. ", ex);
+			debug(LOGGER, "JVM.IO", ex, "Clob");
 		}
 		return retStr;
 	}
@@ -99,7 +99,7 @@ public final class Converter {
 		try {
 			retEnum = Enum.valueOf(clazz, inputStr);
 		} catch (IllegalArgumentException ex) {
-			info(LOGGER, "[E] Enum value invalid: " + inputStr);
+			debug(LOGGER, "JVM.ENUM", ex, inputStr);
 		}
 		return retEnum;
 	}

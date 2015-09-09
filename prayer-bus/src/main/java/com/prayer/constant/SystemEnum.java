@@ -47,13 +47,6 @@ public final class SystemEnum { 	// NOPMD
 		ADD,		// 需要添加的列
 		DELETE		// 需要删除的列
 	}
-	/** Http方法 **/
-	public static enum HttpMethod{
-		GET,
-		POST,
-		PUT,
-		DELETE
-	}
 	/** Http请求参数类型 **/
 	public static enum ParamType{
 		QUERY,		// /uri/:a/:b/, /uri?a=x&b=y

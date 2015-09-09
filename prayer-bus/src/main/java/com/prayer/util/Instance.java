@@ -1,6 +1,6 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Error.debug;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -31,7 +31,7 @@ import net.sf.oval.guard.Guarded;
  */
 @SuppressWarnings("unchecked")
 @Guarded
-public final class Instance {	// NOPMD
+public final class Instance { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(Instance.class);
@@ -124,7 +124,7 @@ public final class Instance {	// NOPMD
 		try {
 			ret = Class.forName(className);
 		} catch (ClassNotFoundException ex) {
-			info(LOGGER, "[E] Class Not found: " + className, ex);
+			debug(LOGGER, "JVM.CLASS", ex, className);
 		}
 		return ret;
 	}
@@ -187,7 +187,7 @@ public final class Instance {	// NOPMD
 			}
 			ret = (T) field.get(instance);
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex) {
-			info(LOGGER, "[E] Field get exception: Class = " + clazz.getName() + ",Field = " + name, ex);
+			debug(LOGGER, "SYS.KIT.REFLECT.FIELD", ex, clazz.getName(), name);
 		}
 		return ret;
 	}
@@ -210,7 +210,7 @@ public final class Instance {	// NOPMD
 			}
 			field.set(instance, value);
 		} catch (IllegalAccessException | NoSuchFieldException | SecurityException ex) {
-			info(LOGGER, "[E] Field set exception: Class = " + clazz.getName() + ",Field = " + name, ex);
+			debug(LOGGER, "SYS.KIT.REFLECT.FIELD", ex, clazz.getName(), name);
 		}
 	}
 
@@ -240,7 +240,7 @@ public final class Instance {	// NOPMD
 		} catch (ConstraintsViolatedException ex) { // NOPMD
 			throw ex;
 		} catch (SecurityException ex) {
-			info(LOGGER, "[E] Security issue happen.", ex);
+			debug(LOGGER, "JVM.SEC", ex);
 		}
 		return ret;
 	}
@@ -278,9 +278,9 @@ public final class Instance {	// NOPMD
 				throw (ConstraintsViolatedException) ex.getTargetException();
 			}
 		} catch (IllegalArgumentException ex) {
-			info(LOGGER, "[E] Illegal Argument. ", ex);
+			debug(LOGGER, "JVM.ARGS", ex);
 		} catch (InstantiationException | IllegalAccessException ex) {
-			info(LOGGER, "[E] Instantiation | IllegalAccess | InvocationTarget .", ex);
+			debug(LOGGER, "JVM.SEC", ex);
 		}
 		return ret;
 	}
