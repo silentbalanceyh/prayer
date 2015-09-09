@@ -1,4 +1,4 @@
-package com.prayer.vx.validator;
+package com.prayer.vx.component;
 
 import com.prayer.exception.AbstractWebException;
 import com.prayer.kernel.Value;

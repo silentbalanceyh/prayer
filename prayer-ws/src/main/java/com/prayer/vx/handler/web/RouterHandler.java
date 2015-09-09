@@ -25,6 +25,7 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.bus.web.StatusCode;
 import com.prayer.model.h2.vx.UriModel;
+import com.prayer.util.StringKit;
 
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
@@ -170,7 +171,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 			// 从Query String中获取参数
 			final MultiMap params = request.params();
 			for (final String param : paramList) {
-				if (null == params.get(param)) {
+				if (StringKit.isNil(params.get(param))) {
 					error = new RequiredParamMissingException(getClass(), request.path(), uri.getParamType().toString(),
 							param);
 					break;
@@ -180,7 +181,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 			// 从Form中获取参数
 			final MultiMap params = request.formAttributes();
 			for (final String param : paramList) {
-				if (null == params.get(param)) {
+				if (StringKit.isNil(params.get(param))) {
 					error = new RequiredParamMissingException(getClass(), request.path(), uri.getParamType().toString(),
 							param);
 					break;
@@ -190,7 +191,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 			// 从Body中直接获取参数
 			final JsonObject params = context.getBodyAsJson();
 			for (final String param : paramList) {
-				if (null == params.getString(param)) {
+				if (StringKit.isNil(params.getString(param))) {
 					error = new RequiredParamMissingException(getClass(), request.path(), uri.getParamType().toString(),
 							param);
 					break;

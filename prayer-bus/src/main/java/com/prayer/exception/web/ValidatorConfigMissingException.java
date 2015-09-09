@@ -7,12 +7,13 @@ import com.prayer.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class ValidatorConfigException extends AbstractWebException{
+public class ValidatorConfigMissingException extends AbstractWebException {
 	// ~ Static Fields =======================================
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5463958285630375991L;
+	private static final long serialVersionUID = -399033351901524071L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -24,17 +25,15 @@ public class ValidatorConfigException extends AbstractWebException{
 	 * @param validator
 	 * @param errorMsg
 	 */
-	public ValidatorConfigException(final Class<?> clazz, final String paramName, final String validator, final String errorMsg){
-		super(clazz, -30004, paramName, validator, errorMsg);
+	public ValidatorConfigMissingException(final Class<?> clazz, final String paramName, final String validator, final String errorMsg){
+		super(clazz, -30008, paramName, validator, errorMsg);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
+	/** **/
 	@Override
 	public int getErrorCode(){
-		return -30004;
+		return -30008;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

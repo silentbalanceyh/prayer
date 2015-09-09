@@ -1,6 +1,7 @@
 package com.prayer.vx.handler.web;
 
 import static com.prayer.util.Error.debug;
+import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
@@ -25,7 +26,7 @@ import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.bus.web.StatusCode;
 import com.prayer.model.h2.vx.ValidatorModel;
 import com.prayer.util.Instance;
-import com.prayer.vx.validator.WebValidator;
+import com.prayer.vx.component.WebValidator;
 
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerResponse;
@@ -76,20 +77,17 @@ public class ValidationHandler implements Handler<RoutingContext> {
 		final ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> result = this.service.findValidators(uriId);
 		final RestfulResult webRet = new RestfulResult(StatusCode.OK);
 		// 3.如果获取到值
-		try {
-			AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
-			if (null == error) {
-				// SUCCESS -->
-				routingContext.next();
-			} else {
-				response.setStatusCode(webRet.getStatusCode().status());
-				response.setStatusMessage(webRet.getErrorMessage());
-				// 触发错误信息
-				routingContext.put(Constants.VX_CTX_ERROR, webRet);
-				routingContext.fail(webRet.getStatusCode().status());
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
+		if (null == error) {
+			// SUCCESS -->
+			routingContext.next();
+		} else {
+			response.setStatusCode(webRet.getStatusCode().status());
+			response.setStatusMessage(webRet.getErrorMessage());
+			// 触发错误信息
+			info(LOGGER, "RestfulResult = " + webRet);
+			routingContext.put(Constants.VX_CTX_ERROR, webRet);
+			routingContext.fail(webRet.getStatusCode().status());
 		}
 	}
 

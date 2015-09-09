@@ -1,4 +1,7 @@
-package com.prayer.vx.validator.impl;
+package com.prayer.vx.validator;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.prayer.constant.Constants;
 
@@ -42,12 +45,25 @@ final class ValidatorUtil {
 			if(minLength <= length){
 				flag = true;
 			}
-		}else if(Constants.RANGE != minLength && Constants.RANGE == maxLength){
+		}else if(Constants.RANGE != minLength && Constants.RANGE != maxLength){
 			if(minLength <= length && length <= maxLength){
 				flag = true;
 			}
 		}
 		return flag;
+	}
+	/**
+	 * 
+	 * @param value
+	 * @param regex
+	 * @return
+	 */
+	public static boolean verifyPattern(
+			@NotNull @NotBlank @NotEmpty final String value,
+			@NotNull @NotBlank @NotEmpty final String regex){
+		final Pattern pattern = Pattern.compile(regex);
+		final Matcher matcher = pattern.matcher(value);
+		return matcher.matches();
 	}
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
