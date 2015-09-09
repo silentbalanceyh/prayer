@@ -1,4 +1,4 @@
-package com.prayer.vx.handler.standard;
+package com.prayer.vx.handler.web;
 
 import static com.prayer.util.Instance.singleton;
 

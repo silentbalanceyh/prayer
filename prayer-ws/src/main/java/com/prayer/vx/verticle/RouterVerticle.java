@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.vx.configurator.RouteConfigurator;
 import com.prayer.vx.configurator.ServerConfigurator;
-import com.prayer.vx.handler.internal.PreRequestHandler;
+import com.prayer.vx.handler.web.PreRequestHandler;
 import com.prayer.vx.sec.OAuth2Provider;
 
 import io.vertx.core.AbstractVerticle;

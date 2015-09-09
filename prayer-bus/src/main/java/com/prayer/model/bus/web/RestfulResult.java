@@ -2,16 +2,18 @@ package com.prayer.model.bus.web;
 
 import java.io.Serializable;
 
+import com.prayer.exception.AbstractException;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonObject;
 
 /**
  * 继承关系，从ServiceResult<T>继承过来
+ * 
  * @author Lang
  *
  */
-public class RestfulResult extends ServiceResult<JsonObject> implements Serializable{
+public class RestfulResult extends ServiceResult<JsonObject>implements Serializable {
 
 	// ~ Static Fields =======================================
 	/**
@@ -21,15 +23,49 @@ public class RestfulResult extends ServiceResult<JsonObject> implements Serializ
 	// ~ Instance Fields =====================================
 	/** HTTP状态代码 **/
 	private transient StatusCode statusCode;
-	
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	/** **/
+	public RestfulResult(final StatusCode statusCode) {
+		this(null, statusCode, null);
+	}
+
+	/** **/
+	public RestfulResult(final JsonObject result, final StatusCode statusCode, final AbstractException error) { // NOPMD
+		this.setResponse(result, statusCode, error);
+	}
+
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/**
+	 * 
+	 * @param result
+	 * @param statusCode
+	 * @param error
+	 */
+	public void setResponse(final JsonObject result, final StatusCode statusCode, final AbstractException error) {
+		this.setResponse(result, error);
+		this.statusCode = statusCode;
+	}
+
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
-	
+	/**
+	 * @return the statusCode
+	 */
+	public StatusCode getStatusCode() {
+		return statusCode;
+	}
+
+	/**
+	 * @param statusCode
+	 *            the statusCode to set
+	 */
+	public void setStatusCode(final StatusCode statusCode) {
+		this.statusCode = statusCode;
+	}
 	// ~ hashCode,equals,toString ============================
 }

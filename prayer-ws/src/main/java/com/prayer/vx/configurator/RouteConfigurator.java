@@ -4,6 +4,7 @@ import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -24,6 +25,7 @@ import com.prayer.util.Instance;
 
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.shareddata.SharedData;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import net.sf.oval.constraint.NotNull;
@@ -43,6 +45,10 @@ public class RouteConfigurator {
 
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(RouteConfigurator.class);
+	/** Request Handler Message **/
+	private static final String MSG_REQUEST_HANDLER = "[I-VX] Request Handler {0} has been registered to {1} with order: {2}.";
+	/** Failure Handler Message **/
+	private static final String MSG_FAILURE_HANDLER = "[I-VX] Failure Handler {0} has been registered to {1} with order: {2}.";
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
@@ -50,15 +56,19 @@ public class RouteConfigurator {
 	/** 获取唯一的Vertx引用 **/
 	@NotNull
 	private transient Vertx vertxRef;
+	/** 共享数据 **/
+	@NotNull
+	private transient SharedData sharedData;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public RouteConfigurator(final Vertx vertxRef) {
+	public RouteConfigurator(@NotNull final Vertx vertxRef) {
 		this.service = singleton(ConfigSevImpl.class);
 		this.vertxRef = vertxRef;
+		this.sharedData = vertxRef.sharedData();
 	}
 
 	// ~ Abstract Methods ====================================
@@ -94,26 +104,8 @@ public class RouteConfigurator {
 	private Router configRouter(final RouteModel metadata) {
 		// 1.创建Router
 		Router router = Router.router(this.vertxRef);
-		Route route = null;
-		// 2.设置HttpMethod
-		switch (metadata.getMethod()) {
-		case POST: {
-			route = router.post(metadata.getPath());
-		}
-			break;
-		case PUT: {
-			route = router.put(metadata.getPath());
-		}
-			break;
-		case DELETE: {
-			route = router.delete(metadata.getPath());
-		}
-			break;
-		default: {
-			route = router.get(metadata.getPath());
-		}
-			break;
-		}
+		// 2.初始化Route，设置Method
+		Route route = initRoute(router, metadata);
 		// 3.设置Order
 		if (Constants.VX_DEFAULT_ORDER != metadata.getOrder()) {
 			route.order(metadata.getOrder());
@@ -130,22 +122,7 @@ public class RouteConfigurator {
 			}
 		}
 		// 5.设置Handler
-		try {
-			// RequestHandler
-			if (null != metadata.getRequestHandler()) {
-				this.checkHandler(metadata.getRequestHandler());
-				route.handler(instance(metadata.getRequestHandler()));
-				info(LOGGER, "[I-VX] Handler " + metadata.getRequestHandler() + " has been registered to "
-						+ metadata.getParent() + metadata.getPath() + " with order: " + metadata.getOrder());
-			}
-			// FailureHandler
-			if (null != metadata.getFailureHandler()) {
-				this.checkHandler(metadata.getFailureHandler());
-				route.failureHandler(instance(metadata.getFailureHandler()));
-			}
-		} catch (AbstractVertXException ex) {
-			info(LOGGER, "[E-VX] Handler setting met error. Error Message = " + ex.getErrorMessage());
-		}
+		this.registerHandler(route, metadata);
 		return router;
 	}
 
@@ -170,7 +147,59 @@ public class RouteConfigurator {
 				throw new HandlerInvalidException(getClass(), className);
 			}
 		}
+	}
 
+	private Route initRoute(final Router router, final RouteModel metadata) {
+		Route route = null;
+		switch (metadata.getMethod()) {
+		case POST: {
+			route = router.post(metadata.getPath());
+		}
+			break;
+		case PUT: {
+			route = router.put(metadata.getPath());
+		}
+			break;
+		case DELETE: {
+			route = router.delete(metadata.getPath());
+		}
+			break;
+		default: {
+			route = router.get(metadata.getPath());
+		}
+			break;
+		}
+		return route;
+	}
+
+	private void registerHandler(final Route route, final RouteModel metadata) {
+		try {
+			// RequestHandler
+			if (null != metadata.getRequestHandler()) {
+				this.checkHandler(metadata.getRequestHandler());
+				route.handler(instance(metadata.getRequestHandler()));
+				this.logHandler(metadata, false);
+			}
+			// FailureHandler
+			if (null != metadata.getFailureHandler()) {
+				this.checkHandler(metadata.getFailureHandler());
+				route.failureHandler(instance(metadata.getFailureHandler()));
+				this.logHandler(metadata, true);
+			}
+		} catch (AbstractVertXException ex) {
+			info(LOGGER, "[E-VX] Handler setting met error. Error Message = " + ex.getErrorMessage());
+		}
+	}
+
+	private void logHandler(final RouteModel metadata, final boolean failure) {
+		if (failure) {
+			info(LOGGER, MessageFormat.format(MSG_FAILURE_HANDLER, metadata.getFailureHandler(),
+					metadata.getParent() + metadata.getPath(), metadata.getOrder()));
+		} else {
+
+			info(LOGGER, MessageFormat.format(MSG_REQUEST_HANDLER, metadata.getRequestHandler(),
+					metadata.getParent() + metadata.getPath(), metadata.getOrder()));
+		}
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

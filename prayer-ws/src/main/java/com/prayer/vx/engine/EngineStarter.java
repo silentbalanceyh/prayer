@@ -4,7 +4,7 @@ import static com.prayer.util.Instance.singleton;
 
 import com.prayer.exception.AbstractException;
 import com.prayer.vx.configurator.VertxConfigurator;
-import com.prayer.vx.handler.internal.ClusterHandler;
+import com.prayer.vx.handler.deploy.VertxClusterHandler;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
@@ -34,7 +34,7 @@ public class EngineStarter {
 		final VertxFactory factory = configurator.getFactory();
 		// 2.判断是普通环境还是Cluster环境
 		if (options.isClustered()) {
-			factory.clusteredVertx(options, ClusterHandler.create());
+			factory.clusteredVertx(options, VertxClusterHandler.create());
 		} else {
 			final Vertx vertx = factory.vertx(options);
 			final VerticleDeployer deployer = new VerticleDeployer(vertx);

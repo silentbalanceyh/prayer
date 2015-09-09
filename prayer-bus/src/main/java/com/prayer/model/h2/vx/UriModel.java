@@ -51,13 +51,13 @@ public class UriModel implements Serializable { // NOPMD
 	@JsonProperty("convertors")
 	@JsonSerialize(using = JsonObjectSerializer.class)
 	@JsonDeserialize(using = JsonObjectDeserializer.class)
-	private JsonObject convertors;	// NOPMD
+	private JsonObject convertors; // NOPMD
 
 	/** J_VALIDATORS **/
 	@JsonProperty("validators")
 	@JsonSerialize(using = JsonObjectSerializer.class)
 	@JsonDeserialize(using = JsonObjectDeserializer.class)
-	private JsonObject validators;	// NOPMD
+	private JsonObject validators; // NOPMD
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -185,30 +185,40 @@ public class UriModel implements Serializable { // NOPMD
 	/** **/
 	@Override
 	public boolean equals(final Object obj) { // NOPMD
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		final UriModel other = (UriModel) obj;
-		if (paramType != other.paramType)
+		if (paramType != other.paramType) {
 			return false;
+		}
 		if (requiredParam == null) {
-			if (other.requiredParam != null)
+			if (other.requiredParam != null) {
 				return false;
-		} else if (!requiredParam.equals(other.requiredParam))
+			}
+		} else if (!requiredParam.equals(other.requiredParam)) {
 			return false;
+		}
 		if (uniqueId == null) {
-			if (other.uniqueId != null)
+			if (other.uniqueId != null) {
 				return false;
-		} else if (!uniqueId.equals(other.uniqueId))
+			}
+		} else if (!uniqueId.equals(other.uniqueId)) {
 			return false;
+		}
 		if (uri == null) {
-			if (other.uri != null)
+			if (other.uri != null) {
 				return false;
-		} else if (!uri.equals(other.uri))
+			}
+		} else if (!uri.equals(other.uri)) {
 			return false;
+		}
 		return true;
 	}
 

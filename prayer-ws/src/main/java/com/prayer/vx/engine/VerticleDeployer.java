@@ -15,7 +15,7 @@ import com.prayer.exception.vertx.VerticleInvalidException;
 import com.prayer.exception.vertx.VerticleNotFoundException;
 import com.prayer.util.Instance;
 import com.prayer.vx.configurator.VerticleConfigurator;
-import com.prayer.vx.handler.internal.DeploymentHandler;
+import com.prayer.vx.handler.deploy.VerticleAsyncHandler;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
@@ -113,7 +113,7 @@ public class VerticleDeployer {
 				// 1.检查当前配置
 				this.checkVerticle(name);
 				// 2.发布这个Verticle
-				this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), DeploymentHandler.create());
+				this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), VerticleAsyncHandler.create());
 			}
 		} else {
 			info(LOGGER, "[I-VX] (Async) Vertx reference = " + this.vertxRef + ", size = " + DATA_ASYNC.size());
