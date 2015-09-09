@@ -4,10 +4,12 @@ import static com.prayer.util.Instance.singleton;
 
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.Constants;
 import com.prayer.vx.configurator.RouteConfigurator;
 import com.prayer.vx.configurator.ServerConfigurator;
-import com.prayer.vx.handler.web.PreFailureHandler;
-import com.prayer.vx.handler.web.PreRequestHandler;
+import com.prayer.vx.handler.web.FailureHandler;
+import com.prayer.vx.handler.web.RouterHandler;
+import com.prayer.vx.handler.web.ValidationHandler;
 import com.prayer.vx.sec.OAuth2Provider;
 
 import io.vertx.core.AbstractVerticle;
@@ -63,8 +65,8 @@ public class RouterVerticle extends AbstractVerticle {
 
 		// 3.根路径Router
 		final Router router = Router.router(vertx);
-		router.route().handler(CookieHandler.create());
-		router.route().handler(BodyHandler.create());
+		router.route().order(Constants.VX_OD_COOKIE).handler(CookieHandler.create());
+		router.route().order(Constants.VX_OD_BODY).handler(BodyHandler.create());
 
 		// 4.AuthProvider创建
 		final AuthProvider authProvider = OAuth2Provider.create(vertx);
@@ -72,21 +74,26 @@ public class RouterVerticle extends AbstractVerticle {
 
 		// 5.Session的使用设置
 		if (vertx.isClustered()) {
-			router.route().handler(SessionHandler.create(ClusteredSessionStore.create(vertx)));
+			router.route().order(Constants.VX_OD_SESSION)
+					.handler(SessionHandler.create(ClusteredSessionStore.create(vertx)));
 		} else {
-			router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
+			router.route().order(Constants.VX_OD_SESSION)
+					.handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 		}
 
 		// 6.最前端的URL处理
-		router.route("/*").handler(new PreRequestHandler());
-		router.route("/*").failureHandler(new PreFailureHandler());
+		router.route("/*").order(Constants.VX_OD_ROUTER).handler(new RouterHandler());
+		router.route("/*").order(Constants.VX_OD_VALIDATION).handler(new ValidationHandler());
+		
+		// 7.Failure处理器设置
+		router.route("/*").failureHandler(new FailureHandler());
 
-		// 7.设置Sub Router
+		// 8.设置Sub Router
 		subRouters.forEach((subRouter, value) -> {
 			router.mountSubRouter(value, subRouter);
 		});
 
-		// 8.监听Cluster端口
+		// 9.监听Cluster端口
 		server.requestHandler(router::accept).listen();
 	}
 	// ~ Methods =============================================

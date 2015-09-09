@@ -8,15 +8,10 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
-import com.prayer.kernel.jackson.JsonObjectDeserializer;
-import com.prayer.kernel.jackson.JsonObjectSerializer;
 
 import io.vertx.core.http.HttpMethod;
-import io.vertx.core.json.JsonObject;
 
 /**
  * 对应EVX_URI表
@@ -51,18 +46,6 @@ public class UriModel implements Serializable { // NOPMD
 	/** S_REQUIRED_PARAM **/
 	@JsonProperty("requiredParam")
 	private List<String> requiredParam = new ArrayList<>();
-
-	/** J_CONVERTORS **/
-	@JsonProperty("convertors")
-	@JsonSerialize(using = JsonObjectSerializer.class)
-	@JsonDeserialize(using = JsonObjectDeserializer.class)
-	private JsonObject convertors; // NOPMD
-
-	/** J_VALIDATORS **/
-	@JsonProperty("validators")
-	@JsonSerialize(using = JsonObjectSerializer.class)
-	@JsonDeserialize(using = JsonObjectDeserializer.class)
-	private JsonObject validators; // NOPMD
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -110,7 +93,8 @@ public class UriModel implements Serializable { // NOPMD
 	}
 
 	/**
-	 * @param method the method to set
+	 * @param method
+	 *            the method to set
 	 */
 	public void setMethod(final HttpMethod method) {
 		this.method = method;
@@ -146,36 +130,6 @@ public class UriModel implements Serializable { // NOPMD
 		this.requiredParam = requiredParam;
 	}
 
-	/**
-	 * @return the convertors
-	 */
-	public JsonObject getConvertors() {
-		return convertors;
-	}
-
-	/**
-	 * @param convertors
-	 *            the convertors to set
-	 */
-	public void setConvertors(final JsonObject convertors) {
-		this.convertors = convertors;
-	}
-
-	/**
-	 * @return the validators
-	 */
-	public JsonObject getValidators() {
-		return validators;
-	}
-
-	/**
-	 * @param validators
-	 *            the validators to set
-	 */
-	public void setValidators(final JsonObject validators) {
-		this.validators = validators;
-	}
-
 	// ~ hashCode,equals,toString ============================
 	/**
 	 * 
@@ -183,9 +137,9 @@ public class UriModel implements Serializable { // NOPMD
 	@Override
 	public String toString() {
 		return "UriModel [uniqueId=" + uniqueId + ", uri=" + uri + ", method=" + method + ", paramType=" + paramType
-				+ ", requiredParam=" + requiredParam + ", convertors=" + convertors + ", validators=" + validators
-				+ "]";
+				+ ", requiredParam=" + requiredParam + "]";
 	}
+
 	/**
 	 * 
 	 */

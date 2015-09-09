@@ -3,12 +3,6 @@
 		"uri":"/oauth/authorize",
 		"method":"GET",
 		"paramType":"QUERY",
-		"requiredParam":["username","password"],
-		"convertors":{
-			"username":"com.vvv"
-		},
-		"validators":{
-			"username":"com.vvv"
-		}
+		"requiredParam":["username","password"]
 	}
 ]

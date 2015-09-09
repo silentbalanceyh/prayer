@@ -30,12 +30,12 @@ import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
 /**
- * 
+ * 【Step 1】参数的基本检查，访问接口的第一步
  * @author Lang
  *
  */
 @Guarded
-public class PreRequestHandler implements Handler<RoutingContext> {
+public class RouterHandler implements Handler<RoutingContext> {
 
 	// ~ Static Fields =======================================
 
@@ -49,7 +49,7 @@ public class PreRequestHandler implements Handler<RoutingContext> {
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public PreRequestHandler() {
+	public RouterHandler() {
 		this.service = singleton(ConfigSevImpl.class);
 	}
 	// ~ Abstract Methods ====================================
@@ -70,11 +70,13 @@ public class PreRequestHandler implements Handler<RoutingContext> {
 		AbstractException error = this.requestDispatch(result, webRet, routingContext);
 		// 4.根据Error设置
 		if (null == error) {
-			
+			// 5.1.保存UriModel的数据库ID
+			routingContext.put(Constants.VX_CTX_URI, result.getResult().getUniqueId());
 			routingContext.next();
 		} else {
 			response.setStatusCode(webRet.getStatusCode().status());
 			response.setStatusMessage(webRet.getErrorMessage());
+			// 5.2.保存RestfulResult到Context中
 			routingContext.put(Constants.VX_CTX_ERROR, webRet);
 			routingContext.fail(webRet.getStatusCode().status());
 		}
@@ -95,10 +97,8 @@ public class PreRequestHandler implements Handler<RoutingContext> {
 			} else {
 				if (uriSpec.getMethod() == request.method()) {
 					error = requestParams(uriSpec, context);
-					if(null == error){
-						
-					}else{
-						// 404 Bad Request
+					if (null != error) {
+						// 400 Bad Request
 						webRef.setResponse(null, StatusCode.BAD_REQUEST, error);
 					}
 				} else {
@@ -114,6 +114,7 @@ public class PreRequestHandler implements Handler<RoutingContext> {
 		}
 		return error;
 	}
+
 	// 参数规范的处理流程
 	private AbstractException requestParams(final UriModel uri, final RoutingContext context) {
 		AbstractException error = null;

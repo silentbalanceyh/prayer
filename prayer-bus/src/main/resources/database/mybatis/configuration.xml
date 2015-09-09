@@ -18,6 +18,7 @@
 			alias="Verticle" />
 		<typeAlias type="com.prayer.model.h2.vx.RouteModel" alias="Route" />
 		<typeAlias type="com.prayer.model.h2.vx.UriModel" alias="Uri" />
+		<typeAlias type="com.prayer.model.h2.vx.ValidatorModel" alias="Validator"/>
 	</typeAliases>
 	<environments default="H2Environment">
 		<environment id="H2Environment">
@@ -39,5 +40,6 @@
 		<mapper resource="database/mybatis/mapper/VerticleMapper.xml" />
 		<mapper resource="database/mybatis/mapper/RouteMapper.xml" />
 		<mapper resource="database/mybatis/mapper/UriMapper.xml" />
+		<mapper resource="database/mybatis/mapper/ValidatorMapper.xml"/>
 	</mappers>
 </configuration>

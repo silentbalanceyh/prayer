@@ -12,11 +12,6 @@
 			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 		<result column="L_REQUIRED_PARAM" property="requiredParam"
 			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
-
-		<result column="J_CONVERTORS" property="convertors"
-			typeHandler="com.prayer.schema.db.handler.JsonHandler" />
-		<result column="J_VALIDATORS" property="validators"
-			typeHandler="com.prayer.schema.db.handler.JsonHandler" />
 	</resultMap>
 	<insert id="insert" parameterType="Uri" keyColumn="K_ID"
 		keyProperty="uniqueId">
@@ -26,17 +21,13 @@
 				S_URI,
 				S_METHOD,
 				S_PARAM_TYPE,
-				L_REQUIRED_PARAM,
-				J_CONVERTORS,
-				J_VALIDATORS
+				L_REQUIRED_PARAM
 			) VALUES (
 				#{uniqueId},
 				#{uri},
 				#{method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				#{convertors, typeHandler=com.prayer.schema.db.handler.JsonHandler},
-				#{validators, typeHandler=com.prayer.schema.db.handler.JsonHandler}
+				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
 			)
 		]]>
 	</insert>
@@ -47,9 +38,7 @@
 				S_URI,
 				S_METHOD,
 				S_PARAM_TYPE,
-				L_REQUIRED_PARAM,
-				J_CONVERTORS,
-				J_VALIDATORS
+				L_REQUIRED_PARAM
 			) VALUES
 		]]>
 		<foreach collection="list" item="item" index="index"
@@ -59,9 +48,7 @@
 				#{item.uri},
 				#{item.method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{item.paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				#{item.convertors, typeHandler=com.prayer.schema.db.handler.JsonHandler},
-				#{item.validators, typeHandler=com.prayer.schema.db.handler.JsonHandler}
+				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
 			)]]>
 		</foreach>
 	</insert>
@@ -72,9 +59,7 @@
 				S_URI=#{uri},
 				S_METHOD=#{method,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				S_PARAM_TYPE=#{paramType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				J_CONVERTORS=#{convertors, typeHandler=com.prayer.schema.db.handler.JsonHandler},
-				J_VALIDATORS=#{validators, typeHandler=com.prayer.schema.db.handler.JsonHandler}
+				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
 			WHERE K_ID=#{uniqueId}
 		]]>
 	</update>

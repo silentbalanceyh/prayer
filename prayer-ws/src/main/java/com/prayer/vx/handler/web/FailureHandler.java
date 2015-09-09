@@ -18,11 +18,11 @@ import io.vertx.ext.web.handler.ErrorHandler;
  * @author Lang
  *
  */
-public class PreFailureHandler implements ErrorHandler {
+public class FailureHandler implements ErrorHandler {
 
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(PreFailureHandler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FailureHandler.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================

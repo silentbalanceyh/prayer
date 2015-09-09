@@ -20,7 +20,6 @@ public interface TemplateDao<T, ID extends Serializable> {	// NOPMD
 	 * @throws AbstractTransactionException
 	 */
 	List<T> insert(T... entity) throws AbstractTransactionException;
-
 	/**
 	 * 
 	 * @param entity

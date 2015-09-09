@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.db.pool.AbstractDbPool;
 import com.prayer.db.pool.BoneCPPool;
-import com.prayer.model.h2.Metadata;
+import com.prayer.model.bus.Metadata;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

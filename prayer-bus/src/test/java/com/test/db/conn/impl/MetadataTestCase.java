@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Resources;
 import com.prayer.db.conn.MetadataConn;
-import com.prayer.model.h2.Metadata;
+import com.prayer.model.bus.Metadata;
 import com.prayer.util.DatabaseKit;
 
 import jodd.util.StringPool;

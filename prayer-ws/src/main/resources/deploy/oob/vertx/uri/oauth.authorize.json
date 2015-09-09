@@ -1,0 +1,10 @@
+[
+	{
+		"name":"username",
+		"order":1,
+		"validator":"",
+		"config":{
+			
+		}
+	}
+]

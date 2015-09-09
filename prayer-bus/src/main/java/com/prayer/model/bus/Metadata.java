@@ -1,4 +1,4 @@
-package com.prayer.model.h2;
+package com.prayer.model.bus;
 
 import static com.prayer.util.Error.debug;
 

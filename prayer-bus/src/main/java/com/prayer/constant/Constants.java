@@ -61,4 +61,22 @@ public interface Constants { // NOPMD
 	int VX_DEFAULT_ORDER = -10000;
 	/** Global Error Key **/
 	String VX_CTX_ERROR = "FAILURE.KEY";
+	/** Global URI Key **/
+	String VX_CTX_URI = "URI.ID";
+	
+	// ~ Vertx Order =========================================
+	/** Body Handler Order **/
+	int VX_OD_BODY = -9;
+	/** Cookie Handler Order **/
+	int VX_OD_COOKIE = -10;
+	/** Session Handler Order **/
+	int VX_OD_SESSION = -7;
+	/** Authentication Handler Order **/
+	int VX_OD_AUTH = -8;
+	/** Router Handler Order **/
+	int VX_OD_ROUTER = -5;
+	/** Validation Handler Order **/
+	int VX_OD_VALIDATION = -4;
+	/** Convertor Handler Order **/
+	int VX_OD_CONVERTOR = -3;
 }

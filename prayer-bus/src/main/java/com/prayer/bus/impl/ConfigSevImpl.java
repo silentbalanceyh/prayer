@@ -6,16 +6,20 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.bus.ConfigService;
+import com.prayer.bus.impl.util.Extractor;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vx.RouteModel;
 import com.prayer.model.h2.vx.UriModel;
+import com.prayer.model.h2.vx.ValidatorModel;
 import com.prayer.model.h2.vx.VerticleModel;
 import com.prayer.schema.dao.RouteDao;
 import com.prayer.schema.dao.UriDao;
+import com.prayer.schema.dao.ValidatorDao;
 import com.prayer.schema.dao.VerticleDao;
 import com.prayer.schema.dao.impl.RouteDaoImpl;
 import com.prayer.schema.dao.impl.UriDaoImpl;
+import com.prayer.schema.dao.impl.ValidatorDaoImpl;
 import com.prayer.schema.dao.impl.VerticleDaoImpl;
 
 import net.sf.oval.constraint.NotBlank;
@@ -43,6 +47,9 @@ public class ConfigSevImpl implements ConfigService {
 	/** 访问H2的EVX_URI接口 **/
 	@NotNull
 	private transient final UriDao uriDao;
+	/** 访问H2的EVX_PVRULE接口 **/
+	@NotNull
+	private transient final ValidatorDao validatorDao;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -53,6 +60,7 @@ public class ConfigSevImpl implements ConfigService {
 		this.verticleDao = singleton(VerticleDaoImpl.class);
 		this.routeDao = singleton(RouteDaoImpl.class);
 		this.uriDao = singleton(UriDaoImpl.class);
+		this.validatorDao = singleton(ValidatorDaoImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -67,7 +75,6 @@ public class ConfigSevImpl implements ConfigService {
 		return result;
 	}
 
-
 	/** 读取数据库中所有的VerticleModel配置信息 **/
 	@Override
 	@PreValidateThis
@@ -81,7 +88,6 @@ public class ConfigSevImpl implements ConfigService {
 		// 4.返回最终结果
 		return result;
 	}
-
 
 	/** 读取主路由下的子路由 **/
 	@Override
@@ -106,7 +112,8 @@ public class ConfigSevImpl implements ConfigService {
 		// 2.读取所有的RouteMode相关信息
 		final List<RouteModel> routes = this.routeDao.getAll();
 		// 3.设置返回结果
-		result.setResponse(Extractor.extractRoutes(routes), null);
+		final ConcurrentMap<String, List<RouteModel>> listRet = Extractor.extractList(routes, "parent");
+		result.setResponse(listRet, null);
 		// 4.返回最终结果
 		return result;
 	}
@@ -121,6 +128,22 @@ public class ConfigSevImpl implements ConfigService {
 		final UriModel ret = this.uriDao.getByUri(uri);
 		// 3.设置响应信息
 		result.setResponse(ret, null);
+		return result;
+	}
+
+	/** **/
+	@Override
+	@PreValidateThis
+	public ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> findByUri(
+			@NotNull @NotBlank @NotEmpty final String uriId) {
+		// 1.构造响应数据
+		final ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> result = new ServiceResult<>();
+		// 2.调用读取方法
+		final List<ValidatorModel> ret = this.validatorDao.getByUri(uriId);
+		// 3.设置相应信息
+		final ConcurrentMap<String, List<ValidatorModel>> listRet = Extractor.extractList(ret, "refUriId");
+		result.setResponse(listRet, null);
+		// 4.返回最终结果
 		return result;
 	}
 	// ~ Methods =============================================

@@ -1,4 +1,4 @@
-package com.prayer.bus.impl;
+package com.prayer.bus.impl.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.VerticleChain;
-import com.prayer.model.h2.vx.RouteModel;
-import com.prayer.model.h2.vx.UriModel;
 import com.prayer.model.h2.vx.VerticleModel;
+import com.prayer.util.Instance;
 import com.prayer.util.StringKit;
 
 /**
@@ -16,51 +15,43 @@ import com.prayer.util.StringKit;
  * @author Lang
  *
  */
-final class Extractor {
+public final class Extractor {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
-	/**
-	 * 
-	 * @param dataList
-	 * @return
-	 */
-	public static ConcurrentMap<String, UriModel> extractUris(final List<UriModel> dataList) {
+	/** Object extracting **/
+	public static <T> ConcurrentMap<String, T> extractEntity(final List<T> dataList,final String field){
 		// 1.构造结果
-		final ConcurrentMap<String, UriModel> retMap = new ConcurrentHashMap<>();
+		final ConcurrentMap<String,T> retMap = new ConcurrentHashMap<>();
 		// 2.遍历结果集
-		dataList.stream().filter(item -> StringKit.isNonNil(item.getUri())).forEach(item -> {
+		dataList.stream().filter(item -> StringKit.isNonNil(Instance.field(item,field).toString())).forEach(item -> {
 			// 3.将DataList转换成一个Map
-			retMap.put(item.getUri(), item);
+			retMap.put(Instance.field(item,field).toString(),item);
 		});
 		return retMap;
 	}
-
-	/**
-	 * 
-	 * @param dataList
-	 * @return
-	 */
-	public static ConcurrentMap<String, List<RouteModel>> extractRoutes(final List<RouteModel> dataList) {
+	/** List<Object> extracting **/
+	public static <T> ConcurrentMap<String,List<T>> extractList(final List<T> dataList, final String field){
 		// 1.构造结果
-		final ConcurrentMap<String, List<RouteModel>> retMap = new ConcurrentHashMap<>();
+		final ConcurrentMap<String,List<T>> retMap = new ConcurrentHashMap<>();
 		// 2.遍历结果集
-		dataList.stream().filter(item -> StringKit.isNonNil(item.getParent())).forEach(item -> {
-			// 3.1.获取某个Parent下的List
-			List<RouteModel> list = retMap.get(item.getParent());
-			// 3.2.判断是否获取到
-			if (null == list) {
-				list = new ArrayList<>(); // NOPMD
+		dataList.stream().filter(item -> StringKit.isNonNil(Instance.field(item,field).toString())).forEach(item -> {
+			// 3.1.获取Key
+			final String key = Instance.field(item, field).toString();
+			// 3.2.从Map中读取
+			List<T> list = retMap.get(key);
+			// 3.3.判断获取结果
+			if(null == list){
+				list = new ArrayList<>();	// NOPMD
 			}
-			// 3.3.添加对象到List中
+			// 3.4.添加对象到List中
 			list.add(item);
-			// 3.4.完成过后将内容重新推回到Map中
-			retMap.put(item.getParent(), list);
+			// 3.5.填充Map
+			retMap.put(key,list);
 		});
 		return retMap;
 	}
-
 	/**
 	 * 
 	 * @param dataList

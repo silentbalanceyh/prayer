@@ -205,11 +205,12 @@ public final class Instance { // NOPMD
 		try {
 			field = clazz.getDeclaredField(name);
 			// 打开访问属性标记
-			if (null != field) {
+			if (null != field && !field.isAccessible()) {
 				field.setAccessible(true);
 			}
 			field.set(instance, value);
 		} catch (IllegalAccessException | NoSuchFieldException | SecurityException ex) {
+			ex.printStackTrace();
 			debug(LOGGER, "SYS.KIT.REFLECT.FIELD", ex, clazz.getName(), name);
 		}
 	}

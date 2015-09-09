@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.schema.db.ValidatorMapper">
+	<resultMap type="Validator" id="validatorObject">
+		<id column="K_ID" property="uniqueId" />
+		<result column="S_NAME" property="name" />
+		<result column="S_ORDER" property="order" />
+		<result column="J_VALIDATOR" property="validator" />
+		<result column="J_CONFIG" property="config"
+			typeHandler="com.prayer.schema.db.handler.JsonHandler" />
+		<result column="R_URI_ID" property="refUriId" />
+	</resultMap>
+	<insert id="insert" parameterType="Validator" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			INSERT INTO EVX_PVRULE (
+				K_ID,
+				S_NAME,
+				S_ORDER,
+				J_VALIDATOR,
+				J_CONFIG,
+				R_URI_ID
+			) VALUES (
+				#{uniqueId},
+				#{name},
+				#{order},
+				#{validator},
+				#{config, typeHandler=com.prayer.schema.db.handler.JsonHandler},
+				#{refUriId}
+			)
+		]]>
+	</insert>
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+			INSERT INTO EVX_PVRULE (
+				K_ID,
+				S_NAME,
+				S_ORDER,
+				J_VALIDATOR,
+				J_CONFIG,
+				R_URI_ID
+			) VALUES
+		]]>
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			<![CDATA[(
+				#{item.uniqueId},
+				#{item.name},
+				#{item.order},
+				#{item.validator},
+				#{item.config, typeHandler=com.prayer.schema.db.handler.JsonHandler},
+				#{item.refUriId}
+			)]]>
+		</foreach>
+	</insert>
+	<update id="update" parameterType="Validator" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			UPDATE EVX_PVRULE SET
+				S_NAME=#{name},
+				S_ORDER=#{order},
+				J_VALIDATOR=#{validator},
+				J_CONFIG=#{config,typeHandler=com.prayer.schema.db.handler.JsonHandler},
+				R_URI_ID=#{refUriId}
+			WHERE K_ID=#{uniqueId}
+		]]>
+	</update>
+	<delete id="deleteById" parameterType="String">
+		<![CDATA[
+			DELETE FROM EVX_PVRULE WHERE K_ID=#{uniqueId}
+		]]>
+	</delete>
+	<delete id="batchDelete" parameterType="java.util.List">
+		<![CDATA[
+			DELETE FROM EVX_PVRULE WHERE K_ID IN
+		]]>
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			<![CDATA[
+				#{item}
+			]]>
+		</foreach>
+	</delete>
+	<delete id="purgeData">
+		<![CDATA[
+			DELETE FROM EVX_PVRULE
+		]]>
+	</delete>
+	<select id="selectById" parameterType="String" resultMap="validatorObject">
+		<![CDATA[
+			SELECT * FROM EVX_PVRULE WHERE K_ID=#{uniqueId}
+		]]>
+	</select>
+	<select id="selectAll" resultMap="validatorObject">
+		<![CDATA[
+			SELECT * FROM EVX_PVRULE ORDER BY R_URI_ID, S_ORDER
+		]]>
+	</select>
+
+	<select id="selectByUri" resultMap="validatorObject">
+		<![CDATA[
+			SELECT * FROM EVX_PVRULE WHERE R_URI_ID=#{refUriId} ORDER BY S_ORDER ASC
+		]]>
+	</select>
+</mapper>

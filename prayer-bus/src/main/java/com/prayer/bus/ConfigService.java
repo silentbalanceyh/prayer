@@ -7,6 +7,7 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vx.RouteModel;
 import com.prayer.model.h2.vx.UriModel;
+import com.prayer.model.h2.vx.ValidatorModel;
 
 /**
  * 
@@ -52,4 +53,12 @@ public interface ConfigService {
 	 * @return
 	 */
 	ServiceResult<UriModel> findUri(String uri);
+	
+	// ~ Uri Parameter Rules ================================
+	/**
+	 * 
+	 * @param uriId
+	 * @return
+	 */
+	ServiceResult<ConcurrentMap<String,List<ValidatorModel>>> findByUri(String uriId);
 }
