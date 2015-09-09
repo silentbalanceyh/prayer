@@ -14,7 +14,6 @@ import com.prayer.bus.ConfigService;
 import com.prayer.bus.impl.ConfigSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.exception.AbstractException;
 import com.prayer.exception.AbstractWebException;
 import com.prayer.exception.web.InternalServerErrorException;
 import com.prayer.exception.web.ValidationFailureException;
@@ -68,15 +67,39 @@ public class ValidationHandler implements Handler<RoutingContext> {
 	/** **/
 	@Override
 	public void handle(final RoutingContext routingContext) {
+
 		// 1.从Context中提取参数信息
 		final String uriId = routingContext.get(Constants.VX_CTX_URI_ID);
-		final JsonObject params = routingContext.get(Constants.VX_CTX_PARAMS);
 		final HttpServerResponse response = routingContext.response();
-		AbstractException error = null;
+
 		// 2.获取当前路径下的Validator的数据
 		final ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> result = this.service.findValidators(uriId);
 		final RestfulResult webRet = new RestfulResult(StatusCode.OK);
 		// 3.如果获取到值
+		try {
+			AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
+			if (null == error) {
+				// SUCCESS -->
+				routingContext.next();
+			} else {
+				response.setStatusCode(webRet.getStatusCode().status());
+				response.setStatusMessage(webRet.getErrorMessage());
+				// 触发错误信息
+				routingContext.put(Constants.VX_CTX_ERROR, webRet);
+				routingContext.fail(webRet.getStatusCode().status());
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	// ~ Methods =============================================
+	// ~ Private Methods =====================================
+	private AbstractWebException requestDispatch(
+			final ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> result, final RestfulResult webRef,
+			final RoutingContext context) {
+		AbstractWebException error = null;
+		final JsonObject params = context.get(Constants.VX_CTX_PARAMS);
 		if (ResponseCode.SUCCESS == result.getResponseCode()) {
 			final ConcurrentMap<String, List<ValidatorModel>> dataMap = result.getResult();
 			// 遍历每一个字段
@@ -86,37 +109,32 @@ public class ValidationHandler implements Handler<RoutingContext> {
 				// 验证当前字段信息
 				error = this.validateField(field, value, validators);
 				// 400 Bad Request
-				if(null != error){
-					webRet.setResponse(null, StatusCode.BAD_REQUEST, error);
+				if (null != error) {
+					webRef.setResponse(null, StatusCode.BAD_REQUEST, error);
 					break;
 				}
 			}
 		} else {
 			// 500 Internal Server
 			error = new InternalServerErrorException(getClass());
-			webRet.setResponse(null, StatusCode.INTERNAL_SERVER_ERROR, error);
+			webRef.setResponse(null, StatusCode.INTERNAL_SERVER_ERROR, error);
 		}
-		if(null == error){
-			// SUCCESS --> 
-			routingContext.next();
-		}else{
-			response.setStatusCode(webRet.getStatusCode().status());
-			response.setStatusMessage(webRet.getErrorMessage());
-			// 触发错误信息
-			routingContext.put(Constants.VX_CTX_ERROR, webRet);
-			routingContext.fail(webRet.getStatusCode().status());
+		if (null == error) {
+			webRef.setResponse(null, StatusCode.OK, error);
 		}
+		return error;
 	}
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
 	private AbstractWebException validateField(final String name, final String value,
 			final List<ValidatorModel> validators) {
 		AbstractWebException error = null;
-		for (final ValidatorModel validator : validators) {
-			error = this.validateField(name, value, validator);
-			if (null != error) {
-				break;
+		// Fix: Null Pointer，因为validators是从Map中取得的，所以必须判断是否为null
+		if (null != validators && !validators.isEmpty()) {
+			for (final ValidatorModel validator : validators) {
+				error = this.validateField(name, value, validator);
+				if (null != error) {
+					break;
+				}
 			}
 		}
 		return error;
@@ -130,7 +148,8 @@ public class ValidationHandler implements Handler<RoutingContext> {
 			final String validatorCls = validatorModel.getValidator();
 			this.checkValidator(validatorCls);
 			// 2.从value中提取值信息
-			final Value<?> value = instance(validatorModel.getType().getClass().getName(), paramValue);
+			final String typeCls = validatorModel.getType().getClassName();
+			final Value<?> value = instance(typeCls, paramValue);
 			// 3.提取配置信息
 			final JsonObject config = validatorModel.getConfig();
 			// 4.验证结果

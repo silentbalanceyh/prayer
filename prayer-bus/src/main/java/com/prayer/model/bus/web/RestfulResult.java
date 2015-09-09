@@ -77,4 +77,10 @@ public class RestfulResult extends ServiceResult<JsonObject>implements Serializa
 		this.statusCode = statusCode;
 	}
 	// ~ hashCode,equals,toString ============================
+
+	/** **/
+	@Override
+	public String toString() {
+		return "RestfulResult [statusCode=" + statusCode + ", error=" + error.getErrorMessage() + "]";
+	}
 }

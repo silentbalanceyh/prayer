@@ -1,10 +1,14 @@
 package com.prayer.vx.handler.web;
 
+import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.ConfigService;
 import com.prayer.bus.impl.ConfigSevImpl;
@@ -43,6 +47,8 @@ public class RouterHandler implements Handler<RoutingContext> {
 
 	// ~ Static Fields =======================================
 
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(RouterHandler.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
@@ -77,7 +83,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 
 		// 4.根据Error设置
 		if (null == error) {
-			// SUCCESS --> 
+			// SUCCESS -->
 			// 5.1.保存UriModel的数据库ID
 			final UriModel uri = result.getResult();
 			routingContext.put(Constants.VX_CTX_URI_ID, uri.getUniqueId());
@@ -91,6 +97,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 			response.setStatusMessage(webRet.getErrorMessage());
 
 			// 5.2.保存RestfulResult到Context中
+			info(LOGGER, "RestfulResult = " + webRet);
 			routingContext.put(Constants.VX_CTX_ERROR, webRet);
 			routingContext.fail(webRet.getStatusCode().status());
 		}

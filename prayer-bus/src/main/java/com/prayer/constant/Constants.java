@@ -81,4 +81,6 @@ public interface Constants { // NOPMD
 	int VX_OD_VALIDATION = -4;
 	/** Convertor Handler Order **/
 	int VX_OD_CONVERTOR = -3;
+	/** Failure Handler **/
+	int VX_OD_FAILURE = 1;
 }

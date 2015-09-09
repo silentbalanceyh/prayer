@@ -5,8 +5,8 @@
 		"order":1,
 		"validator":"com.prayer.vx.validator.impl.LengthValidator",
 		"config":{
-			"minLength":"xxx",
-			"maxLength":"xxx"
-		}
+			"maxLength":16
+		},
+		"errorMessage":"用户名长度必须是 0 ~ 16个字符。"
 	}
 ]

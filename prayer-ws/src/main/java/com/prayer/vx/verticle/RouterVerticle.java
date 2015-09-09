@@ -84,9 +84,9 @@ public class RouterVerticle extends AbstractVerticle {
 		// 6.最前端的URL处理
 		router.route("/*").order(Constants.VX_OD_ROUTER).handler(new RouterHandler());
 		router.route("/*").order(Constants.VX_OD_VALIDATION).handler(new ValidationHandler());
-		
+
 		// 7.Failure处理器设置
-		router.route("/*").failureHandler(new FailureHandler());
+		router.route("/*").order(Constants.VX_OD_FAILURE).failureHandler(new FailureHandler());
 
 		// 8.设置Sub Router
 		subRouters.forEach((subRouter, value) -> {
