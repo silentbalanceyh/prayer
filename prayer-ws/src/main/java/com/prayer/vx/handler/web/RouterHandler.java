@@ -1,8 +1,11 @@
 package com.prayer.vx.handler.web;
 
+import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.bus.ConfigService;
 import com.prayer.bus.impl.ConfigSevImpl;
 import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractException;
@@ -115,7 +119,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 			final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
 			while (kvPair.hasNext()) {
 				final Map.Entry<String, String> entity = kvPair.next();
-				retJson.put(entity.getKey(), entity.getValue());
+				retJson.put(decodeURL(entity.getKey()), decodeURL(entity.getValue()));
 			}
 		} else if (ParamType.FORM == uri.getParamType()) {
 			retJson.clear();
@@ -123,10 +127,10 @@ public class RouterHandler implements Handler<RoutingContext> {
 			final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
 			while (kvPair.hasNext()) {
 				final Map.Entry<String, String> entity = kvPair.next();
-				retJson.put(entity.getKey(), entity.getValue());
+				retJson.put(decodeURL(entity.getKey()), decodeURL(entity.getValue()));
 			}
 		} else {
-			retJson = context.getBodyAsJson();
+			retJson = new JsonObject(decodeURL(context.getBodyAsJson().encodePrettily()));
 		}
 		return retJson;
 	}
@@ -199,6 +203,16 @@ public class RouterHandler implements Handler<RoutingContext> {
 			}
 		}
 		return error;
+	}
+
+	private String decodeURL(final String inputValue) {
+		String ret = inputValue;
+		try {
+			ret = URLDecoder.decode(inputValue, Resources.SYS_ENCODING);
+		} catch (UnsupportedEncodingException ex) {
+			debug(LOGGER, "JVM.ENCODING", ex, Resources.SYS_ENCODING);
+		}
+		return ret;
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
