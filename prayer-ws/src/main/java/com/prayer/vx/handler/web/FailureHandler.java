@@ -1,5 +1,10 @@
 package com.prayer.vx.handler.web;
 
+import static com.prayer.util.Error.info;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.model.bus.web.RestfulResult;
@@ -17,6 +22,10 @@ import io.vertx.ext.web.handler.ErrorHandler;
 public class FailureHandler implements ErrorHandler {
 
 	// ~ Static Fields =======================================
+
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(FailureHandler.class);
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -46,8 +55,12 @@ public class FailureHandler implements ErrorHandler {
 		// TODO: 后期需要改动，测试因为使用浏览器，暂时使用这种
 		response.putHeader("Context-Type", "text/plain;charset=" + Resources.SYS_ENCODING);
 		response.putHeader("Content-Length", String.valueOf(content.getBytes().length));
-		response.setStatusCode(retData.getInteger("statusCode"));
-		response.setStatusMessage(retData.getString("error"));
+		try {
+			response.setStatusCode(retData.getInteger("statusCode"));
+			response.setStatusMessage(retData.getString("error"));
+		} catch (Exception ex) {
+			info(LOGGER, "[E-VX] Error Occurs.", ex);
+		}
 		response.write(content, Resources.SYS_ENCODING);
 		response.end();
 		response.close();

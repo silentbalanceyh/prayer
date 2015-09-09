@@ -53,6 +53,11 @@ public final class SystemEnum { 	// NOPMD
 		FORM,		// 表单上获取
 		BODY		// 直接从Body中获取
 	}
+	/** Rule的类型，目前仅包含验证器和转换器 **/
+	public static enum ComponentType{
+		VALIDATOR,	// 
+		CONVERTOR	//
+	}
 	// ~ Constructors ========================================
 	private SystemEnum(){}
 }

@@ -1,12 +1,17 @@
 package com.prayer.schema.db;
 
 import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.singleton;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Resources;
+import com.prayer.db.conn.MetadataConn;
+import com.prayer.db.conn.impl.MetadataConnImpl;
 import com.prayer.model.h2.vx.UriModel;
 
 /**
@@ -21,6 +26,16 @@ public class UriMapperTestCase extends AbstractMapperCase<UriModel, String>{	// 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/**
+	 * 
+	 */
+	@BeforeClass		// NOPMD
+	public static void setUp(){
+		/** **/
+		final MetadataConn metaConn = singleton(MetadataConnImpl.class);
+		final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
+		metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
+	}
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

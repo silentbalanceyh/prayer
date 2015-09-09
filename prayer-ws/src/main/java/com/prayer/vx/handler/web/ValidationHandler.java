@@ -24,7 +24,7 @@ import com.prayer.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.bus.web.StatusCode;
-import com.prayer.model.h2.vx.ValidatorModel;
+import com.prayer.model.h2.vx.RuleModel;
 import com.prayer.util.Instance;
 import com.prayer.vx.component.WebValidator;
 
@@ -72,12 +72,15 @@ public class ValidationHandler implements Handler<RoutingContext> {
 		// 1.从Context中提取参数信息
 		final String uriId = routingContext.get(Constants.VX_CTX_URI_ID);
 		final HttpServerResponse response = routingContext.response();
+		// info(LOGGER, "1.Get URI ID from Context: uri = " + uriId);
 
 		// 2.获取当前路径下的Validator的数据
-		final ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> result = this.service.findValidators(uriId);
+		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service.findValidators(uriId);
 		final RestfulResult webRet = new RestfulResult(StatusCode.OK);
+		// info(LOGGER, "2.Found ServiceResult: result = " + result);
 		// 3.如果获取到值
 		AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
+		// info(LOGGER, "3.Dispatched Error: error = " + error);
 		if (null == error) {
 			// SUCCESS -->
 			routingContext.next();
@@ -93,17 +96,16 @@ public class ValidationHandler implements Handler<RoutingContext> {
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	private AbstractWebException requestDispatch(
-			final ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> result, final RestfulResult webRef,
-			final RoutingContext context) {
+	private AbstractWebException requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
+			final RestfulResult webRef, final RoutingContext context) {
 		AbstractWebException error = null;
 		final JsonObject params = context.get(Constants.VX_CTX_PARAMS);
 		if (ResponseCode.SUCCESS == result.getResponseCode()) {
-			final ConcurrentMap<String, List<ValidatorModel>> dataMap = result.getResult();
+			final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
 			// 遍历每一个字段
 			for (final String field : params.fieldNames()) {
 				final String value = params.getString(field);
-				final List<ValidatorModel> validators = dataMap.get(field);
+				final List<RuleModel> validators = dataMap.get(field);
 				// 验证当前字段信息
 				error = this.validateField(field, value, validators);
 				// 400 Bad Request
@@ -124,11 +126,11 @@ public class ValidationHandler implements Handler<RoutingContext> {
 	}
 
 	private AbstractWebException validateField(final String name, final String value,
-			final List<ValidatorModel> validators) {
+			final List<RuleModel> validators) {
 		AbstractWebException error = null;
 		// Fix: Null Pointer，因为validators是从Map中取得的，所以必须判断是否为null
 		if (null != validators && !validators.isEmpty()) {
-			for (final ValidatorModel validator : validators) {
+			for (final RuleModel validator : validators) {
 				error = this.validateField(name, value, validator);
 				if (null != error) {
 					break;
@@ -139,26 +141,30 @@ public class ValidationHandler implements Handler<RoutingContext> {
 	}
 
 	private AbstractWebException validateField(final String paramName, final String paramValue,
-			final ValidatorModel validatorModel) {
+			final RuleModel ruleModel) {
 		AbstractWebException error = null;
 		try {
 			// 1.验证Validator是否存在
-			final String validatorCls = validatorModel.getValidator();
+			final String validatorCls = ruleModel.getComponentClass();
 			this.checkValidator(validatorCls);
 			// 2.从value中提取值信息
-			final String typeCls = validatorModel.getType().getClassName();
+			final String typeCls = ruleModel.getType().getClassName();
 			final Value<?> value = instance(typeCls, paramValue);
 			// 3.提取配置信息
-			final JsonObject config = validatorModel.getConfig();
+			final JsonObject config = ruleModel.getConfig();
 			// 4.验证结果
 			final WebValidator validator = instance(validatorCls);
 			final boolean ret = validator.validate(paramName, value, config);
 			// 5.验证失败，特殊的Exception
 			if (!ret) {
-				error = new ValidationFailureException(validatorModel.getErrorMessage());
+				error = new ValidationFailureException(ruleModel.getErrorMessage());
 			}
 		} catch (AbstractWebException ex) {
 			error = ex;
+		}
+		// TODO: Debug
+		catch (Exception ex) {
+			ex.printStackTrace();
 		}
 		return error;
 	}

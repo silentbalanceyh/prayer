@@ -65,7 +65,7 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 			ret = this.getRouteService().importToList(VX_ROUTES);
 		}
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-			ret = this.getValidatorService().purgeData();
+			ret = this.getRuleService().purgeData();
 			// 必须先PurgeValidators
 			ret = this.getUriService().purgeData();
 		}
@@ -76,7 +76,7 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 			for (final UriModel model : uriModels) {
 				final String paramFile = VX_URI_PARAM
 						+ model.getUri().substring(1, model.getUri().length()).replaceAll("/",".") + ".json";
-				this.getValidatorService().importValidators(paramFile, model);
+				this.getRuleService().importRules(paramFile, model);
 			}
 		}
 		// 2.导入OOB中的Schema定义

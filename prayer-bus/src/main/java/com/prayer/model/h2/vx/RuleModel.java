@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.kernel.jackson.JsonObjectDeserializer;
 import com.prayer.kernel.jackson.JsonObjectSerializer;
 import com.prayer.model.jackson.DataTypeDeserializer;
@@ -24,7 +25,7 @@ import io.vertx.core.json.JsonObject;
  *
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
-public class ValidatorModel implements Serializable { // NOPMD
+public class RuleModel implements Serializable { // NOPMD
 	// ~ Static Fields =======================================
 
 	/**
@@ -45,10 +46,13 @@ public class ValidatorModel implements Serializable { // NOPMD
 	/** S_ORDER **/
 	@JsonProperty("order")
 	private int order;
-
-	/** J_VALIDATOR **/
-	@JsonProperty("validator")
-	private String validator;
+	
+	/** J_COMPONENT_TYPE **/
+	@JsonProperty("componentType")
+	private ComponentType componentType;
+	/** J_COMPONENT_CLASS **/
+	@JsonProperty("componentClass")
+	private String componentClass;
 	/** J_CONFIG **/
 	@JsonProperty("config")
 	@JsonSerialize(using = JsonObjectSerializer.class)
@@ -134,18 +138,31 @@ public class ValidatorModel implements Serializable { // NOPMD
 	}
 
 	/**
-	 * @return the validator
+	 * @return the componentType
 	 */
-	public String getValidator() {
-		return validator;
+	public ComponentType getComponentType() {
+		return componentType;
 	}
 
 	/**
-	 * @param validator
-	 *            the validator to set
+	 * @param componentType the componentType to set
 	 */
-	public void setValidator(final String validator) {
-		this.validator = validator;
+	public void setComponentType(final ComponentType componentType) {
+		this.componentType = componentType;
+	}
+
+	/**
+	 * @return the componentClass
+	 */
+	public String getComponentClass() {
+		return componentClass;
+	}
+
+	/**
+	 * @param componentClass the componentClass to set
+	 */
+	public void setComponentClass(final String componentClass) {
+		this.componentClass = componentClass;
 	}
 
 	/**
@@ -196,8 +213,8 @@ public class ValidatorModel implements Serializable { // NOPMD
 	/** **/
 	@Override
 	public String toString() {
-		return "ValidatorModel [uniqueId=" + uniqueId + ", name=" + name + ", order=" + order + ", validator="
-				+ validator + ", config=" + config + ", refUriId=" + refUriId + "]";
+		return "RuleModel [uniqueId=" + uniqueId + ", name=" + name + ", order=" + order + ", componentClass="
+				+ componentClass + ", config=" + config + ", refUriId=" + refUriId + "]";
 	}
 
 	/** **/
@@ -208,7 +225,7 @@ public class ValidatorModel implements Serializable { // NOPMD
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((refUriId == null) ? 0 : refUriId.hashCode());
 		result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
-		result = prime * result + ((validator == null) ? 0 : validator.hashCode());
+		result = prime * result + ((componentClass == null) ? 0 : componentClass.hashCode());
 		return result;
 	}
 
@@ -224,7 +241,7 @@ public class ValidatorModel implements Serializable { // NOPMD
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final ValidatorModel other = (ValidatorModel) obj;
+		final RuleModel other = (RuleModel) obj;
 		if (name == null) {
 			if (other.name != null) {
 				return false;
@@ -246,11 +263,11 @@ public class ValidatorModel implements Serializable { // NOPMD
 		} else if (!uniqueId.equals(other.uniqueId)) {
 			return false;
 		}
-		if (validator == null) {
-			if (other.validator != null) {
+		if (componentClass == null) {
+			if (other.componentClass != null) {
 				return false;
 			}
-		} else if (!validator.equals(other.validator)) {
+		} else if (!componentClass.equals(other.componentClass)) {
 			return false;
 		}
 		return true;

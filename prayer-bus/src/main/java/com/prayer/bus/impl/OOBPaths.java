@@ -14,5 +14,5 @@ interface OOBPaths {	// NOPMD
 	/** Schema Folder，用于读取Schema的配置信息 **/
 	String SCHEMA_FOLDER = "deploy/oob/schema/";
 	/** URI参数配置文件 **/
-	String VX_URI_PARAM = "deploy/oob/vertx/uri/";
+	String VX_URI_PARAM = "deploy/oob/vertx/component/";
 }

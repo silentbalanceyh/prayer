@@ -5,19 +5,19 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.model.h2.vx.ValidatorModel;
+import com.prayer.model.h2.vx.RuleModel;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface ValidatorDPService extends TemplateDPService<ValidatorModel,String>{
+public interface RuleDPService extends TemplateDPService<RuleModel,String>{
 	/**
 	 * 
 	 * @param jsonPath
 	 * @param uri
 	 * @return
 	 */
-	ServiceResult<ConcurrentMap<String,List<ValidatorModel>>> importValidators(String jsonPath, UriModel uri);
+	ServiceResult<ConcurrentMap<String,List<RuleModel>>> importRules(String jsonPath, UriModel uri);
 }

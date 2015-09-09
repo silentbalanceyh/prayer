@@ -2,28 +2,31 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.schema.db.ValidatorMapper">
-	<resultMap type="Validator" id="validatorObject">
+<mapper namespace="com.prayer.schema.db.RuleMapper">
+	<resultMap type="Rule" id="ruleObject">
 		<id column="K_ID" property="uniqueId" />
 		<result column="S_NAME" property="name" />
 		<result column="S_TYPE" property="type"
 			typeHandler="com.prayer.schema.db.handler.DataTypeHandler" />
 		<result column="S_ORDER" property="order" />
-		<result column="J_VALIDATOR" property="validator" />
+		<result column="J_COMPONENT_TYPE" property="componentType"
+			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result column="J_COMPONENT_CLASS" property="componentClass" />
 		<result column="J_CONFIG" property="config"
 			typeHandler="com.prayer.schema.db.handler.JsonHandler" />
 		<result column="J_ERROR_MSG" property="errorMessage"/>
 		<result column="R_URI_ID" property="refUriId" />
 	</resultMap>
-	<insert id="insert" parameterType="Validator" keyColumn="K_ID"
+	<insert id="insert" parameterType="Rule" keyColumn="K_ID"
 		keyProperty="uniqueId">
 		<![CDATA[
-			INSERT INTO EVX_PVRULE (
+			INSERT INTO EVX_RULE (
 				K_ID,
 				S_NAME,
 				S_TYPE,
 				S_ORDER,
-				J_VALIDATOR,
+				J_COMPONENT_TYPE,
+				J_COMPONENT_CLASS,
 				J_CONFIG,
 				J_ERROR_MSG,
 				R_URI_ID
@@ -32,7 +35,8 @@
 				#{name},
 				#{type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
 				#{order},
-				#{validator},
+				#{componentType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{componentClass},
 				#{config, typeHandler=com.prayer.schema.db.handler.JsonHandler},
 				#{errorMessage},
 				#{refUriId}
@@ -41,12 +45,13 @@
 	</insert>
 	<insert id="batchInsert" parameterType="java.util.List">
 		<![CDATA[
-			INSERT INTO EVX_PVRULE (
+			INSERT INTO EVX_RULE (
 				K_ID,
 				S_NAME,
 				S_TYPE,
 				S_ORDER,
-				J_VALIDATOR,
+				J_COMPONENT_TYPE,
+				J_COMPONENT_CLASS,
 				J_CONFIG,
 				J_ERROR_MSG,
 				R_URI_ID
@@ -59,21 +64,23 @@
 				#{item.name},
 				#{item.type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
 				#{item.order},
-				#{item.validator},
+				#{item.componentType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				#{item.componentClass},
 				#{item.config, typeHandler=com.prayer.schema.db.handler.JsonHandler},
 				#{item.errorMessage},
 				#{item.refUriId}
 			)]]>
 		</foreach>
 	</insert>
-	<update id="update" parameterType="Validator" keyColumn="K_ID"
+	<update id="update" parameterType="Rule" keyColumn="K_ID"
 		keyProperty="uniqueId">
 		<![CDATA[
-			UPDATE EVX_PVRULE SET
+			UPDATE EVX_RULE SET
 				S_NAME=#{name},
 				S_TYPE=#{type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
 				S_ORDER=#{order},
-				J_VALIDATOR=#{validator},
+				J_COMPONENT_TYPE=#{componentType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+				J_COMPONENT_CLASS=#{componentClass},
 				J_CONFIG=#{config,typeHandler=com.prayer.schema.db.handler.JsonHandler},
 				J_ERROR_MSG=#{errorMessage},
 				R_URI_ID=#{refUriId}
@@ -82,12 +89,12 @@
 	</update>
 	<delete id="deleteById" parameterType="String">
 		<![CDATA[
-			DELETE FROM EVX_PVRULE WHERE K_ID=#{uniqueId}
+			DELETE FROM EVX_RULE WHERE K_ID=#{uniqueId}
 		]]>
 	</delete>
 	<delete id="batchDelete" parameterType="java.util.List">
 		<![CDATA[
-			DELETE FROM EVX_PVRULE WHERE K_ID IN
+			DELETE FROM EVX_RULE WHERE K_ID IN
 		]]>
 		<foreach collection="list" item="item" open="(" separator=","
 			close=")">
@@ -98,23 +105,23 @@
 	</delete>
 	<delete id="purgeData">
 		<![CDATA[
-			DELETE FROM EVX_PVRULE
+			DELETE FROM EVX_RULE
 		]]>
 	</delete>
-	<select id="selectById" parameterType="String" resultMap="validatorObject">
+	<select id="selectById" parameterType="String" resultMap="ruleObject">
 		<![CDATA[
-			SELECT * FROM EVX_PVRULE WHERE K_ID=#{uniqueId}
+			SELECT * FROM EVX_RULE WHERE K_ID=#{uniqueId}
 		]]>
 	</select>
-	<select id="selectAll" resultMap="validatorObject">
+	<select id="selectAll" resultMap="ruleObject">
 		<![CDATA[
-			SELECT * FROM EVX_PVRULE ORDER BY R_URI_ID, S_ORDER
+			SELECT * FROM EVX_RULE ORDER BY J_COMPONENT_TYPE, R_URI_ID, S_ORDER ASC
 		]]>
 	</select>
 
-	<select id="selectByUri" resultMap="validatorObject">
+	<select id="selectByUri" resultMap="ruleObject">
 		<![CDATA[
-			SELECT * FROM EVX_PVRULE WHERE R_URI_ID=#{refUriId} ORDER BY S_ORDER ASC
+			SELECT * FROM EVX_RULE WHERE R_URI_ID=#{refUriId} ORDER BY J_COMPONENT_TYPE, S_ORDER ASC
 		]]>
 	</select>
 </mapper>

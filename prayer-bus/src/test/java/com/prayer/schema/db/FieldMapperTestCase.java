@@ -1,11 +1,17 @@
 package com.prayer.schema.db;
 
+import static com.prayer.util.Instance.singleton;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Resources;
+import com.prayer.db.conn.MetadataConn;
+import com.prayer.db.conn.impl.MetadataConnImpl;
 import com.prayer.model.h2.FieldModel;
 
 /**
@@ -21,6 +27,16 @@ public class FieldMapperTestCase extends AbstractMapperCase<FieldModel, String> 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/**
+	 * 
+	 */
+	@BeforeClass		// NOPMD
+	public static void setUp(){
+		/** **/
+		final MetadataConn metaConn = singleton(MetadataConnImpl.class);
+		final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
+		metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
+	}
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

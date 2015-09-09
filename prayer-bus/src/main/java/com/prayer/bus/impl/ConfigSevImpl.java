@@ -1,25 +1,31 @@
 package com.prayer.bus.impl; // NOPMD
 
+import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.ConfigService;
 import com.prayer.bus.impl.util.Extractor;
+import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vx.RouteModel;
+import com.prayer.model.h2.vx.RuleModel;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.model.h2.vx.ValidatorModel;
 import com.prayer.model.h2.vx.VerticleModel;
 import com.prayer.schema.dao.RouteDao;
+import com.prayer.schema.dao.RuleDao;
 import com.prayer.schema.dao.UriDao;
-import com.prayer.schema.dao.ValidatorDao;
 import com.prayer.schema.dao.VerticleDao;
 import com.prayer.schema.dao.impl.RouteDaoImpl;
+import com.prayer.schema.dao.impl.RuleDaoImpl;
 import com.prayer.schema.dao.impl.UriDaoImpl;
-import com.prayer.schema.dao.impl.ValidatorDaoImpl;
 import com.prayer.schema.dao.impl.VerticleDaoImpl;
 
 import net.sf.oval.constraint.NotBlank;
@@ -37,6 +43,8 @@ import net.sf.oval.guard.PreValidateThis;
 @Guarded
 public class ConfigSevImpl implements ConfigService {
 	// ~ Static Fields =======================================
+	/** 日志记录器 **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigSevImpl.class);
 	// ~ Instance Fields =====================================
 	/** 访问H2的EVX_VERTICLE接口 **/
 	@NotNull
@@ -49,7 +57,7 @@ public class ConfigSevImpl implements ConfigService {
 	private transient final UriDao uriDao;
 	/** 访问H2的EVX_PVRULE接口 **/
 	@NotNull
-	private transient final ValidatorDao validatorDao;
+	private transient final RuleDao ruleDao;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -60,7 +68,7 @@ public class ConfigSevImpl implements ConfigService {
 		this.verticleDao = singleton(VerticleDaoImpl.class);
 		this.routeDao = singleton(RouteDaoImpl.class);
 		this.uriDao = singleton(UriDaoImpl.class);
-		this.validatorDao = singleton(ValidatorDaoImpl.class);
+		this.ruleDao = singleton(RuleDaoImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -134,13 +142,16 @@ public class ConfigSevImpl implements ConfigService {
 	/** **/
 	@Override
 	@PreValidateThis
-	public ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> findValidators() {
+	public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findValidators() {
 		// 1.构造响应数据
-		final ServiceResult<ConcurrentMap<String, List<ValidatorModel>>> result = new ServiceResult<>();
+		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
 		// 2.调用读取方法
-		final List<ValidatorModel> ret = this.validatorDao.getAll();
+		List<RuleModel> ret = this.ruleDao.getAll();
 		// 3.设置相应信息
-		final ConcurrentMap<String, List<ValidatorModel>> listRet = Extractor.extractList(ret, "refUriId");
+		ret = ret.stream().filter(item -> ComponentType.VALIDATOR == item.getComponentType())
+				.collect(Collectors.toList());
+		info(LOGGER,"Validator Size : " + ret.size());
+		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "refUriId");
 		result.setResponse(listRet, null);
 		// 4.返回最终结果
 		return result;
@@ -149,13 +160,54 @@ public class ConfigSevImpl implements ConfigService {
 	/** **/
 	@Override
 	@PreValidateThis
-	public ServiceResult<ConcurrentMap<String,List<ValidatorModel>>> findValidators(@NotNull @NotBlank @NotEmpty final String uriId) {
+	public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findValidators(
+			@NotNull @NotBlank @NotEmpty final String uriId) {
 		// 1.构造响应数据
-		final ServiceResult<ConcurrentMap<String,List<ValidatorModel>>> result = new ServiceResult<>();
+		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
 		// 2.调用读取方法
-		final List<ValidatorModel> ret = this.validatorDao.getByUri(uriId);
+		List<RuleModel> ret = this.ruleDao.getByUri(uriId);
 		// 3.设置响应结果
-		final ConcurrentMap<String, List<ValidatorModel>> listRet = Extractor.extractList(ret, "name");
+		ret = ret.stream().filter(item -> ComponentType.VALIDATOR == item.getComponentType())
+				.collect(Collectors.toList());
+		info(LOGGER,"Validator Size : " + ret.size() + ", uriId = " + uriId);
+		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "name");
+		result.setResponse(listRet, null);
+		return result;
+	}
+
+	/** **/
+	@Override
+	@PreValidateThis
+	public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors() {
+		// 1.构造响应数据
+		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
+		// 2.调用读取方法
+		List<RuleModel> ret = this.ruleDao.getAll();
+		// 3.设置相应信息
+		ret = ret.stream().filter(item -> ComponentType.CONVERTOR == item.getComponentType())
+				.collect(Collectors.toList());
+		info(LOGGER,"Convertor Size : " + ret.size());
+		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "refUriId");
+
+		result.setResponse(listRet, null);
+		// 4.返回最终结果
+		return result;
+	}
+
+	/** **/
+	@Override
+	@PreValidateThis
+	public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors(
+			@NotNull @NotBlank @NotEmpty final String uriId) {
+		// 1.构造响应数据
+		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
+		// 2.调用读取方法
+		List<RuleModel> ret = this.ruleDao.getByUri(uriId);
+		// 3.设置响应结果
+		ret = ret.stream().filter(item -> ComponentType.CONVERTOR == item.getComponentType())
+				.collect(Collectors.toList());
+		info(LOGGER,"Convertor Size : " + ret.size() + ", uriId = " + uriId);
+		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "name");
 		result.setResponse(listRet, null);
 		return result;
 	}

@@ -6,10 +6,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.model.h2.vx.ValidatorModel;
-import com.prayer.schema.dao.ValidatorDao;
+import com.prayer.model.h2.vx.RuleModel;
+import com.prayer.schema.dao.RuleDao;
 import com.prayer.schema.db.SessionManager;
-import com.prayer.schema.db.ValidatorMapper;
+import com.prayer.schema.db.RuleMapper;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -22,10 +22,10 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class ValidatorDaoImpl extends TemplateDaoImpl<ValidatorModel, String>implements ValidatorDao { // NOPMD
+public class RuleDaoImpl extends TemplateDaoImpl<RuleModel, String>implements RuleDao { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(ValidatorDaoImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RuleDaoImpl.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -42,18 +42,18 @@ public class ValidatorDaoImpl extends TemplateDaoImpl<ValidatorModel, String>imp
 	/** 获取Mapper类型 **/
 	@Override
 	protected Class<?> getMapper() {
-		return ValidatorMapper.class;
+		return RuleMapper.class;
 	}
 
 	/** **/
 	@Override
-	public List<ValidatorModel> getByUri(@NotNull @NotBlank @NotEmpty final String uriId) {
+	public List<RuleModel> getByUri(@NotNull @NotBlank @NotEmpty final String uriId) {
 		// 1.初始化SqlSession
 		final SqlSession session = SessionManager.getSession();
 		// 2.获取Mapper
-		final ValidatorMapper mapper = session.getMapper(ValidatorMapper.class);
+		final RuleMapper mapper = session.getMapper(RuleMapper.class);
 		// 3.读取返回信息
-		final List<ValidatorModel> ret = mapper.selectByUri(uriId);
+		final List<RuleModel> ret = mapper.selectByUri(uriId);
 		// 4.关闭Session
 		session.close();
 		return ret;
