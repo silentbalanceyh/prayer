@@ -205,6 +205,7 @@ CREATE TABLE EVX_PVRULE(
 	S_ORDER INT,								-- 当前规则的顺序
 	J_VALIDATOR VARCHAR(256),					-- 验证用的Java Validator
 	J_CONFIG CLOB,								-- 验证器Validator中需要使用的Json配置
+	J_ERROR_MSG VARCHAR(2048),					-- Error Message验证失败的信息
 	-- 关联属性
 	R_URI_ID VARCHAR(192),						-- 关联EVX_URI表
 	PRIMARY KEY(K_ID),

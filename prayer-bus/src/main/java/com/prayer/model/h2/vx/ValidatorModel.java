@@ -48,6 +48,10 @@ public class ValidatorModel implements Serializable { // NOPMD
 	@JsonSerialize(using = JsonObjectSerializer.class)
 	@JsonDeserialize(using = JsonObjectDeserializer.class)
 	private JsonObject config;		// NOPMD
+	
+	/** J_ERROR_MSG **/
+	@JsonProperty("errorMessage")
+	private String errorMessage;
 
 	/** R_URI_ID **/
 	@JsonIgnore
@@ -134,6 +138,20 @@ public class ValidatorModel implements Serializable { // NOPMD
 	 */
 	public void setConfig(final JsonObject config) {
 		this.config = config;
+	}
+
+	/**
+	 * @return the errorMessage
+	 */
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	/**
+	 * @param errorMessage the errorMessage to set
+	 */
+	public void setErrorMessage(final String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 
 	/**

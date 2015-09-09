@@ -10,6 +10,7 @@
 		<result column="J_VALIDATOR" property="validator" />
 		<result column="J_CONFIG" property="config"
 			typeHandler="com.prayer.schema.db.handler.JsonHandler" />
+		<result column="J_ERROR_MSG" property="errorMessage"/>
 		<result column="R_URI_ID" property="refUriId" />
 	</resultMap>
 	<insert id="insert" parameterType="Validator" keyColumn="K_ID"
@@ -21,6 +22,7 @@
 				S_ORDER,
 				J_VALIDATOR,
 				J_CONFIG,
+				J_ERROR_MSG,
 				R_URI_ID
 			) VALUES (
 				#{uniqueId},
@@ -28,6 +30,7 @@
 				#{order},
 				#{validator},
 				#{config, typeHandler=com.prayer.schema.db.handler.JsonHandler},
+				#{errorMessage},
 				#{refUriId}
 			)
 		]]>
@@ -40,6 +43,7 @@
 				S_ORDER,
 				J_VALIDATOR,
 				J_CONFIG,
+				J_ERROR_MSG,
 				R_URI_ID
 			) VALUES
 		]]>
@@ -51,6 +55,7 @@
 				#{item.order},
 				#{item.validator},
 				#{item.config, typeHandler=com.prayer.schema.db.handler.JsonHandler},
+				#{item.errorMessage},
 				#{item.refUriId}
 			)]]>
 		</foreach>
@@ -63,6 +68,7 @@
 				S_ORDER=#{order},
 				J_VALIDATOR=#{validator},
 				J_CONFIG=#{config,typeHandler=com.prayer.schema.db.handler.JsonHandler},
+				J_ERROR_MSG=#{errorMessage},
 				R_URI_ID=#{refUriId}
 			WHERE K_ID=#{uniqueId}
 		]]>
