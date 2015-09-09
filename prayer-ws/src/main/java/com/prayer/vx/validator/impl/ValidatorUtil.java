@@ -14,7 +14,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class ValidatorUtil {
+final class ValidatorUtil {
 	// ~ Static Fields =======================================
 	/**
 	 * 
