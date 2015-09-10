@@ -4,8 +4,8 @@ import static com.prayer.util.Instance.singleton;
 
 import com.hazelcast.config.Config;
 import com.prayer.exception.AbstractException;
+import com.prayer.handler.deploy.VertxClusterHandler;
 import com.prayer.vx.configurator.VertxConfigurator;
-import com.prayer.vx.handler.deploy.VertxClusterHandler;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
@@ -19,7 +19,7 @@ import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
  * @author Lang
  *
  */
-public class EngineStarter {
+public class EngineLauncher {
 	// ~ Static Fields =======================================
 	private static final String VX_NAME = "PRAYER";
 

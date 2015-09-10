@@ -1,4 +1,4 @@
-package com.prayer.vx.handler.web;
+package com.prayer.handler.web;
 
 import static com.prayer.util.Error.info;
 
@@ -53,7 +53,7 @@ public class FailureHandler implements ErrorHandler {
 		// 5.处理响应信息
 		final HttpServerResponse response = context.response();
 		// TODO: 后期需要改动，测试因为使用浏览器，暂时使用这种
-		response.putHeader("Context-Type", "text/plain;charset=" + Resources.SYS_ENCODING);
+		response.putHeader("Context-Type", "application/json;charset=" + Resources.SYS_ENCODING);
 		response.putHeader("Content-Length", String.valueOf(content.getBytes().length));
 		try {
 			response.setStatusCode(retData.getInteger("statusCode"));

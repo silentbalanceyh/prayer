@@ -1,6 +1,6 @@
-package com.prayer.vx.sec;
+package com.prayer.security;
 
-import com.prayer.vx.sec.impl.OAuth2ProviderImpl;
+import com.prayer.security.impl.OAuth2ProviderImpl;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.auth.AuthProvider;

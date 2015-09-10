@@ -4,7 +4,7 @@
 		"type": "StringType",
 		"order": 1,
 		"componentType": "VALIDATOR",
-		"componentClass": "com.prayer.vx.validator.LengthValidator",
+		"componentClass": "com.prayer.uca.validator.LengthValidator",
 		"config": 
 		{
 			"minLength": 6,
@@ -19,7 +19,7 @@
 		"type": "StringType",
 		"order": 2,
 		"componentType": "VALIDATOR",
-		"componentClass": "com.prayer.vx.validator.RegexValidator",
+		"componentClass": "com.prayer.uca.validator.RegexValidator",
 		"config": 
 		{
 			"regex": "^[A-Za-z0-9@._-]{6,16}$"
@@ -33,7 +33,7 @@
 		"type": "StringType",
 		"order": 1,
 		"componentType": "VALIDATOR",
-		"componentClass": "com.prayer.vx.validator.LengthValidator",
+		"componentClass": "com.prayer.uca.validator.LengthValidator",
 		"config": 
 		{
 			"minLength": 8
@@ -47,7 +47,7 @@
 		"type": "StringType",
 		"order": 1,
 		"componentType": "CONVERTOR",
-		"componentClass": "com.prayer.vx.validator.LengthValidator",
+		"componentClass": "com.prayer.uca.validator.LengthValidator",
 		"config": 
 		{
 			"algorithm":"MD5"

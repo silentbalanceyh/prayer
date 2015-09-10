@@ -1,4 +1,4 @@
-package com.prayer.vx.validator;
+package com.prayer.uca.validator;
 
 import static com.prayer.util.Error.info;
 
@@ -9,7 +9,7 @@ import com.prayer.exception.AbstractWebException;
 import com.prayer.exception.web.ValidatorConfigErrorException;
 import com.prayer.exception.web.ValidatorConfigMissingException;
 import com.prayer.kernel.Value;
-import com.prayer.vx.component.WebValidator;
+import com.prayer.uca.WebValidator;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;

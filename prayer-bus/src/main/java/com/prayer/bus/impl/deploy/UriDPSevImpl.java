@@ -23,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String> implements UriDPService{
+public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String> implements UriDPService{	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(UriDPSevImpl.class);

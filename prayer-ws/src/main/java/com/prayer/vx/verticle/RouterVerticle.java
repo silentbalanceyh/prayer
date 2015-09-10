@@ -5,12 +5,12 @@ import static com.prayer.util.Instance.singleton;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
+import com.prayer.handler.web.FailureHandler;
+import com.prayer.handler.web.RouterHandler;
+import com.prayer.handler.web.ValidationHandler;
+import com.prayer.security.OAuth2Provider;
 import com.prayer.vx.configurator.RouteConfigurator;
 import com.prayer.vx.configurator.ServerConfigurator;
-import com.prayer.vx.handler.web.FailureHandler;
-import com.prayer.vx.handler.web.RouterHandler;
-import com.prayer.vx.handler.web.ValidationHandler;
-import com.prayer.vx.sec.OAuth2Provider;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;

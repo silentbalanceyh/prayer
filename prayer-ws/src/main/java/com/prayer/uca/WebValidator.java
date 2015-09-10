@@ -1,4 +1,4 @@
-package com.prayer.vx.component;
+package com.prayer.uca;
 
 import com.prayer.exception.AbstractWebException;
 import com.prayer.kernel.Value;

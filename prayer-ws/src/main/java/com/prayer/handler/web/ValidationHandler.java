@@ -1,4 +1,4 @@
-package com.prayer.vx.handler.web;
+package com.prayer.handler.web;
 
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
@@ -25,8 +25,8 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.bus.web.StatusCode;
 import com.prayer.model.h2.vx.RuleModel;
+import com.prayer.uca.WebValidator;
 import com.prayer.util.Instance;
-import com.prayer.vx.component.WebValidator;
 
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerResponse;

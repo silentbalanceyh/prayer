@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import com.prayer.exception.AbstractVertXException;
 import com.prayer.exception.vertx.VerticleInvalidException;
 import com.prayer.exception.vertx.VerticleNotFoundException;
+import com.prayer.handler.deploy.VerticleAsyncHandler;
 import com.prayer.util.Instance;
 import com.prayer.vx.configurator.VerticleConfigurator;
-import com.prayer.vx.handler.deploy.VerticleAsyncHandler;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;

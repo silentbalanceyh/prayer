@@ -1,4 +1,4 @@
-package com.prayer.vx.validator;
+package com.prayer.uca.validator;
 
 import com.prayer.constant.Constants;
 

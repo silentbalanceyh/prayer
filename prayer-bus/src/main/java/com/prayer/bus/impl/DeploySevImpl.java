@@ -29,7 +29,7 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 @SuppressWarnings("unchecked")
-public class DeploySevImpl extends AbstractConfigSevImpl implements DeployService, OOBPaths {
+public class DeploySevImpl extends AbstractConfigSevImpl implements DeployService, OOBPaths {	// NOPMD
 	// ~ Static Fields =======================================
 
 	/** 日志记录器 **/

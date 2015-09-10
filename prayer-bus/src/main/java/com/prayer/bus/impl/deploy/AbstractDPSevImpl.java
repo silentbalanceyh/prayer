@@ -34,7 +34,7 @@ import net.sf.oval.guard.PreValidateThis;
  * @param <ID>
  */
 @Guarded
-public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements TemplateDPService<T, ID> {
+public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements TemplateDPService<T, ID> {	// NOPMD
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** 通用Dao **/

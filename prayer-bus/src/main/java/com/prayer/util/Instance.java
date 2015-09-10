@@ -210,7 +210,7 @@ public final class Instance { // NOPMD
 			}
 			field.set(instance, value);
 		} catch (IllegalAccessException | NoSuchFieldException | SecurityException ex) {
-			ex.printStackTrace();
+			ex.printStackTrace();	// NOPMD
 			debug(LOGGER, "SYS.KIT.REFLECT.FIELD", ex, clazz.getName(), name);
 		}
 	}

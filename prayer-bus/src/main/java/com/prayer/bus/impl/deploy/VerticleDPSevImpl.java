@@ -29,7 +29,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class VerticleDPSevImpl extends AbstractDPSevImpl<VerticleModel, String>implements VerticleDPService {
+public class VerticleDPSevImpl extends AbstractDPSevImpl<VerticleModel, String>implements VerticleDPService {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(VerticleDPSevImpl.class);

@@ -31,7 +31,7 @@ import net.sf.oval.constraint.NotNull;
  * @author Lang
  *
  */
-public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implements RuleDPService {
+public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implements RuleDPService {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(RuleDPSevImpl.class);
