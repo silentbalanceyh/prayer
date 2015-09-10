@@ -121,12 +121,13 @@ public final class Interruptor {
 	 * 
 	 * @param clazz
 	 * @param className
-	 * @param component
+	 * @param componentCls
+	 * @param interfaceCls
 	 * @throws AbstractWebException
 	 */
 	public static void interruptExtends(@NotNull final Class<?> clazz,
-			@NotNull @NotBlank @NotEmpty final String className, @NotNull final Class<?> componentCls)
-					throws AbstractWebException {
+			@NotNull @NotBlank @NotEmpty final String className, @NotNull final Class<?> componentCls,
+			final Class<?> interfaceCls) throws AbstractWebException {
 		final List<Class<?>> parents = Instance.parents(className);
 		boolean flag = false;
 		for (final Class<?> item : parents) {
@@ -136,9 +137,20 @@ public final class Interruptor {
 			}
 		}
 		if (!flag) {
-			final AbstractWebException error = new UCAInvalidException(clazz, className, componentCls.getName());
+			AbstractWebException error = null;
 			info(LOGGER, "SYS.VX.INVALID", null, componentCls.getName(), className);
-			throw error;
+			// 需要检查接口
+			if (null != interfaceCls) {
+				try {
+					interruptImplements(clazz, className, interfaceCls);
+				} catch (AbstractWebException ex) {
+					info(LOGGER, "SYS.VX.INVALID", null, interfaceCls.getName(), className);
+					error = ex;
+				}
+			}
+			if (null != error) {
+				throw error;
+			}
 		}
 	}
 

@@ -2,7 +2,7 @@ package com.prayer.model.bus.web;
 
 import java.io.Serializable;
 
-import com.prayer.exception.AbstractException;
+import com.prayer.exception.AbstractWebException;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonObject;
@@ -24,7 +24,7 @@ public class RestfulResult extends ServiceResult<JsonObject>implements Serializa
 	/** HTTP状态代码 **/
 	private transient StatusCode statusCode;
 	/** Exception **/
-	private transient AbstractException error;
+	private transient AbstractWebException error;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -34,7 +34,7 @@ public class RestfulResult extends ServiceResult<JsonObject>implements Serializa
 	}
 
 	/** **/
-	public RestfulResult(final JsonObject result, final StatusCode statusCode, final AbstractException error) { // NOPMD
+	public RestfulResult(final JsonObject result, final StatusCode statusCode, final AbstractWebException error) { // NOPMD
 		this.setResponse(result, statusCode, error);
 	}
 
@@ -46,7 +46,7 @@ public class RestfulResult extends ServiceResult<JsonObject>implements Serializa
 	 * @param statusCode
 	 * @param error
 	 */
-	public void setResponse(final JsonObject result, final StatusCode statusCode, final AbstractException error) {
+	public void setResponse(final JsonObject result, final StatusCode statusCode, final AbstractWebException error) {
 		this.setResponse(result, error);
 		this.statusCode = statusCode;
 		this.error = error;
@@ -59,7 +59,7 @@ public class RestfulResult extends ServiceResult<JsonObject>implements Serializa
 	 * 
 	 * @return
 	 */
-	public AbstractException getError(){
+	public AbstractWebException getError(){
 		return this.error;
 	}
 	/**

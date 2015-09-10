@@ -90,8 +90,7 @@ public class VerticleDeployer {
 			for (final String name : DATA_SYNC.keySet()) {
 				// 1.检查当前配置
 				Interruptor.interruptClass(getClass(), name, "Verticle");
-				Interruptor.interruptExtends(getClass(), name, AbstractVerticle.class);
-				Interruptor.interruptImplements(getClass(), name, Verticle.class);
+				Interruptor.interruptExtends(getClass(), name, AbstractVerticle.class, Verticle.class);
 				// 2.发布这个Verticle
 				this.vertxRef.deployVerticle(name, DATA_SYNC.get(name));
 			}
@@ -111,8 +110,7 @@ public class VerticleDeployer {
 			for (final String name : DATA_ASYNC.keySet()) {
 				// 1.检查当前配置
 				Interruptor.interruptClass(getClass(), name, "Verticle");
-				Interruptor.interruptExtends(getClass(), name, AbstractVerticle.class);
-				Interruptor.interruptImplements(getClass(), name, Verticle.class);
+				Interruptor.interruptExtends(getClass(), name, AbstractVerticle.class, Verticle.class);
 				// 2.发布这个Verticle
 				this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), VerticleAsyncHandler.create());
 			}

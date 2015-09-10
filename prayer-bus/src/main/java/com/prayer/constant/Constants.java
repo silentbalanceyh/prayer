@@ -58,13 +58,15 @@ public interface Constants { // NOPMD
 	/** HA Group Default **/
 	String VX_GROUP = "__DEFAULT__";
 	/** 默认的顺序，但不设置，作为临界值 **/
-	int VX_DEFAULT_ORDER = -10000;
+	int VX_DF_ORDER = -10000;
 	/** Global Error Key **/
 	String VX_CTX_ERROR = "FAILURE.KEY";
 	/** Global URI Key **/
 	String VX_CTX_URI_ID = "URI.ID";
 	/** Request Parameters **/
 	String VX_CTX_PARAMS = "PARAMS";
+	/** Default Convertor，默认Convertor，什么都不做 **/
+	String VX_DF_CONVERTOR = "__DEFAULT__";
 	
 	// ~ Vertx Order =========================================
 	/** Body Handler Order **/
