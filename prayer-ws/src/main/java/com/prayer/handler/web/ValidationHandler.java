@@ -64,7 +64,7 @@ public class ValidationHandler implements Handler<RoutingContext> {
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	public void handle(final RoutingContext routingContext) {
+	public void handle(@NotNull final RoutingContext routingContext) {
 
 		// 1.从Context中提取参数信息
 		final String uriId = routingContext.get(Constants.VX_CTX_URI_ID);
@@ -80,6 +80,7 @@ public class ValidationHandler implements Handler<RoutingContext> {
 		// info(LOGGER, "3.Dispatched Error: error = " + error);
 		if (null == error) {
 			// SUCCESS -->
+
 			routingContext.next();
 		} else {
 			response.setStatusCode(webRet.getStatusCode().status());

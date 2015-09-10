@@ -3,7 +3,7 @@
 		"parent": "/oauth",
 		"path": "/authorize",
 		"method": "GET",
-		"requestHandler": "com.prayer.handler.web.AuthorizeHandler",
+		"requestHandler": "com.prayer.handler.security.AuthorizeHandler",
 		"order": 100
 	}
 ]

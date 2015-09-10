@@ -1,33 +1,42 @@
-package com.prayer.uca.convertor;
+package com.prayer.handler.web;
 
-import com.prayer.exception.AbstractWebException;
-import com.prayer.kernel.Value;
-import com.prayer.model.type.StringType;
-import com.prayer.uca.WebConvertor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.vertx.core.json.JsonObject;
+import io.vertx.core.Handler;
+import io.vertx.ext.web.RoutingContext;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 /**
  * 
  * @author Lang
  *
  */
-public class EncryptionConvertor implements WebConvertor{
-
+@Guarded
+public class ConversionHandler implements Handler<RoutingContext> {
 	// ~ Static Fields =======================================
-	/** 固定的这个转换器的返回值，必须是Engine中定义的Type中的一种。**/
-	private final static Class<?> RETURN_TYPE = StringType.class;
-
-	@Override
-	public Value<?> convert(String name, Value<?> value, JsonObject config) throws AbstractWebException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(RouterHandler.class);
 	// ~ Instance Fields =====================================
+	
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	/** **/
+	@PostValidateThis
+	public ConversionHandler(){
+		
+	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+
+	/** **/
+	@Override
+	public void handle(@NotNull final RoutingContext routingContext) {
+		// TODO Auto-generated method stub
+	}
+	
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

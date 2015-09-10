@@ -1,4 +1,4 @@
-package com.prayer.handler.web;
+package com.prayer.handler.security;
 
 import static com.prayer.util.Instance.singleton;
 

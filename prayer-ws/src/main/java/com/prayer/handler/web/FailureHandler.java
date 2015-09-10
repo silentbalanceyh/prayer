@@ -13,12 +13,15 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.ErrorHandler;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
+@Guarded
 public class FailureHandler implements ErrorHandler {
 
 	// ~ Static Fields =======================================
@@ -36,7 +39,7 @@ public class FailureHandler implements ErrorHandler {
 	 * 直接从Context中获取处理结果
 	 */
 	@Override
-	public void handle(final RoutingContext context) {
+	public void handle(@NotNull final RoutingContext context) {
 		// 1.从Context中获取处理结果
 		final RestfulResult webRet = (RestfulResult) context.get(Constants.VX_CTX_ERROR);
 		// 2.包装Error信息生成统一的Error格式

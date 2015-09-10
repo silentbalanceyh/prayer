@@ -74,7 +74,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 	 * 
 	 */
 	@Override
-	public void handle(final RoutingContext routingContext) {
+	public void handle(@NotNull final RoutingContext routingContext) {
 		// 1.获取请求Request和相应Response引用
 		final HttpServerRequest request = routingContext.request();
 		final HttpServerResponse response = routingContext.response();
