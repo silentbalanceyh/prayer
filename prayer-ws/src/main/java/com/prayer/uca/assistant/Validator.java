@@ -1,4 +1,4 @@
-package com.prayer.uca.validator;
+package com.prayer.uca.assistant;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +17,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class ValidatorUtil {
+public final class Validator {
 	// ~ Static Fields =======================================
 	/**
 	 * 
@@ -73,7 +73,7 @@ final class ValidatorUtil {
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	private ValidatorUtil(){}
+	private Validator(){}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

@@ -1,44 +1,42 @@
-package com.prayer.exception;
+package com.prayer.exception.web;
 
-import static com.prayer.util.Error.error;
+import com.prayer.exception.AbstractWebException;
 
 /**
- * 和VertX相关的所有异常信息集合，H2中涉及到EVX前缀表
  * 
  * @author Lang
  *
  */
-public abstract class AbstractVertXException extends AbstractException {
+public class UCAConfigMissingException extends AbstractWebException {
 	// ~ Static Fields =======================================
-
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -362465592359952752L;
-
+	private static final long serialVersionUID = -399033351901524071L;
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/** **/
-	public AbstractVertXException(final String message) {
-		super(message);
-	}
-
 	/**
 	 * 
 	 * @param clazz
-	 * @param errorCode
-	 * @param params
+	 * @param paramName
+	 * @param validator
+	 * @param errorMsg
 	 */
-	public AbstractVertXException(final Class<?> clazz, final int errorCode, final Object... params) {
-		this(error(clazz, errorCode, params));
+	public UCAConfigMissingException(final Class<?> clazz, final String paramName, final String validator, final String errorMsg){
+		super(clazz, -30008, paramName, validator, errorMsg);
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/** **/
+	@Override
+	public int getErrorCode(){
+		return -30008;
+	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
-
 }

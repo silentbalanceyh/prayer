@@ -1,6 +1,5 @@
 package com.prayer.handler.web;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
@@ -18,15 +17,13 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractWebException;
 import com.prayer.exception.web.InternalServerErrorException;
 import com.prayer.exception.web.ValidationFailureException;
-import com.prayer.exception.web.ValidatorInvalidException;
-import com.prayer.exception.web.ValidatorNotFoundException;
 import com.prayer.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.bus.web.StatusCode;
 import com.prayer.model.h2.vx.RuleModel;
 import com.prayer.uca.WebValidator;
-import com.prayer.util.Instance;
+import com.prayer.uca.assistant.Interruptor;
 
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerResponse;
@@ -146,7 +143,8 @@ public class ValidationHandler implements Handler<RoutingContext> {
 		try {
 			// 1.验证Validator是否存在
 			final String validatorCls = ruleModel.getComponentClass();
-			this.checkValidator(validatorCls);
+			Interruptor.interruptClass(getClass(), validatorCls, "Validator");
+			Interruptor.interruptImplements(getClass(), validatorCls, WebValidator.class);
 			// 2.从value中提取值信息
 			final String typeCls = ruleModel.getType().getClassName();
 			final Value<?> value = instance(typeCls, paramValue);
@@ -168,32 +166,6 @@ public class ValidationHandler implements Handler<RoutingContext> {
 		}
 		return error;
 	}
-
-	private void checkValidator(final String className) throws AbstractWebException {
-		// 1.检查是否存在这个类
-		Class<?> clazz = Instance.clazz(className);
-		if (null == clazz) {
-			final AbstractWebException error = new ValidatorNotFoundException(getClass(), className);
-			debug(LOGGER, "SYS.VX.CLASS", error, "Validator", className);
-			throw error;
-		} else {
-			// 2.递归检索接口
-			final List<Class<?>> interfaces = Instance.interfaces(className);
-			boolean flag = false;
-			for (final Class<?> item : interfaces) {
-				if (item == WebValidator.class) {
-					flag = true;
-					break;
-				}
-			}
-			if (!flag) {
-				final AbstractWebException error = new ValidatorInvalidException(getClass(), className);
-				debug(LOGGER, "SYS.VX.INVALID", error, "Validator", className);
-				throw error;
-			}
-		}
-	}
-
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

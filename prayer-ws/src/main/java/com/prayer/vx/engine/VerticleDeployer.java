@@ -1,21 +1,17 @@
 package com.prayer.vx.engine;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractVertXException;
-import com.prayer.exception.vertx.VerticleInvalidException;
-import com.prayer.exception.vertx.VerticleNotFoundException;
+import com.prayer.exception.AbstractWebException;
 import com.prayer.handler.deploy.VerticleAsyncHandler;
-import com.prayer.util.Instance;
+import com.prayer.uca.assistant.Interruptor;
 import com.prayer.vx.configurator.VerticleConfigurator;
 
 import io.vertx.core.AbstractVerticle;
@@ -75,7 +71,7 @@ public class VerticleDeployer {
 	 * 
 	 * @throws AbstractVertXException
 	 */
-	public void deployVerticles() throws AbstractVertXException {
+	public void deployVerticles() throws AbstractWebException {
 		// 1. 先同步发布所有SYNC的Verticles
 		this.deploySyncVerticles();
 		// 2. 然后异步发布所有ASYNC的Verticles
@@ -88,12 +84,14 @@ public class VerticleDeployer {
 	 * 
 	 * @throws AbstractVertXException
 	 */
-	private void deploySyncVerticles() throws AbstractVertXException {
+	private void deploySyncVerticles() throws AbstractWebException {
 		if (!DATA_SYNC.isEmpty() && null != this.vertxRef) {
 			info(LOGGER, "[I-VX] (Sync) Verticle count number:  " + DATA_SYNC.size());
 			for (final String name : DATA_SYNC.keySet()) {
 				// 1.检查当前配置
-				this.checkVerticle(name);
+				Interruptor.interruptClass(getClass(), name, "Verticle");
+				Interruptor.interruptExtends(getClass(), name, AbstractVerticle.class);
+				Interruptor.interruptImplements(getClass(), name, Verticle.class);
 				// 2.发布这个Verticle
 				this.vertxRef.deployVerticle(name, DATA_SYNC.get(name));
 			}
@@ -107,54 +105,19 @@ public class VerticleDeployer {
 	 * 
 	 * @throws AbstractVertXException
 	 */
-	private void deployAsyncVerticles() throws AbstractVertXException {
+	private void deployAsyncVerticles() throws AbstractWebException {
 		if (!DATA_ASYNC.isEmpty() && null != this.vertxRef) {
 			info(LOGGER, "[I-VX] (Async) Verticle count number:  " + DATA_SYNC.size());
 			for (final String name : DATA_ASYNC.keySet()) {
 				// 1.检查当前配置
-				this.checkVerticle(name);
+				Interruptor.interruptClass(getClass(), name, "Verticle");
+				Interruptor.interruptExtends(getClass(), name, AbstractVerticle.class);
+				Interruptor.interruptImplements(getClass(), name, Verticle.class);
 				// 2.发布这个Verticle
 				this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), VerticleAsyncHandler.create());
 			}
 		} else {
 			info(LOGGER, "[I-VX] (Async) Vertx reference = " + this.vertxRef + ", size = " + DATA_ASYNC.size());
-		}
-	}
-
-	private void checkVerticle(final String className) throws AbstractVertXException {
-		// 1.检查是否存在这个类
-		Class<?> clazz = Instance.clazz(className);
-		if (null == clazz) {
-			final AbstractVertXException error = new VerticleNotFoundException(getClass(), className);
-			debug(LOGGER, "SYS.VX.CLASS", error, "Verticle", className);
-			throw error;
-		} else {
-			// 2.递归检索父类
-			final List<Class<?>> parents = Instance.parents(className);
-			boolean flag = false;
-			for (final Class<?> item : parents) {
-				if (item == AbstractVerticle.class) {
-					flag = true;
-					break;
-				}
-			}
-			if (!flag) {
-				info(LOGGER, "SYS.VX.INVALID", null, "( Extends ) Verticle", className);
-				// 3.递归检索接口
-				final List<Class<?>> interfaces = Instance.interfaces(className);
-				flag = false;
-				for (final Class<?> item : interfaces) {
-					if (item == Verticle.class) {
-						flag = true;
-						break;
-					}
-				}
-				if (!flag) {
-					final AbstractVertXException error = new VerticleInvalidException(getClass(), className);
-					debug(LOGGER, "SYS.VX.INVALID", error, "( Implementation ) Verticle", className);
-					throw error;
-				}
-			}
 		}
 	}
 	// ~ Get/Set =============================================

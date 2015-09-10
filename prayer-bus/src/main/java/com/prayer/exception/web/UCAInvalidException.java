@@ -1,27 +1,27 @@
-package com.prayer.exception.vertx;
+package com.prayer.exception.web;
 
-import com.prayer.exception.AbstractVertXException;
+import com.prayer.exception.AbstractWebException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class HandlerInvalidException extends AbstractVertXException {
+public class UCAInvalidException extends AbstractWebException {
 	// ~ Static Fields =======================================
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2010931551754448288L;
+	private static final long serialVersionUID = 2114841491912840885L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
-	public HandlerInvalidException(final Class<?> clazz, final String className) {
-		super(clazz, -15003, className);
+	public UCAInvalidException(final Class<?> clazz, final String className, final String specification) {
+		super(clazz, -30006, className, specification);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -29,7 +29,7 @@ public class HandlerInvalidException extends AbstractVertXException {
 	/** **/
 	@Override
 	public int getErrorCode() {
-		return -15003;
+		return -30006;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

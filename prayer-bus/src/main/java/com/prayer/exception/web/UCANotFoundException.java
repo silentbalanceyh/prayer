@@ -1,26 +1,27 @@
-package com.prayer.exception.vertx;
+package com.prayer.exception.web;
 
-import com.prayer.exception.AbstractVertXException;
+import com.prayer.exception.AbstractWebException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class VerticleNotFoundException extends AbstractVertXException {
+public class UCANotFoundException extends AbstractWebException {
 	// ~ Static Fields =======================================
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6146365932454966772L;
+	private static final long serialVersionUID = 3952954586289967386L;
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
-	public VerticleNotFoundException(final Class<?> clazz, final String className) {
-		super(clazz, -15002, className);
+	public UCANotFoundException(final Class<?> clazz, final String className) {
+		super(clazz, -30005, className);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -28,7 +29,7 @@ public class VerticleNotFoundException extends AbstractVertXException {
 	/** **/
 	@Override
 	public int getErrorCode() {
-		return -15002;
+		return -30005;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

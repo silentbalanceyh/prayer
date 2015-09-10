@@ -1,6 +1,5 @@
 package com.prayer.vx.configurator;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
@@ -17,18 +16,17 @@ import com.prayer.bus.ConfigService;
 import com.prayer.bus.impl.ConfigSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.exception.AbstractVertXException;
-import com.prayer.exception.vertx.HandlerInvalidException;
-import com.prayer.exception.vertx.HandlerNotFoundException;
+import com.prayer.exception.AbstractWebException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.RouteModel;
-import com.prayer.util.Instance;
+import com.prayer.uca.assistant.Interruptor;
 
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.shareddata.SharedData;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.ErrorHandler;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -127,31 +125,6 @@ public class RouteConfigurator {
 		return router;
 	}
 
-	private void checkHandler(final String className) throws AbstractVertXException {
-		// 1.检查是否存在这个类
-		Class<?> clazz = Instance.clazz(className);
-		if (null == clazz) {
-			final AbstractVertXException error = new HandlerNotFoundException(getClass(), className);
-			debug(LOGGER, "SYS.VX.CLASS", error, "Handler", className);
-			throw error;
-		} else {
-			// 2.递归检索接口
-			final List<Class<?>> interfaces = Instance.interfaces(className);
-			boolean flag = false;
-			for (final Class<?> item : interfaces) {
-				if (item == Handler.class) {
-					flag = true;
-					break;
-				}
-			}
-			if (!flag) {
-				final AbstractVertXException error = new HandlerInvalidException(getClass(), className);
-				debug(LOGGER, "SYS.VX.INVALID", error, "Handler", className);
-				throw error;
-			}
-		}
-	}
-
 	private Route initRoute(final Router router, final RouteModel metadata) {
 		Route route = null;
 		switch (metadata.getMethod()) {
@@ -179,17 +152,19 @@ public class RouteConfigurator {
 		try {
 			// RequestHandler
 			if (null != metadata.getRequestHandler()) {
-				this.checkHandler(metadata.getRequestHandler());
+				Interruptor.interruptClass(getClass(), metadata.getRequestHandler(), "Handler");
+				Interruptor.interruptImplements(getClass(), metadata.getRequestHandler(), Handler.class);
 				route.handler(instance(metadata.getRequestHandler()));
 				this.logHandler(metadata, false);
 			}
 			// FailureHandler
 			if (null != metadata.getFailureHandler()) {
-				this.checkHandler(metadata.getFailureHandler());
+				Interruptor.interruptClass(getClass(), metadata.getFailureHandler(), "ErrorHandler");
+				Interruptor.interruptImplements(getClass(), metadata.getFailureHandler(), ErrorHandler.class);
 				route.failureHandler(instance(metadata.getFailureHandler()));
 				this.logHandler(metadata, true);
 			}
-		} catch (AbstractVertXException ex) {
+		} catch (AbstractWebException ex) {
 			info(LOGGER, "[E-VX] Handler setting met error. Error Message = " + ex.getErrorMessage());
 		}
 	}
