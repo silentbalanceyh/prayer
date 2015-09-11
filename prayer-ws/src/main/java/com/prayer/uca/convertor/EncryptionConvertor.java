@@ -1,5 +1,7 @@
 package com.prayer.uca.convertor;
 
+import java.util.Locale;
+
 import com.prayer.exception.AbstractWebException;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.StringType;
@@ -37,7 +39,7 @@ public class EncryptionConvertor implements WebConvertor {
 		// 2.检查值
 		final String algorithm = Extractor.getString(config, ALGORITHM_KEY);
 		final String encrypted = this.encrypt(value.literal(), algorithm);
-		// 3.返回Value<?>，固定返回StringType
+		// 3.返回加密过后的值
 		return new StringType(encrypted);
 	}
 
@@ -47,7 +49,7 @@ public class EncryptionConvertor implements WebConvertor {
 	// ~ Private Methods =====================================
 	private String encrypt(final String inputVal, final String algorithm) {
 		String retValue = null;
-		switch (algorithm) {
+		switch (algorithm.toUpperCase(Locale.getDefault())) {
 		case "MD5":
 			retValue = Encryptor.encryptMD5(inputVal);
 			break;

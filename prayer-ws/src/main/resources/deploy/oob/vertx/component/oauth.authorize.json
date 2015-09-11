@@ -47,7 +47,7 @@
 		"type": "StringType",
 		"order": 1,
 		"componentType": "CONVERTOR",
-		"componentClass": "com.prayer.uca.validator.LengthValidator",
+		"componentClass": "com.prayer.uca.convertor.EncryptionConvertor",
 		"config": 
 		{
 			"algorithm": "MD5"

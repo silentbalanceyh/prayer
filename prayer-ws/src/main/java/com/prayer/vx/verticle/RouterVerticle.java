@@ -8,6 +8,7 @@ import com.prayer.constant.Constants;
 import com.prayer.handler.web.ConversionHandler;
 import com.prayer.handler.web.FailureHandler;
 import com.prayer.handler.web.RouterHandler;
+import com.prayer.handler.web.ServiceHandler;
 import com.prayer.handler.web.ValidationHandler;
 import com.prayer.security.OAuth2Provider;
 import com.prayer.vx.configurator.RouteConfigurator;
@@ -86,7 +87,7 @@ public class RouterVerticle extends AbstractVerticle {
 		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_ROUTER).handler(RouterHandler.create());
 		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_VALIDATION).handler(ValidationHandler.create());
 		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_CONVERTOR).handler(ConversionHandler.create());
-
+		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_SERVICE).handler(ServiceHandler.create());
 		// 7.Failure处理器设置
 		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_FAILURE).failureHandler(FailureHandler.create());
 
