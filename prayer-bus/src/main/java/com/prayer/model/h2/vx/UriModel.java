@@ -144,7 +144,7 @@ public class UriModel implements Serializable { // NOPMD
 	 * 
 	 */
 	@Override
-	public int hashCode() {
+	public int hashCode() {	// NOPMD
 		final int prime = Constants.HASH_BASE;
 		int result = 1;
 		result = prime * result + ((method == null) ? 0 : method.hashCode());

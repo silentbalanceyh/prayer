@@ -44,10 +44,10 @@ public class RouteConfigurator {
 
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(RouteConfigurator.class);
-	/** Request Handler Message **/
-	private static final String MSG_REQUEST_HANDLER = "[I-VX] Request Handler {0} has been registered to {1} with order: {2}.";
-	/** Failure Handler Message **/
-	private static final String MSG_FAILURE_HANDLER = "[I-VX] Failure Handler {0} has been registered to {1} with order: {2}.";
+	/** Request GlobalHandler Message **/
+	private static final String MSG_REQUEST_HANDLER = "[I-VX] Request GlobalHandler {0} has been registered to {1} with order: {2}.";
+	/** Failure GlobalHandler Message **/
+	private static final String MSG_FAILURE_HANDLER = "[I-VX] Failure GlobalHandler {0} has been registered to {1} with order: {2}.";
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
@@ -152,7 +152,7 @@ public class RouteConfigurator {
 		try {
 			// RequestHandler
 			if (null != metadata.getRequestHandler()) {
-				Interruptor.interruptClass(getClass(), metadata.getRequestHandler(), "Handler");
+				Interruptor.interruptClass(getClass(), metadata.getRequestHandler(), "GlobalHandler");
 				Interruptor.interruptImplements(getClass(), metadata.getRequestHandler(), Handler.class);
 				route.handler(instance(metadata.getRequestHandler()));
 				this.logHandler(metadata, false);
@@ -165,7 +165,7 @@ public class RouteConfigurator {
 				this.logHandler(metadata, true);
 			}
 		} catch (AbstractWebException ex) {
-			info(LOGGER, "[E-VX] Handler setting met error. Error Message = " + ex.getErrorMessage());
+			info(LOGGER, "[E-VX] GlobalHandler setting met error. Error Message = " + ex.getErrorMessage());
 		}
 	}
 

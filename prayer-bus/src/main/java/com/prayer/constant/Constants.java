@@ -67,6 +67,8 @@ public interface Constants { // NOPMD
 	String VX_CTX_PARAMS = "PARAMS";
 	/** Default Convertor，默认Convertor，什么都不做 **/
 	String VX_DF_CONVERTOR = "__DEFAULT__";
+	/** 根目录对应的情况 **/
+	String VX_URL_ROOT = "/*";
 	
 	// ~ Vertx Order =========================================
 	/** Body Handler Order **/

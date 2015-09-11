@@ -5,6 +5,7 @@ import static com.prayer.util.Instance.singleton;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
+import com.prayer.handler.web.ConversionHandler;
 import com.prayer.handler.web.FailureHandler;
 import com.prayer.handler.web.RouterHandler;
 import com.prayer.handler.web.ValidationHandler;
@@ -82,11 +83,12 @@ public class RouterVerticle extends AbstractVerticle {
 		}
 
 		// 6.最前端的URL处理
-		router.route("/*").order(Constants.VX_OD_ROUTER).handler(new RouterHandler());
-		router.route("/*").order(Constants.VX_OD_VALIDATION).handler(new ValidationHandler());
+		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_ROUTER).handler(RouterHandler.create());
+		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_VALIDATION).handler(ValidationHandler.create());
+		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_CONVERTOR).handler(ConversionHandler.create());
 
 		// 7.Failure处理器设置
-		router.route("/*").order(Constants.VX_OD_FAILURE).failureHandler(new FailureHandler());
+		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_FAILURE).failureHandler(FailureHandler.create());
 
 		// 8.设置Sub Router
 		subRouters.forEach((subRouter, value) -> {

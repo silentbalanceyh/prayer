@@ -73,7 +73,7 @@
 		<!-- Mybatis -->
 		<mybatis.version>3.2.8</mybatis.version>
 		<!-- H2 Database -->
-		<h2db.version>1.4.186</h2db.version>
+		<h2db.version>1.4.188</h2db.version>
 		<!-- AspectJ Version -->
 		<aspectj.version>1.8.6</aspectj.version>
 		<aopalliance.version>1.0</aopalliance.version>

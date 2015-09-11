@@ -22,6 +22,7 @@ import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+
 /**
  * 
  * @author Lang
@@ -31,17 +32,23 @@ import net.sf.oval.guard.PostValidateThis;
 public class ConversionHandler implements Handler<RoutingContext> {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(RouterHandler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionHandler.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
 	private transient ConfigService service;
+
 	// ~ Static Block ========================================
+	/** 创建方法 **/
+	public static ConversionHandler create() {
+		return new ConversionHandler();
+	}
+
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public ConversionHandler(){
+	public ConversionHandler() {
 		this.service = singleton(ConfigSevImpl.class);
 	}
 	// ~ Abstract Methods ====================================
@@ -50,6 +57,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
 	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
+		System.out.println("Conversion");
 		// 1.从Context中提取参数信息
 		final String uriId = routingContext.get(Constants.VX_CTX_URI_ID);
 		final HttpServerResponse response = routingContext.response();
@@ -57,8 +65,9 @@ public class ConversionHandler implements Handler<RoutingContext> {
 		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service.findConvertors(uriId);
 		final RestfulResult webRet = new RestfulResult(StatusCode.OK);
 		// 3.执行Dispatcher功能
+		routingContext.next();
 	}
-	
+
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================

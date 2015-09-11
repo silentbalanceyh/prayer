@@ -1,6 +1,7 @@
 package com.prayer.bus.impl; // NOPMD
 
 import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.singleton;
 
 import java.io.File;
 import java.net.URL;
@@ -13,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.DeployService;
 import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.db.conn.MetadataConn;
+import com.prayer.db.conn.impl.MetadataConnImpl;
 import com.prayer.exception.AbstractException;
 import com.prayer.exception.system.DeploymentException;
 import com.prayer.kernel.model.GenericSchema;
@@ -20,6 +23,9 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.util.IOKit;
 
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -29,13 +35,15 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 @SuppressWarnings("unchecked")
-public class DeploySevImpl extends AbstractConfigSevImpl implements DeployService, OOBPaths {	// NOPMD
+public class DeploySevImpl extends AbstractConfigSevImpl implements DeployService, OOBPaths { // NOPMD
 	// ~ Static Fields =======================================
 
 	/** 日志记录器 **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(DeploySevImpl.class);
-
 	// ~ Instance Fields =====================================
+	/** **/
+	private transient final MetadataConn metaConn = singleton(MetadataConnImpl.class);
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -45,6 +53,20 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 	@Override
 	public Logger getLogger() {
 		return LOGGER;
+	}
+	/**
+	 * 
+	 * @param scriptPath
+	 * @return
+	 */
+	@Override
+	public ServiceResult<Boolean> initH2Database(@NotNull @NotBlank @NotEmpty final String scriptPath) {
+		// 1.执行Script脚本
+		final boolean executedRet = this.metaConn.initMeta(IOKit.getFile(scriptPath));
+		// 2.设置相应信息
+		final ServiceResult<Boolean> ret = new ServiceResult<>();
+		ret.setResponse(executedRet, null);
+		return ret;
 	}
 
 	/**
@@ -75,7 +97,7 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 			final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
 			for (final UriModel model : uriModels) {
 				final String paramFile = VX_URI_PARAM
-						+ model.getUri().substring(1, model.getUri().length()).replaceAll("/",".") + ".json";
+						+ model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".") + ".json";
 				this.getRuleService().importRules(paramFile, model);
 			}
 		}

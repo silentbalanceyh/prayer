@@ -32,6 +32,11 @@ public class FailureHandler implements ErrorHandler {
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/** 创建方法 **/
+	public static FailureHandler create() {
+		return new FailureHandler();
+	}
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

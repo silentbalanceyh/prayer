@@ -48,7 +48,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class RouterHandler implements Handler<RoutingContext> {
+public class RouterHandler implements Handler<RoutingContext>{
 
 	// ~ Static Fields =======================================
 
@@ -61,6 +61,10 @@ public class RouterHandler implements Handler<RoutingContext> {
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/** 创建方法 **/
+	public static RouterHandler create(){
+		return new RouterHandler();
+	}
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
