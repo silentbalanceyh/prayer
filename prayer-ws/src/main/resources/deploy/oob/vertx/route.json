@@ -3,7 +3,15 @@
 		"parent": "/oauth",
 		"path": "/authorize",
 		"method": "GET",
-		"requestHandler": "com.prayer.handler.security.AuthorizeHandler",
-		"order": 100
+		"requestHandler": "com.prayer.handler.standard.RecordHandler",
+		"order": -99
+	},
+
+	{
+		"parent": "/oauth",
+		"path": "/authorize",
+		"method": "POST",
+		"requestHandler": "com.prayer.handler.standard.RecordHandler",
+		"order": -99
 	}
 ]

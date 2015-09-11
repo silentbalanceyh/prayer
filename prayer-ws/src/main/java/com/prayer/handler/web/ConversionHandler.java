@@ -67,6 +67,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
 	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
+		info(LOGGER,"[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_CONVERTOR);
 		// 1.从Context中提取参数信息
 		final String uriId = routingContext.get(Constants.VX_CTX_URI_ID);
 		final HttpServerResponse response = routingContext.response();

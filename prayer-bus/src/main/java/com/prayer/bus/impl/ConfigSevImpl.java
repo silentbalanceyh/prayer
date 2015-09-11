@@ -15,19 +15,23 @@ import com.prayer.bus.impl.util.Extractor;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
+import com.prayer.model.h2.vx.AddressModel;
 import com.prayer.model.h2.vx.RouteModel;
 import com.prayer.model.h2.vx.RuleModel;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.model.h2.vx.VerticleModel;
+import com.prayer.schema.dao.AddressDao;
 import com.prayer.schema.dao.RouteDao;
 import com.prayer.schema.dao.RuleDao;
 import com.prayer.schema.dao.UriDao;
 import com.prayer.schema.dao.VerticleDao;
+import com.prayer.schema.dao.impl.AddressDaoImpl;
 import com.prayer.schema.dao.impl.RouteDaoImpl;
 import com.prayer.schema.dao.impl.RuleDaoImpl;
 import com.prayer.schema.dao.impl.UriDaoImpl;
 import com.prayer.schema.dao.impl.VerticleDaoImpl;
 
+import io.vertx.core.http.HttpMethod;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -58,6 +62,9 @@ public class ConfigSevImpl implements ConfigService {
 	/** 访问H2的EVX_PVRULE接口 **/
 	@NotNull
 	private transient final RuleDao ruleDao;
+	/** 访问H2的EVX_ADDRESS接口 **/
+	@NotNull
+	private transient final AddressDao addressDao;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -69,6 +76,7 @@ public class ConfigSevImpl implements ConfigService {
 		this.routeDao = singleton(RouteDaoImpl.class);
 		this.uriDao = singleton(UriDaoImpl.class);
 		this.ruleDao = singleton(RuleDaoImpl.class);
+		this.addressDao = singleton(AddressDaoImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -129,31 +137,14 @@ public class ConfigSevImpl implements ConfigService {
 	/** **/
 	@Override
 	@PreValidateThis
-	public ServiceResult<UriModel> findUri(@NotNull @NotBlank @NotEmpty final String uri) {
+	public ServiceResult<UriModel> findUri(@NotNull @NotBlank @NotEmpty final String uri,
+			@NotNull final HttpMethod method) {
 		// 1.构造响应数据
 		final ServiceResult<UriModel> result = new ServiceResult<>();
 		// 2.调用读取方法
-		final UriModel ret = this.uriDao.getByUri(uri);
+		final UriModel ret = this.uriDao.getByUri(uri, method);
 		// 3.设置响应信息
 		result.setResponse(ret, null);
-		return result;
-	}
-
-	/** **/
-	@Override
-	@PreValidateThis
-	public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findValidators() {
-		// 1.构造响应数据
-		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
-		// 2.调用读取方法
-		List<RuleModel> ret = this.ruleDao.getAll();
-		// 3.设置相应信息
-		ret = ret.stream().filter(item -> ComponentType.VALIDATOR == item.getComponentType())
-				.collect(Collectors.toList());
-		info(LOGGER,"Validator Size : " + ret.size());
-		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "refUriId");
-		result.setResponse(listRet, null);
-		// 4.返回最终结果
 		return result;
 	}
 
@@ -169,28 +160,9 @@ public class ConfigSevImpl implements ConfigService {
 		// 3.设置响应结果
 		ret = ret.stream().filter(item -> ComponentType.VALIDATOR == item.getComponentType())
 				.collect(Collectors.toList());
-		info(LOGGER,"Validator Size : " + ret.size() + ", uriId = " + uriId);
+		info(LOGGER, "Validator Size : " + ret.size() + ", uriId = " + uriId);
 		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "name");
 		result.setResponse(listRet, null);
-		return result;
-	}
-
-	/** **/
-	@Override
-	@PreValidateThis
-	public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors() {
-		// 1.构造响应数据
-		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
-		// 2.调用读取方法
-		List<RuleModel> ret = this.ruleDao.getAll();
-		// 3.设置相应信息
-		ret = ret.stream().filter(item -> ComponentType.CONVERTOR == item.getComponentType())
-				.collect(Collectors.toList());
-		info(LOGGER,"Convertor Size : " + ret.size());
-		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "refUriId");
-
-		result.setResponse(listRet, null);
-		// 4.返回最终结果
 		return result;
 	}
 
@@ -206,9 +178,22 @@ public class ConfigSevImpl implements ConfigService {
 		// 3.设置响应结果
 		ret = ret.stream().filter(item -> ComponentType.CONVERTOR == item.getComponentType())
 				.collect(Collectors.toList());
-		info(LOGGER,"Convertor Size : " + ret.size() + ", uriId = " + uriId);
+		info(LOGGER, "Convertor Size : " + ret.size() + ", uriId = " + uriId);
 		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "name");
 		result.setResponse(listRet, null);
+		return result;
+	}
+
+	/** **/
+	@Override
+	@PreValidateThis
+	public ServiceResult<AddressModel> findAddress(@NotNull final Class<?> workClass) {
+		// 1.构造响应数据
+		final ServiceResult<AddressModel> result = new ServiceResult<>();
+		// 2.调用读取方法
+		final AddressModel ret = this.addressDao.getByClass(workClass.getName());
+		// 3.设置最终响应结果
+		result.setResponse(ret, null);
 		return result;
 	}
 	// ~ Methods =============================================

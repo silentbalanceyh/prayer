@@ -5,13 +5,15 @@ import static com.prayer.util.Instance.singleton;
 import org.slf4j.Logger;
 
 import com.prayer.bus.SchemaService;
+import com.prayer.bus.deploy.AddressDPService;
 import com.prayer.bus.deploy.RouteDPService;
-import com.prayer.bus.deploy.UriDPService;
 import com.prayer.bus.deploy.RuleDPService;
+import com.prayer.bus.deploy.UriDPService;
 import com.prayer.bus.deploy.VerticleDPService;
+import com.prayer.bus.impl.deploy.AddressDPSevImpl;
 import com.prayer.bus.impl.deploy.RouteDPSevImpl;
-import com.prayer.bus.impl.deploy.UriDPSevImpl;
 import com.prayer.bus.impl.deploy.RuleDPSevImpl;
+import com.prayer.bus.impl.deploy.UriDPSevImpl;
 import com.prayer.bus.impl.deploy.VerticleDPSevImpl;
 
 import net.sf.oval.constraint.NotNull;
@@ -42,6 +44,9 @@ public abstract class AbstractConfigSevImpl {
 	/** **/
 	@NotNull
 	private transient final SchemaService schemaService;
+	/** **/
+	@NotNull
+	private transient final AddressDPService addressService;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -53,6 +58,7 @@ public abstract class AbstractConfigSevImpl {
 		this.routeService = singleton(RouteDPSevImpl.class);
 		this.uriService = singleton(UriDPSevImpl.class);
 		this.ruleService = singleton(RuleDPSevImpl.class);
+		this.addressService = singleton(AddressDPSevImpl.class);
 		this.schemaService = singleton(SchemaSevImpl.class);
 	}
 
@@ -97,6 +103,13 @@ public abstract class AbstractConfigSevImpl {
 	 */
 	public SchemaService getSchemaService() {
 		return schemaService;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public AddressDPService getAddressService(){
+		return addressService;
 	}
 	// ~ hashCode,equals,toString ============================
 

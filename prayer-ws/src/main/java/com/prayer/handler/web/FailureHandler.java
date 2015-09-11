@@ -45,6 +45,7 @@ public class FailureHandler implements ErrorHandler {
 	 */
 	@Override
 	public void handle(@NotNull final RoutingContext context) {
+		info(LOGGER,"[VX-I] Failure Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_FAILURE);
 		// 1.从Context中获取处理结果
 		final RestfulResult webRet = (RestfulResult) context.get(Constants.VX_CTX_ERROR);
 		// 2.包装Error信息生成统一的Error格式

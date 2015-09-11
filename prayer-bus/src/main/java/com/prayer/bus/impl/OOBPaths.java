@@ -11,6 +11,8 @@ interface OOBPaths {	// NOPMD
 	String VX_ROUTES = "deploy/oob/vertx/route.json";
 	/** URI配置文件路径 **/
 	String VX_URI = "deploy/oob/vertx/uri.json";
+	/** Address配置文件路径 **/
+	String VX_ADDRESS = "deploy/oob/vertx/address.json";
 	/** Schema Folder，用于读取Schema的配置信息 **/
 	String SCHEMA_FOLDER = "deploy/oob/schema/";
 	/** URI参数配置文件 **/

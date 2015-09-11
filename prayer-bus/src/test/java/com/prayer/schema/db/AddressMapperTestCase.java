@@ -12,30 +12,32 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Resources;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.db.conn.impl.MetadataConnImpl;
-import com.prayer.model.h2.vx.UriModel;
+import com.prayer.model.h2.vx.AddressModel;
 
 /**
- * Uri的特殊测试用例
+ * 
  * @author Lang
  *
  */
-public class UriMapperTestCase extends AbstractMapperCase<UriModel, String>{	// NOPMD
+public class AddressMapperTestCase extends AbstractMapperCase<AddressModel, String> { // NOPMD{
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(UriMapperTestCase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AddressMapperTestCase.class);
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
 	/**
 	 * 
 	 */
-	@BeforeClass		// NOPMD
-	public static void setUp(){
+	@BeforeClass // NOPMD
+	public static void setUp() {
 		/** **/
 		final MetadataConn metaConn = singleton(MetadataConnImpl.class);
 		final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
 		metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
 	}
+
+	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
@@ -48,26 +50,27 @@ public class UriMapperTestCase extends AbstractMapperCase<UriModel, String>{	// 
 	/** **/
 	@Override
 	public Class<?> getMapperClass() {
-		return UriMapper.class;
+		return AddressMapper.class;
 	}
 
 	/** **/
 	@Override
-	public UriModel instance() {
-		return new UriModel();
+	public AddressModel instance() {
+		return new AddressModel();
 	}
+
 	// ~ Methods =============================================
 	/** **/
 	@Test
-	public void testSelectByUri(){
-		final UriMapper mapper = (UriMapper) this.getMapper();
-		final UriModel entity = this.insertTs(false).get(0);
+	public void testSelectByClass() {
+		final AddressMapper mapper = (AddressMapper) this.getMapper();
+		final AddressModel entity = this.insertTs(false).get(0);
 		// 插入一条心数据
-		final String uri = entity.getUri();
+		final String workClass = entity.getWorkClass();
 		// 重新从数据库中读取数据
-		final UriModel targetT = mapper.selectByUri(uri,entity.getMethod());
-		info(getLogger(), "[TD] (SelectByUri) Selected by uri = " + uri);
-		assertEquals("[E] (SelectByUri) Entity in database must be the same as inserted one !", entity, targetT);
+		final AddressModel targetT = mapper.selectByClass(workClass);
+		info(getLogger(), "[TD] (SelectByClass) Selected by workClass = " + workClass);
+		assertEquals("[E] (SelectByClass) Entity in database must be the same as inserted one !", entity, targetT);
 		// 删除插入的新数据
 		mapper.deleteById(targetT.getUniqueId());
 		this.session().commit();

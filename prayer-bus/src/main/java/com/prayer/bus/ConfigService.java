@@ -5,9 +5,12 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
+import com.prayer.model.h2.vx.AddressModel;
 import com.prayer.model.h2.vx.RouteModel;
-import com.prayer.model.h2.vx.UriModel;
 import com.prayer.model.h2.vx.RuleModel;
+import com.prayer.model.h2.vx.UriModel;
+
+import io.vertx.core.http.HttpMethod;
 
 /**
  * 
@@ -52,14 +55,9 @@ public interface ConfigService {
 	 * @param uri
 	 * @return
 	 */
-	ServiceResult<UriModel> findUri(String uri);
+	ServiceResult<UriModel> findUri(String uri,HttpMethod method);
 	
 	// ~ Uri Parameter Rules ================================
-	/**
-	 * 
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<String,List<RuleModel>>> findValidators();
 	/**
 	 * 
 	 * @param uriId
@@ -68,13 +66,14 @@ public interface ConfigService {
 	ServiceResult<ConcurrentMap<String,List<RuleModel>>> findValidators(String uriId);
 	/**
 	 * 
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<String,List<RuleModel>>> findConvertors();
-	/**
-	 * 
 	 * @param uriId
 	 * @return
 	 */
 	ServiceResult<ConcurrentMap<String,List<RuleModel>>> findConvertors(String uriId);
+	/**
+	 * 
+	 * @param workClass
+	 * @return
+	 */
+	ServiceResult<AddressModel> findAddress(Class<?> workClass);
 }

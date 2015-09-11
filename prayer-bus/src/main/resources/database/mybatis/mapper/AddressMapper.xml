@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.schema.db.AddressMapper">
+	<resultMap type="Address" id="addressObject">
+		<id column="K_ID" property="uniqueId" />
+		<result column="S_WORK_CLASS" property="workClass" />
+		<result column="S_CONSUMER_ADDR" property="consumerAddr" />
+	</resultMap>
+	<insert id="insert" parameterType="Address" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			INSERT INTO EVX_ADDRESS (
+				K_ID,
+				S_WORK_CLASS,
+				S_CONSUMER_ADDR
+			) VALUES (
+				#{uniqueId},
+				#{workClass},
+				#{consumerAddr}
+			)
+		]]>
+	</insert>
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+			INSERT INTO EVX_ADDRESS (
+				K_ID,
+				S_WORK_CLASS,
+				S_CONSUMER_ADDR
+			) VALUES
+		]]>
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			<![CDATA[(
+				#{item.uniqueId},
+				#{item.workClass},
+				#{item.consumerAddr}
+			)]]>
+		</foreach>
+	</insert>
+	<update id="update" parameterType="Address" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			UPDATE EVX_ADDRESS SET
+				S_WORK_CLASS=#{workClass},
+				S_CONSUMER_ADDR=#{consumerAddr}
+			WHERE K_ID=#{uniqueId}
+		]]>
+	</update>
+	<delete id="deleteById" parameterType="String">
+		<![CDATA[
+			DELETE FROM EVX_ADDRESS WHERE K_ID=#{uniqueId}
+		]]>
+	</delete>
+	<delete id="batchDelete" parameterType="java.util.List">
+		<![CDATA[
+			DELETE FROM EVX_ADDRESS WHERE K_ID IN
+		]]>
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			<![CDATA[
+				#{item}
+			]]>
+		</foreach>
+	</delete>
+	<delete id="purgeData">
+		<![CDATA[
+			DELETE FROM EVX_ADDRESS
+		]]>
+	</delete>
+	<select id="selectById" parameterType="String" resultMap="addressObject">
+		<![CDATA[
+			SELECT * FROM EVX_ADDRESS WHERE K_ID=#{uniqueId}
+		]]>
+	</select>
+	<select id="selectAll" resultMap="addressObject">
+		<![CDATA[
+			SELECT * FROM EVX_ADDRESS
+		]]>
+	</select>
+
+	<select id="selectByClass" resultMap="addressObject">
+		<![CDATA[
+			SELECT * FROM EVX_ADDRESS WHERE S_WORK_CLASS=#{workClass}
+		]]>
+	</select>
+</mapper>

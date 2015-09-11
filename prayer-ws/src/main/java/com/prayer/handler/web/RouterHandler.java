@@ -79,12 +79,13 @@ public class RouterHandler implements Handler<RoutingContext>{
 	 */
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
+		info(LOGGER,"[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_ROUTER);
 		// 1.获取请求Request和相应Response引用
 		final HttpServerRequest request = routingContext.request();
 		final HttpServerResponse response = routingContext.response();
 
 		// 2.从系统中按URI读取接口规范
-		final ServiceResult<UriModel> result = this.service.findUri(request.path());
+		final ServiceResult<UriModel> result = this.service.findUri(request.path(),request.method());
 		final RestfulResult webRet = new RestfulResult(StatusCode.OK);
 
 		// 3.请求转发，去除掉Error过后的信息

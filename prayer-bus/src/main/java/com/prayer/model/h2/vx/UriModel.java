@@ -46,6 +46,10 @@ public class UriModel implements Serializable { // NOPMD
 	/** S_REQUIRED_PARAM **/
 	@JsonProperty("requiredParam")
 	private List<String> requiredParam = new ArrayList<>();
+	
+	/** E_ADDRESS **/
+	@JsonProperty("address")
+	private String address;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -128,6 +132,20 @@ public class UriModel implements Serializable { // NOPMD
 	 */
 	public void setRequiredParam(final List<String> requiredParam) {
 		this.requiredParam = requiredParam;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(final String address) {
+		this.address = address;
 	}
 
 	// ~ hashCode,equals,toString ============================

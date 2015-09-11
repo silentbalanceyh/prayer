@@ -12,6 +12,7 @@
 			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 		<result column="L_REQUIRED_PARAM" property="requiredParam"
 			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
+		<result column="E_ADDRESS" property="address"/>
 	</resultMap>
 	<insert id="insert" parameterType="Uri" keyColumn="K_ID"
 		keyProperty="uniqueId">
@@ -21,13 +22,15 @@
 				S_URI,
 				S_METHOD,
 				S_PARAM_TYPE,
-				L_REQUIRED_PARAM
+				L_REQUIRED_PARAM,
+				E_ADDRESS
 			) VALUES (
 				#{uniqueId},
 				#{uri},
 				#{method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
+				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+				#{address}
 			)
 		]]>
 	</insert>
@@ -38,7 +41,8 @@
 				S_URI,
 				S_METHOD,
 				S_PARAM_TYPE,
-				L_REQUIRED_PARAM
+				L_REQUIRED_PARAM,
+				E_ADDRESS
 			) VALUES
 		]]>
 		<foreach collection="list" item="item" index="index"
@@ -48,7 +52,8 @@
 				#{item.uri},
 				#{item.method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{item.paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
+				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+				#{item.address}
 			)]]>
 		</foreach>
 	</insert>
@@ -59,7 +64,8 @@
 				S_URI=#{uri},
 				S_METHOD=#{method,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				S_PARAM_TYPE=#{paramType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
+				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+				E_ADDRESS=#{address}
 			WHERE K_ID=#{uniqueId}
 		]]>
 	</update>
@@ -97,7 +103,7 @@
 
 	<select id="selectByUri" resultMap="uriObject">
 		<![CDATA[
-			SELECT * FROM EVX_URI WHERE S_URI=#{uri}
+			SELECT * FROM EVX_URI WHERE S_URI=#{0} AND S_METHOD=#{1,typeHandler=org.apache.ibatis.type.EnumTypeHandler}
 		]]>
 	</select>
 </mapper>

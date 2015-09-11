@@ -19,6 +19,7 @@
 		<typeAlias type="com.prayer.model.h2.vx.RouteModel" alias="Route" />
 		<typeAlias type="com.prayer.model.h2.vx.UriModel" alias="Uri" />
 		<typeAlias type="com.prayer.model.h2.vx.RuleModel" alias="Rule"/>
+		<typeAlias type="com.prayer.model.h2.vx.AddressModel" alias="Address"/>
 	</typeAliases>
 	<environments default="H2Environment">
 		<environment id="H2Environment">
@@ -41,5 +42,6 @@
 		<mapper resource="database/mybatis/mapper/RouteMapper.xml" />
 		<mapper resource="database/mybatis/mapper/UriMapper.xml" />
 		<mapper resource="database/mybatis/mapper/RuleMapper.xml"/>
+		<mapper resource="database/mybatis/mapper/AddressMapper.xml"/>
 	</mappers>
 </configuration>

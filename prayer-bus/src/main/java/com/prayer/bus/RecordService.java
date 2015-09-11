@@ -5,6 +5,8 @@ import java.util.List;
 import com.prayer.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
 
+import io.vertx.core.json.JsonObject;
+
 /**
  * Record的接口
  * @author Lang
@@ -16,17 +18,17 @@ public interface RecordService {
 	 * @param jsonContent
 	 * @return
 	 */
-	ServiceResult<Record> saveRecord(String jsonContent);
+	ServiceResult<Record> saveRecord(JsonObject jsonContent);
 	/**
 	 * 移除Record的接口，参数为请求数据
 	 * @param jsonContent
 	 * @return
 	 */
-	ServiceResult<Record> removeRecord(String jsonContent);
+	ServiceResult<Record> removeRecord(JsonObject jsonContent);
 	/**
 	 * 查询Record的接口，参数为请求数据
 	 * @param jsonContent
 	 * @return
 	 */
-	ServiceResult<List<Record>> queryRecord(String jsonContent);
+	ServiceResult<List<Record>> queryRecord(JsonObject jsonContent);
 }

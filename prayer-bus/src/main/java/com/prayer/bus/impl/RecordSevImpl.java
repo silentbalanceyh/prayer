@@ -12,6 +12,7 @@ import com.prayer.bus.RecordService;
 import com.prayer.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -33,19 +34,19 @@ public class RecordSevImpl implements RecordService{
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	@Override
-	public ServiceResult<Record> saveRecord(String jsonContent) {
+	public ServiceResult<Record> saveRecord(JsonObject jsonContent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ServiceResult<Record> removeRecord(String jsonContent) {
+	public ServiceResult<Record> removeRecord(JsonObject jsonContent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ServiceResult<List<Record>> queryRecord(String jsonContent) {
+	public ServiceResult<List<Record>> queryRecord(JsonObject jsonContent) {
 		// TODO Auto-generated method stub
 		return null;
 	}

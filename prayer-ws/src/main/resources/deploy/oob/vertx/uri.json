@@ -1,8 +1,25 @@
 [
 	{
-		"uri":"/oauth/authorize",
-		"method":"GET",
-		"paramType":"QUERY",
-		"requiredParam":["username","password"]
+		"uri": "/oauth/authorize",
+		"method": "GET",
+		"paramType": "QUERY",
+		"requiredParam": 
+		[
+			"username",
+			"password"
+		],
+		"address":"MSG://RECORD/QUEUE"
+	},
+
+	{
+		"uri": "/oauth/authorize",
+		"method": "POST",
+		"paramType": "BODY",
+		"requiredParam": 
+		[
+			"username",
+			"password"
+		],
+		"address":"MSG://RECORD/QUEUE"
 	}
 ]

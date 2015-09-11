@@ -53,7 +53,7 @@ final class Generator { // NOPMD
 		Object ret = null;
 		final Random random = new Random();
 		if (int.class == type || Integer.class == type) {
-			ret = Integer.valueOf(random.nextInt(1000) + 1);
+			ret = Integer.valueOf(random.nextInt(90) + 1);
 		} else if (long.class == type || Long.class == type) {
 			ret = Long.valueOf(random.nextLong() + 1L);
 		} else if (String.class == type) {

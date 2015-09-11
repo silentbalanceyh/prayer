@@ -76,21 +76,21 @@ public interface Constants { // NOPMD
 	
 	// ~ Vertx Order =========================================
 	/** Body Handler Order **/
-	int VX_OD_BODY = -90;
+	int VX_OD_BODY = -600;
 	/** Cookie Handler Order **/
-	int VX_OD_COOKIE = -100;
+	int VX_OD_COOKIE = -700;
 	/** Session Handler Order **/
-	int VX_OD_SESSION = -70;
+	int VX_OD_SESSION = -400;
 	/** Authentication Handler Order **/
-	int VX_OD_AUTH = -80;
+	int VX_OD_AUTH = -500;
 	/** Router Handler Order **/
-	int VX_OD_ROUTER = -50;
+	int VX_OD_ROUTER = -300;
 	/** Validation Handler Order **/
-	int VX_OD_VALIDATION = -40;
+	int VX_OD_VALIDATION = -200;
 	/** Convertor Handler Order **/
-	int VX_OD_CONVERTOR = -30;
+	int VX_OD_CONVERTOR = -100;
 	/** Service Handler Order **/
-	int VX_OD_SERVICE = -20;
+	int VX_OD_SERVICE = 100;
 	/** Failure Handler **/
-	int VX_OD_FAILURE = 1;
+	int VX_OD_FAILURE = 200;
 }

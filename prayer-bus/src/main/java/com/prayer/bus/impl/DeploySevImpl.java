@@ -54,6 +54,7 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 	public Logger getLogger() {
 		return LOGGER;
 	}
+
 	/**
 	 * 
 	 * @param scriptPath
@@ -73,7 +74,7 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 	 * 
 	 */
 	@Override
-	public ServiceResult<Boolean> deployPrayerData() {
+	public ServiceResult<Boolean> deployPrayerData() {	// NOPMD
 		final ServiceResult<Boolean> result = new ServiceResult<>();
 		// 1.删除原始的EVX_VERTICLE表中数据
 		ServiceResult<?> ret = this.getVerticleService().purgeData();
@@ -100,6 +101,12 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 						+ model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".") + ".json";
 				this.getRuleService().importRules(paramFile, model);
 			}
+		}
+		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
+			ret = this.getAddressService().purgeData();
+		}
+		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
+			ret = this.getAddressService().importToList(VX_ADDRESS);
 		}
 		// 2.导入OOB中的Schema定义
 		{
