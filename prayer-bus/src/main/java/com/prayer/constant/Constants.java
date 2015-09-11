@@ -54,6 +54,10 @@ public interface Constants { // NOPMD
 	/** String空字符串 **/
 	String EMPTY_STR = "";
 	
+	// ~ Util ================================================
+	/** 16进制字节数组 **/
+	char[] UTI_HEX_ARR = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+	
 	// ~ Vertx Default =======================================
 	/** HA Group Default **/
 	String VX_GROUP = "__DEFAULT__";
