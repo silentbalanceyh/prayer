@@ -15,6 +15,7 @@ import com.prayer.bus.impl.util.Extractor;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
+import com.prayer.model.h2.script.ScriptModel;
 import com.prayer.model.h2.vx.AddressModel;
 import com.prayer.model.h2.vx.RouteModel;
 import com.prayer.model.h2.vx.RuleModel;
@@ -23,11 +24,13 @@ import com.prayer.model.h2.vx.VerticleModel;
 import com.prayer.schema.dao.AddressDao;
 import com.prayer.schema.dao.RouteDao;
 import com.prayer.schema.dao.RuleDao;
+import com.prayer.schema.dao.ScriptDao;
 import com.prayer.schema.dao.UriDao;
 import com.prayer.schema.dao.VerticleDao;
 import com.prayer.schema.dao.impl.AddressDaoImpl;
 import com.prayer.schema.dao.impl.RouteDaoImpl;
 import com.prayer.schema.dao.impl.RuleDaoImpl;
+import com.prayer.schema.dao.impl.ScriptDaoImpl;
 import com.prayer.schema.dao.impl.UriDaoImpl;
 import com.prayer.schema.dao.impl.VerticleDaoImpl;
 
@@ -65,6 +68,9 @@ public class ConfigSevImpl implements ConfigService {
 	/** 访问H2的EVX_ADDRESS接口 **/
 	@NotNull
 	private transient final AddressDao addressDao;
+	/** **/
+	@NotNull
+	private transient final ScriptDao scriptDao;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -77,6 +83,7 @@ public class ConfigSevImpl implements ConfigService {
 		this.uriDao = singleton(UriDaoImpl.class);
 		this.ruleDao = singleton(RuleDaoImpl.class);
 		this.addressDao = singleton(AddressDaoImpl.class);
+		this.scriptDao = singleton(ScriptDaoImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -192,6 +199,19 @@ public class ConfigSevImpl implements ConfigService {
 		final ServiceResult<AddressModel> result = new ServiceResult<>();
 		// 2.调用读取方法
 		final AddressModel ret = this.addressDao.getByClass(workClass.getName());
+		// 3.设置最终响应结果
+		result.setResponse(ret, null);
+		return result;
+	}
+
+	/** **/
+	@Override
+	@PreValidateThis
+	public ServiceResult<ScriptModel> findScript(@NotNull @NotBlank @NotEmpty final String name) {
+		// 1.构造响应数据
+		final ServiceResult<ScriptModel> result = new ServiceResult<>();
+		// 2.调用读取方法
+		final ScriptModel ret = this.scriptDao.getByName(name);
 		// 3.设置最终响应结果
 		result.setResponse(ret, null);
 		return result;

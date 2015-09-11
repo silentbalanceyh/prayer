@@ -7,7 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.ConfigService;
+import com.prayer.bus.RecordService;
 import com.prayer.bus.impl.ConfigSevImpl;
+import com.prayer.bus.impl.RecordSevImpl;
+import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
@@ -31,14 +34,18 @@ public class RecordWorker extends AbstractVerticle {
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
-	private transient final ConfigService service;
+	private transient final ConfigService configSev;
+	/** **/
+	@NotNull
+	private transient final RecordService recordSev;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
 	public RecordWorker() {
-		this.service = singleton(ConfigSevImpl.class);
+		this.configSev = singleton(ConfigSevImpl.class);
+		this.recordSev = singleton(RecordSevImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -49,14 +56,18 @@ public class RecordWorker extends AbstractVerticle {
 		final Class<?> workClass = getClass();
 		info(LOGGER, "[VX-I] Verticle Worker : " + workClass.getName());
 		// 2.获取元数据信息
-		final ServiceResult<AddressModel> result = this.service.findAddress(workClass);
+		final ServiceResult<AddressModel> result = this.configSev.findAddress(workClass);
 		if (ResponseCode.SUCCESS == result.getResponseCode()) {
 			final AddressModel address = result.getResult();
 			if (null != address) {
 				// 3.从地址上消费Message
 				final EventBus bus = vertx.eventBus();
 				bus.consumer(address.getConsumerAddr(), message -> {
-					System.out.println("Get Message: " + message.body());
+					final JsonObject params = (JsonObject) message.body();
+					params.put(Constants.BUS_SCRIPT_NAME, address.getScriptName());
+
+					this.recordSev.queryRecord(params);
+
 					final RestfulResult ret = new RestfulResult(StatusCode.OK);
 					ret.setResult(new JsonObject("{\"result\":\"SUCCESS\"}"));
 					message.reply(ret.getResult());

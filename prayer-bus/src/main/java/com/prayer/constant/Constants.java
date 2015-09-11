@@ -73,6 +73,10 @@ public interface Constants { // NOPMD
 	String VX_DF_CONVERTOR = "__DEFAULT__";
 	/** 根目录对应的情况 **/
 	String VX_URL_ROOT = "/*";
+	/** Global ID对应Key **/
+	String BUS_GLOBAL_ID = "identifier";
+	/** Script Name对应Key **/
+	String BUS_SCRIPT_NAME = "script";
 	
 	// ~ Vertx Order =========================================
 	/** Body Handler Order **/

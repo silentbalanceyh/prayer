@@ -47,6 +47,10 @@ public class UriModel implements Serializable { // NOPMD
 	@JsonProperty("requiredParam")
 	private List<String> requiredParam = new ArrayList<>();
 	
+	/** S_GLOBAL_ID **/
+	@JsonProperty("globalId")
+	private String globalId;
+	
 	/** E_ADDRESS **/
 	@JsonProperty("address")
 	private String address;
@@ -146,6 +150,20 @@ public class UriModel implements Serializable { // NOPMD
 	 */
 	public void setAddress(final String address) {
 		this.address = address;
+	}
+
+	/**
+	 * @return the globalId
+	 */
+	public String getGlobalId() {
+		return globalId;
+	}
+
+	/**
+	 * @param globalId the globalId to set
+	 */
+	public void setGlobalId(final String globalId) {
+		this.globalId = globalId;
 	}
 
 	// ~ hashCode,equals,toString ============================

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.schema.db.ScriptMapper">
+	<resultMap type="Script" id="scriptObject">
+		<id column="K_ID" property="uniqueId" />
+		<result column="S_NAME" property="name" />
+		<result column="S_NAMESPACE" property="namespace" />
+		<result column="S_CONTENT" property="content" />
+	</resultMap>
+	<insert id="insert" parameterType="Script" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			INSERT INTO ENG_SCRIPT (
+				K_ID,
+				S_NAME,
+				S_NAMESPACE,
+				S_CONTENT
+			) VALUES (
+				#{uniqueId},
+				#{name},
+				#{namespace},
+				#{content}
+			)
+		]]>
+	</insert>
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+			INSERT INTO ENG_SCRIPT (
+				K_ID,
+				S_NAME,
+				S_NAMESPACE,
+				S_CONTENT
+			) VALUES
+		]]>
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			<![CDATA[(
+				#{item.uniqueId},
+				#{item.name},
+				#{item.namespace},
+				#{item.content}
+			)]]>
+		</foreach>
+	</insert>
+	<update id="update" parameterType="Script" keyColumn="K_ID"
+		keyProperty="uniqueId">
+		<![CDATA[
+			UPDATE ENG_SCRIPT SET
+				S_NAME=#{name},
+				S_NAMESPACE=#{namespace},
+				S_CONTENT=#{content}
+			WHERE K_ID=#{uniqueId}
+		]]>
+	</update>
+	<delete id="deleteById" parameterType="String">
+		<![CDATA[
+			DELETE FROM ENG_SCRIPT WHERE K_ID=#{uniqueId}
+		]]>
+	</delete>
+	<delete id="batchDelete" parameterType="java.util.List">
+		<![CDATA[
+			DELETE FROM ENG_SCRIPT WHERE K_ID IN
+		]]>
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			<![CDATA[
+				#{item}
+			]]>
+		</foreach>
+	</delete>
+	<delete id="purgeData">
+		<![CDATA[
+			DELETE FROM ENG_SCRIPT
+		]]>
+	</delete>
+	<select id="selectById" parameterType="String" resultMap="scriptObject">
+		<![CDATA[
+			SELECT * FROM ENG_SCRIPT WHERE K_ID=#{uniqueId}
+		]]>
+	</select>
+	<select id="selectAll" resultMap="scriptObject">
+		<![CDATA[
+			SELECT * FROM ENG_SCRIPT
+		]]>
+	</select>
+
+	<select id="selectByName" resultMap="scriptObject">
+		<![CDATA[
+			SELECT * FROM ENG_SCRIPT WHERE S_NAME=#{name}
+		]]>
+	</select>
+</mapper>

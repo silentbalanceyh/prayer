@@ -7,6 +7,7 @@
 		<id column="K_ID" property="uniqueId" />
 		<result column="S_WORK_CLASS" property="workClass" />
 		<result column="S_CONSUMER_ADDR" property="consumerAddr" />
+		<result column="S_SCRIPT_NAME" property="scriptName"/>
 	</resultMap>
 	<insert id="insert" parameterType="Address" keyColumn="K_ID"
 		keyProperty="uniqueId">
@@ -14,11 +15,13 @@
 			INSERT INTO EVX_ADDRESS (
 				K_ID,
 				S_WORK_CLASS,
-				S_CONSUMER_ADDR
+				S_CONSUMER_ADDR,
+				S_SCRIPT_NAME
 			) VALUES (
 				#{uniqueId},
 				#{workClass},
-				#{consumerAddr}
+				#{consumerAddr},
+				#{scriptName}
 			)
 		]]>
 	</insert>
@@ -27,7 +30,8 @@
 			INSERT INTO EVX_ADDRESS (
 				K_ID,
 				S_WORK_CLASS,
-				S_CONSUMER_ADDR
+				S_CONSUMER_ADDR,
+				S_SCRIPT_NAME
 			) VALUES
 		]]>
 		<foreach collection="list" item="item" index="index"
@@ -35,7 +39,8 @@
 			<![CDATA[(
 				#{item.uniqueId},
 				#{item.workClass},
-				#{item.consumerAddr}
+				#{item.consumerAddr},
+				#{item.scriptName}
 			)]]>
 		</foreach>
 	</insert>
@@ -44,7 +49,8 @@
 		<![CDATA[
 			UPDATE EVX_ADDRESS SET
 				S_WORK_CLASS=#{workClass},
-				S_CONSUMER_ADDR=#{consumerAddr}
+				S_CONSUMER_ADDR=#{consumerAddr},
+				S_SCRIPT_NAME=#{scriptName}
 			WHERE K_ID=#{uniqueId}
 		]]>
 	</update>

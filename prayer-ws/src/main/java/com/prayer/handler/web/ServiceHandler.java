@@ -73,8 +73,11 @@ public class ServiceHandler implements Handler<RoutingContext> {
 			final UriModel uri = result.getResult();
 			final Vertx vertx = routingContext.vertx();
 			final EventBus bus = vertx.eventBus();
+			// 业务逻辑层需要使用的Globa ID在发送前植入
+			params.put(Constants.BUS_GLOBAL_ID,uri.getGlobalId());
 			bus.send(uri.getAddress(), params, res -> {
 				if (res.succeeded()) {
+					// TODO: Response
 					final JsonObject webRet = (JsonObject) res.result().body();
 					response.end(webRet.encodePrettily());
 				}

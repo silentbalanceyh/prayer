@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
+import com.prayer.model.h2.script.ScriptModel;
 import com.prayer.model.h2.vx.AddressModel;
 import com.prayer.model.h2.vx.RouteModel;
 import com.prayer.model.h2.vx.RuleModel;
@@ -76,4 +77,10 @@ public interface ConfigService {
 	 * @return
 	 */
 	ServiceResult<AddressModel> findAddress(Class<?> workClass);
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	ServiceResult<ScriptModel> findScript(String name);
 }

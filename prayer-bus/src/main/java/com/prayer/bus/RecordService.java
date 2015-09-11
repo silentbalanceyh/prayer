@@ -15,20 +15,20 @@ import io.vertx.core.json.JsonObject;
 public interface RecordService {
 	/**
 	 * 添加和更新Record的接口，参数为请求数据
-	 * @param jsonContent
+	 * @param jsonObject
 	 * @return
 	 */
-	ServiceResult<Record> saveRecord(JsonObject jsonContent);
+	ServiceResult<Record> saveRecord(JsonObject jsonObject);
 	/**
 	 * 移除Record的接口，参数为请求数据
-	 * @param jsonContent
+	 * @param jsonObject
 	 * @return
 	 */
-	ServiceResult<Record> removeRecord(JsonObject jsonContent);
+	ServiceResult<Record> removeRecord(JsonObject jsonObject);
 	/**
 	 * 查询Record的接口，参数为请求数据
-	 * @param jsonContent
+	 * @param jsonObject
 	 * @return
 	 */
-	ServiceResult<List<Record>> queryRecord(JsonObject jsonContent);
+	ServiceResult<List<Record>> queryRecord(JsonObject jsonObject);
 }

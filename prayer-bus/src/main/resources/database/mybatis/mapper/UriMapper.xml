@@ -10,9 +10,10 @@
 			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 		<result column="S_METHOD" property="method"
 			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result column="S_GLOBAL_ID" property="globalId" />
 		<result column="L_REQUIRED_PARAM" property="requiredParam"
 			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
-		<result column="E_ADDRESS" property="address"/>
+		<result column="E_ADDRESS" property="address" />
 	</resultMap>
 	<insert id="insert" parameterType="Uri" keyColumn="K_ID"
 		keyProperty="uniqueId">
@@ -23,14 +24,16 @@
 				S_METHOD,
 				S_PARAM_TYPE,
 				L_REQUIRED_PARAM,
-				E_ADDRESS
+				E_ADDRESS,
+				S_GLOBAL_ID
 			) VALUES (
 				#{uniqueId},
 				#{uri},
 				#{method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				#{address}
+				#{address},
+				#{globalId}
 			)
 		]]>
 	</insert>
@@ -42,7 +45,8 @@
 				S_METHOD,
 				S_PARAM_TYPE,
 				L_REQUIRED_PARAM,
-				E_ADDRESS
+				E_ADDRESS,
+				S_GLOBAL_ID
 			) VALUES
 		]]>
 		<foreach collection="list" item="item" index="index"
@@ -53,7 +57,8 @@
 				#{item.method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{item.paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				#{item.address}
+				#{item.address},
+				#{item.globalId}
 			)]]>
 		</foreach>
 	</insert>
@@ -65,7 +70,8 @@
 				S_METHOD=#{method,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				S_PARAM_TYPE=#{paramType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				E_ADDRESS=#{address}
+				E_ADDRESS=#{address},
+				S_GLOBAL_ID=#{globalId}
 			WHERE K_ID=#{uniqueId}
 		]]>
 	</update>

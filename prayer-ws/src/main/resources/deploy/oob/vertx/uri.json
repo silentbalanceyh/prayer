@@ -8,7 +8,8 @@
 			"username",
 			"password"
 		],
-		"address":"MSG://RECORD/QUEUE"
+		"address":"MSG://RECORD/QUEUE",
+		"globalId":"sec.account"
 	},
 
 	{
@@ -20,6 +21,7 @@
 			"username",
 			"password"
 		],
-		"address":"MSG://RECORD/QUEUE"
+		"address":"MSG://RECORD/QUEUE",
+		"globalId":"sec.account"
 	}
 ]

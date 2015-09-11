@@ -21,12 +21,13 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RecordSevImpl implements RecordService{
+public class RecordSevImpl implements RecordService {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(RecordSevImpl.class);
 	/** **/
 	private static final ScriptEngine ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -34,19 +35,20 @@ public class RecordSevImpl implements RecordService{
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	@Override
-	public ServiceResult<Record> saveRecord(JsonObject jsonContent) {
+	public ServiceResult<Record> saveRecord(JsonObject jsonObject) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ServiceResult<Record> removeRecord(JsonObject jsonContent) {
+	public ServiceResult<Record> removeRecord(JsonObject jsonObject) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ServiceResult<List<Record>> queryRecord(JsonObject jsonContent) {
+	public ServiceResult<List<Record>> queryRecord(JsonObject jsonObject) {
+		System.out.println(jsonObject.encodePrettily());
 		// TODO Auto-generated method stub
 		return null;
 	}
