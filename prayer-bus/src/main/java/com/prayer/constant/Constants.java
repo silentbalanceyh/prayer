@@ -77,6 +77,8 @@ public interface Constants { // NOPMD
 	String BUS_GLOBAL_ID = "identifier";
 	/** Script Name对应Key **/
 	String BUS_SCRIPT_NAME = "script";
+	/** Param Data **/
+	String BUS_DATA = "data";
 	
 	// ~ Vertx Order =========================================
 	/** Body Handler Order **/
