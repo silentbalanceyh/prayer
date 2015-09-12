@@ -87,7 +87,6 @@ public class ValidationHandler implements Handler<RoutingContext> {
 			routingContext.next();
 		} else {
 			// 触发错误信息
-			info(LOGGER, "RestfulResult = " + webRet);
 			routingContext.put(Constants.VX_CTX_ERROR, webRet);
 			routingContext.fail(webRet.getStatusCode().status());
 		}

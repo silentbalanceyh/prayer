@@ -1,6 +1,5 @@
 package com.prayer.bus.impl; // NOPMD
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.List;
@@ -50,8 +49,6 @@ import net.sf.oval.guard.PreValidateThis;
 @Guarded
 public class ConfigSevImpl implements ConfigService {
 	// ~ Static Fields =======================================
-	/** 日志记录器 **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigSevImpl.class);
 	// ~ Instance Fields =====================================
 	/** 访问H2的EVX_VERTICLE接口 **/
 	@NotNull
@@ -144,14 +141,14 @@ public class ConfigSevImpl implements ConfigService {
 	/** **/
 	@Override
 	@PreValidateThis
-	public ServiceResult<UriModel> findUri(@NotNull @NotBlank @NotEmpty final String uri,
-			@NotNull final HttpMethod method) {
+	public ServiceResult<ConcurrentMap<HttpMethod, UriModel>> findUri(@NotNull @NotBlank @NotEmpty final String uri) {
 		// 1.构造响应数据
-		final ServiceResult<UriModel> result = new ServiceResult<>();
+		final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = new ServiceResult<>();
 		// 2.调用读取方法
-		final UriModel ret = this.uriDao.getByUri(uri, method);
+		final List<UriModel> ret = this.uriDao.getByUri(uri);
 		// 3.设置响应信息
-		result.setResponse(ret, null);
+		final ConcurrentMap<HttpMethod, UriModel> retMap = Extractor.extractUris(ret);
+		result.setResponse(retMap, null);
 		return result;
 	}
 
@@ -167,7 +164,6 @@ public class ConfigSevImpl implements ConfigService {
 		// 3.设置响应结果
 		ret = ret.stream().filter(item -> ComponentType.VALIDATOR == item.getComponentType())
 				.collect(Collectors.toList());
-		info(LOGGER, "Validator Size : " + ret.size() + ", uriId = " + uriId);
 		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "name");
 		result.setResponse(listRet, null);
 		return result;
@@ -185,7 +181,6 @@ public class ConfigSevImpl implements ConfigService {
 		// 3.设置响应结果
 		ret = ret.stream().filter(item -> ComponentType.CONVERTOR == item.getComponentType())
 				.collect(Collectors.toList());
-		info(LOGGER, "Convertor Size : " + ret.size() + ", uriId = " + uriId);
 		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "name");
 		result.setResponse(listRet, null);
 		return result;

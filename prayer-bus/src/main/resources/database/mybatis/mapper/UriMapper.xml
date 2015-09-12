@@ -115,6 +115,11 @@
 
 	<select id="selectByUri" resultMap="uriObject">
 		<![CDATA[
+			SELECT * FROM EVX_URI WHERE S_URI=#{uri}
+		]]>
+	</select>
+	<select id="selectByUriAndMethod" resultMap="uriObject">
+		<![CDATA[
 			SELECT * FROM EVX_URI WHERE S_URI=#{0} AND S_METHOD=#{1,typeHandler=org.apache.ibatis.type.EnumTypeHandler}
 		]]>
 	</select>

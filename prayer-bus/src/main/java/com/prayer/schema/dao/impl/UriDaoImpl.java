@@ -1,5 +1,7 @@
 package com.prayer.schema.dao.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class UriDaoImpl extends TemplateDaoImpl<UriModel, String> implements UriDao { // NOPMD
+public class UriDaoImpl extends TemplateDaoImpl<UriModel, String>implements UriDao { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(UriDaoImpl.class);
@@ -52,10 +54,24 @@ public class UriDaoImpl extends TemplateDaoImpl<UriModel, String> implements Uri
 		// 2.获取Mapper
 		final UriMapper mapper = session.getMapper(UriMapper.class);
 		// 3.读取返回信息
-		final UriModel ret = mapper.selectByUri(uri, method);
+		final UriModel ret = mapper.selectByUriAndMethod(uri, method);
 		// 4.关闭Session并且返回最终结果
 		session.close();
 		return ret;
+	}
+
+	/** 根据URI查询系统中存在的Method，405 问题专用 **/
+	@Override
+	public List<UriModel> getByUri(@NotNull @NotBlank @NotEmpty final String uri) {
+		// 1.初始化SqlSession
+		final SqlSession session = SessionManager.getSession();
+		// 2.获取Mapper
+		final UriMapper mapper = session.getMapper(UriMapper.class);
+		// 3.List结果
+		final List<UriModel> uris = mapper.selectByUri(uri);
+		// 4.关Session返回最终结果
+		session.close();
+		return uris;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
