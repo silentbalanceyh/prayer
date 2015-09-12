@@ -77,17 +77,19 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 	@Override
 	public ServiceResult<Boolean> deployPrayerData() { // NOPMD
 		final ServiceResult<Boolean> result = new ServiceResult<>();
-		// 1.删除原始的EVX_VERTICLE表中数据
+		// 1.EVX_VERTICLE
 		ServiceResult<?> ret = this.getVerticleService().purgeData();
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.getVerticleService().importVerticles(VX_VERTICLE);
 		}
+		// 2.EVX_ROUTE
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.getRouteService().purgeData();
 		}
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.getRouteService().importToList(VX_ROUTES);
 		}
+		// 3.EVX_URI
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.getRuleService().purgeData();
 			// 必须先PurgeValidators
@@ -98,16 +100,25 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 			// URI中的Param参数List
 			final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
 			for (final UriModel model : uriModels) {
+				// 4.EVX_RULE
 				final String paramFile = VX_URI_PARAM + model.getMethod().toString().toLowerCase(Locale.getDefault())
 						+ "/" + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".") + ".json";
 				this.getRuleService().importRules(paramFile, model);
 			}
 		}
+		// 5.EVX_ADDRESS
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.getAddressService().purgeData();
 		}
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.getAddressService().importToList(VX_ADDRESS);
+		}
+		// 6.ENG_SCRIPT
+		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
+			ret = this.getScriptService().purgeData();
+		}
+		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
+			ret = this.getScriptService().importToList(VX_SCRIPT);
 		}
 		// 2.导入OOB中的Schema定义
 		{

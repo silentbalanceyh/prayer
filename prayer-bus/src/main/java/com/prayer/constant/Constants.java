@@ -30,6 +30,8 @@ public interface Constants { // NOPMD
 	int RANGE = -1;
 	/** HashCode base number **/
 	int HASH_BASE = 31;
+	/** Default Buffer Size **/
+	int BUFFER_SIZE = 32;
 	// ~ Simple Response Code ================================
 	
 	/** 成功返回值 **/

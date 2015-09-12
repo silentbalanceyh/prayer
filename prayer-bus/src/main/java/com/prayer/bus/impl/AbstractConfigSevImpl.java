@@ -8,11 +8,13 @@ import com.prayer.bus.SchemaService;
 import com.prayer.bus.deploy.AddressDPService;
 import com.prayer.bus.deploy.RouteDPService;
 import com.prayer.bus.deploy.RuleDPService;
+import com.prayer.bus.deploy.ScriptDPService;
 import com.prayer.bus.deploy.UriDPService;
 import com.prayer.bus.deploy.VerticleDPService;
 import com.prayer.bus.impl.deploy.AddressDPSevImpl;
 import com.prayer.bus.impl.deploy.RouteDPSevImpl;
 import com.prayer.bus.impl.deploy.RuleDPSevImpl;
+import com.prayer.bus.impl.deploy.ScriptDPSevImpl;
 import com.prayer.bus.impl.deploy.UriDPSevImpl;
 import com.prayer.bus.impl.deploy.VerticleDPSevImpl;
 
@@ -47,6 +49,9 @@ public abstract class AbstractConfigSevImpl {
 	/** **/
 	@NotNull
 	private transient final AddressDPService addressService;
+	/** **/
+	@NotNull
+	private transient final ScriptDPService scriptService;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -59,6 +64,7 @@ public abstract class AbstractConfigSevImpl {
 		this.uriService = singleton(UriDPSevImpl.class);
 		this.ruleService = singleton(RuleDPSevImpl.class);
 		this.addressService = singleton(AddressDPSevImpl.class);
+		this.scriptService = singleton(ScriptDPSevImpl.class);
 		this.schemaService = singleton(SchemaSevImpl.class);
 	}
 
@@ -110,6 +116,13 @@ public abstract class AbstractConfigSevImpl {
 	 */
 	public AddressDPService getAddressService(){
 		return addressService;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public ScriptDPService getScriptService(){
+		return scriptService;
 	}
 	// ~ hashCode,equals,toString ============================
 

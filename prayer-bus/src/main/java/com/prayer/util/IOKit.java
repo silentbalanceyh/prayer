@@ -3,14 +3,22 @@ package com.prayer.util;
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
+import com.prayer.constant.Symbol;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -39,6 +47,38 @@ public final class IOKit {
 	 */
 	public static InputStream getFile(@NotNull @NotEmpty @NotBlank final String fileName) {
 		return getFile(fileName, null);
+	}
+
+	/**
+	 *
+	 * @param fileName
+	 * @return
+	 */
+	public static String getContent(@NotNull @NotEmpty @NotBlank final String fileName) {
+		final InputStream inStream = getFile(fileName);
+		final StringBuilder builder = new StringBuilder(Constants.BUFFER_SIZE);
+		BufferedReader reader;
+		String content = null;
+		try {
+			reader = new BufferedReader(new InputStreamReader(inStream, Resources.SYS_ENCODING));
+			String line = null;
+			while (null != (line = reader.readLine())) {
+				builder.append(line).append(Symbol.NEW_LINE);
+			}
+			content = builder.toString();
+			reader.close();
+		} catch (UnsupportedEncodingException ex) {
+			debug(LOGGER, "JVM.ENCODING", ex, Resources.SYS_ENCODING);
+		} catch (IOException ex) {
+			debug(LOGGER, "JVM.IO", ex, fileName);
+		} finally {
+			try {
+				inStream.close();
+			} catch (IOException ex) {
+				debug(LOGGER, "JVM.IO", ex, fileName);
+			}
+		}
+		return content;
 	}
 
 	/**

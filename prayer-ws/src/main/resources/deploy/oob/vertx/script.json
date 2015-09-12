@@ -1,0 +1,13 @@
+[
+	{
+		"name": "js.post.oauth.authorize",
+		"namespace": "engine.script.sec.oauth",
+		"content": "deploy/oob/js/post/oauth.authorize.js"
+	},
+
+	{
+		"name": "js.get.oauth.authorize",
+		"namespace": "engine.script.sec.oauth",
+		"content": "deploy/oob/js/get/oauth.authorize.js"
+	}
+]

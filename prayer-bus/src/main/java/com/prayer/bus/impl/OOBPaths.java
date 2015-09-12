@@ -17,4 +17,6 @@ interface OOBPaths {	// NOPMD
 	String SCHEMA_FOLDER = "deploy/oob/schema/";
 	/** URI参数配置文件 **/
 	String VX_URI_PARAM = "deploy/oob/vertx/uri/";
+	/** **/
+	String VX_SCRIPT = "deploy/oob/vertx/script.json";
 }
