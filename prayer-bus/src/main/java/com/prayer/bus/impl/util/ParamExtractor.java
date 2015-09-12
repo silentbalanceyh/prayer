@@ -2,12 +2,16 @@ package com.prayer.bus.impl.util;
 
 import static com.prayer.util.Instance.singleton;
 
+import java.util.Set;
+
 import com.prayer.bus.ConfigService;
 import com.prayer.bus.SchemaService;
 import com.prayer.bus.impl.ConfigSevImpl;
 import com.prayer.bus.impl.SchemaSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.exception.AbstractMetadataException;
+import com.prayer.kernel.Record;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.script.ScriptModel;
@@ -74,6 +78,20 @@ public final class ParamExtractor {
 			ret = schema.getResult();
 		}
 		return ret;
+	}
+	/**
+	 * 提取最终的Record数据信息
+	 * @param record
+	 * @return
+	 * @throws AbstractMetadataException
+	 */
+	public JsonObject extractRecord(@NotNull final Record record) throws AbstractMetadataException{
+		final Set<String> fields = record.fields().keySet();
+		final JsonObject retObj = new JsonObject();
+		for(final String field: fields){
+			retObj.put(field, record.get(field).literal());
+		}
+		return retObj;
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================

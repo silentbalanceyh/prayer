@@ -23,6 +23,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -36,14 +37,17 @@ public class RecordSevImpl implements RecordService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RecordSevImpl.class);
 	// ~ Instance Fields =====================================
 	/** **/
+	@NotNull
 	private transient final ParamExtractor extractor;
 	/** **/
+	@NotNull
 	private transient final RecordDao recordDao;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
+	@PostValidateThis
 	public RecordSevImpl() {
 		this.extractor = ParamExtractor.create();
 		this.recordDao = singleton(RecordDaoImpl.class);
@@ -63,11 +67,12 @@ public class RecordSevImpl implements RecordService {
 		try {
 			engine.put("record", record);
 			engine.execute(extractor.extractJSContent(jsonObject));
-			this.recordDao.insert(record);
+			final Record inserted = this.recordDao.insert(record);
+			ret.setResult(extractor.extractRecord(inserted));
 		} catch (ScriptException ex) {
 			info(LOGGER, "[BUS] Script Error : ", ex);
-		} catch (AbstractException ex){
-			
+		} catch (AbstractException ex) {
+			ret.setResponse(null, ex);
 		}
 		return ret;
 	}

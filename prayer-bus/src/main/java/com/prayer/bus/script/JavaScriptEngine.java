@@ -29,9 +29,6 @@ public final class JavaScriptEngine {
 	/** **/
 	@NotNull
 	private transient final Bindings bindings;
-	/** **/
-	@NotNull
-	private transient final ScriptContext context;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -50,7 +47,7 @@ public final class JavaScriptEngine {
 		data.forEach(item -> {
 			bindings.put("$" + item.getKey(), item.getValue());
 		});
-		context = new SimpleScriptContext();
+		final ScriptContext context = new SimpleScriptContext();
 		context.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
 		engine.setContext(context);
 	}

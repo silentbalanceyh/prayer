@@ -25,7 +25,7 @@ public class ScriptEngineTestCase {
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	/** **/
-	@Test
+	// @Test
 	public void saveRecord() {
 		final JsonObject params = new JsonObject(
 				"{\"identifier\" : \"sec.account\",\"data\" : {\"password\" : \"E559D4DA17DD1C17BE86FCF49E60E322\",\"username\" : \"lang.yu@hp.com\"},\"method\" : \"POST\",\"uri\" : \"/oauth/authorize\",\"session.id\" : \"98ff9876-41c1-480a-9cca-1125816268fd\",\"script\" : \"js.post.oauth.authorize\"}");

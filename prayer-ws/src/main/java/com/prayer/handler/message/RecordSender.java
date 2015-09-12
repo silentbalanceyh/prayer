@@ -4,7 +4,6 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PreValidateThis;
@@ -15,22 +14,25 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public class RecordSender implements Handler<AsyncResult<Message<Object>>>{
+public class RecordSender implements Handler<AsyncResult<Message<Object>>> {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
 	private transient HttpServerResponse response;
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	/**
 	 * 创建ReplyHandler
+	 * 
 	 * @param response
 	 * @return
 	 */
-	public static RecordSender create(final HttpServerResponse response){
+	public static RecordSender create(final HttpServerResponse response) {
 		return new RecordSender(response);
 	}
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
@@ -38,14 +40,15 @@ public class RecordSender implements Handler<AsyncResult<Message<Object>>>{
 	@Override
 	@PreValidateThis
 	public void handle(@NotNull final AsyncResult<Message<Object>> event) {
-		if(event.succeeded()){
-			final JsonObject webRet = (JsonObject)event.result().body();
-			this.response.end(webRet.encodePrettily());
+		if (event.succeeded()) {
+			final String data = (String) event.result().body();
+			this.response.end(data);
 		}
 	}
+
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	private RecordSender(final HttpServerResponse response){
+	private RecordSender(final HttpServerResponse response) {
 		this.response = response;
 	}
 	// ~ Get/Set =============================================
