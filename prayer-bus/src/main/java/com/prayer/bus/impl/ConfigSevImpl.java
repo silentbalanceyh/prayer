@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.bus.ConfigService;
 import com.prayer.bus.impl.util.Extractor;
 import com.prayer.constant.SystemEnum.ComponentType;

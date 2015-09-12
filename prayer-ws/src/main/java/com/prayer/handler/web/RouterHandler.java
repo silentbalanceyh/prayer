@@ -32,6 +32,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotNull;
@@ -82,7 +83,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 		final HttpServerRequest request = routingContext.request();
 
 		// 2.从系统中按URI读取接口规范
-		final ServiceResult<ConcurrentMap<HttpMethod,UriModel>> result = this.service.findUri(request.path());
+		final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(request.path());
 		final RestfulResult webRet = RestfulResult.create();
 
 		// 3.请求转发，去除掉Error过后的信息
@@ -132,12 +133,12 @@ public class RouterHandler implements Handler<RoutingContext> {
 		return retJson;
 	}
 
-	private AbstractWebException requestDispatch(final ServiceResult<ConcurrentMap<HttpMethod,UriModel>> result, final RestfulResult webRef,
-			final RoutingContext context) {
+	private AbstractWebException requestDispatch(final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result,
+			final RestfulResult webRef, final RoutingContext context) {
 		AbstractWebException error = null;
 		final HttpServerRequest request = context.request();
 		if (ResponseCode.SUCCESS == result.getResponseCode()) {
-			final ConcurrentMap<HttpMethod,UriModel> uriMap = result.getResult();
+			final ConcurrentMap<HttpMethod, UriModel> uriMap = result.getResult();
 			if (uriMap.isEmpty()) {
 				// 404 Resources Not Found
 				error = ErrGenerator.error404(webRef, getClass(), request.path());
@@ -146,8 +147,12 @@ public class RouterHandler implements Handler<RoutingContext> {
 				if (null != uriSpec) {
 					final String errParam = getErrorParam(uriSpec, context);
 					if (null != errParam) {
-						error = ErrGenerator.error400E30001(webRef, getClass(), request.path(),
-								uriSpec.getParamType().toString(), errParam);
+						if (errParam.equals("DECODE")) {
+							error = ErrGenerator.error400E30010(webRef, getClass(), request.path());
+						} else {
+							error = ErrGenerator.error400E30001(webRef, getClass(), request.path(),
+									uriSpec.getParamType().toString(), errParam);
+						}
 					}
 				} else {
 					// 405 Method Not Allowed
@@ -186,13 +191,19 @@ public class RouterHandler implements Handler<RoutingContext> {
 			}
 		} else {
 			// 从Body中直接获取参数
-			final JsonObject params = context.getBodyAsJson();
-			for (final String param : paramList) {
-				if (StringKit.isNil(params.getString(param))) {
-					retParam = param;
-					break;
+			try {
+				final JsonObject params = context.getBodyAsJson();
+				for (final String param : paramList) {
+					if (StringKit.isNil(params.getString(param))) {
+						retParam = param;
+						break;
+					}
 				}
+			} catch (DecodeException ex) {
+				retParam = "DECODE";
+				info(LOGGER, "[VX-E] Decoding error ! " + ex.toString());
 			}
+
 		}
 		return retParam;
 	}

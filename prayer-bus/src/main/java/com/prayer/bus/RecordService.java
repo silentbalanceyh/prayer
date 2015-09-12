@@ -1,10 +1,8 @@
 package com.prayer.bus;
 
-import java.util.List;
-
-import com.prayer.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -14,21 +12,27 @@ import io.vertx.core.json.JsonObject;
  */
 public interface RecordService {
 	/**
-	 * 添加和更新Record的接口，参数为请求数据
+	 * POST : 添加和更新Record的接口，参数为请求数据
 	 * @param jsonObject
 	 * @return
 	 */
-	ServiceResult<Record> saveRecord(JsonObject jsonObject);
+	ServiceResult<JsonObject> save(JsonObject jsonObject);
 	/**
-	 * 移除Record的接口，参数为请求数据
+	 * DELETE : 移除Record的接口，参数为请求数据
 	 * @param jsonObject
 	 * @return
 	 */
-	ServiceResult<Record> removeRecord(JsonObject jsonObject);
+	ServiceResult<JsonObject> remove(JsonObject jsonObject);
 	/**
-	 * 查询Record的接口，参数为请求数据
+	 * PUT : 更新Record的接口
 	 * @param jsonObject
 	 * @return
 	 */
-	ServiceResult<List<Record>> queryRecord(JsonObject jsonObject);
+	ServiceResult<JsonObject> modify(JsonObject jsonObject);
+	/**
+	 * GET : 查询Record的接口，参数为请求数据
+	 * @param jsonObject
+	 * @return
+	 */
+	ServiceResult<JsonArray> find(JsonObject jsonObject);
 }

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractWebException;
+import com.prayer.exception.web.BodyParamDecodingException;
 import com.prayer.exception.web.InternalServerErrorException;
 import com.prayer.exception.web.MethodNotAllowedException;
 import com.prayer.exception.web.RequiredParamMissingException;
@@ -86,7 +87,19 @@ public final class ErrGenerator {
 	public static AbstractWebException error400E30001(@NotNull final RestfulResult webRef,
 			@NotNull final Class<?> clazz, @NotNull @NotBlank @NotEmpty final String path,
 			@NotNull @NotBlank @NotEmpty final String paramType, @NotNull @NotBlank @NotEmpty final String paramName) {
-		AbstractWebException error = new RequiredParamMissingException(clazz, path, paramType, paramName);
+		final AbstractWebException error = new RequiredParamMissingException(clazz, path, paramType, paramName);
+		webRef.setResponse(StatusCode.BAD_REQUEST, error);
+		webRef.setResult(produceResult(webRef));
+		info(LOGGER, MessageFormat.format(ERROR_HTTP, StatusCode.BAD_REQUEST.status(),
+				StatusCode.BAD_REQUEST.toString(), error));
+		return error;
+	}
+	
+	/** **/
+	@NotNull
+	public static AbstractWebException error400E30010(@NotNull final RestfulResult webRef,
+			@NotNull final Class<?> clazz, @NotNull @NotBlank @NotEmpty final String path) {
+		final AbstractWebException error = new BodyParamDecodingException(clazz, path);
 		webRef.setResponse(StatusCode.BAD_REQUEST, error);
 		webRef.setResult(produceResult(webRef));
 		info(LOGGER, MessageFormat.format(ERROR_HTTP, StatusCode.BAD_REQUEST.status(),

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
+import com.prayer.handler.message.RecordSender;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.uca.assistant.ErrGenerator;
@@ -53,13 +54,7 @@ public class ServiceHandler implements Handler<RoutingContext> {
 			final Vertx vertx = routingContext.vertx();
 			final EventBus bus = vertx.eventBus();
 			// 发送Message到Event Bus
-			bus.send(uri.getAddress(), params, res -> {
-				if (res.succeeded()) {
-					// TODO: Response
-					final JsonObject webRet = (JsonObject) res.result().body();
-					response.end(webRet.encodePrettily());
-				}
-			});
+			bus.send(uri.getAddress(), params, RecordSender.create(response));
 		} else {
 			// 500 Internal Server
 			final RestfulResult webRet = RestfulResult.create();
