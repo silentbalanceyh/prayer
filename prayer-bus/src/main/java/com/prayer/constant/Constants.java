@@ -66,7 +66,7 @@ public interface Constants { // NOPMD
 	/** Global Error Key **/
 	String VX_CTX_ERROR = "FAILURE.KEY";
 	/** Global URI Key **/
-	String VX_CTX_URI_ID = "URI.ID";
+	String VX_CTX_URI = "URI.ENTITY";
 	/** Request Parameters **/
 	String VX_CTX_PARAMS = "PARAMS";
 	/** Default Convertor，默认Convertor，什么都不做 **/
@@ -81,22 +81,26 @@ public interface Constants { // NOPMD
 	String BUS_DATA = "data";
 	
 	// ~ Vertx Order =========================================
-	/** Body Handler Order **/
-	int VX_OD_BODY = -600;
 	/** Cookie Handler Order **/
-	int VX_OD_COOKIE = -700;
-	/** Session Handler Order **/
-	int VX_OD_SESSION = -400;
+	int VX_OD_COOKIE = -990;
+	/** Body Handler Order **/
+	int VX_OD_BODY = -980;
 	/** Authentication Handler Order **/
-	int VX_OD_AUTH = -500;
+	int VX_OD_AUTH = -970;
+	/** Session Handler Order **/
+	int VX_OD_SESSION = -960;
+	
 	/** Router Handler Order **/
-	int VX_OD_ROUTER = -300;
+	int VX_OD_ROUTER = -400;
 	/** Validation Handler Order **/
-	int VX_OD_VALIDATION = -200;
+	int VX_OD_VALIDATION = -300;
 	/** Convertor Handler Order **/
-	int VX_OD_CONVERTOR = -100;
+	int VX_OD_CONVERTOR = -200;
+	/** Parameters Wrapper **/
+	int VX_OD_WRAPPER = -100;
 	/** Service Handler Order **/
 	int VX_OD_SERVICE = 100;
+	
 	/** Failure Handler **/
 	int VX_OD_FAILURE = 200;
 }

@@ -10,11 +10,9 @@ import com.prayer.bus.ConfigService;
 import com.prayer.bus.RecordService;
 import com.prayer.bus.impl.ConfigSevImpl;
 import com.prayer.bus.impl.RecordSevImpl;
-import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
-import com.prayer.model.bus.web.StatusCode;
 import com.prayer.model.h2.vx.AddressModel;
 
 import io.vertx.core.AbstractVerticle;
@@ -64,11 +62,10 @@ public class RecordWorker extends AbstractVerticle {
 				final EventBus bus = vertx.eventBus();
 				bus.consumer(address.getConsumerAddr(), message -> {
 					final JsonObject params = (JsonObject) message.body();
-					params.put(Constants.BUS_SCRIPT_NAME, address.getScriptName());
 
 					this.recordSev.queryRecord(params);
 
-					final RestfulResult ret = new RestfulResult(StatusCode.OK);
+					final RestfulResult ret = RestfulResult.create();
 					ret.setResult(new JsonObject("{\"result\":\"SUCCESS\"}"));
 					message.reply(ret.getResult());
 				});

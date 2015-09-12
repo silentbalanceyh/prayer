@@ -21,20 +21,15 @@ import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractException;
 import com.prayer.exception.AbstractWebException;
-import com.prayer.exception.web.InternalServerErrorException;
-import com.prayer.exception.web.MethodNotAllowedException;
-import com.prayer.exception.web.RequiredParamMissingException;
-import com.prayer.exception.web.UriSpecificationMissingException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
-import com.prayer.model.bus.web.StatusCode;
 import com.prayer.model.h2.vx.UriModel;
+import com.prayer.uca.assistant.ErrGenerator;
 import com.prayer.util.StringKit;
 
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpServerRequest;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotNull;
@@ -48,7 +43,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class RouterHandler implements Handler<RoutingContext>{
+public class RouterHandler implements Handler<RoutingContext> {
 
 	// ~ Static Fields =======================================
 
@@ -62,9 +57,10 @@ public class RouterHandler implements Handler<RoutingContext>{
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	/** 创建方法 **/
-	public static RouterHandler create(){
+	public static RouterHandler create() {
 		return new RouterHandler();
 	}
+
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
@@ -79,14 +75,13 @@ public class RouterHandler implements Handler<RoutingContext>{
 	 */
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER,"[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_ROUTER);
+		info(LOGGER, "[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_ROUTER);
 		// 1.获取请求Request和相应Response引用
 		final HttpServerRequest request = routingContext.request();
-		final HttpServerResponse response = routingContext.response();
 
 		// 2.从系统中按URI读取接口规范
-		final ServiceResult<UriModel> result = this.service.findUri(request.path(),request.method());
-		final RestfulResult webRet = new RestfulResult(StatusCode.OK);
+		final ServiceResult<UriModel> result = this.service.findUri(request.path(), request.method());
+		final RestfulResult webRet = RestfulResult.create();
 
 		// 3.请求转发，去除掉Error过后的信息
 		AbstractException error = this.requestDispatch(result, webRet, routingContext);
@@ -94,18 +89,14 @@ public class RouterHandler implements Handler<RoutingContext>{
 		// 4.根据Error设置
 		if (null == error) {
 			// SUCCESS -->
-			// 5.1.保存UriModel的数据库ID
+			// 5.1.保存UriModel到Context中
 			final UriModel uri = result.getResult();
-			routingContext.put(Constants.VX_CTX_URI_ID, uri.getUniqueId());
-
+			routingContext.put(Constants.VX_CTX_URI, uri);
 			// 6.1.设置参数到Context中提供给下一个Handler处理
 			final JsonObject params = extractParams(routingContext, uri);
 			routingContext.put(Constants.VX_CTX_PARAMS, params);
 			routingContext.next();
 		} else {
-			response.setStatusCode(webRet.getStatusCode().status());
-			response.setStatusMessage(webRet.getErrorMessage());
-
 			// 5.2.保存RestfulResult到Context中
 			info(LOGGER, "RestfulResult = " + webRet);
 			routingContext.put(Constants.VX_CTX_ERROR, webRet);
@@ -148,32 +139,29 @@ public class RouterHandler implements Handler<RoutingContext>{
 			final UriModel uriSpec = result.getResult();
 			if (null == uriSpec) {
 				// 404 Resources Not Found
-				error = new UriSpecificationMissingException(getClass(), request.path());
-				webRef.setResponse(null, StatusCode.NOT_FOUND, error);
+				error = ErrGenerator.error404(webRef, getClass(), request.path());
 			} else {
 				if (uriSpec.getMethod() == request.method()) {
-					error = requestParams(uriSpec, context);
-					if (null != error) {
-						// 400 Bad Request
-						webRef.setResponse(null, StatusCode.BAD_REQUEST, error);
+					final String errParam = getErrorParam(uriSpec, context);
+					if (null != errParam) {
+						error = ErrGenerator.error400(webRef, getClass(), -30001, request.path(),
+								uriSpec.getParamType().toString(), errParam);
 					}
 				} else {
 					// 405 Method Not Allowed
-					error = new MethodNotAllowedException(getClass(), request.method().toString());
-					webRef.setResponse(null, StatusCode.METHOD_NOT_ALLOWED, error);
+					error = ErrGenerator.error405(webRef, getClass(), request.method());
 				}
 			}
 		} else {
 			// 500 Internal Server
-			error = new InternalServerErrorException(getClass());
-			webRef.setResponse(null, StatusCode.INTERNAL_SERVER_ERROR, error);
+			error = ErrGenerator.error500(webRef, getClass());
 		}
 		return error;
 	}
 
 	// 参数规范的处理流程
-	private AbstractWebException requestParams(final UriModel uri, final RoutingContext context) {
-		AbstractWebException error = null;
+	private String getErrorParam(final UriModel uri, final RoutingContext context) {
+		String retParam = null;
 		final List<String> paramList = uri.getRequiredParam();
 		final HttpServerRequest request = context.request();
 		if (ParamType.QUERY == uri.getParamType()) {
@@ -181,8 +169,7 @@ public class RouterHandler implements Handler<RoutingContext>{
 			final MultiMap params = request.params();
 			for (final String param : paramList) {
 				if (StringKit.isNil(params.get(param))) {
-					error = new RequiredParamMissingException(getClass(), request.path(), uri.getParamType().toString(),
-							param);
+					retParam = param;
 					break;
 				}
 			}
@@ -191,8 +178,7 @@ public class RouterHandler implements Handler<RoutingContext>{
 			final MultiMap params = request.formAttributes();
 			for (final String param : paramList) {
 				if (StringKit.isNil(params.get(param))) {
-					error = new RequiredParamMissingException(getClass(), request.path(), uri.getParamType().toString(),
-							param);
+					retParam = param;
 					break;
 				}
 			}
@@ -201,13 +187,12 @@ public class RouterHandler implements Handler<RoutingContext>{
 			final JsonObject params = context.getBodyAsJson();
 			for (final String param : paramList) {
 				if (StringKit.isNil(params.getString(param))) {
-					error = new RequiredParamMissingException(getClass(), request.path(), uri.getParamType().toString(),
-							param);
+					retParam = param;
 					break;
 				}
 			}
 		}
-		return error;
+		return retParam;
 	}
 
 	private String decodeURL(final String inputValue) {

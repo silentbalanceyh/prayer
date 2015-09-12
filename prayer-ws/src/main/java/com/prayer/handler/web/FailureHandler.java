@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.model.bus.web.RestfulResult;
+import com.prayer.uca.assistant.ErrGenerator;
 
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
@@ -45,32 +46,26 @@ public class FailureHandler implements ErrorHandler {
 	 */
 	@Override
 	public void handle(@NotNull final RoutingContext context) {
-		info(LOGGER,"[VX-I] Failure Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_FAILURE);
+		info(LOGGER, "[VX-I] Failure Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_FAILURE);
 		// 1.从Context中获取处理结果
 		final RestfulResult webRet = (RestfulResult) context.get(Constants.VX_CTX_ERROR);
 		// 2.包装Error信息生成统一的Error格式
-		final JsonObject retData = new JsonObject();
-		// Fix: 防止Failure的空指针异常
-		if (null != webRet) {
-			retData.put("statusCode", webRet.getStatusCode().status());
-			retData.put("error", webRet.getStatusCode().toString());
-			retData.put("errorMessage", webRet.getErrorMessage());
-			retData.put("response", webRet.getResponseCode().toString());
-		}
-		// 3.必须加入长度信息，处理Body部分内容
+		final JsonObject retData = webRet.getResult();
+		// 3.获取响应的信息
 		final String content = retData.encodePrettily();
-		// 5.处理响应信息
+		// 4.包装响应信息
 		final HttpServerResponse response = context.response();
-		// TODO: 后期需要改动，测试因为使用浏览器，暂时使用这种
+		// TODO: 5.后期需要改动，测试因为使用浏览器，暂时使用这种
 		response.putHeader("Context-Type", "application/json;charset=" + Resources.SYS_ENCODING);
 		response.putHeader("Content-Length", String.valueOf(content.getBytes().length));
+		// 6.设置StatusCode和Error
 		try {
-			response.setStatusCode(retData.getInteger("statusCode"));
-			response.setStatusMessage(retData.getString("error"));
+			response.setStatusCode(retData.getInteger(ErrGenerator.STATUS_CODE));
+			response.setStatusMessage(retData.getString(ErrGenerator.ERROR));
+			response.write(content, Resources.SYS_ENCODING);
 		} catch (Exception ex) {
 			info(LOGGER, "[E-VX] Error Occurs.", ex);
 		}
-		response.write(content, Resources.SYS_ENCODING);
 		response.end();
 		response.close();
 	}

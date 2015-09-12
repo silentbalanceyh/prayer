@@ -16,17 +16,16 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractWebException;
 import com.prayer.exception.web.ConvertorMultiException;
-import com.prayer.exception.web.InternalServerErrorException;
 import com.prayer.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
-import com.prayer.model.bus.web.StatusCode;
 import com.prayer.model.h2.vx.RuleModel;
+import com.prayer.model.h2.vx.UriModel;
 import com.prayer.uca.WebConvertor;
+import com.prayer.uca.assistant.ErrGenerator;
 import com.prayer.uca.assistant.Interruptor;
 
 import io.vertx.core.Handler;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotNull;
@@ -67,21 +66,19 @@ public class ConversionHandler implements Handler<RoutingContext> {
 	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER,"[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_CONVERTOR);
+		info(LOGGER, "[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_CONVERTOR);
 		// 1.从Context中提取参数信息
-		final String uriId = routingContext.get(Constants.VX_CTX_URI_ID);
-		final HttpServerResponse response = routingContext.response();
+		final UriModel uri = routingContext.get(Constants.VX_CTX_URI);
 		// 2.查找Convertors的数据
-		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service.findConvertors(uriId);
-		final RestfulResult webRet = new RestfulResult(StatusCode.OK);
+		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
+				.findConvertors(uri.getUniqueId());
+		final RestfulResult webRet = RestfulResult.create();
 		// 3.执行Dispatcher功能
 		AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
 		if (null == error) {
 			// SUCCESS ->
 			routingContext.next();
 		} else {
-			response.setStatusCode(webRet.getStatusCode().status());
-			response.setStatusMessage(webRet.getErrorMessage());
 			// 触发错误信息
 			info(LOGGER, "RestfulResult = " + webRet);
 			routingContext.put(Constants.VX_CTX_ERROR, webRet);
@@ -126,15 +123,12 @@ public class ConversionHandler implements Handler<RoutingContext> {
 				ex.printStackTrace();
 			}
 			if (null != error) {
-				webRef.setResponse(null, StatusCode.BAD_REQUEST, error);
+				final RestfulResult webRet = ErrGenerator.error400(error);
+				webRef.copyFrom(webRet);
 			}
 		} else {
 			// 500 Internal Server
-			error = new InternalServerErrorException(getClass());
-			webRef.setResponse(null, StatusCode.INTERNAL_SERVER_ERROR, error);
-		}
-		if (null == error) {
-			webRef.setResponse(null, StatusCode.OK, error);
+			error = ErrGenerator.error500(webRef, getClass());
 		}
 		return error;
 	}

@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +75,7 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 	 * 
 	 */
 	@Override
-	public ServiceResult<Boolean> deployPrayerData() {	// NOPMD
+	public ServiceResult<Boolean> deployPrayerData() { // NOPMD
 		final ServiceResult<Boolean> result = new ServiceResult<>();
 		// 1.删除原始的EVX_VERTICLE表中数据
 		ServiceResult<?> ret = this.getVerticleService().purgeData();
@@ -97,8 +98,8 @@ public class DeploySevImpl extends AbstractConfigSevImpl implements DeployServic
 			// URI中的Param参数List
 			final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
 			for (final UriModel model : uriModels) {
-				final String paramFile = VX_URI_PARAM
-						+ model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".") + ".json";
+				final String paramFile = VX_URI_PARAM + model.getMethod().toString().toLowerCase(Locale.getDefault())
+						+ "/" + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".") + ".json";
 				this.getRuleService().importRules(paramFile, model);
 			}
 		}

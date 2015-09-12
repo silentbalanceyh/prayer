@@ -13,7 +13,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public class RestfulResult extends ServiceResult<JsonObject>implements Serializable {
+public final class RestfulResult extends ServiceResult<JsonObject>implements Serializable {
 
 	// ~ Static Fields =======================================
 	/**
@@ -27,17 +27,11 @@ public class RestfulResult extends ServiceResult<JsonObject>implements Serializa
 	private transient AbstractWebException error;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/** **/
+	public static RestfulResult create(){
+		return new RestfulResult();
+	}
 	// ~ Constructors ========================================
-	/** **/
-	public RestfulResult(final StatusCode statusCode) {
-		this(null, statusCode, null);
-	}
-
-	/** **/
-	public RestfulResult(final JsonObject result, final StatusCode statusCode, final AbstractWebException error) { // NOPMD
-		this.setResponse(result, statusCode, error);
-	}
-
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/**
@@ -46,14 +40,32 @@ public class RestfulResult extends ServiceResult<JsonObject>implements Serializa
 	 * @param statusCode
 	 * @param error
 	 */
-	public void setResponse(final JsonObject result, final StatusCode statusCode, final AbstractWebException error) {
-		this.setResponse(result, error);
+	public void setResponse(final StatusCode statusCode, final AbstractWebException error) {
+		super.setResponse(null, error);
 		this.statusCode = statusCode;
 		this.error = error;
+	}
+	/**
+	 * 拷贝数据
+	 * @param result
+	 */
+	public void copyFrom(final RestfulResult result){
+		this.error = result.getError();
+		this.statusCode = result.getStatusCode();
+		super.setErrorCode(result.getErrorCode());
+		super.setErrorMessage(result.getErrorMessage());
+		super.setResponseCode(result.getResponseCode());
+		super.setResult(result.getResult());
 	}
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	/** 默认构造函数 **/
+	private RestfulResult(){
+		super();
+		this.statusCode = StatusCode.OK;
+		this.error = null;	// NOPMD
+	}
 	// ~ Get/Set =============================================
 	/**
 	 * 

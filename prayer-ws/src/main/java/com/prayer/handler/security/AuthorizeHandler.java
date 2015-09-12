@@ -4,8 +4,6 @@ import static com.prayer.util.Instance.singleton;
 
 import com.prayer.bus.ConfigService;
 import com.prayer.bus.impl.ConfigSevImpl;
-import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.vx.UriModel;
 
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerResponse;
@@ -45,8 +43,6 @@ public class AuthorizeHandler implements Handler<RoutingContext> {
 	@Override
 	@PreValidateThis
 	public void handle(final RoutingContext routingContext) {
-		final ServiceResult<UriModel> result = this.service.findUri(routingContext.request().path(),routingContext.request().method());
-
 		System.out.println("Auth: " + routingContext.request().path());
 		// // This handler will be called for every request
 		HttpServerResponse response = routingContext.response();

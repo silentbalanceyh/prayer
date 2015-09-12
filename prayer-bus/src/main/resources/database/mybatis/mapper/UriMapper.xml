@@ -13,7 +13,8 @@
 		<result column="S_GLOBAL_ID" property="globalId" />
 		<result column="L_REQUIRED_PARAM" property="requiredParam"
 			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
-		<result column="E_ADDRESS" property="address" />
+		<result column="MSG_ADDRESS" property="address" />
+		<result column="S_SCRIPT" property="script" />
 	</resultMap>
 	<insert id="insert" parameterType="Uri" keyColumn="K_ID"
 		keyProperty="uniqueId">
@@ -24,8 +25,9 @@
 				S_METHOD,
 				S_PARAM_TYPE,
 				L_REQUIRED_PARAM,
-				E_ADDRESS,
-				S_GLOBAL_ID
+				MSG_ADDRESS,
+				S_GLOBAL_ID,
+				S_SCRIPT
 			) VALUES (
 				#{uniqueId},
 				#{uri},
@@ -33,7 +35,8 @@
 				#{paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				#{address},
-				#{globalId}
+				#{globalId},
+				#{script}
 			)
 		]]>
 	</insert>
@@ -45,8 +48,9 @@
 				S_METHOD,
 				S_PARAM_TYPE,
 				L_REQUIRED_PARAM,
-				E_ADDRESS,
-				S_GLOBAL_ID
+				MSG_ADDRESS,
+				S_GLOBAL_ID,
+				S_SCRIPT
 			) VALUES
 		]]>
 		<foreach collection="list" item="item" index="index"
@@ -58,7 +62,8 @@
 				#{item.paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				#{item.address},
-				#{item.globalId}
+				#{item.globalId},
+				#{item.script}
 			)]]>
 		</foreach>
 	</insert>
@@ -70,8 +75,9 @@
 				S_METHOD=#{method,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				S_PARAM_TYPE=#{paramType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				E_ADDRESS=#{address},
-				S_GLOBAL_ID=#{globalId}
+				MSG_ADDRESS=#{address},
+				S_GLOBAL_ID=#{globalId},
+				S_SCRIPT=#{script}
 			WHERE K_ID=#{uniqueId}
 		]]>
 	</update>

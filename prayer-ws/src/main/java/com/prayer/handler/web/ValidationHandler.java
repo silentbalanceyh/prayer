@@ -15,18 +15,17 @@ import com.prayer.bus.impl.ConfigSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractWebException;
-import com.prayer.exception.web.InternalServerErrorException;
 import com.prayer.exception.web.ValidationFailureException;
 import com.prayer.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
-import com.prayer.model.bus.web.StatusCode;
 import com.prayer.model.h2.vx.RuleModel;
+import com.prayer.model.h2.vx.UriModel;
 import com.prayer.uca.WebValidator;
+import com.prayer.uca.assistant.ErrGenerator;
 import com.prayer.uca.assistant.Interruptor;
 
 import io.vertx.core.Handler;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotNull;
@@ -53,9 +52,10 @@ public class ValidationHandler implements Handler<RoutingContext> {
 
 	// ~ Static Block ========================================
 	/** 创建方法 **/
-	public static ValidationHandler create(){
+	public static ValidationHandler create() {
 		return new ValidationHandler();
 	}
+
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
@@ -69,26 +69,23 @@ public class ValidationHandler implements Handler<RoutingContext> {
 	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER,"[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_VALIDATION);
+		info(LOGGER, "[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_VALIDATION);
 		// 1.从Context中提取参数信息
-		final String uriId = routingContext.get(Constants.VX_CTX_URI_ID);
-		final HttpServerResponse response = routingContext.response();
+		final UriModel uri = routingContext.get(Constants.VX_CTX_URI);
 		// info(LOGGER, "1.Get URI ID from Context: uri = " + uriId);
 
 		// 2.获取当前路径下的Validator的数据
-		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service.findValidators(uriId);
-		final RestfulResult webRet = new RestfulResult(StatusCode.OK);
+		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
+				.findValidators(uri.getUniqueId());
+		final RestfulResult webRet = RestfulResult.create();
 		// info(LOGGER, "2.Found ServiceResult: result = " + result);
 		// 3.如果获取到值
 		AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
 		// info(LOGGER, "3.Dispatched Error: error = " + error);
 		if (null == error) {
 			// SUCCESS -->
-
 			routingContext.next();
 		} else {
-			response.setStatusCode(webRet.getStatusCode().status());
-			response.setStatusMessage(webRet.getErrorMessage());
 			// 触发错误信息
 			info(LOGGER, "RestfulResult = " + webRet);
 			routingContext.put(Constants.VX_CTX_ERROR, webRet);
@@ -112,17 +109,14 @@ public class ValidationHandler implements Handler<RoutingContext> {
 				error = this.validateField(field, value, validators);
 				// 400 Bad Request
 				if (null != error) {
-					webRef.setResponse(null, StatusCode.BAD_REQUEST, error);
+					final RestfulResult webRet = ErrGenerator.error400(error);
+					webRef.copyFrom(webRet);
 					break;
 				}
 			}
 		} else {
 			// 500 Internal Server
-			error = new InternalServerErrorException(getClass());
-			webRef.setResponse(null, StatusCode.INTERNAL_SERVER_ERROR, error);
-		}
-		if (null == error) {
-			webRef.setResponse(null, StatusCode.OK, error);
+			error = ErrGenerator.error500(webRef, getClass());
 		}
 		return error;
 	}

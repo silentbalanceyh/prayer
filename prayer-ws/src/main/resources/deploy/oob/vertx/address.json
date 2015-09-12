@@ -1,7 +1,6 @@
 [
 	{
 		"workClass":"com.prayer.vx.verticle.RecordWorker",
-		"consumerAddr":"MSG://RECORD/QUEUE",
-		"scriptName":"Q_RECORD"
+		"consumerAddr":"MSG://RECORD/QUEUE"
 	}
 ]

@@ -32,9 +32,6 @@ public class AddressModel implements Serializable { // NOPMD
 	/** S_CONSUMER_ADDR **/
 	@JsonProperty("consumerAddr")
 	private String consumerAddr;
-	/** S_SCRIPT_NAME **/
-	@JsonProperty("scriptName")
-	private String scriptName;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -86,20 +83,6 @@ public class AddressModel implements Serializable { // NOPMD
 	 */
 	public void setConsumerAddr(final String consumerAddr) {
 		this.consumerAddr = consumerAddr;
-	}
-
-	/**
-	 * @return the scriptName
-	 */
-	public String getScriptName() {
-		return scriptName;
-	}
-
-	/**
-	 * @param scriptName the scriptName to set
-	 */
-	public void setScriptName(final String scriptName) {
-		this.scriptName = scriptName;
 	}
 
 	// ~ hashCode,equals,toString ============================

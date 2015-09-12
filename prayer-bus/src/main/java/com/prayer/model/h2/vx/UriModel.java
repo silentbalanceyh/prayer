@@ -51,9 +51,13 @@ public class UriModel implements Serializable { // NOPMD
 	@JsonProperty("globalId")
 	private String globalId;
 	
-	/** E_ADDRESS **/
+	/** MSG_ADDRESS **/
 	@JsonProperty("address")
 	private String address;
+	
+	/** S_SCRIPT **/
+	@JsonProperty("script")
+	private String script;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -164,6 +168,20 @@ public class UriModel implements Serializable { // NOPMD
 	 */
 	public void setGlobalId(final String globalId) {
 		this.globalId = globalId;
+	}
+
+	/**
+	 * @return the script
+	 */
+	public String getScript() {
+		return script;
+	}
+
+	/**
+	 * @param script the script to set
+	 */
+	public void setScript(final String script) {
+		this.script = script;
 	}
 
 	// ~ hashCode,equals,toString ============================
