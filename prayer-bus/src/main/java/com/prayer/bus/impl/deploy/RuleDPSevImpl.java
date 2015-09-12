@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.prayer.bus.deploy.RuleDPService;
-import com.prayer.bus.impl.util.Extractor;
+import com.prayer.bus.impl.util.ResultExtractor;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractSystemException;
@@ -94,7 +94,7 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
 		}
 		// 4.返回最终的Result信息
 		if (ResponseCode.SUCCESS == result.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {
-			final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(dataList, "refUriId");
+			final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(dataList, "refUriId");
 			result.setResponse(listRet, null);
 		}
 		return result;

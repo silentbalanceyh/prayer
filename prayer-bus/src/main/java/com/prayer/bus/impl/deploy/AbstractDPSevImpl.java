@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 
 import com.prayer.bus.deploy.TemplateDPService;
-import com.prayer.bus.impl.util.Extractor;
+import com.prayer.bus.impl.util.ResultExtractor;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractSystemException;
@@ -98,7 +98,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 		final ServiceResult<List<T>> listRet = this.importToList(jsonPath);
 		// 3.直接设置结果
 		if (ResponseCode.SUCCESS == listRet.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {
-			result.setResponse(Extractor.extractEntity(listRet.getResult(), field), null);
+			result.setResponse(ResultExtractor.extractEntity(listRet.getResult(), field), null);
 		}
 		return result;
 	}
@@ -114,7 +114,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 		final ServiceResult<List<T>> listRet = this.importToList(jsonPath);
 		// 3.直接设置结果
 		if (ResponseCode.SUCCESS == listRet.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {
-			result.setResponse(Extractor.extractList(listRet.getResult(), field), null);
+			result.setResponse(ResultExtractor.extractList(listRet.getResult(), field), null);
 		}
 		return result;
 	}

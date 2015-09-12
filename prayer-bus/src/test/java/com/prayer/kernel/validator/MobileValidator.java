@@ -10,7 +10,7 @@ import com.prayer.model.type.DataType;
  * @author Lang
  *
  */
-public class MobileValidator implements Validator{
+public class MobileValidator implements Validator{	// NOPMD
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -20,7 +20,7 @@ public class MobileValidator implements Validator{
 	// ~ Override Methods ====================================
 	/** **/
 	@Override
-	public boolean validate(Value<?> value, Object... params) throws AbstractMetadataException {
+	public boolean validate(final Value<?> value, final Object... params) throws AbstractMetadataException {
 		boolean ret = false;
 		if(DataType.STRING == value.getDataType()){
 			if(value.literal().trim().equals("15922611447")){

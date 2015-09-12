@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 import com.prayer.bus.ConfigService;
-import com.prayer.bus.impl.util.Extractor;
+import com.prayer.bus.impl.util.ResultExtractor;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
@@ -101,7 +101,7 @@ public class ConfigSevImpl implements ConfigService {
 		// 2.读取所有的VerticleModel相关信息
 		final List<VerticleModel> verticles = this.verticleDao.getAll();
 		// 3.设置返回结果
-		result.setResponse(Extractor.extractVerticles(verticles), null);
+		result.setResponse(ResultExtractor.extractVerticles(verticles), null);
 		// 4.返回最终结果
 		return result;
 	}
@@ -129,7 +129,7 @@ public class ConfigSevImpl implements ConfigService {
 		// 2.读取所有的RouteMode相关信息
 		final List<RouteModel> routes = this.routeDao.getAll();
 		// 3.设置返回结果
-		final ConcurrentMap<String, List<RouteModel>> listRet = Extractor.extractList(routes, "parent");
+		final ConcurrentMap<String, List<RouteModel>> listRet = ResultExtractor.extractList(routes, "parent");
 		result.setResponse(listRet, null);
 		// 4.返回最终结果
 		return result;
@@ -144,7 +144,7 @@ public class ConfigSevImpl implements ConfigService {
 		// 2.调用读取方法
 		final List<UriModel> ret = this.uriDao.getByUri(uri);
 		// 3.设置响应信息
-		final ConcurrentMap<HttpMethod, UriModel> retMap = Extractor.extractUris(ret);
+		final ConcurrentMap<HttpMethod, UriModel> retMap = ResultExtractor.extractUris(ret);
 		result.setResponse(retMap, null);
 		return result;
 	}
@@ -161,7 +161,7 @@ public class ConfigSevImpl implements ConfigService {
 		// 3.设置响应结果
 		ret = ret.stream().filter(item -> ComponentType.VALIDATOR == item.getComponentType())
 				.collect(Collectors.toList());
-		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "name");
+		final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
 		result.setResponse(listRet, null);
 		return result;
 	}
@@ -178,7 +178,7 @@ public class ConfigSevImpl implements ConfigService {
 		// 3.设置响应结果
 		ret = ret.stream().filter(item -> ComponentType.CONVERTOR == item.getComponentType())
 				.collect(Collectors.toList());
-		final ConcurrentMap<String, List<RuleModel>> listRet = Extractor.extractList(ret, "name");
+		final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
 		result.setResponse(listRet, null);
 		return result;
 	}

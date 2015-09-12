@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.prayer.bus.deploy.VerticleDPService;
-import com.prayer.bus.impl.util.Extractor;
+import com.prayer.bus.impl.util.ResultExtractor;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractSystemException;
@@ -76,7 +76,7 @@ public class VerticleDPSevImpl extends AbstractDPSevImpl<VerticleModel, String>i
 		final ServiceResult<ConcurrentMap<String, VerticleChain>> result = new ServiceResult<>();
 		final ServiceResult<List<VerticleModel>> retList = this.importToList(jsonPath);
 		if (ResponseCode.SUCCESS == retList.getResponseCode() && Constants.RC_SUCCESS == retList.getErrorCode()) {
-			result.setResponse(Extractor.extractVerticles(retList.getResult()), null);
+			result.setResponse(ResultExtractor.extractVerticles(retList.getResult()), null);
 		}
 		return result;
 	}

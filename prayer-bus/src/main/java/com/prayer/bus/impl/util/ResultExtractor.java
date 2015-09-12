@@ -12,19 +12,25 @@ import com.prayer.util.Instance;
 import com.prayer.util.StringKit;
 
 import io.vertx.core.http.HttpMethod;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
-public final class Extractor {
+@Guarded
+public final class ResultExtractor {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	/** Object extracting **/
-	public static <T> ConcurrentMap<String, T> extractEntity(final List<T> dataList, final String field) {
+	public static <T> ConcurrentMap<String, T> extractEntity(@NotNull final List<T> dataList,
+			@NotNull @NotBlank @NotEmpty final String field) {
 		// 1.构造结果
 		final ConcurrentMap<String, T> retMap = new ConcurrentHashMap<>();
 		// 2.遍历结果集
@@ -36,7 +42,8 @@ public final class Extractor {
 	}
 
 	/** List<Object> extracting **/
-	public static <T> ConcurrentMap<String, List<T>> extractList(final List<T> dataList, final String field) {
+	public static <T> ConcurrentMap<String, List<T>> extractList(@NotNull final List<T> dataList,
+			@NotNull @NotBlank @NotEmpty final String field) {
 		// 1.构造结果
 		final ConcurrentMap<String, List<T>> retMap = new ConcurrentHashMap<>();
 		// 2.遍历结果集
@@ -58,7 +65,7 @@ public final class Extractor {
 	}
 
 	/** **/
-	public static ConcurrentMap<HttpMethod, UriModel> extractUris(final List<UriModel> dataList) {
+	public static ConcurrentMap<HttpMethod, UriModel> extractUris(@NotNull final List<UriModel> dataList) {
 		// 1.构造结果
 		final ConcurrentMap<HttpMethod, UriModel> retMap = new ConcurrentHashMap<>();
 		// 2.遍历结果集
@@ -74,7 +81,7 @@ public final class Extractor {
 	 * @param dataList
 	 * @return
 	 */
-	public static ConcurrentMap<String, VerticleChain> extractVerticles(final List<VerticleModel> dataList) {
+	public static ConcurrentMap<String, VerticleChain> extractVerticles(@NotNull final List<VerticleModel> dataList) {
 		// 1.构造结果
 		final ConcurrentMap<String, VerticleChain> retMap = new ConcurrentHashMap<>();
 		// 2.遍历结果集
@@ -99,7 +106,7 @@ public final class Extractor {
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	private Extractor() {
+	private ResultExtractor() {
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
