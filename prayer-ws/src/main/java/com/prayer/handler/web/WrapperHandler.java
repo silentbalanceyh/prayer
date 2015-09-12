@@ -13,6 +13,7 @@ import com.prayer.uca.assistant.ErrGenerator;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.Session;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -26,12 +27,7 @@ public class WrapperHandler implements Handler<RoutingContext> {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(WrapperHandler.class);
-	/** **/
-	private static final String PARAM_ID = "identifier";
-	/** **/
-	private static final String PARAM_SCRIPT = "script";
-	/** **/
-	private static final String PARAM_DATA = "data";
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	/** 创建方法 **/
@@ -53,9 +49,13 @@ public class WrapperHandler implements Handler<RoutingContext> {
 		// 3.生成封装参数
 		final JsonObject wrapper = new JsonObject();
 		if (null != params && null != uri) {
-			wrapper.put(PARAM_ID, uri.getGlobalId());
-			wrapper.put(PARAM_SCRIPT, uri.getScript());
-			wrapper.put(PARAM_DATA, params);
+			final Session session = routingContext.session();
+			wrapper.put(Constants.PARAM_SESSION, session.id());
+			wrapper.put(Constants.PARAM_ID, uri.getGlobalId());
+			wrapper.put(Constants.PARAM_SCRIPT, uri.getScript());
+			wrapper.put(Constants.PARAM_DATA, params);
+			wrapper.put(Constants.PARAM_URI, uri.getUri());
+			wrapper.put(Constants.PARAM_METHOD, uri.getMethod().toString());
 			routingContext.put(Constants.VX_CTX_PARAMS, wrapper);
 			routingContext.next();
 		} else {

@@ -79,7 +79,19 @@ public interface Constants { // NOPMD
 	String BUS_SCRIPT_NAME = "script";
 	/** Param Data **/
 	String BUS_DATA = "data";
-	
+	// ~ Vertx 参数信息 ======================================
+	/** **/
+	String PARAM_ID = "identifier";
+	/** **/
+	String PARAM_SCRIPT = "script";
+	/** **/
+	String PARAM_DATA = "data";
+	/** **/
+	String PARAM_SESSION = "session.id";
+	/** **/
+	String PARAM_URI = "uri";
+	/** **/
+	String PARAM_METHOD = "method";
 	// ~ Vertx Order =========================================
 	/** Cookie Handler Order **/
 	int VX_OD_COOKIE = -990;
