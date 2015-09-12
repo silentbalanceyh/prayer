@@ -8,10 +8,9 @@ import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 import javax.script.SimpleScriptContext;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -26,13 +25,13 @@ public final class JavaScriptEngine {
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
-	private transient final ScriptEngine ENGINE;
+	private transient final ScriptEngine engine;
 	/** **/
 	@NotNull
-	private transient final Bindings BINDINGS;
+	private transient final Bindings bindings;
 	/** **/
 	@NotNull
-	private transient final ScriptContext CONTEXT;
+	private transient final ScriptContext context;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -40,27 +39,42 @@ public final class JavaScriptEngine {
 	 * 
 	 * @return
 	 */
-	public static JavaScriptEngine getEngine() {
-		return new JavaScriptEngine();
+	public static JavaScriptEngine getEngine(@NotNull final JsonObject data) {
+		return new JavaScriptEngine(data);
 	}
 	// ~ Constructors ========================================
 
-	private JavaScriptEngine() {
-		ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
-		BINDINGS = new SimpleBindings();
-		CONTEXT = new SimpleScriptContext();
+	private JavaScriptEngine(final JsonObject data) {
+		engine = new ScriptEngineManager().getEngineByName("nashorn");
+		bindings = new SimpleBindings();
+		data.forEach(item -> {
+			bindings.put("$" + item.getKey(), item.getValue());
+		});
+		context = new SimpleScriptContext();
+		context.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
+		engine.setContext(context);
 	}
+
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
-	
-	public void execute(@NotNull @NotBlank @NotEmpty final String context){
-		if(null != this.ENGINE){
-			try{
-				this.ENGINE.eval(context, this.CONTEXT);
-			}catch(ScriptException ex){
-				
-			}
+	/**
+	 * 
+	 * @param record
+	 * @param reference
+	 */
+	public void put(@NotNull @NotBlank @NotEmpty final String record, @NotNull final Object reference) {
+		this.bindings.put("$" + record, reference);
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @throws ScriptException
+	 */
+	public void execute(@NotNull @NotBlank @NotEmpty final String context) throws ScriptException {
+		if (null != this.engine) {
+			this.engine.eval(context);
 		}
 	}
 	// ~ Private Methods =====================================

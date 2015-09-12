@@ -1,6 +1,9 @@
 package com.prayer.bus.impl;
 
 import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.singleton;
+
+import javax.script.ScriptException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,10 +11,17 @@ import org.slf4j.LoggerFactory;
 import com.prayer.bus.RecordService;
 import com.prayer.bus.impl.util.ParamExtractor;
 import com.prayer.bus.script.JavaScriptEngine;
+import com.prayer.constant.Constants;
+import com.prayer.dao.record.RecordDao;
+import com.prayer.dao.record.impl.RecordDaoImpl;
+import com.prayer.exception.AbstractException;
+import com.prayer.kernel.Record;
+import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -28,27 +38,38 @@ public class RecordSevImpl implements RecordService {
 	/** **/
 	private transient final ParamExtractor extractor;
 	/** **/
-	private transient final JavaScriptEngine engine;
+	private transient final RecordDao recordDao;
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
 	/** **/
-	public RecordSevImpl(){
+	public RecordSevImpl() {
 		this.extractor = ParamExtractor.create();
-		this.engine = JavaScriptEngine.getEngine();
+		this.recordDao = singleton(RecordDaoImpl.class);
 	}
+
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see com.prayer.bus.RecordService#create(io.vertx.core.json.JsonObject)
 	 */
 	@Override
-	public ServiceResult<JsonObject> save(JsonObject jsonObject) {
+	public ServiceResult<JsonObject> save(@NotNull final JsonObject jsonObject) {
+		final JavaScriptEngine engine = JavaScriptEngine.getEngine(jsonObject.getJsonObject(Constants.PARAM_DATA));
 		info(LOGGER, "[BUS] POST - Method : Params = " + jsonObject.encode());
-		this.engine.execute(extractor.extractJSContent(jsonObject));
-		return null;
+		final ServiceResult<JsonObject> ret = new ServiceResult<>();
+		final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM_ID));
+		try {
+			engine.put("record", record);
+			engine.execute(extractor.extractJSContent(jsonObject));
+			this.recordDao.insert(record);
+		} catch (ScriptException ex) {
+			info(LOGGER, "[BUS] Script Error : ", ex);
+		} catch (AbstractException ex){
+			
+		}
+		return ret;
 	}
 
 	/*
