@@ -69,6 +69,7 @@ public class RecordSevImpl implements RecordService {
 			engine.execute(extractor.extractJSContent(jsonObject));
 			final Record inserted = this.recordDao.insert(record);
 			ret.setResult(extractor.extractRecord(inserted));
+			info(LOGGER,"[BUS] Return Object : Object = " + ret.getResult());
 		} catch (ScriptException ex) {
 			info(LOGGER, "[BUS] Script Error : ", ex);
 		} catch (AbstractException ex) {

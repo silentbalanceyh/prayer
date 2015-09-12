@@ -29,7 +29,6 @@ public final class JavaScriptEngine {
 	/** **/
 	@NotNull
 	private transient final Bindings bindings;
-
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	/**

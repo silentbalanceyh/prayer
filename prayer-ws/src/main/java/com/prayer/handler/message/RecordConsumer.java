@@ -45,35 +45,43 @@ public class RecordConsumer implements Handler<Message<Object>> {
 	@Override
 	@PreValidateThis
 	public void handle(final Message<Object> event) {
-		// 1.从EventBus中接受数据
-		final JsonObject params = (JsonObject) event.body();
-		// 2.获取方法信息
-		final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM_METHOD));
-		// 3.根据方法访问不同的Record方法
-		String content = null;
-		switch (method) {
-		case POST: {
-			final ServiceResult<JsonObject> result = this.recordSev.save(params);
-			content = result.getResult().encodePrettily();
+		try {
+			// 1.从EventBus中接受数据
+			final JsonObject params = (JsonObject) event.body();
+			// 2.获取方法信息
+			final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM_METHOD));
+			// 3.根据方法访问不同的Record方法
+			String content = null;
+			switch (method) {
+			case POST: {
+				final ServiceResult<JsonObject> result = this.recordSev.save(params);
+				JsonObject retJson = result.getResult();
+				if(null == retJson){
+					retJson = new JsonObject();
+				}
+				content = retJson.encodePrettily();
+			}
+				break;
+			case PUT: {
+				final ServiceResult<JsonObject> result = this.recordSev.modify(params);
+				content = result.getResult().encodePrettily();
+			}
+				break;
+			case DELETE: {
+				final ServiceResult<JsonObject> result = this.recordSev.remove(params);
+				content = result.getResult().encodePrettily();
+			}
+				break;
+			default: {
+				final ServiceResult<JsonArray> result = this.recordSev.find(params);
+				content = result.getResult().encodePrettily();
+			}
+				break;
+			}
+			event.reply(content);
+		} catch (Exception ex) {
+			ex.printStackTrace();// NOPMD
 		}
-			break;
-		case PUT: {
-			final ServiceResult<JsonObject> result = this.recordSev.modify(params);
-			content = result.getResult().encodePrettily();
-		}
-			break;
-		case DELETE: {
-			final ServiceResult<JsonObject> result = this.recordSev.remove(params);
-			content = result.getResult().encodePrettily();
-		}
-			break;
-		default: {
-			final ServiceResult<JsonArray> result = this.recordSev.find(params);
-			content = result.getResult().encodePrettily();
-		}
-			break;
-		}
-		event.reply(content);
 	}
 
 	// ~ Methods =============================================
