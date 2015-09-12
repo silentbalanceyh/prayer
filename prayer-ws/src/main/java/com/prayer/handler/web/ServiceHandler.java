@@ -65,7 +65,6 @@ public class ServiceHandler implements Handler<RoutingContext> {
 			final RestfulResult webRet = RestfulResult.create();
 			ErrGenerator.error500(webRet, getClass());
 			// 触发错误信息
-			info(LOGGER, "RestfulResult = " + webRet);
 			routingContext.put(Constants.VX_CTX_ERROR, webRet);
 			routingContext.fail(webRet.getStatusCode().status());
 		}

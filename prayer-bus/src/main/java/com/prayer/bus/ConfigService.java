@@ -56,27 +56,30 @@ public interface ConfigService {
 	 * @param uri
 	 * @return
 	 */
-	ServiceResult<UriModel> findUri(String uri,HttpMethod method);
-	
+	ServiceResult<ConcurrentMap<HttpMethod, UriModel>> findUri(String uri);
+
 	// ~ Uri Parameter Rules ================================
 	/**
 	 * 
 	 * @param uriId
 	 * @return
 	 */
-	ServiceResult<ConcurrentMap<String,List<RuleModel>>> findValidators(String uriId);
+	ServiceResult<ConcurrentMap<String, List<RuleModel>>> findValidators(String uriId);
+
 	/**
 	 * 
 	 * @param uriId
 	 * @return
 	 */
-	ServiceResult<ConcurrentMap<String,List<RuleModel>>> findConvertors(String uriId);
+	ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors(String uriId);
+
 	/**
 	 * 
 	 * @param workClass
 	 * @return
 	 */
 	ServiceResult<AddressModel> findAddress(Class<?> workClass);
+
 	/**
 	 * 
 	 * @param name

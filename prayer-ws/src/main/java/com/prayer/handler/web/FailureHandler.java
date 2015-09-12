@@ -46,9 +46,10 @@ public class FailureHandler implements ErrorHandler {
 	 */
 	@Override
 	public void handle(@NotNull final RoutingContext context) {
-		info(LOGGER, "[VX-I] Failure Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_FAILURE);
+		info(LOGGER, "[VX-E] Failure Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_FAILURE);
 		// 1.从Context中获取处理结果
 		final RestfulResult webRet = (RestfulResult) context.get(Constants.VX_CTX_ERROR);
+		info(LOGGER, "[VX-E] RestfulResult = " + webRet);
 		// 2.包装Error信息生成统一的Error格式
 		final JsonObject retData = webRet.getResult();
 		// 3.获取响应的信息
@@ -64,7 +65,7 @@ public class FailureHandler implements ErrorHandler {
 			response.setStatusMessage(retData.getString(ErrGenerator.ERROR));
 			response.write(content, Resources.SYS_ENCODING);
 		} catch (Exception ex) {
-			info(LOGGER, "[E-VX] Error Occurs.", ex);
+			info(LOGGER, "[VX-E] Error Occurs.", ex);
 		}
 		response.end();
 		response.close();

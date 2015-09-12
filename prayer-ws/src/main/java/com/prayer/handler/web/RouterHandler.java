@@ -9,6 +9,7 @@ import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ import com.prayer.util.StringKit;
 
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -80,7 +82,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 		final HttpServerRequest request = routingContext.request();
 
 		// 2.从系统中按URI读取接口规范
-		final ServiceResult<UriModel> result = this.service.findUri(request.path(), request.method());
+		final ServiceResult<ConcurrentMap<HttpMethod,UriModel>> result = this.service.findUri(request.path());
 		final RestfulResult webRet = RestfulResult.create();
 
 		// 3.请求转发，去除掉Error过后的信息
@@ -90,7 +92,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 		if (null == error) {
 			// SUCCESS -->
 			// 5.1.保存UriModel到Context中
-			final UriModel uri = result.getResult();
+			final UriModel uri = result.getResult().get(request.method());
 			routingContext.put(Constants.VX_CTX_URI, uri);
 			// 6.1.设置参数到Context中提供给下一个Handler处理
 			final JsonObject params = extractParams(routingContext, uri);
@@ -98,7 +100,6 @@ public class RouterHandler implements Handler<RoutingContext> {
 			routingContext.next();
 		} else {
 			// 5.2.保存RestfulResult到Context中
-			info(LOGGER, "RestfulResult = " + webRet);
 			routingContext.put(Constants.VX_CTX_ERROR, webRet);
 			routingContext.fail(webRet.getStatusCode().status());
 		}
@@ -131,20 +132,21 @@ public class RouterHandler implements Handler<RoutingContext> {
 		return retJson;
 	}
 
-	private AbstractWebException requestDispatch(final ServiceResult<UriModel> result, final RestfulResult webRef,
+	private AbstractWebException requestDispatch(final ServiceResult<ConcurrentMap<HttpMethod,UriModel>> result, final RestfulResult webRef,
 			final RoutingContext context) {
 		AbstractWebException error = null;
 		final HttpServerRequest request = context.request();
 		if (ResponseCode.SUCCESS == result.getResponseCode()) {
-			final UriModel uriSpec = result.getResult();
-			if (null == uriSpec) {
+			final ConcurrentMap<HttpMethod,UriModel> uriMap = result.getResult();
+			if (uriMap.isEmpty()) {
 				// 404 Resources Not Found
 				error = ErrGenerator.error404(webRef, getClass(), request.path());
 			} else {
-				if (uriSpec.getMethod() == request.method()) {
+				final UriModel uriSpec = uriMap.get(request.method());
+				if (null != uriSpec) {
 					final String errParam = getErrorParam(uriSpec, context);
 					if (null != errParam) {
-						error = ErrGenerator.error400(webRef, getClass(), -30001, request.path(),
+						error = ErrGenerator.error400E30001(webRef, getClass(), request.path(),
 								uriSpec.getParamType().toString(), errParam);
 					}
 				} else {

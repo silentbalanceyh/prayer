@@ -26,7 +26,7 @@ public class RecordHandler implements Handler<RoutingContext>{
 	// ~ Override Methods ====================================
 	@Override
 	public void handle(final RoutingContext routingContext) {
-		info(LOGGER," [VX-CUSTOM] Handler : " + getClass().getName() + ", RecordHandler Empty Body");
+		info(LOGGER,"[VX-CUSTOM] Handler : " + getClass().getName() + ", RecordHandler Empty Body");
 		routingContext.next();
 	}
 	// ~ Methods =============================================

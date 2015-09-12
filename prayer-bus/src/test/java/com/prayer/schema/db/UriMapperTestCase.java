@@ -65,7 +65,7 @@ public class UriMapperTestCase extends AbstractMapperCase<UriModel, String>{	// 
 		// 插入一条心数据
 		final String uri = entity.getUri();
 		// 重新从数据库中读取数据
-		final UriModel targetT = mapper.selectByUri(uri,entity.getMethod());
+		final UriModel targetT = mapper.selectByUriAndMethod(uri,entity.getMethod());
 		info(getLogger(), "[TD] (SelectByUri) Selected by uri = " + uri);
 		assertEquals("[E] (SelectByUri) Entity in database must be the same as inserted one !", entity, targetT);
 		// 删除插入的新数据
