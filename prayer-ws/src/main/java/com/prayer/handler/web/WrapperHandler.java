@@ -1,14 +1,14 @@
 package com.prayer.handler.web;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.uca.assistant.WebLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
-import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.uca.assistant.ErrGenerator;
+import com.prayer.uca.assistant.HttpErrHandler;
+import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -42,7 +42,7 @@ public class WrapperHandler implements Handler<RoutingContext> {
 	// ~ Override Methods ====================================
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, "[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_WRAPPER);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_WRAPPER);
 		// 2.从系统中读取URI面向业务层的规范
 		final UriModel uri = routingContext.get(Constants.VX_CTX_URI);
 		final JsonObject params = routingContext.get(Constants.VX_CTX_PARAMS);
@@ -60,11 +60,7 @@ public class WrapperHandler implements Handler<RoutingContext> {
 			routingContext.next();
 		} else {
 			// 500 Internal Server
-			final RestfulResult webRet = RestfulResult.create();
-			ErrGenerator.error500(webRet, getClass());
-			// 触发错误信息
-			routingContext.put(Constants.VX_CTX_ERROR, webRet);
-			routingContext.fail(webRet.getStatusCode().status());
+			HttpErrHandler.handle500Error(getClass(), routingContext);
 		}
 	}
 	// ~ Methods =============================================

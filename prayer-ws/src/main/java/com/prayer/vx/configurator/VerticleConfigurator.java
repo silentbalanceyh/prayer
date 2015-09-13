@@ -1,6 +1,6 @@
 package com.prayer.vx.configurator;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.uca.assistant.WebLogger.error;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.LinkedHashMap;
@@ -127,7 +127,7 @@ public class VerticleConfigurator {
 			if (ResponseCode.SUCCESS == result.getResponseCode()) {
 				DATA_MAP.putAll(result.getResult());
 			} else {
-				info(LOGGER, "[I-VX] There are some errors when reading deployment options from H2");
+				error(LOGGER, "There are some errors when reading deployment options from H2");
 			}
 		}
 	}

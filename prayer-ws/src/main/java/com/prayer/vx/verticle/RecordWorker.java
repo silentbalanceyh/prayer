@@ -1,6 +1,6 @@
 package com.prayer.vx.verticle;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.uca.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import org.slf4j.Logger;
@@ -12,6 +12,7 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.handler.message.RecordConsumer;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.AddressModel;
+import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
@@ -45,7 +46,7 @@ public class RecordWorker extends AbstractVerticle {
 	public void start() {
 		// 1.获取当前Worker的类名
 		final Class<?> workClass = getClass();
-		info(LOGGER, "[VX-I] Verticle Worker : " + workClass.getName());
+		info(LOGGER,WebLogger.I_VERTICLE_WORK,workClass.getName());
 		// 2.获取元数据信息
 		final ServiceResult<AddressModel> result = this.configSev.findAddress(workClass);
 		if (ResponseCode.SUCCESS == result.getResponseCode()) {

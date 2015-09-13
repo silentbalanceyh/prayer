@@ -12,11 +12,11 @@ import java.util.Set;
  */
 public interface Constants { // NOPMD
 	// ~ Static Fields =======================================
-	/** 数据库SQL模式　**/
+	/** 数据库SQL模式 **/
 	String DB_MODE_SQL = "SQL";
-	/** 数据库NOSQL模式  **/
+	/** 数据库NOSQL模式 **/
 	String DB_MODE_NOSQL = "NOSQL";
-	
+
 	/** OVol 默认脚本 **/
 	String LANG_GROOVY = "groovy";
 	// ~ System ==============================================
@@ -33,21 +33,21 @@ public interface Constants { // NOPMD
 	/** Default Buffer Size **/
 	int BUFFER_SIZE = 32;
 	// ~ Simple Response Code ================================
-	
+
 	/** 成功返回值 **/
 	int RC_SUCCESS = ZERO;
 	/** 失败返回值 **/
 	int RC_FAILURE = -1;
 	// ~ Type Constants ======================================
 	/** 字符串数组类型 **/
-	String[] T_STR_ARR = new String[]{};
+	String[] T_STR_ARR = new String[] {};
 	/** 用于传参数 **/
-	Object[] T_OBJ_ARR = new Object[]{};
+	Object[] T_OBJ_ARR = new Object[] {};
 	/** 空集合：仅用于传参 **/
 	Set<String> T_STR_SET = new HashSet<>();
 	/** 空列表 ：仅用于传参 **/
 	List<String> T_STR_LST = new ArrayList<>();
-	
+
 	// ~ Spec Literal ========================================
 	/** Json空对象 **/
 	String EMPTY_JOBJ = "{}";
@@ -55,11 +55,11 @@ public interface Constants { // NOPMD
 	String EMPTY_JARR = "[]";
 	/** String空字符串 **/
 	String EMPTY_STR = "";
-	
+
 	// ~ Util ================================================
 	/** 16进制字节数组 **/
-	char[] UTI_HEX_ARR = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-	
+	char[] UTI_HEX_ARR = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+
 	// ~ Vertx Default =======================================
 	/** HA Group Default **/
 	String VX_GROUP = "__DEFAULT__";
@@ -103,7 +103,7 @@ public interface Constants { // NOPMD
 	int VX_OD_AUTH = -970;
 	/** Session Handler Order **/
 	int VX_OD_SESSION = -960;
-	
+
 	/** Router Handler Order **/
 	int VX_OD_ROUTER = -400;
 	/** Validation Handler Order **/
@@ -114,7 +114,17 @@ public interface Constants { // NOPMD
 	int VX_OD_WRAPPER = -100;
 	/** Service Handler Order **/
 	int VX_OD_SERVICE = 100;
-	
+
 	/** Failure Handler **/
 	int VX_OD_FAILURE = 200;
+	// ~ Web Failure =========================================
+
+	/** Status Code: 404,501 etc. **/
+	String STATUS_CODE = "statusCode";
+	/** Status Code Error: NOT_FOUND, INTERNAL_ERROR etc. **/
+	String ERROR = "error";
+	/** Error Message: Exception description **/
+	String ERROR_MSG = "errorMessage";
+	/** SUCCESS/FAILURE/ERROR **/
+	String RESPONSE = "response";
 }

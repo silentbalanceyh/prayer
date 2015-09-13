@@ -1,5 +1,6 @@
 package com.prayer.uca.assistant;
 
+import static com.prayer.uca.assistant.WebLogger.info;
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 
@@ -50,7 +51,7 @@ public final class Interruptor {
 					throws AbstractWebException {
 		if (!config.containsKey(key)) {
 			final AbstractWebException error = new UCAConfigMissingException(clazz, name, clazz.getName(), key);
-			info(LOGGER, "[D-VX] Config Error: " + error.getErrorMessage());
+			info(LOGGER, WebLogger.E_UCA_CONFIG_ERROR,error.getErrorMessage());
 			throw error;
 		}
 	}
@@ -71,7 +72,7 @@ public final class Interruptor {
 		if (null == retStr) {
 			final AbstractWebException error = new UCAConfigErrorException(clazz, name, clazz.getName(),
 					key + " = " + config.getString(key));
-			info(LOGGER, "[D-VX] Config Error: " + error.getErrorMessage());
+			info(LOGGER, WebLogger.E_UCA_CONFIG_ERROR,error.getErrorMessage());
 			throw error;
 		}
 	}
@@ -92,7 +93,7 @@ public final class Interruptor {
 		if (null == retNum) {
 			final AbstractWebException error = new UCAConfigErrorException(clazz, name, clazz.getName(),
 					key + " = " + config.getString(key));
-			info(LOGGER, "[D-VX] Config Error: " + error.getErrorMessage());
+			info(LOGGER, WebLogger.E_UCA_CONFIG_ERROR,error.getErrorMessage());
 			throw error;
 		}
 	}
@@ -138,13 +139,13 @@ public final class Interruptor {
 		}
 		if (!flag) {
 			AbstractWebException error = null;
-			info(LOGGER, "SYS.VX.INVALID", null, componentCls.getName(), className);
+			debug(LOGGER, "SYS.VX.INVALID", null, componentCls.getName(), className);
 			// 需要检查接口
 			if (null != interfaceCls) {
 				try {
 					interruptImplements(clazz, className, interfaceCls);
 				} catch (AbstractWebException ex) {
-					info(LOGGER, "SYS.VX.INVALID", null, interfaceCls.getName(), className);
+					debug(LOGGER, "SYS.VX.INVALID", null, interfaceCls.getName(), className);
 					error = ex;
 				}
 			}

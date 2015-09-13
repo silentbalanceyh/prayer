@@ -1,7 +1,8 @@
 package com.prayer.handler.web;
 
+import static com.prayer.uca.assistant.WebLogger.error;
+import static com.prayer.uca.assistant.WebLogger.info;
 import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.io.UnsupportedEncodingException;
@@ -25,7 +26,8 @@ import com.prayer.exception.AbstractWebException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.uca.assistant.ErrGenerator;
+import com.prayer.uca.assistant.HttpErrHandler;
+import com.prayer.uca.assistant.WebLogger;
 import com.prayer.util.StringKit;
 
 import io.vertx.core.Handler;
@@ -78,7 +80,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 	 */
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, "[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_ROUTER);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_ROUTER);
 		// 1.获取请求Request和相应Response引用
 		final HttpServerRequest request = routingContext.request();
 
@@ -141,27 +143,27 @@ public class RouterHandler implements Handler<RoutingContext> {
 			final ConcurrentMap<HttpMethod, UriModel> uriMap = result.getResult();
 			if (uriMap.isEmpty()) {
 				// 404 Resources Not Found
-				error = ErrGenerator.error404(webRef, getClass(), request.path());
+				error = HttpErrHandler.error404(webRef, getClass(), request.path());
 			} else {
 				final UriModel uriSpec = uriMap.get(request.method());
 				if (null != uriSpec) {
 					final String errParam = getErrorParam(uriSpec, context);
 					if (null != errParam) {
 						if (errParam.equals("DECODE")) {
-							error = ErrGenerator.error400E30010(webRef, getClass(), request.path());
+							error = HttpErrHandler.error400E30010(webRef, getClass(), request.path());
 						} else {
-							error = ErrGenerator.error400E30001(webRef, getClass(), request.path(),
+							error = HttpErrHandler.error400E30001(webRef, getClass(), request.path(),
 									uriSpec.getParamType().toString(), errParam);
 						}
 					}
 				} else {
 					// 405 Method Not Allowed
-					error = ErrGenerator.error405(webRef, getClass(), request.method());
+					error = HttpErrHandler.error405(webRef, getClass(), request.method());
 				}
 			}
 		} else {
 			// 500 Internal Server
-			error = ErrGenerator.error500(webRef, getClass());
+			error = HttpErrHandler.error500(webRef, getClass());
 		}
 		return error;
 	}
@@ -201,7 +203,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 				}
 			} catch (DecodeException ex) {
 				retParam = "DECODE";
-				info(LOGGER, "[VX-E] Decoding error ! " + ex.toString());
+				error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
 			}
 
 		}

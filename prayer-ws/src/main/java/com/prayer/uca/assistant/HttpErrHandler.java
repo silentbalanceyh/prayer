@@ -1,12 +1,11 @@
 package com.prayer.uca.assistant;
 
-import static com.prayer.util.Error.info;
-
-import java.text.MessageFormat;
+import static com.prayer.uca.assistant.WebLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractWebException;
 import com.prayer.exception.web.BodyParamDecodingException;
 import com.prayer.exception.web.InternalServerErrorException;
@@ -18,6 +17,7 @@ import com.prayer.model.bus.web.StatusCode;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -29,24 +29,23 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class ErrGenerator {
+public final class HttpErrHandler {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(ErrGenerator.class);
-	/** Status Code: 404,501 etc. **/
-	public static final String STATUS_CODE = "statusCode";
-	/** Status Code Error: NOT_FOUND, INTERNAL_ERROR etc. **/
-	public static final String ERROR = "error";
-	/** Error Message: Exception description **/
-	public static final String ERROR_MSG = "errorMessage";
-	/** SUCCESS/FAILURE/ERROR **/
-	public static final String RESPONSE = "response";
-	/** Error Http **/
-	private static final String ERROR_HTTP = "[VX-E] Error Code : {0} -> {1}, error = {2}";
+	private static final Logger LOGGER = LoggerFactory.getLogger(HttpErrHandler.class);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+	/** **/
+	@NotNull
+	public static void handle500Error(@NotNull final Class<?> clazz, @NotNull final RoutingContext context) {
+		final RestfulResult webRet = RestfulResult.create();
+		error500(webRet, clazz);
+		context.put(Constants.VX_CTX_ERROR, webRet);
+		context.fail(webRet.getStatusCode().status());
+	}
+
 	/** **/
 	@NotNull
 	public static AbstractWebException error404(@NotNull final RestfulResult webRef, @NotNull final Class<?> clazz,
@@ -54,8 +53,8 @@ public final class ErrGenerator {
 		final AbstractWebException error = new UriSpecificationMissingException(clazz, path);
 		webRef.setResponse(StatusCode.NOT_FOUND, error);
 		webRef.setResult(produceResult(webRef));
-		info(LOGGER, MessageFormat.format(ERROR_HTTP, StatusCode.NOT_FOUND.status(), StatusCode.NOT_FOUND.toString(),
-				error));
+		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.NOT_FOUND.status(), StatusCode.NOT_FOUND.toString(),
+				error.getErrorMessage());
 		return error;
 	}
 
@@ -66,8 +65,8 @@ public final class ErrGenerator {
 		final AbstractWebException error = new MethodNotAllowedException(clazz, method.toString());
 		webRef.setResponse(StatusCode.METHOD_NOT_ALLOWED, error);
 		webRef.setResult(produceResult(webRef));
-		info(LOGGER, MessageFormat.format(ERROR_HTTP, StatusCode.METHOD_NOT_ALLOWED.status(),
-				StatusCode.METHOD_NOT_ALLOWED.toString(), error));
+		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.METHOD_NOT_ALLOWED.status(),
+				StatusCode.METHOD_NOT_ALLOWED.toString(), error.getErrorMessage());
 		return error;
 	}
 
@@ -77,8 +76,8 @@ public final class ErrGenerator {
 		final AbstractWebException error = new InternalServerErrorException(clazz);
 		webRef.setResponse(StatusCode.INTERNAL_SERVER_ERROR, error);
 		webRef.setResult(produceResult(webRef));
-		info(LOGGER, MessageFormat.format(ERROR_HTTP, StatusCode.INTERNAL_SERVER_ERROR.status(),
-				StatusCode.INTERNAL_SERVER_ERROR.toString(), error));
+		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.INTERNAL_SERVER_ERROR.status(),
+				StatusCode.INTERNAL_SERVER_ERROR.toString(), error.getErrorMessage());
 		return error;
 	}
 
@@ -90,11 +89,11 @@ public final class ErrGenerator {
 		final AbstractWebException error = new RequiredParamMissingException(clazz, path, paramType, paramName);
 		webRef.setResponse(StatusCode.BAD_REQUEST, error);
 		webRef.setResult(produceResult(webRef));
-		info(LOGGER, MessageFormat.format(ERROR_HTTP, StatusCode.BAD_REQUEST.status(),
-				StatusCode.BAD_REQUEST.toString(), error));
+		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
+				error.getErrorMessage());
 		return error;
 	}
-	
+
 	/** **/
 	@NotNull
 	public static AbstractWebException error400E30010(@NotNull final RestfulResult webRef,
@@ -102,8 +101,8 @@ public final class ErrGenerator {
 		final AbstractWebException error = new BodyParamDecodingException(clazz, path);
 		webRef.setResponse(StatusCode.BAD_REQUEST, error);
 		webRef.setResult(produceResult(webRef));
-		info(LOGGER, MessageFormat.format(ERROR_HTTP, StatusCode.BAD_REQUEST.status(),
-				StatusCode.BAD_REQUEST.toString(), error));
+		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
+				error.getErrorMessage());
 		return error;
 	}
 
@@ -113,8 +112,8 @@ public final class ErrGenerator {
 		final RestfulResult webRet = RestfulResult.create();
 		webRet.setResponse(StatusCode.BAD_REQUEST, error);
 		webRet.setResult(produceResult(webRet));
-		info(LOGGER, MessageFormat.format(ERROR_HTTP, StatusCode.BAD_REQUEST.status(),
-				StatusCode.BAD_REQUEST.toString(), error));
+		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
+				error.getErrorMessage());
 		return webRet;
 	}
 	// ~ Constructors ========================================
@@ -126,14 +125,14 @@ public final class ErrGenerator {
 	private static JsonObject produceResult(final RestfulResult webRef) {
 		// Error Object
 		final JsonObject response = new JsonObject();
-		response.put(STATUS_CODE, webRef.getStatusCode().status());
-		response.put(ERROR, webRef.getStatusCode().toString());
-		response.put(ERROR_MSG, webRef.getErrorMessage());
-		response.put(RESPONSE, webRef.getResponseCode().toString());
+		response.put(Constants.STATUS_CODE, webRef.getStatusCode().status());
+		response.put(Constants.ERROR, webRef.getStatusCode().toString());
+		response.put(Constants.ERROR_MSG, webRef.getErrorMessage());
+		response.put(Constants.RESPONSE, webRef.getResponseCode().toString());
 		return response;
 	}
 
-	private ErrGenerator() {
+	private HttpErrHandler() {
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

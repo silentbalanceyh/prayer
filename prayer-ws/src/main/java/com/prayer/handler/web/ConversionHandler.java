@@ -1,6 +1,6 @@
 package com.prayer.handler.web;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.uca.assistant.WebLogger.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
@@ -22,8 +22,9 @@ import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.RuleModel;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.uca.WebConvertor;
-import com.prayer.uca.assistant.ErrGenerator;
+import com.prayer.uca.assistant.HttpErrHandler;
 import com.prayer.uca.assistant.Interruptor;
+import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -66,7 +67,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
 	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, "[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_CONVERTOR);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_CONVERTOR);
 		// 1.从Context中提取参数信息
 		final UriModel uri = routingContext.get(Constants.VX_CTX_URI);
 		// 2.查找Convertors的数据
@@ -122,12 +123,12 @@ public class ConversionHandler implements Handler<RoutingContext> {
 				ex.printStackTrace();
 			}
 			if (null != error) {
-				final RestfulResult webRet = ErrGenerator.error400(error);
+				final RestfulResult webRet = HttpErrHandler.error400(error);
 				webRef.copyFrom(webRet);
 			}
 		} else {
 			// 500 Internal Server
-			error = ErrGenerator.error500(webRef, getClass());
+			error = HttpErrHandler.error500(webRef, getClass());
 		}
 		return error;
 	}

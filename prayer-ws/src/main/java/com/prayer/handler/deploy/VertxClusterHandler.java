@@ -1,11 +1,12 @@
 package com.prayer.handler.deploy;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.uca.assistant.WebLogger.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractException;
+import com.prayer.uca.assistant.WebLogger;
 import com.prayer.vx.engine.VerticleDeployer;
 
 import io.vertx.core.AsyncResult;
@@ -54,7 +55,7 @@ public class VertxClusterHandler implements Handler<AsyncResult<Vertx>>{
 			try{
 				deployer.deployVerticles();
 			}catch(AbstractException ex){
-				info(LOGGER,"[E-VX] Cluster vertx met error !",ex);
+				error(LOGGER,WebLogger.E_CLUSTER_ERROR,ex.getErrorMessage());
 			}
 		}
 	}

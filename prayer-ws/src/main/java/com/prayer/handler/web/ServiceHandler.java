@@ -1,15 +1,15 @@
 package com.prayer.handler.web;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.uca.assistant.WebLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.handler.message.RecordSender;
-import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.uca.assistant.ErrGenerator;
+import com.prayer.uca.assistant.HttpErrHandler;
+import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -44,7 +44,7 @@ public class ServiceHandler implements Handler<RoutingContext> {
 	// ~ Override Methods ====================================
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, "[VX-I] Handler : " + getClass().getName() + ", Order : " + Constants.VX_OD_SERVICE);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_SERVICE);
 		// 1.获取请求和相应信息
 		final HttpServerResponse response = routingContext.response();
 		// 2.从系统中读取URI接口规范
@@ -57,11 +57,7 @@ public class ServiceHandler implements Handler<RoutingContext> {
 			bus.send(uri.getAddress(), params, RecordSender.create(response));
 		} else {
 			// 500 Internal Server
-			final RestfulResult webRet = RestfulResult.create();
-			ErrGenerator.error500(webRet, getClass());
-			// 触发错误信息
-			routingContext.put(Constants.VX_CTX_ERROR, webRet);
-			routingContext.fail(webRet.getStatusCode().status());
+			HttpErrHandler.handle500Error(getClass(), routingContext);
 		}
 	}
 	// ~ Methods =============================================

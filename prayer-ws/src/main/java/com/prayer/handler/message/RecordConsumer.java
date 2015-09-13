@@ -55,11 +55,7 @@ public class RecordConsumer implements Handler<Message<Object>> {
 			switch (method) {
 			case POST: {
 				final ServiceResult<JsonObject> result = this.recordSev.save(params);
-				JsonObject retJson = result.getResult();
-				if(null == retJson){
-					retJson = new JsonObject();
-				}
-				content = retJson.encodePrettily();
+				content = result.getResult().encodePrettily();
 			}
 				break;
 			case PUT: {

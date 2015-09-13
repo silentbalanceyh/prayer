@@ -1,6 +1,6 @@
 package com.prayer.vx.configurator;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.uca.assistant.WebLogger.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +77,7 @@ public final class VertxConfigurator {
 			options.setQuorumSize(this.LOADER.getInt("vertx." + name + ".quorum.size"));
 			options.setWarningExceptionTime(this.LOADER.getLong("vertx." + name + ".warning.exception.time"));
 		} else {
-			info(LOGGER, "[I-VX] VertX property file has not been initialized successfully !");
+			error(LOGGER, "VertX property file has not been initialized successfully !");
 		}
 		return options;
 	}

@@ -1,10 +1,10 @@
 package com.prayer.vx.configurator;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.uca.assistant.WebLogger.error;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -20,6 +20,7 @@ import com.prayer.exception.AbstractWebException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.RouteModel;
 import com.prayer.uca.assistant.Interruptor;
+import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -44,10 +45,6 @@ public class RouteConfigurator {
 
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(RouteConfigurator.class);
-	/** Request GlobalHandler Message **/
-	private static final String MSG_REQUEST_HANDLER = "[I-VX] [{0}] {1} Order:{2} -> Request Handler {3}.";
-	/** Failure GlobalHandler Message **/
-	private static final String MSG_FAILURE_HANDLER = "[I-VX] Failure Handler {0} has been registered to {1} with order: {2}.";
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
@@ -165,17 +162,18 @@ public class RouteConfigurator {
 				this.logHandler(metadata, true);
 			}
 		} catch (AbstractWebException ex) {
-			info(LOGGER, "[E-VX] Handler setting met error. Error Message = " + ex.getErrorMessage());
+			error(LOGGER, WebLogger.E_HANDLER_ERROR,ex.getErrorMessage());
 		}
 	}
 
 	private void logHandler(final RouteModel metadata, final boolean failure) {
+		final String registeredUri = metadata.getParent() + metadata.getPath();
 		if (failure) {
-			info(LOGGER, MessageFormat.format(MSG_FAILURE_HANDLER, metadata.getFailureHandler(),
-					metadata.getParent() + metadata.getPath(), metadata.getOrder()));
+			info(LOGGER, WebLogger.I_MSG_FAILURE_HANDLER, metadata.getFailureHandler(), registeredUri,
+					metadata.getOrder());
 		} else {
-			info(LOGGER, MessageFormat.format(MSG_REQUEST_HANDLER, metadata.getMethod().toString(),
-					metadata.getParent() + metadata.getPath(), metadata.getOrder(), metadata.getRequestHandler()));
+			info(LOGGER, WebLogger.I_MSG_REQUEST_HANDLER, metadata.getMethod().toString(), registeredUri,
+					metadata.getOrder(), metadata.getRequestHandler());
 		}
 	}
 	// ~ Get/Set =============================================

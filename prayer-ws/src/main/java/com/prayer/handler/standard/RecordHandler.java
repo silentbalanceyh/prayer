@@ -1,9 +1,11 @@
 package com.prayer.handler.standard;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.uca.assistant.WebLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
@@ -26,7 +28,7 @@ public class RecordHandler implements Handler<RoutingContext>{
 	// ~ Override Methods ====================================
 	@Override
 	public void handle(final RoutingContext routingContext) {
-		info(LOGGER,"[VX-CUSTOM] Handler : " + getClass().getName() + ", RecordHandler Empty Body");
+		info(LOGGER,WebLogger.I_RECORD_HANDLER,getClass().getName());
 		routingContext.next();
 	}
 	// ~ Methods =============================================
