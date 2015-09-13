@@ -24,7 +24,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class ServerConfigurator {
+public class ServerConfigurator {	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServerConfigurator.class);
@@ -41,8 +41,10 @@ public class ServerConfigurator {
 	// ~ Private Methods =====================================
 	/** 获取Http Server Options的选项信息 **/
 	public HttpServerOptions getOptions() {
-		HttpServerOptions options = new HttpServerOptions();
-		if (null != this.LOADER) {
+		final HttpServerOptions options = new HttpServerOptions();
+		if (null == this.LOADER) {
+			error(LOGGER, "Server property file has not been initialized successfully !");
+		} else {
 			// Basic Options
 			final int port = this.LOADER.getInt("server.port");
 			final String host = this.LOADER.getString("server.host");
@@ -53,8 +55,6 @@ public class ServerConfigurator {
 			options.setCompressionSupported(this.LOADER.getBoolean("server.compression.support"));
 			options.setAcceptBacklog(this.LOADER.getInt("server.accept.backlog"));
 			options.setClientAuthRequired(this.LOADER.getBoolean("server.client.auth.required"));
-		} else {
-			error(LOGGER, "Server property file has not been initialized successfully !");
 		}
 		return options;
 	}
@@ -62,7 +62,9 @@ public class ServerConfigurator {
 	/** H2 Database 创建 **/
 	public Server getH2Database() throws SQLException {
 		Server server = null;
-		if (null != this.LOADER) {
+		if (null == this.LOADER) {
+			error(LOGGER, "H2 Database property file has not been initialized successfully !");
+		} else {
 			final int port = this.LOADER.getInt("h2.database.tcp.port");
 			final boolean allowOthers = this.LOADER.getBoolean("h2.database.tcp.allow.others");
 			final List<String> params = new ArrayList<>();
@@ -79,7 +81,9 @@ public class ServerConfigurator {
 	/** H2 Web Console **/
 	public Server getH2WebConsole() throws SQLException {
 		Server server = null;
-		if (null != this.LOADER) {
+		if (null == this.LOADER) {
+			error(LOGGER, "H2 Web Console property file has not been initialized successfully !");
+		} else {
 			final int port = this.LOADER.getInt("h2.database.web.port");
 			final boolean allowOthers = this.LOADER.getBoolean("h2.database.web.allow.others");
 			final List<String> params = new ArrayList<>();

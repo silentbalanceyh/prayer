@@ -35,7 +35,6 @@ public class LengthValidator implements WebValidator {
 	@Override
 	public boolean validate(@NotNull @NotBlank @NotEmpty final String name, @NotNull final Value<?> value,
 			@NotNull final JsonObject config) throws AbstractWebException {
-		// DEBUG: info(LOGGER,"[D-VX] Paramters ( paramName =" + paramName + ", value = " + value.literal() + ", config = " + config.encodePrettily());
 		// 1.检查Validator提供的配置信息
 		Interruptor.interruptNumberConfig(getClass(), name, config, MIN_LENGTH_KEY);
 		Interruptor.interruptNumberConfig(getClass(), name, config, MAX_LENGTH_KEY);

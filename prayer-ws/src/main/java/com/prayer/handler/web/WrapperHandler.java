@@ -40,6 +40,7 @@ public class WrapperHandler implements Handler<RoutingContext> {
 
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
 		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_WRAPPER);
@@ -48,7 +49,10 @@ public class WrapperHandler implements Handler<RoutingContext> {
 		final JsonObject params = routingContext.get(Constants.VX_CTX_PARAMS);
 		// 3.生成封装参数
 		final JsonObject wrapper = new JsonObject();
-		if (null != params && null != uri) {
+		if (null == params || null == uri) {
+			// 500 Internal Server
+			HttpErrHandler.handle500Error(getClass(), routingContext);
+		} else {
 			final Session session = routingContext.session();
 			wrapper.put(Constants.PARAM_SESSION, session.id());
 			wrapper.put(Constants.PARAM_ID, uri.getGlobalId());
@@ -58,9 +62,6 @@ public class WrapperHandler implements Handler<RoutingContext> {
 			wrapper.put(Constants.PARAM_METHOD, uri.getMethod().toString());
 			routingContext.put(Constants.VX_CTX_PARAMS, wrapper);
 			routingContext.next();
-		} else {
-			// 500 Internal Server
-			HttpErrHandler.handle500Error(getClass(), routingContext);
 		}
 	}
 	// ~ Methods =============================================

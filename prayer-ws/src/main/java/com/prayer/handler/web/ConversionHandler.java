@@ -46,7 +46,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
-	private transient ConfigService service;
+	private transient final ConfigService service;
 
 	// ~ Static Block ========================================
 	/** 创建方法 **/
@@ -75,7 +75,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
 				.findConvertors(uri.getUniqueId());
 		final RestfulResult webRet = RestfulResult.create();
 		// 3.执行Dispatcher功能
-		AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
+		final AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
 		if (null == error) {
 			// SUCCESS ->
 			routingContext.next();
@@ -104,7 +104,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
 					// Convertor不可以有多个
 					if (null != convertors) {
 						if (Constants.ONE < convertors.size()) {
-							error = new ConvertorMultiException(getClass(), field);
+							error = new ConvertorMultiException(getClass(), field);	// NOPMD
 							break;
 						} else if (Constants.ONE == convertors.size()) {
 							final RuleModel convertor = convertors.get(Constants.ZERO);

@@ -17,11 +17,12 @@ import net.sf.oval.guard.Guarded;
 
 /**
  * 发布过程的Handler
+ * 
  * @author Lang
  *
  */
 @Guarded
-public class VertxClusterHandler implements Handler<AsyncResult<Vertx>>{
+public class VertxClusterHandler implements Handler<AsyncResult<Vertx>> {
 
 	// ~ Static Fields =======================================
 
@@ -30,20 +31,25 @@ public class VertxClusterHandler implements Handler<AsyncResult<Vertx>>{
 	/**
 	 * 单件实例
 	 */
-	private static VertxClusterHandler HANDLER = null;
+	private static VertxClusterHandler handler;
+
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
-	/** 
+	/**
 	 * 单件模式
+	 * 
 	 * @return
 	 */
-	public static VertxClusterHandler create(){
-		if(null == HANDLER){
-			HANDLER = new VertxClusterHandler();
+	public static VertxClusterHandler create() {
+		synchronized (VertxClusterHandler.class) {
+			if (null == handler) {
+				handler = new VertxClusterHandler();
+			}
+			return handler;
 		}
-		return HANDLER;
 	}
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
@@ -51,14 +57,14 @@ public class VertxClusterHandler implements Handler<AsyncResult<Vertx>>{
 	 * 核心方法
 	 */
 	@Override
-	public void handle(@NotNull final AsyncResult<Vertx> event){
-		if(event.succeeded()){
+	public void handle(@NotNull final AsyncResult<Vertx> event) {
+		if (event.succeeded()) {
 			final Vertx vertx = event.result();
 			final VerticleDeployer deployer = new VerticleDeployer(vertx);
-			try{
+			try {
 				deployer.deployVerticles();
-			}catch(AbstractException ex){
-				error(LOGGER,WebLogger.E_CLUSTER_ERROR,ex.getErrorMessage());
+			} catch (AbstractException ex) {
+				error(LOGGER, WebLogger.E_CLUSTER_ERROR, ex.getErrorMessage());
 			}
 		}
 	}

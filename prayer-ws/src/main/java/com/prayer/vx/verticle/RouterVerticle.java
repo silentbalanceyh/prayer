@@ -42,7 +42,7 @@ public class RouterVerticle extends AbstractVerticle {
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
-	private transient ServerConfigurator configurator;
+	private transient final ServerConfigurator configurator;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -50,6 +50,7 @@ public class RouterVerticle extends AbstractVerticle {
 	/** **/
 	@PostValidateThis
 	public RouterVerticle() {
+		super();
 		this.configurator = singleton(ServerConfigurator.class);
 	}
 

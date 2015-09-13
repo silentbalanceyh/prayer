@@ -27,7 +27,7 @@ public final class Extractor {
 				integer = config.getInteger(key);
 			}
 		} catch (ClassCastException ex) {
-			integer = null;
+			integer = null;	// NOPMD
 		}
 		return integer;
 	}
@@ -45,7 +45,7 @@ public final class Extractor {
 				str = config.getString(key);
 			}
 		} catch (ClassCastException ex) {
-			str = null;
+			str = null;	// NOPMD
 		}
 		return str;
 	}

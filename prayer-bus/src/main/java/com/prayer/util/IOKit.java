@@ -62,7 +62,7 @@ public final class IOKit {
 		try {
 			reader = new BufferedReader(new InputStreamReader(inStream, Resources.SYS_ENCODING));
 			String line = null;
-			while (null != (line = reader.readLine())) {
+			while (null != (line = reader.readLine())) {	// NOPMD
 				builder.append(line).append(Symbol.NEW_LINE);
 			}
 			content = builder.toString();

@@ -38,18 +38,19 @@ public class VerticleDeployer {
 	private static final String SYNC = "Sync";
 	/** **/
 	private static final String ASYNC = "Async";
-	/** **/
-	private static VerticleConfigurator configurator;
 	/** 同步队列 **/
-	private static ConcurrentMap<String, DeploymentOptions> DATA_SYNC = new ConcurrentHashMap<>();
+	private static final ConcurrentMap<String, DeploymentOptions> DATA_SYNC = new ConcurrentHashMap<>();
 	/** 异步队列 **/
-	private static ConcurrentMap<String, DeploymentOptions> DATA_ASYNC = new ConcurrentHashMap<>();
+	private static final ConcurrentMap<String, DeploymentOptions> DATA_ASYNC = new ConcurrentHashMap<>();
 
 	// ~ Instance Fields =====================================
 
 	/** Vertx的唯一全局引用 **/
 	@NotNull
-	private transient Vertx vertxRef;
+	private transient final Vertx vertxRef;
+
+	/** **/
+	private transient VerticleConfigurator configurator;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -91,7 +92,9 @@ public class VerticleDeployer {
 	 * @throws AbstractVertXException
 	 */
 	private void deploySyncVerticles() throws AbstractWebException {
-		if (!DATA_SYNC.isEmpty() && null != this.vertxRef) {
+		if (DATA_SYNC.isEmpty() || null == this.vertxRef) {
+			error(LOGGER, WebLogger.E_VERTICLE_COUNT, SYNC, this.vertxRef, DATA_SYNC.size());
+		} else {
 			info(LOGGER, WebLogger.I_VERTICLE_COUNT, SYNC, DATA_SYNC.size());
 			for (final String name : DATA_SYNC.keySet()) {
 				// 1.检查当前配置
@@ -100,8 +103,6 @@ public class VerticleDeployer {
 				// 2.发布这个Verticle
 				this.vertxRef.deployVerticle(name, DATA_SYNC.get(name));
 			}
-		} else {
-			error(LOGGER, WebLogger.E_VERTICLE_COUNT, SYNC, this.vertxRef, DATA_SYNC.size());
 		}
 	}
 
@@ -111,7 +112,9 @@ public class VerticleDeployer {
 	 * @throws AbstractVertXException
 	 */
 	private void deployAsyncVerticles() throws AbstractWebException {
-		if (!DATA_ASYNC.isEmpty() && null != this.vertxRef) {
+		if (DATA_SYNC.isEmpty() || null == this.vertxRef) {
+			error(LOGGER, WebLogger.E_VERTICLE_COUNT, ASYNC, this.vertxRef, DATA_ASYNC.size());
+		} else {
 			info(LOGGER, WebLogger.I_VERTICLE_COUNT, ASYNC, DATA_ASYNC.size());
 			for (final String name : DATA_ASYNC.keySet()) {
 				// 1.检查当前配置
@@ -120,8 +123,6 @@ public class VerticleDeployer {
 				// 2.发布这个Verticle
 				this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), VerticleAsyncHandler.create());
 			}
-		} else {
-			error(LOGGER, WebLogger.E_VERTICLE_COUNT, ASYNC, this.vertxRef, DATA_ASYNC.size());
 		}
 	}
 	// ~ Get/Set =============================================

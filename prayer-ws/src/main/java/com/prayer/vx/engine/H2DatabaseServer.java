@@ -44,7 +44,7 @@ public class H2DatabaseServer {
 	private transient final DeployService service;
 	/** **/
 	@NotNull
-	private transient ServerConfigurator configurator;
+	private transient final ServerConfigurator configurator;
 	/** **/
 	private transient Server dbServer;
 	/** **/

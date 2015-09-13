@@ -67,6 +67,7 @@ public class FailureHandler implements ErrorHandler {
 			response.setStatusMessage(retData.getString(Constants.ERROR));
 			response.write(content, Resources.SYS_ENCODING);
 		} catch (Exception ex) {
+			// TODO: Debug
 			ex.printStackTrace(); // NOPMD
 			error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
 		}

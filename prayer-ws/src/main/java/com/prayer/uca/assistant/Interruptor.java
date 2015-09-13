@@ -51,7 +51,7 @@ public final class Interruptor {
 					throws AbstractWebException {
 		if (!config.containsKey(key)) {
 			final AbstractWebException error = new UCAConfigMissingException(clazz, name, clazz.getName(), key);
-			info(LOGGER, WebLogger.E_UCA_CONFIG_ERROR,error.getErrorMessage());
+			info(LOGGER, WebLogger.E_UCA_CFG_ERROR,error.getErrorMessage());
 			throw error;
 		}
 	}
@@ -72,7 +72,7 @@ public final class Interruptor {
 		if (null == retStr) {
 			final AbstractWebException error = new UCAConfigErrorException(clazz, name, clazz.getName(),
 					key + " = " + config.getString(key));
-			info(LOGGER, WebLogger.E_UCA_CONFIG_ERROR,error.getErrorMessage());
+			info(LOGGER, WebLogger.E_UCA_CFG_ERROR,error.getErrorMessage());
 			throw error;
 		}
 	}
@@ -93,7 +93,7 @@ public final class Interruptor {
 		if (null == retNum) {
 			final AbstractWebException error = new UCAConfigErrorException(clazz, name, clazz.getName(),
 					key + " = " + config.getString(key));
-			info(LOGGER, WebLogger.E_UCA_CONFIG_ERROR,error.getErrorMessage());
+			info(LOGGER, WebLogger.E_UCA_CFG_ERROR,error.getErrorMessage());
 			throw error;
 		}
 	}
@@ -109,7 +109,7 @@ public final class Interruptor {
 	public static void interruptClass(@NotNull final Class<?> clazz,
 			@NotNull @NotBlank @NotEmpty final String className, @NotNull @NotBlank @NotEmpty final String component)
 					throws AbstractWebException {
-		Class<?> targetClass = Instance.clazz(className);
+		final Class<?> targetClass = Instance.clazz(className);
 		if (null == targetClass) {
 			final AbstractWebException error = new UCANotFoundException(clazz, className);
 			debug(LOGGER, "SYS.VX.CLASS", error, component, className);

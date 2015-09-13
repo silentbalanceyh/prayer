@@ -14,12 +14,12 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public class RecordSender implements Handler<AsyncResult<Message<Object>>> {
+public final class RecordSender implements Handler<AsyncResult<Message<Object>>> {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
-	private transient HttpServerResponse response;
+	private transient final HttpServerResponse response;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================

@@ -1,4 +1,4 @@
-package com.prayer.handler.web;
+package com.prayer.handler.web; // NOPMD
 
 import static com.prayer.uca.assistant.WebLogger.error;
 import static com.prayer.uca.assistant.WebLogger.info;
@@ -48,7 +48,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class RouterHandler implements Handler<RoutingContext> {
+public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 
 	// ~ Static Fields =======================================
 
@@ -89,7 +89,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 		final RestfulResult webRet = RestfulResult.create();
 
 		// 3.请求转发，去除掉Error过后的信息
-		AbstractException error = this.requestDispatch(result, webRet, routingContext);
+		final AbstractException error = this.requestDispatch(result, webRet, routingContext);
 
 		// 4.根据Error设置
 		if (null == error) {
@@ -146,19 +146,19 @@ public class RouterHandler implements Handler<RoutingContext> {
 				error = HttpErrHandler.error404(webRef, getClass(), request.path());
 			} else {
 				final UriModel uriSpec = uriMap.get(request.method());
-				if (null != uriSpec) {
+				if (null == uriSpec) {
+					// 405 Method Not Allowed
+					error = HttpErrHandler.error405(webRef, getClass(), request.method());
+				} else {
 					final String errParam = getErrorParam(uriSpec, context);
 					if (null != errParam) {
-						if (errParam.equals("DECODE")) {
+						if ("DECODE".equals(errParam)) {
 							error = HttpErrHandler.error400E30010(webRef, getClass(), request.path());
 						} else {
 							error = HttpErrHandler.error400E30001(webRef, getClass(), request.path(),
 									uriSpec.getParamType().toString(), errParam);
 						}
 					}
-				} else {
-					// 405 Method Not Allowed
-					error = HttpErrHandler.error405(webRef, getClass(), request.method());
 				}
 			}
 		} else {
@@ -169,7 +169,7 @@ public class RouterHandler implements Handler<RoutingContext> {
 	}
 
 	// 参数规范的处理流程
-	private String getErrorParam(final UriModel uri, final RoutingContext context) {
+	private String getErrorParam(final UriModel uri, final RoutingContext context) { // NOPMD
 		String retParam = null;
 		final List<String> paramList = uri.getRequiredParam();
 		final HttpServerRequest request = context.request();

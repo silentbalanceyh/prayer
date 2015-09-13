@@ -42,6 +42,7 @@ public class ServiceHandler implements Handler<RoutingContext> {
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
 		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_SERVICE);
@@ -50,14 +51,14 @@ public class ServiceHandler implements Handler<RoutingContext> {
 		// 2.从系统中读取URI接口规范
 		final UriModel uri = routingContext.get(Constants.VX_CTX_URI);
 		final JsonObject params = routingContext.get(Constants.VX_CTX_PARAMS);
-		if (null != uri && null != params) {
+		if (null == uri || null == params) {
+			// 500 Internal Server
+			HttpErrHandler.handle500Error(getClass(), routingContext);
+		} else {
 			final Vertx vertx = routingContext.vertx();
 			final EventBus bus = vertx.eventBus();
 			// 发送Message到Event Bus
 			bus.send(uri.getAddress(), params, RecordSender.create(response));
-		} else {
-			// 500 Internal Server
-			HttpErrHandler.handle500Error(getClass(), routingContext);
 		}
 	}
 	// ~ Methods =============================================

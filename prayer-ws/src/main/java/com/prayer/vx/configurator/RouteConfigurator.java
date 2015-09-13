@@ -1,7 +1,7 @@
 package com.prayer.vx.configurator;
 
-import static com.prayer.uca.assistant.WebLogger.info;
 import static com.prayer.uca.assistant.WebLogger.error;
+import static com.prayer.uca.assistant.WebLogger.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
@@ -24,7 +24,6 @@ import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.shareddata.SharedData;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.ErrorHandler;
@@ -48,13 +47,10 @@ public class RouteConfigurator {
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
-	private transient ConfigService service;
+	private transient final ConfigService service;
 	/** 获取唯一的Vertx引用 **/
 	@NotNull
-	private transient Vertx vertxRef;
-	/** 共享数据 **/
-	@NotNull
-	private transient SharedData sharedData;
+	private transient final Vertx vertxRef;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -64,7 +60,6 @@ public class RouteConfigurator {
 	public RouteConfigurator(@NotNull final Vertx vertxRef) {
 		this.service = singleton(ConfigSevImpl.class);
 		this.vertxRef = vertxRef;
-		this.sharedData = vertxRef.sharedData();
 	}
 
 	// ~ Abstract Methods ====================================
@@ -99,9 +94,9 @@ public class RouteConfigurator {
 
 	private Router configRouter(final RouteModel metadata) {
 		// 1.创建Router
-		Router router = Router.router(this.vertxRef);
+		final Router router = Router.router(this.vertxRef);
 		// 2.初始化Route，设置Method
-		Route route = initRoute(router, metadata);
+		final Route route = initRoute(router, metadata);
 		// 3.设置Order
 		if (Constants.VX_DF_ORDER != metadata.getOrder()) {
 			route.order(metadata.getOrder());
@@ -169,10 +164,10 @@ public class RouteConfigurator {
 	private void logHandler(final RouteModel metadata, final boolean failure) {
 		final String registeredUri = metadata.getParent() + metadata.getPath();
 		if (failure) {
-			info(LOGGER, WebLogger.I_MSG_FAILURE_HANDLER, metadata.getFailureHandler(), registeredUri,
+			info(LOGGER, WebLogger.I_MSGH_FAILURE, metadata.getFailureHandler(), registeredUri,
 					metadata.getOrder());
 		} else {
-			info(LOGGER, WebLogger.I_MSG_REQUEST_HANDLER, metadata.getMethod().toString(), registeredUri,
+			info(LOGGER, WebLogger.I_MSGH_REQUEST, metadata.getMethod().toString(), registeredUri,
 					metadata.getOrder(), metadata.getRequestHandler());
 		}
 	}

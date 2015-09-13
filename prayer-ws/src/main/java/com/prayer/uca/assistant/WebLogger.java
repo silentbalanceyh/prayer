@@ -20,9 +20,9 @@ public final class WebLogger {
 	/** **/
 	public static final String I_VERTICLE_COUNT = "({0}) Verticle count number = {1}";
 	/** **/
-	public static final String I_MSG_REQUEST_HANDLER = "[{0}] {1} Order={2} -> Request Handler {3}.";
+	public static final String I_MSGH_REQUEST = "[{0}] {1} Order={2} -> Request Handler {3}.";
 	/** **/
-	public static final String I_MSG_FAILURE_HANDLER = "Failure Handler {0} has been registered to {1}. Order={2}";
+	public static final String I_MSGH_FAILURE = "Failure Handler {0} has been registered to {1}. Order={2}";
 	/** **/
 	public static final String I_SERVER_INFO = "Server will be running -> http://{0}:{1}";
 	/** **/
@@ -55,7 +55,7 @@ public final class WebLogger {
 	/** **/
 	public static final String E_ERROR_HTTP = "Error Code : {0} -> {1}, Error = {2}.";
 	/** **/
-	public static final String E_UCA_CONFIG_ERROR = "UCA Config Error : {0}";
+	public static final String E_UCA_CFG_ERROR = "UCA Config Error : {0}";
 	/** **/
 	public static final String E_H2_DB_ERROR = "Starting H2 Database met error. Error = {0}";
 	// ~ Instance Fields =====================================

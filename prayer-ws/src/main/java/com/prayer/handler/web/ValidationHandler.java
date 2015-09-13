@@ -49,7 +49,7 @@ public class ValidationHandler implements Handler<RoutingContext> {
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
-	private transient ConfigService service;
+	private transient final ConfigService service;
 
 	// ~ Static Block ========================================
 	/** 创建方法 **/
@@ -81,7 +81,7 @@ public class ValidationHandler implements Handler<RoutingContext> {
 		final RestfulResult webRet = RestfulResult.create();
 		// info(LOGGER, "2.Found ServiceResult: result = " + result);
 		// 3.如果获取到值
-		AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
+		final AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
 		// info(LOGGER, "3.Dispatched Error: error = " + error);
 		if (null == error) {
 			// SUCCESS -->

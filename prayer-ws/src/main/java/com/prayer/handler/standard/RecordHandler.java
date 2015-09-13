@@ -9,12 +9,15 @@ import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
+@Guarded
 public class RecordHandler implements Handler<RoutingContext>{
 	// ~ Static Fields =======================================
 	
@@ -26,9 +29,10 @@ public class RecordHandler implements Handler<RoutingContext>{
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/** **/
 	@Override
-	public void handle(final RoutingContext routingContext) {
-		info(LOGGER,WebLogger.I_RECORD_HANDLER,getClass().getName());
+	public void handle(@NotNull final RoutingContext routingContext) {
+		info(LOGGER,WebLogger.I_RECORD_HANDLER,getClass().getName());	
 		routingContext.next();
 	}
 	// ~ Methods =============================================

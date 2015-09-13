@@ -30,6 +30,7 @@ public class EncryptionConvertor implements WebConvertor {
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	/** 核心转换方法 **/
 	@Override
 	public Value<?> convert(@NotNull @NotBlank @NotEmpty final String name, @NotNull final Value<?> value,
 			@NotNull final JsonObject config) throws AbstractWebException {
@@ -52,6 +53,10 @@ public class EncryptionConvertor implements WebConvertor {
 		switch (algorithm.toUpperCase(Locale.getDefault())) {
 		case "MD5":
 			retValue = Encryptor.encryptMD5(inputVal);
+			break;
+		case "SHA1":
+			break;
+		case "RSA":
 			break;
 		default:
 			retValue = inputVal;

@@ -37,11 +37,13 @@ public class RecordWorker extends AbstractVerticle {
 	// ~ Constructors ========================================
 	/** **/
 	public RecordWorker() {
+		super();
 		this.configSev = singleton(ConfigSevImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/** 主要方法，重写start **/
 	@Override
 	public void start() {
 		// 1.获取当前Worker的类名
