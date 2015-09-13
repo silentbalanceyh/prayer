@@ -1,6 +1,7 @@
 package com.prayer.bus.impl;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.bus.impl.util.BusLogger.error;
+import static com.prayer.bus.impl.util.BusLogger.info;
 import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
 
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.SchemaService;
+import com.prayer.bus.impl.util.BusLogger;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.MemoryPool;
 import com.prayer.exception.AbstractSchemaException;
@@ -76,16 +78,16 @@ public class SchemaSevImpl implements SchemaService {
 			// 5.成功代码
 			result.setResponse(schema, null);
 		} catch (AbstractTransactionException ex) {
-			info(LOGGER, "[I-BUS] 4.Data Loading Exception. Loading Data...", ex);
+			error(LOGGER, BusLogger.E_PROCESS_ERR, "4.Data Loading", ex.toString());
 			result.setResponse(null, ex);
 		} catch (SerializationException ex) {
-			info(LOGGER, "[I-BUS] 3.Serialization Exception. ", ex);
+			error(LOGGER, BusLogger.E_PROCESS_ERR, "3.Serialization", ex.toString());
 			result.setResponse(null, ex);
 		} catch (AbstractSystemException ex) {
-			info(LOGGER, "[I-BUS] 1.Reading json schema file. file = " + filePath, ex);
+			error(LOGGER, BusLogger.E_PROCESS_ERR, "1.Reading json schema file. file = " + filePath, ex.toString());
 			result.setResponse(null, ex);
 		} catch (AbstractSchemaException ex) {
-			info(LOGGER, "[I-BUS] 2.Error when verifying json schema.", ex);
+			error(LOGGER, BusLogger.E_PROCESS_ERR, "2.Verifying Schema", ex.toString());
 			result.setResponse(null, ex);
 		}
 		return result;
@@ -131,7 +133,7 @@ public class SchemaSevImpl implements SchemaService {
 			final Boolean ret = this.dao.deleteById(identifier);
 			result.setResponse(ret, null);
 		} catch (AbstractTransactionException ex) {
-			info(LOGGER, "[I-BUS] Removing Schame met error...", ex);
+			error(LOGGER, BusLogger.E_AT_ERROR, ex.toString());
 			result.setResponse(null, ex);
 		}
 		return result;
@@ -146,12 +148,13 @@ public class SchemaSevImpl implements SchemaService {
 		Importer importer = MemoryPool.POOL_IMPORTER.get(filePath);
 		if (null == importer) {
 			importer = reservoir(MemoryPool.POOL_IMPORTER, filePath, CommunionImporter.class, filePath);
-			info(LOGGER, "[IP] Init new importer: file = " + filePath);
+			info(LOGGER, BusLogger.I_IMPORTER_NEW, filePath);
 		} else {
 			importer.refreshSchema(filePath);
-			info(LOGGER, "[IP] Refresh schema of importer: file = " + filePath);
+			info(LOGGER, BusLogger.I_IMPORTER_EXIST, filePath);
 		}
-		return importer;//instance(CommunionImporter.class.getName(), filePath);
+		return importer;// instance(CommunionImporter.class.getName(),
+						// filePath);
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

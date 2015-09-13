@@ -2,8 +2,6 @@ package com.prayer.bus.impl;
 
 import static com.prayer.util.Instance.singleton;
 
-import org.slf4j.Logger;
-
 import com.prayer.bus.SchemaService;
 import com.prayer.bus.deploy.AddressDPService;
 import com.prayer.bus.deploy.RouteDPService;
@@ -28,7 +26,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public abstract class AbstractConfigSevImpl {
+class DeploySevManager {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** 访问H2的EVX_VERTICLE接口 **/
@@ -58,7 +56,7 @@ public abstract class AbstractConfigSevImpl {
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public AbstractConfigSevImpl() {
+	public DeploySevManager() {
 		this.verticleService = singleton(VerticleDPSevImpl.class);
 		this.routeService = singleton(RouteDPSevImpl.class);
 		this.uriService = singleton(UriDPSevImpl.class);
@@ -69,9 +67,6 @@ public abstract class AbstractConfigSevImpl {
 	}
 
 	// ~ Abstract Methods ====================================
-	/** 日志记录器 **/
-	public abstract Logger getLogger();
-
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
@@ -110,20 +105,21 @@ public abstract class AbstractConfigSevImpl {
 	public SchemaService getSchemaService() {
 		return schemaService;
 	}
+
 	/**
 	 * 
 	 * @return
 	 */
-	public AddressDPService getAddressService(){
+	public AddressDPService getAddressService() {
 		return addressService;
 	}
+
 	/**
 	 * 
 	 * @return
 	 */
-	public ScriptDPService getScriptService(){
+	public ScriptDPService getScriptService() {
 		return scriptService;
 	}
 	// ~ hashCode,equals,toString ============================
-
 }

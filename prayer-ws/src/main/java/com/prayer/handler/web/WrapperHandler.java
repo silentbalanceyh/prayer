@@ -57,9 +57,9 @@ public class WrapperHandler implements Handler<RoutingContext> {
 			wrapper.put(Constants.PARAM_SESSION, session.id());
 			wrapper.put(Constants.PARAM_ID, uri.getGlobalId());
 			wrapper.put(Constants.PARAM_SCRIPT, uri.getScript());
-			wrapper.put(Constants.PARAM_DATA, params);
-			wrapper.put(Constants.PARAM_URI, uri.getUri());
 			wrapper.put(Constants.PARAM_METHOD, uri.getMethod().toString());
+			wrapper.put(Constants.PARAM_DATA, params);
+			wrapper.put(Constants.PARAM_FILTERS, uri.getReturnFilters());
 			routingContext.put(Constants.VX_CTX_PARAMS, wrapper);
 			routingContext.next();
 		}

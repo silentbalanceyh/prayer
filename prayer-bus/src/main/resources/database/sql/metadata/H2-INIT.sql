@@ -193,6 +193,7 @@ CREATE TABLE EVX_URI(
 	S_GLOBAL_ID VARCHAR(256),					-- 这个URI地址对应的GLOBAL ID，这个ID最终Record会使用
 	S_SCRIPT VARCHAR(256) NOT NULL,				-- 这个Api调用的脚本名称，业务逻辑层脚本名
 	MSG_ADDRESS VARCHAR(256) NOT NULL,			-- 当前URL对应的Event Bus上的地址信息
+	L_RETURN_FILTERS VARCHAR(2048),				-- 返回结果中需要过滤的属性值
 	PRIMARY KEY(K_ID)
 );
 -- EVX_URI的索引创建

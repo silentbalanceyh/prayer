@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
+import com.prayer.exception.AbstractException;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.uca.assistant.WebLogger;
 
@@ -54,6 +55,9 @@ public class FailureHandler implements ErrorHandler {
 			// 2.获取RestfulResult
 			final RestfulResult webRet = (RestfulResult) context.get(Constants.VX_CTX_ERROR);
 			info(LOGGER, WebLogger.I_REST_RESULT, webRet);
+			if(null != webRet.getError()){
+				throw webRet.getError();
+			}
 			// 3.包装Error信息生成统一的Error格式
 			final JsonObject retData = webRet.getResult();
 			// 4.获取响应的信息
@@ -66,9 +70,7 @@ public class FailureHandler implements ErrorHandler {
 			response.setStatusCode(retData.getInteger(Constants.STATUS_CODE));
 			response.setStatusMessage(retData.getString(Constants.ERROR));
 			response.write(content, Resources.SYS_ENCODING);
-		} catch (Exception ex) {
-			// TODO: Debug
-			ex.printStackTrace(); // NOPMD
+		} catch (AbstractException ex) {
 			error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
 		}
 		response.end();

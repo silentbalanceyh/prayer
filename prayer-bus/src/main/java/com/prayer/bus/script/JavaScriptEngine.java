@@ -8,6 +8,9 @@ import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 import javax.script.SimpleScriptContext;
 
+import com.prayer.constant.Constants;
+import com.prayer.constant.Symbol;
+
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -41,10 +44,10 @@ public final class JavaScriptEngine {
 	// ~ Constructors ========================================
 
 	private JavaScriptEngine(final JsonObject data) {
-		engine = new ScriptEngineManager().getEngineByName("nashorn");
+		engine = new ScriptEngineManager().getEngineByName(Constants.SCRIPT_ENGINE);
 		bindings = new SimpleBindings();
 		data.forEach(item -> {
-			bindings.put("$" + item.getKey(), item.getValue());
+			bindings.put(Symbol.DOLLER + item.getKey(), item.getValue());
 		});
 		final ScriptContext context = new SimpleScriptContext();
 		context.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
@@ -60,7 +63,7 @@ public final class JavaScriptEngine {
 	 * @param reference
 	 */
 	public void put(@NotNull @NotBlank @NotEmpty final String record, @NotNull final Object reference) {
-		this.bindings.put("$" + record, reference);
+		this.bindings.put(Symbol.DOLLER + record, reference);
 	}
 
 	/**

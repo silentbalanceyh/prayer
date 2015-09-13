@@ -118,10 +118,6 @@ public class ConversionHandler implements Handler<RoutingContext> {
 			} catch (AbstractWebException ex) {
 				error = ex;
 			}
-			// TODO: Debug
-			catch (Exception ex) {
-				ex.printStackTrace();
-			}
 			if (null != error) {
 				final RestfulResult webRet = HttpErrHandler.error400(error);
 				webRef.copyFrom(webRet);

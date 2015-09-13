@@ -15,6 +15,8 @@
 			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
 		<result column="MSG_ADDRESS" property="address" />
 		<result column="S_SCRIPT" property="script" />
+		<result column="L_RETURN_FILTERS" property="returnFilters"
+			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
 	</resultMap>
 	<insert id="insert" parameterType="Uri" keyColumn="K_ID"
 		keyProperty="uniqueId">
@@ -27,7 +29,8 @@
 				L_REQUIRED_PARAM,
 				MSG_ADDRESS,
 				S_GLOBAL_ID,
-				S_SCRIPT
+				S_SCRIPT,
+				L_RETURN_FILTERS
 			) VALUES (
 				#{uniqueId},
 				#{uri},
@@ -36,7 +39,8 @@
 				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				#{address},
 				#{globalId},
-				#{script}
+				#{script},
+				#{returnFilters, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
 			)
 		]]>
 	</insert>
@@ -50,7 +54,8 @@
 				L_REQUIRED_PARAM,
 				MSG_ADDRESS,
 				S_GLOBAL_ID,
-				S_SCRIPT
+				S_SCRIPT,
+				L_RETURN_FILTERS
 			) VALUES
 		]]>
 		<foreach collection="list" item="item" index="index"
@@ -63,7 +68,8 @@
 				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				#{item.address},
 				#{item.globalId},
-				#{item.script}
+				#{item.script},
+				#{item.returnFilters, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
 			)]]>
 		</foreach>
 	</insert>
@@ -77,7 +83,8 @@
 				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				MSG_ADDRESS=#{address},
 				S_GLOBAL_ID=#{globalId},
-				S_SCRIPT=#{script}
+				S_SCRIPT=#{script},
+				L_RETURN_FILTERS=#{returnFilters, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
 			WHERE K_ID=#{uniqueId}
 		]]>
 	</update>

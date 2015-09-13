@@ -42,6 +42,7 @@ public final class RecordSender implements Handler<AsyncResult<Message<Object>>>
 	public void handle(@NotNull final AsyncResult<Message<Object>> event) {
 		if (event.succeeded()) {
 			final String data = (String) event.result().body();
+			
 			this.response.end(data);
 		}
 	}

@@ -58,6 +58,10 @@ public class UriModel implements Serializable { // NOPMD
 	/** S_SCRIPT **/
 	@JsonProperty("script")
 	private String script;
+	
+	/** L_RETURN_FILTERS **/
+	@JsonProperty("returnFilters")
+	private List<String> returnFilters = new ArrayList<>();
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -182,6 +186,20 @@ public class UriModel implements Serializable { // NOPMD
 	 */
 	public void setScript(final String script) {
 		this.script = script;
+	}
+
+	/**
+	 * @return the returnFilters
+	 */
+	public List<String> getReturnFilters() {
+		return returnFilters;
+	}
+
+	/**
+	 * @param returnFilters the returnFilters to set
+	 */
+	public void setReturnFilters(final List<String> returnFilters) {
+		this.returnFilters = returnFilters;
 	}
 
 	// ~ hashCode,equals,toString ============================

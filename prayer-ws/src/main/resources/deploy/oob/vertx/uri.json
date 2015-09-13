@@ -10,7 +10,8 @@
 		],
 		"address":"MSG://RECORD/QUEUE",
 		"globalId":"sec.account",
-		"script":"js.get.oauth.authorize"
+		"script":"js.get.oauth.authorize",
+		"returnFilters":["password"]
 	},
 
 	{
@@ -24,6 +25,7 @@
 		],
 		"address":"MSG://RECORD/QUEUE",
 		"globalId":"sec.account",
-		"script":"js.post.oauth.authorize"
+		"script":"js.post.oauth.authorize",
+		"returnFilters":["password"]
 	}
 ]

@@ -19,6 +19,8 @@ public interface Constants { // NOPMD
 
 	/** OVol 默认脚本 **/
 	String LANG_GROOVY = "groovy";
+	/** Script Engine 名称 **/
+	String SCRIPT_ENGINE = "nashorn";
 	// ~ System ==============================================
 	/** System value 2 **/
 	int TWO = 2;
@@ -91,9 +93,9 @@ public interface Constants { // NOPMD
 	/** **/
 	String PARAM_SESSION = "session.id";
 	/** **/
-	String PARAM_URI = "uri";
-	/** **/
 	String PARAM_METHOD = "method";
+	/** **/
+	String PARAM_FILTERS = "filters";
 	// ~ Vertx Order =========================================
 	/** Cookie Handler Order **/
 	int VX_OD_COOKIE = -990;

@@ -17,6 +17,28 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class BusLogger {
 	// ~ Static Fields =======================================
+	/** **/
+	public static final String I_AOP_V_ERROR = "[AOP] Aspect validator met error ! Schema = {0}, Field = {1}";
+	/** **/
+	public static final String I_DPDATA_SUCCESS = "OOB Data deployment successfully !";
+	/** New importer **/
+	public static final String I_IMPORTER_NEW = "(Create) Initialize new metadata importer : file = {0}";
+	/** Exist importer **/
+	public static final String I_IMPORTER_EXIST = "(Update) Refresh new metadata importer : file = {0}";
+	/** Parameters **/
+	public static final String I_PARAM_INFO = "HttpMethod = {0}, Params = {1}";
+	/** Return object **/
+	public static final String I_RESULT_DB = "DB Accessing result is : Return Object = {0}"; 
+	
+	/** **/
+	public static final String E_JS_ERROR = "Script Engine executed script failure: ex = {1}";
+
+	/** **/
+	public static final String E_DPDATA_ERR = "OOB Data deployment met error. Error = {0}";
+	/** **/
+	public static final String E_AT_ERROR = "Abstract transaction exception occurs. ex = {0}";
+	/** **/
+	public static final String E_PROCESS_ERR = "{0} exception occurs, ex = {1}";
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================

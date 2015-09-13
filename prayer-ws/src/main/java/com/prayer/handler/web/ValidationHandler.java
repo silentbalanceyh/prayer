@@ -159,10 +159,6 @@ public class ValidationHandler implements Handler<RoutingContext> {
 		} catch (AbstractWebException ex) {
 			error = ex;
 		}
-		// TODO: Debug
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
 		return error;
 	}
 	// ~ Get/Set =============================================

@@ -6,6 +6,7 @@ import static com.prayer.util.Instance.singleton;
 import com.prayer.bus.RecordService;
 import com.prayer.bus.impl.RecordSevImpl;
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.Handler;
@@ -52,10 +53,8 @@ public final class RecordConsumer implements Handler<Message<Object>> {
 		// 3.根据方法访问不同的Record方法
 		String content = null;
 		switch (method) {
-		case POST: {
-			final ServiceResult<JsonObject> result = this.recordSev.save(params);
-			content = result.getResult().encodePrettily();
-		}
+		case POST:
+			content = this.post(params);
 			break;
 		case PUT: {
 			final ServiceResult<JsonObject> result = this.recordSev.modify(params);
@@ -78,6 +77,18 @@ public final class RecordConsumer implements Handler<Message<Object>> {
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+
+	private String post(final JsonObject params) {
+		final ServiceResult<JsonObject> result = this.recordSev.save(params);
+		String content = Constants.EMPTY_JOBJ;
+		if (ResponseCode.SUCCESS == result.getResponseCode()) {
+			final JsonObject ret = result.getResult();
+			if (null != ret) {
+				content = ret.encodePrettily();
+			}
+		}
+		return content;
+	}
 
 	private RecordConsumer() {
 		this.recordSev = singleton(RecordSevImpl.class);
