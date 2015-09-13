@@ -1,53 +1,58 @@
 {
-	"__meta__": 
-	{
-		"namespace": "com.prayer.model.security",
-		"name": "Account",
-		"category": "ENTITY",
-		"table": "SEC_ACCOUNT",
-		"identifier": "sec.account",
-		"mapping": "DIRECT",
-		"policy": "GUID"
+	"__meta__":{
+		"namespace":"com.prayer.model.security",
+		"name":"Account",
+		"category":"ENTITY",
+		"table":"SEC_ACCOUNT",
+		"identifier":"sec.account",
+		"mapping":"DIRECT",
+		"policy":"GUID"
 	},
-
-	"__keys__": 
-	[
+	"__keys__":[
 		{
-			"name": "PK_SEC_ACCOUNT_ID",
-			"category": "PrimaryKey",
-			"multi": false,
-			"columns": 
-			[
+			"name":"PK_SEC_ACCOUNT_ID",
+			"category":"PrimaryKey",
+			"multi":false,
+			"columns":[
 				"PK_ID"
 			]
+			
+		},
+		{
+			"name":"UK_SEC_ACCOUNT_USERNAME",
+			"category":"UniqueKey",
+			"multi":false,
+			"columns":[
+				"S_USERNAME"
+			]
+			
 		}
+		
 	],
-
-	"__fields__": 
-	[
+	"__fields__":[
 		{
-			"name": "uniqueId",
-			"type": "StringType",
-			"columnName": "PK_ID",
-			"columnType": "STRING1",
-			"primarykey": true,
-			"length": 192
+			"name":"uniqueId",
+			"type":"StringType",
+			"columnName":"PK_ID",
+			"columnType":"STRING1",
+			"primarykey":true,
+			"length":192
 		},
-
 		{
-			"name": "username",
-			"type": "StringType",
-			"columnName": "S_USERNAME",
-			"columnType": "STRING1",
-			"length": 256
+			"name":"username",
+			"type":"StringType",
+			"columnName":"S_USERNAME",
+			"columnType":"STRING1",
+			"unique":true,
+			"length":256
 		},
-
 		{
-			"name": "password",
-			"type": "StringType",
-			"columnName": "S_PASSWORD",
-			"columnType": "STRING1",
-			"length": 512
+			"name":"password",
+			"type":"StringType",
+			"columnName":"S_PASSWORD",
+			"columnType":"STRING1",
+			"length":512
 		}
+		
 	]
 }
