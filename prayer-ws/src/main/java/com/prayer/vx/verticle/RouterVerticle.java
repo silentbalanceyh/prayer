@@ -21,6 +21,7 @@ import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CookieHandler;
+import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.handler.UserSessionHandler;
 import io.vertx.ext.web.sstore.ClusteredSessionStore;
@@ -84,6 +85,8 @@ public class RouterVerticle extends AbstractVerticle {
 			router.route().order(Constants.VX_OD_SESSION)
 					.handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 		}
+		// 跨域访问的Handler设置，目前设置成任何域访问都支持
+		router.route().order(Constants.VX_OD_CORS).handler(CorsHandler.create("*"));
 
 		// 6.最前端的URL处理
 		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_ROUTER).handler(RouterHandler.create());

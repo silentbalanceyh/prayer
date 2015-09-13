@@ -105,6 +105,8 @@ public interface Constants { // NOPMD
 	int VX_OD_AUTH = -970;
 	/** Session Handler Order **/
 	int VX_OD_SESSION = -960;
+	/** CORS Handler **/
+	int VX_OD_CORS = -950;
 
 	/** Router Handler Order **/
 	int VX_OD_ROUTER = -400;
