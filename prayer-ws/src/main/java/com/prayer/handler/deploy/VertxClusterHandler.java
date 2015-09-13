@@ -12,12 +12,15 @@ import com.prayer.vx.engine.VerticleDeployer;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 发布过程的Handler
  * @author Lang
  *
  */
+@Guarded
 public class VertxClusterHandler implements Handler<AsyncResult<Vertx>>{
 
 	// ~ Static Fields =======================================
@@ -48,7 +51,7 @@ public class VertxClusterHandler implements Handler<AsyncResult<Vertx>>{
 	 * 核心方法
 	 */
 	@Override
-	public void handle(final AsyncResult<Vertx> event){
+	public void handle(@NotNull final AsyncResult<Vertx> event){
 		if(event.succeeded()){
 			final Vertx vertx = event.result();
 			final VerticleDeployer deployer = new VerticleDeployer(vertx);

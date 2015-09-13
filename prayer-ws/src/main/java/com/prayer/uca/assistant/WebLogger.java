@@ -35,6 +35,12 @@ public final class WebLogger {
 	public static final String I_REST_RESULT = " RestfulResult = {0}";
 	/** **/
 	public static final String I_VERTICLE_WORK = "Verticle Worker -> {0}";
+	/** **/
+	public static final String I_H2_DB_BEFORE = "{0} H2 {1} on {2}...";
+	/** **/
+	public static final String I_H2_DB_AFTER_ST = "H2 {0} started: RUNNING on {1}!";
+	/** **/
+	public static final String I_H2_DB_AFTER_SP = "H2 {0} stopped.";
 	
 	/** **/
 	public static final String E_VERTICLE_ERROR = "Async deploying verticles failure ! Result = {0}";
@@ -50,6 +56,8 @@ public final class WebLogger {
 	public static final String E_ERROR_HTTP = "Error Code : {0} -> {1}, Error = {2}.";
 	/** **/
 	public static final String E_UCA_CONFIG_ERROR = "UCA Config Error : {0}";
+	/** **/
+	public static final String E_H2_DB_ERROR = "Starting H2 Database met error. Error = {0}";
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================

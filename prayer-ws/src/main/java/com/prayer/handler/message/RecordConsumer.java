@@ -44,7 +44,7 @@ public class RecordConsumer implements Handler<Message<Object>> {
 	/** **/
 	@Override
 	@PreValidateThis
-	public void handle(final Message<Object> event) {
+	public void handle(@NotNull final Message<Object> event) {
 		try {
 			// 1.从EventBus中接受数据
 			final JsonObject params = (JsonObject) event.body();
