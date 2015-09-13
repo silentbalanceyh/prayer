@@ -65,7 +65,8 @@ public class FailureHandler implements ErrorHandler {
 		// 6.设置StatusCode和Error
 		response.setStatusCode(retData.getInteger(Constants.STATUS_CODE));
 		response.setStatusMessage(retData.getString(Constants.ERROR));
-
+		response.write(content, Resources.SYS_ENCODING);
+		
 		response.end();
 		response.close();
 	}
