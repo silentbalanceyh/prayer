@@ -74,15 +74,15 @@ public class H2DatabaseServer {
 		try {
 			// 1.Database Start
 			this.dbServer = configurator.getH2Database();
-			info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", DATABASE, dbServer.getPort());
+			info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", DATABASE, String.valueOf(dbServer.getPort()));
 			this.dbServer.start();
-			info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, DATABASE, dbServer.getPort());
+			info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, DATABASE, String.valueOf(dbServer.getPort()));
 
 			// 2.Web Console Start
 			this.webServer = configurator.getH2WebConsole();
-			info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", WEB_CONSOLE, webServer.getPort());
+			info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", WEB_CONSOLE, String.valueOf(webServer.getPort()));
 			this.webServer.start();
-			info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, WEB_CONSOLE, webServer.getPort());
+			info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, WEB_CONSOLE, String.valueOf(webServer.getPort()));
 		} catch (SQLException ex) {
 			info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
 			ret = false;
@@ -106,12 +106,12 @@ public class H2DatabaseServer {
 	/** 停止Database **/
 	public void stop() {
 		if (null != this.dbServer) {
-			info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Stopping", DATABASE, dbServer.getPort());
+			info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Stopping", DATABASE, String.valueOf(dbServer.getPort()));
 			this.dbServer.stop();
 			info(LOGGER, WebLogger.I_H2_DB_AFTER_SP, DATABASE);
 		}
 		if (null != this.webServer) {
-			info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Stopping", WEB_CONSOLE, webServer.getPort());
+			info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Stopping", WEB_CONSOLE, String.valueOf(webServer.getPort()));
 			this.webServer.stop();
 			info(LOGGER, WebLogger.I_H2_DB_AFTER_SP, WEB_CONSOLE);
 		}

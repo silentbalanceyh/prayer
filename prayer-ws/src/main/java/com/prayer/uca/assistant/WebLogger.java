@@ -38,7 +38,7 @@ public final class WebLogger {
 	/** **/
 	public static final String I_H2_DB_BEFORE = "{0} H2 {1} on {2}...";
 	/** **/
-	public static final String I_H2_DB_AFTER_ST = "H2 {0} started: RUNNING on {1}!";
+	public static final String I_H2_DB_AFTER_ST = "H2 {0} started: RUNNING on {1} !";
 	/** **/
 	public static final String I_H2_DB_AFTER_SP = "H2 {0} stopped.";
 	/** **/
