@@ -147,30 +147,26 @@ public class RouteConfigurator {
 				Interruptor.interruptClass(getClass(), metadata.getRequestHandler(), "GlobalHandler");
 				Interruptor.interruptImplements(getClass(), metadata.getRequestHandler(), Handler.class);
 				route.handler(instance(metadata.getRequestHandler()));
-				this.logHandler(metadata, false);
 			}
 			// FailureHandler
 			if (null != metadata.getFailureHandler()) {
 				Interruptor.interruptClass(getClass(), metadata.getFailureHandler(), "ErrorHandler");
 				Interruptor.interruptImplements(getClass(), metadata.getFailureHandler(), ErrorHandler.class);
 				route.failureHandler(instance(metadata.getFailureHandler()));
-				this.logHandler(metadata, true);
 			}
 		} catch (AbstractWebException ex) {
-			error(LOGGER, WebLogger.E_HANDLER_ERROR,ex.getErrorMessage());
+			error(LOGGER, WebLogger.E_HANDLER_ERROR, ex.getErrorMessage());
 		}
 	}
 
-	private void logHandler(final RouteModel metadata, final boolean failure) {
-		final String registeredUri = metadata.getParent() + metadata.getPath();
-		if (failure) {
-			info(LOGGER, WebLogger.I_MSGH_FAILURE, metadata.getFailureHandler(), registeredUri,
-					metadata.getOrder());
-		} else {
-			info(LOGGER, WebLogger.I_MSGH_REQUEST, metadata.getMethod().toString(), registeredUri,
-					metadata.getOrder(), metadata.getRequestHandler());
-		}
-	}
+	/*
+	 * private void logHandler(final RouteModel metadata, final boolean failure)
+	 * { final String registeredUri = metadata.getParent() + metadata.getPath();
+	 * if (failure) { info(LOGGER, WebLogger.I_MSGH_FAILURE,
+	 * metadata.getFailureHandler(), registeredUri, metadata.getOrder()); } else
+	 * { info(LOGGER, WebLogger.I_MSGH_REQUEST, metadata.getMethod().toString(),
+	 * registeredUri, metadata.getOrder(), metadata.getRequestHandler()); } }
+	 */
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

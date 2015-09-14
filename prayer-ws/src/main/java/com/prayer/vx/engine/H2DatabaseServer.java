@@ -1,8 +1,11 @@
 package com.prayer.vx.engine;
 
+import static com.prayer.uca.assistant.WebLogger.error;
 import static com.prayer.uca.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import org.h2.tools.Server;
@@ -38,6 +41,8 @@ public class H2DatabaseServer {
 	private static final String DATABASE = "Database";
 	/** **/
 	private static final String WEB_CONSOLE = "Web Console";
+	/** **/
+	private static final String LOCK_FILE = "PRAYER.lock";
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
@@ -91,7 +96,7 @@ public class H2DatabaseServer {
 		ServiceResult<Boolean> ret = this.service.initH2Database(Resources.DB_SQL_DIR + MetadataConn.H2_SQL);
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.service.deployPrayerData();
-			if (ResponseCode.SUCCESS == ret.getResponseCode()) {
+			if (ResponseCode.SUCCESS == ret.getResponseCode()) { // NOPMD
 				flag = ret.getResult();
 			}
 		}
@@ -111,6 +116,31 @@ public class H2DatabaseServer {
 			info(LOGGER, WebLogger.I_H2_DB_AFTER_SP, WEB_CONSOLE);
 		}
 	}
+
+	/** 创建锁文件 **/
+	public boolean createLocks() {
+		boolean flag = false;
+		final File file = new File(LOCK_FILE);
+		if (!file.exists()) {
+			try {
+				flag = file.createNewFile();
+			} catch (IOException ex) {
+				error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+			}
+		}
+		return flag;
+	}
+
+	/** 检查锁文件 **/
+	public boolean checkLocks() {
+		boolean flag = false;
+		final File file = new File(LOCK_FILE);
+		if (file.exists() && file.isFile()) {
+			flag = true;
+		}
+		return flag;
+	}
+
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

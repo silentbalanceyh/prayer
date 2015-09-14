@@ -6,6 +6,7 @@ import static com.prayer.uca.assistant.WebLogger.info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.net.HttpHeaders;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.model.bus.web.RestfulResult;
@@ -60,13 +61,13 @@ public class FailureHandler implements ErrorHandler {
 		final String content = retData.encodePrettily();
 
 		// TODO: 5.后期需要改动，测试因为使用浏览器，暂时使用这种
-		response.putHeader("Context-Type", "application/json;charset=" + Resources.SYS_ENCODING);
-		response.putHeader("Content-Length", String.valueOf(content.getBytes().length));
+		response.putHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + Resources.SYS_ENCODING);
+		response.putHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(content.getBytes().length));
 		// 6.设置StatusCode和Error
 		response.setStatusCode(retData.getInteger(Constants.STATUS_CODE));
 		response.setStatusMessage(retData.getString(Constants.ERROR));
 		response.write(content, Resources.SYS_ENCODING);
-		
+
 		response.end();
 		response.close();
 	}

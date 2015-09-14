@@ -10,6 +10,7 @@ import com.prayer.exception.AbstractWebException;
 import com.prayer.exception.web.BodyParamDecodingException;
 import com.prayer.exception.web.InternalServerErrorException;
 import com.prayer.exception.web.MethodNotAllowedException;
+import com.prayer.exception.web.NotAuthorizationException;
 import com.prayer.exception.web.RequiredParamMissingException;
 import com.prayer.exception.web.UriSpecificationMissingException;
 import com.prayer.model.bus.web.RestfulResult;
@@ -44,6 +45,18 @@ public final class HttpErrHandler {
 		error500(webRet, clazz);
 		context.put(Constants.VX_CTX_ERROR, webRet);
 		context.fail(webRet.getStatusCode().status());
+	}
+
+	/** **/
+	@NotNull
+	public static AbstractWebException error401(@NotNull final RestfulResult webRef, @NotNull final Class<?> clazz,
+			@NotNull @NotBlank @NotEmpty final String uri) {
+		final AbstractWebException error = new NotAuthorizationException(clazz, uri);
+		webRef.setResponse(StatusCode.UNAUTHORIZED, error);
+		webRef.setResult(produceResult(webRef));
+		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.UNAUTHORIZED.status(), StatusCode.UNAUTHORIZED.toString(),
+				error.getErrorMessage());
+		return error;
 	}
 
 	/** **/

@@ -44,6 +44,7 @@
 			"columnName":"S_USERNAME",
 			"columnType":"STRING1",
 			"unique":true,
+			"nullable":false,
 			"length":256
 		},
 		{

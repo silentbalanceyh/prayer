@@ -17,14 +17,33 @@
 			<artifactId>prayer-bus</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<!-- Vertx Web -->
 		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-web</artifactId>
 			<version>${vertx.version}</version>
 		</dependency>
+		<!-- Vertx Hazelcast -->
 		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-hazelcast</artifactId>
+			<version>${vertx.version}</version>
+		</dependency>
+		<!-- Vertx CodeGen -->
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-codegen</artifactId>
+			<version>${vertx.version}</version>
+		</dependency>
+		<!-- Security -->
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-auth-common</artifactId>
+			<version>${vertx.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-auth-jdbc</artifactId>
 			<version>${vertx.version}</version>
 		</dependency>
 	</dependencies>

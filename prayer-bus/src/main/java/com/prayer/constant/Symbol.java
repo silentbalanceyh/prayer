@@ -26,6 +26,8 @@ public interface Symbol {	// NOPMD
 	char EQUAL = '=';
 	/** 美元符号 **/
 	char DOLLER = '$';
+	/** 点操作符 **/
+	char DOT = '.';
 	/** 换行符 **/
 	String NEW_LINE = "\n";
 }

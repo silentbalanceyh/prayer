@@ -55,8 +55,14 @@ public final class SystemEnum { 	// NOPMD
 	}
 	/** Rule的类型，目前仅包含验证器和转换器 **/
 	public static enum ComponentType{
-		VALIDATOR,	// 
-		CONVERTOR	//
+		VALIDATOR,	// Validator
+		CONVERTOR	// Convertor
+	}
+	/** 认证模式 **/
+	public static enum SecurityMode{
+		BASIC,		// BASIC
+		DIGEST,		// DIGEST
+		OAUTH2		// OAUTH2
 	}
 	// ~ Constructors ========================================
 	private SystemEnum(){}

@@ -5,14 +5,16 @@ import static com.prayer.util.Instance.singleton;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.SecurityMode;
+import com.prayer.handler.security.BasicAuthHandler;
 import com.prayer.handler.web.ConversionHandler;
 import com.prayer.handler.web.FailureHandler;
 import com.prayer.handler.web.RouterHandler;
 import com.prayer.handler.web.ServiceHandler;
 import com.prayer.handler.web.ValidationHandler;
 import com.prayer.handler.web.WrapperHandler;
-import com.prayer.security.OAuth2Provider;
 import com.prayer.vx.configurator.RouteConfigurator;
+import com.prayer.vx.configurator.SecurityConfigurator;
 import com.prayer.vx.configurator.ServerConfigurator;
 
 import io.vertx.core.AbstractVerticle;
@@ -44,6 +46,9 @@ public class RouterVerticle extends AbstractVerticle {
 	/** **/
 	@NotNull
 	private transient final ServerConfigurator configurator;
+	/** **/
+	@NotNull
+	private transient final SecurityConfigurator securitor;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -53,6 +58,7 @@ public class RouterVerticle extends AbstractVerticle {
 	public RouterVerticle() {
 		super();
 		this.configurator = singleton(ServerConfigurator.class);
+		this.securitor = singleton(SecurityConfigurator.class);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -70,25 +76,44 @@ public class RouterVerticle extends AbstractVerticle {
 
 		// 3.根路径Router
 		final Router router = Router.router(vertx);
-		router.route().order(Constants.VX_OD_COOKIE).handler(CookieHandler.create());
-		router.route().order(Constants.VX_OD_BODY).handler(BodyHandler.create());
+		injectWebDefault(router);
 
 		// 4.AuthProvider创建
-		final AuthProvider authProvider = OAuth2Provider.create(vertx);
-		router.route().handler(UserSessionHandler.create(authProvider));
+		injectSecurity(router);
 
 		// 5.Session的使用设置
-		if (vertx.isClustered()) {
-			router.route().order(Constants.VX_OD_SESSION)
-					.handler(SessionHandler.create(ClusteredSessionStore.create(vertx)));
-		} else {
-			router.route().order(Constants.VX_OD_SESSION)
-					.handler(SessionHandler.create(LocalSessionStore.create(vertx)));
-		}
-		// 跨域访问的Handler设置，目前设置成任何域访问都支持
-		router.route().order(Constants.VX_OD_CORS).handler(CorsHandler.create("*"));
+		injectSession(router);
 
 		// 6.最前端的URL处理
+		injectStandard(router);
+
+		// 7.设置Sub Router
+		subRouters.forEach((subRouter, value) -> {
+			router.mountSubRouter(value, subRouter);
+		});
+
+		// 8.监听Cluster端口
+		server.requestHandler(router::accept).listen();
+	}
+
+	// ~ Methods =============================================
+	// ~ Private Methods =====================================
+	private void injectSecurity(final Router router) {
+		final AuthProvider authProvider = this.securitor.getProvider();
+		router.route().handler(UserSessionHandler.create(authProvider));
+		if (SecurityMode.BASIC == this.securitor.getMode()) {
+			router.route(Constants.VX_AUTH_ROOT).order(Constants.VX_OD_AUTH)
+					.handler(BasicAuthHandler.create(authProvider));
+		}
+	}
+
+	private void injectWebDefault(final Router router) {
+		router.route().order(Constants.VX_OD_COOKIE).handler(CookieHandler.create());
+		router.route().order(Constants.VX_OD_BODY).handler(BodyHandler.create());
+		router.route().order(Constants.VX_OD_CORS).handler(CorsHandler.create("*"));
+	}
+
+	private void injectStandard(final Router router) {
 		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_ROUTER).handler(RouterHandler.create());
 		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_VALIDATION).handler(ValidationHandler.create());
 		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_CONVERTOR).handler(ConversionHandler.create());
@@ -96,17 +121,17 @@ public class RouterVerticle extends AbstractVerticle {
 		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_WRAPPER).handler(WrapperHandler.create());
 		// 7.Failure处理器设置
 		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_FAILURE).failureHandler(FailureHandler.create());
-
-		// 8.设置Sub Router
-		subRouters.forEach((subRouter, value) -> {
-			router.mountSubRouter(value, subRouter);
-		});
-
-		// 9.监听Cluster端口
-		server.requestHandler(router::accept).listen();
 	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
+
+	private void injectSession(final Router router) {
+		if (vertx.isClustered()) {
+			router.route().order(Constants.VX_OD_SESSION)
+					.handler(SessionHandler.create(ClusteredSessionStore.create(vertx)));
+		} else {
+			router.route().order(Constants.VX_OD_SESSION)
+					.handler(SessionHandler.create(LocalSessionStore.create(vertx)));
+		}
+	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }
