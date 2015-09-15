@@ -125,12 +125,12 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
 
 		// 2.字段名、数据类型
 		sql.append(field.getColumnName()).append(SPACE).append(columnType);
-		// 3.包含了length属性的字段构建
-		if (ArraysUtil.contains(lengthTypes, columnType)) {
-			sql.append(BRACKET_SL).append(field.getLength()).append(BRACKET_SR);
-		} else if (ArraysUtil.contains(precisionTypes, columnType)) {
+		// 3.包含了length属性的字段构建，先precision，再length
+		if (ArraysUtil.contains(precisionTypes, columnType)) {
 			sql.append(BRACKET_SL).append(field.getLength()).append(COMMA).append(field.getPrecision())
-					.append(BRACKET_SR);
+			.append(BRACKET_SR);
+		} else if (ArraysUtil.contains(lengthTypes, columnType)) {
+			sql.append(BRACKET_SL).append(field.getLength()).append(BRACKET_SR);
 		}
 		// 4.中间空白字符
 		sql.append(SPACE);
