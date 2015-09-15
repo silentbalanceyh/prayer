@@ -100,7 +100,7 @@ public class RouterVerticle extends AbstractVerticle {
 	// ~ Private Methods =====================================
 	private void injectSecurity(final Router router) {
 		final AuthProvider authProvider = this.securitor.getProvider();
-		router.route().handler(UserSessionHandler.create(authProvider));
+		router.route().order(Constants.VX_OD_USER_SESSION).handler(UserSessionHandler.create(authProvider));
 		if (SecurityMode.BASIC == this.securitor.getMode()) {
 			router.route(Constants.VX_AUTH_ROOT).order(Constants.VX_OD_AUTH)
 					.handler(BasicAuthHandler.create(authProvider));

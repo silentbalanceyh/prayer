@@ -49,13 +49,13 @@ public final class EngineLauncher {
 				final VertxFactory factory = configurator.getFactory();
 				// 3.判断是普通环境还是Cluster环境
 				if (options.isClustered()) {
-					final Config hazelcastConfig = new Config();
-					final ClusterManager mgr = new HazelcastClusterManager(hazelcastConfig);
+					final Config hazelcastConfig = singleton(Config.class);
+					final ClusterManager mgr = singleton(HazelcastClusterManager.class, hazelcastConfig);
 					options.setClusterManager(mgr);
-					factory.clusteredVertx(options, VertxClusterHandler.create());
+					factory.clusteredVertx(options, singleton(VertxClusterHandler.class));
 				} else {
 					final Vertx vertx = factory.vertx(options);
-					final VerticleDeployer deployer = new VerticleDeployer(vertx);
+					final VerticleDeployer deployer = singleton(VerticleDeployer.class, vertx);
 					deployer.deployVerticles();
 				}
 			}

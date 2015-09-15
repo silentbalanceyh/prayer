@@ -121,7 +121,7 @@ public class VerticleDeployer {
 				Interruptor.interruptClass(getClass(), name, "Verticle");
 				Interruptor.interruptExtends(getClass(), name, AbstractVerticle.class, Verticle.class);
 				// 2.发布这个Verticle
-				this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), VerticleAsyncHandler.create());
+				this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), singleton(VerticleAsyncHandler.class));
 			}
 		}
 	}

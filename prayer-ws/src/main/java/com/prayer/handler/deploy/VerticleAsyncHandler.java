@@ -28,16 +28,6 @@ public class VerticleAsyncHandler implements Handler<AsyncResult<String>> {
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
-	/**
-	 * 注意DeploymentHandler和ClusterHandler的单件模式不同，因为Deployment是针对Verticle的，
-	 * 所以不需要使用单件模式
-	 * 
-	 * @return
-	 */
-	public static VerticleAsyncHandler create() {
-		return new VerticleAsyncHandler();
-	}
-
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================

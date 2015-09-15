@@ -28,27 +28,9 @@ public class VertxClusterHandler implements Handler<AsyncResult<Vertx>> {
 
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(VertxClusterHandler.class);
-	/**
-	 * 单件实例
-	 */
-	private static VertxClusterHandler handler;
-
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
-	/**
-	 * 单件模式
-	 * 
-	 * @return
-	 */
-	public static VertxClusterHandler create() {
-		synchronized (VertxClusterHandler.class) {
-			if (null == handler) {
-				handler = new VertxClusterHandler();
-			}
-			return handler;
-		}
-	}
 
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
