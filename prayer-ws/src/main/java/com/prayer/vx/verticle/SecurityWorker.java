@@ -2,8 +2,8 @@ package com.prayer.vx.verticle;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.bus.ConfigService;
-import com.prayer.bus.impl.ConfigSevImpl;
+import com.prayer.bus.deploy.oob.ConfigSevImpl;
+import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.handler.message.SecurityConsumer;
 import com.prayer.model.bus.ServiceResult;

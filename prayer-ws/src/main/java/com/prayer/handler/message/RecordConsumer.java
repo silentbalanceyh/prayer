@@ -3,8 +3,8 @@ package com.prayer.handler.message;
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.bus.RecordService;
-import com.prayer.bus.impl.RecordSevImpl;
+import com.prayer.bus.std.RecordService;
+import com.prayer.bus.std.impl.RecordSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
@@ -33,13 +33,12 @@ public final class RecordConsumer implements Handler<Message<Object>> {
 	private transient final RecordService recordSev;
 
 	// ~ Static Block ========================================
-	/** **/
-	public static RecordConsumer create() {
-		return new RecordConsumer();
-	}
-
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	/** **/
+	public RecordConsumer() {
+		this.recordSev = singleton(RecordSevImpl.class);
+	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/** **/
@@ -88,10 +87,6 @@ public final class RecordConsumer implements Handler<Message<Object>> {
 			}
 		}
 		return content;
-	}
-
-	private RecordConsumer() {
-		this.recordSev = singleton(RecordSevImpl.class);
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

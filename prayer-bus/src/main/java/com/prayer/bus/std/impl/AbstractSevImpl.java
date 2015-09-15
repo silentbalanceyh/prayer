@@ -1,19 +1,17 @@
-package com.prayer.bus.impl;
+package com.prayer.bus.std.impl;
 
-import static com.prayer.bus.impl.util.BusLogger.error;
-import static com.prayer.bus.impl.util.BusLogger.info;
+import static com.prayer.bus.util.BusLogger.error;
+import static com.prayer.bus.util.BusLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import javax.script.ScriptException;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.RecordService;
-import com.prayer.bus.impl.util.BusLogger;
-import com.prayer.bus.impl.util.Interruptor;
-import com.prayer.bus.impl.util.ParamExtractor;
 import com.prayer.bus.script.JavaScriptEngine;
+import com.prayer.bus.util.BusLogger;
+import com.prayer.bus.util.Interruptor;
+import com.prayer.bus.util.ParamExtractor;
 import com.prayer.constant.Constants;
 import com.prayer.dao.record.RecordDao;
 import com.prayer.dao.record.impl.RecordDaoImpl;
@@ -23,22 +21,15 @@ import com.prayer.kernel.Record;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.ServiceResult;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
-/**
- * 
- * @author Lang
- *
- */
+/** **/
 @Guarded
-public class RecordSevImpl implements RecordService {
+public abstract class AbstractSevImpl {
 	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(RecordSevImpl.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
@@ -52,24 +43,25 @@ public class RecordSevImpl implements RecordService {
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public RecordSevImpl() {
+	public AbstractSevImpl() {
 		this.extractor = ParamExtractor.create();
 		this.recordDao = singleton(RecordDaoImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
+	/** **/
+	public abstract Logger getLogger();
+
 	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public ServiceResult<JsonObject> save(@NotNull final JsonObject jsonObject) {
+	// ~ Methods =============================================
+	/** **/
+	protected ServiceResult<JsonObject> sharedSave(@NotNull final JsonObject jsonObject) {
 		final ServiceResult<JsonObject> ret = new ServiceResult<>();
 		final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
 		if (null == error) {
 			// 1. 初始化脚本引擎以及Record对象
 			final JavaScriptEngine engine = JavaScriptEngine.getEngine(jsonObject.getJsonObject(Constants.PARAM_DATA));
-			info(LOGGER, BusLogger.I_PARAM_INFO, "POST", jsonObject.encode());
+			info(getLogger(), BusLogger.I_PARAM_INFO, "POST", jsonObject.encode());
 			final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM_ID));
 			try {
 				// 2. 将Java和脚本引擎连接实现变量共享
@@ -81,9 +73,9 @@ public class RecordSevImpl implements RecordService {
 				// 4. 根据Filters的内容过滤属性
 				this.extractor.filterRecord(retJson, jsonObject);
 				ret.setResult(retJson);
-				info(LOGGER, BusLogger.I_RESULT_DB, ret.getResult().encode());
+				info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
 			} catch (ScriptException ex) {
-				error(LOGGER, BusLogger.E_JS_ERROR, ex.toString());
+				error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
 				ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
 			} catch (AbstractException ex) {
 				ret.setResponse(null, ex);
@@ -93,30 +85,7 @@ public class RecordSevImpl implements RecordService {
 		}
 		return ret;
 	}
-
-	/** **/
-	@Override
-	public ServiceResult<JsonObject> remove(@NotNull final JsonObject jsonObject) {
-		info(LOGGER, BusLogger.I_PARAM_INFO, "DELETE", jsonObject.encode());
-		return null;
-	}
-
-	/** **/
-	@Override
-	public ServiceResult<JsonObject> modify(@NotNull final JsonObject jsonObject) {
-		info(LOGGER, BusLogger.I_PARAM_INFO, "PUT", jsonObject.encode());
-		return null;
-	}
-
-	/** **/
-	@Override
-	public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
-		info(LOGGER, BusLogger.I_PARAM_INFO, "GET", jsonObject.encode());
-		return null;
-	}
-	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
-
 }

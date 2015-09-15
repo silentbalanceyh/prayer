@@ -1,4 +1,4 @@
-package com.prayer.bus.impl.util;
+package com.prayer.bus.util;
 
 import java.util.ArrayList;
 import java.util.List;

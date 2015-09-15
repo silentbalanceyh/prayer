@@ -1,19 +1,24 @@
 package com.prayer.handler.web;
 
+import static com.prayer.uca.assistant.WebLogger.error;
 import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.util.Instance.instance;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
-import com.prayer.handler.message.EventBusSender;
+import com.prayer.exception.AbstractWebException;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.uca.assistant.HttpErrHandler;
+import com.prayer.uca.assistant.Interruptor;
 import com.prayer.uca.assistant.WebLogger;
 
+import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -58,8 +63,19 @@ public class ServiceHandler implements Handler<RoutingContext> {
 		} else {
 			final Vertx vertx = routingContext.vertx();
 			final EventBus bus = vertx.eventBus();
-			// 发送Message到Event Bus
-			bus.send(uri.getAddress(), params, EventBusSender.create(response));
+			// 设置Class类信息
+			try {
+				// 发送Message到Event Bus
+				final Handler<AsyncResult<Message<Object>>> sender = instance(uri.getSender(), response);
+				// 检查Sender的合法性
+				Interruptor.interruptClass(getClass(), uri.getSender(), "Sender");
+				Interruptor.interruptImplements(getClass(), uri.getSender(), Handler.class);
+				// 通过Sender发送Message
+				bus.send(uri.getAddress(), params, sender);
+			} catch (AbstractWebException ex) {
+				error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+				HttpErrHandler.handle500Error(getClass(), routingContext);
+			}
 		}
 	}
 	// ~ Methods =============================================

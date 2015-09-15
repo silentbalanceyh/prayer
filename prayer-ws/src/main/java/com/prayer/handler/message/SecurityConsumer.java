@@ -3,8 +3,8 @@ package com.prayer.handler.message;
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.bus.RecordService;
-import com.prayer.bus.impl.RecordSevImpl;
+import com.prayer.bus.std.RecordService;
+import com.prayer.bus.std.impl.RecordSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;

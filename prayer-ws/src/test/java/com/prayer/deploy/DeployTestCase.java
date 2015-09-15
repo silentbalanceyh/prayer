@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.prayer.bus.DeployService;
-import com.prayer.bus.impl.DeploySevImpl;
+import com.prayer.bus.deploy.oob.DeploySevImpl;
+import com.prayer.bus.std.DeployService;
 import com.prayer.constant.Resources;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.db.conn.impl.MetadataConnImpl;

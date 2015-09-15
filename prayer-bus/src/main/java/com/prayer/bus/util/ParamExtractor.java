@@ -1,14 +1,14 @@
-package com.prayer.bus.impl.util;
+package com.prayer.bus.util;
 
 import static com.prayer.util.Instance.singleton;
 
 import java.util.Iterator;
 import java.util.Set;
 
-import com.prayer.bus.ConfigService;
-import com.prayer.bus.SchemaService;
-import com.prayer.bus.impl.ConfigSevImpl;
-import com.prayer.bus.impl.SchemaSevImpl;
+import com.prayer.bus.deploy.oob.ConfigSevImpl;
+import com.prayer.bus.std.ConfigService;
+import com.prayer.bus.std.SchemaService;
+import com.prayer.bus.std.impl.SchemaSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractMetadataException;

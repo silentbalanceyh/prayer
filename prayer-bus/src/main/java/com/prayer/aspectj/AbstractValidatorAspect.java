@@ -1,11 +1,11 @@
 package com.prayer.aspectj;
 
-import static com.prayer.bus.impl.util.BusLogger.info;
+import static com.prayer.bus.util.BusLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.impl.util.BusLogger;
+import com.prayer.bus.util.BusLogger;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.h2.FieldModel;
 import com.prayer.model.type.DataType;

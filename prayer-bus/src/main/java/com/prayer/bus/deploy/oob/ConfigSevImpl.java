@@ -1,4 +1,4 @@
-package com.prayer.bus.impl; // NOPMD
+package com.prayer.bus.deploy.oob; // NOPMD
 
 import static com.prayer.util.Instance.singleton;
 
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-import com.prayer.bus.ConfigService;
-import com.prayer.bus.impl.util.ResultExtractor;
+import com.prayer.bus.std.ConfigService;
+import com.prayer.bus.util.ResultExtractor;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;

@@ -1,4 +1,4 @@
-package com.prayer.bus.impl.util;
+package com.prayer.bus.util;
 
 import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractException;

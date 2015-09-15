@@ -1,44 +1,53 @@
 [
 	{
-		"uri": "/oauth/authorize",
-		"method": "GET",
-		"paramType": "QUERY",
-		"requiredParam": 
-		[
-			"username",
-			"password"
-		],
+		"uri":"/oauth/authorize",
+		"method":"GET",
+		"paramType":"QUERY",
 		"address":"MSG://RECORD/QUEUE",
 		"globalId":"sec.account",
 		"script":"js.get.oauth.authorize",
-		"returnFilters":["password"]
-	},
-
-	{
-		"uri": "/oauth/authorize",
-		"method": "POST",
-		"paramType": "BODY",
-		"requiredParam": 
-		[
-			"username",
-			"password"
-		],
-		"address":"MSG://RECORD/QUEUE",
-		"globalId":"sec.account",
-		"script":"js.post.oauth.authorize",
-		"returnFilters":["password"]
-	},
-	{
-		"uri": "/api/login",
-		"method": "GET",
-		"paramType": "BODY",
+		"sender":"com.prayer.handler.message.RecordSender",
 		"requiredParam":[
 			"username",
 			"password"
 		],
+		"returnFilters":[
+			"password"
+		]
+		
+	},
+	{
+		"uri":"/oauth/authorize",
+		"method":"POST",
+		"paramType":"BODY",
+		"address":"MSG://RECORD/QUEUE",
+		"globalId":"sec.account",
+		"script":"js.post.oauth.authorize",
+		"sender":"com.prayer.handler.message.RecordSender",
+		"requiredParam":[
+			"username",
+			"password"
+		],
+		"returnFilters":[
+			"password"
+		]
+		
+	},
+	{
+		"uri":"/api/login",
+		"method":"GET",
+		"paramType":"BODY",
 		"address":"MSG://SECURITY/QUEUE",
 		"globalId":"sec.account",
 		"script":"js.post.api.login",
-		"returnFilters":["password"]
+		"sender":"com.prayer.handler.message.RecordSender",
+		"requiredParam":[
+			"username",
+			"password"
+		],
+		"returnFilters":[
+			"password"
+		]
+		
 	}
 ]

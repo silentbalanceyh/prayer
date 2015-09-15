@@ -1,4 +1,4 @@
-package com.prayer.bus;
+package com.prayer.bus.std;
 
 import com.prayer.model.bus.ServiceResult;
 

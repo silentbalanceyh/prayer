@@ -62,6 +62,10 @@ public class UriModel implements Serializable { // NOPMD
 	/** L_RETURN_FILTERS **/
 	@JsonProperty("returnFilters")
 	private List<String> returnFilters = new ArrayList<>();
+	
+	/** S_SENDER **/
+	@JsonProperty("sender")
+	private String sender;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -200,6 +204,20 @@ public class UriModel implements Serializable { // NOPMD
 	 */
 	public void setReturnFilters(final List<String> returnFilters) {
 		this.returnFilters = returnFilters;
+	}
+
+	/**
+	 * @return the sender
+	 */
+	public String getSender() {
+		return sender;
+	}
+
+	/**
+	 * @param sender the sender to set
+	 */
+	public void setSender(final String sender) {
+		this.sender = sender;
 	}
 
 	// ~ hashCode,equals,toString ============================

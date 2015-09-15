@@ -1,4 +1,4 @@
-package com.prayer.bus.impl.deploy;
+package com.prayer.bus.deploy.impl;
 
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.singleton;
@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 
 import com.prayer.bus.deploy.TemplateDPService;
-import com.prayer.bus.impl.util.ResultExtractor;
+import com.prayer.bus.util.ResultExtractor;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractSystemException;

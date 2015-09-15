@@ -1,6 +1,6 @@
-package com.prayer.bus.impl; // NOPMD
+package com.prayer.bus.deploy.oob; // NOPMD
 
-import static com.prayer.bus.impl.util.BusLogger.error;
+import static com.prayer.bus.util.BusLogger.error;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
@@ -14,8 +14,8 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.DeployService;
-import com.prayer.bus.impl.util.BusLogger;
+import com.prayer.bus.std.DeployService;
+import com.prayer.bus.util.BusLogger;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.db.conn.impl.MetadataConnImpl;

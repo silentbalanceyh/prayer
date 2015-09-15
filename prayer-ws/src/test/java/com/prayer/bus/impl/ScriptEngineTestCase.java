@@ -4,7 +4,8 @@ import static com.prayer.util.Instance.singleton;
 
 import org.junit.Test;
 
-import com.prayer.bus.RecordService;
+import com.prayer.bus.std.RecordService;
+import com.prayer.bus.std.impl.RecordSevImpl;
 
 import io.vertx.core.json.JsonObject;
 

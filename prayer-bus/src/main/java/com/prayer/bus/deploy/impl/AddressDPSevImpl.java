@@ -1,4 +1,4 @@
-package com.prayer.bus.impl.deploy;
+package com.prayer.bus.deploy.impl;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.prayer.bus.deploy.RouteDPService;
+import com.prayer.bus.deploy.AddressDPService;
 import com.prayer.exception.AbstractSystemException;
-import com.prayer.model.h2.vx.RouteModel;
-import com.prayer.schema.dao.impl.RouteDaoImpl;
+import com.prayer.model.h2.vx.AddressModel;
+import com.prayer.schema.dao.impl.AddressDaoImpl;
 import com.prayer.util.JsonKit;
 
 import net.sf.oval.constraint.NotBlank;
@@ -23,13 +23,11 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String> implements RouteDPService {	// NOPMD
+public class AddressDPSevImpl extends AbstractDPSevImpl<AddressModel, String> implements AddressDPService{	// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(RouteDPSevImpl.class);
-
+	private static final Logger LOGGER = LoggerFactory.getLogger(AddressDPSevImpl.class);
 	// ~ Instance Fields =====================================
-
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -38,7 +36,7 @@ public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String> implem
 	/** **/
 	@Override
 	public Class<?> getDaoClass() {
-		return RouteDaoImpl.class;
+		return AddressDaoImpl.class;
 	}
 
 	/** 获取Logger **/
@@ -48,15 +46,15 @@ public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String> implem
 	}
 	/** T Array **/
 	@Override
-	public RouteModel[] getArrayType(){
-		return new RouteModel[]{};
+	public AddressModel[] getArrayType(){
+		return new AddressModel[]{};
 	}
 
 	/** **/
 	@Override
-	public List<RouteModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath)
+	public List<AddressModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath)
 			throws AbstractSystemException {
-		final TypeReference<List<RouteModel>> typeRef = new TypeReference<List<RouteModel>>() {
+		final TypeReference<List<AddressModel>> typeRef = new TypeReference<List<AddressModel>>() {
 		};
 		return JsonKit.fromFile(typeRef, jsonPath);
 	}

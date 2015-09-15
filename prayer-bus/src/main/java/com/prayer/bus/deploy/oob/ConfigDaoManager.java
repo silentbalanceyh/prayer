@@ -1,4 +1,4 @@
-package com.prayer.bus.impl;
+package com.prayer.bus.deploy.oob;
 
 import static com.prayer.util.Instance.singleton;
 

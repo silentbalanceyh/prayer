@@ -1,4 +1,4 @@
-package com.prayer.bus;
+package com.prayer.bus.std;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;

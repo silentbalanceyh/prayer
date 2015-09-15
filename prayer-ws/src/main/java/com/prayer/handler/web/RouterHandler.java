@@ -15,8 +15,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.ConfigService;
-import com.prayer.bus.impl.ConfigSevImpl;
+import com.prayer.bus.deploy.oob.ConfigSevImpl;
+import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ParamType;

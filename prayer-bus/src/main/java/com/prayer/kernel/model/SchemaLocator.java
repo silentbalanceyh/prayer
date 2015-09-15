@@ -6,8 +6,8 @@ import static com.prayer.util.Instance.singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.SchemaService;
-import com.prayer.bus.impl.SchemaSevImpl;
+import com.prayer.bus.std.SchemaService;
+import com.prayer.bus.std.impl.SchemaSevImpl;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.system.SchemaNotFoundException;

@@ -12,8 +12,8 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.DeployService;
-import com.prayer.bus.impl.DeploySevImpl;
+import com.prayer.bus.deploy.oob.DeploySevImpl;
+import com.prayer.bus.std.DeployService;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.db.conn.MetadataConn;

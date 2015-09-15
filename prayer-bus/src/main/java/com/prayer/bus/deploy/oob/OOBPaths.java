@@ -1,4 +1,4 @@
-package com.prayer.bus.impl;
+package com.prayer.bus.deploy.oob;
 /**
  * 路径常量
  * @author Lang

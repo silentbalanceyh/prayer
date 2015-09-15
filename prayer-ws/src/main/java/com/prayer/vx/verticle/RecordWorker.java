@@ -1,11 +1,11 @@
 package com.prayer.vx.verticle;
 
+import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.bus.ConfigService;
-import com.prayer.bus.impl.ConfigSevImpl;
+import com.prayer.bus.deploy.oob.ConfigSevImpl;
+import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.handler.message.RecordConsumer;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.AddressModel;
 
@@ -48,7 +48,8 @@ public class RecordWorker extends AbstractVerticle {
 			if (null != address) {
 				// 3.从地址上消费Message
 				final EventBus bus = vertx.eventBus();
-				bus.consumer(address.getConsumerAddr(),RecordConsumer.create());
+				
+				bus.consumer(address.getConsumerAddr(),instance(address.getConsumerHandler()));
 			}
 		}
 	}

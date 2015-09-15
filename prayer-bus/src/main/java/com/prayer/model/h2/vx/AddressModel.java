@@ -32,6 +32,9 @@ public class AddressModel implements Serializable { // NOPMD
 	/** S_CONSUMER_ADDR **/
 	@JsonProperty("consumerAddr")
 	private String consumerAddr;
+	/** S_CONSUMER_HANDLER **/
+	@JsonProperty("consumerHandler")
+	private String consumerHandler;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -83,6 +86,20 @@ public class AddressModel implements Serializable { // NOPMD
 	 */
 	public void setConsumerAddr(final String consumerAddr) {
 		this.consumerAddr = consumerAddr;
+	}
+	
+	/**
+	 * @return the consumerHandler
+	 */
+	public String getConsumerHandler() {
+		return consumerHandler;
+	}
+
+	/**
+	 * @param consumerHandler the consumerHandler to set
+	 */
+	public void setConsumerHandler(final String consumerHandler) {
+		this.consumerHandler = consumerHandler;
 	}
 
 	// ~ hashCode,equals,toString ============================

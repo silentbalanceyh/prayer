@@ -1,4 +1,4 @@
-package com.prayer.bus.impl.deploy;
+package com.prayer.bus.deploy.impl;
 
 import static com.prayer.util.Error.debug;
 

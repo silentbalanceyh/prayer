@@ -15,6 +15,7 @@
 			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
 		<result column="MSG_ADDRESS" property="address" />
 		<result column="S_SCRIPT" property="script" />
+		<result column="S_SENDER" property="sender" />
 		<result column="L_RETURN_FILTERS" property="returnFilters"
 			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
 	</resultMap>
@@ -26,20 +27,22 @@
 				S_URI,
 				S_METHOD,
 				S_PARAM_TYPE,
-				L_REQUIRED_PARAM,
 				MSG_ADDRESS,
 				S_GLOBAL_ID,
 				S_SCRIPT,
+				S_SENDER,
+				L_REQUIRED_PARAM,
 				L_RETURN_FILTERS
 			) VALUES (
 				#{uniqueId},
 				#{uri},
 				#{method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				#{address},
 				#{globalId},
 				#{script},
+				#{sender},
+				#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				#{returnFilters, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
 			)
 		]]>
@@ -51,10 +54,11 @@
 				S_URI,
 				S_METHOD,
 				S_PARAM_TYPE,
-				L_REQUIRED_PARAM,
 				MSG_ADDRESS,
 				S_GLOBAL_ID,
 				S_SCRIPT,
+				S_SENDER,
+				L_REQUIRED_PARAM,
 				L_RETURN_FILTERS
 			) VALUES
 		]]>
@@ -65,10 +69,11 @@
 				#{item.uri},
 				#{item.method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				#{item.paramType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				#{item.address},
 				#{item.globalId},
 				#{item.script},
+				#{item.sender},
+				#{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				#{item.returnFilters, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
 			)]]>
 		</foreach>
@@ -80,10 +85,11 @@
 				S_URI=#{uri},
 				S_METHOD=#{method,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
 				S_PARAM_TYPE=#{paramType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				MSG_ADDRESS=#{address},
 				S_GLOBAL_ID=#{globalId},
 				S_SCRIPT=#{script},
+				S_SENDER=#{sender},
+				L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
 				L_RETURN_FILTERS=#{returnFilters, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
 			WHERE K_ID=#{uniqueId}
 		]]>
