@@ -9,7 +9,7 @@ import io.vertx.ext.auth.AuthProvider;
  *
  */
 @VertxGen
-public interface BasicAuth extends AuthProvider{
+public interface BasicAuth extends AuthProvider{	// NOPMD
 	/** 默认Realm属性 **/
 	String DFT_REALM = "realm";
 	/** 默认用户Schema的ID **/

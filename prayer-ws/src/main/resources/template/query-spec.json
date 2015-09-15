@@ -1,0 +1,11 @@
+{
+	"eq-filters":{
+		"field":"username",
+		"operator":"=",
+		"value":"lang.yu@hp.com"
+	},
+	"eq-filters":{
+		"field":"username",
+		"operator":"="
+	}
+}

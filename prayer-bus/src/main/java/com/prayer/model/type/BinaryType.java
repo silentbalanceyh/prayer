@@ -1,13 +1,7 @@
 package com.prayer.model.type;
 
-import static com.prayer.util.Error.debug;
-
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
@@ -21,8 +15,6 @@ import com.prayer.kernel.Value;
  */
 public class BinaryType implements Value<byte[]> {
 	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(BinaryType.class);
 	// ~ Instance Fields =====================================
 	/** **/
 	private byte[] value = new byte[1024];
@@ -78,13 +70,7 @@ public class BinaryType implements Value<byte[]> {
 	/** **/
 	@Override
 	public String literal(){
-		String ret = null;
-		try{
-			ret = new String(this.value,Resources.SYS_ENCODING);
-		}catch(UnsupportedEncodingException ex){
-			debug(LOGGER, "JVM.ENCODING", Resources.SYS_ENCODING,ex);
-		}
-		return ret;
+		return new String(this.value,Resources.SYS_ENCODING);
 	}
 
 	// ~ Methods =============================================

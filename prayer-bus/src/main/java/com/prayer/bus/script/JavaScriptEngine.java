@@ -10,6 +10,7 @@ import javax.script.SimpleScriptContext;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
+import com.prayer.util.StringKit;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
@@ -71,8 +72,8 @@ public final class JavaScriptEngine {
 	 * @param context
 	 * @throws ScriptException
 	 */
-	public void execute(@NotNull @NotBlank @NotEmpty final String context) throws ScriptException {
-		if (null != this.engine) {
+	public void execute(final String context) throws ScriptException {
+		if (null != this.engine && StringKit.isNonNil(context)) {
 			this.engine.eval(context);
 		}
 	}

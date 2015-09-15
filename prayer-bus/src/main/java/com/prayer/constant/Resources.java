@@ -2,6 +2,8 @@ package com.prayer.constant;
 
 import static com.prayer.util.Error.debug;
 
+import java.nio.charset.Charset;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,9 +30,7 @@ public final class Resources { // NOPMD
 	/** 错误信息代码 **/
 	public static final String ERR_CODE_FILE = "/errors.properties";
 	/** 系统默认英文编码 **/
-	public static final String SYS_ENCODING;
-	/** 系统默认中文编码 **/
-	public static final String SYS_CN_ENCODING;
+	public static final Charset SYS_ENCODING;
 
 	// Database Configuration ================================
 	/** 数据库模式：SQL/NOSQL **/
@@ -84,13 +84,9 @@ public final class Resources { // NOPMD
 			debug(LOGGER, ERR_SYS_NULL, "LOADER", LOADER);
 		}
 		// Global Configuration
-		SYS_ENCODING = LOADER.getString("system.en.encoding");
+		SYS_ENCODING = Charset.forName(LOADER.getString("system.en.encoding"));
 		if (null == SYS_ENCODING) {
 			debug(LOGGER, ERR_SYS_NULL, "SYS_ENCODING", SYS_ENCODING);
-		}
-		SYS_CN_ENCODING = LOADER.getString("system.cn.encoding");
-		if (null == SYS_CN_ENCODING) {
-			debug(LOGGER, ERR_SYS_NULL, "SYS_CN_ENCODING", SYS_CN_ENCODING);
 		}
 
 		// Database Configuration

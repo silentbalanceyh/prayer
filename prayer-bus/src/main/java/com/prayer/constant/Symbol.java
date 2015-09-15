@@ -28,6 +28,8 @@ public interface Symbol {	// NOPMD
 	char DOLLER = '$';
 	/** 点操作符 **/
 	char DOT = '.';
+	/** 冒号 **/
+	char COLON = ':';
 	/** 换行符 **/
 	String NEW_LINE = "\n";
 }

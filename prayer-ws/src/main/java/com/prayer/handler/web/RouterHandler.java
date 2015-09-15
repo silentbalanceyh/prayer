@@ -213,9 +213,9 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 	private String decodeURL(final String inputValue) {
 		String ret = inputValue;
 		try {
-			ret = URLDecoder.decode(inputValue, Resources.SYS_ENCODING);
+			ret = URLDecoder.decode(inputValue, Resources.SYS_ENCODING.name());
 		} catch (UnsupportedEncodingException ex) {
-			debug(LOGGER, "JVM.ENCODING", ex, Resources.SYS_ENCODING);
+			debug(LOGGER, "JVM.ENCODING", ex, Resources.SYS_ENCODING.name());
 		}
 		return ret;
 	}

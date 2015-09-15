@@ -15,12 +15,12 @@
 		"type":"StringType",
 		"order":2,
 		"componentType":"VALIDATOR",
-		"componentClass":"com.prayer.uca.validator.NotExistingValidator",
+		"componentClass":"com.prayer.uca.validator.ExistingValidator",
 		"config":{
 			"table":"SEC_ACCOUNT",
 			"column":"S_USERNAME"
 		},
-		"errorMessage":"该用户名已经存在，请输入合法用户名。"
+		"errorMessage":"该用户名不存在，请输入合法用户名。"
 	},
 	{
 		"name":"password",
@@ -32,16 +32,5 @@
 			"minLength":8
 		},
 		"errorMessage":"密码的最小长度是8位，请输入8位以上的密码。"
-	},
-	{
-		"name":"password",
-		"type":"StringType",
-		"order":1,
-		"componentType":"CONVERTOR",
-		"componentClass":"com.prayer.uca.convertor.EncryptionConvertor",
-		"config":{
-			"algorithm":"MD5"
-		},
-		"errorMessage":"密码加密过程出现问题，请联系管理员。"
 	}
 ]

@@ -1,11 +1,23 @@
 package com.prayer.handler.security.impl;
 
-import com.google.common.net.HttpHeaders;
+import static com.prayer.uca.assistant.WebLogger.error;
+
+import java.util.Base64;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
+import com.prayer.constant.Symbol;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.uca.assistant.HttpErrHandler;
+import com.prayer.uca.assistant.WebLogger;
 
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
@@ -24,6 +36,8 @@ import net.sf.oval.guard.PostValidateThis;
 @Guarded
 public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 	// ~ Static Fields =======================================
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthHandlerImpl.class);
 	// ~ Instance Fields =====================================
 	/** REALM **/
 	@NotNull
@@ -51,6 +65,21 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 			// 1.找不到Authorization头部信息
 			if (null == authorization) {
 				this.handler401Error(routingContext);
+			} else {
+				// 2.获取AuthInfo的信息
+				final JsonObject authInfo = this.generateAuthInfo(routingContext, authorization);
+				// 3.填充Body参数，必须填充，因为系统的整个过滤链会从BODY中摄取数据
+				routingContext.setBody(Buffer.buffer(authInfo.encode(), Resources.SYS_ENCODING.name()));
+				// 4.认证流程
+				this.authProvider.authenticate(authInfo, res -> {
+					if (res.succeeded()) {
+						final User authenticated = res.result();
+						routingContext.setUser(authenticated);
+						authorise(authenticated, routingContext);
+					} else {
+						this.handler401Error(routingContext);
+					}
+				});
 			}
 		} else {
 			// Authorized -> 如果已经验证过了则不需要再进行用户信息的验证
@@ -60,6 +89,32 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+
+	private JsonObject generateAuthInfo(final RoutingContext routingContext, final String authorization) {
+		String username;
+		String password;
+		String schema;
+		final JsonObject retAuthInfo = new JsonObject();
+		try {
+			final String[] parts = authorization.split(String.valueOf(Symbol.SPACE));
+			schema = parts[0];
+			final String[] credentials = new String(Base64.getDecoder().decode(parts[1]))
+					.split(String.valueOf(Symbol.COLON));
+			username = credentials[0];
+			password = credentials.length > 1 ? credentials[1] : null; // NOPMD
+			if ("Basic".equals(schema)) {
+				retAuthInfo.put("username", username);
+				retAuthInfo.put("password", password);
+			} else {
+				handler401Error(routingContext);
+			}
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+			handler401Error(routingContext);
+		}
+		return retAuthInfo;
+	}
+
 	private void handler401Error(final RoutingContext context) {
 		final RestfulResult webRet = RestfulResult.create();
 		HttpErrHandler.error401(webRet, getClass(), context.request().path());

@@ -26,10 +26,10 @@ import net.sf.oval.guard.PostValidateThis;
 /**
  * 
  * @author Lang
- *
+ * 
  */
 @Guarded
-public class UniqueValidator implements WebValidator {
+public class NotExistingValidator implements WebValidator {
 	// ~ Static Fields =======================================
 	/** 数据库表名 **/
 	private final static String TABLE = "table";
@@ -46,7 +46,7 @@ public class UniqueValidator implements WebValidator {
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public UniqueValidator() {
+	public NotExistingValidator() {
 		this.context = singleton(JdbcConnImpl.class);
 	}
 

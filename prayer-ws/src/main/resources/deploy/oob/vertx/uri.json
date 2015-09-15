@@ -27,5 +27,18 @@
 		"globalId":"sec.account",
 		"script":"js.post.oauth.authorize",
 		"returnFilters":["password"]
+	},
+	{
+		"uri": "/api/login",
+		"method": "GET",
+		"paramType": "BODY",
+		"requiredParam":[
+			"username",
+			"password"
+		],
+		"address":"MSG://RECORD/QUEUE",
+		"globalId":"sec.account",
+		"script":"js.post.api.login",
+		"returnFilters":["password"]
 	}
 ]

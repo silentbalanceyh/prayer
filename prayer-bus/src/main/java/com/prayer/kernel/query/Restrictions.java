@@ -36,7 +36,6 @@ public final class Restrictions implements SqlSegment {	// NOPMD
 	// ~ Static Methods ======================================
 	/**
 	 * COLUMN = Value
-	 * 
 	 * @param column
 	 * @param value
 	 * @return
@@ -48,7 +47,6 @@ public final class Restrictions implements SqlSegment {	// NOPMD
 
 	/**
 	 * COLUMN = ?
-	 * 
 	 * @param column
 	 * @return
 	 */
