@@ -68,9 +68,9 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 			} else {
 				// 2.获取AuthInfo的信息
 				final JsonObject authInfo = this.generateAuthInfo(routingContext, authorization);
-				// 3.填充Body参数，必须填充，因为系统的整个过滤链会从BODY中摄取数据
+				// 3.将信息放入Body中
 				routingContext.setBody(Buffer.buffer(authInfo.encode(), Resources.SYS_ENCODING.name()));
-				// 4.认证流程
+				// 4.认证授权信息
 				this.authProvider.authenticate(authInfo, res -> {
 					if (res.succeeded()) {
 						final User authenticated = res.result();

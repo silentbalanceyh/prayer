@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
-import com.prayer.handler.message.RecordSender;
+import com.prayer.handler.message.EventBusSender;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.uca.assistant.HttpErrHandler;
 import com.prayer.uca.assistant.WebLogger;
@@ -51,6 +51,7 @@ public class ServiceHandler implements Handler<RoutingContext> {
 		// 2.从系统中读取URI接口规范
 		final UriModel uri = routingContext.get(Constants.VX_CTX_URI);
 		final JsonObject params = routingContext.get(Constants.VX_CTX_PARAMS);
+		// 3.Service获取参数信息
 		if (null == uri || null == params) {
 			// 500 Internal Server
 			HttpErrHandler.handle500Error(getClass(), routingContext);
@@ -58,7 +59,7 @@ public class ServiceHandler implements Handler<RoutingContext> {
 			final Vertx vertx = routingContext.vertx();
 			final EventBus bus = vertx.eventBus();
 			// 发送Message到Event Bus
-			bus.send(uri.getAddress(), params, RecordSender.create(response));
+			bus.send(uri.getAddress(), params, EventBusSender.create(response));
 		}
 	}
 	// ~ Methods =============================================

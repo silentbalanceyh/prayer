@@ -5,18 +5,20 @@ package com.prayer.kernel.builder;
 
 import java.text.MessageFormat;
 
+import com.prayer.constant.Resources;
+import com.prayer.util.PropertyKit;
+
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
-
-import com.prayer.constant.Resources;
-import com.prayer.util.PropertyKit;
+import net.sf.oval.guard.Guarded;
 
 /**
  * @author huar
  *
  */
-public class OracleHelper {
+@Guarded
+public final class OracleHelper {
 	// ~ Static Fields =======================================
 	/** 类型后跟Length，类似：{ VARCHAR(256) } **/
 	public static final String[] LENGTH_TYPES = new String[] { "CHAR", "VARCHAR", "NCHAR", "NVARCHAR", "VARCHAR2", "NUMBER" };

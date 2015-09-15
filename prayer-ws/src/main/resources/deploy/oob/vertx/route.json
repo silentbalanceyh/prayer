@@ -17,7 +17,7 @@
 		"parent":"/api",
 		"path":"/login",
 		"method":"GET",
-		"requestHandler":"com.prayer.handler.standard.RecordHandler",
+		"requestHandler":"com.prayer.handler.standard.BasicAuthenticateHandler",
 		"order":-99
 	}
 ]

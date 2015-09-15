@@ -2,5 +2,8 @@
 	{
 		"workClass":"com.prayer.vx.verticle.RecordWorker",
 		"consumerAddr":"MSG://RECORD/QUEUE"
+	},{
+		"workClass":"com.prayer.vx.verticle.SecurityWorker",
+		"consumerAddr":"MSG://SECURITY/QUEUE"
 	}
 ]

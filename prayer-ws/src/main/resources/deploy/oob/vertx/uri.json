@@ -36,7 +36,7 @@
 			"username",
 			"password"
 		],
-		"address":"MSG://RECORD/QUEUE",
+		"address":"MSG://SECURITY/QUEUE",
 		"globalId":"sec.account",
 		"script":"js.post.api.login",
 		"returnFilters":["password"]

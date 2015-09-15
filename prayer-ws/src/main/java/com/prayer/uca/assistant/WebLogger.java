@@ -30,6 +30,8 @@ public final class WebLogger {
 	/** **/
 	public static final String I_RECORD_HANDLER = "[VX-CUSTOM] Handler : {0} , RecordHandler processing...";
 	/** **/
+	public static final String I_SEC_HANDLER = "[VX-CUSTOM] Handler : {0}, BasicAuthenticateHandler processing...";
+	/** **/
 	public static final String I_STD_HANDLER = " Handler : {0}, Order : {1}";
 	/** **/
 	public static final String I_REST_RESULT = " RestfulResult = {0}";

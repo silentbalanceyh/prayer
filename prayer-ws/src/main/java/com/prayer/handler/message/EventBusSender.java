@@ -14,7 +14,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public final class RecordSender implements Handler<AsyncResult<Message<Object>>> {
+public final class EventBusSender implements Handler<AsyncResult<Message<Object>>> {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/
@@ -29,8 +29,8 @@ public final class RecordSender implements Handler<AsyncResult<Message<Object>>>
 	 * @param response
 	 * @return
 	 */
-	public static RecordSender create(final HttpServerResponse response) {
-		return new RecordSender(response);
+	public static EventBusSender create(final HttpServerResponse response) {
+		return new EventBusSender(response);
 	}
 
 	// ~ Constructors ========================================
@@ -49,7 +49,7 @@ public final class RecordSender implements Handler<AsyncResult<Message<Object>>>
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	private RecordSender(final HttpServerResponse response) {
+	private EventBusSender(final HttpServerResponse response) {
 		this.response = response;
 	}
 	// ~ Get/Set =============================================

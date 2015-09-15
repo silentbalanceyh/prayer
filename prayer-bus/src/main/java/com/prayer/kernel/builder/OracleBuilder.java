@@ -18,21 +18,14 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
-import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.constant.SystemEnum.StatusFlag;
-import com.prayer.exception.metadata.NullableAddException;
-import com.prayer.exception.metadata.NullableAlterException;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.h2.FieldModel;
 import com.prayer.model.h2.KeyModel;
 import com.prayer.model.h2.MetaModel;
 import com.prayer.util.StringKit;
 
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.PreValidateThis;
@@ -41,6 +34,7 @@ import net.sf.oval.guard.PreValidateThis;
  * @author huar
  *
  */
+@Guarded
 public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 	// ~ Static Fields =======================================
 	/** **/
