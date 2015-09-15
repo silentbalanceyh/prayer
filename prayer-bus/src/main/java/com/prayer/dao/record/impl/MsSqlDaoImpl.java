@@ -102,7 +102,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 
 	/** **/
 	@Override
-	public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinSize(1) final String[] columns,
+	public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinSize(0) final String[] columns,
 			final List<Value<?>> params, final Expression filters) throws AbstractMetadataException {
 		return super.sharedSelect(record, columns, params, filters);
 	}

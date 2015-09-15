@@ -24,8 +24,16 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class JavaScriptEngine {
+public final class JSEngine {
 	// ~ Static Fields =======================================
+	/**
+	 * JSEnv对象
+	 **/
+	public static final String ENV = "env";
+	/**
+	 * JsonObject对象
+	 */
+	public static final String DATA = "data";
 	// ~ Instance Fields =====================================
 	/** **/
 	@NotNull
@@ -33,26 +41,26 @@ public final class JavaScriptEngine {
 	/** **/
 	@NotNull
 	private transient final Bindings bindings;
+
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	/**
 	 * 
 	 * @return
 	 */
-	public static JavaScriptEngine getEngine(@NotNull final JsonObject data) {
-		return new JavaScriptEngine(data);
+	public static JSEngine getEngine(@NotNull final JsonObject data) throws ScriptException {
+		return new JSEngine(data);
 	}
 	// ~ Constructors ========================================
 
-	private JavaScriptEngine(final JsonObject data) {
-		engine = new ScriptEngineManager().getEngineByName(Constants.SCRIPT_ENGINE);
-		bindings = new SimpleBindings();
-		data.forEach(item -> {
-			bindings.put(Symbol.DOLLER + item.getKey(), item.getValue());
-		});
+	private JSEngine(final JsonObject data) throws ScriptException {
+		this.engine = new ScriptEngineManager().getEngineByName(Constants.SCRIPT_ENGINE);
+		this.bindings = new SimpleBindings();
+		this.bindings.put(Symbol.DOLLER + DATA,
+				this.engine.eval(Symbol.BRACKET_SL + data.encode() + Symbol.BRACKET_SR));
 		final ScriptContext context = new SimpleScriptContext();
 		context.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
-		engine.setContext(context);
+		this.engine.setContext(context);
 	}
 
 	// ~ Abstract Methods ====================================
@@ -60,11 +68,11 @@ public final class JavaScriptEngine {
 	// ~ Methods =============================================
 	/**
 	 * 
-	 * @param record
+	 * @param env
 	 * @param reference
 	 */
-	public void put(@NotNull @NotBlank @NotEmpty final String record, @NotNull final Object reference) {
-		this.bindings.put(Symbol.DOLLER + record, reference);
+	public void put(@NotNull @NotBlank @NotEmpty final String env, @NotNull final Object reference) {
+		this.bindings.put(Symbol.DOLLER + env, reference);
 	}
 
 	/**

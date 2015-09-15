@@ -31,8 +31,7 @@ public final class BusLogger {
 	public static final String I_RESULT_DB = "DB Accessing result is : Return Object = {0}"; 
 	
 	/** **/
-	public static final String E_JS_ERROR = "Script Engine executed script failure: ex = {1}";
-
+	public static final String E_JS_ERROR = "Script Engine executed script failure: ex = {0}";
 	/** **/
 	public static final String E_DPDATA_ERR = "OOB Data deployment met error. Error = {0}";
 	/** **/

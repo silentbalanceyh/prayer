@@ -5,8 +5,6 @@ import static com.prayer.util.Instance.singleton;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.prayer.bus.deploy.oob.ConfigSevImpl;
-import com.prayer.bus.std.ConfigService;
 import com.prayer.bus.std.SchemaService;
 import com.prayer.bus.std.impl.SchemaSevImpl;
 import com.prayer.constant.Constants;
@@ -15,7 +13,6 @@ import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.script.ScriptModel;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -31,41 +28,20 @@ import net.sf.oval.guard.Guarded;
 public final class ParamExtractor {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
-	/** Config Service 接口 **/
-	private transient final ConfigService configSev;
+
 	/** Schema Service 接口 **/
 	private transient final SchemaService schemaSev;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
-	/** 创建新实例 **/
-	public static ParamExtractor create() {
-		return new ParamExtractor();
-	}
-
 	// ~ Constructors ========================================
 	/** **/
-	private ParamExtractor() {
-		this.configSev = singleton(ConfigSevImpl.class);
+	ParamExtractor() {
 		this.schemaSev = singleton(SchemaSevImpl.class);
 	}
 
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/**
-	 * 
-	 * @param parameters
-	 * @return
-	 */
-	public String extractJSContent(@NotNull final JsonObject parameters) {
-		final String scriptName = parameters.getString(Constants.PARAM_SCRIPT);
-		final ServiceResult<ScriptModel> script = this.configSev.findScript(scriptName);
-		String ret = "";
-		if (ResponseCode.SUCCESS == script.getResponseCode()) {
-			ret = script.getResult().getContent();
-		}
-		return ret;
-	}
 
 	/**
 	 * 
@@ -89,11 +65,15 @@ public final class ParamExtractor {
 	 * @return
 	 * @throws AbstractMetadataException
 	 */
-	public JsonObject extractRecord(@NotNull final Record record) throws AbstractMetadataException {
+	public JsonObject extractRecord(final Record record) throws AbstractMetadataException {
 		final Set<String> fields = record.fields().keySet();
 		final JsonObject retObj = new JsonObject();
 		for (final String field : fields) {
-			retObj.put(field, record.get(field).literal());
+			if (null == record.get(field)) {
+				retObj.put(field, Constants.EMPTY_STR);
+			} else {
+				retObj.put(field, record.get(field).literal());
+			}
 		}
 		return retObj;
 	}

@@ -2,6 +2,7 @@ package com.prayer.db.conn.impl;
 
 import static com.prayer.constant.Accessors.pool;
 import static com.prayer.util.Error.debug;
+import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.List;
@@ -89,9 +90,9 @@ public class JdbcConnImpl implements JdbcContext {
 	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
 	public List<ConcurrentMap<String, Value<?>>> select(@NotNull @NotBlank @NotEmpty final String sql,
 			final List<Value<?>> params, @MinSize(1) final ConcurrentMap<String, DataType> columnMap,
-			@MinSize(1) final String... columns) {
+			@MinSize(0) final String... columns) {
 		final JdbcTemplate jdbc = this.dbPool.getJdbc();
-		debug(LOGGER, "[DB] (List<ConcurrentMap<String,String>> select(String,List<Value<?>>,String...)) SQL : " + sql);
+		info(LOGGER, "[DB] (List<ConcurrentMap<String,String>> select(String,List<Value<?>>,String...)) SQL : " + sql);
 		if (null == params) {
 			return jdbc.query(sql, Output.extractDataList(columnMap, columns));
 		} else {

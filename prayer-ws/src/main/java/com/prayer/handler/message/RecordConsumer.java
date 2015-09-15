@@ -57,17 +57,17 @@ public final class RecordConsumer implements Handler<Message<Object>> {
 			break;
 		case PUT: {
 			final ServiceResult<JsonObject> result = this.recordSev.modify(params);
-			content = result.getResult().encodePrettily();
+			content = result.getResult().encode();
 		}
 			break;
 		case DELETE: {
 			final ServiceResult<JsonObject> result = this.recordSev.remove(params);
-			content = result.getResult().encodePrettily();
+			content = result.getResult().encode();
 		}
 			break;
 		default: {
 			final ServiceResult<JsonArray> result = this.recordSev.find(params);
-			content = result.getResult().encodePrettily();
+			content = result.getResult().encode();
 		}
 			break;
 		}

@@ -1,7 +1,6 @@
 package com.prayer.dao.record.impl;
 
 import static com.prayer.util.Calculator.diff;
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 
@@ -80,7 +79,7 @@ final class SqlHelper {
 			for (final String column : item.keySet()) {
 				try {
 					final String field = record.toField(column);
-					debug(LOGGER, "[Record] set: name=" + field + ",value=" + item.get(column));
+					info(LOGGER, "[Record] set: name=" + field + ",value=" + item.get(column));
 					ret.set(field, item.get(column));
 				} catch (AbstractMetadataException ex) {
 					info(LOGGER, ex.getErrorMessage());

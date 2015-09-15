@@ -6,6 +6,6 @@
 	},{
 		"workClass":"com.prayer.vx.verticle.SecurityWorker",
 		"consumerAddr":"MSG://SECURITY/QUEUE",
-		"consumerHandler":"com.prayer.handler.message.SecurityConsumer"
+		"consumerHandler":"com.prayer.handler.message.BasicAuthConsumer"
 	}
 ]

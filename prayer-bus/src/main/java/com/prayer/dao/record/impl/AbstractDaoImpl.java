@@ -180,7 +180,7 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 	 * @return
 	 * @throws AbstractMetadataException
 	 */
-	protected List<Record> sharedSelect(@NotNull final Record record, @NotNull @MinSize(1) final String[] columns,
+	protected List<Record> sharedSelect(@NotNull final Record record, @NotNull @MinSize(0) final String[] columns,
 			final List<Value<?>> params, final Expression filters) throws AbstractMetadataException {
 		// 1.获取JDBC访问器
 		final JdbcContext jdbc = this.getContext(record.identifier());

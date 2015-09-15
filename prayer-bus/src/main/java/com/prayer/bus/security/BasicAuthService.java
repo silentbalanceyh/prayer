@@ -15,5 +15,5 @@ public interface BasicAuthService {
 	 * @param jsonObject
 	 * @return
 	 */
-	ServiceResult<JsonObject> getByName(JsonObject jsonObject);
+	ServiceResult<JsonObject> find(JsonObject jsonObject);
 }

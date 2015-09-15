@@ -1,59 +1,66 @@
-package com.prayer.vx.verticle;
+package com.prayer.bus.script;
 
 import static com.prayer.util.Instance.singleton;
 
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
 import com.prayer.bus.std.ConfigService;
+import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.handler.message.BasicAuthConsumer;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.vx.AddressModel;
+import com.prayer.model.h2.script.ScriptModel;
 
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
-public class SecurityWorker extends AbstractVerticle {
+@Guarded
+public final class JSEnvExtractor {
 	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
 	/** **/
-	@NotNull
+	private static final String JS_GLOBAL_ID = "js.global.util";
+	// ~ Instance Fields =====================================
+	/** Config Service 接口 **/
 	private transient final ConfigService configSev;
-
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
-	/** **/
-	public SecurityWorker() {
-		super();
+	JSEnvExtractor(){
 		this.configSev = singleton(ConfigSevImpl.class);
 	}
-
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/** 主要方法，重写start **/
-	@Override
-	public void start() {
-		// 1.获取当前Worker的类名
-		final Class<?> workClass = getClass();
-		// 2.获取元数据信息
-		final ServiceResult<AddressModel> result = this.configSev.findAddress(workClass);
-		if (ResponseCode.SUCCESS == result.getResponseCode()) {
-			final AddressModel address = result.getResult();
-			if (null != address) {
-				// 3.从地址上消费Message
-				final EventBus bus = vertx.eventBus();
-				bus.consumer(address.getConsumerAddr(),BasicAuthConsumer.create());
-			}
-		}
+	/**
+	 * 
+	 * @param parameters
+	 * @return
+	 */
+	public String extractJSContent(@NotNull final JsonObject parameters) {
+		final String scriptName = parameters.getString(Constants.PARAM_SCRIPT);
+		return this.getJsByName(scriptName);
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public String extractJSEnv(){
+		return this.getJsByName(JS_GLOBAL_ID);
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	
+	private String getJsByName(final String scriptName){
+		final ServiceResult<ScriptModel> script = this.configSev.findScript(scriptName);
+		String ret = "";
+		if (ResponseCode.SUCCESS == script.getResponseCode()) {
+			ret = script.getResult().getContent();
+		}
+		return ret;
+	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }
