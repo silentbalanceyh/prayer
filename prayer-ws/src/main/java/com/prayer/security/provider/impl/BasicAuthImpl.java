@@ -1,5 +1,6 @@
 package com.prayer.security.provider.impl;
 
+import static com.prayer.uca.assistant.WebLogger.error;
 import static com.prayer.uca.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
@@ -61,29 +62,35 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
 	@Override
 	public void authenticate(@NotNull final JsonObject authInfo,
 			@NotNull final Handler<AsyncResult<User>> resultHandler) {
-		// 1.检查用户名和密码
-		this.interruptParam(authInfo, resultHandler);
-		// 2.读取配置参数
-		final JsonObject params = this.wrapperParam(authInfo);
-		// 3.从系统中读取用户信息
-		final ServiceResult<JsonObject> ret = this.service.find(params);
-		// 4.判断响应信息
-		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-			final JsonObject retObj = ret.getResult();
-			final String inputPWD = authInfo.getString("password");
-			final String storedPWD = retObj.getString(this.configurator.getSecurityOptions().getString(DFT_PWD));
-			if (StringUtil.equals(inputPWD, storedPWD)) {
-				final String username = retObj
-						.getString(this.configurator.getSecurityOptions().getString(DFT_ACCOUNT_ID));
-				resultHandler.handle(Future.succeededFuture(new BasicUser(username, this, "role")));
+		try {
+			// 1.检查用户名和密码
+			this.interruptParam(authInfo, resultHandler);
+			// 2.读取配置参数
+			final JsonObject params = this.wrapperParam(authInfo);
+			// 3.从系统中读取用户信息
+			final ServiceResult<JsonObject> ret = this.service.find(params);
+			// 4.判断响应信息
+			if (ResponseCode.SUCCESS == ret.getResponseCode() && null != ret.getResult()) {
+				final JsonObject retObj = ret.getResult();
+				final String inputPWD = authInfo.getString("password");
+				final String storedPWD = retObj.getString(this.configurator.getSecurityOptions().getString(DFT_PWD));
+				if (StringUtil.equals(inputPWD, storedPWD)) {
+					final String username = retObj
+							.getString(this.configurator.getSecurityOptions().getString(DFT_ACCOUNT_ID));
+					info(LOGGER, WebLogger.I_COMMON_INFO, retObj.encode());
+					resultHandler.handle(Future.succeededFuture(new BasicUser(username, this, "role")));
+				} else {
+					errorHandler(authInfo, resultHandler, WebLogger.AUE_AUTH_FAILURE, RET_I_USER_PWD);
+					return; // NOPMD
+				}
 			} else {
-				resultHandler.handle(Future.failedFuture(RET_I_USER_PWD));
-				return; // NOPMD
+				errorHandler(authInfo, resultHandler, WebLogger.AUE_USER_INVALID, RET_M_INVALID);
+				return;
 			}
-		} else {
-			info(LOGGER, WebLogger.AUE_USER_INVALID);
-			resultHandler.handle(Future.failedFuture(RET_M_INVALID));
-			return;
+		}
+		// TODO
+		catch (Exception ex) { // NOPMD
+			ex.printStackTrace(); // NOPMD
 		}
 	}
 
@@ -92,16 +99,21 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
 	private void interruptParam(final JsonObject authInfo, final Handler<AsyncResult<User>> resultHandler) {
 		final String username = authInfo.getString("username");
 		if (StringKit.isNil(username)) {
-			resultHandler.handle(Future.failedFuture(RET_M_USER));
-			info(LOGGER, WebLogger.AUE_USERNAME);
+			errorHandler(authInfo, resultHandler, WebLogger.AUE_USERNAME, RET_M_USER);
 			return; // NOPMD
 		}
 		final String password = authInfo.getString("password");
 		if (StringKit.isNil(password)) {
-			resultHandler.handle(Future.failedFuture(RET_M_PWD));
-			info(LOGGER, WebLogger.AUE_PASSWORD);
+			errorHandler(authInfo, resultHandler, WebLogger.AUE_PASSWORD, RET_M_PWD);
 			return;
 		}
+	}
+
+	private void errorHandler(final JsonObject authInfo, final Handler<AsyncResult<User>> resultHandler,
+			final String loggerKey, final String authRet) {
+		authInfo.put(BasicAuth.RET_E_KEY, authRet);
+		resultHandler.handle(Future.failedFuture(authRet));
+		error(LOGGER, loggerKey);
 	}
 
 	private JsonObject wrapperParam(final JsonObject authInfo) {

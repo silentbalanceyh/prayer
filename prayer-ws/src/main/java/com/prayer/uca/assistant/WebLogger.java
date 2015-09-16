@@ -69,6 +69,8 @@ public final class WebLogger {
 	public static final String AUE_PASSWORD = "Passed parameter 'authInfo' must contain password in 'password' field";
 	/** **/
 	public static final String AUE_USER_INVALID = "User does not exist in database, please provide valid user.";
+	/** **/
+	public static final String AUE_AUTH_FAILURE = "Authentication failure, the password does not match.";
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================

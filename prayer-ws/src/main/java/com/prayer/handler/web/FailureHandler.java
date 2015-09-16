@@ -10,6 +10,7 @@ import com.google.common.net.HttpHeaders;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.model.bus.web.RestfulResult;
+import com.prayer.security.provider.BasicAuth;
 import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.http.HttpServerResponse;
@@ -57,6 +58,10 @@ public class FailureHandler implements ErrorHandler {
 		error(LOGGER, WebLogger.E_COMMON_EXP, webRet.getError());
 		// 3.包装Error信息生成统一的Error格式
 		final JsonObject retData = webRet.getResult();
+		// 3.1.401的特殊信息设置
+		if (null != context.get(BasicAuth.RET_E_KEY)) {
+			retData.put(BasicAuth.RET_E_KEY, context.get(BasicAuth.RET_E_KEY).toString());
+		}
 		// 4.获取响应的信息
 		final String content = retData.encodePrettily();
 
@@ -67,7 +72,6 @@ public class FailureHandler implements ErrorHandler {
 		response.setStatusCode(retData.getInteger(Constants.STATUS_CODE));
 		response.setStatusMessage(retData.getString(Constants.ERROR));
 		response.write(content, Resources.SYS_ENCODING.name());
-
 		response.end();
 		response.close();
 	}

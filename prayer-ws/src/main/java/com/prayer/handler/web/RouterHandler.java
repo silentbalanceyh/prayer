@@ -1,6 +1,5 @@
 package com.prayer.handler.web; // NOPMD
 
-import static com.prayer.uca.assistant.WebLogger.error;
 import static com.prayer.uca.assistant.WebLogger.info;
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.singleton;
@@ -8,7 +7,6 @@ import static com.prayer.util.Instance.singleton;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,21 +18,17 @@ import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ParamType;
-import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractException;
-import com.prayer.exception.AbstractWebException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.uca.assistant.HttpErrHandler;
+import com.prayer.uca.assistant.SharedDispatcher;
 import com.prayer.uca.assistant.WebLogger;
-import com.prayer.util.StringKit;
 
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
-import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotNull;
@@ -89,7 +83,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 		final RestfulResult webRet = RestfulResult.create();
 
 		// 3.请求转发，去除掉Error过后的信息
-		final AbstractException error = this.requestDispatch(result, webRet, routingContext);
+		final AbstractException error = SharedDispatcher.requestDispatch(result, webRet, routingContext,getClass());
 
 		// 4.根据Error设置
 		if (null == error) {
@@ -133,81 +127,6 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 			retJson = new JsonObject(decodeURL(context.getBodyAsJson().encodePrettily()));
 		}
 		return retJson;
-	}
-
-	private AbstractWebException requestDispatch(final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result,
-			final RestfulResult webRef, final RoutingContext context) {
-		AbstractWebException error = null;
-		final HttpServerRequest request = context.request();
-		if (ResponseCode.SUCCESS == result.getResponseCode()) {
-			final ConcurrentMap<HttpMethod, UriModel> uriMap = result.getResult();
-			if (uriMap.isEmpty()) {
-				// 404 Resources Not Found
-				error = HttpErrHandler.error404(webRef, getClass(), request.path());
-			} else {
-				final UriModel uriSpec = uriMap.get(request.method());
-				if (null == uriSpec) {
-					// 405 Method Not Allowed
-					error = HttpErrHandler.error405(webRef, getClass(), request.method());
-				} else {
-					final String errParam = getErrorParam(uriSpec, context);
-					if (null != errParam) {
-						if ("DECODE".equals(errParam)) {
-							error = HttpErrHandler.error400E30010(webRef, getClass(), request.path());
-						} else {
-							error = HttpErrHandler.error400E30001(webRef, getClass(), request.path(),
-									uriSpec.getParamType().toString(), errParam);
-						}
-					}
-				}
-			}
-		} else {
-			// 500 Internal Server
-			error = HttpErrHandler.error500(webRef, getClass());
-		}
-		return error;
-	}
-
-	// 参数规范的处理流程
-	private String getErrorParam(final UriModel uri, final RoutingContext context) { // NOPMD
-		String retParam = null;
-		final List<String> paramList = uri.getRequiredParam();
-		final HttpServerRequest request = context.request();
-		if (ParamType.QUERY == uri.getParamType()) {
-			// 从Query String中获取参数
-			final MultiMap params = request.params();
-			for (final String param : paramList) {
-				if (StringKit.isNil(params.get(param))) {
-					retParam = param;
-					break;
-				}
-			}
-		} else if (ParamType.FORM == uri.getParamType()) {
-			// 从Form中获取参数
-			final MultiMap params = request.formAttributes();
-			for (final String param : paramList) {
-				if (StringKit.isNil(params.get(param))) {
-					retParam = param;
-					break;
-				}
-			}
-		} else {
-			// 从Body中直接获取参数
-			try {
-				final JsonObject params = context.getBodyAsJson();
-				for (final String param : paramList) {
-					if (StringKit.isNil(params.getString(param))) {
-						retParam = param;
-						break;
-					}
-				}
-			} catch (DecodeException ex) {
-				retParam = "DECODE";
-				error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
-			}
-
-		}
-		return retParam;
 	}
 
 	private String decodeURL(final String inputValue) {
