@@ -55,7 +55,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 	// ~ Instance Fields =====================================
 	/** REALM **/
 	@NotNull
-	private transient final String realm;
+	private transient final String realm;	// NOPMD
 	/** **/
 	@NotNull
 	private transient final ConfigService service;

@@ -22,7 +22,7 @@ public class DeployTestCase {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/
-	private transient DeployService service = singleton(DeploySevImpl.class);
+	private transient final DeployService service = singleton(DeploySevImpl.class);
 	
 	/** **/
 	private transient final MetadataConn metaConn = singleton(MetadataConnImpl.class);
@@ -33,6 +33,7 @@ public class DeployTestCase {
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
+	/** **/
 	@Before
 	public void setUp(){
 		final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
@@ -43,7 +44,7 @@ public class DeployTestCase {
 	 */
 	@Test
 	public void testDeploy() {
-		ServiceResult<Boolean> ret = this.service.deployPrayerData();
+		final ServiceResult<Boolean> ret = this.service.deployPrayerData();
 		assertTrue("[TD] Deploying failure ! ", ret.getResult());
 	}
 	// ~ Private Methods =====================================
