@@ -1,4 +1,4 @@
-package com.prayer.vx.verticle;
+package com.prayer.vx.verticle; // NOPMD
 
 import static com.prayer.util.Instance.singleton;
 
@@ -24,7 +24,9 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.handler.CorsHandler;
+import io.vertx.ext.web.handler.ErrorHandler;
 import io.vertx.ext.web.handler.SessionHandler;
+import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.UserSessionHandler;
 import io.vertx.ext.web.sstore.ClusteredSessionStore;
 import io.vertx.ext.web.sstore.LocalSessionStore;
@@ -78,26 +80,34 @@ public class RouterVerticle extends AbstractVerticle {
 		final Router router = Router.router(vertx);
 		injectWebDefault(router);
 
-		// 4.AuthProvider创建
+		// 4.Static静态资源
+		injectStatic(router);
+
+		// 5.AuthProvider创建
 		injectSecurity(router);
 
-		// 5.Session的使用设置
+		// 6.Session的使用设置
 		injectSession(router);
 
-		// 6.最前端的URL处理
+		// 7.最前端的URL处理
 		injectStandard(router);
 
-		// 7.设置Sub Router
+		// 8.设置Sub Router
 		subRouters.forEach((subRouter, value) -> {
 			router.mountSubRouter(value, subRouter);
 		});
 
-		// 8.监听Cluster端口
+		// 9.监听Cluster端口
 		server.requestHandler(router::accept).listen();
 	}
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	private void injectStatic(final Router router) {
+		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_STATIC).handler(StaticHandler.create());
+		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_STATIC).failureHandler(ErrorHandler.create());
+	}
+
 	private void injectSecurity(final Router router) {
 		final AuthProvider authProvider = this.securitor.getProvider();
 		router.route().order(Constants.VX_OD_USER_SESSION).handler(UserSessionHandler.create(authProvider));

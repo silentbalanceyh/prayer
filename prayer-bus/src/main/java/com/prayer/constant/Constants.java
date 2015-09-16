@@ -75,10 +75,12 @@ public interface Constants { // NOPMD
 	String VX_CTX_PARAMS = "PARAMS";
 	/** Default Convertor，默认Convertor，什么都不做 **/
 	String VX_DF_CONVERTOR = "__DEFAULT__";
-	/** 根目录对应的情况 **/
-	String VX_URL_ROOT = "/*";
+	/** 根目录对应的情况，去除掉/static/*静态目录 **/
+	String VX_URL_ROOT = "/*|^(/static/*)";
 	/** Secure API的根目录 **/
 	String VX_AUTH_ROOT = "/api/*";
+	/** Static静态资源 **/
+	String VX_STATIC_ROOT = "/static/*";
 	/** Global ID对应Key **/
 	String BUS_GLOBAL_ID = "identifier";
 	/** Script Name对应Key **/
@@ -111,6 +113,8 @@ public interface Constants { // NOPMD
 	int VX_OD_USER_SESSION = -950;		// NOPMD
 	/** CORS Handler **/
 	int VX_OD_CORS = -940;
+	/** Static Handler **/
+	int VX_OD_STATIC = -930;
 
 	/** Router Handler Order **/
 	int VX_OD_ROUTER = -400;
