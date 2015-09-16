@@ -62,6 +62,13 @@ public final class WebLogger {
 	public static final String E_UCA_CFG_ERROR = "UCA Config Error : {0}";
 	/** **/
 	public static final String E_H2_DB_ERROR = "Starting H2 Database met error. Error = {0}";
+	
+	/** **/
+	public static final String AUE_USERNAME = "Passed parameter 'authInfo' must contain username in 'username' field";
+	/** **/
+	public static final String AUE_PASSWORD = "Passed parameter 'authInfo' must contain password in 'password' field";
+	/** **/
+	public static final String AUE_USER_INVALID = "User does not exist in database, please provide valid user.";
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================

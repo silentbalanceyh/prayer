@@ -111,13 +111,13 @@ public class SecurityConfigurator {
 		// 固定属性
 		options.put(PROVIDER, this.LOADER.getString(prefix + Symbol.DOT + PROVIDER));
 		options.put(BasicAuth.DFT_REALM, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_REALM));
+		options.put(BasicAuth.DFT_SCRIPT_NAME, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_SCRIPT_NAME));
+		options.put(BasicAuth.DFT_ACCOUNT_ID, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_ACCOUNT_ID));
+		options.put(BasicAuth.DFT_EMAIL, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_EMAIL));
+		options.put(BasicAuth.DFT_MOBILE, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_MOBILE));
+		options.put(BasicAuth.DFT_PWD, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_PWD));
 		// 可定义的动态属性
 		options.put(BasicAuth.DFT_SCHEMA_ID, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_SCHEMA_ID));
-		options.put(BasicAuth.DFT_USER_ACCOUNT,
-				this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_USER_ACCOUNT));
-		options.put(BasicAuth.DFT_USER_EMAIL, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_USER_EMAIL));
-		options.put(BasicAuth.DFT_USER_MOBILE, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_USER_MOBILE));
-		options.put(BasicAuth.DFT_USER_PWD, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_USER_PWD));
 		return options;
 	}
 

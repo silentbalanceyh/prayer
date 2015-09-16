@@ -17,7 +17,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class Validator {
+public final class Validator {		// NOPMD
 	// ~ Static Fields =======================================
 	/**
 	 * 
@@ -26,7 +26,7 @@ public final class Validator {
 	 * @param maxLength
 	 * @return
 	 */
-	public static boolean verifyLength(@NotNull @NotBlank @NotEmpty final String value, @Min(-1) final int minLength,
+	public static boolean verifyLength(@NotNull @NotBlank @NotEmpty final String value, @Min(-1) final int minLength,	// NOPMD
 			@Min(-1) final int maxLength) {
 		boolean flag = false;
 		final int length = value.length();

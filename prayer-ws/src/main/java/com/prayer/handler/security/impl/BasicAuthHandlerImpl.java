@@ -11,8 +11,10 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.model.bus.web.RestfulResult;
+import com.prayer.security.provider.BasicAuth;
 import com.prayer.uca.assistant.HttpErrHandler;
 import com.prayer.uca.assistant.WebLogger;
+import com.prayer.util.Encryptor;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
@@ -68,7 +70,14 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 			} else {
 				// 2.获取AuthInfo的信息
 				final JsonObject authInfo = this.generateAuthInfo(routingContext, authorization);
-				// 3.认证授权信息
+				// 3.设置扩展信息
+				{
+					final JsonObject extension = new JsonObject();
+					extension.put(Constants.PARAM_ID, routingContext.session().id());
+					extension.put(Constants.PARAM_METHOD, request.method().toString());	// 暂时定义传Method
+					authInfo.put(BasicAuth.DFT_EXTENSION, extension);
+				}
+				// 4.认证授权信息
 				this.authProvider.authenticate(authInfo, res -> {
 					if (res.succeeded()) {
 						final User authenticated = res.result();
@@ -104,7 +113,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 			password = credentials.length > 1 ? credentials[1] : null; // NOPMD
 			if ("Basic".equals(schema)) {
 				retAuthInfo.put("username", username);
-				retAuthInfo.put("password", password);
+				retAuthInfo.put("password", Encryptor.encryptMD5(password));
 			} else {
 				handler401Error(routingContext);
 			}

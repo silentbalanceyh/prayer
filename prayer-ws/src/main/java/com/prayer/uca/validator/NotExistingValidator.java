@@ -29,7 +29,7 @@ import net.sf.oval.guard.PostValidateThis;
  * 
  */
 @Guarded
-public class NotExistingValidator implements WebValidator {
+public class NotExistingValidator implements WebValidator {		// NOPMD
 	// ~ Static Fields =======================================
 	/** 数据库表名 **/
 	private final static String TABLE = "table";
@@ -72,8 +72,8 @@ public class NotExistingValidator implements WebValidator {
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-
-	private boolean verifyUnique(final String table, final String column, final Value<?> value) {
+	
+	private boolean verifyUnique(final String table, final String column, final Value<?> value) {	// NOPMD
 		final StringBuilder sql = new StringBuilder(Constants.BUFFER_SIZE);
 		sql.append(MessageFormat.format(SqlSegment.TB_COUNT, table)).append(Symbol.SPACE).append(SqlSegment.WHERE)
 				.append(Symbol.SPACE).append(column).append(Symbol.SPACE).append(Symbol.EQUAL).append(Symbol.SPACE);
