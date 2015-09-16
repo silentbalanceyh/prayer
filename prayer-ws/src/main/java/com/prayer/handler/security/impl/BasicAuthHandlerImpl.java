@@ -179,7 +179,8 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 		final RestfulResult webRet = RestfulResult.create();
 		HttpErrHandler.error401(webRet, getClass(), context.request().path());
 		context.put(Constants.VX_CTX_ERROR, webRet);
-		context.response().putHeader("WWW-Authenticate", "Basic realm=\"" + this.realm + "\"");
+		// Digest认证才会使用的头部信息
+		// context.response().putHeader("WWW-Authenticate", "Basic realm=\"" + this.realm + "\"");
 		context.fail(webRet.getStatusCode().status());
 	}
 	// ~ Get/Set =============================================
