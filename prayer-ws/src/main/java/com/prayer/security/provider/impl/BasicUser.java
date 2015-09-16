@@ -80,7 +80,7 @@ public class BasicUser extends AbstractUser {
 
 	/** 从Buffer中读取数据 **/
 	@Override
-	public int readFromBuffer(int pos, final Buffer buffer) {
+	public int readFromBuffer(int pos, final Buffer buffer) {	// NOPMD
 		pos = super.readFromBuffer(pos, buffer);
 		int len = buffer.getInt(pos);
 		pos += 4;

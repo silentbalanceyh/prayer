@@ -187,7 +187,8 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
 		// 2.生成SQL语句
 		final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters);
 		// 3.根据参数表生成查询结果集
-		return SqlHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), columns));
+		final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
+		return SqlHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), cols));
 	}
 
 	/**

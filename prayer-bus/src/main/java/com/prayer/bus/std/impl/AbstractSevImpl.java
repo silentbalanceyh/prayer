@@ -89,7 +89,8 @@ public abstract class AbstractSevImpl {
 		// 2. 将Java和脚本引擎连接实现变量共享
 		final JSEnv env = initJSEnv(jsonObject, record);
 		// 3. 执行Java脚本插入数据
-		final List<Record> retList = this.getDao().queryByFilter(record, new String[]{}, env.getValues(), env.getExpr());
+		final List<Record> retList = this.getDao().queryByFilter(record, Constants.T_STR_ARR,
+				env.getValues(), env.getExpr());
 		// 4. 查询结果
 		if (Constants.ONE == retList.size()) {
 			final Record queried = retList.get(0);
@@ -99,6 +100,7 @@ public abstract class AbstractSevImpl {
 		}
 		return ret;
 	}
+
 	// ~ Private Methods =====================================
 	private JSEnv initJSEnv(final JsonObject jsonObject, final Record record) throws ScriptException {
 		final JSEngine engine = JSEngine.getEngine(jsonObject.getJsonObject(Constants.PARAM_DATA));
