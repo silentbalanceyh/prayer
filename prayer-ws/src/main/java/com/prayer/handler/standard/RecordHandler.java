@@ -32,7 +32,7 @@ public class RecordHandler implements Handler<RoutingContext>{
 	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER,WebLogger.I_RECORD_HANDLER,getClass().getName());	
+		info(LOGGER,WebLogger.I_RECORD_HANDLER,getClass().getName());
 		routingContext.next();
 	}
 	// ~ Methods =============================================
