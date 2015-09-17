@@ -12,10 +12,17 @@
 	<name>Prayer Rest Ws</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
+		<!-- Prayer Framework -->
 		<dependency>
 			<groupId>com.prayer</groupId>
 			<artifactId>prayer-bus</artifactId>
 			<version>${project.parent.version}</version>
+		</dependency>
+		<!-- Jade4j -->
+		<dependency>
+			<groupId>de.neuland-bfi</groupId>
+			<artifactId>jade4j</artifactId>
+			<version>${jade4j.version}</version>
 		</dependency>
 		<!-- Vertx Web -->
 		<dependency>

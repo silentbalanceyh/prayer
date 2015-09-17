@@ -27,9 +27,11 @@ import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.ErrorHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.handler.StaticHandler;
+import io.vertx.ext.web.handler.TemplateHandler;
 import io.vertx.ext.web.handler.UserSessionHandler;
 import io.vertx.ext.web.sstore.ClusteredSessionStore;
 import io.vertx.ext.web.sstore.LocalSessionStore;
+import io.vertx.ext.web.templ.JadeTemplateEngine;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -105,6 +107,9 @@ public class RouterVerticle extends AbstractVerticle {
 	// ~ Private Methods =====================================
 	private void injectStatic(final Router router) {
 		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_STATIC).handler(StaticHandler.create());
+		// 引入jade模板引擎
+		router.route(Constants.VX_DYNAMIC_ROOT).order(Constants.VX_OD_DYNAMIC)
+				.handler(TemplateHandler.create(JadeTemplateEngine.create()));
 		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_STATIC).failureHandler(ErrorHandler.create());
 	}
 
@@ -134,13 +139,14 @@ public class RouterVerticle extends AbstractVerticle {
 	}
 
 	private void injectSession(final Router router) {
+		SessionHandler handler = null;
 		if (vertx.isClustered()) {
-			router.route().order(Constants.VX_OD_SESSION)
-					.handler(SessionHandler.create(ClusteredSessionStore.create(vertx)));
+			handler = SessionHandler.create(ClusteredSessionStore.create(vertx));
 		} else {
-			router.route().order(Constants.VX_OD_SESSION)
-					.handler(SessionHandler.create(LocalSessionStore.create(vertx)));
+			handler = SessionHandler.create(LocalSessionStore.create(vertx));
 		}
+		handler.setNagHttps(true);
+		router.route().order(Constants.VX_OD_SESSION).handler(handler);
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

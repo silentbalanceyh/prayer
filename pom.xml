@@ -79,6 +79,8 @@
 		<aopalliance.version>1.0</aopalliance.version>
 		<aspectj.compile.file>aopaj.properties</aspectj.compile.file>
 		<aspectj.test.file>aopaj-test.properties</aspectj.test.file>
+		<!-- Jade4J -->
+		<jade4j.version>0.4.3</jade4j.version>
 
 		<!--Plugin versions -->
 		<!-- 【Latest】Maven代码编译插件版本 -->

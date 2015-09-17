@@ -44,10 +44,8 @@ public class ServerConfigurator { // NOPMD
 			error(LOGGER, "Server property file has not been initialized successfully !");
 		} else {
 			// Basic Options
-			final int port = this.LOADER.getInt("server.port");
-			final String host = this.LOADER.getString("server.host");
-			options.setPort(port);
-			options.setHost(host);
+			options.setPort(this.LOADER.getInt("server.port"));
+			options.setHost(this.LOADER.getString("server.host"));
 			// Whether support compression
 			options.setCompressionSupported(this.LOADER.getBoolean("server.compression.support"));
 			options.setAcceptBacklog(this.LOADER.getInt("server.accept.backlog"));

@@ -81,6 +81,8 @@ public interface Constants { // NOPMD
 	String VX_AUTH_ROOT = "/api/*";
 	/** Static静态资源 **/
 	String VX_STATIC_ROOT = "/static/*";
+	/** Template需要使用的资源 **/
+	String VX_DYNAMIC_ROOT = "/dynamic/*";
 	/** Global ID对应Key **/
 	String BUS_GLOBAL_ID = "identifier";
 	/** Script Name对应Key **/
@@ -115,6 +117,8 @@ public interface Constants { // NOPMD
 	int VX_OD_CORS = -940;
 	/** Static Handler **/
 	int VX_OD_STATIC = -930;
+	/** Template Handler **/
+	int VX_OD_DYNAMIC = -935;
 
 	/** Router Handler Order **/
 	int VX_OD_ROUTER = -400;
