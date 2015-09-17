@@ -1,9 +1,14 @@
 package com.prayer.handler.message;
 
+import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.model.bus.web.StatusCode;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PreValidateThis;
@@ -14,7 +19,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public final class RecordSender implements Handler<AsyncResult<Message<Object>>> {
+public final class RecordObjectSender implements Handler<AsyncResult<Message<Object>>> {
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** **/
@@ -28,7 +33,7 @@ public final class RecordSender implements Handler<AsyncResult<Message<Object>>>
 	 * 
 	 * @param response
 	 */
-	public RecordSender(final HttpServerResponse response) {
+	public RecordObjectSender(final HttpServerResponse response) {
 		this.response = response;
 	}
 	// ~ Abstract Methods ====================================
@@ -39,8 +44,11 @@ public final class RecordSender implements Handler<AsyncResult<Message<Object>>>
 	public void handle(@NotNull final AsyncResult<Message<Object>> event) {
 		if (event.succeeded()) {
 			final String data = (String) event.result().body();
-			
-			this.response.end(data);
+			final JsonObject ret = new JsonObject();
+			ret.put(Constants.STATUS_CODE, StatusCode.OK.status());
+			ret.put(Constants.RESPONSE, ResponseCode.SUCCESS);
+			ret.put(Constants.PARAM_DATA, new JsonObject(data));
+			this.response.end(ret.encode());
 		}
 	}
 	// ~ Methods =============================================

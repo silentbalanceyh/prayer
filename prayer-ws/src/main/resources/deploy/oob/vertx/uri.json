@@ -6,7 +6,7 @@
 		"address":"MSG://RECORD/QUEUE",
 		"globalId":"sec.account",
 		"script":"js.get.oauth.authorize",
-		"sender":"com.prayer.handler.message.RecordSender",
+		"sender":"com.prayer.handler.message.RecordObjectSender",
 		"requiredParam":[
 			"username",
 			"password"
@@ -23,7 +23,7 @@
 		"address":"MSG://RECORD/QUEUE",
 		"globalId":"sec.account",
 		"script":"js.post.oauth.authorize",
-		"sender":"com.prayer.handler.message.RecordSender",
+		"sender":"com.prayer.handler.message.RecordObjectSender",
 		"requiredParam":[
 			"username",
 			"password"
@@ -40,7 +40,7 @@
 		"address":"MSG://SECURITY/QUEUE",
 		"globalId":"sec.account",
 		"script":"js.post.api.login",
-		"sender":"com.prayer.handler.message.RecordSender",
+		"sender":"com.prayer.handler.message.RecordObjectSender",
 		"requiredParam":[
 			"username",
 			"password"
