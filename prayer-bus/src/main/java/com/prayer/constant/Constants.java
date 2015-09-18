@@ -81,10 +81,16 @@ public interface Constants { // NOPMD
 	String VX_SECURE_API_ROOT = "/api/sec/*";	// NOPMD
 	/** Static静态资源 **/
 	String VX_STATIC_ROOT = "/static/*";
+	/** favicon.ico默认路径 **/
+	String VX_FAVICON_ROOT = "/favicon.ico";
 	/** favicon.ico路径 **/
 	String VX_FAVICON_PATH = "/static/favicon.ico";
 	/** Template需要使用的资源 **/
 	String VX_DYNAMIC_ROOT = "/dynamic/*";
+	/** 基础认证的Redirect **/
+	String VX_DYNAMIC_ADMIN = "/dynamic/admin/*";
+	/** 登录界面 **/
+	String VX_LOGIN_PAGE = "/dynamic/index.jade";
 	/** Global ID对应Key **/
 	String BUS_GLOBAL_ID = "identifier";
 	/** Script Name对应Key **/
@@ -118,9 +124,11 @@ public interface Constants { // NOPMD
 	/** CORS Handler **/
 	int VX_OD_CORS = -940;
 	/** Static Handler **/
-	int VX_OD_STATIC = -930;
+	int VX_OD_STATIC = -920;
 	/** Template Handler **/
-	int VX_OD_DYNAMIC = -935;
+	int VX_OD_DYNAMIC = -910;
+	/** Redirect Handler Order **/
+	int VX_OD_ADMIN = -930;
 
 	/** Router Handler Order **/
 	int VX_OD_ROUTER = -400;

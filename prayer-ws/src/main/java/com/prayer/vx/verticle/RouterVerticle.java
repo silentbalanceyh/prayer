@@ -21,11 +21,13 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.AuthHandler;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.ErrorHandler;
 import io.vertx.ext.web.handler.FaviconHandler;
+import io.vertx.ext.web.handler.RedirectAuthHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.TemplateHandler;
@@ -107,13 +109,18 @@ public class RouterVerticle extends AbstractVerticle {
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	private void injectStatic(final Router router) {
-		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_STATIC).handler(StaticHandler.create());
+		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_STATIC)
+				.handler(StaticHandler.create().setCachingEnabled(false));
 		// 引入jade模板引擎
 		router.route(Constants.VX_DYNAMIC_ROOT).order(Constants.VX_OD_DYNAMIC)
 				.handler(TemplateHandler.create(JadeTemplateEngine.create()));
 		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_STATIC).failureHandler(ErrorHandler.create());
-		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_DYNAMIC)
+		router.route(Constants.VX_FAVICON_ROOT).order(Constants.VX_OD_DYNAMIC)
 				.handler(FaviconHandler.create(Constants.VX_FAVICON_PATH));
+		// Redirect问题
+		final AuthProvider authProvider = this.securitor.getProvider();
+		final AuthHandler redirectHandler = RedirectAuthHandler.create(authProvider, Constants.VX_LOGIN_PAGE);
+		router.route(Constants.VX_DYNAMIC_ADMIN).order(Constants.VX_OD_ADMIN).handler(redirectHandler);
 	}
 
 	private void injectSecurity(final Router router) {

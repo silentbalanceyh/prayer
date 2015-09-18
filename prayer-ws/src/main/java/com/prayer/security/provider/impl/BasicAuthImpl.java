@@ -64,7 +64,9 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
 			@NotNull final Handler<AsyncResult<User>> resultHandler) {
 		try {
 			// 1.检查用户名和密码
-			this.interruptParam(authInfo, resultHandler);
+			if(!this.interruptParam(authInfo, resultHandler)){
+				return;	// NOPMD
+			}
 			// 2.读取配置参数
 			final JsonObject params = this.wrapperParam(authInfo);
 			// 3.从系统中读取用户信息
@@ -96,24 +98,25 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	private void interruptParam(final JsonObject authInfo, final Handler<AsyncResult<User>> resultHandler) {
+	private boolean interruptParam(final JsonObject authInfo, final Handler<AsyncResult<User>> resultHandler) {
 		final String username = authInfo.getString("username");
 		if (StringKit.isNil(username)) {
 			errorHandler(authInfo, resultHandler, WebLogger.AUE_USERNAME, RET_M_USER);
-			return; // NOPMD
+			return false; // NOPMD
 		}
 		final String password = authInfo.getString("password");
 		if (StringKit.isNil(password)) {
 			errorHandler(authInfo, resultHandler, WebLogger.AUE_PASSWORD, RET_M_PWD);
-			return;
+			return false; // NOPMD
 		}
+		return true;
 	}
 
 	private void errorHandler(final JsonObject authInfo, final Handler<AsyncResult<User>> resultHandler,
 			final String loggerKey, final String authRet) {
 		authInfo.put(BasicAuth.RET_E_KEY, authRet);
-		resultHandler.handle(Future.failedFuture(authRet));
 		error(LOGGER, loggerKey);
+		resultHandler.handle(Future.failedFuture(authRet));
 	}
 
 	private JsonObject wrapperParam(final JsonObject authInfo) {

@@ -52,6 +52,8 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthHandlerImpl.class);
+	/** **/
+	private static final String AUTH_KEY = "response";
 	// ~ Instance Fields =====================================
 	/** REALM **/
 	@NotNull
@@ -117,9 +119,16 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 		// 1.找不到Authorization头部信息
 		if (null == authorization) {
 			this.handler401Error(routingContext);
+			return;	// NOPMD
 		} else {
 			// 2.获取AuthInfo的信息
 			final JsonObject authInfo = this.generateAuthInfo(routingContext, authorization);
+			// Fix Issue -> Response has already been sent.
+			if(401 == authInfo.getInteger(AUTH_KEY)){	// NOPMD
+				return;
+			}else{
+				authInfo.remove(AUTH_KEY);
+			}
 			// 3.设置扩展信息
 			{
 				final JsonObject extension = new JsonObject();
@@ -165,11 +174,14 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 			if ("Basic".equals(schema)) {
 				retAuthInfo.put("username", username);
 				retAuthInfo.put("password", Encryptor.encryptMD5(password));
+				retAuthInfo.put(AUTH_KEY,200);
 			} else {
+				retAuthInfo.put(AUTH_KEY,401);
 				handler401Error(routingContext);
 			}
 		} catch (ArrayIndexOutOfBoundsException ex) {
 			error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+			retAuthInfo.put(AUTH_KEY,401);
 			handler401Error(routingContext);
 		}
 		return retAuthInfo;

@@ -1,0 +1,60 @@
+/*typography-cn-zh.css: China-Simplified Chinese*/
+/*No font face file*/
+/*Importing typography-non-western*/
+body, input {
+  font-family: HPSimplified, Latin; }
+
+body {
+  font-size: 100%; }
+
+h1, h2, h3 {
+  font-weight: bold; }
+
+h1 {
+  font-size: 30px;
+  font-size: 1.875rem;
+  /*=30px*/
+  line-height: 36px;
+  line-height: 2.25rem;
+  /*=36px*/
+  margin-bottom: 9px;
+  margin-bottom: 0.5625rem;
+  /*=9px*/ }
+
+h2 {
+  font-size: 24px;
+  font-size: 1.5rem;
+  /*=24px*/
+  line-height: 30px;
+  line-height: 1.875rem;
+  /*=30px*/
+  margin-bottom: 5px;
+  margin-bottom: 0.3125rem;
+  /*=5px*/ }
+
+h3 {
+  font-size: 20px;
+  font-size: 1.25rem;
+  /*=20px*/
+  line-height: 25px;
+  line-height: 1.5625rem;
+  /*=25px*/
+  margin-bottom: 5px;
+  margin-bottom: 0.3125rem;
+  /*=5px*/ }
+
+h4, h5, h6 {
+  font-weight: normal;
+  font-size: 16px;
+  font-size: 1rem;
+  /*=16px*/
+  line-height: 18px;
+  line-height: 1.125rem;
+  /*=18px*/ }
+
+/*Locale Specific Settings*/
+body, input {
+  font-family: Latin; }
+
+h1, h2, h3 {
+  font-family: Latin; }
