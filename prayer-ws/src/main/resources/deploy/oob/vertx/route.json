@@ -1,21 +1,21 @@
 [
 	{
-		"parent":"/oauth",
-		"path":"/authorize",
+		"parent":"/api",
+		"path":"/oauth/authorize",
 		"method":"GET",
 		"requestHandler":"com.prayer.handler.standard.RecordHandler",
 		"order":-99
 	},
 	{
-		"parent":"/oauth",
-		"path":"/authorize",
+		"parent":"/api",
+		"path":"/oauth/authorize",
 		"method":"POST",
 		"requestHandler":"com.prayer.handler.standard.RecordHandler",
 		"order":-99
 	},
 	{
 		"parent":"/api",
-		"path":"/login",
+		"path":"/sec/login",
 		"method":"GET",
 		"requestHandler":"com.prayer.handler.standard.BasicAuthenticateHandler",
 		"order":-99

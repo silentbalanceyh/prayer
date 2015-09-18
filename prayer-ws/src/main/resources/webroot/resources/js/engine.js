@@ -1,4 +1,4 @@
 /** 自定义JS文件 **/
 function btnLogin(){
-	console.log("Hello World");
+	console.log("Hello World A");
 }

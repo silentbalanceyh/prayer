@@ -25,6 +25,7 @@ import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.ErrorHandler;
+import io.vertx.ext.web.handler.FaviconHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.TemplateHandler;
@@ -111,13 +112,15 @@ public class RouterVerticle extends AbstractVerticle {
 		router.route(Constants.VX_DYNAMIC_ROOT).order(Constants.VX_OD_DYNAMIC)
 				.handler(TemplateHandler.create(JadeTemplateEngine.create()));
 		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_STATIC).failureHandler(ErrorHandler.create());
+		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_DYNAMIC)
+				.handler(FaviconHandler.create(Constants.VX_FAVICON_PATH));
 	}
 
 	private void injectSecurity(final Router router) {
 		final AuthProvider authProvider = this.securitor.getProvider();
 		router.route().order(Constants.VX_OD_USER_SESSION).handler(UserSessionHandler.create(authProvider));
 		if (SecurityMode.BASIC == this.securitor.getMode()) {
-			router.route(Constants.VX_AUTH_ROOT).order(Constants.VX_OD_AUTH)
+			router.route(Constants.VX_SECURE_API_ROOT).order(Constants.VX_OD_AUTH)
 					.handler(BasicAuthHandler.create(authProvider));
 		}
 	}
@@ -129,13 +132,13 @@ public class RouterVerticle extends AbstractVerticle {
 	}
 
 	private void injectStandard(final Router router) {
-		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_ROUTER).handler(RouterHandler.create());
-		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_VALIDATION).handler(ValidationHandler.create());
-		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_CONVERTOR).handler(ConversionHandler.create());
-		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_SERVICE).handler(ServiceHandler.create());
-		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_WRAPPER).handler(WrapperHandler.create());
+		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_ROUTER).handler(RouterHandler.create());
+		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_VALIDATION).handler(ValidationHandler.create());
+		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_CONVERTOR).handler(ConversionHandler.create());
+		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_SERVICE).handler(ServiceHandler.create());
+		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_WRAPPER).handler(WrapperHandler.create());
 		// 7.Failure处理器设置
-		router.route(Constants.VX_URL_ROOT).order(Constants.VX_OD_FAILURE).failureHandler(FailureHandler.create());
+		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_FAILURE).failureHandler(FailureHandler.create());
 	}
 
 	private void injectSession(final Router router) {

@@ -1,6 +1,6 @@
 [
 	{
-		"uri":"/oauth/authorize",
+		"uri":"/api/oauth/authorize",
 		"method":"GET",
 		"paramType":"QUERY",
 		"address":"MSG://RECORD/QUEUE",
@@ -17,7 +17,7 @@
 		
 	},
 	{
-		"uri":"/oauth/authorize",
+		"uri":"/api/oauth/authorize",
 		"method":"POST",
 		"paramType":"BODY",
 		"address":"MSG://RECORD/QUEUE",
@@ -34,7 +34,7 @@
 		
 	},
 	{
-		"uri":"/api/login",
+		"uri":"/api/sec/login",
 		"method":"GET",
 		"paramType":"BODY",
 		"address":"MSG://SECURITY/QUEUE",

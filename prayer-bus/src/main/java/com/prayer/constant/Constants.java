@@ -76,11 +76,13 @@ public interface Constants { // NOPMD
 	/** Default Convertor，默认Convertor，什么都不做 **/
 	String VX_DF_CONVERTOR = "__DEFAULT__";
 	/** 根目录对应的情况，去除掉/static/*静态目录 **/
-	String VX_URL_ROOT = "/*";
+	String VX_API_ROOT = "/api/*";
 	/** Secure API的根目录 **/
-	String VX_AUTH_ROOT = "/api/*";
+	String VX_SECURE_API_ROOT = "/api/sec/*";	// NOPMD
 	/** Static静态资源 **/
 	String VX_STATIC_ROOT = "/static/*";
+	/** favicon.ico路径 **/
+	String VX_FAVICON_PATH = "/static/favicon.ico";
 	/** Template需要使用的资源 **/
 	String VX_DYNAMIC_ROOT = "/dynamic/*";
 	/** Global ID对应Key **/
