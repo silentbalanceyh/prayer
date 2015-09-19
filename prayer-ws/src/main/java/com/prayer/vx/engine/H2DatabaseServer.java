@@ -1,7 +1,7 @@
 package com.prayer.vx.engine;
 
-import static com.prayer.uca.assistant.WebLogger.error;
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.io.File;
@@ -12,6 +12,7 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.assistant.WebLogger;
 import com.prayer.bus.deploy.oob.DeploySevImpl;
 import com.prayer.bus.std.DeployService;
 import com.prayer.constant.Resources;
@@ -19,7 +20,6 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.handler.web.ConversionHandler;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.uca.assistant.WebLogger;
 import com.prayer.vx.configurator.ServerConfigurator;
 
 import net.sf.oval.constraint.NotNull;

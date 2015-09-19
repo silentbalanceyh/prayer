@@ -1,14 +1,14 @@
 package com.prayer.handler.web;
 
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.assistant.HttpErrHandler;
+import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.uca.assistant.HttpErrHandler;
-import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;

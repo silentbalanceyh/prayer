@@ -1,6 +1,6 @@
 package com.prayer.handler.web; // NOPMD
 
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.singleton;
 
@@ -13,6 +13,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.assistant.Dispatcher;
+import com.prayer.assistant.WebLogger;
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
 import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.Constants;
@@ -22,8 +24,6 @@ import com.prayer.exception.AbstractException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.uca.assistant.SharedDispatcher;
-import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
@@ -83,7 +83,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 		final RestfulResult webRet = RestfulResult.create();
 
 		// 3.请求转发，去除掉Error过后的信息
-		final AbstractException error = SharedDispatcher.requestDispatch(result, webRet, routingContext,getClass());
+		final AbstractException error = Dispatcher.requestDispatch(result, webRet, routingContext,getClass());
 
 		// 4.根据Error设置
 		if (null == error) {

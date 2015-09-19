@@ -1,12 +1,12 @@
 package com.prayer.handler.deploy;
 
-import static com.prayer.uca.assistant.WebLogger.error;
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.assistant.WebLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.uca.assistant.WebLogger;
+import com.prayer.assistant.WebLogger;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

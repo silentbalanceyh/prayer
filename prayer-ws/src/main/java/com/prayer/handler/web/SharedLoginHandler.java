@@ -1,11 +1,12 @@
-package com.prayer.handler.standard;
+package com.prayer.handler.web;
 
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
+import com.prayer.handler.standard.RecordHandler;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.security.provider.impl.BasicUser;
 import com.prayer.util.StringKit;

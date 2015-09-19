@@ -1,17 +1,17 @@
 package com.prayer.handler.web;
 
-import static com.prayer.uca.assistant.WebLogger.error;
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.assistant.WebLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.net.HttpHeaders;
+import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.security.provider.BasicAuth;
-import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;

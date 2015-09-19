@@ -4,6 +4,8 @@ import static com.prayer.util.Instance.singleton;
 
 import java.text.MessageFormat;
 
+import com.prayer.assistant.Extractor;
+import com.prayer.assistant.Interruptor;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
@@ -13,8 +15,6 @@ import com.prayer.exception.AbstractWebException;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.uca.WebValidator;
-import com.prayer.uca.assistant.Extractor;
-import com.prayer.uca.assistant.Interruptor;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;

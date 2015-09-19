@@ -1,18 +1,18 @@
 package com.prayer.handler.web;
 
-import static com.prayer.uca.assistant.WebLogger.error;
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.instance;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.assistant.HttpErrHandler;
+import com.prayer.assistant.Interruptor;
+import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractWebException;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.uca.assistant.HttpErrHandler;
-import com.prayer.uca.assistant.Interruptor;
-import com.prayer.uca.assistant.WebLogger;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

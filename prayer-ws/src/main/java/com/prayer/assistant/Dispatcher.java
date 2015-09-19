@@ -1,6 +1,6 @@
-package com.prayer.uca.assistant;
+package com.prayer.assistant;
 
-import static com.prayer.uca.assistant.WebLogger.error;
+import static com.prayer.assistant.WebLogger.error;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -28,10 +28,10 @@ import io.vertx.ext.web.RoutingContext;
  * @author Lang
  *
  */
-public final class SharedDispatcher {		// NOPMD
+public final class Dispatcher {		// NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(SharedDispatcher.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Dispatcher.class);
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -123,7 +123,7 @@ public final class SharedDispatcher {		// NOPMD
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-	private SharedDispatcher(){}
+	private Dispatcher(){}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

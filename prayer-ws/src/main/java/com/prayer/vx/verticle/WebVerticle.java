@@ -2,10 +2,10 @@ package com.prayer.vx.verticle;
 
 import static com.prayer.util.Instance.singleton;
 
+import com.prayer.assistant.RouterInjector;
 import com.prayer.constant.Constants;
-import com.prayer.handler.standard.SharedLoginHandler;
+import com.prayer.handler.web.SharedLoginHandler;
 import com.prayer.vx.configurator.ServerConfigurator;
-import com.prayer.vx.verticle.injector.RouterInjector;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;

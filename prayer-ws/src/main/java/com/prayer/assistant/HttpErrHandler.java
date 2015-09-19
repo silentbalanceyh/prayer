@@ -1,6 +1,6 @@
-package com.prayer.uca.assistant;
+package com.prayer.assistant;
 
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

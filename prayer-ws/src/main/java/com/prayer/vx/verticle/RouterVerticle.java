@@ -4,6 +4,7 @@ import static com.prayer.util.Instance.singleton;
 
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.assistant.RouterInjector;
 import com.prayer.constant.Constants;
 import com.prayer.handler.web.ConversionHandler;
 import com.prayer.handler.web.FailureHandler;
@@ -13,7 +14,6 @@ import com.prayer.handler.web.ValidationHandler;
 import com.prayer.handler.web.WrapperHandler;
 import com.prayer.vx.configurator.RouteConfigurator;
 import com.prayer.vx.configurator.ServerConfigurator;
-import com.prayer.vx.verticle.injector.RouterInjector;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;

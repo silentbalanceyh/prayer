@@ -1,6 +1,6 @@
 package com.prayer.vx.configurator;
 
-import static com.prayer.uca.assistant.WebLogger.error;
+import static com.prayer.assistant.WebLogger.error;
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.instance;
 
@@ -11,13 +11,13 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.assistant.Interruptor;
+import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.SecurityMode;
 import com.prayer.exception.AbstractWebException;
 import com.prayer.security.provider.BasicAuth;
-import com.prayer.uca.assistant.Interruptor;
-import com.prayer.uca.assistant.WebLogger;
 import com.prayer.util.PropertyKit;
 
 import io.vertx.core.http.HttpMethod;

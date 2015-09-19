@@ -1,7 +1,7 @@
 package com.prayer.security.provider.impl;
 
-import static com.prayer.uca.assistant.WebLogger.error;
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.ArrayList;
@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.assistant.WebLogger;
 import com.prayer.bus.security.BasicAuthService;
 import com.prayer.bus.security.impl.BasicAuthSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.security.provider.BasicAuth;
-import com.prayer.uca.assistant.WebLogger;
 import com.prayer.util.StringKit;
 import com.prayer.vx.configurator.SecurityConfigurator;
 

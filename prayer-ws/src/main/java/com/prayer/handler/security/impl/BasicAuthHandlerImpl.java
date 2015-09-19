@@ -1,7 +1,7 @@
 package com.prayer.handler.security.impl; // NOPMD
 
-import static com.prayer.uca.assistant.WebLogger.error;
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.Base64;
@@ -10,6 +10,9 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.assistant.Dispatcher;
+import com.prayer.assistant.HttpErrHandler;
+import com.prayer.assistant.WebLogger;
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
 import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.Constants;
@@ -22,9 +25,6 @@ import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.security.provider.impl.BasicUser;
-import com.prayer.uca.assistant.HttpErrHandler;
-import com.prayer.uca.assistant.SharedDispatcher;
-import com.prayer.uca.assistant.WebLogger;
 import com.prayer.util.Encryptor;
 import com.prayer.util.StringKit;
 
@@ -90,7 +90,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 		final RestfulResult webRet = RestfulResult.create();
 
 		// 3.请求转发，去除掉Error过后的信息
-		final AbstractException error = SharedDispatcher.requestDispatch(result, webRet, routingContext, getClass());
+		final AbstractException error = Dispatcher.requestDispatch(result, webRet, routingContext, getClass());
 
 		/**
 		 * 4.根据Error设置相应，唯一特殊的情况是Basic认证是Body的参数方式，

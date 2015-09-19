@@ -1,4 +1,4 @@
-package com.prayer.vx.verticle.injector;
+package com.prayer.assistant;
 
 import static com.prayer.util.Instance.singleton;
 

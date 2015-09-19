@@ -1,7 +1,7 @@
 package com.prayer.vx.engine;
 
-import static com.prayer.uca.assistant.WebLogger.error;
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,10 +10,10 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.assistant.Interruptor;
+import com.prayer.assistant.WebLogger;
 import com.prayer.exception.AbstractWebException;
 import com.prayer.handler.deploy.VerticleAsyncHandler;
-import com.prayer.uca.assistant.Interruptor;
-import com.prayer.uca.assistant.WebLogger;
 import com.prayer.vx.configurator.VerticleConfigurator;
 
 import io.vertx.core.AbstractVerticle;

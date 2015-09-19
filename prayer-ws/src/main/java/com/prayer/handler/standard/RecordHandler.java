@@ -1,11 +1,11 @@
 package com.prayer.handler.standard;
 
-import static com.prayer.uca.assistant.WebLogger.info;
+import static com.prayer.assistant.WebLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.uca.assistant.WebLogger;
+import com.prayer.assistant.WebLogger;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
