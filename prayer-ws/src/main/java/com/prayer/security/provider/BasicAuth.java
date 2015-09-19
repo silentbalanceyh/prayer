@@ -38,4 +38,8 @@ public interface BasicAuth extends AuthProvider{	// NOPMD
 	String RET_I_USER_PWD = "AUTH.FAILURE";
 	/** 返回的错误信息Key值 **/
 	String RET_E_KEY = "authenticateError";
+	/** Shared User **/
+	String KEY_POOL_USER = "SHARED.USER";
+	/** User ID **/
+	String KEY_USER_ID = "UID";
 }

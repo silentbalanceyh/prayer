@@ -6,6 +6,12 @@
 		"deployOrder":1
 	},
 	{
+		"name":"com.prayer.vx.verticle.WebVerticle",
+		"instances":10,
+		"ha":true,
+		"deployOrder":2
+	},
+	{
 		"name":"com.prayer.vx.verticle.RecordWorker",
 		"instances":10,
 		"ha":true,

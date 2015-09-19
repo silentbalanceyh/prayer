@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Resources;
+import com.prayer.constant.Symbol;
 import com.prayer.util.PropertyKit;
 
 import io.vertx.core.http.HttpServerOptions;
@@ -36,22 +37,23 @@ public class ServerConfigurator { // NOPMD
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
-	
+
 	/** 获取Http Server Options的选项信息 **/
-	public HttpServerOptions getOptions() {
-		final HttpServerOptions options = new HttpServerOptions();
-		if (null == this.LOADER) {
-			error(LOGGER, "Server property file has not been initialized successfully !");
-		} else {
-			// Basic Options
-			options.setPort(this.LOADER.getInt("server.port"));
-			options.setHost(this.LOADER.getString("server.host"));
-			// Whether support compression
-			options.setCompressionSupported(this.LOADER.getBoolean("server.compression.support"));
-			options.setAcceptBacklog(this.LOADER.getInt("server.accept.backlog"));
-			options.setClientAuthRequired(this.LOADER.getBoolean("server.client.auth.required"));
-		}
-		return options;
+	public HttpServerOptions getApiOptions() {
+		return this.getOptions("server.api.port");
+	}
+
+	/** Web应用的选项信息 **/
+	public HttpServerOptions getWebOptions() {
+		return this.getOptions("server.web.port");
+	}
+
+	/** Api Remote 地址 **/
+	public String getEndPoint() {
+		final StringBuilder apiUrl = new StringBuilder();
+		apiUrl.append("http://").append(LOADER.getString("server.host")).append(Symbol.COLON)
+				.append(LOADER.getString("server.api.port")).append("/api");
+		return apiUrl.toString();
 	}
 
 	/** H2 Database 创建 **/
@@ -93,6 +95,22 @@ public class ServerConfigurator { // NOPMD
 	}
 
 	// ~ Private Methods =====================================
+
+	private HttpServerOptions getOptions(final String portKey) {
+		final HttpServerOptions options = new HttpServerOptions();
+		if (null == this.LOADER) {
+			error(LOGGER, "Server property loader has not been initialized successfully !");
+		} else {
+			// Basic Options
+			options.setPort(this.LOADER.getInt(portKey));
+			options.setHost(this.LOADER.getString("server.host"));
+			// Whether support compression
+			options.setCompressionSupported(this.LOADER.getBoolean("server.compression.support"));
+			options.setAcceptBacklog(this.LOADER.getInt("server.accept.backlog"));
+			options.setClientAuthRequired(this.LOADER.getBoolean("server.client.auth.required"));
+		}
+		return options;
+	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

@@ -80,6 +80,8 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
 					final String username = retObj
 							.getString(this.configurator.getSecurityOptions().getString(DFT_ACCOUNT_ID));
 					info(LOGGER, WebLogger.I_COMMON_INFO, retObj.encode());
+					// Fix 客户端跨域问题
+					authInfo.put(KEY_USER_ID, retObj.getString("uniqueId"));
 					resultHandler.handle(Future.succeededFuture(new BasicUser(username, this, "role")));
 				} else {
 					errorHandler(authInfo, resultHandler, WebLogger.AUE_AUTH_FAILURE, RET_I_USER_PWD);

@@ -7,20 +7,18 @@ function btnLogin() {
 	message("msgError");
 	$.ajax({
 		type : "GET",
-		url : "/api/sec/login",
-		headers : {
-			"Authorization" : auth
-		},
+		url : api("/sec/login"),
+		headers :headers(auth),
 		dataType : "json",
 		async:false,
-		success : function(data) {
-			if(200 === data.statusCode){
-				window.location = "/dynamic/admin/main.jade";
-				// element("lnkMain").click();
+		success : function(response) {
+			if(200 === response.statusCode){
+				var username = response.data["uniqueId"];
+				window.location = "/dynamic/admin/main?UID=" + username;
 			}
 		},
 		error : function(error) {
-			var response = JSON.parse(error.responseText);
+			var response = JSON.parse(error.responseText);	// NOPMD
 			if(401 === response.statusCode){
 				if(undefined === response.authenticateError){
 					message("msgError",true,MSG["AUTH"]["AUTH.MISSING"]);

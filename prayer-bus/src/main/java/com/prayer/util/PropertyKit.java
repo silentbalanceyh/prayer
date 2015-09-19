@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.MemoryPool;
+import com.prayer.constant.Symbol;
 
 import jodd.util.StringPool;
 import jodd.util.StringUtil;
@@ -139,6 +140,15 @@ public final class PropertyKit {
 			ret = null; // NOPMD
 		}
 		return ret;
+	}
+	/**
+	 * 
+	 * @param propKey
+	 * @return
+	 */
+	public String[] getArray(@NotNull @NotBlank @NotEmpty final String propKey){
+		final String ret = this.getString(propKey);
+		return StringUtil.split(ret,String.valueOf(Symbol.COMMA));
 	}
 
 	/**

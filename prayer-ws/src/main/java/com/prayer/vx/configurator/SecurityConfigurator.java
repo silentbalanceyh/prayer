@@ -4,6 +4,10 @@ import static com.prayer.uca.assistant.WebLogger.error;
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.instance;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +20,10 @@ import com.prayer.uca.assistant.Interruptor;
 import com.prayer.uca.assistant.WebLogger;
 import com.prayer.util.PropertyKit;
 
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
+import io.vertx.ext.web.handler.CorsHandler;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -53,6 +59,44 @@ public class SecurityConfigurator {
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
+
+	/**
+	 * 获取Provider引用
+	 * 
+	 * @return
+	 */
+	public AuthProvider getProvider() {
+		AuthProvider provider = null;
+		try {
+			final String providerCls = this.getSecurityOptions().getString(PROVIDER);
+			Interruptor.interruptClass(getClass(), providerCls, "AuthProvider");
+			Interruptor.interruptImplements(getClass(), providerCls, AuthProvider.class);
+			provider = instance(providerCls);
+		} catch (AbstractWebException ex) {
+			error(LOGGER, WebLogger.E_COMMON_EXP, ex.getErrorMessage());
+		}
+		return provider;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public CorsHandler getCorsHandler(){
+		final CorsHandler handler = CorsHandler.create(this.LOADER.getString("server.security.cors.origin"));
+		handler.allowCredentials(this.LOADER.getBoolean("server.security.cors.credentials"));
+		// Headers
+		final String[] headers = this.LOADER.getArray("server.security.cors.headers");
+		final Set<String> headerSet = new HashSet<>(Arrays.asList(headers));
+		handler.allowedHeaders(headerSet);
+		// Methods
+		final Set<HttpMethod> methodSet = new HashSet<>();
+		final String[] methods = this.LOADER.getArray("server.security.cors.methods");
+		for(final String method: methods){
+			methodSet.add(fromStr(HttpMethod.class,method));
+		}
+		handler.allowedMethods(methodSet);
+		return handler;
+	}
 	/**
 	 * Security Mode
 	 * 
@@ -85,23 +129,6 @@ public class SecurityConfigurator {
 		return options;
 	}
 
-	/**
-	 * 获取Provider引用
-	 * 
-	 * @return
-	 */
-	public AuthProvider getProvider() {
-		AuthProvider provider = null;
-		try {
-			final String providerCls = this.getSecurityOptions().getString(PROVIDER);
-			Interruptor.interruptClass(getClass(), providerCls, "AuthProvider");
-			Interruptor.interruptImplements(getClass(), providerCls, AuthProvider.class);
-			provider = instance(providerCls);
-		} catch (AbstractWebException ex) {
-			error(LOGGER, WebLogger.E_COMMON_EXP, ex.getErrorMessage());
-		}
-		return provider;
-	}
 	// ~ Private Methods =====================================
 
 	/** Basic Options **/

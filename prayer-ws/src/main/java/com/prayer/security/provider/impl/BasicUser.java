@@ -23,13 +23,18 @@ public class BasicUser extends AbstractUser {
 	/** 用户名信息 **/
 	private transient String username;
 	/** 用户认证信息 **/
-	private transient JsonObject principal;	// NOPMD
+	private transient JsonObject principal; // NOPMD
 	/** 角色Role信息 **/
 	private transient String role;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	/** **/
+	public BasicUser() {
+		this(null, null, null);
+	}
+
 	/** **/
 	BasicUser(final String username, final AuthProvider provider, final String role) {
 		super();
@@ -40,6 +45,7 @@ public class BasicUser extends AbstractUser {
 
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+
 	/** 获取授权的身份信息 **/
 	@Override
 	public JsonObject principal() {
@@ -80,7 +86,7 @@ public class BasicUser extends AbstractUser {
 
 	/** 从Buffer中读取数据 **/
 	@Override
-	public int readFromBuffer(int pos, final Buffer buffer) {	// NOPMD
+	public int readFromBuffer(int pos, final Buffer buffer) { // NOPMD
 		pos = super.readFromBuffer(pos, buffer);
 		int len = buffer.getInt(pos);
 		pos += 4;

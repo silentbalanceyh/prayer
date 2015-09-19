@@ -77,6 +77,8 @@ public interface Constants { // NOPMD
 	String VX_DF_CONVERTOR = "__DEFAULT__";
 	/** 根目录对应的情况，去除掉/static/*静态目录 **/
 	String VX_API_ROOT = "/api/*";
+	/** Api的远程地址 **/
+	String VX_API_DK = "API.URL";
 	/** Secure API的根目录 **/
 	String VX_SECURE_API_ROOT = "/api/sec/*";	// NOPMD
 	/** Static静态资源 **/
@@ -111,24 +113,28 @@ public interface Constants { // NOPMD
 	/** **/
 	String PARAM_FILTERS = "filters";
 	// ~ Vertx Order =========================================
-	/** Cookie Handler Order **/
-	int VX_OD_COOKIE = -990;
-	/** Body Handler Order **/
-	int VX_OD_BODY = -980;
-	/** Authentication Handler Order **/
-	int VX_OD_AUTH = -970;
-	/** Session Handler Order **/
-	int VX_OD_SESSION = -960;
-	/** User Session Handler Order **/
-	int VX_OD_USER_SESSION = -950;		// NOPMD
 	/** CORS Handler **/
-	int VX_OD_CORS = -940;
+	int VX_OD_CORS = -990;
+	/** Cookie Handler Order **/
+	int VX_OD_COOKIE = -980;
+	/** Body Handler Order **/
+	int VX_OD_BODY = -970;
+	/** Authentication Handler Order **/
+	int VX_OD_AUTH = -960;
+	/** Session Handler Order **/
+	int VX_OD_SESSION = -950;
+	/** User Session Handler Order **/
+	int VX_OD_USER_SESSION = -940;		// NOPMD
+	/** Redirect之前的预处理 **/
+	int VX_OD_SHARED = -935;
+	/** Redirect Handler Order **/
+	int VX_OD_ADMIN = -930;
 	/** Static Handler **/
 	int VX_OD_STATIC = -920;
 	/** Template Handler **/
 	int VX_OD_DYNAMIC = -910;
-	/** Redirect Handler Order **/
-	int VX_OD_ADMIN = -930;
+	/** **/
+	int VX_OD_CONTEXT = -900;
 
 	/** Router Handler Order **/
 	int VX_OD_ROUTER = -400;

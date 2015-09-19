@@ -35,3 +35,14 @@ function message(id, show, error) {
 		element(id).addClass("invisible");
 	}
 }
+// 生成合法的API
+function api(api){
+	var apiUrl = value('hdApi');
+	return apiUrl + api;
+}
+
+function headers(auth){
+	return {
+		"Authorization":auth
+	}
+}

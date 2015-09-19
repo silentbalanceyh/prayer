@@ -21,6 +21,7 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.security.provider.BasicAuth;
+import com.prayer.security.provider.impl.BasicUser;
 import com.prayer.uca.assistant.HttpErrHandler;
 import com.prayer.uca.assistant.SharedDispatcher;
 import com.prayer.uca.assistant.WebLogger;
@@ -32,6 +33,8 @@ import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.shareddata.LocalMap;
+import io.vertx.core.shareddata.SharedData;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
@@ -57,7 +60,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 	// ~ Instance Fields =====================================
 	/** REALM **/
 	@NotNull
-	private transient final String realm;	// NOPMD
+	private transient final String realm; // NOPMD
 	/** **/
 	@NotNull
 	private transient final ConfigService service;
@@ -119,14 +122,14 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 		// 1.找不到Authorization头部信息
 		if (null == authorization) {
 			this.handler401Error(routingContext);
-			return;	// NOPMD
+			return; // NOPMD
 		} else {
 			// 2.获取AuthInfo的信息
 			final JsonObject authInfo = this.generateAuthInfo(routingContext, authorization);
 			// Fix Issue -> Response has already been sent.
-			if(401 == authInfo.getInteger(AUTH_KEY)){	// NOPMD
+			if (401 == authInfo.getInteger(AUTH_KEY)) { // NOPMD
 				return;
-			}else{
+			} else {
 				authInfo.remove(AUTH_KEY);
 			}
 			// 3.设置扩展信息
@@ -147,6 +150,10 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 					// 认证成功的时候放入信息到Body中
 					routingContext.setBody(Buffer.buffer(authInfo.encode(), Resources.SYS_ENCODING.name()));
 					routingContext.setUser(authenticated);
+					// 放入到LocalData中用于在WebVerticle特殊环境中设置登录信息，主要用于Cross Verticle的操作
+					if (authInfo.containsKey(BasicAuth.KEY_USER_ID)) {
+						processClientLogin(routingContext, authInfo.getString(BasicAuth.KEY_USER_ID), authenticated);
+					}
 					authorise(authenticated, routingContext);
 				} else {
 					if (StringKit.isNonNil(authInfo.getString(BasicAuth.RET_E_KEY))) {
@@ -156,6 +163,18 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 					this.handler401Error(routingContext);
 				}
 			});
+
+		}
+	}
+
+	private void processClientLogin(final RoutingContext routingContext, final String uID, final User user) {
+		if (user instanceof BasicUser) {
+			final BasicUser stored = (BasicUser) user;
+			final SharedData shared = routingContext.vertx().sharedData();
+			final LocalMap<String, Buffer> sharedMap = shared.getLocalMap(BasicAuth.KEY_POOL_USER);
+			final Buffer buffer = Buffer.buffer();
+			stored.writeToBuffer(buffer);
+			sharedMap.put(uID, buffer);
 		}
 	}
 
@@ -174,14 +193,14 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 			if ("Basic".equals(schema)) {
 				retAuthInfo.put("username", username);
 				retAuthInfo.put("password", Encryptor.encryptMD5(password));
-				retAuthInfo.put(AUTH_KEY,200);
+				retAuthInfo.put(AUTH_KEY, 200);
 			} else {
-				retAuthInfo.put(AUTH_KEY,401);
+				retAuthInfo.put(AUTH_KEY, 401);
 				handler401Error(routingContext);
 			}
 		} catch (ArrayIndexOutOfBoundsException ex) {
 			error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
-			retAuthInfo.put(AUTH_KEY,401);
+			retAuthInfo.put(AUTH_KEY, 401);
 			handler401Error(routingContext);
 		}
 		return retAuthInfo;
@@ -192,7 +211,8 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 		HttpErrHandler.error401(webRet, getClass(), context.request().path());
 		context.put(Constants.VX_CTX_ERROR, webRet);
 		// Digest认证才会使用的头部信息
-		// context.response().putHeader("WWW-Authenticate", "Basic realm=\"" + this.realm + "\"");
+		// context.response().putHeader("WWW-Authenticate", "Basic realm=\"" +
+		// this.realm + "\"");
 		context.fail(webRet.getStatusCode().status());
 	}
 	// ~ Get/Set =============================================
