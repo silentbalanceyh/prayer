@@ -52,6 +52,9 @@ public final class RouterInjector {
 			handler = SessionHandler.create(LocalSessionStore.create(vertx));
 		}
 		router.route().order(Constants.VX_OD_SESSION).handler(handler);
+		final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
+		final AuthProvider authProvider = securitor.getProvider();
+		router.route().order(Constants.VX_OD_USER_SESSION).handler(UserSessionHandler.create(authProvider));
 	}
 
 	/**
@@ -72,7 +75,6 @@ public final class RouterInjector {
 	public static void injectSecurity(@NotNull final Router router) {
 		final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
 		final AuthProvider authProvider = securitor.getProvider();
-		router.route().order(Constants.VX_OD_USER_SESSION).handler(UserSessionHandler.create(authProvider));
 		if (SecurityMode.BASIC == securitor.getMode()) {
 			router.route(Constants.VX_SECURE_API_ROOT).order(Constants.VX_OD_AUTH)
 					.handler(BasicAuthHandler.create(authProvider));
