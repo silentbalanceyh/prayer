@@ -123,10 +123,10 @@ public interface Constants { // NOPMD
 	int VX_OD_AUTH = -960;
 	/** Session Handler Order **/
 	int VX_OD_SESSION = -950;
+	/** Redirect之前的预处理 **/
+	int VX_OD_SHARED = -945;
 	/** User Session Handler Order **/
 	int VX_OD_USER_SESSION = -940;		// NOPMD
-	/** Redirect之前的预处理 **/
-	int VX_OD_SHARED = -935;
 	/** Redirect Handler Order **/
 	int VX_OD_ADMIN = -930;
 	/** Static Handler **/
