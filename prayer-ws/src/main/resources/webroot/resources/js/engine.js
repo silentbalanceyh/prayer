@@ -37,7 +37,7 @@ function btnLogout() {
 		message : "Do you want to Log off ?",
 		buttons : [ {
 			label : "Yes",
-			cssClass:'btn-primary',
+			cssClass:"btn btn-primary",
 			action:function(self){
 				self.close();
 				window.location = "/dynamic/logout";
