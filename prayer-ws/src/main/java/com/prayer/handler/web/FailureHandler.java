@@ -11,7 +11,6 @@ import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.model.bus.web.RestfulResult;
-import com.prayer.security.provider.BasicAuth;
 
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
@@ -49,18 +48,18 @@ public class FailureHandler implements ErrorHandler {
 	 */
 	@Override
 	public void handle(@NotNull final RoutingContext context) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_FAILURE);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.FAILURE);
 		// 1.包装响应信息
 		final HttpServerResponse response = context.response();
 		// 2.获取RestfulResult
-		final RestfulResult webRet = (RestfulResult) context.get(Constants.VX_CTX_ERROR);
+		final RestfulResult webRet = (RestfulResult) context.get(Constants.KEY.CTX_ERROR);
 		info(LOGGER, WebLogger.I_REST_RESULT, webRet);
 		error(LOGGER, WebLogger.E_COMMON_EXP, webRet.getError());
 		// 3.包装Error信息生成统一的Error格式
 		final JsonObject retData = webRet.getResult();
 		// 3.1.401的特殊信息设置
-		if (null != context.get(BasicAuth.RET_E_KEY)) {
-			retData.put(BasicAuth.RET_E_KEY, context.get(BasicAuth.RET_E_KEY).toString());
+		if (null != context.get(Constants.RET.AUTH_ERROR)) {
+			retData.put(Constants.RET.AUTH_ERROR, context.get(Constants.RET.AUTH_ERROR).toString());
 		}
 		// 4.获取响应的信息
 		final String content = retData.encodePrettily();
@@ -69,8 +68,8 @@ public class FailureHandler implements ErrorHandler {
 		response.putHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + Resources.SYS_ENCODING);
 		response.putHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(content.getBytes().length));
 		// 6.设置StatusCode和Error
-		response.setStatusCode(retData.getInteger(Constants.STATUS_CODE));
-		response.setStatusMessage(retData.getString(Constants.ERROR));
+		response.setStatusCode(retData.getInteger(Constants.RET.STATUS_CODE));
+		response.setStatusMessage(retData.getString(Constants.RET.ERROR));
 		response.write(content, Resources.SYS_ENCODING.name());
 		response.end();
 		response.close();

@@ -47,7 +47,7 @@ public final class BasicAuthConsumer implements Handler<Message<Object>> {
 		// 1.从EventBus中接受数据
 		final JsonObject params = (JsonObject) event.body();
 		// 2.获取方法信息
-		final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM_METHOD));
+		final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM.METHOD));
 		// 3.根据方法访问不同的Record方法
 		String content = null;
 		if(HttpMethod.GET == method){

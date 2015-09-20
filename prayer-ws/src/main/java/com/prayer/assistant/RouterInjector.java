@@ -51,10 +51,10 @@ public final class RouterInjector {
 		} else {
 			handler = SessionHandler.create(LocalSessionStore.create(vertx));
 		}
-		router.route().order(Constants.VX_OD_SESSION).handler(handler);
+		router.route().order(Constants.ORDER.SESSION).handler(handler);
 		final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
 		final AuthProvider authProvider = securitor.getProvider();
-		router.route().order(Constants.VX_OD_USER_SESSION).handler(UserSessionHandler.create(authProvider));
+		router.route().order(Constants.ORDER.USER_SESSION).handler(UserSessionHandler.create(authProvider));
 	}
 
 	/**
@@ -63,9 +63,9 @@ public final class RouterInjector {
 	 */
 	public static void injectWebDefault(@NotNull final Router router) {
 		final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
-		router.route().order(Constants.VX_OD_COOKIE).handler(CookieHandler.create());
-		router.route().order(Constants.VX_OD_BODY).handler(BodyHandler.create());
-		router.route().order(Constants.VX_OD_CORS).handler(securitor.getCorsHandler());
+		router.route().order(Constants.ORDER.COOKIE).handler(CookieHandler.create());
+		router.route().order(Constants.ORDER.BODY).handler(BodyHandler.create());
+		router.route().order(Constants.ORDER.CORS).handler(securitor.getCorsHandler());
 	}
 
 	/**
@@ -76,7 +76,7 @@ public final class RouterInjector {
 		final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
 		final AuthProvider authProvider = securitor.getProvider();
 		if (SecurityMode.BASIC == securitor.getMode()) {
-			router.route(Constants.VX_SECURE_API_ROOT).order(Constants.VX_OD_AUTH)
+			router.route(Constants.ROUTE.SECURE_API).order(Constants.ORDER.AUTH)
 					.handler(BasicAuthHandler.create(authProvider));
 		}
 	}
@@ -87,22 +87,22 @@ public final class RouterInjector {
 	 */
 	public static void injectStatic(@NotNull final Router router, @NotNull @NotBlank @NotEmpty final String apiUrl) {
 		final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
-		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_STATIC)
+		router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.STATIC)
 				.handler(StaticHandler.create().setCachingEnabled(false));
 		// 引入jade模板引擎
 		final TemplateHandler handler = TemplateHandler.create(JadeTemplateEngine.create());
-		router.route(Constants.VX_DYNAMIC_ROOT).order(Constants.VX_OD_DYNAMIC).handler(context -> {
-			context.put(Constants.VX_API_DK, apiUrl);
+		router.route(Constants.WEB.DYNAMIC_ROUTE).order(Constants.ORDER.DYNAMIC).handler(context -> {
+			context.put(Constants.KEY.API_URL, apiUrl);
 			context.next();
 		});
-		router.route(Constants.VX_DYNAMIC_ROOT).order(Constants.VX_OD_CONTEXT).handler(handler);
-		router.route(Constants.VX_STATIC_ROOT).order(Constants.VX_OD_STATIC).failureHandler(ErrorHandler.create());
-		router.route(Constants.VX_FAVICON_ROOT).order(Constants.VX_OD_DYNAMIC)
-				.handler(FaviconHandler.create(Constants.VX_FAVICON_PATH));
+		router.route(Constants.WEB.DYNAMIC_ROUTE).order(Constants.ORDER.CONTEXT).handler(handler);
+		router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.STATIC).failureHandler(ErrorHandler.create());
+		router.route(Constants.WEB.FAVICON_ICO).order(Constants.ORDER.DYNAMIC)
+				.handler(FaviconHandler.create(Constants.WEB.FAVICON_PATH));
 		// Redirect问题
 		final AuthProvider authProvider = securitor.getProvider();
-		final AuthHandler redirectHandler = RedirectAuthHandler.create(authProvider, Constants.VX_LOGIN_PAGE);
-		router.route(Constants.VX_DYNAMIC_ADMIN).order(Constants.VX_OD_ADMIN).handler(redirectHandler);
+		final AuthHandler redirectHandler = RedirectAuthHandler.create(authProvider, Constants.ACTION.LOGIN_PAGE);
+		router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.ADMIN).handler(redirectHandler);
 	}
 
 	// ~ Constructors ========================================

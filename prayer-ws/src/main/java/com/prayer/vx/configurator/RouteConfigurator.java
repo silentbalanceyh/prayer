@@ -98,7 +98,7 @@ public class RouteConfigurator {
 		// 2.初始化Route，设置Method
 		final Route route = initRoute(router, metadata);
 		// 3.设置Order
-		if (Constants.VX_DF_ORDER != metadata.getOrder()) {
+		if (Constants.ORDER.NOT_SET != metadata.getOrder()) {
 			route.order(metadata.getOrder());
 		}
 		// 4.设置MIME

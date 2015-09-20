@@ -49,7 +49,7 @@ public final class ParamExtractor {
 	 * @return
 	 */
 	public GenericSchema extractSchema(@NotNull final JsonObject parameters) {
-		final String identifier = parameters.getString(Constants.PARAM_ID);
+		final String identifier = parameters.getString(Constants.PARAM.ID);
 		final ServiceResult<GenericSchema> schema = this.schemaSev.findSchema(identifier);
 		GenericSchema ret = null;
 		if (ResponseCode.SUCCESS == schema.getResponseCode()) {
@@ -85,7 +85,7 @@ public final class ParamExtractor {
 	 * @param filters
 	 */
 	public void filterRecord(@NotNull final JsonObject retJson, @NotNull final JsonObject inputJson) {
-		final JsonArray jsonFilters = inputJson.getJsonArray(Constants.PARAM_FILTERS);
+		final JsonArray jsonFilters = inputJson.getJsonArray(Constants.PARAM.FILTERS);
 		final Iterator<Object> filterIt = jsonFilters.iterator();
 		while (filterIt.hasNext()) {
 			final Object item = filterIt.next();

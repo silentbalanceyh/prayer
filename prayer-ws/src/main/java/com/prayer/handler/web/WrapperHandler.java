@@ -43,10 +43,10 @@ public class WrapperHandler implements Handler<RoutingContext> {
 	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_WRAPPER);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.WRAPPER);
 		// 2.从系统中读取URI面向业务层的规范
-		final UriModel uri = routingContext.get(Constants.VX_CTX_URI);
-		final JsonObject params = routingContext.get(Constants.VX_CTX_PARAMS);
+		final UriModel uri = routingContext.get(Constants.KEY.CTX_URI);
+		final JsonObject params = routingContext.get(Constants.KEY.CTX_PARAMS);
 		// 3.生成封装参数
 		final JsonObject wrapper = new JsonObject();
 		if (null == params || null == uri) {
@@ -54,13 +54,13 @@ public class WrapperHandler implements Handler<RoutingContext> {
 			HttpErrHandler.handle500Error(getClass(), routingContext);
 		} else {
 			final Session session = routingContext.session();
-			wrapper.put(Constants.PARAM_SESSION, session.id());
-			wrapper.put(Constants.PARAM_ID, uri.getGlobalId());
-			wrapper.put(Constants.PARAM_SCRIPT, uri.getScript());
-			wrapper.put(Constants.PARAM_METHOD, uri.getMethod().toString());
-			wrapper.put(Constants.PARAM_DATA, params);
-			wrapper.put(Constants.PARAM_FILTERS, uri.getReturnFilters());
-			routingContext.put(Constants.VX_CTX_PARAMS, wrapper);
+			wrapper.put(Constants.PARAM.SESSION, session.id());
+			wrapper.put(Constants.PARAM.ID, uri.getGlobalId());
+			wrapper.put(Constants.PARAM.SCRIPT, uri.getScript());
+			wrapper.put(Constants.PARAM.METHOD, uri.getMethod().toString());
+			wrapper.put(Constants.PARAM.DATA, params);
+			wrapper.put(Constants.PARAM.FILTERS, uri.getReturnFilters());
+			routingContext.put(Constants.KEY.CTX_PARAMS, wrapper);
 			routingContext.next();
 		}
 	}

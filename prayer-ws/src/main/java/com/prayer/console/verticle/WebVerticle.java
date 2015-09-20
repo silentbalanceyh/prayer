@@ -59,7 +59,7 @@ public class WebVerticle extends AbstractVerticle {
 		RouterInjector.injectSession(vertx, router);
 
 		// 5.预处理的Handler
-		router.route(Constants.VX_DYNAMIC_ADMIN).order(Constants.VX_OD_SHARED).handler(SharedLoginHandler.create());
+		router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.SHARED).handler(SharedLoginHandler.create());
 
 		// 6.添加Logout的Handler
 		injectLogout(router);
@@ -72,9 +72,9 @@ public class WebVerticle extends AbstractVerticle {
 
 	private void injectLogout(final Router router) {
 		// 登录按钮
-		router.route(Constants.VX_LOGOUT).order(Constants.VX_OD_LOGOUT).handler(context -> {
+		router.route(Constants.ACTION.LOGOUT).order(Constants.ORDER.LOGOUT).handler(context -> {
 			context.clearUser();
-			context.response().putHeader("location", Constants.VX_LOGIN_PAGE).setStatusCode(302).end();
+			context.response().putHeader("location", Constants.ACTION.LOGIN_PAGE).setStatusCode(302).end();
 		});
 	}
 	// ~ Get/Set =============================================

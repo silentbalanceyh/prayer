@@ -36,8 +36,6 @@ public interface BasicAuth extends AuthProvider{	// NOPMD
 	String RET_M_INVALID = "USER.NOT.FOUND";
 	/** 用户名和密码不匹配 **/
 	String RET_I_USER_PWD = "AUTH.FAILURE";
-	/** 返回的错误信息Key值 **/
-	String RET_E_KEY = "authenticateError";
 	/** Shared User **/
 	String KEY_POOL_USER = "SHARED.USER";
 	/** User ID **/

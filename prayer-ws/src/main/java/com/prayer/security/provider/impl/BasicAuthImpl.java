@@ -116,7 +116,7 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
 
 	private void errorHandler(final JsonObject authInfo, final Handler<AsyncResult<User>> resultHandler,
 			final String loggerKey, final String authRet) {
-		authInfo.put(BasicAuth.RET_E_KEY, authRet);
+		authInfo.put(Constants.RET.AUTH_ERROR, authRet);
 		error(LOGGER, loggerKey);
 		resultHandler.handle(Future.failedFuture(authRet));
 	}
@@ -124,17 +124,17 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
 	private JsonObject wrapperParam(final JsonObject authInfo) {
 		final JsonObject options = this.configurator.getSecurityOptions();
 		final JsonObject wrapper = new JsonObject();
-		wrapper.put(Constants.PARAM_ID, options.getString(DFT_SCHEMA_ID));
-		wrapper.put(Constants.PARAM_SCRIPT, options.getString(DFT_SCRIPT_NAME));
+		wrapper.put(Constants.PARAM.ID, options.getString(DFT_SCHEMA_ID));
+		wrapper.put(Constants.PARAM.SCRIPT, options.getString(DFT_SCRIPT_NAME));
 		{
 			final JsonObject extension = authInfo.getJsonObject(DFT_EXTENSION);
-			wrapper.put(Constants.PARAM_METHOD, extension.getString(Constants.PARAM_METHOD));
-			wrapper.put(Constants.PARAM_SESSION, extension.getString(Constants.PARAM_SESSION));
-			wrapper.put(Constants.PARAM_FILTERS, new ArrayList<>());
+			wrapper.put(Constants.PARAM.METHOD, extension.getString(Constants.PARAM.METHOD));
+			wrapper.put(Constants.PARAM.SESSION, extension.getString(Constants.PARAM.SESSION));
+			wrapper.put(Constants.PARAM.FILTERS, new ArrayList<>());
 			// 从AuthInfo中移除Extension
 			authInfo.remove(DFT_EXTENSION);
 		}
-		wrapper.put(Constants.PARAM_DATA, authInfo);
+		wrapper.put(Constants.PARAM.DATA, authInfo);
 		return wrapper;
 
 	}

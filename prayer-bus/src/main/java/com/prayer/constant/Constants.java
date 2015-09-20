@@ -65,102 +65,136 @@ public interface Constants { // NOPMD
 	// ~ Vertx Default =======================================
 	/** HA Group Default **/
 	String VX_GROUP = "__DEFAULT__";
-	/** 默认的顺序，但不设置，作为临界值 **/
-	int VX_DF_ORDER = -10000;
-	/** Global Error Key **/
-	String VX_CTX_ERROR = "FAILURE.KEY";
-	/** Global URI Key **/
-	String VX_CTX_URI = "URI.ENTITY";
-	/** Request Parameters **/
-	String VX_CTX_PARAMS = "PARAMS";
 	/** Default Convertor，默认Convertor，什么都不做 **/
-	String VX_DF_CONVERTOR = "__DEFAULT__";
-	/** 根目录对应的情况，去除掉/static/*静态目录 **/
-	String VX_API_ROOT = "/api/*";
-	/** Api的远程地址 **/
-	String VX_API_DK = "API.URL";
-	/** Secure API的根目录 **/
-	String VX_SECURE_API_ROOT = "/api/sec/*";	// NOPMD
-	/** Static静态资源 **/
-	String VX_STATIC_ROOT = "/static/*";
-	/** favicon.ico默认路径 **/
-	String VX_FAVICON_ROOT = "/favicon.ico";
-	/** favicon.ico路径 **/
-	String VX_FAVICON_PATH = "/static/favicon.ico";
-	/** Template需要使用的资源 **/
-	String VX_DYNAMIC_ROOT = "/dynamic/*";
-	/** 基础认证的Redirect **/
-	String VX_DYNAMIC_ADMIN = "/dynamic/admin/*";
-	/** 登录系统的Action地址 **/
-	String VX_LOGOUT = "/dynamic/logout";
-	/** 登录界面 **/
-	String VX_LOGIN_PAGE = "/dynamic/index.jade";
-	/** Global ID对应Key **/
-	String BUS_GLOBAL_ID = "identifier";
-	/** Script Name对应Key **/
-	String BUS_SCRIPT_NAME = "script";
-	/** Param Data **/
-	String BUS_DATA = "data";
-	// ~ Vertx 参数信息 ======================================
-	/** **/
-	String PARAM_ID = "identifier";
-	/** **/
-	String PARAM_SCRIPT = "script";
-	/** **/
-	String PARAM_DATA = "data";
-	/** **/
-	String PARAM_SESSION = "session.id";
-	/** **/
-	String PARAM_METHOD = "method";
-	/** **/
-	String PARAM_FILTERS = "filters";
-	// ~ Vertx Order =========================================
-	/** CORS Handler **/
-	int VX_OD_CORS = -990;
-	/** Cookie Handler Order **/
-	int VX_OD_COOKIE = -980;
-	/** Body Handler Order **/
-	int VX_OD_BODY = -970;
-	/** Authentication Handler Order **/
-	int VX_OD_AUTH = -960;
-	/** Session Handler Order **/
-	int VX_OD_SESSION = -950;
-	/** Redirect之前的预处理 **/
-	int VX_OD_SHARED = -945;
-	/** User Session Handler Order **/
-	int VX_OD_USER_SESSION = -940;		// NOPMD
-	/** Logout **/
-	int VX_OD_LOGOUT = -935;
-	/** Redirect Handler Order **/
-	int VX_OD_ADMIN = -930;
-	/** Static Handler **/
-	int VX_OD_STATIC = -920;
-	/** Template Handler **/
-	int VX_OD_DYNAMIC = -910;
-	/** Context **/
-	int VX_OD_CONTEXT = -905;
+	String VX_CONVERTOR = VX_GROUP;
+	
+	interface ACTION{	// NOPMD
+		/** 登录系统的Action地址 **/
+		String LOGOUT = "/dynamic/logout";
+		/** 登录界面 **/
+		String LOGIN_PAGE = "/dynamic/index.jade";
+	}
 
-	/** Router Handler Order **/
-	int VX_OD_ROUTER = -400;
-	/** Validation Handler Order **/
-	int VX_OD_VALIDATION = -300;
-	/** Convertor Handler Order **/
-	int VX_OD_CONVERTOR = -200;
-	/** Parameters Wrapper **/
-	int VX_OD_WRAPPER = -100;
-	/** Service Handler Order **/
-	int VX_OD_SERVICE = 100;
+	interface KEY{	// NOPMD
+		/** Global Error Key **/
+		String CTX_ERROR = "FAILURE.KEY";
+		/** Global URI Key **/
+		String CTX_URI = "URI.ENTITY";
+		/** Request Parameters **/
+		String CTX_PARAMS = "PARAMS";
+		
+		/** Api的远程地址 **/
+		String API_URL = "API.URL";
+	}
 
-	/** Failure Handler **/
-	int VX_OD_FAILURE = 200;
-	// ~ Web Failure =========================================
+	/** **/
+	interface WEB{	// NOPMD
+		/** Static静态资源 **/
+		String STATIC_ROUTE = "/static/*";
+		
+		/** Template需要使用的资源 **/
+		String DYNAMIC_ROUTE = "/dynamic/*";
+		/** 基础认证的Redirect **/
+		String DYNAMIC_ADMIN = "/dynamic/admin/*";
+		
+		/** favicon.ico默认路径 **/
+		String FAVICON_ICO = "/favicon.ico";
+		/** favicon.ico路径 **/
+		String FAVICON_PATH = "/static/favicon.ico";
+	}
 
-	/** Status Code: 404,501 etc. **/
-	String STATUS_CODE = "statusCode";
-	/** Status Code Error: NOT_FOUND, INTERNAL_ERROR etc. **/
-	String ERROR = "error";
-	/** Error Message: Exception description **/
-	String ERROR_MSG = "errorMessage";
-	/** SUCCESS/FAILURE/ERROR **/
-	String RESPONSE = "response";
+	/** **/
+	interface ROUTE {	// NOPMD
+		/** API根目录 **/
+		String API = "/api/*";
+		/** Secure API的根目录 **/
+		String SECURE_API = "/api/sec/*"; // NOPMD
+	}
+
+	/** **/
+	interface ORDER { // NOPMD
+		/** 默认的顺序，但不设置，作为临界值 **/
+		int NOT_SET = -10000;
+
+		/** CORS Handler **/
+		int CORS = -990;
+		/** Cookie Handler Order **/
+		int COOKIE = -980;
+		/** Body Handler Order **/
+		int BODY = -970;
+		/** Authentication Handler Order **/
+		int AUTH = -960;
+		/** Session Handler Order **/
+		int SESSION = -950;
+		/** Redirect之前的预处理 **/
+
+		int SHARED = -945;
+		/** User Session Handler Order **/
+		int USER_SESSION = -940; // NOPMD
+		/** Logout **/
+		int LOGOUT = -935;
+		/** Redirect Handler Order **/
+		int ADMIN = -930;
+		/** Static Handler **/
+		int STATIC = -920;
+		/** Template Handler **/
+		int DYNAMIC = -910;
+		/** Context **/
+		int CONTEXT = -905;
+
+		/** Router Handler Order **/
+		int ROUTER = -400;
+		/** Validation Handler Order **/
+		int VALIDATION = -300;
+		/** Convertor Handler Order **/
+		int CONVERTOR = -200;
+		/** Parameters Wrapper **/
+		int WRAPPER = -100;
+		/** Service Handler Order **/
+		int SERVICE = 100;
+
+		/** Failure Handler **/
+		int FAILURE = 200;
+	}
+	/** **/
+	interface BUS { // NOPMD
+		/** Global ID对应Key **/
+		String ID = PARAM.ID; // NOPMD
+		/** Script Name对应Key **/
+		String SCRIPT = PARAM.SCRIPT;
+		/** Param Data **/
+		String DATA = PARAM.DATA;
+	}
+
+	/** **/
+	interface RET { // NOPMD
+		/** Status Code: 404,501 etc. **/
+		String STATUS_CODE = "statusCode";
+		/** Status Code Error: NOT_FOUND, INTERNAL_ERROR etc. **/
+		String ERROR = "error";
+		/** Error Message: Exception description **/
+		String ERROR_MSG = "errorMessage";
+		/** SUCCESS/FAILURE/ERROR **/
+		String RESPONSE = "response";
+		/** 返回的错误信息Key值 **/
+		String AUTH_ERROR = "authenticateError";
+		/** data节点 **/
+		String DATA = PARAM.DATA;
+	}
+
+	/** **/
+	interface PARAM { // NOPMD
+		/** **/
+		String ID = "identifier"; // NOPMD
+		/** **/
+		String SCRIPT = "script";
+		/** **/
+		String DATA = "data";
+		/** **/
+		String SESSION = "session.id";
+		/** **/
+		String METHOD = "method";
+		/** **/
+		String FILTERS = "filters";
+	}
 }

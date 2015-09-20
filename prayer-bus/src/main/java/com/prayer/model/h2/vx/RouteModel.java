@@ -45,7 +45,7 @@ public class RouteModel implements Serializable { // NOPMD
 	private HttpMethod method;
 	/** S_ORDER **/
 	@JsonProperty("order")
-	private int order = Constants.VX_DF_ORDER;
+	private int order = Constants.ORDER.NOT_SET;
 	
 	/** S_SHANDLER **/
 	@JsonProperty("requestHandler")

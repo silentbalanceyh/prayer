@@ -81,7 +81,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_AUTH);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.AUTH);
 		// 1.获取请求Request和相应Response引用
 		final HttpServerRequest request = routingContext.request();
 
@@ -108,7 +108,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 			}
 		} else {
 			// 5.直接Dennied的情况
-			routingContext.put(Constants.VX_CTX_ERROR, webRet);
+			routingContext.put(Constants.KEY.CTX_ERROR, webRet);
 			routingContext.fail(webRet.getStatusCode().status());
 		}
 	}
@@ -137,9 +137,9 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 				final JsonObject extension = new JsonObject();
 				// 防止Session ID空指针异常
 				if (null != routingContext.session()) {
-					extension.put(Constants.PARAM_ID, routingContext.session().id());
+					extension.put(Constants.PARAM.ID, routingContext.session().id());
 				}
-				extension.put(Constants.PARAM_METHOD, request.method().toString()); // 暂时定义传Method
+				extension.put(Constants.PARAM.METHOD, request.method().toString()); // 暂时定义传Method
 				// 返回值的设置
 				authInfo.put(BasicAuth.DFT_EXTENSION, extension);
 			}
@@ -156,9 +156,9 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 					}
 					authorise(authenticated, routingContext);
 				} else {
-					if (StringKit.isNonNil(authInfo.getString(BasicAuth.RET_E_KEY))) {
+					if (StringKit.isNonNil(authInfo.getString(Constants.RET.AUTH_ERROR))) {
 						// 带有返回值的401信息
-						routingContext.put(BasicAuth.RET_E_KEY, authInfo.getString(BasicAuth.RET_E_KEY));
+						routingContext.put(Constants.RET.AUTH_ERROR, authInfo.getString(Constants.RET.AUTH_ERROR));
 					}
 					this.handler401Error(routingContext);
 				}
@@ -209,7 +209,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 	private void handler401Error(final RoutingContext context) {
 		final RestfulResult webRet = RestfulResult.create();
 		HttpErrHandler.error401(webRet, getClass(), context.request().path());
-		context.put(Constants.VX_CTX_ERROR, webRet);
+		context.put(Constants.KEY.CTX_ERROR, webRet);
 		// Digest认证才会使用的头部信息
 		// context.response().putHeader("WWW-Authenticate", "Basic realm=\"" +
 		// this.realm + "\"");

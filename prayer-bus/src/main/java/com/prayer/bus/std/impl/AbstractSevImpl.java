@@ -68,7 +68,7 @@ public abstract class AbstractSevImpl {
 			throws ScriptException, AbstractException {
 		final ServiceResult<JsonObject> ret = new ServiceResult<>();
 		// 1. 初始化脚本引擎以及Record对象
-		final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM_ID));
+		final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
 		// 2. 将Java和脚本引擎连接实现变量共享
 		initJSEnv(jsonObject, record);
 		// 3. 执行Java脚本插入数据
@@ -85,7 +85,7 @@ public abstract class AbstractSevImpl {
 			throws ScriptException, AbstractException {
 		final ServiceResult<JsonObject> ret = new ServiceResult<>();
 		// 1. 初始化脚本引擎以及Record对象
-		final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM_ID));
+		final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
 		// 2. 将Java和脚本引擎连接实现变量共享
 		final JSEnv env = initJSEnv(jsonObject, record);
 		// 3. 执行Java脚本插入数据
@@ -103,7 +103,7 @@ public abstract class AbstractSevImpl {
 
 	// ~ Private Methods =====================================
 	private JSEnv initJSEnv(final JsonObject jsonObject, final Record record) throws ScriptException {
-		final JSEngine engine = JSEngine.getEngine(jsonObject.getJsonObject(Constants.PARAM_DATA));
+		final JSEngine engine = JSEngine.getEngine(jsonObject.getJsonObject(Constants.PARAM.DATA));
 		final JSEnv env = new JSEnv();
 		// 1.设置变量绑定
 		env.setRecord(record);

@@ -84,13 +84,13 @@ public class RouterVerticle extends AbstractVerticle {
 	// ~ Private Methods =====================================
 
 	private void injectStandard(final Router router) {
-		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_ROUTER).handler(RouterHandler.create());
-		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_VALIDATION).handler(ValidationHandler.create());
-		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_CONVERTOR).handler(ConversionHandler.create());
-		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_SERVICE).handler(ServiceHandler.create());
-		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_WRAPPER).handler(WrapperHandler.create());
+		router.route(Constants.ROUTE.API).order(Constants.ORDER.ROUTER).handler(RouterHandler.create());
+		router.route(Constants.ROUTE.API).order(Constants.ORDER.VALIDATION).handler(ValidationHandler.create());
+		router.route(Constants.ROUTE.API).order(Constants.ORDER.CONVERTOR).handler(ConversionHandler.create());
+		router.route(Constants.ROUTE.API).order(Constants.ORDER.SERVICE).handler(ServiceHandler.create());
+		router.route(Constants.ROUTE.API).order(Constants.ORDER.WRAPPER).handler(WrapperHandler.create());
 		// 7.Failure处理器设置
-		router.route(Constants.VX_API_ROOT).order(Constants.VX_OD_FAILURE).failureHandler(FailureHandler.create());
+		router.route(Constants.ROUTE.API).order(Constants.ORDER.FAILURE).failureHandler(FailureHandler.create());
 	}
 
 	// ~ Get/Set =============================================

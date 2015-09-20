@@ -50,12 +50,12 @@ public class ServiceHandler implements Handler<RoutingContext> {
 	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_SERVICE);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.SERVICE);
 		// 1.获取请求和相应信息
 		final HttpServerResponse response = routingContext.response();
 		// 2.从系统中读取URI接口规范
-		final UriModel uri = routingContext.get(Constants.VX_CTX_URI);
-		final JsonObject params = routingContext.get(Constants.VX_CTX_PARAMS);
+		final UriModel uri = routingContext.get(Constants.KEY.CTX_URI);
+		final JsonObject params = routingContext.get(Constants.KEY.CTX_PARAMS);
 		// 3.Service获取参数信息
 		if (null == uri || null == params) {
 			// 500 Internal Server

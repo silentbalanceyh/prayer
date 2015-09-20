@@ -67,9 +67,9 @@ public class ConversionHandler implements Handler<RoutingContext> {
 	/** **/
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_CONVERTOR);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.CONVERTOR);
 		// 1.从Context中提取参数信息
-		final UriModel uri = routingContext.get(Constants.VX_CTX_URI);
+		final UriModel uri = routingContext.get(Constants.KEY.CTX_URI);
 		// 2.查找Convertors的数据
 		final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
 				.findConvertors(uri.getUniqueId());
@@ -81,7 +81,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
 			routingContext.next();
 		} else {
 			// 触发错误信息
-			routingContext.put(Constants.VX_CTX_ERROR, webRet);
+			routingContext.put(Constants.KEY.CTX_ERROR, webRet);
 			routingContext.fail(webRet.getStatusCode().status());
 		}
 	}
@@ -91,7 +91,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
 	private AbstractWebException requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
 			final RestfulResult webRef, final RoutingContext context) {
 		AbstractWebException error = null;
-		final JsonObject params = context.get(Constants.VX_CTX_PARAMS);
+		final JsonObject params = context.get(Constants.KEY.CTX_PARAMS);
 		if (ResponseCode.SUCCESS == result.getResponseCode()) {
 			final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
 			// 遍历每一个字段
@@ -114,7 +114,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
 					}
 				}
 				// 将更新过后的参数放到RoutingContext中
-				context.put(Constants.VX_CTX_PARAMS, updatedParams);
+				context.put(Constants.KEY.CTX_PARAMS, updatedParams);
 			} catch (AbstractWebException ex) {
 				error = ex;
 			}

@@ -74,7 +74,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 	 */
 	@Override
 	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.VX_OD_ROUTER);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.ROUTER);
 		// 1.获取请求Request和相应Response引用
 		final HttpServerRequest request = routingContext.request();
 
@@ -90,14 +90,14 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 			// SUCCESS -->
 			// 5.1.保存UriModel到Context中
 			final UriModel uri = result.getResult().get(request.method());
-			routingContext.put(Constants.VX_CTX_URI, uri);
+			routingContext.put(Constants.KEY.CTX_URI, uri);
 			// 6.1.设置参数到Context中提供给下一个Handler处理
 			final JsonObject params = extractParams(routingContext, uri);
-			routingContext.put(Constants.VX_CTX_PARAMS, params);
+			routingContext.put(Constants.KEY.CTX_PARAMS, params);
 			routingContext.next();
 		} else {
 			// 5.2.保存RestfulResult到Context中
-			routingContext.put(Constants.VX_CTX_ERROR, webRet);
+			routingContext.put(Constants.KEY.CTX_ERROR, webRet);
 			routingContext.fail(webRet.getStatusCode().status());
 		}
 	}

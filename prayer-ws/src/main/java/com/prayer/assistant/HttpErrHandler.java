@@ -43,7 +43,7 @@ public final class HttpErrHandler {
 	public static void handle500Error(@NotNull final Class<?> clazz, @NotNull final RoutingContext context) {
 		final RestfulResult webRet = RestfulResult.create();
 		error500(webRet, clazz);
-		context.put(Constants.VX_CTX_ERROR, webRet);
+		context.put(Constants.KEY.CTX_ERROR, webRet);
 		context.fail(webRet.getStatusCode().status());
 	}
 
@@ -138,10 +138,10 @@ public final class HttpErrHandler {
 	private static JsonObject produceResult(final RestfulResult webRef) {
 		// Error Object
 		final JsonObject response = new JsonObject();
-		response.put(Constants.STATUS_CODE, webRef.getStatusCode().status());
-		response.put(Constants.ERROR, webRef.getStatusCode().toString());
-		response.put(Constants.ERROR_MSG, webRef.getErrorMessage());
-		response.put(Constants.RESPONSE, webRef.getResponseCode().toString());
+		response.put(Constants.RET.STATUS_CODE, webRef.getStatusCode().status());
+		response.put(Constants.RET.ERROR, webRef.getStatusCode().toString());
+		response.put(Constants.RET.ERROR_MSG, webRef.getErrorMessage());
+		response.put(Constants.RET.RESPONSE, webRef.getResponseCode().toString());
 		return response;
 	}
 

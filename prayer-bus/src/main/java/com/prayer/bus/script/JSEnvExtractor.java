@@ -40,7 +40,7 @@ public final class JSEnvExtractor {
 	 * @return
 	 */
 	public String extractJSContent(@NotNull final JsonObject parameters) {
-		final String scriptName = parameters.getString(Constants.PARAM_SCRIPT);
+		final String scriptName = parameters.getString(Constants.PARAM.SCRIPT);
 		return this.getJsByName(scriptName);
 	}
 	/**
