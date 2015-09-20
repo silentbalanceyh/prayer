@@ -4,6 +4,7 @@ import static com.prayer.util.Instance.singleton;
 
 import com.prayer.assistant.RouterInjector;
 import com.prayer.console.handler.SharedLoginHandler;
+import com.prayer.console.handler.SharedLogoutHandler;
 import com.prayer.constant.Constants;
 import com.prayer.vx.configurator.ServerConfigurator;
 
@@ -46,7 +47,7 @@ public class WebVerticle extends AbstractVerticle {
 	@PreValidateThis
 	public void start() {
 		// 1.根据Options创建Server相关信息
-		final HttpServer server = vertx.createHttpServer(this.configurator.getWebOptions());		
+		final HttpServer server = vertx.createHttpServer(this.configurator.getWebOptions());
 
 		// 2.Web Default
 		final Router router = Router.router(vertx);
@@ -59,23 +60,17 @@ public class WebVerticle extends AbstractVerticle {
 		RouterInjector.injectSession(vertx, router);
 
 		// 5.预处理的Handler
-		router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.SHARED).handler(SharedLoginHandler.create());
+		injectLogged(router);
 
-		// 6.添加Logout的Handler
-		injectLogout(router);
-
-		// 7.监听Cluster端口
+		// 6.监听Cluster端口
 		server.requestHandler(router::accept).listen();
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 
-	private void injectLogout(final Router router) {
-		// 登录按钮
-		router.route(Constants.ACTION.LOGOUT).order(Constants.ORDER.LOGOUT).handler(context -> {
-			context.clearUser();
-			context.response().putHeader("location", Constants.ACTION.LOGIN_PAGE).setStatusCode(302).end();
-		});
+	private void injectLogged(final Router router) {
+		router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.SHARED).handler(SharedLoginHandler.create());
+		router.route(Constants.ACTION.LOGOUT).order(Constants.ORDER.LOGOUT).handler(SharedLogoutHandler.create());
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

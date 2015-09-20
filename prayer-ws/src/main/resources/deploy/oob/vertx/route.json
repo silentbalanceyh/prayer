@@ -1,14 +1,7 @@
 [
 	{
 		"parent":"/api",
-		"path":"/oauth/authorize",
-		"method":"GET",
-		"requestHandler":"com.prayer.handler.standard.RecordHandler",
-		"order":-99
-	},
-	{
-		"parent":"/api",
-		"path":"/oauth/authorize",
+		"path":"/sec/account",
 		"method":"POST",
 		"requestHandler":"com.prayer.handler.standard.RecordHandler",
 		"order":-99

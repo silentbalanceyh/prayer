@@ -1,7 +1,6 @@
 package com.prayer.bus.deploy.oob; // NOPMD
 
 import static com.prayer.bus.util.BusLogger.error;
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.io.File;
@@ -84,6 +83,8 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
 		ServiceResult<?> ret = this.manager.getVerticleService().purgeData();
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.manager.getVerticleService().importVerticles(VX_VERTICLE);
+		} else {
+			error(LOGGER, BusLogger.E_PROCESS_ERR, "Verticle Deploy", ret.getErrorMessage());
 		}
 		// 2.EVX_ROUTE
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
@@ -91,6 +92,8 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
 		}
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.manager.getRouteService().importToList(VX_ROUTES);
+		}else {
+			error(LOGGER, BusLogger.E_PROCESS_ERR, "Route Deploy", ret.getErrorMessage());
 		}
 		// 3.EVX_URI
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
@@ -100,13 +103,20 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
 		}
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.manager.getUriService().importToList(VX_URI);
-			// URI中的Param参数List
-			final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
-			for (final UriModel model : uriModels) {
-				// 4.EVX_RULE
-				final String paramFile = VX_URI_PARAM + model.getMethod().toString().toLowerCase(Locale.getDefault())
-						+ "/" + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".") + ".json";
-				this.manager.getRuleService().importRules(paramFile, model);
+			if(ResponseCode.SUCCESS == ret.getResponseCode()){
+				// URI中的Param参数List
+				final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
+				for (final UriModel model : uriModels) {
+					// 4.EVX_RULE
+					final String paramFile = VX_URI_PARAM + model.getMethod().toString().toLowerCase(Locale.getDefault())
+							+ "/" + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".") + ".json";
+					ret = this.manager.getRuleService().importRules(paramFile, model);
+					if(ResponseCode.SUCCESS != ret.getResponseCode()){
+						error(LOGGER, BusLogger.E_PROCESS_ERR, model.getUri() + " Rule Deploy", ret.getErrorMessage());
+					}
+				}
+			}else {
+				error(LOGGER, BusLogger.E_PROCESS_ERR, "Uri Deploy", ret.getErrorMessage());
 			}
 		}
 		// 5.EVX_ADDRESS
@@ -115,6 +125,8 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
 		}
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.manager.getAddressService().importToList(VX_ADDRESS);
+		}else {
+			error(LOGGER, BusLogger.E_PROCESS_ERR, "Address Deploy", ret.getErrorMessage());
 		}
 		// 6.ENG_SCRIPT
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
@@ -122,6 +134,9 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
 		}
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			ret = this.manager.getScriptService().importToList(VX_SCRIPT);
+		}
+		else {
+			error(LOGGER, BusLogger.E_PROCESS_ERR, "Script Deploy", ret.getErrorMessage());
 		}
 		// 2.导入OOB中的Schema定义
 		{
@@ -135,7 +150,6 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
 		// 最终结果
 		if (ResponseCode.SUCCESS == ret.getResponseCode()) {
 			result.setResponse(Boolean.TRUE, null);
-			info(LOGGER, BusLogger.I_DPDATA_SUCCESS);
 		} else {
 			final AbstractException exp = new DeploymentException(getClass());
 			result.setResponse(Boolean.FALSE, exp);

@@ -25,7 +25,22 @@
 			"columns":[
 				"S_USERNAME"
 			]
-			
+		},
+		{
+			"name":"UK_SEC_ACCOUNT_EMAIL",
+			"category":"UniqueKey",
+			"multi":false,
+			"columns":[
+				"S_EMAIL"
+			]
+		},
+		{
+			"name":"UK_SEC_ACCOUNT_MOBILE",
+			"category":"UniqueKey",
+			"multi":false,
+			"columns":[
+				"S_MOBILE"
+			]
 		}
 		
 	],
@@ -53,7 +68,21 @@
 			"columnName":"S_PASSWORD",
 			"columnType":"STRING1",
 			"length":512
+		},
+		{
+			"name":"email",
+			"type":"StringType",
+			"columnName":"S_EMAIL",
+			"columnType":"STRING1",
+			"unique":true,
+			"length":256
+		},{
+			"name":"mobile",
+			"type":"StringType",
+			"columnName":"S_MOBILE",
+			"columnType":"STRING1",
+			"unique":true,
+			"length":256
 		}
-		
 	]
 }

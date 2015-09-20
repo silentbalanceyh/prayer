@@ -79,6 +79,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 			this.dao.insert(dataList.toArray(getArrayType()));
 		} catch (AbstractTransactionException ex) {
 			debug(getLogger(), "SYS.KIT.DP", ex);
+			ex.printStackTrace();// NOPMD
 			result.setResponse(null, ex);
 		}
 		if (ResponseCode.SUCCESS == result.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {

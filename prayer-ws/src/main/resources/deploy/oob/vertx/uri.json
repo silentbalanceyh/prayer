@@ -1,28 +1,11 @@
 [
 	{
-		"uri":"/api/oauth/authorize",
-		"method":"GET",
-		"paramType":"QUERY",
-		"address":"MSG://RECORD/QUEUE",
-		"globalId":"sec.account",
-		"script":"js.get.oauth.authorize",
-		"sender":"com.prayer.handler.message.RecordObjectSender",
-		"requiredParam":[
-			"username",
-			"password"
-		],
-		"returnFilters":[
-			"password"
-		]
-		
-	},
-	{
-		"uri":"/api/oauth/authorize",
+		"uri":"/api/sec/account",
 		"method":"POST",
 		"paramType":"BODY",
 		"address":"MSG://RECORD/QUEUE",
 		"globalId":"sec.account",
-		"script":"js.post.oauth.authorize",
+		"script":"js.post.api.account",
 		"sender":"com.prayer.handler.message.RecordObjectSender",
 		"requiredParam":[
 			"username",
