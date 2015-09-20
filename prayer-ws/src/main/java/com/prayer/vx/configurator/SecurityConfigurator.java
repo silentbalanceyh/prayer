@@ -17,7 +17,7 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.SecurityMode;
 import com.prayer.exception.AbstractWebException;
-import com.prayer.security.provider.BasicAuth;
+import com.prayer.security.provider.AuthConstants;
 import com.prayer.util.PropertyKit;
 
 import io.vertx.core.http.HttpMethod;
@@ -137,14 +137,14 @@ public class SecurityConfigurator {
 		final String prefix = SecurityMode.BASIC.toString();
 		// 固定属性
 		options.put(PROVIDER, this.LOADER.getString(prefix + Symbol.DOT + PROVIDER));
-		options.put(BasicAuth.DFT_REALM, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_REALM));
-		options.put(BasicAuth.DFT_SCRIPT_NAME, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_SCRIPT_NAME));
-		options.put(BasicAuth.DFT_ACCOUNT_ID, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_ACCOUNT_ID));
-		options.put(BasicAuth.DFT_EMAIL, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_EMAIL));
-		options.put(BasicAuth.DFT_MOBILE, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_MOBILE));
-		options.put(BasicAuth.DFT_PWD, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_PWD));
+		options.put(AuthConstants.BASIC.REALM, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.REALM));
+		options.put(AuthConstants.BASIC.SCRIPT_NAME, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.SCRIPT_NAME));
+		options.put(AuthConstants.BASIC.ACCOUNT_ID, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.ACCOUNT_ID));
+		options.put(AuthConstants.BASIC.EMAIL, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.EMAIL));
+		options.put(AuthConstants.BASIC.MOBILE, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.MOBILE));
+		options.put(AuthConstants.BASIC.PWD, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.PWD));
 		// 可定义的动态属性
-		options.put(BasicAuth.DFT_SCHEMA_ID, this.LOADER.getString(prefix + Symbol.DOT + BasicAuth.DFT_SCHEMA_ID));
+		options.put(AuthConstants.BASIC.SCHEMA_ID, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.SCHEMA_ID));
 		return options;
 	}
 

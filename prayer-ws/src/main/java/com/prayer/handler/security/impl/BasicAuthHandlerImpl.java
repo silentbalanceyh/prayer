@@ -23,6 +23,7 @@ import com.prayer.exception.web.BodyParamDecodingException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.UriModel;
+import com.prayer.security.provider.AuthConstants;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.security.provider.impl.BasicUser;
 import com.prayer.util.Encryptor;
@@ -141,7 +142,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
 				}
 				extension.put(Constants.PARAM.METHOD, request.method().toString()); // 暂时定义传Method
 				// 返回值的设置
-				authInfo.put(BasicAuth.DFT_EXTENSION, extension);
+				authInfo.put(AuthConstants.BASIC.EXTENSION, extension);
 			}
 			// 4.认证授权信息
 			this.authProvider.authenticate(authInfo, res -> {

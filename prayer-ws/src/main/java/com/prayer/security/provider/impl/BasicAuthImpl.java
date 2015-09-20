@@ -15,6 +15,7 @@ import com.prayer.bus.security.impl.BasicAuthSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.security.provider.AuthConstants;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.util.StringKit;
 import com.prayer.vx.configurator.SecurityConfigurator;
@@ -35,7 +36,7 @@ import net.sf.oval.guard.Guarded;
  * 
  */
 @Guarded
-public class BasicAuthImpl implements AuthProvider, BasicAuth {
+public class BasicAuthImpl implements AuthProvider, BasicAuth, AuthConstants.BASIC {
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthImpl.class);
@@ -75,10 +76,10 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
 			if (ResponseCode.SUCCESS == ret.getResponseCode() && null != ret.getResult()) {
 				final JsonObject retObj = ret.getResult();
 				final String inputPWD = authInfo.getString("password");
-				final String storedPWD = retObj.getString(this.configurator.getSecurityOptions().getString(DFT_PWD));
+				final String storedPWD = retObj.getString(this.configurator.getSecurityOptions().getString(PWD));
 				if (StringUtil.equals(inputPWD, storedPWD)) {
 					final String username = retObj
-							.getString(this.configurator.getSecurityOptions().getString(DFT_ACCOUNT_ID));
+							.getString(this.configurator.getSecurityOptions().getString(ACCOUNT_ID));
 					info(LOGGER, WebLogger.I_COMMON_INFO, retObj.encode());
 					// Fix 客户端跨域问题
 					authInfo.put(KEY_USER_ID, retObj.getString("uniqueId"));
@@ -124,15 +125,15 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
 	private JsonObject wrapperParam(final JsonObject authInfo) {
 		final JsonObject options = this.configurator.getSecurityOptions();
 		final JsonObject wrapper = new JsonObject();
-		wrapper.put(Constants.PARAM.ID, options.getString(DFT_SCHEMA_ID));
-		wrapper.put(Constants.PARAM.SCRIPT, options.getString(DFT_SCRIPT_NAME));
+		wrapper.put(Constants.PARAM.ID, options.getString(SCHEMA_ID));
+		wrapper.put(Constants.PARAM.SCRIPT, options.getString(SCRIPT_NAME));
 		{
-			final JsonObject extension = authInfo.getJsonObject(DFT_EXTENSION);
+			final JsonObject extension = authInfo.getJsonObject(EXTENSION);
 			wrapper.put(Constants.PARAM.METHOD, extension.getString(Constants.PARAM.METHOD));
 			wrapper.put(Constants.PARAM.SESSION, extension.getString(Constants.PARAM.SESSION));
 			wrapper.put(Constants.PARAM.FILTERS, new ArrayList<>());
 			// 从AuthInfo中移除Extension
-			authInfo.remove(DFT_EXTENSION);
+			authInfo.remove(EXTENSION);
 		}
 		wrapper.put(Constants.PARAM.DATA, authInfo);
 		return wrapper;
