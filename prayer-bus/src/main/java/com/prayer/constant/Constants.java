@@ -91,6 +91,8 @@ public interface Constants { // NOPMD
 	String VX_DYNAMIC_ROOT = "/dynamic/*";
 	/** 基础认证的Redirect **/
 	String VX_DYNAMIC_ADMIN = "/dynamic/admin/*";
+	/** 登录系统的Action地址 **/
+	String VX_LOGOUT = "/dynamic/logout";
 	/** 登录界面 **/
 	String VX_LOGIN_PAGE = "/dynamic/index.jade";
 	/** Global ID对应Key **/
@@ -127,14 +129,16 @@ public interface Constants { // NOPMD
 	int VX_OD_SHARED = -945;
 	/** User Session Handler Order **/
 	int VX_OD_USER_SESSION = -940;		// NOPMD
+	/** Logout **/
+	int VX_OD_LOGOUT = -935;
 	/** Redirect Handler Order **/
 	int VX_OD_ADMIN = -930;
 	/** Static Handler **/
 	int VX_OD_STATIC = -920;
 	/** Template Handler **/
 	int VX_OD_DYNAMIC = -910;
-	/** **/
-	int VX_OD_CONTEXT = -900;
+	/** Context **/
+	int VX_OD_CONTEXT = -905;
 
 	/** Router Handler Order **/
 	int VX_OD_ROUTER = -400;

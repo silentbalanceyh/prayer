@@ -41,6 +41,15 @@
   font-style: italic; }
 
 /*BOLD ITALIC*/
+@font-face{
+  font-family: 'Glyphicons Halflings';
+  src: url("../fonts/latin-e-regular-eot.eot");
+  /* IE9 compat */
+  src: url("../fonts/latin-e-regular-eot.eot?#iefix") format("embedded-opentype"), url("../fonts/latin-e-regular-woff.woff") format("-woff.woff"), url("../fonts/latin-e-regular-ttf.ttf") format("truetype");
+  /*iOS, Android, Safari*/
+  font-weight: normal;
+  font-style: normal;
+}
 @font-face {
   font-family: 'HPSimplified';
   src: url("../fonts/latin-e-bold-italic-eot.eot");

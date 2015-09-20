@@ -1,10 +1,72 @@
-.container#{UI_PAGE_WIDTH}
-	.form-horizontal
-		.form-group
-			h4.page-header
-				span Prayer Framework 
-				small -- Administration Platform Login Form
-		.form-group
-				span Once you have problems, please send email to : 
-				a(href="mailto:silentbalanceyh@126.com") silentbalanceyh@126.com
-		
+.navbar.navbar-fixed-top
+	.navbar-inner
+		.container-fluid
+			a.btn.btn-navbar(data-toggle="collapse",data-target=".nav-collapse")
+				span.icon-bar
+				span.icon-bar
+				span.icon-bar
+			a.brand(href="#") Prayer Framework Management
+			.nav-collapse.collapse
+				ul.nav.pull-right
+					li.dropdown
+						a.dropdown-toggle(data-toggle="dropdown",role="button",href="#")
+							i.icon-user
+							span &nbsp;Lang&nbsp;
+							i.caret
+						ul.dropdown-menu
+							li
+								a(href="#",tabindex="-1") Profile
+							li.divider
+							li
+								a(href="/dynamic/logout",tabindex="-1") Logout
+				ul.nav
+					li.active
+						a(href="#") Dashboard
+					li.dropdown
+						a.dropdown-toggle(data-toggle="dropdown",role="button",href="#")
+
+							span &nbsp;System Options&nbsp;
+							b.caret
+						ul.dropdown-menu
+							li
+								a(href="#") H2 Database Options
+							li
+								a(href="#") Http Server Options
+							li
+								a(href="#") Vert.X Options
+							li.divider
+							li
+								a(href="#") Security Options
+							li.divider
+							li
+								a(href="#") Verticle Options
+							li
+								a(href="#") Router Options
+					li.dropdown
+						a.dropdown-toggle(data-toggle="dropdown",role="button",href="#")
+							span &nbsp;Users&nbsp;
+							b.caret
+						ul.dropdown-menu
+							li
+								a(href="#") User List
+							li
+								a(href="#") Search
+					li.dropdown
+						a.dropdown-toggle(data-toggle="dropdown",role="button",href="#")
+							span &nbsp;Documentation&nbsp;
+							b.caret
+						ul.dropdown-menu
+							li
+								a(href="#") Schema Specifications
+							li
+								a(href="#") Script Reference
+							li
+								a(href="#") Workflow
+							li.divider
+							li
+								a(href="#") Verticle Reference
+							li
+								a(href="#") Validator/Convertor
+							li
+								a(href="#") Handler Reference
+

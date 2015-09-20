@@ -1,10 +1,12 @@
 /** 自定义JS文件 * */
 function btnLogin() {
+	alert("Hello");
 	var username = value("username");
 	var password = value("password");
 	var auth = "Basic " + $$U.base64(username + ":" + password);
 	// 隐藏错误信息
 	message("msgError");
+	// 发送请求
 	$.ajax({
 		type : "GET",
 		url : api("/sec/login"),

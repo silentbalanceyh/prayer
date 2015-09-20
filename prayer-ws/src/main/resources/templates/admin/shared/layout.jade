@@ -1,0 +1,34 @@
+doctype html
+html
+    head
+        include resource
+    body(screen_capture_injected="true")
+    include header
+    .container-fluid
+        .row-fluid
+            #sidebar.span3
+                include menu
+            #content.span9
+                .row-fluid
+                    #msgDisplay.alert.alert-success
+                        button.close(type="button",data-dismiss="alert") &times;
+                        h4 Message PlaceHolder
+                        span This is message place holder.
+                    .navbar
+                        .navbar-inner
+                            ul.breadcrumb
+                                i.icon-chevron-left.hide-sidebar
+                                    a(href="#",title="Hide Sidebar",rel="tooltip") &nbsp;
+                                i.icon-chevron-right.show-sidebar(style="display:none")
+                                    a(href="#",title="Show Sidebar",rel="tooltip") &nbsp;
+                                li
+                                    a Dashbard
+                                    span.divider /
+                                li
+                                    a Settings
+                                    span.divider /
+                                li
+                                    a Tools
+                .row-fluid
+                    block content_main
+    include footer
