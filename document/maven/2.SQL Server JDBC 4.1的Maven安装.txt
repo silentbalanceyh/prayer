@@ -1,8 +1,0 @@
-1.使用下边命令安装本地Maven：
-mvn install:install-file -Dfile=C:/Data/Source/STS/prayer/document/maven/resources/sqljdbc41.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc41 -Dversion=4.1 -Dpackaging=jar
-2.使用下边的片段：${jdbc.mssql.version}的值为4.1
-	<dependency>
-		<groupId>com.microsoft.sqlserver</groupId>
-		<artifactId>sqljdbc41</artifactId>
-		<version>${jdbc.mssql.version}</version>
-	</dependency>
