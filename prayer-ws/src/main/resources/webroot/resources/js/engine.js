@@ -1,6 +1,5 @@
 /** 自定义JS文件 * */
 function btnLogin() {
-	alert("Hello");
 	var username = value("username");
 	var password = value("password");
 	var auth = "Basic " + $$U.base64(username + ":" + password);

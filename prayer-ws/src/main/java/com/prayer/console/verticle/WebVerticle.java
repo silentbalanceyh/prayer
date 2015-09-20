@@ -46,7 +46,7 @@ public class WebVerticle extends AbstractVerticle {
 	@PreValidateThis
 	public void start() {
 		// 1.根据Options创建Server相关信息
-		final HttpServer server = vertx.createHttpServer(this.configurator.getWebOptions());
+		final HttpServer server = vertx.createHttpServer(this.configurator.getWebOptions());		
 
 		// 2.Web Default
 		final Router router = Router.router(vertx);
