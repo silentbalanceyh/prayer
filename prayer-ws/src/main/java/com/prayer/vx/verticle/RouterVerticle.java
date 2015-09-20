@@ -62,21 +62,18 @@ public class RouterVerticle extends AbstractVerticle {
 
 		// 3.AuthProvider创建
 		RouterInjector.injectSecurity(router);
-
-		// 4.Session的使用设置
-		RouterInjector.injectSession(vertx, router);
-
-		// 5.最前端的URL处理
+		
+		// 4.最前端的URL处理
 		injectStandard(router);
 
-		// 6.设置Sub Router
+		// 5.设置Sub Router
 		final RouteConfigurator routeConfigurator = singleton(RouteConfigurator.class, vertx);
 		final ConcurrentMap<Router, String> subRouters = routeConfigurator.getRouters();
 		subRouters.forEach((subRouter, value) -> {
 			router.mountSubRouter(value, subRouter);
 		});
 
-		// 7.监听Cluster端口
+		// 6.监听Cluster端口
 		server.requestHandler(router::accept).listen();
 	}
 

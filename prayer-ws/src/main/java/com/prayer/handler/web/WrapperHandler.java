@@ -54,7 +54,10 @@ public class WrapperHandler implements Handler<RoutingContext> {
 			HttpErrHandler.handle500Error(getClass(), routingContext);
 		} else {
 			final Session session = routingContext.session();
-			wrapper.put(Constants.PARAM.SESSION, session.id());
+			// 无状态操作时session为null
+			if(null != session){
+				wrapper.put(Constants.PARAM.SESSION, session.id());
+			}
 			wrapper.put(Constants.PARAM.ID, uri.getGlobalId());
 			wrapper.put(Constants.PARAM.SCRIPT, uri.getScript());
 			wrapper.put(Constants.PARAM.METHOD, uri.getMethod().toString());

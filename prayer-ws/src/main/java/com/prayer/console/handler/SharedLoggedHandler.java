@@ -1,6 +1,17 @@
 package com.prayer.console.handler;
 
-public class SharedLoggedHandler {
+import io.vertx.core.Handler;
+import io.vertx.ext.web.RoutingContext;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+
+/**
+ * 
+ * @author Lang
+ *
+ */
+@Guarded
+public class SharedLoggedHandler implements Handler<RoutingContext>{
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -8,6 +19,13 @@ public class SharedLoggedHandler {
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/**
+	 * 
+	 */
+	@Override
+	public void handle(@NotNull final RoutingContext event) {
+		
+	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
