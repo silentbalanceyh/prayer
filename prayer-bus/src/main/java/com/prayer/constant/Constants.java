@@ -72,7 +72,7 @@ public interface Constants { // NOPMD
 		/** 登录系统的Action地址 **/
 		String LOGOUT = "/dynamic/logout";
 		/** 登录界面 **/
-		String LOGIN_PAGE = "/dynamic/index.jade";
+		String LOGIN_PAGE = "/dynamic/index";
 	}
 
 	interface KEY{	// NOPMD
