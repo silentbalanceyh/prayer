@@ -9,24 +9,44 @@ function btnLogin() {
 	$.ajax({
 		type : "GET",
 		url : api("/sec/login"),
-		headers :headers(auth),
+		headers : headers(auth),
 		dataType : "json",
-		async:false,
+		async : false,
 		success : function(response) {
-			if(200 === response.statusCode){
+			if (200 === response.statusCode) {
 				var username = response.data["uniqueId"];
 				window.location = "/dynamic/admin/main?UID=" + username;
 			}
 		},
 		error : function(error) {
-			var response = JSON.parse(error.responseText);	// NOPMD
-			if(401 === response.statusCode){
-				if(undefined === response.authenticateError){
-					message("msgError",true,MSG["AUTH"]["AUTH.MISSING"]);
-				}else{
-					message("msgError",true,MSG["AUTH"][response.authenticateError]);
+			var response = JSON.parse(error.responseText); // NOPMD
+			if (401 === response.statusCode) {
+				if (undefined === response.authenticateError) {
+					message("msgError", true, MSG["AUTH"]["AUTH.MISSING"]);
+				} else {
+					message("msgError", true,
+							MSG["AUTH"][response.authenticateError]);
 				}
 			}
 		}
+	});
+}
+
+function btnLogout() {
+	BootstrapDialog.show({
+		message : "Do you want to Log off ?",
+		buttons : [ {
+			label : "Yes",
+			cssClass:'btn-primary',
+			action:function(self){
+				self.close();
+				window.location = "/dynamic/logout";
+			}
+		}, {
+			label : "No",
+			action:function(self){
+				self.close();
+			}
+		} ]
 	});
 }
