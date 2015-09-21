@@ -9,37 +9,37 @@ import com.prayer.exception.AbstractSchemaException;
  * @see
  */
 public class OptionalAttrMorEException extends AbstractSchemaException {
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1923424849044814990L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1923424849044814990L;
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param attr
-	 */
-	public OptionalAttrMorEException(final Class<?> clazz, final String attr, final String category) {
-		super(clazz, -10004, attr, category);
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param attr
+     */
+    public OptionalAttrMorEException(final Class<?> clazz, final String attr, final String category) {
+        super(clazz, -10004, attr, category);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public int getErrorCode() {
-		return -10004;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public int getErrorCode() {
+        return -10004;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ hashCode,equals,toString ============================
 
 }

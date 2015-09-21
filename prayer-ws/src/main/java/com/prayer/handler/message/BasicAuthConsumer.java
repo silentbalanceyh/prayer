@@ -23,47 +23,47 @@ import net.sf.oval.guard.PreValidateThis;
  */
 @Guarded
 public final class BasicAuthConsumer implements Handler<Message<Object>> {
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
 
-	/** **/
-	@NotNull
-	private transient final BasicAuthService authSev;
+    /** **/
+    @NotNull
+    private transient final BasicAuthService authSev;
 
-	// ~ Static Block ========================================
-	/** **/
-	public static BasicAuthConsumer create() {
-		return new BasicAuthConsumer();
-	}
+    // ~ Static Block ========================================
+    /** **/
+    public static BasicAuthConsumer create() {
+        return new BasicAuthConsumer();
+    }
 
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	@PreValidateThis
-	public void handle(@NotNull final Message<Object> event) {
-		// 1.从EventBus中接受数据
-		final JsonObject params = (JsonObject) event.body();
-		// 2.获取方法信息
-		final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM.METHOD));
-		// 3.根据方法访问不同的Record方法
-		String content = null;
-		if(HttpMethod.GET == method){
-			final ServiceResult<JsonObject> result = this.authSev.find(params);
-			content = result.getResult().encode();
-		}
-		event.reply(content);
-	}
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    @PreValidateThis
+    public void handle(@NotNull final Message<Object> event) {
+        // 1.从EventBus中接受数据
+        final JsonObject params = (JsonObject) event.body();
+        // 2.获取方法信息
+        final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM.METHOD));
+        // 3.根据方法访问不同的Record方法
+        String content = null;
+        if(HttpMethod.GET == method){
+            final ServiceResult<JsonObject> result = this.authSev.find(params);
+            content = result.getResult().encode();
+        }
+        event.reply(content);
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    
 
-	private BasicAuthConsumer() {
-		this.authSev = singleton(BasicAuthSevImpl.class);
-	}
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    private BasicAuthConsumer() {
+        this.authSev = singleton(BasicAuthSevImpl.class);
+    }
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

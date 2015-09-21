@@ -34,390 +34,390 @@ Licensed under the MIT license.
 // the actual Flot code
 (function($) {
 
-	// Cache the prototype hasOwnProperty for faster access
+    // Cache the prototype hasOwnProperty for faster access
 
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-	// Add default styles for tick labels and other text
+    // Add default styles for tick labels and other text
 
-	var STYLES = [
-		".flot-tick-label {font-size:smaller;color:#545454;}"
-	];
+    var STYLES = [
+        ".flot-tick-label {font-size:smaller;color:#545454;}"
+    ];
 
-	$(function() {
-		$("head").prepend("<style id='flot-default-styles'>" + STYLES.join("") + "</style>");
-	});
+    $(function() {
+        $("head").prepend("<style id='flot-default-styles'>" + STYLES.join("") + "</style>");
+    });
 
-	///////////////////////////////////////////////////////////////////////////
-	// The Canvas object is a wrapper around an HTML5 <canvas> tag.
-	//
-	// @constructor
-	// @param {string} cls List of classes to apply to the canvas.
-	// @param {element} container Element onto which to append the canvas.
-	//
-	// Requiring a container is a little iffy, but unfortunately canvas
-	// operations don't work unless the canvas is attached to the DOM.
+    ///////////////////////////////////////////////////////////////////////////
+    // The Canvas object is a wrapper around an HTML5 <canvas> tag.
+    //
+    // @constructor
+    // @param {string} cls List of classes to apply to the canvas.
+    // @param {element} container Element onto which to append the canvas.
+    //
+    // Requiring a container is a little iffy, but unfortunately canvas
+    // operations don't work unless the canvas is attached to the DOM.
 
-	function Canvas(cls, container) {
+    function Canvas(cls, container) {
 
-		var element = container.children("." + cls)[0];
+        var element = container.children("." + cls)[0];
 
-		if (element == null) {
+        if (element == null) {
 
-			element = document.createElement("canvas");
-			element.className = cls;
+            element = document.createElement("canvas");
+            element.className = cls;
 
-			$(element).css({ direction: "ltr", position: "absolute", left: 0, top: 0 })
-				.appendTo(container);
+            $(element).css({ direction: "ltr", position: "absolute", left: 0, top: 0 })
+                .appendTo(container);
 
-			// If HTML5 Canvas isn't available, fall back to [Ex|Flash]canvas
+            // If HTML5 Canvas isn't available, fall back to [Ex|Flash]canvas
 
-			if (!element.getContext) {
-				if (window.G_vmlCanvasManager) {
-					element = window.G_vmlCanvasManager.initElement(element);
-				} else {
-					throw new Error("Canvas is not available. If you're using IE with a fall-back such as Excanvas, then there's either a mistake in your conditional include, or the page has no DOCTYPE and is rendering in Quirks Mode.");
-				}
-			}
-		}
+            if (!element.getContext) {
+                if (window.G_vmlCanvasManager) {
+                    element = window.G_vmlCanvasManager.initElement(element);
+                } else {
+                    throw new Error("Canvas is not available. If you're using IE with a fall-back such as Excanvas, then there's either a mistake in your conditional include, or the page has no DOCTYPE and is rendering in Quirks Mode.");
+                }
+            }
+        }
 
-		this.element = element;
+        this.element = element;
 
-		var context = this.context = element.getContext("2d");
+        var context = this.context = element.getContext("2d");
 
-		// Determine the screen's ratio of physical to device-independent
-		// pixels.  This is the ratio between the canvas width that the browser
-		// advertises and the number of pixels actually present in that space.
+        // Determine the screen's ratio of physical to device-independent
+        // pixels.  This is the ratio between the canvas width that the browser
+        // advertises and the number of pixels actually present in that space.
 
-		// The iPhone 4, for example, has a device-independent width of 320px,
-		// but its screen is actually 640px wide.  It therefore has a pixel
-		// ratio of 2, while most normal devices have a ratio of 1.
+        // The iPhone 4, for example, has a device-independent width of 320px,
+        // but its screen is actually 640px wide.  It therefore has a pixel
+        // ratio of 2, while most normal devices have a ratio of 1.
 
-		var devicePixelRatio = window.devicePixelRatio || 1,
-			backingStoreRatio =
-				context.webkitBackingStorePixelRatio ||
-				context.mozBackingStorePixelRatio ||
-				context.msBackingStorePixelRatio ||
-				context.oBackingStorePixelRatio ||
-				context.backingStorePixelRatio || 1;
+        var devicePixelRatio = window.devicePixelRatio || 1,
+            backingStoreRatio =
+                context.webkitBackingStorePixelRatio ||
+                context.mozBackingStorePixelRatio ||
+                context.msBackingStorePixelRatio ||
+                context.oBackingStorePixelRatio ||
+                context.backingStorePixelRatio || 1;
 
-		this.pixelRatio = devicePixelRatio / backingStoreRatio;
+        this.pixelRatio = devicePixelRatio / backingStoreRatio;
 
-		// Size the canvas to match the internal dimensions of its container
+        // Size the canvas to match the internal dimensions of its container
 
-		this.resize(container.width(), container.height());
+        this.resize(container.width(), container.height());
 
-		// Collection of HTML div layers for text overlaid onto the canvas
+        // Collection of HTML div layers for text overlaid onto the canvas
 
-		this.text = {};
+        this.text = {};
 
-		// Cache of text fragments and metrics, so we can avoid expensively
-		// re-calculating them when the plot is re-rendered in a loop.
+        // Cache of text fragments and metrics, so we can avoid expensively
+        // re-calculating them when the plot is re-rendered in a loop.
 
-		this._textCache = {};
-	}
+        this._textCache = {};
+    }
 
-	// Resizes the canvas to the given dimensions.
-	//
-	// @param {number} width New width of the canvas, in pixels.
-	// @param {number} width New height of the canvas, in pixels.
+    // Resizes the canvas to the given dimensions.
+    //
+    // @param {number} width New width of the canvas, in pixels.
+    // @param {number} width New height of the canvas, in pixels.
 
-	Canvas.prototype.resize = function(width, height) {
+    Canvas.prototype.resize = function(width, height) {
 
-		if (width <= 0 || height <= 0) {
-			throw new Error("Invalid dimensions for plot, width = " + width + ", height = " + height);
-		}
+        if (width <= 0 || height <= 0) {
+            throw new Error("Invalid dimensions for plot, width = " + width + ", height = " + height);
+        }
 
-		var element = this.element,
-			context = this.context,
-			pixelRatio = this.pixelRatio;
+        var element = this.element,
+            context = this.context,
+            pixelRatio = this.pixelRatio;
 
-		// Resize the canvas, increasing its density based on the display's
-		// pixel ratio; basically giving it more pixels without increasing the
-		// size of its element, to take advantage of the fact that retina
-		// displays have that many more pixels in the same advertised space.
-
-		// Resizing should reset the state (excanvas seems to be buggy though)
-
-		if (this.width != width) {
-			element.width = width * pixelRatio;
-			element.style.width = width + "px";
-			this.width = width;
-		}
-
-		if (this.height != height) {
-			element.height = height * pixelRatio;
-			element.style.height = height + "px";
-			this.height = height;
-		}
-
-		// Save the context, so we can reset in case we get replotted.  The
-		// restore ensure that we're really back at the initial state, and
-		// should be safe even if we haven't saved the initial state yet.
-
-		context.restore();
-		context.save();
-
-		// Scale the coordinate space to match the display density; so even though we
-		// may have twice as many pixels, we still want lines and other drawing to
-		// appear at the same size; the extra pixels will just make them crisper.
-
-		context.scale(pixelRatio, pixelRatio);
-	};
-
-	// Clears the entire canvas area, not including any overlaid HTML text
-
-	Canvas.prototype.clear = function() {
-		this.context.clearRect(0, 0, this.width, this.height);
-	};
-
-	// Finishes rendering the canvas, including managing the text overlay.
-
-	Canvas.prototype.render = function() {
-
-		var cache = this._textCache;
-
-		// For each text layer, add elements marked as active that haven't
-		// already been rendered, and remove those that are no longer active.
-
-		for (var layerKey in cache) {
-			if (hasOwnProperty.call(cache, layerKey)) {
-
-				var layer = this.getTextLayer(layerKey),
-					layerCache = cache[layerKey];
-
-				layer.hide();
-
-				for (var styleKey in layerCache) {
-					if (hasOwnProperty.call(layerCache, styleKey)) {
-						var styleCache = layerCache[styleKey];
-						for (var key in styleCache) {
-							if (hasOwnProperty.call(styleCache, key)) {
-								var info = styleCache[key];
-								if (info.active) {
-									if (!info.rendered) {
-										layer.append(info.element);
-										info.rendered = true;
-									}
-								} else {
-									delete styleCache[key];
-									if (info.rendered) {
-										info.element.detach();
-									}
-								}
-							}
-						}
-					}
-				}
-
-				layer.show();
-			}
-		}
-	};
-
-	// Creates (if necessary) and returns the text overlay container.
-	//
-	// @param {string} classes String of space-separated CSS classes used to
-	//     uniquely identify the text layer.
-	// @return {object} The jQuery-wrapped text-layer div.
-
-	Canvas.prototype.getTextLayer = function(classes) {
-
-		var layer = this.text[classes];
-
-		// Create the text layer if it doesn't exist
-
-		if (layer == null) {
-			layer = this.text[classes] = $("<div></div>")
-				.addClass("flot-text " + classes)
-				.css({
-					position: "absolute",
-					top: 0,
-					left: 0,
-					bottom: 0,
-					right: 0
-				})
-				.insertAfter(this.element);
-		}
-
-		return layer;
-	};
-
-	// Creates (if necessary) and returns a text info object.
-	//
-	// The object looks like this:
-	//
-	// {
-	//     width: Width of the text's wrapper div.
-	//     height: Height of the text's wrapper div.
-	//     active: Flag indicating whether the text should be visible.
-	//     rendered: Flag indicating whether the text is currently visible.
-	//     element: The jQuery-wrapped HTML div containing the text.
-	// }
-	//
-	// Canvas maintains a cache of recently-used text info objects; getTextInfo
-	// either returns the cached element or creates a new entry.
-	//
-	// @param {string} layer A string of space-separated CSS classes uniquely
-	//     identifying the layer containing this text.
-	// @param {string} text Text string to retrieve info for.
-	// @param {(string|object)=} font Either a string of space-separated CSS
-	//     classes or a font-spec object, defining the text's font and style.
-	// @param {number=} angle Angle at which to rotate the text, in degrees.
-	//     Angle is currently unused, it will be implemented in the future.
-	// @return {object} a text info object.
-
-	Canvas.prototype.getTextInfo = function(layer, text, font, angle) {
-
-		var textStyle, layerCache, styleCache, info;
-
-		// Cast the value to a string, in case we were given a number or such
-
-		text = "" + text;
-
-		// If the font is a font-spec object, generate a CSS font definition
-
-		if (typeof font === "object") {
-			textStyle = font.style + " " + font.variant + " " + font.weight + " " + font.size + "px " + font.family;
-		} else {
-			textStyle = font;
-		}
-
-		// Retrieve (or create) the cache for the text's layer and styles
-
-		layerCache = this._textCache[layer];
-
-		if (layerCache == null) {
-			layerCache = this._textCache[layer] = {};
-		}
-
-		styleCache = layerCache[textStyle];
-
-		if (styleCache == null) {
-			styleCache = layerCache[textStyle] = {};
-		}
-
-		info = styleCache[text];
-
-		// If we can't find a matching element in our cache, create a new one
-
-		if (info == null) {
-
-			var element = $("<div></div>").html(text)
-				.css({
-					position: "absolute",
-					top: -9999
-				})
-				.appendTo(this.getTextLayer(layer));
-
-			if (typeof font === "object") {
-				element.css({
-					font: textStyle,
-					color: font.color
-				});
-			} else if (typeof font === "string") {
-				element.addClass(font);
-			}
-
-			info = styleCache[text] = {
-				active: false,
-				rendered: false,
-				element: element,
-				width: element.outerWidth(true),
-				height: element.outerHeight(true)
-			};
-
-			element.detach();
-		}
-
-		return info;
-	};
-
-	// Adds a text string to the canvas text overlay.
-	//
-	// The text isn't drawn immediately; it is marked as rendering, which will
-	// result in its addition to the canvas on the next render pass.
-	//
-	// @param {string} layer A string of space-separated CSS classes uniquely
-	//     identifying the layer containing this text.
-	// @param {number} x X coordinate at which to draw the text.
-	// @param {number} y Y coordinate at which to draw the text.
-	// @param {string} text Text string to draw.
-	// @param {(string|object)=} font Either a string of space-separated CSS
-	//     classes or a font-spec object, defining the text's font and style.
-	// @param {number=} angle Angle at which to rotate the text, in degrees.
-	//     Angle is currently unused, it will be implemented in the future.
-	// @param {string=} halign Horizontal alignment of the text; either "left",
-	//     "center" or "right".
-	// @param {string=} valign Vertical alignment of the text; either "top",
-	//     "middle" or "bottom".
-
-	Canvas.prototype.addText = function(layer, x, y, text, font, angle, halign, valign) {
-
-		var info = this.getTextInfo(layer, text, font, angle);
-
-		// Mark the div for inclusion in the next render pass
-
-		info.active = true;
-
-		// Tweak the div's position to match the text's alignment
-
-		if (halign == "center") {
-			x -= info.width / 2;
-		} else if (halign == "right") {
-			x -= info.width;
-		}
-
-		if (valign == "middle") {
-			y -= info.height / 2;
-		} else if (valign == "bottom") {
-			y -= info.height;
-		}
-
-		// Move the element to its final position within the container
-
-		info.element.css({
-			top: parseInt(y, 10),
-			left: parseInt(x, 10)
-		});
-	};
-
-	// Removes one or more text strings from the canvas text overlay.
-	//
-	// If no parameters are given, all text within the layer is removed.
-	// The text is not actually removed; it is simply marked as inactive, which
-	// will result in its removal on the next render pass.
-	//
-	// @param {string} layer A string of space-separated CSS classes uniquely
-	//     identifying the layer containing this text.
-	// @param {string} text Text string to remove.
-	// @param {(string|object)=} font Either a string of space-separated CSS
-	//     classes or a font-spec object, defining the text's font and style.
-	// @param {number=} angle Angle at which the text is rotated, in degrees.
-	//     Angle is currently unused, it will be implemented in the future.
-
-	Canvas.prototype.removeText = function(layer, text, font, angle) {
-		if (text == null) {
-			var layerCache = this._textCache[layer];
-			if (layerCache != null) {
-				for (var styleKey in layerCache) {
-					if (hasOwnProperty.call(layerCache, styleKey)) {
-						var styleCache = layerCache[styleKey]
-						for (var key in styleCache) {
-							if (hasOwnProperty.call(styleCache, key)) {
-								styleCache[key].active = false;
-							}
-						}
-					}
-				}
-			}
-		} else {
-			this.getTextInfo(layer, text, font, angle).active = false;
-		}
-	};
-
-	///////////////////////////////////////////////////////////////////////////
-	// The top-level container for the entire plot.
+        // Resize the canvas, increasing its density based on the display's
+        // pixel ratio; basically giving it more pixels without increasing the
+        // size of its element, to take advantage of the fact that retina
+        // displays have that many more pixels in the same advertised space.
+
+        // Resizing should reset the state (excanvas seems to be buggy though)
+
+        if (this.width != width) {
+            element.width = width * pixelRatio;
+            element.style.width = width + "px";
+            this.width = width;
+        }
+
+        if (this.height != height) {
+            element.height = height * pixelRatio;
+            element.style.height = height + "px";
+            this.height = height;
+        }
+
+        // Save the context, so we can reset in case we get replotted.  The
+        // restore ensure that we're really back at the initial state, and
+        // should be safe even if we haven't saved the initial state yet.
+
+        context.restore();
+        context.save();
+
+        // Scale the coordinate space to match the display density; so even though we
+        // may have twice as many pixels, we still want lines and other drawing to
+        // appear at the same size; the extra pixels will just make them crisper.
+
+        context.scale(pixelRatio, pixelRatio);
+    };
+
+    // Clears the entire canvas area, not including any overlaid HTML text
+
+    Canvas.prototype.clear = function() {
+        this.context.clearRect(0, 0, this.width, this.height);
+    };
+
+    // Finishes rendering the canvas, including managing the text overlay.
+
+    Canvas.prototype.render = function() {
+
+        var cache = this._textCache;
+
+        // For each text layer, add elements marked as active that haven't
+        // already been rendered, and remove those that are no longer active.
+
+        for (var layerKey in cache) {
+            if (hasOwnProperty.call(cache, layerKey)) {
+
+                var layer = this.getTextLayer(layerKey),
+                    layerCache = cache[layerKey];
+
+                layer.hide();
+
+                for (var styleKey in layerCache) {
+                    if (hasOwnProperty.call(layerCache, styleKey)) {
+                        var styleCache = layerCache[styleKey];
+                        for (var key in styleCache) {
+                            if (hasOwnProperty.call(styleCache, key)) {
+                                var info = styleCache[key];
+                                if (info.active) {
+                                    if (!info.rendered) {
+                                        layer.append(info.element);
+                                        info.rendered = true;
+                                    }
+                                } else {
+                                    delete styleCache[key];
+                                    if (info.rendered) {
+                                        info.element.detach();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                layer.show();
+            }
+        }
+    };
+
+    // Creates (if necessary) and returns the text overlay container.
+    //
+    // @param {string} classes String of space-separated CSS classes used to
+    //     uniquely identify the text layer.
+    // @return {object} The jQuery-wrapped text-layer div.
+
+    Canvas.prototype.getTextLayer = function(classes) {
+
+        var layer = this.text[classes];
+
+        // Create the text layer if it doesn't exist
+
+        if (layer == null) {
+            layer = this.text[classes] = $("<div></div>")
+                .addClass("flot-text " + classes)
+                .css({
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0
+                })
+                .insertAfter(this.element);
+        }
+
+        return layer;
+    };
+
+    // Creates (if necessary) and returns a text info object.
+    //
+    // The object looks like this:
+    //
+    // {
+    //     width: Width of the text's wrapper div.
+    //     height: Height of the text's wrapper div.
+    //     active: Flag indicating whether the text should be visible.
+    //     rendered: Flag indicating whether the text is currently visible.
+    //     element: The jQuery-wrapped HTML div containing the text.
+    // }
+    //
+    // Canvas maintains a cache of recently-used text info objects; getTextInfo
+    // either returns the cached element or creates a new entry.
+    //
+    // @param {string} layer A string of space-separated CSS classes uniquely
+    //     identifying the layer containing this text.
+    // @param {string} text Text string to retrieve info for.
+    // @param {(string|object)=} font Either a string of space-separated CSS
+    //     classes or a font-spec object, defining the text's font and style.
+    // @param {number=} angle Angle at which to rotate the text, in degrees.
+    //     Angle is currently unused, it will be implemented in the future.
+    // @return {object} a text info object.
+
+    Canvas.prototype.getTextInfo = function(layer, text, font, angle) {
+
+        var textStyle, layerCache, styleCache, info;
+
+        // Cast the value to a string, in case we were given a number or such
+
+        text = "" + text;
+
+        // If the font is a font-spec object, generate a CSS font definition
+
+        if (typeof font === "object") {
+            textStyle = font.style + " " + font.variant + " " + font.weight + " " + font.size + "px " + font.family;
+        } else {
+            textStyle = font;
+        }
+
+        // Retrieve (or create) the cache for the text's layer and styles
+
+        layerCache = this._textCache[layer];
+
+        if (layerCache == null) {
+            layerCache = this._textCache[layer] = {};
+        }
+
+        styleCache = layerCache[textStyle];
+
+        if (styleCache == null) {
+            styleCache = layerCache[textStyle] = {};
+        }
+
+        info = styleCache[text];
+
+        // If we can't find a matching element in our cache, create a new one
+
+        if (info == null) {
+
+            var element = $("<div></div>").html(text)
+                .css({
+                    position: "absolute",
+                    top: -9999
+                })
+                .appendTo(this.getTextLayer(layer));
+
+            if (typeof font === "object") {
+                element.css({
+                    font: textStyle,
+                    color: font.color
+                });
+            } else if (typeof font === "string") {
+                element.addClass(font);
+            }
+
+            info = styleCache[text] = {
+                active: false,
+                rendered: false,
+                element: element,
+                width: element.outerWidth(true),
+                height: element.outerHeight(true)
+            };
+
+            element.detach();
+        }
+
+        return info;
+    };
+
+    // Adds a text string to the canvas text overlay.
+    //
+    // The text isn't drawn immediately; it is marked as rendering, which will
+    // result in its addition to the canvas on the next render pass.
+    //
+    // @param {string} layer A string of space-separated CSS classes uniquely
+    //     identifying the layer containing this text.
+    // @param {number} x X coordinate at which to draw the text.
+    // @param {number} y Y coordinate at which to draw the text.
+    // @param {string} text Text string to draw.
+    // @param {(string|object)=} font Either a string of space-separated CSS
+    //     classes or a font-spec object, defining the text's font and style.
+    // @param {number=} angle Angle at which to rotate the text, in degrees.
+    //     Angle is currently unused, it will be implemented in the future.
+    // @param {string=} halign Horizontal alignment of the text; either "left",
+    //     "center" or "right".
+    // @param {string=} valign Vertical alignment of the text; either "top",
+    //     "middle" or "bottom".
+
+    Canvas.prototype.addText = function(layer, x, y, text, font, angle, halign, valign) {
+
+        var info = this.getTextInfo(layer, text, font, angle);
+
+        // Mark the div for inclusion in the next render pass
+
+        info.active = true;
+
+        // Tweak the div's position to match the text's alignment
+
+        if (halign == "center") {
+            x -= info.width / 2;
+        } else if (halign == "right") {
+            x -= info.width;
+        }
+
+        if (valign == "middle") {
+            y -= info.height / 2;
+        } else if (valign == "bottom") {
+            y -= info.height;
+        }
+
+        // Move the element to its final position within the container
+
+        info.element.css({
+            top: parseInt(y, 10),
+            left: parseInt(x, 10)
+        });
+    };
+
+    // Removes one or more text strings from the canvas text overlay.
+    //
+    // If no parameters are given, all text within the layer is removed.
+    // The text is not actually removed; it is simply marked as inactive, which
+    // will result in its removal on the next render pass.
+    //
+    // @param {string} layer A string of space-separated CSS classes uniquely
+    //     identifying the layer containing this text.
+    // @param {string} text Text string to remove.
+    // @param {(string|object)=} font Either a string of space-separated CSS
+    //     classes or a font-spec object, defining the text's font and style.
+    // @param {number=} angle Angle at which the text is rotated, in degrees.
+    //     Angle is currently unused, it will be implemented in the future.
+
+    Canvas.prototype.removeText = function(layer, text, font, angle) {
+        if (text == null) {
+            var layerCache = this._textCache[layer];
+            if (layerCache != null) {
+                for (var styleKey in layerCache) {
+                    if (hasOwnProperty.call(layerCache, styleKey)) {
+                        var styleCache = layerCache[styleKey]
+                        for (var key in styleCache) {
+                            if (hasOwnProperty.call(styleCache, key)) {
+                                styleCache[key].active = false;
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            this.getTextInfo(layer, text, font, angle).active = false;
+        }
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
+    // The top-level container for the entire plot.
 
     function Plot(placeholder, data_, options_, plugins) {
         // data is on the form:
@@ -595,8 +595,8 @@ Licensed under the MIT license.
         };
         plot.shutdown = shutdown;
         plot.resize = function () {
-        	var width = placeholder.width(),
-        		height = placeholder.height();
+            var width = placeholder.width(),
+                height = placeholder.height();
             surface.resize(width, height);
             overlay.resize(width, height);
         };
@@ -1588,21 +1588,21 @@ Licensed under the MIT license.
                     return ticks;
                 };
 
-				axis.tickFormatter = function (value, axis) {
+                axis.tickFormatter = function (value, axis) {
 
-					var factor = axis.tickDecimals ? Math.pow(10, axis.tickDecimals) : 1;
-					var formatted = "" + Math.round(value * factor) / factor;
+                    var factor = axis.tickDecimals ? Math.pow(10, axis.tickDecimals) : 1;
+                    var formatted = "" + Math.round(value * factor) / factor;
 
-					// If tickDecimals was specified, ensure that we have exactly that
-					// much precision; otherwise default to the value's own precision.
+                    // If tickDecimals was specified, ensure that we have exactly that
+                    // much precision; otherwise default to the value's own precision.
 
-					if (axis.tickDecimals != null) {
-						var decimal = formatted.indexOf(".");
-						var precision = decimal == -1 ? 0 : formatted.length - decimal - 1;
-						if (precision < axis.tickDecimals) {
-							return (precision ? formatted : formatted + ".") + ("" + factor).substr(1, axis.tickDecimals - precision);
-						}
-					}
+                    if (axis.tickDecimals != null) {
+                        var decimal = formatted.indexOf(".");
+                        var precision = decimal == -1 ? 0 : formatted.length - decimal - 1;
+                        if (precision < axis.tickDecimals) {
+                            return (precision ? formatted : formatted + ".") + ("" + factor).substr(1, axis.tickDecimals - precision);
+                        }
+                    }
 
                     return formatted;
                 };
@@ -2561,7 +2561,7 @@ Licensed under the MIT license.
                 if ($.isFunction(options.legend.sorted)) {
                     entries.sort(options.legend.sorted);
                 } else if (options.legend.sorted == "reverse") {
-                	entries.reverse();
+                    entries.reverse();
                 } else {
                     var ascending = options.legend.sorted != "descending";
                     entries.sort(function(a, b) {

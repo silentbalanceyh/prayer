@@ -27,69 +27,69 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public class RecordSevImpl extends AbstractSevImpl implements RecordService {
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(RecordSevImpl.class);
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecordSevImpl.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public Logger getLogger() {
-		return LOGGER;
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
+    }
 
-	/**
-	 * 添加、保存方法
-	 */
-	@Override
-	public ServiceResult<JsonObject> save(@NotNull final JsonObject jsonObject) {
-		info(getLogger(), BusLogger.I_PARAM_INFO, "POST", jsonObject.encode());
-		ServiceResult<JsonObject> ret = new ServiceResult<>();
-		final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
-		if (null == error) {
-			try {
-				ret = this.sharedSave(jsonObject);
-				info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
-			} catch (ScriptException ex) {
-				error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
-				ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
-			} catch (AbstractException ex) {
-				ret.setResponse(null, ex);
-			}
-		} else {
-			ret.setResponse(null, error);
-		}
-		return ret;
-	}
+    /**
+     * 添加、保存方法
+     */
+    @Override
+    public ServiceResult<JsonObject> save(@NotNull final JsonObject jsonObject) {
+        info(getLogger(), BusLogger.I_PARAM_INFO, "POST", jsonObject.encode());
+        ServiceResult<JsonObject> ret = new ServiceResult<>();
+        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        if (null == error) {
+            try {
+                ret = this.sharedSave(jsonObject);
+                info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
+            } catch (ScriptException ex) {
+                error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
+            } catch (AbstractException ex) {
+                ret.setResponse(null, ex);
+            }
+        } else {
+            ret.setResponse(null, error);
+        }
+        return ret;
+    }
 
-	/** **/
-	@Override
-	public ServiceResult<JsonObject> remove(@NotNull final JsonObject jsonObject) {
-		info(LOGGER, BusLogger.I_PARAM_INFO, "DELETE", jsonObject.encode());
-		return null;
-	}
+    /** **/
+    @Override
+    public ServiceResult<JsonObject> remove(@NotNull final JsonObject jsonObject) {
+        info(LOGGER, BusLogger.I_PARAM_INFO, "DELETE", jsonObject.encode());
+        return null;
+    }
 
-	/** **/
-	@Override
-	public ServiceResult<JsonObject> modify(@NotNull final JsonObject jsonObject) {
-		info(LOGGER, BusLogger.I_PARAM_INFO, "PUT", jsonObject.encode());
-		return null;
-	}
+    /** **/
+    @Override
+    public ServiceResult<JsonObject> modify(@NotNull final JsonObject jsonObject) {
+        info(LOGGER, BusLogger.I_PARAM_INFO, "PUT", jsonObject.encode());
+        return null;
+    }
 
-	/** **/
-	@Override
-	public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
-		info(LOGGER, BusLogger.I_PARAM_INFO, "GET", jsonObject.encode());
-		return null;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    /** **/
+    @Override
+    public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
+        info(LOGGER, BusLogger.I_PARAM_INFO, "GET", jsonObject.encode());
+        return null;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 
 }

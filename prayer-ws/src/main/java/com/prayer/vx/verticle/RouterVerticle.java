@@ -31,65 +31,65 @@ import net.sf.oval.guard.PreValidateThis;
  */
 @Guarded
 public class RouterVerticle extends AbstractVerticle {
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
-	/** **/
-	@NotNull
-	private transient final ServerConfigurator configurator;
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
+    /** **/
+    @NotNull
+    private transient final ServerConfigurator configurator;
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	@PostValidateThis
-	public RouterVerticle() {
-		super();
-		this.configurator = singleton(ServerConfigurator.class);
-	}
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /** **/
+    @PostValidateThis
+    public RouterVerticle() {
+        super();
+        this.configurator = singleton(ServerConfigurator.class);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	@PreValidateThis
-	public void start() {
-		// 1.根据Options创建Server相关信息
-		final HttpServer server = vertx.createHttpServer(this.configurator.getApiOptions());
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    @PreValidateThis
+    public void start() {
+        // 1.根据Options创建Server相关信息
+        final HttpServer server = vertx.createHttpServer(this.configurator.getApiOptions());
 
-		// 2.根路径Router
-		final Router router = Router.router(vertx);
-		RouterInjector.injectWebDefault(router);
+        // 2.根路径Router
+        final Router router = Router.router(vertx);
+        RouterInjector.injectWebDefault(router);
 
-		// 3.AuthProvider创建
-		RouterInjector.injectSecurity(router);
-		
-		// 4.最前端的URL处理
-		injectStandard(router);
+        // 3.AuthProvider创建
+        RouterInjector.injectSecurity(router);
+        
+        // 4.最前端的URL处理
+        injectStandard(router);
 
-		// 5.设置Sub Router
-		final RouteConfigurator routeConfigurator = singleton(RouteConfigurator.class, vertx);
-		final ConcurrentMap<Router, String> subRouters = routeConfigurator.getRouters();
-		subRouters.forEach((subRouter, value) -> {
-			router.mountSubRouter(value, subRouter);
-		});
+        // 5.设置Sub Router
+        final RouteConfigurator routeConfigurator = singleton(RouteConfigurator.class, vertx);
+        final ConcurrentMap<Router, String> subRouters = routeConfigurator.getRouters();
+        subRouters.forEach((subRouter, value) -> {
+            router.mountSubRouter(value, subRouter);
+        });
 
-		// 6.监听Cluster端口
-		server.requestHandler(router::accept).listen();
-	}
+        // 6.监听Cluster端口
+        server.requestHandler(router::accept).listen();
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
 
-	private void injectStandard(final Router router) {
-		router.route(Constants.ROUTE.API).order(Constants.ORDER.ROUTER).handler(RouterHandler.create());
-		router.route(Constants.ROUTE.API).order(Constants.ORDER.VALIDATION).handler(ValidationHandler.create());
-		router.route(Constants.ROUTE.API).order(Constants.ORDER.CONVERTOR).handler(ConversionHandler.create());
-		router.route(Constants.ROUTE.API).order(Constants.ORDER.SERVICE).handler(ServiceHandler.create());
-		router.route(Constants.ROUTE.API).order(Constants.ORDER.WRAPPER).handler(WrapperHandler.create());
-		// 7.Failure处理器设置
-		router.route(Constants.ROUTE.API).order(Constants.ORDER.FAILURE).failureHandler(FailureHandler.create());
-	}
+    private void injectStandard(final Router router) {
+        router.route(Constants.ROUTE.API).order(Constants.ORDER.ROUTER).handler(RouterHandler.create());
+        router.route(Constants.ROUTE.API).order(Constants.ORDER.VALIDATION).handler(ValidationHandler.create());
+        router.route(Constants.ROUTE.API).order(Constants.ORDER.CONVERTOR).handler(ConversionHandler.create());
+        router.route(Constants.ROUTE.API).order(Constants.ORDER.SERVICE).handler(ServiceHandler.create());
+        router.route(Constants.ROUTE.API).order(Constants.ORDER.WRAPPER).handler(WrapperHandler.create());
+        // 7.Failure处理器设置
+        router.route(Constants.ROUTE.API).order(Constants.ORDER.FAILURE).failureHandler(FailureHandler.create());
+    }
 
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

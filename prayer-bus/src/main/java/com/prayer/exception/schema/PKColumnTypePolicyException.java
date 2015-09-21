@@ -10,38 +10,38 @@ import com.prayer.exception.AbstractSchemaException;
  */
 public class PKColumnTypePolicyException extends AbstractSchemaException {
 
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 768706378213028920L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 768706378213028920L;
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param policy
-	 * @param dataType
-	 */
-	public PKColumnTypePolicyException(final Class<?> clazz, final String policy, final String dataType) {
-		super(clazz, -10012, policy, dataType);
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param policy
+     * @param dataType
+     */
+    public PKColumnTypePolicyException(final Class<?> clazz, final String policy, final String dataType) {
+        super(clazz, -10012, policy, dataType);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public int getErrorCode() {
-		return -10012;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public int getErrorCode() {
+        return -10012;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ hashCode,equals,toString ============================
 
 }

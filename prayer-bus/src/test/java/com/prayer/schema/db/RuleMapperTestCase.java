@@ -17,52 +17,52 @@ import com.prayer.model.h2.vx.RuleModel;
  *
  */
 public class RuleMapperTestCase extends AbstractMapperCase<RuleModel, String> { // NOPMD
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(RuleMapperTestCase.class);
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(RuleMapperTestCase.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	/**
-	 * 
-	 */
-	@BeforeClass		// NOPMD
-	public static void setUp(){
-		/** **/
-		final MetadataConn metaConn = singleton(MetadataConnImpl.class);
-		final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
-		metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
-	}
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public Logger getLogger() {
-		return LOGGER;
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    /**
+     * 
+     */
+    @BeforeClass        // NOPMD
+    public static void setUp(){
+        /** **/
+        final MetadataConn metaConn = singleton(MetadataConnImpl.class);
+        final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
+        metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
+    }
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
+    }
 
-	/** **/
-	@Override
-	public Class<?> getMapperClass() {
-		return RuleMapper.class;
-	}
+    /** **/
+    @Override
+    public Class<?> getMapperClass() {
+        return RuleMapper.class;
+    }
 
-	/** **/
-	@Override
-	public RuleModel instance() {
-		return new RuleModel();
-	}
+    /** **/
+    @Override
+    public RuleModel instance() {
+        return new RuleModel();
+    }
 
-	/** **/
-	@Override
-	public String[] filterFields() {
-		return new String[] { "refUriId" };
-	}
+    /** **/
+    @Override
+    public String[] filterFields() {
+        return new String[] { "refUriId" };
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

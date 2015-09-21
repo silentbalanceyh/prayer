@@ -10,36 +10,36 @@ import com.prayer.exception.AbstractSystemException;
  */
 public class SerializationException extends AbstractSystemException {
 
-	// ~ Static Fields =======================================
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5652134500408183685L;
+    // ~ Static Fields =======================================
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5652134500408183685L;
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param nodeName
-	 */
-	public SerializationException(final Class<?> clazz, final String nodeName) {
-		super(clazz, -20004, nodeName);
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param nodeName
+     */
+    public SerializationException(final Class<?> clazz, final String nodeName) {
+        super(clazz, -20004, nodeName);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public int getErrorCode() {
-		return -20004;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public int getErrorCode() {
+        return -20004;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

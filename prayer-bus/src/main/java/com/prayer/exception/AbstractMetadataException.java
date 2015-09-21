@@ -8,32 +8,32 @@ import static com.prayer.util.Error.error;
  *
  */
 public abstract class AbstractMetadataException extends AbstractException{
-	// ~ Static Fields =======================================
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3587573542243637734L;
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	public AbstractMetadataException(final String message){
-		super(message);
-	}
-	/**
-	 * 
-	 * @param clazz
-	 * @param errorCode
-	 * @param params
-	 */
-	public AbstractMetadataException(final Class<?> clazz, final int errorCode, final Object... params) {
-		super(error(clazz, errorCode, params));
-	}
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Static Fields =======================================
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3587573542243637734L;
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /** **/
+    public AbstractMetadataException(final String message){
+        super(message);
+    }
+    /**
+     * 
+     * @param clazz
+     * @param errorCode
+     * @param params
+     */
+    public AbstractMetadataException(final Class<?> clazz, final int errorCode, final Object... params) {
+        super(error(clazz, errorCode, params));
+    }
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

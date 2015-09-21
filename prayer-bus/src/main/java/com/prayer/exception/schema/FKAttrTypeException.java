@@ -10,38 +10,38 @@ import com.prayer.exception.AbstractSchemaException;
  */
 public class FKAttrTypeException extends AbstractSchemaException {
 
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8969363365901484219L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8969363365901484219L;
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param keyName
-	 * @param dataType
-	 */
-	public FKAttrTypeException(final Class<?> clazz, final String keyName, final String dataType) {
-		super(clazz, -10014, keyName, dataType);
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param keyName
+     * @param dataType
+     */
+    public FKAttrTypeException(final Class<?> clazz, final String keyName, final String dataType) {
+        super(clazz, -10014, keyName, dataType);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public int getErrorCode() {
-		return -10014;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public int getErrorCode() {
+        return -10014;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ hashCode,equals,toString ============================
 
 }

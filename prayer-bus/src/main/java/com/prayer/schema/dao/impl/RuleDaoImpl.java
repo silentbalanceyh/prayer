@@ -23,44 +23,44 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public class RuleDaoImpl extends TemplateDaoImpl<RuleModel, String>implements RuleDao { // NOPMD
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(RuleDaoImpl.class);
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(RuleDaoImpl.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** 日志记录器 **/
-	@Override
-	protected Logger getLogger() {
-		return LOGGER;
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** 日志记录器 **/
+    @Override
+    protected Logger getLogger() {
+        return LOGGER;
+    }
 
-	/** 获取Mapper类型 **/
-	@Override
-	protected Class<?> getMapper() {
-		return RuleMapper.class;
-	}
+    /** 获取Mapper类型 **/
+    @Override
+    protected Class<?> getMapper() {
+        return RuleMapper.class;
+    }
 
-	/** **/
-	@Override
-	public List<RuleModel> getByUri(@NotNull @NotBlank @NotEmpty final String uriId) {
-		// 1.初始化SqlSession
-		final SqlSession session = SessionManager.getSession();
-		// 2.获取Mapper
-		final RuleMapper mapper = session.getMapper(RuleMapper.class);
-		// 3.读取返回信息
-		final List<RuleModel> ret = mapper.selectByUri(uriId);
-		// 4.关闭Session
-		session.close();
-		return ret;
-	}
+    /** **/
+    @Override
+    public List<RuleModel> getByUri(@NotNull @NotBlank @NotEmpty final String uriId) {
+        // 1.初始化SqlSession
+        final SqlSession session = SessionManager.getSession();
+        // 2.获取Mapper
+        final RuleMapper mapper = session.getMapper(RuleMapper.class);
+        // 3.读取返回信息
+        final List<RuleModel> ret = mapper.selectByUri(uriId);
+        // 4.关闭Session
+        session.close();
+        return ret;
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

@@ -1,77 +1,77 @@
 <?xml version="1.0"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.prayer</groupId>
-		<artifactId>prayer</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
-	</parent>
-	<artifactId>prayer-client</artifactId>
-	<name>Prayer Web Client</name>
-	<url>http://maven.apache.org</url>
-	<dependencies>
-		<!-- Vert.X Core -->
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-core</artifactId>
-			<version>${vertx.version}</version>
-		</dependency>
-		<!-- Vertx Web -->
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-web</artifactId>
-			<version>${vertx.version}</version>
-		</dependency>
-		<!-- Vertx Hazelcast -->
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-hazelcast</artifactId>
-			<version>${vertx.version}</version>
-		</dependency>
-		<!-- Vertx CodeGen -->
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-codegen</artifactId>
-			<version>${vertx.version}</version>
-		</dependency>
-		<!-- ReflectASM -->
-		<dependency>
-			<groupId>com.esotericsoftware</groupId>
-			<artifactId>reflectasm</artifactId>
-			<version>${reflect.asm.version}</version>
-		</dependency>
-		<!-- JODD -->
-		<!-- 基础工具类 -->
-		<dependency>
-			<groupId>org.jodd</groupId>
-			<artifactId>jodd-core</artifactId>
-			<version>${jodd.version}</version>
-		</dependency>
-		<!-- JODD: 类型转换 -->
-		<dependency>
-			<groupId>org.jodd</groupId>
-			<artifactId>jodd-bean</artifactId>
-			<version>${jodd.version}</version>
-		</dependency>
-		<!-- XML/HTML解析器 -->
-		<dependency>
-			<groupId>org.jodd</groupId>
-			<artifactId>jodd-lagarto</artifactId>
-			<version>${jodd.version}</version>
-		</dependency>
-		<!-- JSON解析器 -->
-		<dependency>
-			<groupId>org.jodd</groupId>
-			<artifactId>jodd-json</artifactId>
-			<version>${jodd.version}</version>
-		</dependency>
-		<!-- Dom4j XML解析 -->
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>${dom4j.version}</version>
-		</dependency>
-	</dependencies>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.prayer</groupId>
+        <artifactId>prayer</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>prayer-client</artifactId>
+    <name>Prayer Web Client</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+        <!-- Vert.X Core -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <!-- Vertx Web -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <!-- Vertx Hazelcast -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-hazelcast</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <!-- Vertx CodeGen -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-codegen</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <!-- ReflectASM -->
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>reflectasm</artifactId>
+            <version>${reflect.asm.version}</version>
+        </dependency>
+        <!-- JODD -->
+        <!-- 基础工具类 -->
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-core</artifactId>
+            <version>${jodd.version}</version>
+        </dependency>
+        <!-- JODD: 类型转换 -->
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-bean</artifactId>
+            <version>${jodd.version}</version>
+        </dependency>
+        <!-- XML/HTML解析器 -->
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-lagarto</artifactId>
+            <version>${jodd.version}</version>
+        </dependency>
+        <!-- JSON解析器 -->
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-json</artifactId>
+            <version>${jodd.version}</version>
+        </dependency>
+        <!-- Dom4j XML解析 -->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${dom4j.version}</version>
+        </dependency>
+    </dependencies>
 </project>

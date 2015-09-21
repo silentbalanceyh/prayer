@@ -13,27 +13,27 @@ import com.prayer.model.type.DataType;
  *
  */
 interface Transducer {
-	/**
-	 * 
-	 * @param type
-	 * @param value
-	 * @return
-	 */
-	Value<?> getValue(DataType type, String value) throws AbstractMetadataException;
+    /**
+     * 
+     * @param type
+     * @param value
+     * @return
+     */
+    Value<?> getValue(DataType type, String value) throws AbstractMetadataException;
 
-	/**
-	 * 内部类
-	 * 
-	 * @author Lang
-	 *
-	 */
-	class V { // NOPMD
-		/**
-		 * 
-		 * @return
-		 */
-		public static Transducer get(){
-			return singleton(ValueTransducer.class);
-		}
-	}
+    /**
+     * 内部类
+     * 
+     * @author Lang
+     *
+     */
+    class V { // NOPMD
+        /**
+         * 
+         * @return
+         */
+        public static Transducer get(){
+            return singleton(ValueTransducer.class);
+        }
+    }
 }

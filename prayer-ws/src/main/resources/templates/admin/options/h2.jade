@@ -35,7 +35,11 @@ block content_main
                                         span &nbsp;&nbsp;YES
                                     p.help-block h2.database.tcp.allow.others
                             .form-actions
-                                button.btn.btn-primary(type="button",onclick="exeValidate(this);") Validate
+                                .row
+                                    button.btn.btn-primary(type="button",onclick="exeValidate(this);") Validate
+                                    .controls
+                                        .progress.progress-striped(style="width:50%")
+                                            .progress-bar.progress-bar-info.active(style="width:0%")
                             legend
                                 h3
                                     i.icon-th-list

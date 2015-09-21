@@ -20,39 +20,39 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public final class SessionManager {
-	// ~ Static Fields =======================================
-	/** Session Factory 的单例 **/
-	private static SqlSessionFactory sessionFactory;
+    // ~ Static Fields =======================================
+    /** Session Factory 的单例 **/
+    private static SqlSessionFactory sessionFactory;
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	/** 静态初始化 **/
-	static {
-		synchronized (SessionManager.class) {
-			/** 简单的单例实现 **/
-			if (null == sessionFactory) {
-				final InputStream inStream = IOKit.getFile(Resources.T_CFG_MYBATIS);
-				if (null != inStream) {
-					sessionFactory = new SqlSessionFactoryBuilder().build(inStream, Resources.T_CFG_MB_ENV);
-				}
-			}
-		}
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    /** 静态初始化 **/
+    static {
+        synchronized (SessionManager.class) {
+            /** 简单的单例实现 **/
+            if (null == sessionFactory) {
+                final InputStream inStream = IOKit.getFile(Resources.T_CFG_MYBATIS);
+                if (null != inStream) {
+                    sessionFactory = new SqlSessionFactoryBuilder().build(inStream, Resources.T_CFG_MB_ENV);
+                }
+            }
+        }
+    }
 
-	// ~ Static Methods ======================================
-	/** 获取Session实例 **/
-	@NotNull
-	public static SqlSession getSession() {
-		return sessionFactory.openSession();
-	}
+    // ~ Static Methods ======================================
+    /** 获取Session实例 **/
+    @NotNull
+    public static SqlSession getSession() {
+        return sessionFactory.openSession();
+    }
 
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	// ~ Get/Set =============================================
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	private SessionManager() {
-	}
-	// ~ hashCode,equals,toString ============================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Get/Set =============================================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    private SessionManager() {
+    }
+    // ~ hashCode,equals,toString ============================
 }

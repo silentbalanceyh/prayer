@@ -25,69 +25,69 @@ import net.sf.oval.guard.PreValidateThis;
  */
 @Guarded
 public final class RecordConsumer implements Handler<Message<Object>> {
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
 
-	/** **/
-	@NotNull
-	private transient final RecordService recordSev;
+    /** **/
+    @NotNull
+    private transient final RecordService recordSev;
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	public RecordConsumer() {
-		this.recordSev = singleton(RecordSevImpl.class);
-	}
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	@PreValidateThis
-	public void handle(@NotNull final Message<Object> event) {
-		// 1.从EventBus中接受数据
-		final JsonObject params = (JsonObject) event.body();
-		// 2.获取方法信息
-		final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM.METHOD));
-		// 3.根据方法访问不同的Record方法
-		String content = null;
-		switch (method) {
-		case POST:
-			content = this.post(params);
-			break;
-		case PUT: {
-			final ServiceResult<JsonObject> result = this.recordSev.modify(params);
-			content = result.getResult().encode();
-		}
-			break;
-		case DELETE: {
-			final ServiceResult<JsonObject> result = this.recordSev.remove(params);
-			content = result.getResult().encode();
-		}
-			break;
-		default: {
-			final ServiceResult<JsonArray> result = this.recordSev.find(params);
-			content = result.getResult().encode();
-		}
-			break;
-		}
-		event.reply(content);
-	}
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /** **/
+    public RecordConsumer() {
+        this.recordSev = singleton(RecordSevImpl.class);
+    }
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    @PreValidateThis
+    public void handle(@NotNull final Message<Object> event) {
+        // 1.从EventBus中接受数据
+        final JsonObject params = (JsonObject) event.body();
+        // 2.获取方法信息
+        final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM.METHOD));
+        // 3.根据方法访问不同的Record方法
+        String content = null;
+        switch (method) {
+        case POST:
+            content = this.post(params);
+            break;
+        case PUT: {
+            final ServiceResult<JsonObject> result = this.recordSev.modify(params);
+            content = result.getResult().encode();
+        }
+            break;
+        case DELETE: {
+            final ServiceResult<JsonObject> result = this.recordSev.remove(params);
+            content = result.getResult().encode();
+        }
+            break;
+        default: {
+            final ServiceResult<JsonArray> result = this.recordSev.find(params);
+            content = result.getResult().encode();
+        }
+            break;
+        }
+        event.reply(content);
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
 
-	private String post(final JsonObject params) {
-		final ServiceResult<JsonObject> result = this.recordSev.save(params);
-		String content = Constants.EMPTY_JOBJ;
-		if (ResponseCode.SUCCESS == result.getResponseCode()) {
-			final JsonObject ret = result.getResult();
-			if (null != ret) {
-				content = ret.encodePrettily();
-			}
-		}
-		return content;
-	}
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    private String post(final JsonObject params) {
+        final ServiceResult<JsonObject> result = this.recordSev.save(params);
+        String content = Constants.EMPTY_JOBJ;
+        if (ResponseCode.SUCCESS == result.getResponseCode()) {
+            final JsonObject ret = result.getResult();
+            if (null != ret) {
+                content = ret.encodePrettily();
+            }
+        }
+        return content;
+    }
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

@@ -2,13 +2,13 @@
 oTest.fnStart( "5396 - fnUpdate with 2D arrays for a single row" );
 
 $(document).ready( function () {
-	$('#example thead tr').append( '<th>6</th>' );
-	$('#example thead tr').append( '<th>7</th>' );
-	$('#example thead tr').append( '<th>8</th>' );
-	$('#example thead tr').append( '<th>9</th>' );
-	$('#example thead tr').append( '<th>10</th>' );
-	
-	var aDataSet = [
+    $('#example thead tr').append( '<th>6</th>' );
+    $('#example thead tr').append( '<th>7</th>' );
+    $('#example thead tr').append( '<th>8</th>' );
+    $('#example thead tr').append( '<th>9</th>' );
+    $('#example thead tr').append( '<th>10</th>' );
+    
+    var aDataSet = [
     [
         "1",
         "홍길동",
@@ -39,7 +39,7 @@ $(document).ready( function () {
         "show"
     ]
 ]
-	
+    
     var oTable = $('#example').dataTable({
         "aaData": aDataSet,
         "aoColumns": [
@@ -55,19 +55,19 @@ $(document).ready( function () {
           { "mDataProp": "6"}
         ]
     });
-	
-	
-	oTest.fnTest( 
-		"Initialisation",
-		null,
-		function () {
-			return $('#example tbody tr:eq(0) td:eq(0)').html() == '1';
-		}
-	);
-	
-	oTest.fnTest( 
-		"Update row",
-		function () {
+    
+    
+    oTest.fnTest( 
+        "Initialisation",
+        null,
+        function () {
+            return $('#example tbody tr:eq(0) td:eq(0)').html() == '1';
+        }
+    );
+    
+    oTest.fnTest( 
+        "Update row",
+        function () {
       $('#example').dataTable().fnUpdate( [
           "0",
           "홍길순",
@@ -83,21 +83,21 @@ $(document).ready( function () {
           "2010-03-05",
           "show"
       ], 1 );
-		},
-		function () {
-			return $('#example tbody tr:eq(0) td:eq(0)').html() == '0';
-		}
-	);
-	
-	oTest.fnTest( 
-		"Original row preserved",
-		null,
-		function () {
-			return $('#example tbody tr:eq(1) td:eq(0)').html() == '1';
-		}
-	);
-	
-	
-	
-	oTest.fnComplete();
+        },
+        function () {
+            return $('#example tbody tr:eq(0) td:eq(0)').html() == '0';
+        }
+    );
+    
+    oTest.fnTest( 
+        "Original row preserved",
+        null,
+        function () {
+            return $('#example tbody tr:eq(1) td:eq(0)').html() == '1';
+        }
+    );
+    
+    
+    
+    oTest.fnComplete();
 } );

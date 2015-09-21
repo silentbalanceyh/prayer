@@ -25,39 +25,39 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class ScriptValidator implements Validator {	// NOPMD
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(ScriptType.class);
-	/** **/
-	private static final ScriptEngine ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
+final class ScriptValidator implements Validator {    // NOPMD
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptType.class);
+    /** **/
+    private static final ScriptEngine ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractMetadataException {
-		boolean ret = false;
-		if (null == value) {
-			ret = true;
-		} else {
-			try {
-				ENGINE.eval(value.literal());
-				ret = true;
-			} catch (ScriptException ex) {
-				info(LOGGER, "[E] Script error! Output = " + value, ex);
-				throw new ContentErrorException(getClass(), "JavaScript", value.literal());	// NOPMD
-			}
-		}
-		return ret;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractMetadataException {
+        boolean ret = false;
+        if (null == value) {
+            ret = true;
+        } else {
+            try {
+                ENGINE.eval(value.literal());
+                ret = true;
+            } catch (ScriptException ex) {
+                info(LOGGER, "[E] Script error! Output = " + value, ex);
+                throw new ContentErrorException(getClass(), "JavaScript", value.literal());    // NOPMD
+            }
+        }
+        return ret;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 
 }

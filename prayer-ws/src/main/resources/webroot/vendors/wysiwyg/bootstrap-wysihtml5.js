@@ -131,9 +131,9 @@
 
         createEditor: function(options) {
             options = $.extend(defaultOptions, options || {});
-		    options.toolbar = this.toolbar[0];
+            options.toolbar = this.toolbar[0];
 
-		    var editor = new wysi.Editor(this.el[0], options);
+            var editor = new wysi.Editor(this.el[0], options);
 
             if(options && options.events) {
                 for(var eventName in options.events) {
@@ -229,8 +229,8 @@
             toolbar.find('a[data-wysihtml5-command=insertImage]').click(function() {
                 insertImageModal.modal('show');
                 insertImageModal.on('click.dismiss.modal', '[data-dismiss="modal"]', function(e) {
-					e.stopPropagation();
-				});
+                    e.stopPropagation();
+                });
                 return false;
             });
         },
@@ -273,8 +273,8 @@
             toolbar.find('a[data-wysihtml5-command=createLink]').click(function() {
                 insertLinkModal.modal('show');
                 insertLinkModal.on('click.dismiss.modal', '[data-dismiss="modal"]', function(e) {
-					e.stopPropagation();
-				});
+                    e.stopPropagation();
+                });
                 return false;
             });
 

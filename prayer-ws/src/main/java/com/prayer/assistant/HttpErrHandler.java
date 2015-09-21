@@ -31,122 +31,122 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public final class HttpErrHandler {
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(HttpErrHandler.class);
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpErrHandler.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	/** **/
-	@NotNull
-	public static void handle500Error(@NotNull final Class<?> clazz, @NotNull final RoutingContext context) {
-		final RestfulResult webRet = RestfulResult.create();
-		error500(webRet, clazz);
-		context.put(Constants.KEY.CTX_ERROR, webRet);
-		context.fail(webRet.getStatusCode().status());
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    /** **/
+    @NotNull
+    public static void handle500Error(@NotNull final Class<?> clazz, @NotNull final RoutingContext context) {
+        final RestfulResult webRet = RestfulResult.create();
+        error500(webRet, clazz);
+        context.put(Constants.KEY.CTX_ERROR, webRet);
+        context.fail(webRet.getStatusCode().status());
+    }
 
-	/** **/
-	@NotNull
-	public static AbstractWebException error401(@NotNull final RestfulResult webRef, @NotNull final Class<?> clazz,
-			@NotNull @NotBlank @NotEmpty final String uri) {
-		final AbstractWebException error = new NotAuthorizationException(clazz, uri);
-		webRef.setResponse(StatusCode.UNAUTHORIZED, error);
-		webRef.setResult(produceResult(webRef));
-		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.UNAUTHORIZED.status(), StatusCode.UNAUTHORIZED.toString(),
-				error.getErrorMessage());
-		return error;
-	}
+    /** **/
+    @NotNull
+    public static AbstractWebException error401(@NotNull final RestfulResult webRef, @NotNull final Class<?> clazz,
+            @NotNull @NotBlank @NotEmpty final String uri) {
+        final AbstractWebException error = new NotAuthorizationException(clazz, uri);
+        webRef.setResponse(StatusCode.UNAUTHORIZED, error);
+        webRef.setResult(produceResult(webRef));
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.UNAUTHORIZED.status(), StatusCode.UNAUTHORIZED.toString(),
+                error.getErrorMessage());
+        return error;
+    }
 
-	/** **/
-	@NotNull
-	public static AbstractWebException error404(@NotNull final RestfulResult webRef, @NotNull final Class<?> clazz,
-			@NotNull @NotBlank @NotEmpty final String path) {
-		final AbstractWebException error = new UriSpecificationMissingException(clazz, path);
-		webRef.setResponse(StatusCode.NOT_FOUND, error);
-		webRef.setResult(produceResult(webRef));
-		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.NOT_FOUND.status(), StatusCode.NOT_FOUND.toString(),
-				error.getErrorMessage());
-		return error;
-	}
+    /** **/
+    @NotNull
+    public static AbstractWebException error404(@NotNull final RestfulResult webRef, @NotNull final Class<?> clazz,
+            @NotNull @NotBlank @NotEmpty final String path) {
+        final AbstractWebException error = new UriSpecificationMissingException(clazz, path);
+        webRef.setResponse(StatusCode.NOT_FOUND, error);
+        webRef.setResult(produceResult(webRef));
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.NOT_FOUND.status(), StatusCode.NOT_FOUND.toString(),
+                error.getErrorMessage());
+        return error;
+    }
 
-	/** **/
-	@NotNull
-	public static AbstractWebException error405(@NotNull final RestfulResult webRef, @NotNull final Class<?> clazz,
-			@NotNull final HttpMethod method) {
-		final AbstractWebException error = new MethodNotAllowedException(clazz, method.toString());
-		webRef.setResponse(StatusCode.METHOD_NOT_ALLOWED, error);
-		webRef.setResult(produceResult(webRef));
-		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.METHOD_NOT_ALLOWED.status(),
-				StatusCode.METHOD_NOT_ALLOWED.toString(), error.getErrorMessage());
-		return error;
-	}
+    /** **/
+    @NotNull
+    public static AbstractWebException error405(@NotNull final RestfulResult webRef, @NotNull final Class<?> clazz,
+            @NotNull final HttpMethod method) {
+        final AbstractWebException error = new MethodNotAllowedException(clazz, method.toString());
+        webRef.setResponse(StatusCode.METHOD_NOT_ALLOWED, error);
+        webRef.setResult(produceResult(webRef));
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.METHOD_NOT_ALLOWED.status(),
+                StatusCode.METHOD_NOT_ALLOWED.toString(), error.getErrorMessage());
+        return error;
+    }
 
-	/** **/
-	@NotNull
-	public static AbstractWebException error500(@NotNull final RestfulResult webRef, @NotNull final Class<?> clazz) {
-		final AbstractWebException error = new InternalServerErrorException(clazz);
-		webRef.setResponse(StatusCode.INTERNAL_SERVER_ERROR, error);
-		webRef.setResult(produceResult(webRef));
-		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.INTERNAL_SERVER_ERROR.status(),
-				StatusCode.INTERNAL_SERVER_ERROR.toString(), error.getErrorMessage());
-		return error;
-	}
+    /** **/
+    @NotNull
+    public static AbstractWebException error500(@NotNull final RestfulResult webRef, @NotNull final Class<?> clazz) {
+        final AbstractWebException error = new InternalServerErrorException(clazz);
+        webRef.setResponse(StatusCode.INTERNAL_SERVER_ERROR, error);
+        webRef.setResult(produceResult(webRef));
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.INTERNAL_SERVER_ERROR.status(),
+                StatusCode.INTERNAL_SERVER_ERROR.toString(), error.getErrorMessage());
+        return error;
+    }
 
-	/** **/
-	@NotNull
-	public static AbstractWebException error400E30001(@NotNull final RestfulResult webRef,
-			@NotNull final Class<?> clazz, @NotNull @NotBlank @NotEmpty final String path,
-			@NotNull @NotBlank @NotEmpty final String paramType, @NotNull @NotBlank @NotEmpty final String paramName) {
-		final AbstractWebException error = new RequiredParamMissingException(clazz, path, paramType, paramName);
-		webRef.setResponse(StatusCode.BAD_REQUEST, error);
-		webRef.setResult(produceResult(webRef));
-		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
-				error.getErrorMessage());
-		return error;
-	}
+    /** **/
+    @NotNull
+    public static AbstractWebException error400E30001(@NotNull final RestfulResult webRef,
+            @NotNull final Class<?> clazz, @NotNull @NotBlank @NotEmpty final String path,
+            @NotNull @NotBlank @NotEmpty final String paramType, @NotNull @NotBlank @NotEmpty final String paramName) {
+        final AbstractWebException error = new RequiredParamMissingException(clazz, path, paramType, paramName);
+        webRef.setResponse(StatusCode.BAD_REQUEST, error);
+        webRef.setResult(produceResult(webRef));
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
+                error.getErrorMessage());
+        return error;
+    }
 
-	/** **/
-	@NotNull
-	public static AbstractWebException error400E30010(@NotNull final RestfulResult webRef,
-			@NotNull final Class<?> clazz, @NotNull @NotBlank @NotEmpty final String path) {
-		final AbstractWebException error = new BodyParamDecodingException(clazz, path);
-		webRef.setResponse(StatusCode.BAD_REQUEST, error);
-		webRef.setResult(produceResult(webRef));
-		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
-				error.getErrorMessage());
-		return error;
-	}
+    /** **/
+    @NotNull
+    public static AbstractWebException error400E30010(@NotNull final RestfulResult webRef,
+            @NotNull final Class<?> clazz, @NotNull @NotBlank @NotEmpty final String path) {
+        final AbstractWebException error = new BodyParamDecodingException(clazz, path);
+        webRef.setResponse(StatusCode.BAD_REQUEST, error);
+        webRef.setResult(produceResult(webRef));
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
+                error.getErrorMessage());
+        return error;
+    }
 
-	/** **/
-	@NotNull
-	public static RestfulResult error400(@NotNull final AbstractWebException error) {
-		final RestfulResult webRet = RestfulResult.create();
-		webRet.setResponse(StatusCode.BAD_REQUEST, error);
-		webRet.setResult(produceResult(webRet));
-		info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
-				error.getErrorMessage());
-		return webRet;
-	}
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
+    /** **/
+    @NotNull
+    public static RestfulResult error400(@NotNull final AbstractWebException error) {
+        final RestfulResult webRet = RestfulResult.create();
+        webRet.setResponse(StatusCode.BAD_REQUEST, error);
+        webRet.setResult(produceResult(webRet));
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
+                error.getErrorMessage());
+        return webRet;
+    }
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
 
-	private static JsonObject produceResult(final RestfulResult webRef) {
-		// Error Object
-		final JsonObject response = new JsonObject();
-		response.put(Constants.RET.STATUS_CODE, webRef.getStatusCode().status());
-		response.put(Constants.RET.ERROR, webRef.getStatusCode().toString());
-		response.put(Constants.RET.ERROR_MSG, webRef.getErrorMessage());
-		response.put(Constants.RET.RESPONSE, webRef.getResponseCode().toString());
-		return response;
-	}
+    private static JsonObject produceResult(final RestfulResult webRef) {
+        // Error Object
+        final JsonObject response = new JsonObject();
+        response.put(Constants.RET.STATUS_CODE, webRef.getStatusCode().status());
+        response.put(Constants.RET.ERROR, webRef.getStatusCode().toString());
+        response.put(Constants.RET.ERROR_MSG, webRef.getErrorMessage());
+        response.put(Constants.RET.RESPONSE, webRef.getResponseCode().toString());
+        return response;
+    }
 
-	private HttpErrHandler() {
-	}
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    private HttpErrHandler() {
+    }
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

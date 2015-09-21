@@ -1,87 +1,87 @@
 {
-	"__meta__": 
-	{
-		"namespace": "com.prayer.model.oauth",
-		"name": "Approvals",
-		"category": "ENTITY",
-		"table": "OAU_APPROVALS",
-		"identifier": "sec.oauth.approvals",
-		"mapping": "DIRECT",
-		"policy": "GUID"
-	},
+    "__meta__": 
+    {
+        "namespace": "com.prayer.model.oauth",
+        "name": "Approvals",
+        "category": "ENTITY",
+        "table": "OAU_APPROVALS",
+        "identifier": "sec.oauth.approvals",
+        "mapping": "DIRECT",
+        "policy": "GUID"
+    },
 
-	"__keys__": 
-	[
-		{
-			"name": "PK_OAU_APPR_ID",
-			"category": "PrimaryKey",
-			"multi": false,
-			"columns": 
-			[
-				"PK_ID"
-			]
-		}
-	],
+    "__keys__": 
+    [
+        {
+            "name": "PK_OAU_APPR_ID",
+            "category": "PrimaryKey",
+            "multi": false,
+            "columns": 
+            [
+                "PK_ID"
+            ]
+        }
+    ],
 
-	"__fields__": 
-	[
-		{
-			"name": "uniqueId",
-			"type": "StringType",
-			"columnName": "PK_ID",
-			"columnType": "STRING1",
-			"primarykey": true,
-			"length": 192
-		},
+    "__fields__": 
+    [
+        {
+            "name": "uniqueId",
+            "type": "StringType",
+            "columnName": "PK_ID",
+            "columnType": "STRING1",
+            "primarykey": true,
+            "length": 192
+        },
 
-		{
-			"name": "userId",
-			"type": "StringType",
-			"columnName": "S_USER_ID",
-			"columnType": "STRING1",
-			"length": 256
-		},
+        {
+            "name": "userId",
+            "type": "StringType",
+            "columnName": "S_USER_ID",
+            "columnType": "STRING1",
+            "length": 256
+        },
 
-		{
-			"name": "clientId",
-			"type": "StringType",
-			"columnName": "S_CLIENT_ID",
-			"columnType": "STRING1",
-			"length": 256
-		},
+        {
+            "name": "clientId",
+            "type": "StringType",
+            "columnName": "S_CLIENT_ID",
+            "columnType": "STRING1",
+            "length": 256
+        },
 
-		{
-			"name": "scope",
-			"type": "StringType",
-			"columnName": "S_SCOPE",
-			"columnType": "STRING1",
-			"length": 256
-		},
+        {
+            "name": "scope",
+            "type": "StringType",
+            "columnName": "S_SCOPE",
+            "columnType": "STRING1",
+            "length": 256
+        },
 
-		{
-			"name": "status",
-			"type": "StringType",
-			"columnName": "S_STATUS",
-			"columnType": "STRING1",
-			"length": 10
-		},
+        {
+            "name": "status",
+            "type": "StringType",
+            "columnName": "S_STATUS",
+            "columnType": "STRING1",
+            "length": 10
+        },
 
-		{
-			"name": "expiresAt",
-			"type": "DateType",
-			"columnName": "S_EXPIRES_AT",
-			"columnType": "DATE2",
-			"datetime": "STRING",
-			"dateformat": "yyyy-MM-dd HH:mm:ss"
-		},
+        {
+            "name": "expiresAt",
+            "type": "DateType",
+            "columnName": "S_EXPIRES_AT",
+            "columnType": "DATE2",
+            "datetime": "STRING",
+            "dateformat": "yyyy-MM-dd HH:mm:ss"
+        },
 
-		{
-			"name": "lastModifiedAt",
-			"type": "DateType",
-			"columnName": "S_LAST_MODIFIED_AT",
-			"columnType": "DATE2",
-			"datetime": "STRING",
-			"dateformat": "yyyy-MM-dd HH:mm:ss"
-		}
-	]
+        {
+            "name": "lastModifiedAt",
+            "type": "DateType",
+            "columnName": "S_LAST_MODIFIED_AT",
+            "columnType": "DATE2",
+            "datetime": "STRING",
+            "dateformat": "yyyy-MM-dd HH:mm:ss"
+        }
+    ]
 }

@@ -35,114 +35,114 @@ import net.sf.oval.constraint.NotNull;
  *
  */
 final class MsSqlTransducer implements Transducer { // NOPMD
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public void injectArgs(@NotNull final PreparedStatement stmt, @Min(0) final int idx, @NotNull final Value<?> value)
-			throws SQLException {
-		switch (value.getDataType()) {
-		case INT: {
-			stmt.setInt(idx, ((IntType) value).getValue());
-		}
-			break;
-		case LONG: {
-			stmt.setLong(idx, ((LongType) value).getValue());
-		}
-			break;
-		case BOOLEAN: {
-			stmt.setBoolean(idx, ((BooleanType) value).getValue());
-		}
-			break;
-		case DECIMAL: {
-			stmt.setBigDecimal(idx, ((DecimalType) value).getValue());
-		}
-			break;
-		case DATE: {
-			final Date datetime = ((DateType) value).getValue();
-			stmt.setTimestamp(idx, new java.sql.Timestamp(datetime.getTime()),
-					Calendar.getInstance(Locale.getDefault()));
-		}
-			break;
-		case BINARY: {
-			final InputStream stream = new ByteArrayInputStream(((BinaryType) value).getValue());
-			stmt.setBinaryStream(idx, stream);
-		}
-			break;
-		default: // Default for XML, STRING, SCRIPT, JSON
-		{
-			stmt.setString(idx, ((StringType) value).getValue());
-		}
-			break;
-		}
-	}
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public void injectArgs(@NotNull final PreparedStatement stmt, @Min(0) final int idx, @NotNull final Value<?> value)
+            throws SQLException {
+        switch (value.getDataType()) {
+        case INT: {
+            stmt.setInt(idx, ((IntType) value).getValue());
+        }
+            break;
+        case LONG: {
+            stmt.setLong(idx, ((LongType) value).getValue());
+        }
+            break;
+        case BOOLEAN: {
+            stmt.setBoolean(idx, ((BooleanType) value).getValue());
+        }
+            break;
+        case DECIMAL: {
+            stmt.setBigDecimal(idx, ((DecimalType) value).getValue());
+        }
+            break;
+        case DATE: {
+            final Date datetime = ((DateType) value).getValue();
+            stmt.setTimestamp(idx, new java.sql.Timestamp(datetime.getTime()),
+                    Calendar.getInstance(Locale.getDefault()));
+        }
+            break;
+        case BINARY: {
+            final InputStream stream = new ByteArrayInputStream(((BinaryType) value).getValue());
+            stmt.setBinaryStream(idx, stream);
+        }
+            break;
+        default: // Default for XML, STRING, SCRIPT, JSON
+        {
+            stmt.setString(idx, ((StringType) value).getValue());
+        }
+            break;
+        }
+    }
 
-	/** **/
-	@Override
-	public Value<?> getValue(@NotNull final ResultSet retSet, @NotNull final DataType type, // NOPMD
-			@NotNull @NotEmpty @NotBlank final String column) throws SQLException,AbstractMetadataException {
-		Value<?> ret = null;
-		switch (type) {
-		case INT: {
-			final int value = retSet.getInt(column);
-			ret = new IntType(value);
-		}
-			break;
-		case LONG: {
-			final long value = retSet.getLong(column);
-			ret = new LongType(value);
-		}
-			break;
-		case BOOLEAN: {
-			final boolean value = retSet.getBoolean(column);
-			ret = new BooleanType(value);
-		}
-			break;
-		case DECIMAL: {
-			final BigDecimal value = retSet.getBigDecimal(column);
-			ret = new DecimalType(value);
-		}
-			break;
-		case DATE: {
-			final java.sql.Timestamp value = retSet.getTimestamp(column, Calendar.getInstance(Locale.getDefault()));
-			ret = new DateType(new Date(value.getTime()));
-		}
-			break;
-		case BINARY: {
-			final byte[] value = retSet.getBytes(column);
-			ret = new BinaryType(value);
-		}
-			break;
-		case XML: {
-			final String value = retSet.getString(column);
-			ret = new XmlType(value);
-		}
-			break;
-		case JSON: {
-			final String value = retSet.getString(column);
-			ret = new JsonType(value);
-		}
-			break;
-		case SCRIPT: {
-			final String value = retSet.getString(column);
-			ret = new ScriptType(value);
-		}
-			break;
-		default: {
-			final String value = retSet.getString(column);
-			ret = new StringType(value);
-		}
-			break;
-		}
-		return ret;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    /** **/
+    @Override
+    public Value<?> getValue(@NotNull final ResultSet retSet, @NotNull final DataType type, // NOPMD
+            @NotNull @NotEmpty @NotBlank final String column) throws SQLException,AbstractMetadataException {
+        Value<?> ret = null;
+        switch (type) {
+        case INT: {
+            final int value = retSet.getInt(column);
+            ret = new IntType(value);
+        }
+            break;
+        case LONG: {
+            final long value = retSet.getLong(column);
+            ret = new LongType(value);
+        }
+            break;
+        case BOOLEAN: {
+            final boolean value = retSet.getBoolean(column);
+            ret = new BooleanType(value);
+        }
+            break;
+        case DECIMAL: {
+            final BigDecimal value = retSet.getBigDecimal(column);
+            ret = new DecimalType(value);
+        }
+            break;
+        case DATE: {
+            final java.sql.Timestamp value = retSet.getTimestamp(column, Calendar.getInstance(Locale.getDefault()));
+            ret = new DateType(new Date(value.getTime()));
+        }
+            break;
+        case BINARY: {
+            final byte[] value = retSet.getBytes(column);
+            ret = new BinaryType(value);
+        }
+            break;
+        case XML: {
+            final String value = retSet.getString(column);
+            ret = new XmlType(value);
+        }
+            break;
+        case JSON: {
+            final String value = retSet.getString(column);
+            ret = new JsonType(value);
+        }
+            break;
+        case SCRIPT: {
+            final String value = retSet.getString(column);
+            ret = new ScriptType(value);
+        }
+            break;
+        default: {
+            final String value = retSet.getString(column);
+            ret = new StringType(value);
+        }
+            break;
+        }
+        return ret;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

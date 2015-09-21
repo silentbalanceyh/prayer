@@ -12,20 +12,20 @@ import com.prayer.model.h2.FieldModel;
  *
  */
 interface RecordPK {
-	/**
-	 * 主键的Policy
-	 * 
-	 * @return
-	 */
-	MetaPolicy policy();
-	/**
-	 * 生成主键键值对
-	 * @return
-	 */
-	ConcurrentMap<String,Value<?>> idKV() throws AbstractMetadataException;
-	/**
-	 * 当前记录的主键Schema
-	 * @return
-	 */
-	List<FieldModel> idschema();
+    /**
+     * 主键的Policy
+     * 
+     * @return
+     */
+    MetaPolicy policy();
+    /**
+     * 生成主键键值对
+     * @return
+     */
+    ConcurrentMap<String,Value<?>> idKV() throws AbstractMetadataException;
+    /**
+     * 当前记录的主键Schema
+     * @return
+     */
+    List<FieldModel> idschema();
 }

@@ -9,10 +9,10 @@ import com.prayer.exception.AbstractMetadataException;
  * @see
  */
 public interface Validator {
-	/**
-	 * 校验字符串格式
-	 * 
-	 * @return
-	 */
-	boolean validate(Value<?> value, Object... params) throws AbstractMetadataException;
+    /**
+     * 校验字符串格式
+     * 
+     * @return
+     */
+    boolean validate(Value<?> value, Object... params) throws AbstractMetadataException;
 }

@@ -10,31 +10,31 @@ import com.prayer.exception.AbstractSystemException;
  */
 public class TypeInitException extends AbstractSystemException {
 
-	// ~ Static Fields =======================================
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -1899652229369453366L;
+    // ~ Static Fields =======================================
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1899652229369453366L;
 
-	// ~ Constructors ========================================
+    // ~ Constructors ========================================
 
-	/**
-	 * 
-	 * @param clazz
-	 * @param memberName
-	 * @param input
-	 */
-	public TypeInitException(final Class<?> clazz, final String memberName, final String input) {
-		super(clazz, -20001, memberName, input);
-	}
+    /**
+     * 
+     * @param clazz
+     * @param memberName
+     * @param input
+     */
+    public TypeInitException(final Class<?> clazz, final String memberName, final String input) {
+        super(clazz, -20001, memberName, input);
+    }
 
-	// ~ Override Methods ====================================
+    // ~ Override Methods ====================================
 
-	/**
-	 *
-	 */
-	@Override
-	public int getErrorCode() {
-		return -20001;
-	}
+    /**
+     *
+     */
+    @Override
+    public int getErrorCode() {
+        return -20001;
+    }
 }

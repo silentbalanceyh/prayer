@@ -26,76 +26,76 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public final class ParamExtractor {
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
 
-	/** Schema Service 接口 **/
-	private transient final SchemaService schemaSev;
+    /** Schema Service 接口 **/
+    private transient final SchemaService schemaSev;
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	ParamExtractor() {
-		this.schemaSev = singleton(SchemaSevImpl.class);
-	}
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /** **/
+    ParamExtractor() {
+        this.schemaSev = singleton(SchemaSevImpl.class);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
 
-	/**
-	 * 
-	 * @param parameters
-	 * @return
-	 */
-	public GenericSchema extractSchema(@NotNull final JsonObject parameters) {
-		final String identifier = parameters.getString(Constants.PARAM.ID);
-		final ServiceResult<GenericSchema> schema = this.schemaSev.findSchema(identifier);
-		GenericSchema ret = null;
-		if (ResponseCode.SUCCESS == schema.getResponseCode()) {
-			ret = schema.getResult();
-		}
-		return ret;
-	}
+    /**
+     * 
+     * @param parameters
+     * @return
+     */
+    public GenericSchema extractSchema(@NotNull final JsonObject parameters) {
+        final String identifier = parameters.getString(Constants.PARAM.ID);
+        final ServiceResult<GenericSchema> schema = this.schemaSev.findSchema(identifier);
+        GenericSchema ret = null;
+        if (ResponseCode.SUCCESS == schema.getResponseCode()) {
+            ret = schema.getResult();
+        }
+        return ret;
+    }
 
-	/**
-	 * 提取最终的Record数据信息
-	 * 
-	 * @param record
-	 * @return
-	 * @throws AbstractMetadataException
-	 */
-	public JsonObject extractRecord(final Record record) throws AbstractMetadataException {
-		final Set<String> fields = record.fields().keySet();
-		final JsonObject retObj = new JsonObject();
-		for (final String field : fields) {
-			if (null == record.get(field)) {
-				retObj.put(field, Constants.EMPTY_STR);
-			} else {
-				retObj.put(field, record.get(field).literal());
-			}
-		}
-		return retObj;
-	}
+    /**
+     * 提取最终的Record数据信息
+     * 
+     * @param record
+     * @return
+     * @throws AbstractMetadataException
+     */
+    public JsonObject extractRecord(final Record record) throws AbstractMetadataException {
+        final Set<String> fields = record.fields().keySet();
+        final JsonObject retObj = new JsonObject();
+        for (final String field : fields) {
+            if (null == record.get(field)) {
+                retObj.put(field, Constants.EMPTY_STR);
+            } else {
+                retObj.put(field, record.get(field).literal());
+            }
+        }
+        return retObj;
+    }
 
-	/**
-	 * 直接过滤retJson去除掉对应属性中的信息
-	 * 
-	 * @param retJson
-	 * @param filters
-	 */
-	public void filterRecord(@NotNull final JsonObject retJson, @NotNull final JsonObject inputJson) {
-		final JsonArray jsonFilters = inputJson.getJsonArray(Constants.PARAM.FILTERS);
-		final Iterator<Object> filterIt = jsonFilters.iterator();
-		while (filterIt.hasNext()) {
-			final Object item = filterIt.next();
-			if (null != item && retJson.containsKey(item.toString())) {
-				retJson.remove(item.toString());
-			}
-		}
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    /**
+     * 直接过滤retJson去除掉对应属性中的信息
+     * 
+     * @param retJson
+     * @param filters
+     */
+    public void filterRecord(@NotNull final JsonObject retJson, @NotNull final JsonObject inputJson) {
+        final JsonArray jsonFilters = inputJson.getJsonArray(Constants.PARAM.FILTERS);
+        final Iterator<Object> filterIt = jsonFilters.iterator();
+        while (filterIt.hasNext()) {
+            final Object item = filterIt.next();
+            if (null != item && retJson.containsKey(item.toString())) {
+                retJson.remove(item.toString());
+            }
+        }
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

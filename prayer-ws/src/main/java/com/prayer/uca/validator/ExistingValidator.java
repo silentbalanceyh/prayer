@@ -20,32 +20,32 @@ import net.sf.oval.guard.PostValidateThis;
  */
 @Guarded
 public class ExistingValidator implements WebValidator {
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
-	/** **/
-	@NotNull
-	private transient final WebValidator validator;
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
+    /** **/
+    @NotNull
+    private transient final WebValidator validator;
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	@PostValidateThis
-	public ExistingValidator() {
-		this.validator = instance(NotExistingValidator.class.getName());
-	}
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /** **/
+    @PostValidateThis
+    public ExistingValidator() {
+        this.validator = instance(NotExistingValidator.class.getName());
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public boolean validate(@NotNull @NotBlank @NotEmpty final String name, @NotNull final Value<?> value,
-			@NotNull final JsonObject config) throws AbstractWebException {
-		return !this.validator.validate(name, value, config);
-	}
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public boolean validate(@NotNull @NotBlank @NotEmpty final String name, @NotNull final Value<?> value,
+            @NotNull final JsonObject config) throws AbstractWebException {
+        return !this.validator.validate(name, value, config);
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

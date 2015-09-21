@@ -1,14 +1,14 @@
 {
-	"__meta__":{
-		"name":"Role",
-		"namespace":"com.prayer.mod.sec",
-		"table":"SEC_ROLE",
-		"identifier":"sys.sec.role",
-		"mapping":"DIRECT",
-		"policy":"GUID"
-	},
-	"__keys__":[
-	],
-	"__fields__":[
-	]
+    "__meta__":{
+        "name":"Role",
+        "namespace":"com.prayer.mod.sec",
+        "table":"SEC_ROLE",
+        "identifier":"sys.sec.role",
+        "mapping":"DIRECT",
+        "policy":"GUID"
+    },
+    "__keys__":[
+    ],
+    "__fields__":[
+    ]
 }

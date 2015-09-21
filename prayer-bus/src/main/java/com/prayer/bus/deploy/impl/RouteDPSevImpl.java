@@ -23,45 +23,45 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String> implements RouteDPService {	// NOPMD
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(RouteDPSevImpl.class);
+public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String> implements RouteDPService {    // NOPMD
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(RouteDPSevImpl.class);
 
-	// ~ Instance Fields =====================================
+    // ~ Instance Fields =====================================
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public Class<?> getDaoClass() {
-		return RouteDaoImpl.class;
-	}
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public Class<?> getDaoClass() {
+        return RouteDaoImpl.class;
+    }
 
-	/** 获取Logger **/
-	@Override
-	public Logger getLogger() {
-		return LOGGER;
-	}
-	/** T Array **/
-	@Override
-	public RouteModel[] getArrayType(){
-		return new RouteModel[]{};
-	}
+    /** 获取Logger **/
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
+    }
+    /** T Array **/
+    @Override
+    public RouteModel[] getArrayType(){
+        return new RouteModel[]{};
+    }
 
-	/** **/
-	@Override
-	public List<RouteModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath)
-			throws AbstractSystemException {
-		final TypeReference<List<RouteModel>> typeRef = new TypeReference<List<RouteModel>>() {
-		};
-		return JsonKit.fromFile(typeRef, jsonPath);
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    /** **/
+    @Override
+    public List<RouteModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath)
+            throws AbstractSystemException {
+        final TypeReference<List<RouteModel>> typeRef = new TypeReference<List<RouteModel>>() {
+        };
+        return JsonKit.fromFile(typeRef, jsonPath);
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

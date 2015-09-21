@@ -7,10 +7,10 @@ import com.prayer.model.h2.vx.AddressModel;
  *
  */
 public interface AddressDao extends TemplateDao<AddressModel, String> {
-	/**
-	 * 
-	 * @param workClass
-	 * @return
-	 */
-	AddressModel getByClass(String workClass);
+    /**
+     * 
+     * @param workClass
+     * @return
+     */
+    AddressModel getByClass(String workClass);
 }

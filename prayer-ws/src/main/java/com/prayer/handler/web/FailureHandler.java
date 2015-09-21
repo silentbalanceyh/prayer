@@ -27,56 +27,56 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class FailureHandler implements ErrorHandler {
 
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(FailureHandler.class);
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(FailureHandler.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	/** 创建方法 **/
-	public static FailureHandler create() {
-		return new FailureHandler();
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    /** 创建方法 **/
+    public static FailureHandler create() {
+        return new FailureHandler();
+    }
 
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 直接从Context中获取处理结果
-	 */
-	@Override
-	public void handle(@NotNull final RoutingContext context) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.FAILURE);
-		// 1.包装响应信息
-		final HttpServerResponse response = context.response();
-		// 2.获取RestfulResult
-		final RestfulResult webRet = (RestfulResult) context.get(Constants.KEY.CTX_ERROR);
-		info(LOGGER, WebLogger.I_REST_RESULT, webRet);
-		error(LOGGER, WebLogger.E_COMMON_EXP, webRet.getError());
-		// 3.包装Error信息生成统一的Error格式
-		final JsonObject retData = webRet.getResult();
-		// 3.1.401的特殊信息设置
-		if (null != context.get(Constants.RET.AUTH_ERROR)) {
-			retData.put(Constants.RET.AUTH_ERROR, context.get(Constants.RET.AUTH_ERROR).toString());
-		}
-		// 4.获取响应的信息
-		final String content = retData.encodePrettily();
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 直接从Context中获取处理结果
+     */
+    @Override
+    public void handle(@NotNull final RoutingContext context) {
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.FAILURE);
+        // 1.包装响应信息
+        final HttpServerResponse response = context.response();
+        // 2.获取RestfulResult
+        final RestfulResult webRet = (RestfulResult) context.get(Constants.KEY.CTX_ERROR);
+        info(LOGGER, WebLogger.I_REST_RESULT, webRet);
+        error(LOGGER, WebLogger.E_COMMON_EXP, webRet.getError());
+        // 3.包装Error信息生成统一的Error格式
+        final JsonObject retData = webRet.getResult();
+        // 3.1.401的特殊信息设置
+        if (null != context.get(Constants.RET.AUTH_ERROR)) {
+            retData.put(Constants.RET.AUTH_ERROR, context.get(Constants.RET.AUTH_ERROR).toString());
+        }
+        // 4.获取响应的信息
+        final String content = retData.encodePrettily();
 
-		// TODO: 5.后期需要改动，测试因为使用浏览器，暂时使用这种
-		response.putHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + Resources.SYS_ENCODING);
-		response.putHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(content.getBytes().length));
-		// 6.设置StatusCode和Error
-		response.setStatusCode(retData.getInteger(Constants.RET.STATUS_CODE));
-		response.setStatusMessage(retData.getString(Constants.RET.ERROR));
-		response.write(content, Resources.SYS_ENCODING.name());
-		response.end();
-		response.close();
-	}
+        // TODO: 5.后期需要改动，测试因为使用浏览器，暂时使用这种
+        response.putHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + Resources.SYS_ENCODING);
+        response.putHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(content.getBytes().length));
+        // 6.设置StatusCode和Error
+        response.setStatusCode(retData.getInteger(Constants.RET.STATUS_CODE));
+        response.setStatusMessage(retData.getString(Constants.RET.ERROR));
+        response.write(content, Resources.SYS_ENCODING.name());
+        response.end();
+        response.close();
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

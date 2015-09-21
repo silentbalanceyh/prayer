@@ -13,11 +13,11 @@ import com.prayer.model.h2.vx.RuleModel;
  *
  */
 public interface RuleDPService extends TemplateDPService<RuleModel,String>{
-	/**
-	 * 
-	 * @param jsonPath
-	 * @param uri
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<String,List<RuleModel>>> importRules(String jsonPath, UriModel uri);
+    /**
+     * 
+     * @param jsonPath
+     * @param uri
+     * @return
+     */
+    ServiceResult<ConcurrentMap<String,List<RuleModel>>> importRules(String jsonPath, UriModel uri);
 }

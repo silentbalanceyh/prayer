@@ -12,30 +12,30 @@ import com.prayer.model.type.DataType;
  */
 interface RecordDB {
 
-	/**
-	 * 根据列名查找对应的属性值
-	 * 
-	 * @param column
-	 * @return
-	 * @throws AbstractMetadataException
-	 */
-	Value<?> column(String column) throws AbstractMetadataException;
+    /**
+     * 根据列名查找对应的属性值
+     * 
+     * @param column
+     * @return
+     * @throws AbstractMetadataException
+     */
+    Value<?> column(String column) throws AbstractMetadataException;
 
-	/**
-	 * 获取当前记录的操作表名
-	 * 
-	 * @return
-	 */
-	String table();
-	/**
-	 * 获取当前记录的字段集合
-	 * 
-	 * @return
-	 */
-	Set<String> columns();
-	/**
-	 * 获取当前记录的列类型Mapping
-	 * @return
-	 */
-	ConcurrentMap<String,DataType> columnTypes();
+    /**
+     * 获取当前记录的操作表名
+     * 
+     * @return
+     */
+    String table();
+    /**
+     * 获取当前记录的字段集合
+     * 
+     * @return
+     */
+    Set<String> columns();
+    /**
+     * 获取当前记录的列类型Mapping
+     * @return
+     */
+    ConcurrentMap<String,DataType> columnTypes();
 }

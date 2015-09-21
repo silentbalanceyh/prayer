@@ -1,83 +1,83 @@
 {
-	"__meta__": 
-	{
-		"namespace": "com.prayer.model.sec",
-		"name": "Role",
-		"category": "ENTITY",
-		"table": "SEC_ROLE",
-		"identifier": "sys.sec.role",
-		"mapping": "DIRECT",
-		"policy": "GUID"
-	},
+    "__meta__": 
+    {
+        "namespace": "com.prayer.model.sec",
+        "name": "Role",
+        "category": "ENTITY",
+        "table": "SEC_ROLE",
+        "identifier": "sys.sec.role",
+        "mapping": "DIRECT",
+        "policy": "GUID"
+    },
 
-	"__keys__": 
-	[
-		{
-			"name": "PK_ROLE_ID",
-			"category": "PrimaryKey",
-			"multi": false,
-			"columns": ["PK_ID"]
-		},
+    "__keys__": 
+    [
+        {
+            "name": "PK_ROLE_ID",
+            "category": "PrimaryKey",
+            "multi": false,
+            "columns": ["PK_ID"]
+        },
 
-		{
-			"name": "UK_ROLE_NAME",
-			"category": "UniqueKey",
-			"multi": false,
-			"columns":["M_NAME"]
-		},
+        {
+            "name": "UK_ROLE_NAME",
+            "category": "UniqueKey",
+            "multi": false,
+            "columns":["M_NAME"]
+        },
 
-		{
-			"name": "UK_ROLE_CODE",
-			"category": "UniqueKey",
-			"multi": false,
-			"columns":["M_CODE"]
-		}
-	],
+        {
+            "name": "UK_ROLE_CODE",
+            "category": "UniqueKey",
+            "multi": false,
+            "columns":["M_CODE"]
+        }
+    ],
 
-	"__fields__": 
-	[
-		{
-			"name": "uniqueId",
-			"type": "StringType",
-			"columnName": "PK_ID",
-			"columnType": "STRING1",
-			"primarykey": true,
-			"length": 192
-		},
+    "__fields__": 
+    [
+        {
+            "name": "uniqueId",
+            "type": "StringType",
+            "columnName": "PK_ID",
+            "columnType": "STRING1",
+            "primarykey": true,
+            "length": 192
+        },
 
-		{
-			"name": "name",
-			"type": "StringType",
-			"columnName": "M_NAME",
-			"columnType": "STRING1",
-			"unique": true,
-			"nullable": false,
-			"length": 256
-		},
+        {
+            "name": "name",
+            "type": "StringType",
+            "columnName": "M_NAME",
+            "columnType": "STRING1",
+            "unique": true,
+            "nullable": false,
+            "length": 256
+        },
 
-		{
-			"name": "code",
-			"type": "StringType",
-			"columnName": "M_CODE",
-			"columnType": "STRING1",
-			"unique": true,
-			"nullable": false,
-			"length": 256
-		},
+        {
+            "name": "code",
+            "type": "StringType",
+            "columnName": "M_CODE",
+            "columnType": "STRING1",
+            "unique": true,
+            "nullable": false,
+            "length": 256
+        },
 
-		{
-			"name": "summary",
-			"type": "StringType",
-			"columnName": "M_SUMMARY",
-			"columnType": "STRING2",
-			"length": 2000
-		},
+        {
+            "name": "summary",
+            "type": "StringType",
+            "columnName": "M_SUMMARY",
+            "columnType": "STRING2",
+            "length": 2000
+        },
 
-		{
-			"name": "isPower",
-			"type": "BooleanType",
-			"columnName": "IS_POWER",
-			"columnType": "BOOLEAN"
-		}
-	]
+        {
+            "name": "isPower",
+            "type": "BooleanType",
+            "columnName": "IS_POWER",
+            "columnType": "BOOLEAN"
+        }
+    ]
 }

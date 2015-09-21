@@ -8,20 +8,20 @@ import java.util.concurrent.ConcurrentMap;
  * @author Lang
  *
  */
-public interface MemoryPool {	// NOPMD
-	// ~ Static Fields =======================================
-	/** KEY -> POOL 全局单例模式 **/
-	ConcurrentMap<String, Object> POOL_OBJECT = new ConcurrentHashMap<>();
-	/** 资源文件池 **/
-	ConcurrentMap<String, Properties> POOL_PROP = new ConcurrentHashMap<>();
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+public interface MemoryPool {    // NOPMD
+    // ~ Static Fields =======================================
+    /** KEY -> POOL 全局单例模式 **/
+    ConcurrentMap<String, Object> POOL_OBJECT = new ConcurrentHashMap<>();
+    /** 资源文件池 **/
+    ConcurrentMap<String, Properties> POOL_PROP = new ConcurrentHashMap<>();
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

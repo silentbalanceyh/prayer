@@ -14,23 +14,23 @@ import com.prayer.model.type.DataType;
  *
  */
 public class DataTypeDeserializer extends JsonDeserializer<DataType> { // NOPMD
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public DataType deserialize(final JsonParser parser, final DeserializationContext context)
-			throws IOException, JsonProcessingException {
-		return DataType.fromString(parser.getText());
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public DataType deserialize(final JsonParser parser, final DeserializationContext context)
+            throws IOException, JsonProcessingException {
+        return DataType.fromString(parser.getText());
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

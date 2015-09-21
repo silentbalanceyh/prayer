@@ -8,10 +8,10 @@ import com.prayer.model.h2.script.ScriptModel;
  *
  */
 public interface ScriptMapper extends H2TMapper<ScriptModel,String>{
-	/**
-	 * 
-	 * @param name
-	 * @return
-	 */
-	ScriptModel selectByName(String name);
+    /**
+     * 
+     * @param name
+     * @return
+     */
+    ScriptModel selectByName(String name);
 }

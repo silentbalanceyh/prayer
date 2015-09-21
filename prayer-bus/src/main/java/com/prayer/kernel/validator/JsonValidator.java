@@ -23,39 +23,39 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 final class JsonValidator implements Validator { // NOPMD
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(JsonValidator.class);
-	/** **/
-	private transient final JsonParser PARSER = new JsonParser();
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonValidator.class);
+    /** **/
+    private transient final JsonParser PARSER = new JsonParser();
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractMetadataException {
-		boolean ret = false;
-		if (null == value) {
-			ret = true;
-		} else {
-			try {
-				PARSER.parse(value.literal());
-				ret = true;
-			} catch (JsonException ex) {
-				info(LOGGER, "[E] Json Format Error! Output = " + value.literal(), ex);
-				throw new ContentErrorException(getClass(), "Json", value.literal()); // NOPMD
-			}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractMetadataException {
+        boolean ret = false;
+        if (null == value) {
+            ret = true;
+        } else {
+            try {
+                PARSER.parse(value.literal());
+                ret = true;
+            } catch (JsonException ex) {
+                info(LOGGER, "[E] Json Format Error! Output = " + value.literal(), ex);
+                throw new ContentErrorException(getClass(), "Json", value.literal()); // NOPMD
+            }
 
-		}
-		return ret;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+        }
+        return ret;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 
 }

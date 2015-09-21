@@ -10,10 +10,10 @@ import io.vertx.core.json.JsonObject;
  *
  */
 public interface BasicAuthService {
-	/**
-	 * 
-	 * @param jsonObject
-	 * @return
-	 */
-	ServiceResult<JsonObject> find(JsonObject jsonObject);
+    /**
+     * 
+     * @param jsonObject
+     * @return
+     */
+    ServiceResult<JsonObject> find(JsonObject jsonObject);
 }

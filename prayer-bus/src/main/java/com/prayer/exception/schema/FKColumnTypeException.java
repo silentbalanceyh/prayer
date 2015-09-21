@@ -10,37 +10,37 @@ import com.prayer.exception.AbstractSchemaException;
  */
 public class FKColumnTypeException extends AbstractSchemaException {
 
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8026666812471853025L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8026666812471853025L;
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param policy
-	 */
-	public FKColumnTypeException(final Class<?> clazz, final String columnType) {
-		super(clazz, -10015, columnType);
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param policy
+     */
+    public FKColumnTypeException(final Class<?> clazz, final String columnType) {
+        super(clazz, -10015, columnType);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public int getErrorCode() {
-		return -10015;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public int getErrorCode() {
+        return -10015;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ hashCode,equals,toString ============================
 
 }

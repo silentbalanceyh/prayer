@@ -1,98 +1,98 @@
 {
-	"__meta__": 
-	{
-		"namespace": "com.prayer.model.test",
-		"name": "UpdateUK2",
-		"category": "ENTITY",
-		"table": "TST_UPDATE_UK2",
-		"identifier": "tst.mod.ut2",
-		"mapping": "DIRECT",
-		"policy": "GUID"
-	},
+    "__meta__": 
+    {
+        "namespace": "com.prayer.model.test",
+        "name": "UpdateUK2",
+        "category": "ENTITY",
+        "table": "TST_UPDATE_UK2",
+        "identifier": "tst.mod.ut2",
+        "mapping": "DIRECT",
+        "policy": "GUID"
+    },
 
-	"__keys__": 
-	[
-		{
-			"name": "PK_UPDATE_UK2_ID",
-			"category": "PrimaryKey",
-			"multi": false,
-			"columns": 
-			[
-				"T_ID"
-			]
-		},
+    "__keys__": 
+    [
+        {
+            "name": "PK_UPDATE_UK2_ID",
+            "category": "PrimaryKey",
+            "multi": false,
+            "columns": 
+            [
+                "T_ID"
+            ]
+        },
 
-		{
-			"name": "UK_UPDATE_UK2_UK1",
-			"category": "UniqueKey",
-			"multi": false,
-			"columns": 
-			[
-				"T_UK1"
-			]
-		},
+        {
+            "name": "UK_UPDATE_UK2_UK1",
+            "category": "UniqueKey",
+            "multi": false,
+            "columns": 
+            [
+                "T_UK1"
+            ]
+        },
 
-		{
-			"name": "UK_UPDATE_UK2_UK2",
-			"category": "UniqueKey",
-			"multi": false,
-			"columns": 
-			[
-				"T_UK2"
-			]
-		}
-	],
+        {
+            "name": "UK_UPDATE_UK2_UK2",
+            "category": "UniqueKey",
+            "multi": false,
+            "columns": 
+            [
+                "T_UK2"
+            ]
+        }
+    ],
 
-	"__fields__": 
-	[
-		{
-			"columnName": "T_ID",
-			"name": "tId",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"primarykey": true,
-			"length": 192
-		},
+    "__fields__": 
+    [
+        {
+            "columnName": "T_ID",
+            "name": "tId",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "primarykey": true,
+            "length": 192
+        },
 
-		{
-			"columnName": "T_UK1",
-			"name": "uk1",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"unique": true,
-			"nullable": false,
-			"length": 256
-		},
+        {
+            "columnName": "T_UK1",
+            "name": "uk1",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "unique": true,
+            "nullable": false,
+            "length": 256
+        },
 
-		{
-			"columnName": "T_UK2",
-			"name": "uk2",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"unique": true,
-			"nullable": false,
-			"length": 256
-		},
+        {
+            "columnName": "T_UK2",
+            "name": "uk2",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "unique": true,
+            "nullable": false,
+            "length": 256
+        },
 
-		{
-			"columnName": "T_XML1",
-			"name": "xmlcol",
-			"type": "XmlType",
-			"columnType": "STRING2"
-		},
+        {
+            "columnName": "T_XML1",
+            "name": "xmlcol",
+            "type": "XmlType",
+            "columnType": "STRING2"
+        },
 
-		{
-			"columnName": "T_SCRIPT1",
-			"name": "scriptcol",
-			"type": "ScriptType",
-			"columnType": "STRING2"
-		},
+        {
+            "columnName": "T_SCRIPT1",
+            "name": "scriptcol",
+            "type": "ScriptType",
+            "columnType": "STRING2"
+        },
 
-		{
-			"columnName": "T_JSON1",
-			"name": "jsoncol",
-			"type": "JsonType",
-			"columnType": "STRING2"
-		}
-	]
+        {
+            "columnName": "T_JSON1",
+            "name": "jsoncol",
+            "type": "JsonType",
+            "columnType": "STRING2"
+        }
+    ]
 }

@@ -1,16 +1,16 @@
 [
-	{
-		"parent":"/api",
-		"path":"/sec/account",
-		"method":"POST",
-		"requestHandler":"com.prayer.handler.standard.RecordHandler",
-		"order":-99
-	},
-	{
-		"parent":"/api",
-		"path":"/sec/login",
-		"method":"GET",
-		"requestHandler":"com.prayer.handler.standard.BasicAuthenticateHandler",
-		"order":-99
-	}
+    {
+        "parent":"/api",
+        "path":"/sec/account",
+        "method":"POST",
+        "requestHandler":"com.prayer.handler.standard.RecordHandler",
+        "order":-99
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/login",
+        "method":"GET",
+        "requestHandler":"com.prayer.handler.standard.BasicAuthenticateHandler",
+        "order":-99
+    }
 ]

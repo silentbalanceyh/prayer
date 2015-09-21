@@ -16,49 +16,49 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 final class StandardExpression extends AbstractExpression implements Expression {
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
-	/**
-	 * COLUMN OP VALUE
-	 * 
-	 * @param column
-	 * @param value
-	 */
-	public StandardExpression(@NotNull @NotBlank @NotEmpty final String column,
-			@NotNull @NotBlank @NotEmpty final String operator, final Value<?> value) {
-		super(operator);
-		this.setLeft(new ColumnLeafNode(column));
-		this.setRight(new ValueLeafNode(value));
-	}
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
+    /**
+     * COLUMN OP VALUE
+     * 
+     * @param column
+     * @param value
+     */
+    public StandardExpression(@NotNull @NotBlank @NotEmpty final String column,
+            @NotNull @NotBlank @NotEmpty final String operator, final Value<?> value) {
+        super(operator);
+        this.setLeft(new ColumnLeafNode(column));
+        this.setRight(new ValueLeafNode(value));
+    }
 
-	/**
-	 * COLUMN OP ?
-	 * 
-	 * @param column
-	 */
-	public StandardExpression(@NotNull @NotBlank @NotEmpty final String column,
-			@NotNull @NotBlank @NotEmpty final String operator) {
-		super(operator);
-		this.setLeft(new ColumnLeafNode(column));
-		this.setRight(new ValueLeafNode());
-	}
+    /**
+     * COLUMN OP ?
+     * 
+     * @param column
+     */
+    public StandardExpression(@NotNull @NotBlank @NotEmpty final String column,
+            @NotNull @NotBlank @NotEmpty final String operator) {
+        super(operator);
+        this.setLeft(new ColumnLeafNode(column));
+        this.setRight(new ValueLeafNode());
+    }
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public String toSql() {
-		final StringBuilder sql = new StringBuilder();
-		sql.append(this.getLeft().toSql()).append(this.getData()).append(this.getRight().toSql());
-		return sql.toString();
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public String toSql() {
+        final StringBuilder sql = new StringBuilder();
+        sql.append(this.getLeft().toSql()).append(this.getData()).append(this.getRight().toSql());
+        return sql.toString();
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

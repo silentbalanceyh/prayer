@@ -19,24 +19,24 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public class RecordHandler implements Handler<RoutingContext>{
-	// ~ Static Fields =======================================
-	
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(RecordHandler.class);
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER,WebLogger.I_RECORD_HANDLER,getClass().getName());
-		routingContext.next();
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Static Fields =======================================
+    
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecordHandler.class);
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public void handle(@NotNull final RoutingContext routingContext) {
+        info(LOGGER,WebLogger.I_RECORD_HANDLER,getClass().getName());
+        routingContext.next();
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

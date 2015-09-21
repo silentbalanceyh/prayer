@@ -13,35 +13,35 @@ import com.prayer.kernel.Value;
  * @see
  */
 public class ScriptType extends StringType implements Value<String> {
-	// ~ Static Fields =======================================
-	/** **/
-	private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.ScriptValidator");
+    // ~ Static Fields =======================================
+    /** **/
+    private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.ScriptValidator");
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	public ScriptType(final String value) throws AbstractMetadataException{
-		super(value);
-		// Script内容验证代码
-		this.innerValidator.validate(new StringType(value));
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /** **/
+    public ScriptType(final String value) throws AbstractMetadataException{
+        super(value);
+        // Script内容验证代码
+        this.innerValidator.validate(new StringType(value));
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public DataType getDataType() {
-		return DataType.SCRIPT;
-	}
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public DataType getDataType() {
+        return DataType.SCRIPT;
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ hashCode,equals,toString ============================
-	/** **/
-	@Override
-	public String toString() {
-		return "ScriptType [value=" + value + "]";
-	}
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ hashCode,equals,toString ============================
+    /** **/
+    @Override
+    public String toString() {
+        return "ScriptType [value=" + value + "]";
+    }
 }

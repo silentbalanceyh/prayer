@@ -10,7 +10,7 @@
     "format": "1",
     "output": "${framework.dir}/build/packages/${package.name}",
     "local": true,
-	"framework": "ext",
+    "framework": "ext",
     "toolkit": "classic",
 
     "sass": {

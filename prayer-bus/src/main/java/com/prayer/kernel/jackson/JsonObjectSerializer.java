@@ -14,25 +14,25 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public class JsonObjectSerializer extends JsonSerializer<JsonObject> {	// NOPMD
+public class JsonObjectSerializer extends JsonSerializer<JsonObject> {    // NOPMD
 
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public void serialize(final JsonObject jsonObject, final JsonGenerator jsonGen, final SerializerProvider provider)
-			throws IOException, JsonProcessingException {
-		final String value = jsonObject.encodePrettily();
-		jsonGen.writeString(value);
-	}
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public void serialize(final JsonObject jsonObject, final JsonGenerator jsonGen, final SerializerProvider provider)
+            throws IOException, JsonProcessingException {
+        final String value = jsonObject.encodePrettily();
+        jsonGen.writeString(value);
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

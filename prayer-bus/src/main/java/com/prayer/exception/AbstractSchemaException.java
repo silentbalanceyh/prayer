@@ -9,31 +9,31 @@ import static com.prayer.util.Error.error;
  * @see
  */
 public abstract class AbstractSchemaException extends AbstractException {
-	// ~ Static Fields =======================================
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 9007713506522349143L;
+    // ~ Static Fields =======================================
+    /**
+     *
+     */
+    private static final long serialVersionUID = 9007713506522349143L;
 
-	// ~ Constructors ========================================
+    // ~ Constructors ========================================
 
-	/**
-	 * @param message
-	 */
-	public AbstractSchemaException(final String message) {
-		super(message);
-	}
+    /**
+     * @param message
+     */
+    public AbstractSchemaException(final String message) {
+        super(message);
+    }
 
-	/**
-	 * 
-	 * @param clazz
-	 * @param errorCode
-	 * @param params
-	 */
-	public AbstractSchemaException(final Class<?> clazz, final int errorCode, final Object... params) {
-		this(error(clazz, errorCode, params));
-	}
+    /**
+     * 
+     * @param clazz
+     * @param errorCode
+     * @param params
+     */
+    public AbstractSchemaException(final Class<?> clazz, final int errorCode, final Object... params) {
+        this(error(clazz, errorCode, params));
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Methods =============================================
+    // ~ Abstract Methods ====================================
+    // ~ Methods =============================================
 }

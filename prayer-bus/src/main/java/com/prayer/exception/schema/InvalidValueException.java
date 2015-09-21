@@ -10,40 +10,40 @@ import com.prayer.exception.AbstractSchemaException;
  */
 public class InvalidValueException extends AbstractSchemaException {
 
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7407004357581427926L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7407004357581427926L;
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param attr
-	 * @param expected
-	 * @param actual
-	 */
-	public InvalidValueException(final Class<?> clazz, final String attr, final String expected, final String actual,
-			final String flag) {
-		super(clazz, -10005, attr, expected, actual, flag);
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param attr
+     * @param expected
+     * @param actual
+     */
+    public InvalidValueException(final Class<?> clazz, final String attr, final String expected, final String actual,
+            final String flag) {
+        super(clazz, -10005, attr, expected, actual, flag);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public int getErrorCode() {
-		return -10005;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public int getErrorCode() {
+        return -10005;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ hashCode,equals,toString ============================
 
 }

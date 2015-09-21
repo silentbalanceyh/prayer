@@ -9,37 +9,37 @@ import com.prayer.exception.AbstractSchemaException;
  * @see
  */
 public class DuplicatedColumnException extends AbstractSchemaException {
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7131993229182723906L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7131993229182723906L;
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param table
-	 * @param column
-	 */
-	public DuplicatedColumnException(final Class<?> clazz, final String column) {
-		super(clazz, -10008, column);
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param table
+     * @param column
+     */
+    public DuplicatedColumnException(final Class<?> clazz, final String column) {
+        super(clazz, -10008, column);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 
-	 */
-	@Override
-	public int getErrorCode() {
-		return -10008;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public int getErrorCode() {
+        return -10008;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ hashCode,equals,toString ============================
 }

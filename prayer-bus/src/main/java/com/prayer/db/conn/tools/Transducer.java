@@ -17,38 +17,38 @@ import com.prayer.model.type.DataType;
  *
  */
 interface Transducer {
-	/**
-	 * 
-	 * @param stmt
-	 * @param idx
-	 * @param value
-	 * @throws SQLException
-	 */
-	void injectArgs(PreparedStatement stmt, int idx, Value<?> value) throws SQLException;
+    /**
+     * 
+     * @param stmt
+     * @param idx
+     * @param value
+     * @throws SQLException
+     */
+    void injectArgs(PreparedStatement stmt, int idx, Value<?> value) throws SQLException;
 
-	/**
-	 * 
-	 * @param retSet
-	 * @param type
-	 * @param column
-	 * @return
-	 * @throws SQLException
-	 * @throws AbstractMetadataException 
-	 */
-	Value<?> getValue(ResultSet retSet, DataType type, String column) throws SQLException, AbstractMetadataException;
-	/**
-	 * 内部类
-	 * @author Lang
-	 *
-	 */
-	class T {	// NOPMD
-		/**
-		 * 获取类型转换器
-		 * 
-		 * @return
-		 */
-		public static Transducer get() {
-			return singleton(Accessors.transducer());
-		}
-	}
+    /**
+     * 
+     * @param retSet
+     * @param type
+     * @param column
+     * @return
+     * @throws SQLException
+     * @throws AbstractMetadataException 
+     */
+    Value<?> getValue(ResultSet retSet, DataType type, String column) throws SQLException, AbstractMetadataException;
+    /**
+     * 内部类
+     * @author Lang
+     *
+     */
+    class T {    // NOPMD
+        /**
+         * 获取类型转换器
+         * 
+         * @return
+         */
+        public static Transducer get() {
+            return singleton(Accessors.transducer());
+        }
+    }
 }

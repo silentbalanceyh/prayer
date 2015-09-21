@@ -53,169 +53,169 @@ import net.sf.oval.guard.PostValidateThis;
  */
 @Guarded
 public class BasicAuthHandlerImpl extends AuthHandlerImpl {
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthHandlerImpl.class);
-	/** **/
-	private static final String AUTH_KEY = "response";
-	// ~ Instance Fields =====================================
-	/** REALM **/
-	@NotNull
-	private transient final String realm; // NOPMD
-	/** **/
-	@NotNull
-	private transient final ConfigService service;
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthHandlerImpl.class);
+    /** **/
+    private static final String AUTH_KEY = "response";
+    // ~ Instance Fields =====================================
+    /** REALM **/
+    @NotNull
+    private transient final String realm; // NOPMD
+    /** **/
+    @NotNull
+    private transient final ConfigService service;
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	@PostValidateThis
-	public BasicAuthHandlerImpl(@NotNull final AuthProvider provider, @NotNull @NotBlank @NotEmpty final String realm) {
-		super(provider);
-		this.realm = realm;
-		this.service = singleton(ConfigSevImpl.class);
-	}
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /** **/
+    @PostValidateThis
+    public BasicAuthHandlerImpl(@NotNull final AuthProvider provider, @NotNull @NotBlank @NotEmpty final String realm) {
+        super(provider);
+        this.realm = realm;
+        this.service = singleton(ConfigSevImpl.class);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.AUTH);
-		// 1.获取请求Request和相应Response引用
-		final HttpServerRequest request = routingContext.request();
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public void handle(@NotNull final RoutingContext routingContext) {
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.AUTH);
+        // 1.获取请求Request和相应Response引用
+        final HttpServerRequest request = routingContext.request();
 
-		// 2.从系统中按URI读取接口规范
-		final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(request.path());
-		final RestfulResult webRet = RestfulResult.create();
+        // 2.从系统中按URI读取接口规范
+        final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(request.path());
+        final RestfulResult webRet = RestfulResult.create();
 
-		// 3.请求转发，去除掉Error过后的信息
-		final AbstractException error = Dispatcher.requestDispatch(result, webRet, routingContext, getClass());
+        // 3.请求转发，去除掉Error过后的信息
+        final AbstractException error = Dispatcher.requestDispatch(result, webRet, routingContext, getClass());
 
-		/**
-		 * 4.根据Error设置相应，唯一特殊的情况是Basic认证是Body的参数方式，
-		 * 但其参数信息是在processAuth的过程填充到系统里的， 一旦出现了com.prayer.exception.web.
-		 * BodyParamDecodingException异常信息则依然可让其执行认证
-		 */
-		if (null == error || error instanceof BodyParamDecodingException) {
-			final User user = routingContext.user();
-			if (null == user) {
-				// 5.认证执行代码
-				this.processAuth(routingContext);
-			} else {
-				// 5.不需要认证的情况
-				authorise(user, routingContext);
-			}
-		} else {
-			// 5.直接Dennied的情况
-			routingContext.put(Constants.KEY.CTX_ERROR, webRet);
-			routingContext.fail(webRet.getStatusCode().status());
-		}
-	}
+        /**
+         * 4.根据Error设置相应，唯一特殊的情况是Basic认证是Body的参数方式，
+         * 但其参数信息是在processAuth的过程填充到系统里的， 一旦出现了com.prayer.exception.web.
+         * BodyParamDecodingException异常信息则依然可让其执行认证
+         */
+        if (null == error || error instanceof BodyParamDecodingException) {
+            final User user = routingContext.user();
+            if (null == user) {
+                // 5.认证执行代码
+                this.processAuth(routingContext);
+            } else {
+                // 5.不需要认证的情况
+                authorise(user, routingContext);
+            }
+        } else {
+            // 5.直接Dennied的情况
+            routingContext.put(Constants.KEY.CTX_ERROR, webRet);
+            routingContext.fail(webRet.getStatusCode().status());
+        }
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
 
-	private void processAuth(final RoutingContext routingContext) {
-		final HttpServerRequest request = routingContext.request();
-		final String authorization = request.headers().get(HttpHeaders.AUTHORIZATION);
-		// 1.找不到Authorization头部信息
-		if (null == authorization) {
-			this.handler401Error(routingContext);
-			return; // NOPMD
-		} else {
-			// 2.获取AuthInfo的信息
-			final JsonObject authInfo = this.generateAuthInfo(routingContext, authorization);
-			// Fix Issue -> Response has already been sent.
-			if (401 == authInfo.getInteger(AUTH_KEY)) { // NOPMD
-				return;
-			} else {
-				authInfo.remove(AUTH_KEY);
-			}
-			// 3.设置扩展信息
-			{
-				final JsonObject extension = new JsonObject();
-				// 防止Session ID空指针异常
-				if (null != routingContext.session()) {
-					extension.put(Constants.PARAM.ID, routingContext.session().id());
-				}
-				extension.put(Constants.PARAM.METHOD, request.method().toString()); // 暂时定义传Method
-				// 返回值的设置
-				authInfo.put(AuthConstants.BASIC.EXTENSION, extension);
-			}
-			// 4.认证授权信息
-			this.authProvider.authenticate(authInfo, res -> {
-				if (res.succeeded()) {
-					final User authenticated = res.result();
-					// 认证成功的时候放入信息到Body中
-					routingContext.setBody(Buffer.buffer(authInfo.encode(), Resources.SYS_ENCODING.name()));
-					routingContext.setUser(authenticated);
-					// 放入到LocalData中用于在WebVerticle特殊环境中设置登录信息，主要用于Cross Verticle的操作
-					if (authInfo.containsKey(BasicAuth.KEY_USER_ID)) {
-						processClientLogin(routingContext, authInfo.getString(BasicAuth.KEY_USER_ID), authenticated);
-					}
-					authorise(authenticated, routingContext);
-				} else {
-					if (StringKit.isNonNil(authInfo.getString(Constants.RET.AUTH_ERROR))) {
-						// 带有返回值的401信息
-						routingContext.put(Constants.RET.AUTH_ERROR, authInfo.getString(Constants.RET.AUTH_ERROR));
-					}
-					this.handler401Error(routingContext);
-				}
-			});
+    private void processAuth(final RoutingContext routingContext) {
+        final HttpServerRequest request = routingContext.request();
+        final String authorization = request.headers().get(HttpHeaders.AUTHORIZATION);
+        // 1.找不到Authorization头部信息
+        if (null == authorization) {
+            this.handler401Error(routingContext);
+            return; // NOPMD
+        } else {
+            // 2.获取AuthInfo的信息
+            final JsonObject authInfo = this.generateAuthInfo(routingContext, authorization);
+            // Fix Issue -> Response has already been sent.
+            if (401 == authInfo.getInteger(AUTH_KEY)) { // NOPMD
+                return;
+            } else {
+                authInfo.remove(AUTH_KEY);
+            }
+            // 3.设置扩展信息
+            {
+                final JsonObject extension = new JsonObject();
+                // 防止Session ID空指针异常
+                if (null != routingContext.session()) {
+                    extension.put(Constants.PARAM.ID, routingContext.session().id());
+                }
+                extension.put(Constants.PARAM.METHOD, request.method().toString()); // 暂时定义传Method
+                // 返回值的设置
+                authInfo.put(AuthConstants.BASIC.EXTENSION, extension);
+            }
+            // 4.认证授权信息
+            this.authProvider.authenticate(authInfo, res -> {
+                if (res.succeeded()) {
+                    final User authenticated = res.result();
+                    // 认证成功的时候放入信息到Body中
+                    routingContext.setBody(Buffer.buffer(authInfo.encode(), Resources.SYS_ENCODING.name()));
+                    routingContext.setUser(authenticated);
+                    // 放入到LocalData中用于在WebVerticle特殊环境中设置登录信息，主要用于Cross Verticle的操作
+                    if (authInfo.containsKey(BasicAuth.KEY_USER_ID)) {
+                        processClientLogin(routingContext, authInfo.getString(BasicAuth.KEY_USER_ID), authenticated);
+                    }
+                    authorise(authenticated, routingContext);
+                } else {
+                    if (StringKit.isNonNil(authInfo.getString(Constants.RET.AUTH_ERROR))) {
+                        // 带有返回值的401信息
+                        routingContext.put(Constants.RET.AUTH_ERROR, authInfo.getString(Constants.RET.AUTH_ERROR));
+                    }
+                    this.handler401Error(routingContext);
+                }
+            });
 
-		}
-	}
+        }
+    }
 
-	private void processClientLogin(final RoutingContext routingContext, final String uID, final User user) {
-		if (user instanceof BasicUser) {
-			final BasicUser stored = (BasicUser) user;
-			final SharedData shared = routingContext.vertx().sharedData();
-			final LocalMap<String, Buffer> sharedMap = shared.getLocalMap(BasicAuth.KEY_POOL_USER);
-			final Buffer buffer = Buffer.buffer();
-			stored.writeToBuffer(buffer);
-			sharedMap.put(uID, buffer);
-		}
-	}
+    private void processClientLogin(final RoutingContext routingContext, final String uID, final User user) {
+        if (user instanceof BasicUser) {
+            final BasicUser stored = (BasicUser) user;
+            final SharedData shared = routingContext.vertx().sharedData();
+            final LocalMap<String, Buffer> sharedMap = shared.getLocalMap(BasicAuth.KEY_POOL_USER);
+            final Buffer buffer = Buffer.buffer();
+            stored.writeToBuffer(buffer);
+            sharedMap.put(uID, buffer);
+        }
+    }
 
-	private JsonObject generateAuthInfo(final RoutingContext routingContext, final String authorization) {
-		String username;
-		String password;
-		String schema;
-		final JsonObject retAuthInfo = new JsonObject();
-		try {
-			final String[] parts = authorization.split(String.valueOf(Symbol.SPACE));
-			schema = parts[0];
-			final String[] credentials = new String(Base64.getDecoder().decode(parts[1]))
-					.split(String.valueOf(Symbol.COLON));
-			username = credentials[0];
-			password = credentials.length > 1 ? credentials[1] : null; // NOPMD
-			if ("Basic".equals(schema)) {
-				retAuthInfo.put("username", username);
-				retAuthInfo.put("password", Encryptor.encryptMD5(password));
-				retAuthInfo.put(AUTH_KEY, 200);
-			} else {
-				retAuthInfo.put(AUTH_KEY, 401);
-				handler401Error(routingContext);
-			}
-		} catch (ArrayIndexOutOfBoundsException ex) {
-			error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
-			retAuthInfo.put(AUTH_KEY, 401);
-			handler401Error(routingContext);
-		}
-		return retAuthInfo;
-	}
+    private JsonObject generateAuthInfo(final RoutingContext routingContext, final String authorization) {
+        String username;
+        String password;
+        String schema;
+        final JsonObject retAuthInfo = new JsonObject();
+        try {
+            final String[] parts = authorization.split(String.valueOf(Symbol.SPACE));
+            schema = parts[0];
+            final String[] credentials = new String(Base64.getDecoder().decode(parts[1]))
+                    .split(String.valueOf(Symbol.COLON));
+            username = credentials[0];
+            password = credentials.length > 1 ? credentials[1] : null; // NOPMD
+            if ("Basic".equals(schema)) {
+                retAuthInfo.put("username", username);
+                retAuthInfo.put("password", Encryptor.encryptMD5(password));
+                retAuthInfo.put(AUTH_KEY, 200);
+            } else {
+                retAuthInfo.put(AUTH_KEY, 401);
+                handler401Error(routingContext);
+            }
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+            retAuthInfo.put(AUTH_KEY, 401);
+            handler401Error(routingContext);
+        }
+        return retAuthInfo;
+    }
 
-	private void handler401Error(final RoutingContext context) {
-		final RestfulResult webRet = RestfulResult.create();
-		HttpErrHandler.error401(webRet, getClass(), context.request().path());
-		context.put(Constants.KEY.CTX_ERROR, webRet);
-		// Digest认证才会使用的头部信息
-		// context.response().putHeader("WWW-Authenticate", "Basic realm=\"" +
-		// this.realm + "\"");
-		context.fail(webRet.getStatusCode().status());
-	}
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    private void handler401Error(final RoutingContext context) {
+        final RestfulResult webRet = RestfulResult.create();
+        HttpErrHandler.error401(webRet, getClass(), context.request().path());
+        context.put(Constants.KEY.CTX_ERROR, webRet);
+        // Digest认证才会使用的头部信息
+        // context.response().putHeader("WWW-Authenticate", "Basic realm=\"" +
+        // this.realm + "\"");
+        context.fail(webRet.getStatusCode().status());
+    }
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

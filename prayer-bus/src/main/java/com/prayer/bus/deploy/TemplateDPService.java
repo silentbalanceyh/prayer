@@ -12,32 +12,32 @@ import com.prayer.model.bus.ServiceResult;
  *
  */
 public interface TemplateDPService<T, ID extends Serializable> { // NOPMD
-	/**
-	 * 
-	 * @param jsonPath
-	 * @return
-	 */
-	ServiceResult<List<T>> importToList(String jsonPath);
+    /**
+     * 
+     * @param jsonPath
+     * @return
+     */
+    ServiceResult<List<T>> importToList(String jsonPath);
 
-	/**
-	 * 
-	 * @param jsonPath
-	 * @param field
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<String, T>> importToMap(String jsonPath, String field);
+    /**
+     * 
+     * @param jsonPath
+     * @param field
+     * @return
+     */
+    ServiceResult<ConcurrentMap<String, T>> importToMap(String jsonPath, String field);
 
-	/**
-	 * 
-	 * @param jsonPath
-	 * @param field
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<String, List<T>>> importToMapList(String jsonPath, String field);
+    /**
+     * 
+     * @param jsonPath
+     * @param field
+     * @return
+     */
+    ServiceResult<ConcurrentMap<String, List<T>>> importToMapList(String jsonPath, String field);
 
-	/**
-	 * 
-	 * @return
-	 */
-	ServiceResult<Boolean> purgeData();
+    /**
+     * 
+     * @return
+     */
+    ServiceResult<Boolean> purgeData();
 }

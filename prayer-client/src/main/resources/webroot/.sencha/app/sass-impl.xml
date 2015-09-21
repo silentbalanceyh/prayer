@@ -9,7 +9,7 @@
     <target name="-compile-sass" depends="-init-app-js-files">
         <local name="app.out.scss.tmp"/>
         <local name="sass.name.filter"/>
-		<property name="app.out.scss.tmp" value="${app.out.scss}.tmp"/>
+        <property name="app.out.scss.tmp" value="${app.out.scss}.tmp"/>
         <x-normalize-path 
             path="${build.out.resources.dir}" 
             property="image.search.path"/>
@@ -98,16 +98,16 @@
                     -output=${app.out.ruby}
             ]]>
         </x-compile>
-		
-		<if>
-			<not>
-				<filesmatch file1="${app.out.scss.tmp}" file2="${app.out.scss}"/>
-			</not>
-			<then>
-				<copy file="${app.out.scss.tmp}" tofile="${app.out.scss}" overwrite="true"/>
-			</then>
-		</if>
-		
+        
+        <if>
+            <not>
+                <filesmatch file1="${app.out.scss.tmp}" file2="${app.out.scss}"/>
+            </not>
+            <then>
+                <copy file="${app.out.scss.tmp}" tofile="${app.out.scss}" overwrite="true"/>
+            </then>
+        </if>
+        
         <!--
         app.out.css.path is relative to the app output index.html file
         -->

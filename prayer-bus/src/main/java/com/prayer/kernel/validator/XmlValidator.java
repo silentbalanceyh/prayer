@@ -21,34 +21,34 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class XmlValidator implements Validator {	// NOPMD
+final class XmlValidator implements Validator {    // NOPMD
 
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(XmlValidator.class);
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(XmlValidator.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractMetadataException {
-		boolean ret = false;
-		try {
-			DocumentHelper.parseText(value.literal());
-			ret = true;
-		} catch (DocumentException ex) {
-			info(LOGGER, "[E] Xml Data Format Error! Output = " + value, ex);
-			throw new ContentErrorException(getClass(), "Xml", value.literal());	// NOPMD
-		}
-		return ret;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractMetadataException {
+        boolean ret = false;
+        try {
+            DocumentHelper.parseText(value.literal());
+            ret = true;
+        } catch (DocumentException ex) {
+            info(LOGGER, "[E] Xml Data Format Error! Output = " + value, ex);
+            throw new ContentErrorException(getClass(), "Xml", value.literal());    // NOPMD
+        }
+        return ret;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 
 }

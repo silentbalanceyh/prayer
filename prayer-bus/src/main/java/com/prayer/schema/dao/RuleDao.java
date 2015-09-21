@@ -10,10 +10,10 @@ import com.prayer.model.h2.vx.RuleModel;
  *
  */
 public interface RuleDao extends TemplateDao<RuleModel,String>{
-	/**
-	 * 
-	 * @param uriId
-	 * @return
-	 */
-	List<RuleModel> getByUri(String uriId);
+    /**
+     * 
+     * @param uriId
+     * @return
+     */
+    List<RuleModel> getByUri(String uriId);
 }

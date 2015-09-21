@@ -1,165 +1,165 @@
 {
-	"__meta__": 
-	{
-		"namespace": "com.prayer.model.test",
-		"name": "TestDAO6",
-		"category": "ENTITY",
-		"table": "TST_DAO6",
-		"identifier": "tst.mod.dao6",
-		"mapping": "DIRECT",
-		"policy": "INCREMENT",
-		"seqinit": 1,
-		"seqstep": 1
-	},
+    "__meta__": 
+    {
+        "namespace": "com.prayer.model.test",
+        "name": "TestDAO6",
+        "category": "ENTITY",
+        "table": "TST_DAO6",
+        "identifier": "tst.mod.dao6",
+        "mapping": "DIRECT",
+        "policy": "INCREMENT",
+        "seqinit": 1,
+        "seqstep": 1
+    },
 
-	"__keys__": 
-	[
-		{
-			"name": "PK_DAO6_ID",
-			"category": "PrimaryKey",
-			"multi": false,
-			"columns": 
-			[
-				"T_ID"
-			]
-		},
+    "__keys__": 
+    [
+        {
+            "name": "PK_DAO6_ID",
+            "category": "PrimaryKey",
+            "multi": false,
+            "columns": 
+            [
+                "T_ID"
+            ]
+        },
 
-		{
-			"name": "UK_DAO6_UK1",
-			"category": "UniqueKey",
-			"multi": false,
-			"columns": 
-			[
-				"T_UK1"
-			]
-		},
+        {
+            "name": "UK_DAO6_UK1",
+            "category": "UniqueKey",
+            "multi": false,
+            "columns": 
+            [
+                "T_UK1"
+            ]
+        },
 
-		{
-			"name": "UK_DAO6_MUK1",
-			"category": "UniqueKey",
-			"multi": true,
-			"columns": 
-			[
-				"T_MUK1",
-				"T_MUK2"
-			]
-		}
-	],
+        {
+            "name": "UK_DAO6_MUK1",
+            "category": "UniqueKey",
+            "multi": true,
+            "columns": 
+            [
+                "T_MUK1",
+                "T_MUK2"
+            ]
+        }
+    ],
 
-	"__fields__": 
-	[
-		{
-			"columnName": "T_ID",
-			"name": "tId",
-			"type": "LongType",
-			"columnType": "LONG",
-			"primarykey": true
-		},
+    "__fields__": 
+    [
+        {
+            "columnName": "T_ID",
+            "name": "tId",
+            "type": "LongType",
+            "columnType": "LONG",
+            "primarykey": true
+        },
 
-		{
-			"columnName": "T_UK1",
-			"name": "uk1",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"unique": true,
-			"nullable": false,
-			"length": 256
-		},
+        {
+            "columnName": "T_UK1",
+            "name": "uk1",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "unique": true,
+            "nullable": false,
+            "length": 256
+        },
 
-		{
-			"columnName": "T_MUK1",
-			"name": "muk1",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"unique": false,
-			"nullable": false,
-			"length": 256
-		},
+        {
+            "columnName": "T_MUK1",
+            "name": "muk1",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "unique": false,
+            "nullable": false,
+            "length": 256
+        },
 
-		{
-			"columnName": "T_MUK2",
-			"name": "muk2",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"unique": false,
-			"nullable": false,
-			"length": 256
-		},
+        {
+            "columnName": "T_MUK2",
+            "name": "muk2",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "unique": false,
+            "nullable": false,
+            "length": 256
+        },
 
-		{
-			"columnName": "T_STRING",
-			"name": "tstring",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"length": 256
-		},
+        {
+            "columnName": "T_STRING",
+            "name": "tstring",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "length": 256
+        },
 
-		{
-			"columnName": "T_LONG",
-			"name": "tlong",
-			"type": "LongType",
-			"columnType": "LONG"
-		},
+        {
+            "columnName": "T_LONG",
+            "name": "tlong",
+            "type": "LongType",
+            "columnType": "LONG"
+        },
 
-		{
-			"columnName": "T_INT",
-			"name": "tint",
-			"type": "IntType",
-			"columnType": "INT"
-		},
+        {
+            "columnName": "T_INT",
+            "name": "tint",
+            "type": "IntType",
+            "columnType": "INT"
+        },
 
-		{
-			"columnName": "T_XML",
-			"name": "txml",
-			"type": "XmlType",
-			"columnType": "XML"
-		},
+        {
+            "columnName": "T_XML",
+            "name": "txml",
+            "type": "XmlType",
+            "columnType": "XML"
+        },
 
-		{
-			"columnName": "T_JSON",
-			"name": "tjson",
-			"type": "JsonType",
-			"columnType": "JSON"
-		},
+        {
+            "columnName": "T_JSON",
+            "name": "tjson",
+            "type": "JsonType",
+            "columnType": "JSON"
+        },
 
-		{
-			"columnName": "T_SCRIPT",
-			"name": "tscript",
-			"type": "ScriptType",
-			"columnType": "SCRIPT"
-		},
+        {
+            "columnName": "T_SCRIPT",
+            "name": "tscript",
+            "type": "ScriptType",
+            "columnType": "SCRIPT"
+        },
 
-		{
-			"columnName": "T_DECIMAL",
-			"name": "tdecimal",
-			"type": "DecimalType",
-			"columnType": "DECIMAL",
-			"length": 10,
-			"precision": 2
-		},
+        {
+            "columnName": "T_DECIMAL",
+            "name": "tdecimal",
+            "type": "DecimalType",
+            "columnType": "DECIMAL",
+            "length": 10,
+            "precision": 2
+        },
 
-		{
-			"columnName": "T_DATE",
-			"name": "tdate",
-			"type": "DateType",
-			"columnType": "DATE2",
-			"datetime": "STRING",
-			"dateformat": "yyyy-MM-dd"
-		},
+        {
+            "columnName": "T_DATE",
+            "name": "tdate",
+            "type": "DateType",
+            "columnType": "DATE2",
+            "datetime": "STRING",
+            "dateformat": "yyyy-MM-dd"
+        },
 
-		{
-			"columnName": "T_BOOLEAN",
-			"name": "tboolean",
-			"type": "BooleanType",
-			"columnType": "BOOLEAN"
-		},
+        {
+            "columnName": "T_BOOLEAN",
+            "name": "tboolean",
+            "type": "BooleanType",
+            "columnType": "BOOLEAN"
+        },
 
-		{
-			"columnName": "T_BINARY",
-			"name": "tbinary",
-			"type": "BinaryType",
-			"columnType": "BINARY",
-			"length": 2048
-		}
-	]
+        {
+            "columnName": "T_BINARY",
+            "name": "tbinary",
+            "type": "BinaryType",
+            "columnType": "BINARY",
+            "length": 2048
+        }
+    ]
 }

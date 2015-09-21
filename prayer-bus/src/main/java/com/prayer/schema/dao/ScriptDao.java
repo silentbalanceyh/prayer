@@ -8,10 +8,10 @@ import com.prayer.model.h2.script.ScriptModel;
  *
  */
 public interface ScriptDao extends TemplateDao<ScriptModel, String>{
-	/**
-	 * 
-	 * @param name
-	 * @return
-	 */
-	ScriptModel getByName(String name);
+    /**
+     * 
+     * @param name
+     * @return
+     */
+    ScriptModel getByName(String name);
 }

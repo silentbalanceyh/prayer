@@ -19,27 +19,27 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class VertxClusterHandler implements Handler<AsyncResult<Vertx>> {
 
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
 
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 核心方法
-	 */
-	@Override
-	public void handle(@NotNull final AsyncResult<Vertx> event) {
-		if (event.succeeded()) {
-			final Vertx vertx = event.result();
-			final VerticleDeployer deployer = singleton(VerticleDeployer.class,vertx);
-			deployer.deployVerticles();
-		}
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 核心方法
+     */
+    @Override
+    public void handle(@NotNull final AsyncResult<Vertx> event) {
+        if (event.succeeded()) {
+            final Vertx vertx = event.result();
+            final VerticleDeployer deployer = singleton(VerticleDeployer.class,vertx);
+            deployer.deployVerticles();
+        }
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

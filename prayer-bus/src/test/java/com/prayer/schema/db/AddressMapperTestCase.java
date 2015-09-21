@@ -20,62 +20,62 @@ import com.prayer.model.h2.vx.AddressModel;
  *
  */
 public class AddressMapperTestCase extends AbstractMapperCase<AddressModel, String> { // NOPMD{
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(AddressMapperTestCase.class);
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddressMapperTestCase.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	/**
-	 * 
-	 */
-	@BeforeClass // NOPMD
-	public static void setUp() {
-		/** **/
-		final MetadataConn metaConn = singleton(MetadataConnImpl.class);
-		final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
-		metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    /**
+     * 
+     */
+    @BeforeClass // NOPMD
+    public static void setUp() {
+        /** **/
+        final MetadataConn metaConn = singleton(MetadataConnImpl.class);
+        final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
+        metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
+    }
 
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public Logger getLogger() {
-		return LOGGER;
-	}
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
+    }
 
-	/** **/
-	@Override
-	public Class<?> getMapperClass() {
-		return AddressMapper.class;
-	}
+    /** **/
+    @Override
+    public Class<?> getMapperClass() {
+        return AddressMapper.class;
+    }
 
-	/** **/
-	@Override
-	public AddressModel instance() {
-		return new AddressModel();
-	}
+    /** **/
+    @Override
+    public AddressModel instance() {
+        return new AddressModel();
+    }
 
-	// ~ Methods =============================================
-	/** **/
-	@Test
-	public void testSelectByClass() {
-		final AddressMapper mapper = (AddressMapper) this.getMapper();
-		final AddressModel entity = this.insertTs(false).get(0);
-		// 插入一条心数据
-		final String workClass = entity.getWorkClass();
-		// 重新从数据库中读取数据
-		final AddressModel targetT = mapper.selectByClass(workClass);
-		info(getLogger(), "[TD] (SelectByClass) Selected by workClass = " + workClass);
-		assertEquals("[E] (SelectByClass) Entity in database must be the same as inserted one !", entity, targetT);
-		// 删除插入的新数据
-		mapper.deleteById(targetT.getUniqueId());
-		this.session().commit();
-	}
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Methods =============================================
+    /** **/
+    @Test
+    public void testSelectByClass() {
+        final AddressMapper mapper = (AddressMapper) this.getMapper();
+        final AddressModel entity = this.insertTs(false).get(0);
+        // 插入一条心数据
+        final String workClass = entity.getWorkClass();
+        // 重新从数据库中读取数据
+        final AddressModel targetT = mapper.selectByClass(workClass);
+        info(getLogger(), "[TD] (SelectByClass) Selected by workClass = " + workClass);
+        assertEquals("[E] (SelectByClass) Entity in database must be the same as inserted one !", entity, targetT);
+        // 删除插入的新数据
+        mapper.deleteById(targetT.getUniqueId());
+        this.session().commit();
+    }
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

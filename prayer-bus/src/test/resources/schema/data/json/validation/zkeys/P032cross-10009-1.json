@@ -1,74 +1,74 @@
 {
-	"__meta__": 
-	{
-		"name": "Role",
-		"namespace": "com.prayer.mod.sec",
-		"category": "ENTITY",
-		"table": "SEC_ROLE",
-		"identifier": "sys.sec.role",
-		"mapping": "DIRECT",
-		"policy": "GUID",
-		"seqinit": 1,
-		"seqstep": 1
-	},
+    "__meta__": 
+    {
+        "name": "Role",
+        "namespace": "com.prayer.mod.sec",
+        "category": "ENTITY",
+        "table": "SEC_ROLE",
+        "identifier": "sys.sec.role",
+        "mapping": "DIRECT",
+        "policy": "GUID",
+        "seqinit": 1,
+        "seqstep": 1
+    },
 
-	"__keys__": 
-	[
-		{
-			"name": "PK_ROLE",
-			"category": "PrimaryKey",
-			"multi": false,
-			"columns": 
-			[
-				"A"
-			]
-		},
+    "__keys__": 
+    [
+        {
+            "name": "PK_ROLE",
+            "category": "PrimaryKey",
+            "multi": false,
+            "columns": 
+            [
+                "A"
+            ]
+        },
 
-		{
-			"name": "PK_CODE",
-			"category": "PrimaryKey",
-			"multi": false,
-			"columns": 
-			[
-				"A"
-			]
-		}
-	],
+        {
+            "name": "PK_CODE",
+            "category": "PrimaryKey",
+            "multi": false,
+            "columns": 
+            [
+                "A"
+            ]
+        }
+    ],
 
-	"__fields__": 
-	[
-		{
-			"name": "uniqueId",
-			"type": "StringType",
-			"columnName": "R_ID",
-			"columnType": "STRING",
-			"primarykey": true,
-			"length": 256
-		},
+    "__fields__": 
+    [
+        {
+            "name": "uniqueId",
+            "type": "StringType",
+            "columnName": "R_ID",
+            "columnType": "STRING",
+            "primarykey": true,
+            "length": 256
+        },
 
-		{
-			"name": "name",
-			"type": "StringType",
-			"columnName": "R_NAME",
-			"columnType": "STRING",
-			"primarykey": false,
-			"length": 256
-		},
+        {
+            "name": "name",
+            "type": "StringType",
+            "columnName": "R_NAME",
+            "columnType": "STRING",
+            "primarykey": false,
+            "length": 256
+        },
 
-		{
-			"name": "code",
-			"type": "StringType",
-			"columnName": "R_CODE",
-			"columnType": "STRING",
-			"length": 256
-		},
+        {
+            "name": "code",
+            "type": "StringType",
+            "columnName": "R_CODE",
+            "columnType": "STRING",
+            "length": 256
+        },
 
-		{
-			"name": "roleId",
-			"type": "XmlType",
-			"columnName": "R_ROLE_ID",
-			"columnType": "LONG",
-			"length": 4000
-		}
-	]
+        {
+            "name": "roleId",
+            "type": "XmlType",
+            "columnName": "R_ROLE_ID",
+            "columnType": "LONG",
+            "length": 4000
+        }
+    ]
 }

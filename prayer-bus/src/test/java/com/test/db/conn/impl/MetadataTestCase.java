@@ -22,76 +22,76 @@ import jodd.util.StringPool;
  * @author Lang
  * @see
  */
-public class MetadataTestCase { 	// NOPMD
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(MetadataTestCase.class);
-	// ~ Instance Fields =====================================
-	/** **/
-	private transient final MetadataConn metaConn = singleton("com.prayer.db.conn.impl.MetadataConnImpl");
+public class MetadataTestCase {     // NOPMD
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(MetadataTestCase.class);
+    // ~ Instance Fields =====================================
+    /** **/
+    private transient final MetadataConn metaConn = singleton("com.prayer.db.conn.impl.MetadataConnImpl");
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	// ~ Methods =============================================
-	/** **/
-	@Test
-	public void testMetadata() {
-		final Metadata metadata = this.metaConn.getMetadata();
-		assertNotNull("[T] Metadata is null.", metadata);
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[TD] Metadata = " + metadata);
-		}
-	}
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    /** **/
+    @Test
+    public void testMetadata() {
+        final Metadata metadata = this.metaConn.getMetadata();
+        assertNotNull("[T] Metadata is null.", metadata);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[TD] Metadata = " + metadata);
+        }
+    }
 
-	/** **/
-	@Test
-	public void testVersionFlag() {
-		final Metadata metadata = this.metaConn.getMetadata();
-		final String versionFlag = DatabaseKit.getDatabaseVersion(metadata.getProductName(),metadata
-				.getProductVersion());
-		assertEquals("[T] Version flag is not match.", versionFlag,
-				metadata.getVersionFlag());
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[TD] Version flag = " + metadata.getVersionFlag());
-		}
-	}
+    /** **/
+    @Test
+    public void testVersionFlag() {
+        final Metadata metadata = this.metaConn.getMetadata();
+        final String versionFlag = DatabaseKit.getDatabaseVersion(metadata.getProductName(),metadata
+                .getProductVersion());
+        assertEquals("[T] Version flag is not match.", versionFlag,
+                metadata.getVersionFlag());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[TD] Version flag = " + metadata.getVersionFlag());
+        }
+    }
 
-	/** **/
-	@Test
-	public void testSqlFile() {
-		final Metadata metadata = this.metaConn.getMetadata();
-		final String versionFlag = DatabaseKit.getDatabaseVersion(metadata.getProductName(),metadata
-				.getProductVersion());
-		assertEquals("[T] Sql filename is not match.",
-				metadata.getDatabaseCategory() + versionFlag,
-				metadata.getSqlFile());
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("[TD] Sql filename = " + metadata.getSqlFile());
-		}
-	}
-	/**
-	 * 
-	 */
-	@Test
-	public void testSqlExec(){
-		final Metadata metadata = this.metaConn.getMetadata();
-		final String scriptFile = Resources.DB_SQL_DIR + metadata.getSqlFile() + StringPool.DOT + "sql";
-		final boolean ret = this.metaConn.loadSqlFile(Resources.class.getResourceAsStream(scriptFile));
-		assertTrue("[T] Executed failure.",ret);
-	}
-	/**
-	 * 
-	 */
-	@Test
-	public void testH2Init(){
-		final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
-		final boolean ret = this.metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
-		assertTrue("[T] Executed meta init failure.",ret);
-	}
-	// ~ Private Methods =====================================
-	// ~ hashCode,equals,toString ============================
+    /** **/
+    @Test
+    public void testSqlFile() {
+        final Metadata metadata = this.metaConn.getMetadata();
+        final String versionFlag = DatabaseKit.getDatabaseVersion(metadata.getProductName(),metadata
+                .getProductVersion());
+        assertEquals("[T] Sql filename is not match.",
+                metadata.getDatabaseCategory() + versionFlag,
+                metadata.getSqlFile());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[TD] Sql filename = " + metadata.getSqlFile());
+        }
+    }
+    /**
+     * 
+     */
+    @Test
+    public void testSqlExec(){
+        final Metadata metadata = this.metaConn.getMetadata();
+        final String scriptFile = Resources.DB_SQL_DIR + metadata.getSqlFile() + StringPool.DOT + "sql";
+        final boolean ret = this.metaConn.loadSqlFile(Resources.class.getResourceAsStream(scriptFile));
+        assertTrue("[T] Executed failure.",ret);
+    }
+    /**
+     * 
+     */
+    @Test
+    public void testH2Init(){
+        final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
+        final boolean ret = this.metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
+        assertTrue("[T] Executed meta init failure.",ret);
+    }
+    // ~ Private Methods =====================================
+    // ~ hashCode,equals,toString ============================
 }

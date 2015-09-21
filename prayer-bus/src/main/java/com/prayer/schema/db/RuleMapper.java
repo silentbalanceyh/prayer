@@ -10,10 +10,10 @@ import com.prayer.model.h2.vx.RuleModel;
  *
  */
 public interface RuleMapper extends H2TMapper<RuleModel,String>{
-	/**
-	 * 
-	 * @param uriId
-	 * @return
-	 */
-	List<RuleModel> selectByUri(String uriId);
+    /**
+     * 
+     * @param uriId
+     * @return
+     */
+    List<RuleModel> selectByUri(String uriId);
 }

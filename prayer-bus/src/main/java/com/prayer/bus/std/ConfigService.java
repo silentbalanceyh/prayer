@@ -19,71 +19,71 @@ import io.vertx.core.http.HttpMethod;
  *
  */
 public interface ConfigService {
-	// ~ Verticle Interface ==================================
-	/**
-	 * 按Group从H2读取Verticle的配置信息
-	 * 
-	 * @param group
-	 * @return
-	 */
-	ServiceResult<VerticleChain> findVerticles(String group);
+    // ~ Verticle Interface ==================================
+    /**
+     * 按Group从H2读取Verticle的配置信息
+     * 
+     * @param group
+     * @return
+     */
+    ServiceResult<VerticleChain> findVerticles(String group);
 
-	/**
-	 * 从H2数据库中读取所有的Verticle配置
-	 * 
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<String, VerticleChain>> findVerticles();
+    /**
+     * 从H2数据库中读取所有的Verticle配置
+     * 
+     * @return
+     */
+    ServiceResult<ConcurrentMap<String, VerticleChain>> findVerticles();
 
-	// ~ Route Interface =====================================
-	/**
-	 * 读取主路由下的子路由
-	 * 
-	 * @return
-	 */
-	ServiceResult<List<RouteModel>> findRoutes(final String parent);
+    // ~ Route Interface =====================================
+    /**
+     * 读取主路由下的子路由
+     * 
+     * @return
+     */
+    ServiceResult<List<RouteModel>> findRoutes(final String parent);
 
-	/**
-	 * 读取所有的路由表
-	 * 
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<String, List<RouteModel>>> findRoutes();
+    /**
+     * 读取所有的路由表
+     * 
+     * @return
+     */
+    ServiceResult<ConcurrentMap<String, List<RouteModel>>> findRoutes();
 
-	// ~ Uri Records ========================================
-	/**
-	 * 
-	 * @param uri
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<HttpMethod, UriModel>> findUri(String uri);
+    // ~ Uri Records ========================================
+    /**
+     * 
+     * @param uri
+     * @return
+     */
+    ServiceResult<ConcurrentMap<HttpMethod, UriModel>> findUri(String uri);
 
-	// ~ Uri Parameter Rules ================================
-	/**
-	 * 
-	 * @param uriId
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<String, List<RuleModel>>> findValidators(String uriId);
+    // ~ Uri Parameter Rules ================================
+    /**
+     * 
+     * @param uriId
+     * @return
+     */
+    ServiceResult<ConcurrentMap<String, List<RuleModel>>> findValidators(String uriId);
 
-	/**
-	 * 
-	 * @param uriId
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors(String uriId);
+    /**
+     * 
+     * @param uriId
+     * @return
+     */
+    ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors(String uriId);
 
-	/**
-	 * 
-	 * @param workClass
-	 * @return
-	 */
-	ServiceResult<AddressModel> findAddress(Class<?> workClass);
+    /**
+     * 
+     * @param workClass
+     * @return
+     */
+    ServiceResult<AddressModel> findAddress(Class<?> workClass);
 
-	/**
-	 * 
-	 * @param name
-	 * @return
-	 */
-	ServiceResult<ScriptModel> findScript(String name);
+    /**
+     * 
+     * @param name
+     * @return
+     */
+    ServiceResult<ScriptModel> findScript(String name);
 }

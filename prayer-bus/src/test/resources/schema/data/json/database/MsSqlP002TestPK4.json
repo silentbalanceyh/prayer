@@ -1,77 +1,77 @@
 {
-	"__meta__": 
-	{
-		"namespace": "com.prayer.model.test",
-		"name": "TestPK4",
-		"category": "ENTITY",
-		"table": "TST_PK4COLLECTION",
-		"identifier": "tst.mod.pk4",
-		"mapping": "DIRECT",
-		"policy": "COLLECTION"
-	},
+    "__meta__": 
+    {
+        "namespace": "com.prayer.model.test",
+        "name": "TestPK4",
+        "category": "ENTITY",
+        "table": "TST_PK4COLLECTION",
+        "identifier": "tst.mod.pk4",
+        "mapping": "DIRECT",
+        "policy": "COLLECTION"
+    },
 
-	"__keys__": 
-	[
-		{
-			"name": "PK_T6_ID",
-			"category": "PrimaryKey",
-			"multi": true,
-			"columns": 
-			[
-				"T_ID",
-				"T_UK1"
-			]
-		},
+    "__keys__": 
+    [
+        {
+            "name": "PK_T6_ID",
+            "category": "PrimaryKey",
+            "multi": true,
+            "columns": 
+            [
+                "T_ID",
+                "T_UK1"
+            ]
+        },
 
-		{
-			"name": "UK_T6_UK1",
-			"category": "UniqueKey",
-			"multi": false,
-			"columns": 
-			[
-				"T_UK2"
-			]
-		}
-	],
+        {
+            "name": "UK_T6_UK1",
+            "category": "UniqueKey",
+            "multi": false,
+            "columns": 
+            [
+                "T_UK2"
+            ]
+        }
+    ],
 
-	"__fields__": 
-	[
-		{
-			"columnName": "T_ID",
-			"name": "tId",
-			"type": "LongType",
-			"columnType": "LONG",
-			"primarykey": true,
-			"length": 192
-		},
+    "__fields__": 
+    [
+        {
+            "columnName": "T_ID",
+            "name": "tId",
+            "type": "LongType",
+            "columnType": "LONG",
+            "primarykey": true,
+            "length": 192
+        },
 
-		{
-			"columnName": "T_UK1",
-			"name": "uk1",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"primarykey": true,
-			"length": 256
-		},
+        {
+            "columnName": "T_UK1",
+            "name": "uk1",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "primarykey": true,
+            "length": 256
+        },
 
-		{
-			"columnName": "T_UK2",
-			"name": "muk1",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"unique":true,
-			"nullable": false,
-			"length": 256
-		},
+        {
+            "columnName": "T_UK2",
+            "name": "muk1",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "unique":true,
+            "nullable": false,
+            "length": 256
+        },
 
-		{
-			"columnName": "T_MUK2",
-			"name": "muk2",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"unique":false,
-			"nullable": false,
-			"length": 256
-		}
-	]
+        {
+            "columnName": "T_MUK2",
+            "name": "muk2",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "unique":false,
+            "nullable": false,
+            "length": 256
+        }
+    ]
 }

@@ -13,36 +13,36 @@ import com.prayer.kernel.Value;
  * @see
  */
 public class XmlType extends StringType implements Value<String> {
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
-	/** **/
-	private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.XmlValidator");
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
+    /** **/
+    private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.XmlValidator");
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	public XmlType(final String value) throws AbstractMetadataException{
-		super(value);
-		// Xml内容验证代码
-		this.innerValidator.validate(new StringType(value));
-	}
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /** **/
+    public XmlType(final String value) throws AbstractMetadataException{
+        super(value);
+        // Xml内容验证代码
+        this.innerValidator.validate(new StringType(value));
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
 
-	/** **/
-	@Override
-	public DataType getDataType() {
-		return DataType.XML;
-	}
+    /** **/
+    @Override
+    public DataType getDataType() {
+        return DataType.XML;
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ hashCode,equals,toString ============================
-	/** **/
-	@Override
-	public String toString() {
-		return "XmlType [value=" + value + "]";
-	}
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ hashCode,equals,toString ============================
+    /** **/
+    @Override
+    public String toString() {
+        return "XmlType [value=" + value + "]";
+    }
 }

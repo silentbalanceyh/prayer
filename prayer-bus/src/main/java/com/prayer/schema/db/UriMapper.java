@@ -12,16 +12,16 @@ import io.vertx.core.http.HttpMethod;
  *
  */
 public interface UriMapper extends H2TMapper<UriModel, String>{
-	/**
-	 * 
-	 * @param uri
-	 * @return
-	 */
-	UriModel selectByUriAndMethod(String uri,HttpMethod method);
-	/**
-	 * 
-	 * @param uri
-	 * @return
-	 */
-	List<UriModel> selectByUri(String uri);
+    /**
+     * 
+     * @param uri
+     * @return
+     */
+    UriModel selectByUriAndMethod(String uri,HttpMethod method);
+    /**
+     * 
+     * @param uri
+     * @return
+     */
+    List<UriModel> selectByUri(String uri);
 }

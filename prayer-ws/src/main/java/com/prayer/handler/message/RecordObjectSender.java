@@ -20,39 +20,39 @@ import net.sf.oval.guard.PreValidateThis;
  */
 @Guarded
 public final class RecordObjectSender implements Handler<AsyncResult<Message<Object>>> {
-	// ~ Static Fields =======================================
-	// ~ Instance Fields =====================================
-	/** **/
-	@NotNull
-	private transient final HttpServerResponse response;
+    // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
+    /** **/
+    @NotNull
+    private transient final HttpServerResponse response;
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param response
-	 */
-	public RecordObjectSender(final HttpServerResponse response) {
-		this.response = response;
-	}
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	@PreValidateThis
-	public void handle(@NotNull final AsyncResult<Message<Object>> event) {
-		if (event.succeeded()) {
-			final String data = (String) event.result().body();
-			final JsonObject ret = new JsonObject();
-			ret.put(Constants.RET.STATUS_CODE, StatusCode.OK.status());
-			ret.put(Constants.RET.RESPONSE, ResponseCode.SUCCESS);
-			ret.put(Constants.RET.DATA, new JsonObject(data));
-			this.response.end(ret.encode());
-		}
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /**
+     * 
+     * @param response
+     */
+    public RecordObjectSender(final HttpServerResponse response) {
+        this.response = response;
+    }
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    @PreValidateThis
+    public void handle(@NotNull final AsyncResult<Message<Object>> event) {
+        if (event.succeeded()) {
+            final String data = (String) event.result().body();
+            final JsonObject ret = new JsonObject();
+            ret.put(Constants.RET.STATUS_CODE, StatusCode.OK.status());
+            ret.put(Constants.RET.RESPONSE, ResponseCode.SUCCESS);
+            ret.put(Constants.RET.DATA, new JsonObject(data));
+            this.response.end(ret.encode());
+        }
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

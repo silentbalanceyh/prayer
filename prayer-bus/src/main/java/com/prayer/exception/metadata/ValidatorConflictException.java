@@ -8,29 +8,29 @@ import com.prayer.exception.AbstractMetadataException;
  *
  */
 public class ValidatorConflictException extends AbstractMetadataException{
-	// ~ Static Fields =======================================
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3730941267199352106L;
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	public ValidatorConflictException(final Class<?> clazz, final String type, final String attribute){
-		super(clazz, -11012, type, attribute);
-	}
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public int getErrorCode(){
-		return -11012;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Static Fields =======================================
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3730941267199352106L;
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /** **/
+    public ValidatorConflictException(final Class<?> clazz, final String type, final String attribute){
+        super(clazz, -11012, type, attribute);
+    }
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public int getErrorCode(){
+        return -11012;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 
 }

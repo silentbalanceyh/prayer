@@ -14,26 +14,26 @@ import io.vertx.ext.web.handler.AuthHandler;
  */
 @VertxGen
 public interface BasicAuthHandler extends AuthHandler {
-	/** DEFAULT REALM **/
-	String DEFAULT_REALM = "PRAYER-BUS";
+    /** DEFAULT REALM **/
+    String DEFAULT_REALM = "PRAYER-BUS";
 
-	/**
-	 * 默认的Basic的Handler创建
-	 * 
-	 * @param authProvider
-	 * @return
-	 */
-	static AuthHandler create(final AuthProvider authProvider) {
-		return new BasicAuthHandlerImpl(authProvider, DEFAULT_REALM);
-	}
+    /**
+     * 默认的Basic的Handler创建
+     * 
+     * @param authProvider
+     * @return
+     */
+    static AuthHandler create(final AuthProvider authProvider) {
+        return new BasicAuthHandlerImpl(authProvider, DEFAULT_REALM);
+    }
 
-	/**
-	 * 
-	 * @param authProvider
-	 * @param realm
-	 * @return
-	 */
-	static AuthHandler create(final AuthProvider authProvider, final String realm) {
-		return new BasicAuthHandlerImpl(authProvider, realm);
-	}
+    /**
+     * 
+     * @param authProvider
+     * @param realm
+     * @return
+     */
+    static AuthHandler create(final AuthProvider authProvider, final String realm) {
+        return new BasicAuthHandlerImpl(authProvider, realm);
+    }
 }

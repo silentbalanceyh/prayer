@@ -1,76 +1,76 @@
 {
-	"__meta__": 
-	{
-		"namespace": "com.prayer.model.test",
-		"name": "TestSchema1",
-		"category": "ENTITY",
-		"table": "TST_SCHEMA1",
-		"identifier": "tst.mod.schema1",
-		"mapping": "DIRECT",
-		"policy": "GUID"
-	},
+    "__meta__": 
+    {
+        "namespace": "com.prayer.model.test",
+        "name": "TestSchema1",
+        "category": "ENTITY",
+        "table": "TST_SCHEMA1",
+        "identifier": "tst.mod.schema1",
+        "mapping": "DIRECT",
+        "policy": "GUID"
+    },
 
-	"__keys__": 
-	[
-		{
-			"name": "PK_SCHEMA1_ID",
-			"category": "PrimaryKey",
-			"multi": false,
-			"columns": 
-			[
-				"T_ID"
-			]
-		},
+    "__keys__": 
+    [
+        {
+            "name": "PK_SCHEMA1_ID",
+            "category": "PrimaryKey",
+            "multi": false,
+            "columns": 
+            [
+                "T_ID"
+            ]
+        },
 
-		{
-			"name": "UK_SCHEMA1_MUK1",
-			"category": "UniqueKey",
-			"multi": true,
-			"columns": 
-			[
-				"T_MUK1",
-				"T_MUK2"
-			]
-		}
-	],
+        {
+            "name": "UK_SCHEMA1_MUK1",
+            "category": "UniqueKey",
+            "multi": true,
+            "columns": 
+            [
+                "T_MUK1",
+                "T_MUK2"
+            ]
+        }
+    ],
 
-	"__fields__": 
-	[
-		{
-			"columnName": "T_ID",
-			"name": "tId",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"primarykey": true,
-			"length": 192
-		},
+    "__fields__": 
+    [
+        {
+            "columnName": "T_ID",
+            "name": "tId",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "primarykey": true,
+            "length": 192
+        },
 
-		{
-			"columnName": "T_MUK1",
-			"name": "muk1",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"unique": false,
-			"nullable": false,
-			"length": 256
-		},
+        {
+            "columnName": "T_MUK1",
+            "name": "muk1",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "unique": false,
+            "nullable": false,
+            "length": 256
+        },
 
-		{
-			"columnName": "T_MUK2",
-			"name": "muk2",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"unique": false,
-			"nullable": false,
-			"length": 256
-		},
+        {
+            "columnName": "T_MUK2",
+            "name": "muk2",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "unique": false,
+            "nullable": false,
+            "length": 256
+        },
 
-		{
-			"columnName": "T_ADD_COL",
-			"name": "addAttr",
-			"type": "StringType",
-			"columnType": "STRING1",
-			"length": 192
-		}
-	]
+        {
+            "columnName": "T_ADD_COL",
+            "name": "addAttr",
+            "type": "StringType",
+            "columnType": "STRING1",
+            "length": 192
+        }
+    ]
 }

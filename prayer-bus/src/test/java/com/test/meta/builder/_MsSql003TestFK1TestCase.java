@@ -19,70 +19,70 @@ import com.prayer.kernel.model.GenericSchema;
  *
  */
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class _MsSql003TestFK1TestCase extends AbstractBCPTestCase {	// NOPMD
-	// ~ Static Fields =======================================
-	/** **/
-	private static final String DB_CATEGORY = "MSSQL";
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql003TestFK1TestCase.class);
+public class _MsSql003TestFK1TestCase extends AbstractBCPTestCase {    // NOPMD
+    // ~ Static Fields =======================================
+    /** **/
+    private static final String DB_CATEGORY = "MSSQL";
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql003TestFK1TestCase.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	protected Logger getLogger() {
-		return LOGGER;
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    protected Logger getLogger() {
+        return LOGGER;
+    }
 
-	/** **/
-	@Override
-	protected String getDbCategory() {
-		return DB_CATEGORY;
-	}
+    /** **/
+    @Override
+    protected String getDbCategory() {
+        return DB_CATEGORY;
+    }
 
-	/** **/
-	@Override
-	protected Class<?> getBuilder() {
-		return MsSqlBuilder.class;
-	}
+    /** **/
+    @Override
+    protected Class<?> getBuilder() {
+        return MsSqlBuilder.class;
+    }
 
-	// ~ Methods =============================================
-	/** **/
-	@Before
-	public void setUp() {
-		this.beforeExecute("MsSqlP003TestFK1.json", "tst.mod.fk1");
-		final GenericSchema prepSchema = this.getService().getById("tst.mod.fk1");
-		this.builder.syncTable(prepSchema);
-	}
+    // ~ Methods =============================================
+    /** **/
+    @Before
+    public void setUp() {
+        this.beforeExecute("MsSqlP003TestFK1.json", "tst.mod.fk1");
+        final GenericSchema prepSchema = this.getService().getById("tst.mod.fk1");
+        this.builder.syncTable(prepSchema);
+    }
 
-	/** **/
-	@Test
-	public void test001UKCreate() {
-		final boolean ret = this.createTable();
-		assertTrue("[T] Created Table Successfully ! Result = " + ret, ret);
-		// Post
-		if (ret) {
-			this.builder.purgeTable();
-		}
-	}
+    /** **/
+    @Test
+    public void test001UKCreate() {
+        final boolean ret = this.createTable();
+        assertTrue("[T] Created Table Successfully ! Result = " + ret, ret);
+        // Post
+        if (ret) {
+            this.builder.purgeTable();
+        }
+    }
 
-	/** **/
-	@Test
-	public void test001UKPurge() {
-		final boolean ret = this.purgeTable();
-		assertTrue("[T] Purge Table Successfully ! Result = " + ret, ret);
-	}
+    /** **/
+    @Test
+    public void test001UKPurge() {
+        final boolean ret = this.purgeTable();
+        assertTrue("[T] Purge Table Successfully ! Result = " + ret, ret);
+    }
 
-	/** **/
-	@After
-	public void setDown() {
-		this.afterExecute();
-	}
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    /** **/
+    @After
+    public void setDown() {
+        this.afterExecute();
+    }
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

@@ -1,8 +1,8 @@
 /** Home Page **/
 body {
-	padding-top: 0;
-	padding-bottom: 40px;
-	background-color: #f5f5f5;
+    padding-top: 0;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
 }
 
 
@@ -87,42 +87,42 @@ body {
   margin-bottom: 5px;
 }
 .breadcrumb {
-	margin: 0 0 0px;
-	padding: 10px 0px;
-	background-color: transparent;
+    margin: 0 0 0px;
+    padding: 10px 0px;
+    background-color: transparent;
 }
 
 .block {
-	border: 1px solid #ccc;
-	background: white;
-	margin: 1em 0em;
-	border-top: none;
+    border: 1px solid #ccc;
+    background: white;
+    margin: 1em 0em;
+    border-top: none;
 }
 
 .block-content {
-	margin: 1em;
-	min-height: .25em;
+    margin: 1em;
+    min-height: .25em;
 }
 
 .block-header {
-	margin-bottom: 0px;
-	border-right: none;
-	border-left: none;
-	-webkit-border-radius: 0px;
-	-moz-border-radius: 0px;
-	border-radius: 0px;
+    margin-bottom: 0px;
+    border-right: none;
+    border-left: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 .block-header div {
-	padding-top: 10px;
+    padding-top: 10px;
 }
 
 .easyPieChart {
-	margin: 0px auto;
+    margin: 0px auto;
 }
 
 .chart-bottom-heading {
-	margin-top: 5px;
-	text-align: center;
+    margin-top: 5px;
+    text-align: center;
 }
 
 /** Side Bar **/

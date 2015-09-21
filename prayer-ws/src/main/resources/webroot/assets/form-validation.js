@@ -85,7 +85,7 @@ var FormValidation = function () {
 
         },
 
-	// wrapper function to scroll to an element
+    // wrapper function to scroll to an element
         scrollTo: function (el, offeset) {
             pos = el ? el.offset().top : 0;
             jQuery('html,body').animate({

@@ -12,16 +12,16 @@ import io.vertx.core.http.HttpMethod;
  *
  */
 public interface UriDao extends TemplateDao<UriModel, String>{
-	/**
-	 * 
-	 * @param uri
-	 * @return
-	 */
-	UriModel getByUri(String uri,HttpMethod method);
-	/**
-	 * 
-	 * @param uri
-	 * @return
-	 */
-	List<UriModel> getByUri(String uri);
+    /**
+     * 
+     * @param uri
+     * @return
+     */
+    UriModel getByUri(String uri,HttpMethod method);
+    /**
+     * 
+     * @param uri
+     * @return
+     */
+    List<UriModel> getByUri(String uri);
 }

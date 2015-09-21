@@ -17,35 +17,35 @@ import com.prayer.util.Instance;
  *
  */
 public abstract class AbstractValidatorAspect { // NOPMD
-	// ~ Static Fields =======================================
-	/** 符合该验证器的属性 **/
-	protected static final DataType[] T_TEXT = new DataType[] { DataType.STRING, DataType.XML, DataType.JSON,
-			DataType.SCRIPT };
-	/** 数值类型 **/
-	protected static final DataType[] T_NUMBER = new DataType[] { DataType.INT, DataType.LONG };
+    // ~ Static Fields =======================================
+    /** 符合该验证器的属性 **/
+    protected static final DataType[] T_TEXT = new DataType[] { DataType.STRING, DataType.XML, DataType.JSON,
+            DataType.SCRIPT };
+    /** 数值类型 **/
+    protected static final DataType[] T_NUMBER = new DataType[] { DataType.INT, DataType.LONG };
 
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractValidatorAspect.class);
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractValidatorAspect.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	// ~ Methods =============================================
-	/** **/
-	protected FieldModel getField(final Object instance, final String field) {
-		final GenericSchema schema = Instance.field(instance, "_schema");
-		FieldModel fieldSchema = null;
-		if (null == schema || null == field) {
-			info(LOGGER, BusLogger.I_AOP_V_ERROR, schema, field);
-		} else {
-			fieldSchema = schema.getFields().get(field);
-		}
-		return fieldSchema;
-	}
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    /** **/
+    protected FieldModel getField(final Object instance, final String field) {
+        final GenericSchema schema = Instance.field(instance, "_schema");
+        FieldModel fieldSchema = null;
+        if (null == schema || null == field) {
+            info(LOGGER, BusLogger.I_AOP_V_ERROR, schema, field);
+        } else {
+            fieldSchema = schema.getFields().get(field);
+        }
+        return fieldSchema;
+    }
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

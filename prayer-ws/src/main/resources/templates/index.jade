@@ -1,28 +1,28 @@
 extends layout
 block content_main
-	.container#{UI_PAGE_WIDTH}
-		form#fLogin.form-horizontal
-		
-			.form-group
-				label.col-sm-2.control-label(for="username") Account ID
-				.col-sm-3
-					input#username.form-control(type="text",name="username",placeholder="Account ID",required)
-				
-			.form-group
-				label.col-sm-2.control-label(for="password") Password
-				.col-sm-3
-					input#password.form-control(type="password",name="password",placeholder="Password",required)
-				
-			.form-group
-				.col-sm-offset-2.col-sm-3
-					button.btn.btn-primary(type="button",onclick="exeLogin(this);") Login
-					&nbsp;&nbsp;
-					button.btn.btn-default(type="reset") Reset
-			.form-group
-				.col-sm-offset-1.col-sm-5
-					.progress.progress-striped.hidden
-						.progress-bar.progress-bar-info.active(role="progressbar",,aria-valuemin="0",aria-valuemax="100",style="width:0%")
-	.container#{UI_PAGE_WIDTH}
-		.form-group
-			#msgError.alert.alert-danger.invisible
-	
+    .container#{UI_PAGE_WIDTH}
+        form#fLogin.form-horizontal
+        
+            .form-group
+                label.col-sm-2.control-label(for="username") Account ID
+                .col-sm-3
+                    input#username.form-control(type="text",name="username",placeholder="Account ID",required)
+                
+            .form-group
+                label.col-sm-2.control-label(for="password") Password
+                .col-sm-3
+                    input#password.form-control(type="password",name="password",placeholder="Password",required)
+                
+            .form-group
+                .col-sm-offset-2.col-sm-3
+                    button.btn.btn-primary(type="button",onclick="exeLogin(this);") Login
+                    &nbsp;&nbsp;
+                    button.btn.btn-default(type="reset") Reset
+            .form-group
+                .col-sm-offset-1.col-sm-5
+                    .progress.progress-striped.hidden
+                        .progress-bar.progress-bar-info.active(style="width:0%")
+    .container#{UI_PAGE_WIDTH}
+        .form-group
+            #msgError.alert.alert-danger.invisible
+    

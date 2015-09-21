@@ -1,53 +1,53 @@
 {
-	"__meta__": 
-	{
-		"namespace": "com.prayer.model.oauth",
-		"name": "AuthCode",
-		"category": "ENTITY",
-		"table": "OAU_CODE",
-		"identifier": "sec.oauth.code",
-		"mapping": "DIRECT",
-		"policy": "GUID"
-	},
+    "__meta__": 
+    {
+        "namespace": "com.prayer.model.oauth",
+        "name": "AuthCode",
+        "category": "ENTITY",
+        "table": "OAU_CODE",
+        "identifier": "sec.oauth.code",
+        "mapping": "DIRECT",
+        "policy": "GUID"
+    },
 
-	"__keys__": 
-	[
-		{
-			"name": "PK_OAU_C_ID",
-			"category": "PrimaryKey",
-			"multi": false,
-			"columns": 
-			[
-				"PK_ID"
-			]
-		}
-	],
+    "__keys__": 
+    [
+        {
+            "name": "PK_OAU_C_ID",
+            "category": "PrimaryKey",
+            "multi": false,
+            "columns": 
+            [
+                "PK_ID"
+            ]
+        }
+    ],
 
-	"__fields__": 
-	[
-		{
-			"name": "uniqueId",
-			"type": "StringType",
-			"columnName": "PK_ID",
-			"columnType": "STRING1",
-			"primarykey": true,
-			"length": 192
-		},
+    "__fields__": 
+    [
+        {
+            "name": "uniqueId",
+            "type": "StringType",
+            "columnName": "PK_ID",
+            "columnType": "STRING1",
+            "primarykey": true,
+            "length": 192
+        },
 
-		{
-			"name": "code",
-			"type": "StringType",
-			"columnName": "S_CODE",
-			"columnType": "STRING1",
-			"length": 256
-		},
+        {
+            "name": "code",
+            "type": "StringType",
+            "columnName": "S_CODE",
+            "columnType": "STRING1",
+            "length": 256
+        },
 
-		{
-			"name": "authentication",
-			"type": "BinaryType",
-			"columnName": "S_AUTHENTICATION",
-			"columnType": "BINARY",
-			"length": 1024
-		}
-	]
+        {
+            "name": "authentication",
+            "type": "BinaryType",
+            "columnName": "S_AUTHENTICATION",
+            "columnType": "BINARY",
+            "length": 1024
+        }
+    ]
 }

@@ -28,90 +28,90 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public final class Converter {
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(Converter.class);
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(Converter.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	/**
-	 * 
-	 * @param sets
-	 * @return
-	 */
-	@NotNull
-	@NotEmpty
-	@NotBlank
-	public static String toStr(@NotNull @MinSize(1) final Set<String> sets) {
-		return toStr(sets.toArray(Constants.T_STR_ARR));
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    /**
+     * 
+     * @param sets
+     * @return
+     */
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    public static String toStr(@NotNull @MinSize(1) final Set<String> sets) {
+        return toStr(sets.toArray(Constants.T_STR_ARR));
+    }
 
-	/**
-	 * 
-	 * @param setArr
-	 * @return
-	 */
-	@NotNull
-	@NotEmpty
-	@NotBlank
-	public static String toStr(@NotNull @MinLength(1) final String... setArr) {
-		final StringBuilder retStr = new StringBuilder();
-		for (int i = 0; i < setArr.length; i++) {
-			retStr.append(setArr[i]);
-			if (i < setArr.length - 1) {
-				retStr.append(Symbol.COMMA);
-			}
-		}
-		return retStr.toString();
-	}
+    /**
+     * 
+     * @param setArr
+     * @return
+     */
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    public static String toStr(@NotNull @MinLength(1) final String... setArr) {
+        final StringBuilder retStr = new StringBuilder();
+        for (int i = 0; i < setArr.length; i++) {
+            retStr.append(setArr[i]);
+            if (i < setArr.length - 1) {
+                retStr.append(Symbol.COMMA);
+            }
+        }
+        return retStr.toString();
+    }
 
-	/**
-	 * 
-	 * @param clob
-	 * @return
-	 */
-	public static String toStr(@NotNull final Clob clob) {
-		String retStr = null;
-		try {
-			final Reader reader = clob.getCharacterStream();
-			final char[] charArr = new char[(int) clob.length()];
-			reader.read(charArr);
-			reader.close();
-			retStr = new String(charArr);
-		} catch (SQLException ex) {
-			debug(LOGGER, "JVM.SQL", ex, "Converter.toStr");
-		} catch (IOException ex) {
-			debug(LOGGER, "JVM.IO", ex, "Clob");
-		}
-		return retStr;
-	}
+    /**
+     * 
+     * @param clob
+     * @return
+     */
+    public static String toStr(@NotNull final Clob clob) {
+        String retStr = null;
+        try {
+            final Reader reader = clob.getCharacterStream();
+            final char[] charArr = new char[(int) clob.length()];
+            reader.read(charArr);
+            reader.close();
+            retStr = new String(charArr);
+        } catch (SQLException ex) {
+            debug(LOGGER, "JVM.SQL", ex, "Converter.toStr");
+        } catch (IOException ex) {
+            debug(LOGGER, "JVM.IO", ex, "Clob");
+        }
+        return retStr;
+    }
 
-	/**
-	 * 
-	 * @param clazz
-	 * @param inputStr
-	 * @return
-	 */
-	public static <T extends Enum<T>> T fromStr(@NotNull final Class<T> clazz,
-			@NotNull @NotBlank @NotEmpty final String inputStr) {
-		T retEnum = null;
-		try {
-			retEnum = Enum.valueOf(clazz, inputStr);
-		} catch (IllegalArgumentException ex) {
-			debug(LOGGER, "JVM.ENUM", ex, inputStr);
-		}
-		return retEnum;
-	}
+    /**
+     * 
+     * @param clazz
+     * @param inputStr
+     * @return
+     */
+    public static <T extends Enum<T>> T fromStr(@NotNull final Class<T> clazz,
+            @NotNull @NotBlank @NotEmpty final String inputStr) {
+        T retEnum = null;
+        try {
+            retEnum = Enum.valueOf(clazz, inputStr);
+        } catch (IllegalArgumentException ex) {
+            debug(LOGGER, "JVM.ENUM", ex, inputStr);
+        }
+        return retEnum;
+    }
 
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	private Converter() {
-	}
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    private Converter() {
+    }
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 
 }

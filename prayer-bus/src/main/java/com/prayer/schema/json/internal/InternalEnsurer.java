@@ -9,17 +9,17 @@ import com.prayer.exception.AbstractSchemaException;
  *
  */
 interface InternalEnsurer {
-	/**
-	 * 主验证方法
-	 * 
-	 * @throws AbstractSchemaException
-	 */
-	void validate() throws AbstractSchemaException;
+    /**
+     * 主验证方法
+     * 
+     * @throws AbstractSchemaException
+     */
+    void validate() throws AbstractSchemaException;
 
-	/**
-	 * 打断方法
-	 * 
-	 * @throws AbstractSchemaException
-	 */
-	void interrupt() throws AbstractSchemaException;
+    /**
+     * 打断方法
+     * 
+     * @throws AbstractSchemaException
+     */
+    void interrupt() throws AbstractSchemaException;
 }

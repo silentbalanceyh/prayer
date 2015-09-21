@@ -26,44 +26,44 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthService {
-	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthSevImpl.class);
+    // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthSevImpl.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public Logger getLogger() {
-		return LOGGER;
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
+    }
 
-	/** **/
-	@Override
-	public ServiceResult<JsonObject> find(final JsonObject jsonObject) {
-		info(getLogger(), BusLogger.I_PARAM_INFO, "GET", jsonObject.encode());
-		ServiceResult<JsonObject> ret = new ServiceResult<>();
-		final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
-		if (null == error) {
-			try {
-				ret = this.sharedFind(jsonObject);
-			} catch (ScriptException ex) {
-				error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
-				ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
-			} catch (AbstractException ex) {
-				ret.setResponse(null, ex);
-			}
-		} else {
-			ret.setResponse(null, error);
-		}
-		return ret;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    /** **/
+    @Override
+    public ServiceResult<JsonObject> find(final JsonObject jsonObject) {
+        info(getLogger(), BusLogger.I_PARAM_INFO, "GET", jsonObject.encode());
+        ServiceResult<JsonObject> ret = new ServiceResult<>();
+        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        if (null == error) {
+            try {
+                ret = this.sharedFind(jsonObject);
+            } catch (ScriptException ex) {
+                error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
+            } catch (AbstractException ex) {
+                ret.setResponse(null, ex);
+            }
+        } else {
+            ret.setResponse(null, error);
+        }
+        return ret;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

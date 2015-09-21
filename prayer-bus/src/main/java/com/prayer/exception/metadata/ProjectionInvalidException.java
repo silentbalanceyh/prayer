@@ -8,33 +8,33 @@ import com.prayer.exception.AbstractMetadataException;
  *
  */
 public class ProjectionInvalidException extends AbstractMetadataException{
-	// ~ Static Fields =======================================
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6734581549794307281L;
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param expr
-	 * @param type
-	 */
-	public ProjectionInvalidException(final Class<?> clazz, final String expr, final String type){
-		super(clazz, -11004, expr, type);
-	}
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public int getErrorCode(){
-		return -11004;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Static Fields =======================================
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6734581549794307281L;
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param expr
+     * @param type
+     */
+    public ProjectionInvalidException(final Class<?> clazz, final String expr, final String type){
+        super(clazz, -11004, expr, type);
+    }
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public int getErrorCode(){
+        return -11004;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

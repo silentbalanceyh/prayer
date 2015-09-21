@@ -3,157 +3,157 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.prayer.schema.db.VerticleMapper">
-	<!-- 返回对象定义 -->
-	<resultMap type="Verticle" id="verticleObject">
-		<id column="K_ID" property="uniqueId" />
-		<result column="S_CLASS" property="name" />
-		<result column="S_INSTANCES" property="instances" />
-		<result column="S_IGROUP" property="group" />
-		<result column="S_JSON_CONFIG" property="jsonConfig" />
-		<result column="S_ISOLATED_CLASS" property="isolatedClasses"
-			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
+    <!-- 返回对象定义 -->
+    <resultMap type="Verticle" id="verticleObject">
+        <id column="K_ID" property="uniqueId" />
+        <result column="S_CLASS" property="name" />
+        <result column="S_INSTANCES" property="instances" />
+        <result column="S_IGROUP" property="group" />
+        <result column="S_JSON_CONFIG" property="jsonConfig" />
+        <result column="S_ISOLATED_CLASS" property="isolatedClasses"
+            typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
 
-		<result column="CP_EXT" property="extraCp"
-			typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
+        <result column="CP_EXT" property="extraCp"
+            typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
 
-		<result column="IS_HA" property="ha" />
-		<result column="IS_WORKER" property="worker" />
-		<result column="IS_MULTI" property="multi" />
+        <result column="IS_HA" property="ha" />
+        <result column="IS_WORKER" property="worker" />
+        <result column="IS_MULTI" property="multi" />
 
-		<result column="DP_ORDER" property="deployOrder" />
-		<result column="DP_ASYNC" property="deployAsync" />
-	</resultMap>
-	<!-- 模板方法 -->
-	<insert id="insert" parameterType="Verticle" keyColumn="K_ID"
-		keyProperty="uniqueId">
-		<![CDATA[
-			INSERT INTO EVX_VERTICLE (
-				K_ID,
-				S_CLASS,
-				S_INSTANCES,
-				S_IGROUP,
-				S_JSON_CONFIG,
-				S_ISOLATED_CLASSES,
-				CP_EXT,
-				IS_HA,
-				IS_WORKER,
-				IS_MULTI,
-				DP_ORDER,
-				DP_ASYNC
-			) VALUES (
-				#{uniqueId},
-				#{name},
-				#{instances},
-				#{group},
-				#{jsonConfig},
-				#{isolatedClasses, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				#{extraCp, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				#{ha},
-				#{worker},
-				#{multi},
-				#{deployOrder},
-				#{deployAsync}
-			)
-		]]>
-	</insert>
-	<insert id="batchInsert" parameterType="java.util.List">
-		<![CDATA[
-			INSERT INTO EVX_VERTICLE (
-				K_ID,
-				S_CLASS,
-				S_INSTANCES,
-				S_IGROUP,
-				S_JSON_CONFIG,
-				S_ISOLATED_CLASSES,
-				CP_EXT,
-				IS_HA,
-				IS_WORKER,
-				IS_MULTI,
-				DP_ORDER,
-				DP_ASYNC
-			) VALUES
-		]]>
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-			<![CDATA[(
-				#{item.uniqueId},
-				#{item.name},
-				#{item.instances},
-				#{item.group},
-				#{item.jsonConfig},
-				#{item.isolatedClasses, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				#{item.extraCp, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				#{item.ha},
-				#{item.worker},
-				#{item.multi},
-				#{item.deployOrder},
-				#{item.deployAsync}
-			)]]>
-		</foreach>
-	</insert>
-	<update id="update" parameterType="Verticle" keyColumn="K_ID"
-		keyProperty="uniqueId">
-		<![CDATA[
-			UPDATE EVX_VERTICLE SET
-				S_CLASS=#{name},
-				S_INSTANCES=#{instances},
-				S_IGROUP=#{group},
-				S_JSON_CONFIG=#{jsonConfig},
-				S_ISOLATED_CLASSES=#{isolatedClasses, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				CP_EXT=#{extraCp, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-				IS_HA=#{ha},
-				IS_WORKER=#{worker},
-				IS_MULTI=#{multi},
-				DP_ORDER=#{deployOrder},
-				DP_ASYNC=#{deployAsync}
-			WHERE K_ID=#{uniqueId}
-		]]>
-	</update>
-	<select id="selectAll" resultMap="verticleObject">
-		<![CDATA[
-			SELECT * FROM EVX_VERTICLE ORDER BY DP_ORDER ASC
-		]]>
-	</select>
-	<select id="selectById" parameterType="String" resultMap="verticleObject">
-		<![CDATA[
-			SELECT * FROM EVX_VERTICLE WHERE K_ID=#{uniqueId}
-		]]>
-	</select>
-	<delete id="deleteById" parameterType="String">
-		<![CDATA[
-			DELETE FROM EVX_VERTICLE WHERE K_ID=#{uniqueId}
-		]]>
-	</delete>
-	<delete id="batchDelete" parameterType="java.util.List">
-		<![CDATA[
-			DELETE FROM EVX_VERTICLE WHERE K_ID IN
-		]]>
-		<foreach collection="list" item="item" open="(" separator=","
-			close=")">
-			<![CDATA[
-				#{item}
-			]]>
-		</foreach>
-	</delete>
-	<delete id="purgeData">
-		<![CDATA[
-			DELETE FROM EVX_VERTICLE
-		]]>
-	</delete>
-	<!-- 自定义接口方法 -->
-	<select id="selectByName" parameterType="String" resultMap="verticleObject">
-		<![CDATA[
-			SELECT * FROM EVX_VERTICLE WHERE S_CLASS=#{name}
-		]]>
-	</select>
-	<select id="selectByGroup" parameterType="String" resultMap="verticleObject">
-		<![CDATA[
-			SELECT * FROM EVX_VERTICLE WHERE S_IGROUP=#{group} ORDER BY DP_ORDER ASC
-		]]>
-	</select>
-	<delete id="deleteByName" parameterType="String">
-		<![CDATA[
-			DELETE FROM EVX_VERTICLE WHERE S_CLASS=#{name}
-		]]>
-	</delete>
+        <result column="DP_ORDER" property="deployOrder" />
+        <result column="DP_ASYNC" property="deployAsync" />
+    </resultMap>
+    <!-- 模板方法 -->
+    <insert id="insert" parameterType="Verticle" keyColumn="K_ID"
+        keyProperty="uniqueId">
+        <![CDATA[
+            INSERT INTO EVX_VERTICLE (
+                K_ID,
+                S_CLASS,
+                S_INSTANCES,
+                S_IGROUP,
+                S_JSON_CONFIG,
+                S_ISOLATED_CLASSES,
+                CP_EXT,
+                IS_HA,
+                IS_WORKER,
+                IS_MULTI,
+                DP_ORDER,
+                DP_ASYNC
+            ) VALUES (
+                #{uniqueId},
+                #{name},
+                #{instances},
+                #{group},
+                #{jsonConfig},
+                #{isolatedClasses, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                #{extraCp, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                #{ha},
+                #{worker},
+                #{multi},
+                #{deployOrder},
+                #{deployAsync}
+            )
+        ]]>
+    </insert>
+    <insert id="batchInsert" parameterType="java.util.List">
+        <![CDATA[
+            INSERT INTO EVX_VERTICLE (
+                K_ID,
+                S_CLASS,
+                S_INSTANCES,
+                S_IGROUP,
+                S_JSON_CONFIG,
+                S_ISOLATED_CLASSES,
+                CP_EXT,
+                IS_HA,
+                IS_WORKER,
+                IS_MULTI,
+                DP_ORDER,
+                DP_ASYNC
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index"
+            separator=",">
+            <![CDATA[(
+                #{item.uniqueId},
+                #{item.name},
+                #{item.instances},
+                #{item.group},
+                #{item.jsonConfig},
+                #{item.isolatedClasses, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                #{item.extraCp, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                #{item.ha},
+                #{item.worker},
+                #{item.multi},
+                #{item.deployOrder},
+                #{item.deployAsync}
+            )]]>
+        </foreach>
+    </insert>
+    <update id="update" parameterType="Verticle" keyColumn="K_ID"
+        keyProperty="uniqueId">
+        <![CDATA[
+            UPDATE EVX_VERTICLE SET
+                S_CLASS=#{name},
+                S_INSTANCES=#{instances},
+                S_IGROUP=#{group},
+                S_JSON_CONFIG=#{jsonConfig},
+                S_ISOLATED_CLASSES=#{isolatedClasses, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                CP_EXT=#{extraCp, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                IS_HA=#{ha},
+                IS_WORKER=#{worker},
+                IS_MULTI=#{multi},
+                DP_ORDER=#{deployOrder},
+                DP_ASYNC=#{deployAsync}
+            WHERE K_ID=#{uniqueId}
+        ]]>
+    </update>
+    <select id="selectAll" resultMap="verticleObject">
+        <![CDATA[
+            SELECT * FROM EVX_VERTICLE ORDER BY DP_ORDER ASC
+        ]]>
+    </select>
+    <select id="selectById" parameterType="String" resultMap="verticleObject">
+        <![CDATA[
+            SELECT * FROM EVX_VERTICLE WHERE K_ID=#{uniqueId}
+        ]]>
+    </select>
+    <delete id="deleteById" parameterType="String">
+        <![CDATA[
+            DELETE FROM EVX_VERTICLE WHERE K_ID=#{uniqueId}
+        ]]>
+    </delete>
+    <delete id="batchDelete" parameterType="java.util.List">
+        <![CDATA[
+            DELETE FROM EVX_VERTICLE WHERE K_ID IN
+        ]]>
+        <foreach collection="list" item="item" open="(" separator=","
+            close=")">
+            <![CDATA[
+                #{item}
+            ]]>
+        </foreach>
+    </delete>
+    <delete id="purgeData">
+        <![CDATA[
+            DELETE FROM EVX_VERTICLE
+        ]]>
+    </delete>
+    <!-- 自定义接口方法 -->
+    <select id="selectByName" parameterType="String" resultMap="verticleObject">
+        <![CDATA[
+            SELECT * FROM EVX_VERTICLE WHERE S_CLASS=#{name}
+        ]]>
+    </select>
+    <select id="selectByGroup" parameterType="String" resultMap="verticleObject">
+        <![CDATA[
+            SELECT * FROM EVX_VERTICLE WHERE S_IGROUP=#{group} ORDER BY DP_ORDER ASC
+        ]]>
+    </select>
+    <delete id="deleteByName" parameterType="String">
+        <![CDATA[
+            DELETE FROM EVX_VERTICLE WHERE S_CLASS=#{name}
+        ]]>
+    </delete>
 </mapper>

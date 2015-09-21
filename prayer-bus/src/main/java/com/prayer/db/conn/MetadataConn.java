@@ -10,35 +10,35 @@ import com.prayer.model.bus.Metadata;
  * @author Lang
  */
 public interface MetadataConn {
-	// ~ Constants =======================================
-	/**
-	 * H2 初始化SQL语句
-	 */
-	String H2_SQL = "metadata/H2-INIT.sql";
+    // ~ Constants =======================================
+    /**
+     * H2 初始化SQL语句
+     */
+    String H2_SQL = "metadata/H2-INIT.sql";
 
-	// ~ Method ==========================================
-	// region Metadata: Database Information
-	/**
-	 * 获取当前数据库连接的元数据
-	 * 
-	 * @return
-	 */
-	Metadata getMetadata();
+    // ~ Method ==========================================
+    // region Metadata: Database Information
+    /**
+     * 获取当前数据库连接的元数据
+     * 
+     * @return
+     */
+    Metadata getMetadata();
 
-	/**
-	 * 导入SQL文件
-	 * 
-	 * @param sqlFile
-	 * @return
-	 */
-	boolean loadSqlFile(InputStream sqlFile);
+    /**
+     * 导入SQL文件
+     * 
+     * @param sqlFile
+     * @return
+     */
+    boolean loadSqlFile(InputStream sqlFile);
 
-	/**
-	 * H2 Database中创建对应的表结构
-	 * 
-	 * @return
-	 */
-	boolean initMeta(InputStream sqlFile);
+    /**
+     * H2 Database中创建对应的表结构
+     * 
+     * @return
+     */
+    boolean initMeta(InputStream sqlFile);
 
-	// endregion
+    // endregion
 }

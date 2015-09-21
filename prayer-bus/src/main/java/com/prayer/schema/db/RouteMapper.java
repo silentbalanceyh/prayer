@@ -10,17 +10,17 @@ import com.prayer.model.h2.vx.RouteModel;
  *
  */
 public interface RouteMapper extends H2TMapper<RouteModel, String>{
-	/**
-	 * 
-	 * @param parent
-	 * @param path
-	 * @return
-	 */
-	RouteModel selectByPath(String parent, String path);
-	/**
-	 * 
-	 * @param parent
-	 * @return
-	 */
-	List<RouteModel> selectByParent(String parent);
+    /**
+     * 
+     * @param parent
+     * @param path
+     * @return
+     */
+    RouteModel selectByPath(String parent, String path);
+    /**
+     * 
+     * @param parent
+     * @return
+     */
+    List<RouteModel> selectByParent(String parent);
 }

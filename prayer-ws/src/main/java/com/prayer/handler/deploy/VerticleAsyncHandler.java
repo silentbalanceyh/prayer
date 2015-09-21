@@ -20,31 +20,31 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public class VerticleAsyncHandler implements Handler<AsyncResult<String>> {
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(VerticleAsyncHandler.class);
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerticleAsyncHandler.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * Handler的核心方法
-	 */
-	@Override
-	public void handle(@NotNull final AsyncResult<String> event) {
-		final String ret = event.result();
-		if (event.succeeded()) {
-			info(LOGGER, WebLogger.I_VERTICLE_INFO, ret);
-		} else {
-			error(LOGGER, WebLogger.E_VERTICLE_ERROR, ret);
-		}
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * Handler的核心方法
+     */
+    @Override
+    public void handle(@NotNull final AsyncResult<String> event) {
+        final String ret = event.result();
+        if (event.succeeded()) {
+            info(LOGGER, WebLogger.I_VERTICLE_INFO, ret);
+        } else {
+            error(LOGGER, WebLogger.E_VERTICLE_ERROR, ret);
+        }
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

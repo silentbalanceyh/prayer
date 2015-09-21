@@ -1,61 +1,61 @@
 {
-	"__meta__": 
-	{
-		"namespace": "com.prayer.model.oauth",
-		"name": "RefreshToken",
-		"category": "ENTITY",
-		"table": "OAU_REFRESH_TOKEN",
-		"identifier": "sec.oauth.refresh.token",
-		"mapping": "DIRECT",
-		"policy": "GUID"
-	},
+    "__meta__": 
+    {
+        "namespace": "com.prayer.model.oauth",
+        "name": "RefreshToken",
+        "category": "ENTITY",
+        "table": "OAU_REFRESH_TOKEN",
+        "identifier": "sec.oauth.refresh.token",
+        "mapping": "DIRECT",
+        "policy": "GUID"
+    },
 
-	"__keys__": 
-	[
-		{
-			"name": "PK_OAU_RT_ID",
-			"category": "PrimaryKey",
-			"multi": false,
-			"columns": 
-			[
-				"PK_ID"
-			]
-		}
-	],
+    "__keys__": 
+    [
+        {
+            "name": "PK_OAU_RT_ID",
+            "category": "PrimaryKey",
+            "multi": false,
+            "columns": 
+            [
+                "PK_ID"
+            ]
+        }
+    ],
 
-	"__fields__": 
-	[
-		{
-			"name": "uniqueId",
-			"type": "StringType",
-			"columnName": "PK_ID",
-			"columnType": "STRING1",
-			"primarykey": true,
-			"length": 192
-		},
+    "__fields__": 
+    [
+        {
+            "name": "uniqueId",
+            "type": "StringType",
+            "columnName": "PK_ID",
+            "columnType": "STRING1",
+            "primarykey": true,
+            "length": 192
+        },
 
-		{
-			"name": "tokenId",
-			"type": "StringType",
-			"columnName": "S_TOKEN_ID",
-			"columnType": "STRING1",
-			"length": 256
-		},
+        {
+            "name": "tokenId",
+            "type": "StringType",
+            "columnName": "S_TOKEN_ID",
+            "columnType": "STRING1",
+            "length": 256
+        },
 
-		{
-			"name": "token",
-			"type": "BinaryType",
-			"columnName": "S_TOKEN",
-			"columnType": "BINARY",
-			"length": 1024
-		},
+        {
+            "name": "token",
+            "type": "BinaryType",
+            "columnName": "S_TOKEN",
+            "columnType": "BINARY",
+            "length": 1024
+        },
 
-		{
-			"name": "authentication",
-			"type": "BinaryType",
-			"columnName": "S_AUTHENTICATION",
-			"columnType": "BINARY",
-			"length": 1024
-		}
-	]
+        {
+            "name": "authentication",
+            "type": "BinaryType",
+            "columnName": "S_AUTHENTICATION",
+            "columnType": "BINARY",
+            "length": 1024
+        }
+    ]
 }

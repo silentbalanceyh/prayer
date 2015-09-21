@@ -13,34 +13,34 @@ import com.prayer.kernel.Value;
  * @see
  */
 public class JsonType extends StringType implements Value<String> {
-	// ~ Static Fields =======================================
-	/** **/
-	private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.JsonValidator");
+    // ~ Static Fields =======================================
+    /** **/
+    private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.JsonValidator");
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/** **/
-	public JsonType(final String value) throws AbstractMetadataException{
-		super(value);
-		// Json内容验证代码
-		this.innerValidator.validate(new StringType(value));
-	}
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	public DataType getDataType() {
-		return DataType.JSON;
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /** **/
+    public JsonType(final String value) throws AbstractMetadataException{
+        super(value);
+        // Json内容验证代码
+        this.innerValidator.validate(new StringType(value));
+    }
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public DataType getDataType() {
+        return DataType.JSON;
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ hashCode,equals,toString ============================
-	/** **/
-	@Override
-	public String toString() {
-		return "JsonType [value=" + value + "]";
-	}
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ hashCode,equals,toString ============================
+    /** **/
+    @Override
+    public String toString() {
+        return "JsonType [value=" + value + "]";
+    }
 }

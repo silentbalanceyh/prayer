@@ -155,7 +155,7 @@
                             this.o.height + 'px"></canvas>');
             
             this.c = this.$c[0].getContext? this.$c[0].getContext('2d') : null;
-			
+            
             if (!this.c) {
                 this.o.error && this.o.error();
                 return;

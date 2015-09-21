@@ -10,36 +10,36 @@ import com.prayer.model.type.DataType;
  * @author Lang
  */
 public interface Value<R> {
-	/**
-	 * 获得类型的值
-	 * 
-	 * @return
-	 */
-	R getValue();
+    /**
+     * 获得类型的值
+     * 
+     * @return
+     */
+    R getValue();
 
-	/**
-	 * 设置Value的值
-	 * 
-	 * @param value
-	 */
-	void setValue(R value);
+    /**
+     * 设置Value的值
+     * 
+     * @param value
+     */
+    void setValue(R value);
 
-	/**
-	 * 获得Java的数据类型
-	 * 
-	 * @return
-	 */
-	Type getType();
+    /**
+     * 获得Java的数据类型
+     * 
+     * @return
+     */
+    Type getType();
 
-	/**
-	 * 获得Lyra类型描述
-	 * 
-	 * @return
-	 */
-	DataType getDataType();
-	/**
-	 * 获取这种类型值的字面量
-	 * @return
-	 */
-	String literal();
+    /**
+     * 获得Lyra类型描述
+     * 
+     * @return
+     */
+    DataType getDataType();
+    /**
+     * 获取这种类型值的字面量
+     * @return
+     */
+    String literal();
 }

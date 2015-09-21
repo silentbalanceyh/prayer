@@ -11,10 +11,10 @@ import com.prayer.model.h2.vx.VerticleModel;
  *
  */
 public interface VerticleDPService extends TemplateDPService<VerticleModel,String> {
-	/** 
-	 * 
-	 * @param jsonPath
-	 * @return
-	 */
-	ServiceResult<ConcurrentMap<String, VerticleChain>> importVerticles(String jsonPath);
+    /** 
+     * 
+     * @param jsonPath
+     * @return
+     */
+    ServiceResult<ConcurrentMap<String, VerticleChain>> importVerticles(String jsonPath);
 }

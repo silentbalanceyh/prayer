@@ -10,39 +10,39 @@ import com.prayer.exception.AbstractSchemaException;
  *
  */
 public class ColumnsMissingException extends AbstractSchemaException {
-	// ~ Static Fields =======================================
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6862149397933201262L;
+    // ~ Static Fields =======================================
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6862149397933201262L;
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	/**
-	 * 
-	 * @param clazz
-	 * @param column
-	 * @param keyName
-	 */
-	public ColumnsMissingException(final Class<?> clazz, final String column, final String keyName) {
-		super(clazz, -10023, column, keyName);
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param column
+     * @param keyName
+     */
+    public ColumnsMissingException(final Class<?> clazz, final String column, final String keyName) {
+        super(clazz, -10023, column, keyName);
+    }
 
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 
-	 * @return
-	 */
-	@Override
-	public int getErrorCode() {
-		return -10023;
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 
+     * @return
+     */
+    @Override
+    public int getErrorCode() {
+        return -10023;
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 
 }

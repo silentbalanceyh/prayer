@@ -5,29 +5,29 @@ Licensed under the MIT license.
 
 The plugin supports these options:
 
-	series: {
-		threshold: {
-			below: number
-			color: colorspec
-		}
-	}
+    series: {
+        threshold: {
+            below: number
+            color: colorspec
+        }
+    }
 
 It can also be applied to a single series, like this:
 
-	$.plot( $("#placeholder"), [{
-		data: [ ... ],
-		threshold: { ... }
-	}])
+    $.plot( $("#placeholder"), [{
+        data: [ ... ],
+        threshold: { ... }
+    }])
 
 An array can be passed for multiple thresholding, like this:
 
-	threshold: [{
-		below: number1
-		color: color1
-	},{
-		below: number2
-		color: color2
-	}]
+    threshold: [{
+        below: number1
+        color: color1
+    },{
+        below: number2
+        color: color2
+    }]
 
 These multiple threshold objects can be passed in any order since they are
 sorted by the processing function.

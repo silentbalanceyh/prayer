@@ -11,13 +11,13 @@ import io.vertx.core.json.JsonObject;
  *
  */
 public interface WebValidator {
-	/**
-	 * 
-	 * @param name		需要验证的参数名
-	 * @param value		参数值
-	 * @param config	当前Validator的配置
-	 * @return
-	 * @throws AbstractWebException
-	 */
-	boolean validate(String name, Value<?> value, JsonObject config) throws AbstractWebException;
+    /**
+     * 
+     * @param name        需要验证的参数名
+     * @param value        参数值
+     * @param config    当前Validator的配置
+     * @return
+     * @throws AbstractWebException
+     */
+    boolean validate(String name, Value<?> value, JsonObject config) throws AbstractWebException;
 }

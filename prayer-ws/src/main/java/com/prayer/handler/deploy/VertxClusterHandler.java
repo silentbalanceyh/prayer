@@ -24,34 +24,34 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class VertxClusterHandler implements Handler<AsyncResult<Vertx>> {
 
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(VertxClusterHandler.class);
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(VertxClusterHandler.class);
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
 
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 核心方法
-	 */
-	@Override
-	public void handle(@NotNull final AsyncResult<Vertx> event) {
-		if (event.succeeded()) {
-			final Vertx vertx = event.result();
-			final VerticleDeployer deployer = new VerticleDeployer(vertx);
-			try {
-				deployer.deployVerticles();
-			} catch (AbstractException ex) {
-				error(LOGGER, WebLogger.E_CLUSTER_ERROR, ex.getErrorMessage());
-			}
-		}
-	}
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 核心方法
+     */
+    @Override
+    public void handle(@NotNull final AsyncResult<Vertx> event) {
+        if (event.succeeded()) {
+            final Vertx vertx = event.result();
+            final VerticleDeployer deployer = new VerticleDeployer(vertx);
+            try {
+                deployer.deployVerticles();
+            } catch (AbstractException ex) {
+                error(LOGGER, WebLogger.E_CLUSTER_ERROR, ex.getErrorMessage());
+            }
+        }
+    }
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

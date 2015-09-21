@@ -1,36 +1,36 @@
 [
-	{
-		"uri":"/api/sec/account",
-		"method":"POST",
-		"paramType":"BODY",
-		"address":"MSG://RECORD/QUEUE",
-		"globalId":"sec.account",
-		"script":"js.post.api.account",
-		"sender":"com.prayer.handler.message.RecordObjectSender",
-		"requiredParam":[
-			"username",
-			"password"
-		],
-		"returnFilters":[
-			"password"
-		]
-		
-	},
-	{
-		"uri":"/api/sec/login",
-		"method":"GET",
-		"paramType":"BODY",
-		"address":"MSG://SECURITY/QUEUE",
-		"globalId":"sec.account",
-		"script":"js.post.api.login",
-		"sender":"com.prayer.handler.message.RecordObjectSender",
-		"requiredParam":[
-			"username",
-			"password"
-		],
-		"returnFilters":[
-			
-		]
-		
-	}
+    {
+        "uri":"/api/sec/account",
+        "method":"POST",
+        "paramType":"BODY",
+        "address":"MSG://RECORD/QUEUE",
+        "globalId":"sec.account",
+        "script":"js.post.api.account",
+        "sender":"com.prayer.handler.message.RecordObjectSender",
+        "requiredParam":[
+            "username",
+            "password"
+        ],
+        "returnFilters":[
+            "password"
+        ]
+        
+    },
+    {
+        "uri":"/api/sec/login",
+        "method":"GET",
+        "paramType":"BODY",
+        "address":"MSG://SECURITY/QUEUE",
+        "globalId":"sec.account",
+        "script":"js.post.api.login",
+        "sender":"com.prayer.handler.message.RecordObjectSender",
+        "requiredParam":[
+            "username",
+            "password"
+        ],
+        "returnFilters":[
+            
+        ]
+        
+    }
 ]

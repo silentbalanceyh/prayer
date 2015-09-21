@@ -1,12 +1,12 @@
 if (wysihtml5.browser.supported()) {
 
       var colors = { silver: 1, gray: 1, white: 1, maroon: 1, red: 1, purple: 1,
-		     fuchsia: 1, green: 1, lime: 1, olive: 1, yellow: 1, navy: 1,
-		     blue: 1, teal: 1, aqua: 1, orange: 1 };
+             fuchsia: 1, green: 1, lime: 1, olive: 1, yellow: 1, navy: 1,
+             blue: 1, teal: 1, aqua: 1, orange: 1 };
 
       var colorText = '';
       for(c in colors) {
-	colorText = colorText + '<span class="wysiwig-color-' + c + '">' + c + '</span>';
+    colorText = colorText + '<span class="wysiwig-color-' + c + '">' + c + '</span>';
       }
 
 
@@ -31,11 +31,11 @@ if (wysihtml5.browser.supported()) {
       document.body.appendChild(this.form);
 
       this.colors = { silver: 1, gray: 1, white: 1, maroon: 1, red: 1, purple: 1,
-		     fuchsia: 1, green: 1, lime: 1, olive: 1, yellow: 1, navy: 1,
-		     blue: 1, teal: 1, aqua: 1, orange: 1 };
+             fuchsia: 1, green: 1, lime: 1, olive: 1, yellow: 1, navy: 1,
+             blue: 1, teal: 1, aqua: 1, orange: 1 };
       this.colorText = '';
       for(c in this.colors) {
-	this.colorText = this.colorText + '<span class="wysiwyg-color-' + c + '">' + c + '</span>';
+    this.colorText = this.colorText + '<span class="wysiwyg-color-' + c + '">' + c + '</span>';
       };
 
     },
@@ -79,12 +79,12 @@ if (wysihtml5.browser.supported()) {
       equal(editor.parse("hello <faketag>foo</faketag>!").toLowerCase(), "hello foo!", "unrecognized tags are stripped out");
 
       equal(editor.parse('hello <a href="http://seospammer.com">spam</a>!').toLowerCase(),
-	    'hello <a target="_blank" rel="nofollow" href="http://seospammer.com">spam</a>!',
-	    '<a></a> tags have target="_blank" and rel="nofollow" attributes added');
+        'hello <a target="_blank" rel="nofollow" href="http://seospammer.com">spam</a>!',
+        '<a></a> tags have target="_blank" and rel="nofollow" attributes added');
 
       equal(editor.parse('standard internet image: <img width="foo" height="50px" src="cdn0.sbnation.com/imported_assets/155249/kitties.jpg">').toLowerCase(),
-	    'standard internet image: <img alt="" height="50">',
-	    '<img> tags have alt attribute added, strip out non-numeric characters in width/height, require fully-qualified url in src');
+        'standard internet image: <img alt="" height="50">',
+        '<img> tags have alt attribute added, strip out non-numeric characters in width/height, require fully-qualified url in src');
 
       start();
     });
@@ -97,16 +97,16 @@ if (wysihtml5.browser.supported()) {
 
     $(this.textareaElement).wysihtml5('deepExtend', {
       parserRules: {
-	classes: {
-	  bar: 1,
+    classes: {
+      bar: 1,
           spanner: 1
-	},
-	tags: {
-	  strong: 1,
-	  blink: 1,
-	  em: { rename_tag: "blink" },
-	  span: {}
-	}
+    },
+    tags: {
+      strong: 1,
+      blink: 1,
+      em: { rename_tag: "blink" },
+      span: {}
+    }
       }
     });
     var editor = $(this.textareaElement).data('wysihtml5').editor;

@@ -20,53 +20,53 @@ import com.prayer.model.bus.ServiceResult;
  */
 @FixMethodOrder(MethodSorters.DEFAULT)
 public class _MsSql004UpdateUK1TestCase extends AbstractBUPTestCase { // NOPMD
-	// ~ Static Fields =======================================
-	/** **/
-	private static final String DB_CATEGORY = "MSSQL";
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql004UpdateUK1TestCase.class);
+    // ~ Static Fields =======================================
+    /** **/
+    private static final String DB_CATEGORY = "MSSQL";
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql004UpdateUK1TestCase.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/** **/
-	@Override
-	protected Logger getLogger() {
-		return LOGGER;
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** **/
+    @Override
+    protected Logger getLogger() {
+        return LOGGER;
+    }
 
-	/** **/
-	@Override
-	protected String getDbCategory() {
-		return DB_CATEGORY;
-	}
+    /** **/
+    @Override
+    protected String getDbCategory() {
+        return DB_CATEGORY;
+    }
 
-	// ~ Methods =============================================
-	/** **/
-	@Test
-	public void testDatabaseUpdate1() {
-		final ServiceResult<GenericSchema> ret = this.testUpdating("MsSqlP004Update1FromUK1.json",
-				"MsSqlP004Update1ToUK1.json", "[T] Update schema met errors !");
-		assertEquals(ret.getErrorMessage(), ResponseCode.SUCCESS, ret.getResponseCode());
-	}
-	
-	/** **/
-	@Test
-	public void testDatabaseUpdate2() {
-		final ServiceResult<GenericSchema> ret = this.testUpdating("MsSqlP004Update2FromUK2.json",
-				"MsSqlP004Update2ToUK2.json", "[T] Update schema met errors !");
-		assertEquals(ret.getErrorMessage(), ResponseCode.SUCCESS, ret.getResponseCode());
-	}
+    // ~ Methods =============================================
+    /** **/
+    @Test
+    public void testDatabaseUpdate1() {
+        final ServiceResult<GenericSchema> ret = this.testUpdating("MsSqlP004Update1FromUK1.json",
+                "MsSqlP004Update1ToUK1.json", "[T] Update schema met errors !");
+        assertEquals(ret.getErrorMessage(), ResponseCode.SUCCESS, ret.getResponseCode());
+    }
+    
+    /** **/
+    @Test
+    public void testDatabaseUpdate2() {
+        final ServiceResult<GenericSchema> ret = this.testUpdating("MsSqlP004Update2FromUK2.json",
+                "MsSqlP004Update2ToUK2.json", "[T] Update schema met errors !");
+        assertEquals(ret.getErrorMessage(), ResponseCode.SUCCESS, ret.getResponseCode());
+    }
 
-	/** **/
-	@After
-	public void setDown() {
-		// this.afterExecute();
-	}
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    /** **/
+    @After
+    public void setDown() {
+        // this.afterExecute();
+    }
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

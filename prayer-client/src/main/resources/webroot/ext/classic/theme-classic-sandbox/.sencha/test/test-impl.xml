@@ -114,7 +114,7 @@ Ext.Boot.loadSync([
                     importPackage(com.sencha.util);
                     importPackage(com.sencha.logging);
                     var logger = SenchaLogManager.getLogger(),
-					specDir = project.getProperty('cmd-test.specs.dir') + '',
+                    specDir = project.getProperty('cmd-test.specs.dir') + '',
                     propName = attributes.get("property") + '',
                     basePath = attributes.get("base") + '',
                     configPropName = attributes.get("configprop"),

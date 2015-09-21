@@ -9,29 +9,29 @@ import static com.prayer.util.Error.error;
  * @see
  */
 public abstract class AbstractSystemException extends AbstractException {
-	// ~ Static Fields =======================================
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -7714033567838757744L;
+    // ~ Static Fields =======================================
+    /**
+     *
+     */
+    private static final long serialVersionUID = -7714033567838757744L;
 
-	// ~ Constructors ========================================
+    // ~ Constructors ========================================
 
-	/**
-	 * @param message
-	 */
-	public AbstractSystemException(final String message) {
-		super(message);
-	}
+    /**
+     * @param message
+     */
+    public AbstractSystemException(final String message) {
+        super(message);
+    }
 
-	/**
-	 * 
-	 * @param clazz
-	 * @param errorCode
-	 * @param params
-	 */
-	public AbstractSystemException(final Class<?> clazz, final int errorCode, final Object... params) {
-		this(error(clazz, errorCode, params));
-	}
-	// ~ Abstract Methods ====================================
+    /**
+     * 
+     * @param clazz
+     * @param errorCode
+     * @param params
+     */
+    public AbstractSystemException(final Class<?> clazz, final int errorCode, final Object... params) {
+        this(error(clazz, errorCode, params));
+    }
+    // ~ Abstract Methods ====================================
 }
