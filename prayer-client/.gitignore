@@ -5,3 +5,4 @@
 /.settings/
 .externalToolBuilders
 /target/
+.vertx
