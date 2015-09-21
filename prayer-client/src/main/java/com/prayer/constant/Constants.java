@@ -56,4 +56,18 @@ public interface Constants { // NOPMD
 	// ~ Util ================================================
 	/** 16进制字节数组 **/
 	char[] UTI_HEX_ARR = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+	
+	// ~ Order ===============================================
+	
+	/** 默认的顺序，但不设置，作为临界值 **/
+	int NOT_SET = -10000;
+	/** Cookie Handler Order **/
+	int COOKIE = -980;
+	/** Body Handler Order **/
+	int BODY = -970;
+	/** Static **/
+	int STATIC = -960;
+	/** Session Handler Order **/
+	int SESSION = -950;
+	/** Redirect之前的预处理 **/
 }

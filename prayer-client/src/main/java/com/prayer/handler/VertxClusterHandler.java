@@ -1,7 +1,8 @@
 package com.prayer.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.prayer.util.Instance.singleton;
+
+import com.prayer.server.VerticleDeployer;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -19,9 +20,6 @@ import net.sf.oval.guard.Guarded;
 public class VertxClusterHandler implements Handler<AsyncResult<Vertx>> {
 
 	// ~ Static Fields =======================================
-
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(VertxClusterHandler.class);
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -35,6 +33,9 @@ public class VertxClusterHandler implements Handler<AsyncResult<Vertx>> {
 	@Override
 	public void handle(@NotNull final AsyncResult<Vertx> event) {
 		if (event.succeeded()) {
+			final Vertx vertx = event.result();
+			final VerticleDeployer deployer = singleton(VerticleDeployer.class,vertx);
+			deployer.deployVerticles();
 		}
 	}
 	// ~ Methods =============================================

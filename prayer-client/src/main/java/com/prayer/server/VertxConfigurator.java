@@ -1,4 +1,4 @@
-package com.prayer.configurator;
+package com.prayer.server;
 
 import static com.prayer.util.WebLogger.error;
 

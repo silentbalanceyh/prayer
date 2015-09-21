@@ -1,12 +1,12 @@
-package com.prayer.handler;
+package com.prayer.server;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.prayer.client.ClientVerticle;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
+import io.vertx.core.Verticle;
+import io.vertx.core.Vertx;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -14,30 +14,34 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class VerticleAsyncHandler implements Handler<AsyncResult<String>> {
+public class VerticleDeployer {
 	// ~ Static Fields =======================================
-
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(VerticleAsyncHandler.class);
-
 	// ~ Instance Fields =====================================
+	/**
+	 * 
+	 */
+	@NotNull
+	private transient final Vertx vertxRef;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	/**
+	 * 
+	 * @param vertxRef
+	 */
+	@PostValidateThis
+	public VerticleDeployer(@NotNull final Vertx vertxRef){
+		this.vertxRef = vertxRef;
+	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
-	/**
-	 * Handler的核心方法
-	 */
-	@Override
-	public void handle(@NotNull final AsyncResult<String> event) {
-		final String ret = event.result();
-		if (event.succeeded()) {
-		} else {
-		}
-	}
 	// ~ Methods =============================================
+	public void deployVerticles(){
+		final Verticle verticle = new ClientVerticle();
+		this.vertxRef.deployVerticle(verticle);
+	}
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
+
 }
