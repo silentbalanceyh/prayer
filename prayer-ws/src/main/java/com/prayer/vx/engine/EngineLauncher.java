@@ -22,7 +22,7 @@ import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 public final class EngineLauncher {
 	// ~ Static Fields =======================================
 	/** **/
-	private static final String VX_NAME = "PRAYER";
+	private static final String VX_NAME = "PRAYER-ENGINE";
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================

@@ -1,6 +1,6 @@
-package com.prayer.client.configurator;
+package com.prayer.configurator;
 
-import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.util.WebLogger.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

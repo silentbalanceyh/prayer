@@ -1,4 +1,4 @@
-package com.prayer.assistant;
+package com.prayer.util;
 
 import java.text.MessageFormat;
 

@@ -1,25 +1,42 @@
-package com.prayer.constant;
+package com.prayer.handler;
 
-import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+
 /**
- * 静态变量统一管理
+ * 发布过程的Handler
+ * 
  * @author Lang
  *
  */
-public interface MemoryPool {	// NOPMD
+@Guarded
+public class VertxClusterHandler implements Handler<AsyncResult<Vertx>> {
+
 	// ~ Static Fields =======================================
-	/** KEY -> POOL 全局单例模式 **/
-	ConcurrentMap<String, Object> POOL_OBJECT = new ConcurrentHashMap<>();
-	/** 资源文件池 **/
-	ConcurrentMap<String, Properties> POOL_PROP = new ConcurrentHashMap<>();
+
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(VertxClusterHandler.class);
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
+	/**
+	 * 核心方法
+	 */
+	@Override
+	public void handle(@NotNull final AsyncResult<Vertx> event) {
+		if (event.succeeded()) {
+		}
+	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 	// ~ Get/Set =============================================
