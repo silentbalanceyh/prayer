@@ -88,7 +88,7 @@ public final class RouterInjector {
 	public static void injectStatic(@NotNull final Router router, @NotNull @NotBlank @NotEmpty final String apiUrl) {
 		final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
 		router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.STATIC)
-				.handler(StaticHandler.create().setCachingEnabled(false));
+				.handler(StaticHandler.create());
 		// 引入jade模板引擎
 		final TemplateHandler handler = TemplateHandler.create(JadeTemplateEngine.create());
 		router.route(Constants.WEB.DYNAMIC_ROUTE).order(Constants.ORDER.DYNAMIC).handler(context -> {
@@ -99,7 +99,7 @@ public final class RouterInjector {
 		router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.STATIC).failureHandler(ErrorHandler.create());
 		router.route(Constants.WEB.FAVICON_ICO).order(Constants.ORDER.DYNAMIC)
 				.handler(FaviconHandler.create(Constants.WEB.FAVICON_PATH));
-		// Redirect问题
+		// Redirect问题的设置
 		final AuthProvider authProvider = securitor.getProvider();
 		final AuthHandler redirectHandler = RedirectAuthHandler.create(authProvider, Constants.ACTION.LOGIN_PAGE);
 		router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.ADMIN).handler(redirectHandler);

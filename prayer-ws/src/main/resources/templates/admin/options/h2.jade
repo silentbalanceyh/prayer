@@ -1,0 +1,56 @@
+extends ../shared/layout
+block content_main
+    .row-fluid
+        .block
+            .navbar.navbar-inner.block-header
+                ul.breadcrumb
+                    i.icon-chevron-left.hide-sidebar
+                        a(href="#",title="Hide Sidebar",rel="tooltip") &nbsp;
+                    i.icon-chevron-right.show-sidebar(style="display:none")
+                        a(href="#",title="Show Sidebar",rel="tooltip") &nbsp;
+                    li
+                        span &nbsp;&nbsp;System Options
+                        span.divider &nbsp;&gt;&nbsp;
+                    li
+                        span#lblHost.text-success
+                        input#hdHost(type="hidden",value=context.get("h2.host"))
+            .block-content.collapse.in
+                .span12
+                    form.form-horizontal
+                        fieldset
+                            legend
+                                h3
+                                    i.icon-th-list
+                                    span &nbsp;&nbsp;Database Options
+                            .control-group
+                                .control-label(for="txtTcpPort") Database Tcp Port
+                                .controls
+                                    input.input-xlarge.focused(type="text",id="txtTcpPort",value=context.get("h2.tcp"))
+                                    p.help-block h2.database.tcp.port
+                            .control-group
+                                .control-label(for="chkTcpAllow") Allow Others Connect ?
+                                .controls
+                                    label
+                                        input(type="checkbox",id="chkTcpAllow",value="true",checked=context.get("h2.tcp.allow"))
+                                        span &nbsp;&nbsp;YES
+                                    p.help-block h2.database.tcp.allow.others
+                            .form-actions
+                                button.btn.btn-primary(type="button",onclick="exeValidate(this);") Validate
+                            legend
+                                h3
+                                    i.icon-th-list
+                                    span &nbsp;&nbsp;Web Console Options
+                            .control-group
+                                .control-label(for="txtWebPort") Web Console Port
+                                .controls
+                                    input.input-xlarge.focused(type="text",id="txtWebPort",value=context.get("h2.web"))
+                                    p.help-block h2.database.web.port
+                            .control-group
+                                .control-label(for="chkWebAllow") Allow Others Connect ?
+                                .controls
+                                    label
+                                        input(type="checkbox",id="chkWebAllow",value="true",checked=context.get("h2.web.allow"))
+                                        span &nbsp;&nbsp;YES
+                                    p.help-block h2.database.web.allow.others
+                            .form-actions
+                                button.btn.btn-primary Open Console

@@ -97,6 +97,9 @@ public interface Constants { // NOPMD
 		/** 基础认证的Redirect **/
 		String DYNAMIC_ADMIN = "/dynamic/admin/*";
 		
+		/** Options **/
+		String DYNAMIC_OPTIONS = "/dynamic/admin/options/*";
+		
 		/** favicon.ico默认路径 **/
 		String FAVICON_ICO = "/favicon.ico";
 		/** favicon.ico路径 **/
@@ -141,6 +144,8 @@ public interface Constants { // NOPMD
 		int DYNAMIC = -910;
 		/** Context **/
 		int CONTEXT = -905;
+		/** Target **/
+		int DISPLAY = -925;
 
 		/** Router Handler Order **/
 		int ROUTER = -400;
