@@ -13,6 +13,21 @@ var $$U = (function() {
             jQuery("#" + id).addClass("invisible");
         }
     };
+    _complete = function(show, hidden, message){
+        _reset(show,hidden);
+        jQuery("#" + show).children("span").html(message);
+        jQuery("#" + show).fadeIn("slow",function(){
+            window.setTimeout(function(){
+                jQuery("#" + show).fadeOut("slow");
+            },15000);
+        });
+    };
+    _reset = function(sid,eid){
+        jQuery("#" + sid).children("span").html();
+        jQuery("#" + eid).children("span").html();
+        jQuery("#" + sid).fadeOut("fast");
+        jQuery("#" + eid).fadeOut("fast");
+    }
     return function() {
         return {};
     }
@@ -44,7 +59,9 @@ var BTN = (function() {
 (function() {
     $$U = $$U.prototype = { // NOPMD
         base64 : _base64,
-        message : _message
+        message : _message,
+        reset : _reset,
+        complete : _complete
     }
 })();
 (function() {
@@ -60,43 +77,43 @@ var BTN = (function() {
 })();
 
 // ==================进度条色差函数==================
-// 进度条功能函数
+//进度条功能函数
 var $$P = 0;
 var $$STOP = null;
 var $$FAIL = false;
 // Failure
-function failureP(){
+function failureP(obj){
     $$FAIL = true;
-    jQuery(".progress-bar").removeClass("progress-bar-info");
-    jQuery(".progress-bar").removeClass("progress-bar-success");
-    jQuery(".progress-bar").removeClass("active");
-    jQuery(".progress-bar").addClass("progress-bar-danger");
+    jQuery(obj).removeClass("progress-info");
+    jQuery(obj).removeClass("progress-success");
+    jQuery(obj).removeClass("active");
+    jQuery(obj).addClass("progress-danger");
 }
 // Success
-function successP(){
-    jQuery(".progress-bar").removeClass("progress-bar-info");
-    jQuery(".progress-bar").removeClass("progress-bar-danger");
-    jQuery(".progress-bar").removeClass("active");
-    jQuery(".progress-bar").addClass("progress-bar-success");
+function successP(obj){
+    jQuery(obj).removeClass("progress-info");
+    jQuery(obj).removeClass("progress-danger");
+    jQuery(obj).removeClass("active");
+    jQuery(obj).addClass("progress-success");
 }
-// Reset
-function resetP(sec){
+//Reset
+function resetP(sec,obj){
     $$P = 0;
-    jQuery(".progress-bar").attr("style", "width:0%");
     $$FAIL = false;
-    jQuery(".progress-bar").removeClass("progress-bar-success");
-    jQuery(".progress-bar").removeClass("progress-bar-danger");
-    jQuery(".progress-bar").addClass("progress-bar-info");
-    jQuery(".progress-bar").addClass("active");
+    jQuery(".bar").attr("style", "width:0%");
+    jQuery(obj).removeClass("progress-success");
+    jQuery(obj).removeClass("progress-danger");
+    jQuery(obj).addClass("progress-info");
+    jQuery(obj).addClass("active");
     $$STOP = window.setInterval(progress, sec);
 }
-function progress() {
+function progress(){
     var $$STOP = null;
-    jQuery(".progress-bar").attr("style", "width:" + $$P + "%");
+    jQuery(".bar").attr("style", "width:" + $$P + "%");
     if ($$P > 90 && !$$FAIL){
         successP();
     }
-    $$P += 10;
+    $$P += 5;
     if ($$P > 100) {
         window.clearInterval($$STOP);
     }
