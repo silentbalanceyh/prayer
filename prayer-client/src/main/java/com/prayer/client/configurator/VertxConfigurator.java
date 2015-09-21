@@ -5,7 +5,7 @@ import static com.prayer.assistant.WebLogger.error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
+import com.prayer.constant.Constants;
 import com.prayer.util.PropertyKit;
 
 import io.vertx.core.VertxOptions;
@@ -30,7 +30,7 @@ public final class VertxConfigurator { // NOPMD
 	private static final String VX_PREFIX = "vertx.";
 	// ~ Instance Fields =====================================
 	/** 读取全局vertx的属性配置 **/
-	private transient final PropertyKit LOADER = new PropertyKit(VertxConfigurator.class, Resources.VX_CFG_FILE);
+	private transient final PropertyKit LOADER = new PropertyKit(VertxConfigurator.class, Constants.PROP_VERX);
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================

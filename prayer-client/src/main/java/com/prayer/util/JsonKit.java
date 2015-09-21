@@ -1,16 +1,11 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.debug;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,11 +33,7 @@ import net.sf.oval.guard.Guarded;
 public final class JsonKit { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(JsonKit.class);
-	/** **/
 	private static final ObjectMapper MAPPER = new ObjectMapper();
-	/** **/
-	private static final String ERR_20004 = "E20004";
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
@@ -60,10 +51,8 @@ public final class JsonKit { // NOPMD
 			final InputStream inStream = IOKit.getFile(file, JsonKit.class);
 			ret = MAPPER.readValue(inStream, reference);
 		} catch (JsonParseException ex) {
-			debug(LOGGER, "E20003", ex, ex.toString());
 		} catch (IOException ex) {
 			// DEBUG: ex.printStackTrace();
-			debug(LOGGER, "E20002", ex, file);
 		}
 		return ret;
 	}
@@ -79,9 +68,7 @@ public final class JsonKit { // NOPMD
 		try {
 			retObj = MAPPER.readValue(content, reference);
 		} catch (JsonParseException ex) {
-			debug(LOGGER, ERR_20004, ex, content);
 		} catch (IOException ex) {
-			debug(LOGGER, ERR_20004, ex, content);
 		}
 		return retObj;
 	}
@@ -96,7 +83,6 @@ public final class JsonKit { // NOPMD
 		try {
 			retStr = MAPPER.writeValueAsString(object);
 		} catch (JsonProcessingException ex) {
-			debug(LOGGER, ERR_20004, ex, retStr);
 		}
 		return retStr;
 	}
@@ -114,9 +100,7 @@ public final class JsonKit { // NOPMD
 			retNode = MAPPER.readValue(inStream, new TypeReference<JsonNode>() {
 			});
 		} catch (JsonParseException ex) {
-			debug(LOGGER, "E20003", ex, ex.toString());
 		} catch (IOException ex) {
-			debug(LOGGER, "E20002", ex, filePath);
 		}
 		return retNode;
 	}
@@ -134,9 +118,7 @@ public final class JsonKit { // NOPMD
 			arrNode = MAPPER.readValue(content, new TypeReference<ArrayNode>() {
 			});
 		} catch (JsonParseException ex) {
-			debug(LOGGER, "E20003", ex, content);
 		} catch (IOException ex) {
-			debug(LOGGER, "E20002", ex, "jsonNode");
 		}
 		return arrNode;
 	}

@@ -5,7 +5,7 @@ import static com.prayer.assistant.WebLogger.error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
+import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.util.PropertyKit;
 
@@ -23,7 +23,7 @@ public class ServerConfigurator { // NOPMD
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServerConfigurator.class);
 	/** Server Config File **/
-	private transient final PropertyKit LOADER = new PropertyKit(ServerConfigurator.class, Resources.SEV_CFG_FILE);
+	private transient final PropertyKit LOADER = new PropertyKit(ServerConfigurator.class, Constants.PROP_SERVER);
 
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================

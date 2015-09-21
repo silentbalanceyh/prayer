@@ -1,14 +1,10 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.reservoir;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Symbol;
@@ -34,8 +30,6 @@ import net.sf.oval.guard.PreValidateThis;
 @Guarded
 public final class PropertyKit {
 	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(PropertyKit.class);
 	// ~ Instance Fields =====================================
 	/**
 	 * 当前实例加载的资源文件信息
@@ -58,7 +52,6 @@ public final class PropertyKit {
 				this.prop.load(inStream);
 			}
 		} catch (IOException ex) {
-			debug(LOGGER, "JVM.IO", ex, resource);
 		}
 		// debug(LOGGER, "SYS.KIT.PROP", prop, null == prop ? 0 :
 		// prop.hashCode());

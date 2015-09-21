@@ -1,8 +1,5 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,11 +10,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.constant.Constants;
-import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 
 import net.sf.oval.constraint.NotBlank;
@@ -34,9 +27,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class IOKit {
 	// ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(IOKit.class);
-
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -60,7 +50,7 @@ public final class IOKit {
 		BufferedReader reader;
 		String content = null;
 		try {
-			reader = new BufferedReader(new InputStreamReader(inStream, Resources.SYS_ENCODING));
+			reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
 			String line = null;
 			while (null != (line = reader.readLine())) {	// NOPMD
 				builder.append(line).append(Symbol.NEW_LINE);
@@ -68,14 +58,11 @@ public final class IOKit {
 			content = builder.toString();
 			reader.close();
 		} catch (UnsupportedEncodingException ex) {
-			debug(LOGGER, "JVM.ENCODING", ex, Resources.SYS_ENCODING);
 		} catch (IOException ex) {
-			debug(LOGGER, "JVM.IO", ex, fileName);
 		} finally {
 			try {
 				inStream.close();
 			} catch (IOException ex) {
-				debug(LOGGER, "JVM.IO", ex, fileName);
 			}
 		}
 		return content;
@@ -128,14 +115,12 @@ public final class IOKit {
 
 	private static InputStream readStream(final String fileName, final Class<?> clazz) { // NOPMD
 		final InputStream retStream = clazz.getResourceAsStream(fileName);
-		debug(LOGGER, "SYS.KIT.IO.CP", fileName, retStream);
 		return retStream;
 	}
 
 	private static InputStream readStream(final String fileName) { // NOPMD
 		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		final InputStream retStream = loader.getResourceAsStream(fileName);
-		debug(LOGGER, "SYS.KIT.IO.LOADER", fileName, retStream);
 		return retStream;
 	}
 
@@ -144,15 +129,11 @@ public final class IOKit {
 		if (null != file && file.exists() && file.isFile()) {
 			try {
 				retStream = new FileInputStream(file);
-				info(LOGGER, "SYS.KIT.IO.FILE", null, file.getAbsoluteFile(), retStream);
 			} catch (FileNotFoundException ex) {
-				debug(LOGGER, "SYS.KIT.IO.FILE", ex, file.getAbsolutePath(), retStream);
 			}
 		} else {
 			if (null == file) {
-				debug(LOGGER, "SYS.KIT.IO.ERR.FILE", file);
 			} else {
-				debug(LOGGER, "SYS.KIT.IO.ERR.FILE", file.getAbsolutePath());
 			}
 		}
 		return retStream;
