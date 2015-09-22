@@ -13,7 +13,7 @@ block content_main
                         span.divider &nbsp;&gt;&nbsp;
                     li
                         span#lblHost.text-success
-                        input#hdHost(type="hidden",value=context.get("h2.host"))
+                        input#hdHost(type="hidden",value=context.get("running.ip"))
             .block-content.collapse.in
                 .span12
                     #lblError.alert.alert-error(style="display:none")

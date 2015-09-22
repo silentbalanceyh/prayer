@@ -21,9 +21,6 @@ import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
  */
 public final class EngineLauncher {
     // ~ Static Fields =======================================
-    /** **/
-    private static final String VX_NAME = "PRAYER-ENGINE";
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -47,7 +44,7 @@ public final class EngineLauncher {
             if (ret) {
                 // 2.构造Vertx整体环境
                 final VertxConfigurator configurator = singleton(VertxConfigurator.class);
-                final VertxOptions options = configurator.getOptions(VX_NAME);
+                final VertxOptions options = configurator.getOptions(configurator.getActiveName());
                 final VertxFactory factory = configurator.getFactory();
                 // 3.判断是普通环境还是Cluster环境
                 if (options.isClustered()) {

@@ -48,6 +48,14 @@ public final class VertxConfigurator { // NOPMD
     public VertxFactory getFactory() {
         return FACTORY;
     }
+    /**
+     * 
+     * @return
+     */
+    @NotNull
+    public String getActiveName(){
+        return this.LOADER.getString("vertx.active");
+    }
 
     /**
      * 获取Vertx的Options
