@@ -1,0 +1,68 @@
+form.form-horizontal
+    .control-group
+        .control-label.span3(for="txtProvider") Security Provider Class
+        .controls.span9
+            input.input-xlarge(type="text",id="txtProvider")
+            span &nbsp;&nbsp;&nbsp;&nbsp;
+            button.visible-xs-inline.btn.btn-primary Validate
+            p.help-block
+                span.text-error BASIC
+                span .provider.impl
+    .control-group
+        .control-label.span3(for="txtRealm") Default Realm for Basic Auth
+        .controls.span9
+            input.input-xlarge(type="text",id="txtRealm")
+            p.help-block
+                span.text-error BASIC
+                span .realm
+    fieldset
+        legend
+            h4
+                i.icon-arrow-down
+                span &nbsp;&nbsp;Schema Definition Information
+    .control-group
+        .control-label.span3(for="txtSchemaId") Schema Global ID ( identifier )
+        .controls.span9
+            input.input-xlarge(type="text",id="txtSchemaId")
+            p.help-block
+                span.text-error BASIC
+                span .user.schema.id
+    .control-group
+        .control-label.span3(for="txtAccount") Account Field Name
+        .controls.span9
+            input.input-xlarge(type="text",id="txtAccount")
+            p.help-block
+                span.text-error BASIC
+                span .user.account
+    .control-group
+        .control-label.span3(for="txtEmail") Email Field Name
+        .controls.span9
+            input.input-xlarge(type="text",id="txtEmail")
+            p.help-block
+                span.text-error BASIC
+                span .user.email
+    .control-group
+        .control-label.span3(for="txtMobile") Mobile Field Name
+        .controls.span9
+            input.input-xlarge(type="text",id="txtMobile")
+            p.help-block
+                span.text-error BASIC
+                span .user.mobile
+    .control-group
+        .control-label.span3(for="txtPassword") Password Field Name
+        .controls.span9
+            input.input-xlarge(type="text",id="txtPassword")
+            p.help-block
+                span.text-error BASIC
+                span .user.password
+    .control-group
+        .control-label.span3(for="txtScript") Login Script Name
+        .controls.span9
+            input.input-xlarge(type="text",id="txtScript")
+            p.help-block
+                span.text-error BASIC
+                span .script.name
+    .form-actions
+        span.span1
+        span.span11
+            button.btn.btn-primary(type="button",onclick="") Validate Schema

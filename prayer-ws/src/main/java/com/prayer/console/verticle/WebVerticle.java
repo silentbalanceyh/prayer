@@ -49,9 +49,13 @@ public class WebVerticle extends AbstractVerticle {
     public void start() {
         // 1.根据Options创建Server相关信息
         final HttpServer server = vertx.createHttpServer(this.configurator.getWebOptions());
-
+        
         // 2.Web Default
         final Router router = Router.router(vertx);
+        // 3.首页跳转
+        router.route("/").order(Constants.ORDER.NOT_SET).handler(context ->{
+            context.response().putHeader("location", Constants.ACTION.LOGIN_PAGE).setStatusCode(302).end();
+        });
         RouterInjector.injectWebDefault(router);
 
         // 3.Static静态资源

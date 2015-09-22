@@ -1,0 +1,94 @@
+extends ../shared/layout
+block content_main
+    .row-fluid
+        .block
+            .navbar.navbar-inner.block-header
+                ul.breadcrumb
+                    i.icon-chevron-left.hide-sidebar
+                        a(href="#",title="Hide Sidebar",rel="tooltip") &nbsp;
+                    i.icon-chevron-right.show-sidebar(style="display:none")
+                        a(href="#",title="Show Sidebar",rel="tooltip") &nbsp;
+                    li
+                        span &nbsp;&nbsp;System Options
+                        span.divider &nbsp;&gt;&nbsp;
+                    li
+                        span#lblHost.text-success
+                        input#hdHost(type="hidden")
+                        input#hdMode(type="hidden")
+            .block-content.collapse.in
+                .span12
+                    form.form-horizontal
+                        #lblError.alert.alert-error(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Error!
+                            span
+                        #lblSuccess.alert.alert-success(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Success!
+                        fieldset
+                            legend
+                                h3
+                                    i.icon-th-list
+                                    span &nbsp;&nbsp;Cross Domain Options
+                            .control-group
+                                .control-label.span3(for="txtOrigin") Cross Domain Origin
+                                .controls.span9
+                                    input.input-xlarge.focused(type="text",id="txtOrigin")
+                                    p.help-block server.security.cors.origin
+                            .control-group
+                                .control-label.span3 Cross Domain Allowed Methods
+                                .controls.span9
+                                    label
+                                        input(type="checkbox",id="chkGET",value="GET")
+                                        span &nbsp;&nbsp;GET&nbsp;&nbsp;
+                                        input(type="checkbox",id="chkPOST",value="POST")
+                                        span &nbsp;&nbsp;POST&nbsp;&nbsp;
+                                        input(type="checkbox",id="chkPUT",value="PUT")
+                                        span &nbsp;&nbsp;PUT&nbsp;&nbsp;
+                                        input(type="checkbox",id="chkDELETE",value="DELETE")
+                                        span &nbsp;&nbsp;DELETE&nbsp;&nbsp;
+                                        input(type="checkbox",id="chkOPTIONS",value="OPTIONS")
+                                        span &nbsp;&nbsp;OPTIONS&nbsp;&nbsp;
+                                        input(type="checkbox",id="chkHEAD",value="HEAD")
+                                        span &nbsp;&nbsp;HEAD&nbsp;&nbsp;
+                                        input(type="checkbox",id="chkPATCH",value="PATCH")
+                                        span &nbsp;&nbsp;PATCH&nbsp;&nbsp;
+                                    p.help-block server.security.cors.methods
+                            .control-group
+                                .control-label.span3(for="txtHeaders") Cross Domain Allowed Headers
+                                .controls.span9
+                                    input.input-xlarge.focused(type="text",id="txtHeaders")
+                                    p.help-block server.security.cors.headers
+                            .control-group
+                                .control-label.span3(for="chkCredentials") Cross Domain Credentials ?
+                                .controls.span9
+                                    label
+                                        input(type="checkbox",id="chkCredentials",value="true")
+                                        span &nbsp;&nbsp;YES
+                                    p.help-block server.security.cors.credentials
+                    form.form-horizontal
+                        fieldset
+                            legend
+                                h3
+                                    i.icon-th-list
+                                    span &nbsp;&nbsp;Security Mode Options
+                        ul.nav.nav-tabs
+                            li.active
+                                a(href="#secBasic",data-toggle="pill") BASIC
+                            li
+                                a(href="#secDigest",data-toggle="pill") DIGEST
+                            li
+                                a(href="#secOAuth",data-toggle="pill") OAuth
+                        #lblError.alert.alert-error
+                            strong Inactive!
+                            span &nbsp;&nbsp;This mode is inactiveted !
+                        #lblSuccess.alert.alert-success
+                            strong Active!
+                            span &nbsp;&nbsp;This mode is running...
+                        .tab-content
+                            .tab-pane.fade.in.active(id="secBasic")
+                                include sec/basic
+                            .tab-pane.fade(id="secDigest")
+                                include sec/digest
+                            .tab-pane.fade(id="secOAuth")
+                                include sec/oauth

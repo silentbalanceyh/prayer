@@ -17,41 +17,40 @@ block content_main
                         input#hdVertx(type="hidden",value=context.get("vertx.name"))
             .block-content.collapse.in
                 .span12
-                    #lblError.alert.alert-error(style="display:none")
-                        button.close(data-dismiss="alert") &times;
-                        strong Error!
-                        span
-                    #lblSuccess.alert.alert-success(style="display:none")
-                        button.close(data-dismiss="alert") &times;
-                        strong Success!
-                        span
-                .span12
                     form.form-horizontal
+                        #lblError.alert.alert-error(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Error!
+                            span
+                        #lblSuccess.alert.alert-success(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Success!
+                            span
                         fieldset
                             legend
                                 h3
                                     i.icon-th-list
                                     span &nbsp;&nbsp;Pool Size Options
                             .control-group
-                                .control-label(for="txtPoolSizeEL") Pool-Size of Event Loop
-                                .controls
-                                    input.input-xlarge.focused(type="text",id="txtPoolSizeEL",value=context.get("vertx.pool.size.el"))
+                                .control-label.span3(for="txtPoolSizeEL") Pool-Size of Event Loop
+                                .controls.span9
+                                    input.input-xlarge(type="text",id="txtPoolSizeEL",value=context.get("vertx.pool.size.el"))
                                     p.help-block
                                         span vertx.
                                         span.vxname
                                         span .pool.size.event.loop 
                             .control-group
-                                .control-label(for="txtPoolSizeWorker") Pool-Size of Worker
-                                .controls
-                                    input.input-xlarge.focused(type="text",id="txtPoolSizeWorker",value=context.get("vertx.pool.size.worker"))
+                                .control-label.span3(for="txtPoolSizeWorker") Pool-Size of Worker
+                                .controls.span9
+                                    input.input-xlarge(type="text",id="txtPoolSizeWorker",value=context.get("vertx.pool.size.worker"))
                                     p.help-block
                                         span vertx.
                                         span.vxname
                                         span .pool.size.worker
                             .control-group
-                                .control-label(for="txtPoolSizeIB") Pool-Size of Internal Blocking
-                                .controls
-                                    input.input-xlarge.focused(type="text",id="txtPoolSizeIB",value=context.get("vertx.pool.size.ib"))
+                                .control-label.span3(for="txtPoolSizeIB") Pool-Size of Internal Blocking
+                                .controls.span9
+                                    input.input-xlarge(type="text",id="txtPoolSizeIB",value=context.get("vertx.pool.size.ib"))
                                     p.help-block
                                         span vertx.
                                         span.vxname
@@ -61,8 +60,8 @@ block content_main
                                     i.icon-th-list
                                     span &nbsp;&nbsp;Cluster Options
                             .control-group
-                                .control-label(for="chkClusterEnabled") Vert.X Clustered ?
-                                .controls
+                                .control-label.span3(for="chkClusterEnabled") Vert.X Clustered ?
+                                .controls.span9
                                     label
                                         input(type="checkbox",id="chkClusterEnabled",value="true",onchange="BTN.checked('#chkClusterEnabled','.cluster');",checked=context.get("vertx.cluster.enabled"))
                                         span &nbsp;&nbsp;YES
@@ -71,37 +70,37 @@ block content_main
                                         span.vxname
                                         span .cluster.enabled
                             .control-group
-                                .control-label(for="txtClusterHost") Cluster Host
-                                .controls
-                                    input.input-xlarge.focused.cluster(type="text",id="txtClusterHost",value=context.get("vertx.cluster.host"))
+                                .control-label.span3(for="txtClusterHost") Cluster Host
+                                .controls.span9
+                                    input.input-xlarge.cluster(type="text",id="txtClusterHost",value=context.get("vertx.cluster.host"))
                                     p.help-block
                                         span vertx.
                                         span.vxname
                                         span .cluster.host
                             .control-group
-                                .control-label(for="txtClusterPort") Cluster Port
-                                .controls
-                                    input.input-xlarge.focused.cluster(type="text",id="txtClusterPort",value=context.get("vertx.cluster.port"))
+                                .control-label.span3(for="txtClusterPort") Cluster Port
+                                .controls.span9
+                                    input.input-xlarge.cluster(type="text",id="txtClusterPort",value=context.get("vertx.cluster.port"))
                                     p.help-block
                                         span vertx.
                                         span.vxname
                                         span .cluster.port
                             .control-group
-                                .control-label(for="txtClusterPingI") Cluster Ping Interval
-                                .controls
-                                    .input-group
-                                        input.input-xlarge.focused.cluster(type="text",style="width:240px;",id="txtClusterPingI",value=context.get("vertx.cluster.ping.i"))
-                                        span.input-group-addon &nbsp;&nbsp;ms
+                                .control-label.span3(for="txtClusterPingI") Cluster Ping Interval
+                                .controls.span9
+                                    .input-append
+                                        input.input-xlarge.cluster(type="text",style="width:126%",id="txtClusterPingI",value=context.get("vertx.cluster.ping.i"))
+                                        span.add-on ms
                                     p.help-block
                                         span vertx.
                                         span.vxname
                                         span .cluster.ping.interval
                             .control-group
-                                .control-label(for="txtClusterPingIR") Cluster Ping Reply Interval
-                                .controls
-                                    .input-group
-                                        input.input-xlarge.focused.cluster(type="text",style="width:240px;",id="txtClusterPingIR",value=context.get("vertx.cluster.ping.ir"))
-                                        span.input-group-addon &nbsp;&nbsp;ms
+                                .control-label.span3(for="txtClusterPingIR") Cluster Ping Reply Interval
+                                .controls.span9
+                                    .input-append
+                                        input.input-xlarge.cluster(type="text",style="width:126%",id="txtClusterPingIR",value=context.get("vertx.cluster.ping.ir"))
+                                        span.add-on ms
                                     p.help-block
                                         span vertx.
                                         span.vxname
@@ -111,8 +110,8 @@ block content_main
                                     i.icon-th-list
                                     span &nbsp;&nbsp;High Available Options
                             .control-group
-                                .control-label(for="chkHAEnabled") HA Enabled ?
-                                .controls
+                                .control-label.span3(for="chkHAEnabled") HA Enabled ?
+                                .controls.span9
                                     label
                                         input(type="checkbox",id="chkHAEnabled",value="true",onchange="BTN.checked('#chkHAEnabled','.ha');",checked=context.get("vertx.ha.enabled"))
                                         span &nbsp;&nbsp;YES
@@ -121,17 +120,17 @@ block content_main
                                         span.vxname
                                         span .ha.enabled
                             .control-group
-                                .control-label(for="txtHAGroup") HA Group Name
-                                .controls
-                                    input.input-xlarge.focused.ha(type="text",id="txtHAGroup",value=context.get("vertx.ha.group"))
+                                .control-label.span3(for="txtHAGroup") HA Group Name
+                                .controls.span9
+                                    input.input-xlarge.ha(type="text",id="txtHAGroup",value=context.get("vertx.ha.group"))
                                     p.help-block
                                         span vertx.
                                         span.vxname
                                         span .ha.group
                             .control-group
-                                .control-label(for="txtQuorumSize") Quorum Size
-                                .controls
-                                    input.input-xlarge.focused.ha(type="text",id="txtQuorumSize",value=context.get("vertx.quorum.size"))
+                                .control-label.span3(for="txtQuorumSize") Quorum Size
+                                .controls.span9
+                                    input.input-xlarge.ha(type="text",id="txtQuorumSize",value=context.get("vertx.quorum.size"))
                                     p.help-block
                                         span vertx.
                                         span.vxname
@@ -141,42 +140,42 @@ block content_main
                                     i.icon-th-list
                                     span &nbsp;&nbsp;Timestamp Options
                             .control-group
-                                .control-label(for="txtBlockedThreadCI") Blocked Thread Check Interval
-                                .controls
-                                    .input-group
-                                        input.input-xlarge.focused(type="text",style="width:240px;",id="txtBlockedThreadCI",value=context.get("vertx.blocked.thread.ci"))
-                                        span.input-group-addon &nbsp;&nbsp;ms
+                                .control-label.span3(for="txtBlockedThreadCI") Blocked Thread Check Interval
+                                .controls.span9
+                                    .input-append
+                                        input.input-xlarge(type="text",style="width:126%",id="txtBlockedThreadCI",value=context.get("vertx.blocked.thread.ci"))
+                                        span.add-on ms
                                     p.help-block
                                         span vertx.
                                         span.vxname
                                         span .blocked.thread.check.internal
                             .control-group
-                                .control-label(for="txtETMEventLoop") Max Event Loop Execute Time
-                                .controls
-                                    .input-group
-                                        input.input-xlarge.focused(type="text",style="width:240px;",id="txtETMEventLoop",value=context.get("vertx.et.max.event.loop"))
-                                        span.input-group-addon &nbsp;&nbsp;ms
+                                .control-label.span3(for="txtETMEventLoop") Max Event Loop Execute Time
+                                .controls.span9
+                                    .input-append
+                                        input.input-xlarge(type="text",style="width:126%",id="txtETMEventLoop",value=context.get("vertx.et.max.event.loop"))
+                                        span.add-on ms
                                     p.help-block
                                         span vertx.
                                         span.vxname
                                         span .execute.time.max.event.loop
                             
                             .control-group
-                                .control-label(for="txtETMWorker") Max Worker Execute Time
-                                .controls
-                                    .input-group
-                                        input.input-xlarge.focused(type="text",style="width:240px;",id="txtETMWorker",value=context.get("vertx.et.max.worker"))
-                                        span.input-group-addon &nbsp;&nbsp;ms
+                                .control-label.span3(for="txtETMWorker") Max Worker Execute Time
+                                .controls.span9
+                                    .input-append
+                                        input.input-xlarge(type="text",style="width:126%",id="txtETMWorker",value=context.get("vertx.et.max.worker"))
+                                        span.add-on ms
                                     p.help-block
                                         span vertx.
                                         span.vxname
                                         span .execute.time.max.worker
                             .control-group
-                                .control-label(for="txtTExpTime") Warning Exception Time
-                                .controls
-                                    .input-group
-                                        input.input-xlarge.focused(type="text",style="width:240px;",id="txtTExpTime",value=context.get("vertx.t.exception.warning"))
-                                        span.input-group-addon &nbsp;&nbsp;ms
+                                .control-label.span3(for="txtTExpTime") Warning Exception Time
+                                .controls.span9
+                                    .input-append
+                                        input.input-xlarge(type="text",style="width:126%",id="txtTExpTime",value=context.get("vertx.t.exception.warning"))
+                                        span.add-on ms
                                     p.help-block
                                         span vertx.
                                         span.vxname

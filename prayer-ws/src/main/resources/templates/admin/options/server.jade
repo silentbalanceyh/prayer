@@ -16,56 +16,57 @@ block content_main
                         input#hdHost(type="hidden",value=context.get("running.ip"))
             .block-content.collapse.in
                 .span12
-                    #lblError.alert.alert-error(style="display:none")
-                        button.close(data-dismiss="alert") &times;
-                        strong Error!
-                        span
-                    #lblSuccess.alert.alert-success(style="display:none")
-                        button.close(data-dismiss="alert") &times;
-                        strong Success!
-                        span
-                .span12
                     form.form-horizontal
+                        #lblError.alert.alert-error(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Error!
+                            span
+                        #lblSuccess.alert.alert-success(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Success!
+                            span
                         fieldset
                             legend
                                 h3
                                     i.icon-th-list
                                     span &nbsp;&nbsp;Http Server Options
                             .control-group
-                                .control-label(for="txtApiPort") Restful Api Port
-                                .controls
-                                    input.input-xlarge.focused(type="text",readonly="readonly",id="txtApiPort",value=context.get("server.api.port"))
+                                .control-label.span3(for="txtApiPort") Restful Api Port
+                                .controls.span9
+                                    input.input-xlarge(type="text",readonly="readonly",id="txtApiPort",value=context.get("server.api.port"))
                                     p.help-block server.api.port
                             .control-group
-                                .control-label(for="txtWebPort") Web Console Port
-                                .controls
-                                    input.input-xlarge.focused(type="text",readonly="readonly",id="txtWebPort",value=context.get("server.web.port"))
+                                .control-label.span3(for="txtWebPort") Web Console Port
+                                .controls.span9
+                                    input.input-xlarge(type="text",readonly="readonly",id="txtWebPort",value=context.get("server.web.port"))
                                     p.help-block server.web.port
                             .control-group
-                                .control-label(for="txtHost") Server Host
-                                .controls
-                                    input.input-xlarge.focused(type="text",readonly="readonly",id="txtHost",value=context.get("server.host"))
+                                .control-label.span3(for="txtHost") Server Host
+                                .controls.span9
+                                    input.input-xlarge(type="text",readonly="readonly",id="txtHost",value=context.get("server.host"))
                                     p.help-block server.host
                             .control-group
-                                .control-label(for="chkCompressed") Compression Required ?
-                                .controls
+                                .control-label.span3(for="chkCompressed") Compression Required ?
+                                .controls.span9
                                     label
                                         input(type="checkbox",id="chkCompressed",value="true",checked=context.get("server.compression"))
                                         span &nbsp;&nbsp;YES
                                     p.help-block server.compression.support
                             .control-group
-                                .control-label(for="txtBacklog") Accept Backlog Size
-                                .controls
-                                    .input-group
-                                        input.input-xlarge.focused(type="text",style="width:240px;",id="txtBacklog",value=context.get("server.accept.backlog"))
-                                        span.input-group-addon &nbsp;&nbsp;KB
+                                .control-label.span3(for="txtBacklog") Accept Backlog Size
+                                .controls.span9
+                                    .input-append
+                                        input.input-xlarge(type="text",id="txtBacklog",style="width:127%",value=context.get("server.accept.backlog"))
+                                        span.add-on KB
                                     p.help-block server.accept.backlog
                             .control-group
-                                .control-label(for="chkClientAuth") Client Authenticated Required ?
-                                .controls
+                                .control-label.span3(for="chkClientAuth") Client Authenticated Required ?
+                                .controls.span9
                                     label
                                         input(type="checkbox",id="chkWebAllow",value="true",checked=context.get("server.client.auth.required"))
                                         span &nbsp;&nbsp;YES
                                     p.help-block server.client.auth.required
                             .form-actions
+                                span.span1
+                                span.span11
                                     button.btn.btn-success(type="button",onclick="") API Console Status

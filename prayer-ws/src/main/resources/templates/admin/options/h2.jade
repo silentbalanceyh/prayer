@@ -14,36 +14,37 @@ block content_main
                     li
                         span#lblHost.text-success
                         input#hdHost(type="hidden",value=context.get("running.ip"))
-            .block-content.collapse.in
-                .span12
-                    #lblError.alert.alert-error(style="display:none")
-                        button.close(data-dismiss="alert") &times;
-                        strong Error!
-                        span
-                    #lblSuccess.alert.alert-success(style="display:none")
-                        button.close(data-dismiss="alert") &times;
-                        strong Success!
-                        span
+            .block-content.collapse.in                        
                 .span12
                     form.form-horizontal
+                        #lblError.alert.alert-error(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Error!
+                            span
+                        #lblSuccess.alert.alert-success(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Success!
+                            span
                         fieldset
                             legend
                                 h3
                                     i.icon-th-list
                                     span &nbsp;&nbsp;Database Options
                             .control-group
-                                .control-label(for="txtTcpPort") Database TCP Port
-                                .controls
-                                    input.input-xlarge.focused(type="text",id="txtTcpPort",value=context.get("h2.tcp"))
+                                .control-label.span3(for="txtTcpPort") Database TCP Port
+                                .controls.span9
+                                    input.input-xlarge(type="text",id="txtTcpPort",value=context.get("h2.tcp"))
                                     p.help-block h2.database.tcp.port
                             .control-group
-                                .control-label(for="chkTcpAllow") Allow Others Connect ?
-                                .controls
+                                .control-label.span3(for="chkTcpAllow") Allow Others Connect ?
+                                .controls.span9
                                     label
                                         input(type="checkbox",id="chkTcpAllow",value="true",checked=context.get("h2.tcp.allow"))
                                         span &nbsp;&nbsp;YES
                                     p.help-block h2.database.tcp.allow.others
                             .form-actions
+                                span.span1
+                                span.span11
                                     button.btn.btn-primary(type="button",onclick="exeDbValidate(this);") Validate
                                     #barDBP.progress.progress-striped.progress-success.active.pull-right.hidden(style="width:60%")
                                         .bar(style="width:0%")
@@ -52,16 +53,18 @@ block content_main
                                     i.icon-th-list
                                     span &nbsp;&nbsp;Web Console Options
                             .control-group
-                                .control-label(for="txtWebPort") Web Console Port
-                                .controls
-                                    input.input-xlarge.focused(type="text",readonly="readonly",id="txtWebPort",value=context.get("h2.web"))
+                                .control-label.span3(for="txtWebPort") Web Console Port
+                                .controls.span9
+                                    input.input-xlarge(type="text",readonly="readonly",id="txtWebPort",value=context.get("h2.web"))
                                     p.help-block h2.database.web.port
                             .control-group
-                                .control-label(for="chkWebAllow") Allow Others Connect ?
-                                .controls
+                                .control-label.span3(for="chkWebAllow") Allow Others Connect ?
+                                .controls.span9
                                     label
                                         input(type="checkbox",id="chkWebAllow",value="true",checked=context.get("h2.web.allow"))
                                         span &nbsp;&nbsp;YES
                                     p.help-block h2.database.web.allow.others
                             .form-actions
+                                span.span1
+                                span.span11
                                     button.btn.btn-success(type="button",onclick="exeOpenUrl();") H2 Web Console

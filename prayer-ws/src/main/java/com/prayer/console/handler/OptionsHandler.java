@@ -47,12 +47,14 @@ public final class OptionsHandler implements Handler<RoutingContext> {
     public void handle(@NotNull final RoutingContext context) {
         final HttpServerRequest request = context.request();
         final String path = request.path();
-        if (StringUtil.endsWithIgnoreCase(path, "h2")) {
+        if (StringUtil.endsWithIgnoreCase(path, "/options/h2")) {
             this.injectH2(context);
-        } else if (StringUtil.endsWithIgnoreCase(path, "server")) {
+        } else if (StringUtil.endsWithIgnoreCase(path, "/options/server")) {
             this.injectServer(context);
-        } else if (StringUtil.endsWithIgnoreCase(path, "vertx")) {
+        } else if (StringUtil.endsWithIgnoreCase(path, "/options/vertx")) {
             this.injectVertx(context);
+        } else if (StringUtil.endsWithIgnoreCase(path, "/options/security")){
+            this.injectSecurity(context);
         }
         // 通用参数，运行的IP地址
         context.put("running.ip", request.localAddress().host());
@@ -61,6 +63,11 @@ public final class OptionsHandler implements Handler<RoutingContext> {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    
+    private void injectSecurity(final RoutingContext context){
+        final String current = this.SEV_LOADER.getString("server.security.mode");
+        context.put("security.mode", current);
+    }
 
     private void injectVertx(final RoutingContext context) {
         final String current = this.VX_LOADER.getString("vertx.active");

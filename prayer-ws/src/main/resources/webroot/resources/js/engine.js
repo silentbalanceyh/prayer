@@ -32,7 +32,7 @@ var INIT_FUNS = {
                         + jQuery("#hdHost").val() + "</b>");
     },
     "/dynamic/admin/options/vertx" : function() {
-        var name = '<font class="text-info">' + jQuery("#hdVertx").val()
+        var name = '<font class="text-error">' + jQuery("#hdVertx").val()
                 + "</font>";
         jQuery("#lblHost").html(
                 "Vert.x Engine ( " + name + " ) is Running on : <b>"
