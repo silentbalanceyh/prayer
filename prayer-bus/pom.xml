@@ -150,6 +150,12 @@
                         <artifactId>aspectjtools</artifactId>
                         <version>${aspectj.version}</version>
                     </dependency>
+                    <dependency>
+                    	<groupId>com.sun</groupId>
+                    	<artifactId>tools</artifactId>
+                    	<version>${jdk.version}</version>
+                    	<scope>runtime</scope>
+                    </dependency>
                 </dependencies>
                 <configuration>
                     <complianceLevel>${ajc.version}</complianceLevel>
