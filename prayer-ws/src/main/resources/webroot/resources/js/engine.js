@@ -39,13 +39,27 @@ var INIT_FUNS = {
                         + jQuery("#hdHost").val() + "</b>");
         jQuery(".vxname").html(name);
         // 设置.cluster和.ha
-        BTN.checked("#chkClusterEnabled",".cluster");
-        BTN.checked("#chkHAEnabled",".ha");
+        BTN.checked("#chkClusterEnabled", ".cluster");
+        BTN.checked("#chkHAEnabled", ".ha");
+    },
+    "/dynamic/admin/options/security" : function() {
+        var name = '<font class="text-success">' + jQuery("#hdMode").val()
+                + "</font>";
+        jQuery("#lblHost").html(
+                "Security Model ( " + name + " ) is Actived on : <b>"
+                        + jQuery("#hdHost").val() + "</b>");
+        switch(jQuery("#hdMode").val()){
+        case "BASIC":BTN.active("#liBasic",".limode");break;
+        case "DIGEST":BTN.active("#liDigest",".limode");break;
+        case "OAUTH":BTN.active("#liOAuth",".limode");break;
+        }
+        // 设置激活模式状态
+        BTN.shift("#lblActive","#lblInactive");
     }
 };
 jQuery(document).ready(function() {
     var FUN = INIT_FUNS[window.location.pathname];
-    if('function' === typeof(FUN)){
+    if ('function' === typeof (FUN)) {
         FUN();
     }
 });

@@ -91,10 +91,14 @@ public final class OptionsHandler implements Handler<RoutingContext> {
         context.put("cors.credentials", this.SEV_LOADER.getBoolean("server.security.cors.credentials"));
         // Basic Information
         context.put("b.provider.impl", this.SEV_LOADER.getString("BASIC.provider.impl"));
+        context.put("b.realm", this.SEV_LOADER.getString("BASIC.realm"));
         context.put("b.schema.id", this.SEV_LOADER.getString("BASIC.user.schema.id"));
         context.put("b.user.account", this.SEV_LOADER.getString("BASIC.user.account"));
         context.put("b.user.email", this.SEV_LOADER.getString("BASIC.user.email"));
-        
+        context.put("b.user.mobile", this.SEV_LOADER.getString("BASIC.user.mobile"));
+        context.put("b.user.password", this.SEV_LOADER.getString("BASIC.user.password"));
+        context.put("b.script.name", this.SEV_LOADER.getString("BASIC.script.name"));
+        context.put("b.login.url", this.SEV_LOADER.getString("BASIC.login.url"));
     }
 
     private void injectVertx(final RoutingContext context) {

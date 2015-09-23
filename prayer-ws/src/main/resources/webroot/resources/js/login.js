@@ -31,7 +31,7 @@ function resetP(sec){
 function progress() {
     var $$STOP = null;
     jQuery(".progress-bar").attr("style", "width:" + $$P + "%");
-    if ($$P > 90 && !$$FAIL){
+    if ($$P > 60 && !$$FAIL){
         successP();
     }
     $$P += 10;

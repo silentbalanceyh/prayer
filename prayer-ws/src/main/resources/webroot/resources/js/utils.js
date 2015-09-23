@@ -59,7 +59,16 @@ var BTN = (function() {
         } else {
             jQuery(cls).attr("readonly","readonly");
         }
-    }
+    };
+    _active = function(id,cls){
+        jQuery(cls).removeClass("active");
+        jQuery(id).addClass("active");
+    };
+    _shift = function(show,hidden){
+        jQuery(hidden).hide();
+        jQuery(show).show();
+        
+    };
     return function() {
         return {};
     }
@@ -77,7 +86,9 @@ var BTN = (function() {
     BTN = BTN.prototype = { // NOPMD
         before : _before,
         after : _after,
-        checked : _checked
+        checked : _checked,
+        active : _active,
+        shift : _shift
     }
 })();
 (function() {

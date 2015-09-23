@@ -13,8 +13,8 @@ block content_main
                         span.divider &nbsp;&gt;&nbsp;
                     li
                         span#lblHost.text-success
-                        input#hdHost(type="hidden")
-                        input#hdMode(type="hidden")
+                        input#hdHost(type="hidden",value=context.get("running.ip"))
+                        input#hdMode(type="hidden",value=context.get("security.mode"))
             .block-content.collapse.in
                 .span12
                     form.form-horizontal
@@ -33,37 +33,37 @@ block content_main
                             .control-group
                                 .control-label.span3(for="txtOrigin") Cross Domain Origin
                                 .controls.span9
-                                    input.input-xlarge.focused(type="text",id="txtOrigin")
+                                    input.input-xlarge.focused(type="text",id="txtOrigin",value=context.get("cors.origin"))
                                     p.help-block server.security.cors.origin
                             .control-group
                                 .control-label.span3 Cross Domain Allowed Methods
                                 .controls.span9
                                     label
-                                        input(type="checkbox",id="chkGET",value="GET")
+                                        input(type="checkbox",id="chkGET",value="GET",checked=context.get("cors.methods").getBoolean("GET"))
                                         span &nbsp;&nbsp;GET&nbsp;&nbsp;
-                                        input(type="checkbox",id="chkPOST",value="POST")
+                                        input(type="checkbox",id="chkPOST",value="POST",checked=context.get("cors.methods").getBoolean("POST"))
                                         span &nbsp;&nbsp;POST&nbsp;&nbsp;
-                                        input(type="checkbox",id="chkPUT",value="PUT")
+                                        input(type="checkbox",id="chkPUT",value="PUT",checked=context.get("cors.methods").getBoolean("PUT"))
                                         span &nbsp;&nbsp;PUT&nbsp;&nbsp;
-                                        input(type="checkbox",id="chkDELETE",value="DELETE")
+                                        input(type="checkbox",id="chkDELETE",value="DELETE",checked=context.get("cors.methods").getBoolean("DELETE"))
                                         span &nbsp;&nbsp;DELETE&nbsp;&nbsp;
-                                        input(type="checkbox",id="chkOPTIONS",value="OPTIONS")
+                                        input(type="checkbox",id="chkOPTIONS",value="OPTIONS",checked=context.get("cors.methods").getBoolean("OPTIONS"))
                                         span &nbsp;&nbsp;OPTIONS&nbsp;&nbsp;
-                                        input(type="checkbox",id="chkHEAD",value="HEAD")
+                                        input(type="checkbox",id="chkHEAD",value="HEAD",checked=context.get("cors.methods").getBoolean("HEAD"))
                                         span &nbsp;&nbsp;HEAD&nbsp;&nbsp;
-                                        input(type="checkbox",id="chkPATCH",value="PATCH")
+                                        input(type="checkbox",id="chkPATCH",value="PATCH",checked=context.get("cors.methods").getBoolean("PATCH"))
                                         span &nbsp;&nbsp;PATCH&nbsp;&nbsp;
                                     p.help-block server.security.cors.methods
                             .control-group
                                 .control-label.span3(for="txtHeaders") Cross Domain Allowed Headers
                                 .controls.span9
-                                    input.input-xlarge.focused(type="text",id="txtHeaders")
+                                    input.input-xlarge.focused(type="text",id="txtHeaders",value=context.get("cors.headers"))
                                     p.help-block server.security.cors.headers
                             .control-group
                                 .control-label.span3(for="chkCredentials") Cross Domain Credentials ?
                                 .controls.span9
                                     label
-                                        input(type="checkbox",id="chkCredentials",value="true")
+                                        input(type="checkbox",id="chkCredentials",value="true",checked=context.get("cors.credentials"))
                                         span &nbsp;&nbsp;YES
                                     p.help-block server.security.cors.credentials
                     form.form-horizontal
@@ -73,22 +73,22 @@ block content_main
                                     i.icon-th-list
                                     span &nbsp;&nbsp;Security Mode Options
                         ul.nav.nav-tabs
-                            li.active
-                                a(href="#secBasic",data-toggle="pill") BASIC
-                            li
-                                a(href="#secDigest",data-toggle="pill") DIGEST
-                            li
-                                a(href="#secOAuth",data-toggle="pill") OAuth
-                        #lblError.alert.alert-error
+                            li#liBasic.limode.active
+                                a(href="#lnkBasic",data-toggle="pill",onclick="secStatus('BASIC');") BASIC
+                            li#liDigest.limode
+                                a(href="#lnkDigest",data-toggle="pill",onclick="secStatus('DIGEST');") DIGEST
+                            li#liOAuth.limode
+                                a(href="#lnkOAuth",data-toggle="pill",onclick="secStatus('OAUTH');") OAuth
+                        #lblInactive.alert.alert-error(style="display:none")
                             strong Inactive!
                             span &nbsp;&nbsp;This mode is inactiveted !
-                        #lblSuccess.alert.alert-success
+                        #lblActive.alert.alert-success(style="display:none")
                             strong Active!
                             span &nbsp;&nbsp;This mode is running...
                         .tab-content
-                            .tab-pane.fade.in.active(id="secBasic")
+                            .tab-pane.fade.in.active(id="lnkBasic")
                                 include sec/basic
-                            .tab-pane.fade(id="secDigest")
+                            .tab-pane.fade(id="lnkDigest")
                                 include sec/digest
-                            .tab-pane.fade(id="secOAuth")
+                            .tab-pane.fade(id="lnkOAuth")
                                 include sec/oauth

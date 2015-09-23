@@ -2,7 +2,7 @@ form.form-horizontal
     .control-group
         .control-label.span3(for="txtProvider") Security Provider Class
         .controls.span9
-            input.input-xlarge(type="text",id="txtProvider")
+            input.input-xlarge(type="text",id="txtProvider",value=context.get("b.provider.impl"))
             span &nbsp;&nbsp;&nbsp;&nbsp;
             button.visible-xs-inline.btn.btn-primary Validate
             p.help-block
@@ -11,7 +11,7 @@ form.form-horizontal
     .control-group
         .control-label.span3(for="txtRealm") Default Realm for Basic Auth
         .controls.span9
-            input.input-xlarge(type="text",id="txtRealm")
+            input.input-xlarge(type="text",id="txtRealm",value=context.get("b.realm"))
             p.help-block
                 span.text-error BASIC
                 span .realm
@@ -21,44 +21,51 @@ form.form-horizontal
                 i.icon-arrow-down
                 span &nbsp;&nbsp;Schema Definition Information
     .control-group
+        .control-label.span3(for="txtLoginUrl") Login Api Endpoint ( URL )
+        .controls.span9
+            input.input-xlarge(type="text",id="txtLoginUrl",value=context.get("b.login.url"))
+            p.help-block
+                span.text-error BASIC
+                span .login.url
+    .control-group
         .control-label.span3(for="txtSchemaId") Schema Global ID ( identifier )
         .controls.span9
-            input.input-xlarge(type="text",id="txtSchemaId")
+            input.input-xlarge(type="text",id="txtSchemaId",value=context.get("b.schema.id"))
             p.help-block
                 span.text-error BASIC
                 span .user.schema.id
     .control-group
         .control-label.span3(for="txtAccount") Account Field Name
         .controls.span9
-            input.input-xlarge(type="text",id="txtAccount")
+            input.input-xlarge(type="text",id="txtAccount",value=context.get("b.user.account"))
             p.help-block
                 span.text-error BASIC
                 span .user.account
     .control-group
         .control-label.span3(for="txtEmail") Email Field Name
         .controls.span9
-            input.input-xlarge(type="text",id="txtEmail")
+            input.input-xlarge(type="text",id="txtEmail",value=context.get("b.user.email"))
             p.help-block
                 span.text-error BASIC
                 span .user.email
     .control-group
         .control-label.span3(for="txtMobile") Mobile Field Name
         .controls.span9
-            input.input-xlarge(type="text",id="txtMobile")
+            input.input-xlarge(type="text",id="txtMobile",value=context.get("b.user.mobile"))
             p.help-block
                 span.text-error BASIC
                 span .user.mobile
     .control-group
         .control-label.span3(for="txtPassword") Password Field Name
         .controls.span9
-            input.input-xlarge(type="text",id="txtPassword")
+            input.input-xlarge(type="text",id="txtPassword",value=context.get("b.user.password"))
             p.help-block
                 span.text-error BASIC
                 span .user.password
     .control-group
         .control-label.span3(for="txtScript") Login Script Name
         .controls.span9
-            input.input-xlarge(type="text",id="txtScript")
+            input.input-xlarge(type="text",id="txtScript",value=context.get("b.script.name"))
             p.help-block
                 span.text-error BASIC
                 span .script.name
