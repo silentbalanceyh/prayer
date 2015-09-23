@@ -1,0 +1,11 @@
+1.使用下边命令安装本地Maven：
+mvn install:install-file -Dfile=#{PATH} -DgroupId=com.sun -DartifactId=tools -Dversion=1.8 -Dpackaging=jar
+2.使用下边的片段：${jdk.version}的值为1.8
+    <dependency>
+        <groupId>com.sun</groupId>
+        <artifactId>tools</artifactId>
+        <version>${jdk.version}</version>
+        <scope>runtime</scope>
+    </dependency>
+3.上边的#{PATH}部分替换成当前目录resources下的jar路径，注意版本直接使用1.8，就省掉子版本的麻烦
+我的路径为：C:/Data/Prayer/prayer/document/maven/resources/tools.jar

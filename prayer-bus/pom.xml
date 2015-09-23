@@ -151,10 +151,10 @@
                         <version>${aspectj.version}</version>
                     </dependency>
                     <dependency>
-                    	<groupId>com.sun</groupId>
-                    	<artifactId>tools</artifactId>
-                    	<version>${jdk.version}</version>
-                    	<scope>runtime</scope>
+                        <groupId>com.sun</groupId>
+                        <artifactId>tools</artifactId>
+                        <version>${jdk.version}</version>
+                        <scope>runtime</scope>
                     </dependency>
                 </dependencies>
                 <configuration>

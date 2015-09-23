@@ -1,0 +1,10 @@
+1.使用下边命令安装本地Maven：
+mvn install:install-file -Dfile=#{PATH} -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.2 -Dpackaging=jar
+2.使用下边的片段：${jdbc.oracle.version}的值为12.1.0.2
+	<dependency>
+		<groupId>com.oracle</groupId>
+		<artifactId>ojdbc7</artifactId>
+		<version>${jdbc.oracle.version}</version>
+	</dependency>
+3.上边的#{PATH}部分替换成当前目录resources下的jar路径
+我的路径为：C:/Data/Prayer/prayer/document/maven/resources/ojdbc7.jar
