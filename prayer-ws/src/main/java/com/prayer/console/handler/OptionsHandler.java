@@ -1,10 +1,15 @@
 package com.prayer.console.handler;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.prayer.constant.Resources;
 import com.prayer.util.PropertyKit;
 
 import io.vertx.core.Handler;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
@@ -53,7 +58,7 @@ public final class OptionsHandler implements Handler<RoutingContext> {
             this.injectServer(context);
         } else if (StringUtil.endsWithIgnoreCase(path, "/options/vertx")) {
             this.injectVertx(context);
-        } else if (StringUtil.endsWithIgnoreCase(path, "/options/security")){
+        } else if (StringUtil.endsWithIgnoreCase(path, "/options/security")) {
             this.injectSecurity(context);
         }
         // 通用参数，运行的IP地址
@@ -63,10 +68,33 @@ public final class OptionsHandler implements Handler<RoutingContext> {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    
-    private void injectSecurity(final RoutingContext context){
+
+    private void injectSecurity(final RoutingContext context) {
         final String current = this.SEV_LOADER.getString("server.security.mode");
         context.put("security.mode", current);
+        // * Http Method 
+        final List<String> methods = Arrays.asList(this.SEV_LOADER.getArray("server.security.cors.methods"));
+        final List<String> methodSet = Arrays.asList(new String[] { HttpMethod.GET.toString(),
+                HttpMethod.POST.toString(), HttpMethod.PUT.toString(), HttpMethod.DELETE.toString(),
+                HttpMethod.OPTIONS.toString(), HttpMethod.HEAD.toString(), HttpMethod.PATCH.toString() });
+        final JsonObject methodObj = new JsonObject();
+        for(final String method: methodSet){
+            if(methods.contains(method)){
+                methodObj.put(method, Boolean.TRUE);
+            }else{
+                methodObj.put(method, Boolean.FALSE);
+            }
+        }
+        context.put("cors.methods", methodObj);
+        context.put("cors.origin", this.SEV_LOADER.getString("server.security.cors.origin"));
+        context.put("cors.headers", this.SEV_LOADER.getString("server.security.cors.headers"));
+        context.put("cors.credentials", this.SEV_LOADER.getBoolean("server.security.cors.credentials"));
+        // Basic Information
+        context.put("b.provider.impl", this.SEV_LOADER.getString("BASIC.provider.impl"));
+        context.put("b.schema.id", this.SEV_LOADER.getString("BASIC.user.schema.id"));
+        context.put("b.user.account", this.SEV_LOADER.getString("BASIC.user.account"));
+        context.put("b.user.email", this.SEV_LOADER.getString("BASIC.user.email"));
+        
     }
 
     private void injectVertx(final RoutingContext context) {

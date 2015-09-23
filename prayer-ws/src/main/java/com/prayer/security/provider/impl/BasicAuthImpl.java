@@ -65,8 +65,8 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth, AuthConstants.BAS
             @NotNull final Handler<AsyncResult<User>> resultHandler) {
         try {
             // 1.检查用户名和密码
-            if(!this.interruptParam(authInfo, resultHandler)){
-                return;    // NOPMD
+            if (!this.interruptParam(authInfo, resultHandler)) {
+                return; // NOPMD
             }
             // 2.读取配置参数
             final JsonObject params = this.wrapperParam(authInfo);
@@ -81,8 +81,15 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth, AuthConstants.BAS
                     final String username = retObj
                             .getString(this.configurator.getSecurityOptions().getString(ACCOUNT_ID));
                     info(LOGGER, WebLogger.I_COMMON_INFO, retObj.encode());
-                    // Fix 客户端跨域问题
-                    authInfo.put(KEY_USER_ID, retObj.getString("uniqueId"));
+                    {
+                        // Fix 客户端跨域问题，二次登录问题，保存数据问题，重新填充Extension
+                        final JsonObject extension = new JsonObject();
+                        extension.put(KEY_USER_ID, retObj.getString("uniqueId"));
+                        extension.put(LOGIN_URL, this.configurator.getSecurityOptions().getString(LOGIN_URL));
+                        extension.put(Constants.PARAM.DATA, retObj);
+                        authInfo.put(EXTENSION, extension);
+                    }
+
                     resultHandler.handle(Future.succeededFuture(new BasicUser(username, this, "role")));
                 } else {
                     errorHandler(authInfo, resultHandler, WebLogger.AUE_AUTH_FAILURE, RET_I_USER_PWD);

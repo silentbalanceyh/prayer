@@ -24,5 +24,8 @@ public interface AuthConstants {    // NOPMD
         String MOBILE = "user.mobile";
         /** 账号的密码字段信息 **/
         String PWD = "user.password";
+        
+        /** 登录入口 **/
+        String LOGIN_URL = "login.url";
     }
 }

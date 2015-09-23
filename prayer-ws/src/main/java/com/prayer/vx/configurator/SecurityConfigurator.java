@@ -145,6 +145,7 @@ public class SecurityConfigurator {
         options.put(AuthConstants.BASIC.PWD, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.PWD));
         // 可定义的动态属性
         options.put(AuthConstants.BASIC.SCHEMA_ID, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.SCHEMA_ID));
+        options.put(AuthConstants.BASIC.LOGIN_URL, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.LOGIN_URL));
         return options;
     }
 

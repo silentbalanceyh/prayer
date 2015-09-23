@@ -6,6 +6,8 @@ import static com.prayer.util.Instance.singleton;
 
 import java.util.Base64;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,17 +20,22 @@ import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractException;
 import com.prayer.exception.web.BodyParamDecodingException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
+import com.prayer.model.bus.web.StatusCode;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.security.provider.AuthConstants;
+import com.prayer.security.provider.AuthConstants.BASIC;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.security.provider.impl.BasicUser;
 import com.prayer.util.Encryptor;
 import com.prayer.util.StringKit;
 
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
@@ -40,6 +47,7 @@ import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.impl.AuthHandlerImpl;
+import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -151,11 +159,32 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                     // 认证成功的时候放入信息到Body中
                     routingContext.setBody(Buffer.buffer(authInfo.encode(), Resources.SYS_ENCODING.name()));
                     routingContext.setUser(authenticated);
-                    // 放入到LocalData中用于在WebVerticle特殊环境中设置登录信息，主要用于Cross Verticle的操作
-                    if (authInfo.containsKey(BasicAuth.KEY_USER_ID)) {
-                        processClientLogin(routingContext, authInfo.getString(BasicAuth.KEY_USER_ID), authenticated);
+                    // 放入到LocalData中用于在WebVerticle特殊环境中设置登录信息，主要用于Cross
+                    final JsonObject retExt = authInfo.containsKey(BASIC.EXTENSION)
+                            ? authInfo.getJsonObject(BASIC.EXTENSION) : null;
+                    if (null != retExt) {
+                        // Verticle的操作
+                        if (retExt.containsKey(BasicAuth.KEY_USER_ID)) {
+                            processClientLogin(routingContext, retExt.getString(BasicAuth.KEY_USER_ID), authenticated);
+                        }
+                        // 防止二次认证
+                        info(LOGGER,
+                                " Request : " + request.path() + ", Configured : " + retExt.getString(BASIC.LOGIN_URL));
+                        if (retExt.containsKey(BASIC.LOGIN_URL)) {
+                            if (StringUtil.equals(request.path(), retExt.getString(BASIC.LOGIN_URL))) {
+                                final JsonObject ret = new JsonObject();
+                                ret.put(Constants.RET.STATUS_CODE, StatusCode.OK.status());
+                                ret.put(Constants.RET.RESPONSE, ResponseCode.SUCCESS);
+                                ret.put(Constants.RET.DATA, retExt.getJsonObject(Constants.PARAM.DATA));
+                                this.authorise(authenticated, routingContext, ret);
+                            } else {
+                                this.authorise(authenticated, routingContext);
+                            }
+                        } else {
+                            // 防止本身URL的认证
+                            authorise(authenticated, routingContext);
+                        }
                     }
-                    authorise(authenticated, routingContext);
                 } else {
                     if (StringKit.isNonNil(authInfo.getString(Constants.RET.AUTH_ERROR))) {
                         // 带有返回值的401信息
@@ -164,7 +193,36 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                     this.handler401Error(routingContext);
                 }
             });
+        }
+    }
 
+    protected void authorise(final User user, final RoutingContext context, final JsonObject data) {
+        int requiredcount = authorities.size();
+        if (requiredcount > 0) {
+            AtomicInteger count = new AtomicInteger();
+            AtomicBoolean sentFailure = new AtomicBoolean();
+
+            Handler<AsyncResult<Boolean>> authHandler = res -> {
+                if (res.succeeded()) {
+                    if (res.result()) {
+                        if (count.incrementAndGet() == requiredcount) {
+                            context.response().end(data.encode());
+                        }
+                    } else {
+                        if (sentFailure.compareAndSet(false, true)) {
+                            context.fail(403);
+                        }
+                    }
+                } else {
+                    context.fail(res.cause());
+                }
+            };
+            for (String authority : authorities) {
+                user.isAuthorised(authority, authHandler);
+            }
+        } else {
+            // No auth required
+            context.response().end(data.encode());
         }
     }
 
