@@ -61,18 +61,18 @@ var BTN = (function() {
         }
     };
     _active = function(id,cls){
-        if(undefined !== jQuery(cls)){
+        if(undefined !== jQuery(cls) && null !== cls){
             jQuery(cls).removeClass("active");
         }
-        if(undefined !== jQuery(id)){
+        if(undefined !== jQuery(id) && null !== id){
             jQuery(id).addClass("active");
         }
     };
     _show = function(id, cls){
-        if(undefined !== jQuery(cls)){
+        if(undefined !== jQuery(cls) && null !== cls){
             jQuery(cls).addClass("hidden");
         }
-        if(undefined !== jQuery(id)){
+        if(undefined !== jQuery(id) && null !== id){
             jQuery(id).removeClass("hidden");
         }
     }

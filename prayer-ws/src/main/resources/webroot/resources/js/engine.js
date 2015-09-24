@@ -79,7 +79,11 @@ function MENU_STATUS(path){
         BTN.active("#mOptions",".topNav");
         BTN.show("#mSecurity",".topSubIcon");
     }break;
-    
+    case "/dynamic/admin/profile":{
+        BTN.active(null,".leftNav");
+        BTN.active(null,".topNav");
+        BTN.show("#mProfile",".topSubIcon");
+    }break;
     }
 }
 jQuery(document).ready(function() {

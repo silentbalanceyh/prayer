@@ -1,0 +1,63 @@
+extends shared/layout
+block content_main
+    .row-fluid
+        .block
+            .navbar.navbar-inner.block-header
+                ul.breadcrumb
+                    i.icon-chevron-left.hide-sidebar
+                        a(href="#",title="Hide Sidebar",rel="tooltip") &nbsp;
+                    i.icon-chevron-right.show-sidebar(style="display:none")
+                        a(href="#",title="Show Sidebar",rel="tooltip") &nbsp;
+                    li
+                        span &nbsp;&nbsp;Security Information
+                        span.divider &nbsp;&gt;&nbsp;
+                    li
+                        a(href="/dynamic/admin/profile") Profile
+            .block-content.collapse.in
+                .span12
+                    form.form-horizontal
+                        #lblError.alert.alert-error(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Error!
+                            span
+                        #lblSuccess.alert.alert-success(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Success!
+                        fieldset
+                            legend
+                                h3
+                                    i.icon-th-list
+                                    span &nbsp;&nbsp;My Profile Information
+                        .control-group
+                            .control-label(for="txtAccount") Account ID
+                            .controls
+                                input.input-xlarge(type="text",id="txtAccount",readonly="readonly")
+                        .control-group
+                            .control-label(for="txtEmail") Email
+                            .controls
+                                input.input-xlarge(type="text",id="txtEmail")
+                        .control-group
+                            .control-label(for="txtEmail") Mobile
+                            .controls
+                                input.input-xlarge(type="text",id="txtMobile")
+                        .form-actions
+                            button.btn.btn-primary(type="button",onclick="") Save Profile
+                        fieldset
+                            legend
+                                h3
+                                    i.icon-th-list
+                                    span &nbsp;&nbsp;Password Change Form
+                        .control-group
+                            .control-label(for="txtOldPWD") Old Password
+                            .controls
+                                input.input-xlarge(type="password",id="txtOldPWD")
+                        .control-group
+                            .control-label(for="txtNewPWD") New Password
+                            .controls
+                                input.input-xlarge(type="password",id="txtNewPWD")
+                        .control-group
+                            .control-label(for="txtConfirmPWD") Password Confirm
+                            .controls
+                                input.input-xlarge(type="text",id="txtConfirmPWD")
+                        .form-actions
+                            button.btn.btn-primary(type="button",onclick="") Update Password

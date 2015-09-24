@@ -15,10 +15,14 @@
                             i.caret
                         ul.dropdown-menu
                             li
-                                a(href="#",tabindex="-1") Profile
+                                a(href="/dynamic/admin/profile",tabindex="-1") 
+                                    i#mProfile.icon-ok.topSubIcon.hidden
+                                    span &nbsp;&nbsp;Profile
                             li.divider
                             li
-                                a#lnkLogout(href="#",tabindex="-1",onclick="exeLogout();") Logout
+                                a#lnkLogout(href="#",tabindex="-1",onclick="exeLogout();") 
+                                    i.icon-ok.hidden
+                                    span &nbsp;&nbsp;Logout
                 ul.nav
                     li.topNav
                         a(href="#") Dashboard
