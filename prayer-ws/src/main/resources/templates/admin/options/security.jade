@@ -79,10 +79,10 @@ block content_main
                                 a(href="#lnkDigest",data-toggle="pill",onclick="secStatus('DIGEST');") DIGEST
                             li#liOAuth.limode
                                 a(href="#lnkOAuth",data-toggle="pill",onclick="secStatus('OAUTH');") OAuth
-                        #lblInactive.alert.alert-error(style="display:none")
+                        #lblInactive.alert.alert-error.hidden
                             strong Inactive!
                             span &nbsp;&nbsp;This mode is inactiveted !
-                        #lblActive.alert.alert-success(style="display:none")
+                        #lblActive.alert.alert-success.hidden
                             strong Active!
                             span &nbsp;&nbsp;This mode is running...
                         .tab-content

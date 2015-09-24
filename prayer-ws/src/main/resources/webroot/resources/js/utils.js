@@ -61,12 +61,24 @@ var BTN = (function() {
         }
     };
     _active = function(id,cls){
-        jQuery(cls).removeClass("active");
-        jQuery(id).addClass("active");
+        if(undefined !== jQuery(cls)){
+            jQuery(cls).removeClass("active");
+        }
+        if(undefined !== jQuery(id)){
+            jQuery(id).addClass("active");
+        }
     };
+    _show = function(id, cls){
+        if(undefined !== jQuery(cls)){
+            jQuery(cls).addClass("hidden");
+        }
+        if(undefined !== jQuery(id)){
+            jQuery(id).removeClass("hidden");
+        }
+    }
     _shift = function(show,hidden){
-        jQuery(hidden).hide();
-        jQuery(show).show();
+        jQuery(hidden).addClass("hidden");
+        jQuery(show).removeClass("hidden");
         
     };
     return function() {
@@ -88,7 +100,8 @@ var BTN = (function() {
         after : _after,
         checked : _checked,
         active : _active,
-        shift : _shift
+        shift : _shift,
+        show : _show
     }
 })();
 (function() {

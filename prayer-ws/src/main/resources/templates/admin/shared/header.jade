@@ -20,24 +20,32 @@
                             li
                                 a#lnkLogout(href="#",tabindex="-1",onclick="exeLogout();") Logout
                 ul.nav
-                    li.active
+                    li.topNav
                         a(href="#") Dashboard
-                    li.dropdown
+                    li#mOptions.topNav.dropdown
                         a.dropdown-toggle(data-toggle="dropdown",role="button",href="#")
 
                             span &nbsp;System Options&nbsp;
                             b.caret
                         ul.dropdown-menu
+                            li      
+                                a(href="/dynamic/admin/options/h2") 
+                                    i#mH2.icon-ok.topSubIcon.hidden
+                                    span &nbsp;&nbsp;H2 Database Options
                             li
-                                a(href="/dynamic/admin/options/h2") H2 Database Options
+                                a(href="/dynamic/admin/options/server") 
+                                    i#mServer.icon-ok.topSubIcon.hidden
+                                    span &nbsp;&nbsp;Http Server Options
                             li
-                                a(href="/dynamic/admin/options/server") Http Server Options
-                            li
-                                a(href="/dynamic/admin/options/vertx") Vert.X Options
+                                a(href="/dynamic/admin/options/vertx")
+                                    i#mVertx.icon-ok.topSubIcon.hidden
+                                    span &nbsp;&nbsp;Vert.X Options
                             li.divider
                             li
-                                a(href="/dynamic/admin/options/security") Security Options
-                    li.dropdown
+                                a(href="/dynamic/admin/options/security") 
+                                    i#mSecurity.icon-ok.topSubIcon.hidden
+                                    span &nbsp;&nbsp;Security Options
+                    li.topNav.dropdown
                         a.dropdown-toggle(data-toggle="dropdown",role="button",href="#")
                             span &nbsp;Users&nbsp;
                             b.caret
@@ -46,7 +54,7 @@
                                 a(href="#") User List
                             li
                                 a(href="#") Search
-                    li.dropdown
+                    li.topNav.dropdown
                         a.dropdown-toggle(data-toggle="dropdown",role="button",href="#")
                             span &nbsp;Documentation&nbsp;
                             b.caret

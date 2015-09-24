@@ -57,9 +57,35 @@ var INIT_FUNS = {
         BTN.shift("#lblActive","#lblInactive");
     }
 };
+function MENU_STATUS(path){
+    switch(path){
+    case "/dynamic/admin/options/h2":{
+        BTN.active("#mOptions",".leftNav");
+        BTN.active("#mOptions",".topNav");
+        BTN.show("#mH2",".topSubIcon");
+    }break;
+    case "/dynamic/admin/options/server":{
+        BTN.active("#mOptions",".leftNav");
+        BTN.active("#mOptions",".topNav");
+        BTN.show("#mServer",".topSubIcon");
+    }break;
+    case "/dynamic/admin/options/vertx":{
+        BTN.active("#mOptions",".leftNav");
+        BTN.active("#mOptions",".topNav");
+        BTN.show("#mVertx",".topSubIcon");
+    }break;
+    case "/dynamic/admin/options/security":{
+        BTN.active("#mOptions",".leftNav");
+        BTN.active("#mOptions",".topNav");
+        BTN.show("#mSecurity",".topSubIcon");
+    }break;
+    
+    }
+}
 jQuery(document).ready(function() {
     var FUN = INIT_FUNS[window.location.pathname];
     if ('function' === typeof (FUN)) {
         FUN();
     }
+    MENU_STATUS(window.location.pathname);
 });

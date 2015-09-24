@@ -11,7 +11,6 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -52,13 +51,13 @@ public final class OptionsHandler implements Handler<RoutingContext> {
     public void handle(@NotNull final RoutingContext context) {
         final HttpServerRequest request = context.request();
         final String path = request.path();
-        if (StringUtil.endsWithIgnoreCase(path, "/options/h2")) {
+        if (path.contains("/options/h2")) {
             this.injectH2(context);
-        } else if (StringUtil.endsWithIgnoreCase(path, "/options/server")) {
+        } else if (path.contains("/options/server")) {
             this.injectServer(context);
-        } else if (StringUtil.endsWithIgnoreCase(path, "/options/vertx")) {
+        } else if (path.contains("/options/vertx")) {
             this.injectVertx(context);
-        } else if (StringUtil.endsWithIgnoreCase(path, "/options/security")) {
+        } else if (path.contains("/options/security")) {
             this.injectSecurity(context);
         }
         // 通用参数，运行的IP地址

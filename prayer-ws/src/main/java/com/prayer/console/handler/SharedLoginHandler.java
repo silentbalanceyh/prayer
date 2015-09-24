@@ -1,12 +1,6 @@
 package com.prayer.console.handler;
 
-import static com.prayer.assistant.WebLogger.info;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.constant.Constants;
-import com.prayer.handler.standard.RecordHandler;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.security.provider.impl.BasicUser;
 import com.prayer.util.StringKit;
@@ -29,8 +23,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class SharedLoginHandler implements Handler<RoutingContext> {
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecordHandler.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -74,7 +66,6 @@ public final class SharedLoginHandler implements Handler<RoutingContext> {
             final BasicUser user = new BasicUser();
             final int ret = user.readFromBuffer(Constants.ZERO, buffer);
             if (Constants.ZERO < ret) { // NOPMD
-                info(LOGGER, user.toString());
                 context.setUser(user);
             }
         }
