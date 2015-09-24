@@ -84,6 +84,11 @@ function MENU_STATUS(path){
         BTN.active(null,".topNav");
         BTN.show("#mProfile",".topSubIcon");
     }break;
+    case "/dynamic/admin/users":{
+        BTN.active(null,".leftNav");
+        BTN.active(null,".topNav");
+        BTN.show("#mUsers",".topSubIcon");
+    }
     }
 }
 jQuery(document).ready(function() {

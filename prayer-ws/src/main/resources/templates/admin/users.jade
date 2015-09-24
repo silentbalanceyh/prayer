@@ -1,0 +1,58 @@
+extends shared/layout
+block content_main
+    .row-fluid
+        .block
+            .navbar.navbar-inner.block-header
+                ul.breadcrumb
+                    i.icon-chevron-left.hide-sidebar
+                        a(href="#",title="Hide Sidebar",rel="tooltip") &nbsp;
+                    i.icon-chevron-right.show-sidebar(style="display:none")
+                        a(href="#",title="Show Sidebar",rel="tooltip") &nbsp;
+                    li
+                        span &nbsp;&nbsp;Security Information
+                        span.divider &nbsp;&gt;&nbsp;
+                    li
+                        a(href="/dynamic/admin/users") User Management
+            .block-content.collapse.in
+                .span12
+                    fieldset
+                        legend
+                            h3
+                                i.icon-th-list
+                                span &nbsp;&nbsp;User Management
+                    .table-toolbar
+                        .btn-group
+                            a(href="#")
+                                button.btn.btn-success
+                                    i.icon-plus.icon-white
+                                    span &nbsp;&nbsp;Add New
+                            a(href="#",style="margin-left:5px;")
+                                button.btn
+                                    i.icon-eye-open
+                                    span &nbsp;&nbsp;View
+                            a(href="#",style="margin-left:5px;")
+                                button.btn.btn-inverse
+                                    i.icon-refresh.icon-white
+                                    span &nbsp;&nbsp;Update
+                            a(href="#",style="margin-left:5px;")
+                                button.btn.btn-danger
+                                    i.icon-remove.icon-white
+                                    span &nbsp;&nbsp;Delete
+                    table.table.table-striped.table-bordered(cellpadding=0,cellspacing=0,border=0,id="example2")
+                        thead
+                            tr
+                                th Account ID
+                                th Email
+                                th Mobile
+                                th Status
+                        tbody
+                            tr.odd.gradeA
+                                td A
+                                td A
+                                td A
+                                td A
+                            tr.even.gradeA
+                                td B
+                                td B
+                                td B
+                                td B
