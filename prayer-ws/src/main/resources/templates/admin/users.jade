@@ -25,28 +25,29 @@ block content_main
                             a(href="#tpList",data-toggle="pill") User List
                         li#liForm.tabitem.hidden
                             span
-                                button.close(style="padding-right:3px;",onclick="closeTab();") &times;
+                                button#btnBack.close(style="padding-right:3px;",onclick="closeUserF();") &times;
                             a(href="#tpForm",data-toggle="pill") User Add
                     .tab-content
                         .tab-pane.fade.in.active(id="tpList")
                             .table-toolbar
                                 .btn-group
-                                    a(href="#",onclick="showAdd('/dynamic/admin/forms/users/add')")
+                                    a(href="#",onclick="formUserA('/dynamic/admin/forms/users/useradd')")
                                         button.btn.btn-success
                                             i.icon-plus.icon-white
                                             span &nbsp;&nbsp;Add New
-                                    a(href="#",style="margin-left:5px;")
+                                    a(href="#",onclick="formUserV('/dynamic/admin/forms/users/userview')",style="margin-left:5px;")
                                         button.btn
                                             i.icon-eye-open
                                             span &nbsp;&nbsp;View
-                                    a(href="#",style="margin-left:5px;")
+                                    a(href="#",onclick="formUserU('/dynamic/admin/forms/users/userupdate')",style="margin-left:5px;")
                                         button.btn.btn-inverse
                                             i.icon-refresh.icon-white
                                             span &nbsp;&nbsp;Update
-                                    a(href="#",style="margin-left:5px;")
+                                    a(href="#",onclick="formUserD()",style="margin-left:5px;")
                                         button.btn.btn-danger
                                             i.icon-remove.icon-white
                                             span &nbsp;&nbsp;Delete
+                            input#fUserListDATA(type="hidden",value="in_id,in_username,in_email,in_mobile")
                             table.table.table-striped.table-bordered(cellpadding=0,cellspacing=0,border=0,id="example2")
                                 thead
                                     tr
@@ -54,19 +55,22 @@ block content_main
                                         th Account ID
                                         th Email
                                         th Mobile
-                                        th Status
                                 tbody
                                     tr.odd.gradeA
                                         td(style="width:30px")
-                                            input(type="radio",name="record")
-                                        td A
-                                        td A
-                                        td A
-                                        td A
+                                            input#in_id1.radio(type="radio",name="record",value="1")
+                                        td
+                                            span lang.yu
+                                            input#in_username1(type="hidden",value="lang.yu")
+                                        td
+                                            span lang.yu@hp.com
+                                            input#in_email1(type="hidden",value="lang.yu@hp.com")
+                                        td
+                                            span 15922611447
+                                            input#in_mobile1(type="hidden",value="15922611447")
                                     tr.even.gradeA
                                         td(style="width:30px")
-                                            input(type="radio",name="record")
-                                        td B
+                                            input.radio(type="radio",name="record",value="2")
                                         td B
                                         td B
                                         td B

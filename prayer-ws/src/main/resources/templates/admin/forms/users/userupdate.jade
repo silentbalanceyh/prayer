@@ -1,0 +1,62 @@
+form#fUserUpdate.form-horizontal(action="#")
+    input#in_id(type="hidden")
+    input#fUserUpdateDATA(type="hidden",value="in_id,in_username,in_email,in_mobile")
+    .alert.alert-error.hide
+        button.close(data-dismiss="alert") &times;
+        strong Error!
+        span &nbsp;&nbsp;There are some errors, please check below.
+    .alert.alert-success.hide
+        button.close(data-dismiss="alert") &times;
+        strong Success!
+        span &nbsp;&nbsp;Your form validation is successful!
+    .control-group
+        .control-label(for="in_username")
+            span Account ID
+        .controls
+            input#in_username.input-xlarge(type="text",name="in_username",readonly="readonly")
+    .control-group
+        .control-label(for="in_email")
+            span Email Address
+            span.required *
+        .controls
+            input#in_email.input-xlarge(type="text",name="in_email")
+    .control-group
+        .control-label(for="in_mobile")
+            span Mobile
+            span.required *
+        .controls
+            input#in_mobile.input-xlarge(type="text",name="in_mobile")
+    .form-actions
+        button.btn.btn-inverse(onclick="updateUser()")
+            i.icon-refresh.icon-white
+            span &nbsp;&nbsp;Update
+        span &nbsp;&nbsp;
+        button.btn.btn-danger(onclick="closeUserF();return false;")
+            i.icon-remove.icon-white
+            span &nbsp;&nbsp;Cancel
+form#fUserPwD.form-horizontal(action="#")
+    input#fUserPwDDATA(type="hidden",value="in_id,in_password,in_cfmpwd")
+    .alert.alert-error.hide
+        button.close(data-dismiss="alert") &times;
+        strong Error!
+        span &nbsp;&nbsp;There are some errors, please check below.
+    .alert.alert-success.hide
+        button.close(data-dismiss="alert") &times;
+        strong Success!
+        span &nbsp;&nbsp;Your form validation is successful!
+    .control-group
+        .control-label(for="in_password")
+            span Password
+            span.required *
+        .controls
+            input#in_password.input-xlarge(type="password",name="in_password")
+    .control-group
+        .control-label(for="in_cfmpwd")
+            span Password Confirm
+            span.required *
+        .controls
+            input#in_cfmpwd.input-xlarge(type="password",name="in_cfmpwd")
+    .form-actions
+        button.btn.btn-warning(onclick="updatePwD()")
+            i.icon-lock.icon-white
+            span &nbsp;&nbsp;Update Password

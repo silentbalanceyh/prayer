@@ -1,0 +1,24 @@
+{
+  "rules":{
+    "in_password":{
+      "required":true,
+      "minlength":8
+    },
+    "in_cfmpwd":{
+      "required":true,
+      "minlength":8,
+      "equalTo":"#in_password"
+    }
+  },
+  "messages": {
+    "in_password":{
+      "required":"Password is required, please input your password.",
+      "minlength":"$.validator.format('Please enter at least {0} characters to match password rule.')"
+    },
+    "in_cfmpwd":{
+      "required":"Confirm password is required, please input valid password.",
+      "minlength":"$.validator.format('Please enter at least {0} characters to match password rule.')",
+      "equalTo":"Please enter the same password again."
+    }
+  }
+}

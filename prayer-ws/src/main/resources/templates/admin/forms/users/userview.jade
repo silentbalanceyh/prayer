@@ -1,0 +1,26 @@
+form#fUserView.form-horizontal(action="#")
+   input#fUserViewDATA(type="hidden",value="in_id,in_username,in_email,in_mobile")
+   input#in_id(type="hidden")
+   .control-group
+      .control-label(for="in_username")
+         span Account ID
+      .control-label
+         span#in_username.pull-left(style="margin-left:20px;")
+   .control-group
+      .control-label(for="in_email")
+         span Email Address
+      .control-label
+         span#in_email.pull-left(style="margin-left:20px;")
+   .control-group
+      .control-label(for="in_mobile")
+         span Mobile
+      .control-label
+         span#in_mobile.pull-left(style="margin-left:20px;")
+   .form-actions
+      button.btn.btn-default(onclick="closeUserV();return false;")
+         i.icon-remove
+         span &nbsp;&nbsp;Close
+      span &nbsp;&nbsp;
+      button#btnDelete.btn.btn-primary.hidden(onclick="deleteUser();return false;")
+         i.icon-remove.icon-white
+         span &nbsp;&nbsp;Delete

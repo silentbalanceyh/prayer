@@ -1,0 +1,32 @@
+{
+  "rules":{
+    "in_username":{
+      "required":true,
+      "rangelength":[6,16]
+    },
+    "in_email": {
+      "required": true,
+      "email": true
+    },
+    "in_mobile": {
+      "required": true,
+      "rangelength": [11,15],
+      "digits": true
+    }
+  },
+  "messages": {
+    "in_username":{
+      "required":"Account ID is required, please input your account ID.",
+      "rangelength": "$.validator.format('Please enter valid account ID between {0} and {1} characters long.')"
+    },
+    "in_email": {
+      "required": "Email is required.",
+      "email": "Email format is invalid, please correct."
+    },
+    "in_mobile": {
+      "required": "Mobile is required.",
+      "rangelength": "$.validator.format('Please enter valid mobile number between {0} and {1} characters long.')",
+      "digits": "Please enter a valid mobile number format."
+    }
+  }
+}

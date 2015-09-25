@@ -1,0 +1,50 @@
+{
+  "rules":{
+    "in_username":{
+      "required":true,
+      "rangelength":[6,16]
+    },
+    "in_password":{
+      "required":true,
+      "minlength":8
+    },
+    "in_cfmpwd":{
+      "required":true,
+      "minlength":8,
+      "equalTo":"#in_password"
+    },
+    "in_email": {
+      "required": true,
+      "email": true
+    },
+    "in_mobile": {
+      "required": true,
+      "rangelength": [11,15],
+      "digits": true
+    }
+  },
+  "messages": {
+    "in_username":{
+      "required":"Account ID is required, please input your account ID.",
+      "rangelength": "$.validator.format('Please enter valid account ID between {0} and {1} characters long.')"
+    },
+    "in_password":{
+      "required":"Password is required, please input your password.",
+      "minlength":"$.validator.format('Please enter at least {0} characters to match password rule.')"
+    },
+    "in_cfmpwd":{
+      "required":"Confirm password is required, please input valid password.",
+      "minlength":"$.validator.format('Please enter at least {0} characters to match password rule.')",
+      "equalTo":"Please enter the same password again."
+    },
+    "in_email": {
+      "required": "Email is required.",
+      "email": "Email format is invalid, please correct."
+    },
+    "in_mobile": {
+      "required": "Mobile is required.",
+      "rangelength": "$.validator.format('Please enter valid mobile number between {0} and {1} characters long.')",
+      "digits": "Please enter a valid mobile number format."
+    }
+  }
+}

@@ -15,49 +15,77 @@ block content_main
                         a(href="/dynamic/admin/profile") Profile
             .block-content.collapse.in
                 .span12
-                    form.form-horizontal
-                        #lblError.alert.alert-error(style="display:none")
-                            button.close(data-dismiss="alert") &times;
-                            strong Error!
-                            span
-                        #lblSuccess.alert.alert-success(style="display:none")
-                            button.close(data-dismiss="alert") &times;
-                            strong Success!
+                    form#fProfile.form-horizontal(action="#")
+                        input#fProfileDATA(type="hidden",value="in_username,in_email,in_mobile")
+                        input#in_id(type="hidden")
                         fieldset
                             legend
                                 h3
                                     i.icon-th-list
                                     span &nbsp;&nbsp;My Profile Information
+                        .alert.alert-error.hide
+                            button.close(data-dismiss="alert") &times;
+                            strong Error!
+                            span &nbsp;&nbsp;There are some errors, please check below.
+                        .alert.alert-success.hide
+                            button.close(data-dismiss="alert") &times;
+                            strong Success!
+                            span &nbsp;&nbsp;Your form validation is successful!
                         .control-group
-                            .control-label(for="in_username") Account ID
+                            .control-label(for="in_username")
+                                span Account ID
+                                span.required *
                             .controls
-                                input.input-xlarge(type="text",id="in_username",readonly="readonly")
+                                input#in_username.input-xlarge.m-wrap(type="text",name="in_username",readonly="readonly")
                         .control-group
-                            .control-label(for="in_email") Email
+                            .control-label(for="in_email")
+                                span Email
+                                span.required *
                             .controls
-                                input.input-xlarge(type="text",id="in_email")
+                                input#in_email.input-xlarge.m-wrap(type="email",name="in_email")
                         .control-group
-                            .control-label(for="in_mobile") Mobile
+                            .control-label(for="in_mobile")
+                                span Mobile
+                                span.required *
                             .controls
-                                input.input-xlarge(type="text",id="in_mobile")
+                                input#in_mobile.input-xlarge(type="text",name="in_mobile")
                         .form-actions
-                            button.btn.btn-primary(type="button",onclick="") Save Profile
+                            button.btn.btn-inverse(type="button",onclick="saveProfile();")
+                                i.icon-refresh.icon-white
+                                span &nbsp;&nbsp;Update Profile
+                    form#fPassword.form-horizontal(action="#")
+                        input#fPasswordDATA(type="hidden",value="in_oldpwd,in_newpwd,in_cfmpwd")
                         fieldset
                             legend
                                 h3
                                     i.icon-th-list
                                     span &nbsp;&nbsp;Password Change Form
+                        .alert.alert-error.hide
+                            button.close(data-dismiss="alert") &times;
+                            strong Error!
+                            span &nbsp;&nbsp;There are some errors, please check below.
+                        .alert.alert-success.hide
+                            button.close(data-dismiss="alert") &times;
+                            strong Success!
+                            span &nbsp;&nbsp;Your form validation is successful!
                         .control-group
-                            .control-label(for="txtOldPWD") Old Password
+                            .control-label(for="in_oldpwd")
+                                span Old Password
+                                span.required *
                             .controls
-                                input.input-xlarge(type="password",id="txtOldPWD")
+                                input#in_oldpwd.input-xlarge(type="password",name="in_oldpwd")
                         .control-group
-                            .control-label(for="txtNewPWD") New Password
+                            .control-label(for="in_newpwd")
+                                span New Password
+                                span.required *
                             .controls
-                                input.input-xlarge(type="password",id="txtNewPWD")
+                                input#in_newpwd.input-xlarge(type="password",name="in_newpwd")
                         .control-group
-                            .control-label(for="txtConfirmPWD") Password Confirm
+                            .control-label(for="in_cfmpwd")
+                                span Password Confirm
                             .controls
-                                input.input-xlarge(type="text",id="txtConfirmPWD")
+                                input#in_cfmpwd.input-xlarge(type="password",name="in_cfmpwd")
                         .form-actions
-                            button.btn.btn-primary(type="button",onclick="") Update Password
+                            button.btn.btn-warning(type="button",onclick="updatePassword();")
+                                i.icon-lock.icon-white
+                                span &nbsp;&nbsp;Update Password
