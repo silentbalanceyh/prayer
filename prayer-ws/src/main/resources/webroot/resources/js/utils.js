@@ -32,6 +32,57 @@ var $$U = (function() {
         return {};
     }
 })();
+var FORM = (function () {
+    _common = function (path, config, button) {
+        $.ajax({
+            url: path,
+            success: function (data, status, response) {
+                if (response.status == 200) {
+                    var form = new BootstrapDialog({
+                        message: $(data),
+                        title: config["title"],
+                        size: "size-normal",
+                        keyboard: false,
+                        closable: true,
+                        backdrop: 'static',
+                        buttons: [button, {
+                            label: "Cancel",
+                            icon: "icon-remove icon-white",
+                            cssClass: "pull-left btn btn-danger",
+                            action: function (self) {
+                                self.close();
+                            }
+                        }]
+                    });
+                    form.realize();
+                    var $modalDialog = $(this).find(".modal-dialog"),
+                        $modalBody = $(this).find(".modal-body"),
+                        dialogHeight = $modalDialog.height(),
+                        dialogWidth = $modalDialog.width(),
+                        windowHeight = $(window).height(),
+                        windowWidth = $(window).width();
+                    if (windowHeight < dialogHeight) {
+                        return;
+                    }
+                    var top = (100 - config["width"]) / 2;
+                    var left = (100 - config["width"])/ 2;
+                    form.getModal().css({
+                        "position": "absolute",
+                        "top": top + "%",
+                        "left": left + "%",
+                        "width": config["width"] + "%",
+                        "marginLeft": -( dialogWidth / 2 ),
+                        "marginTop": -( dialogHeight / 2 )
+                    });
+                    form.open();
+                }
+            }
+        });
+    };
+    return function () {
+        return {};
+    }
+})();
 // 获取远程API函数
 var API = (function() {
     _uri = function(api) {
@@ -102,6 +153,11 @@ var BTN = (function() {
         active : _active,
         shift : _shift,
         show : _show
+    }
+})();
+(function () {
+    FORM = FORM.prototype = {
+        common: _common
     }
 })();
 (function() {

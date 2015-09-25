@@ -97,4 +97,18 @@ jQuery(document).ready(function() {
         FUN();
     }
     MENU_STATUS(window.location.pathname);
+    if(undefined !== jQuery("#taScript")){
+        editAreaLoader.init({
+            id:"taScript",
+            language:"en",
+            syntax:"js",
+            start_highlight:true,
+            min_height:400,
+            toolbar:"search,go_to_line,|,undo,redo,word_wrap",
+            replace_tab_by_spaces:true,
+            debug:true,
+            allow_toggle:false,
+            allow_resize:true
+        });
+    }
 });

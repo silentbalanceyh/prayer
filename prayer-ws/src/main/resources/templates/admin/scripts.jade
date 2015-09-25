@@ -1,0 +1,64 @@
+extends shared/layout
+block content_main
+    .row-fluid
+        .block
+            .navbar.navbar-inner.block-header
+                ul.breadcrumb
+                    i.icon-chevron-left.hide-sidebar
+                        a(href="#",title="Hide Sidebar",rel="tooltip") &nbsp;
+                    i.icon-chevron-right.show-sidebar(style="display:none")
+                        a(href="#",title="Show Sidebar",rel="tooltip") &nbsp;
+                    li
+                        span &nbsp;&nbsp;Security Information
+                        span.divider &nbsp;&gt;&nbsp;
+                    li
+                        a(href="#") Script Management
+            .block-content.collapse.in
+                .span12
+                    fieldset
+                        legend
+                            h3
+                                i.icon-th-list
+                                span &nbsp;&nbsp;Script Management
+
+                    form.form-horizontal
+                        #lblError.alert.alert-error(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Error!
+                            span
+                        #lblSuccess.alert.alert-success(style="display:none")
+                            button.close(data-dismiss="alert") &times;
+                            strong Success!
+                        .control-group
+                            .control-label.span2
+                            .controls    
+                                .table-toolbar
+                                    .btn-group
+                                        a(href="#")
+                                            button.btn.btn-inverse
+                                                i.icon-refresh.icon-white
+                                                span &nbsp;&nbsp;Save
+                                        a(href="#",style="margin-left:5px;")
+                                            button.btn.btn-primary
+                                                i.icon-search.icon-white
+                                                span &nbsp;&nbsp;Search
+                        .control-group
+                            .control-label.span2(for="txtName") Script Name
+                            .controls.span4
+                                input.input.input-xlarge(type="text",id="txtName")
+                            .control-label.span2(for="txtNamespace") Namespace
+                            .controls.span4
+                                input.input.input-xlarge(type="text",id="txtNamespace")
+                        .control-group
+                            .control-label.span2(for="taScript") Script Content
+                            .consoles.span10
+                                textarea#taScript.cusEditor
+                        .control-group
+                            .control-label.span2
+                            .controls    
+                                .table-toolbar
+                                    .btn-group
+                                        a(href="#")
+                                            button.btn.btn-inverse
+                                                i.icon-refresh.icon-white
+                                                span &nbsp;&nbsp;Save

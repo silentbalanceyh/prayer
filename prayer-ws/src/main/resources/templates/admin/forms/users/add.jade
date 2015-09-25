@@ -1,0 +1,33 @@
+form.form-horizontal
+    fieldset
+        legend
+            h3
+                i.icon-th-list
+                span &nbsp;&nbsp;User Add Form
+    #lblError.alert.alert-error
+        button.close(data-dismiss="alert") &times;
+        strong Error!
+        span
+    #lblSuccess.alert.alert-success
+        button.close(data-dismiss="alert") &times;
+        strong Success!
+    .control-group
+        .control-label(for="txtUserName") Account ID
+        .controls
+            input.input-xlarge(type="text",id="txtUserName")
+    .control-group
+        .control-label(for="txtPassword") Password
+        .controls
+            input.input-xlarge(type="password",id="txtPassword")
+    .control-group
+        .control-label(for="txtPwDConfirm") Password Confirm
+        .controls
+            input.input-xlarge(type="password",id="txtPwDConfirm")
+    .control-group
+        .control-label(for="txtEmail") Email Address
+        .controls
+            input.input-xlarge(type="text",id="txtEmail")
+    .control-group
+        .control-label(for="txtMobile") Mobile
+        .controls
+            input.input-xlarge(type="text",id="txtMobile")
