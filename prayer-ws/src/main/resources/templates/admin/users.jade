@@ -20,44 +20,54 @@ block content_main
                             h3
                                 i.icon-th-list
                                 span &nbsp;&nbsp;User Management
-                    .table-toolbar
-                        .btn-group
-                            a(href="#",onclick="showAdd('/dynamic/admin/forms/users/add')")
-                                button.btn.btn-success
-                                    i.icon-plus.icon-white
-                                    span &nbsp;&nbsp;Add New
-                            a(href="#",style="margin-left:5px;")
-                                button.btn
-                                    i.icon-eye-open
-                                    span &nbsp;&nbsp;View
-                            a(href="#",style="margin-left:5px;")
-                                button.btn.btn-inverse
-                                    i.icon-refresh.icon-white
-                                    span &nbsp;&nbsp;Update
-                            a(href="#",style="margin-left:5px;")
-                                button.btn.btn-danger
-                                    i.icon-remove.icon-white
-                                    span &nbsp;&nbsp;Delete
-                    table.table.table-striped.table-bordered(cellpadding=0,cellspacing=0,border=0,id="example2")
-                        thead
-                            tr
-                                th 
-                                th Account ID
-                                th Email
-                                th Mobile
-                                th Status
-                        tbody
-                            tr.odd.gradeA
-                                td(style="width:30px")
-                                    input(type="radio",name="record")
-                                td A
-                                td A
-                                td A
-                                td A
-                            tr.even.gradeA
-                                td(style="width:30px")
-                                    input(type="radio",name="record")
-                                td B
-                                td B
-                                td B
-                                td B
+                    ul#ulTab.nav.nav-tabs
+                        li.tabitem.active
+                            a(href="#tpList",data-toggle="pill") User List
+                        li#liForm.tabitem.hidden
+                            span
+                                button.close(style="padding-right:3px;",onclick="closeTab();") &times;
+                            a(href="#tpForm",data-toggle="pill") User Add
+                    .tab-content
+                        .tab-pane.fade.in.active(id="tpList")
+                            .table-toolbar
+                                .btn-group
+                                    a(href="#",onclick="showAdd('/dynamic/admin/forms/users/add')")
+                                        button.btn.btn-success
+                                            i.icon-plus.icon-white
+                                            span &nbsp;&nbsp;Add New
+                                    a(href="#",style="margin-left:5px;")
+                                        button.btn
+                                            i.icon-eye-open
+                                            span &nbsp;&nbsp;View
+                                    a(href="#",style="margin-left:5px;")
+                                        button.btn.btn-inverse
+                                            i.icon-refresh.icon-white
+                                            span &nbsp;&nbsp;Update
+                                    a(href="#",style="margin-left:5px;")
+                                        button.btn.btn-danger
+                                            i.icon-remove.icon-white
+                                            span &nbsp;&nbsp;Delete
+                            table.table.table-striped.table-bordered(cellpadding=0,cellspacing=0,border=0,id="example2")
+                                thead
+                                    tr
+                                        th
+                                        th Account ID
+                                        th Email
+                                        th Mobile
+                                        th Status
+                                tbody
+                                    tr.odd.gradeA
+                                        td(style="width:30px")
+                                            input(type="radio",name="record")
+                                        td A
+                                        td A
+                                        td A
+                                        td A
+                                    tr.even.gradeA
+                                        td(style="width:30px")
+                                            input(type="radio",name="record")
+                                        td B
+                                        td B
+                                        td B
+                                        td B
+                        .tab-pane.fade(id="tpForm")            

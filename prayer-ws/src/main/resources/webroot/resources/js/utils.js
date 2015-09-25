@@ -32,52 +32,35 @@ var $$U = (function() {
         return {};
     }
 })();
-var FORM = (function () {
-    _common = function (path, config, button) {
+var TAB = (function () {
+    _addTab = function (path, config) {
         $.ajax({
             url: path,
             success: function (data, status, response) {
                 if (response.status == 200) {
-                    var form = new BootstrapDialog({
-                        message: $(data),
-                        title: config["title"],
-                        size: "size-normal",
-                        keyboard: false,
-                        closable: true,
-                        backdrop: 'static',
-                        buttons: [button, {
-                            label: "Cancel",
-                            icon: "icon-remove icon-white",
-                            cssClass: "pull-left btn btn-danger",
-                            action: function (self) {
-                                self.close();
-                            }
-                        }]
-                    });
-                    form.realize();
-                    var $modalDialog = $(this).find(".modal-dialog"),
-                        $modalBody = $(this).find(".modal-body"),
-                        dialogHeight = $modalDialog.height(),
-                        dialogWidth = $modalDialog.width(),
-                        windowHeight = $(window).height(),
-                        windowWidth = $(window).width();
-                    if (windowHeight < dialogHeight) {
-                        return;
+                    {
+                        jQuery("#tpForm").html(data);
+                        jQuery("#liForm").removeClass("hidden");
+                        // Content
+                        jQuery("#ulTab a[href=#tpForm]").html(config["title"]);
+                        jQuery("#ulTab a[href=#tpForm]").tab("show");
                     }
-                    var top = (100 - config["width"]) / 2;
-                    var left = (100 - config["width"])/ 2;
-                    form.getModal().css({
-                        "position": "absolute",
-                        "top": top + "%",
-                        "left": left + "%",
-                        "width": config["width"] + "%",
-                        "marginLeft": -( dialogWidth / 2 ),
-                        "marginTop": -( dialogHeight / 2 )
-                    });
-                    form.open();
+                    if(undefined !== config["data"]){
+                        var data = config["data"];
+                        for(var item in data){
+                            jQuery("#in_" + item).attr("value",data[item]);
+                        }
+                    }
                 }
             }
         });
+    };
+    _dismiss = function(){
+        jQuery("#tpForm").html("");
+        // Header
+        jQuery("#liForm").addClass("hidden");
+        // Content
+        jQuery("#ulTab a[href=#tpList]").tab("show");
     };
     return function () {
         return {};
@@ -156,8 +139,9 @@ var BTN = (function() {
     }
 })();
 (function () {
-    FORM = FORM.prototype = {
-        common: _common
+    TAB = TAB.prototype = {
+        addTab: _addTab,
+        dismiss:_dismiss
     }
 })();
 (function() {
@@ -207,4 +191,22 @@ function progress() {
     if ($$P > 100) {
         window.clearInterval($$STOP);
     }
+}
+function closeTab(){
+    BootstrapDialog.show({
+        message: "Do you want to exit and all information will be dismissed ?",
+        buttons: [{
+            label: "Yes",
+            cssClass: "btn btn-primary",
+            action: function (self) {
+                self.close();
+                TAB.dismiss();
+            }
+        }, {
+            label: "No",
+            action: function (self) {
+                self.close();
+            }
+        }]
+    });
 }

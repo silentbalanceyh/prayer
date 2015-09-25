@@ -12,22 +12,30 @@ form.form-horizontal
         button.close(data-dismiss="alert") &times;
         strong Success!
     .control-group
-        .control-label(for="txtUserName") Account ID
+        .control-label(for="in_username") Account ID
         .controls
-            input.input-xlarge(type="text",id="txtUserName")
+            input.input-xlarge(type="text",id="in_username")
     .control-group
-        .control-label(for="txtPassword") Password
+        .control-label(for="in_password") Password
         .controls
-            input.input-xlarge(type="password",id="txtPassword")
+            input.input-xlarge(type="password",id="in_password")
     .control-group
-        .control-label(for="txtPwDConfirm") Password Confirm
+        .control-label(for="in_confirmPwD") Password Confirm
         .controls
-            input.input-xlarge(type="password",id="txtPwDConfirm")
+            input.input-xlarge(type="password",id="in_confirmPwD")
     .control-group
-        .control-label(for="txtEmail") Email Address
+        .control-label(for="in_email") Email Address
         .controls
-            input.input-xlarge(type="text",id="txtEmail")
+            input.input-xlarge(type="text",id="in_email")
     .control-group
-        .control-label(for="txtMobile") Mobile
+        .control-label(for="in_mobile") Mobile
         .controls
-            input.input-xlarge(type="text",id="txtMobile")
+            input.input-xlarge(type="text",id="in_mobile")
+    .form-actions
+        button.btn.btn-primary(onclick="")
+            i.icon-plus.icon-white
+            span &nbsp;&nbsp;Add New
+        span &nbsp;&nbsp;
+        button.btn.btn-danger(onclick="closeTab()")
+            i.icon-remove.icon-white
+            span &nbsp;&nbsp;Cancel        

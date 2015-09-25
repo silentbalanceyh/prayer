@@ -99,6 +99,8 @@ public interface Constants { // NOPMD
         
         /** Options **/
         String DYNAMIC_OPTIONS = "/dynamic/admin/options/*";
+        /** Profile **/
+        String DYNAMIC_PROFILE = "/dynamic/admin/profile";
         
         /** favicon.ico默认路径 **/
         String FAVICON_ICO = "/favicon.ico";
