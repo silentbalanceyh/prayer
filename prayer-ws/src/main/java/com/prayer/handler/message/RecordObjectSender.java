@@ -1,5 +1,6 @@
 package com.prayer.handler.message;
 
+import com.prayer.assistant.Future;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.web.StatusCode;
@@ -44,11 +45,13 @@ public final class RecordObjectSender implements Handler<AsyncResult<Message<Obj
     public void handle(@NotNull final AsyncResult<Message<Object>> event) {
         if (event.succeeded()) {
             final String data = (String) event.result().body();
+
             final JsonObject ret = new JsonObject();
             ret.put(Constants.RET.STATUS_CODE, StatusCode.OK.status());
             ret.put(Constants.RET.RESPONSE, ResponseCode.SUCCESS);
             ret.put(Constants.RET.DATA, new JsonObject(data));
-            this.response.end(ret.encode());
+            
+            Future.success(this.response, ret.encode());
         }
     }
     // ~ Methods =============================================
