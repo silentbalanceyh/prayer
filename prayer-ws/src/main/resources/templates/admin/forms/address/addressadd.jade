@@ -1,0 +1,38 @@
+form#fAddressAdd.form-horizontal(action="#")
+   input#fAddressAddDATA(type="hidden",value="in_workclass,in_address,in_handler")
+   .alert.alert-error.hide
+      button.close(data-dismiss="alert") &times;
+      strong Error!
+      span &nbsp;&nbsp;There are some errors, please check below.
+   .alert.alert-success.hide
+      button.close(data-dismiss="alert") &times;
+      strong Success!
+      span &nbsp;&nbsp;Your form validation is successful!
+   .control-group
+      .control-label(for="in_workclass")
+         span Work Class
+         span.required *
+      .controls
+         input#in_workclass.input-xlarge(type="text",name="in_workclass")
+   .control-group
+      .control-label(for="in_address")
+         span Consumer Address
+         span.required *
+      .controls
+         .input-prepend
+            span.add-on MSG://
+            input#in_address.input-xlarge(type="text",name="in_address",style="width:103%")
+   .control-group
+      .control-label(for="in_handler")
+         span Consumer Handler
+         span.required *
+      .controls
+         input#in_handler.input-xlarge(type="text",name="in_handler")
+   .form-actions
+      a.btn.btn-primary(onclick="$$T.add('#fAddressAdd');return false;")
+         i.icon-plus.icon-white
+         span &nbsp;&nbsp;Add New
+      span &nbsp;&nbsp;
+      a.btn.btn-danger(onclick="closeTabForm();return false;")
+         i.icon-remove.icon-white
+         span &nbsp;&nbsp;Cancel

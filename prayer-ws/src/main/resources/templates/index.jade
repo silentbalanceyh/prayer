@@ -1,6 +1,6 @@
 extends layout
 block content_main
-    .container#{UI_PAGE_WIDTH}
+    .container.col-sm-offset-2.col-sm-8
         form#fLogin.form-horizontal
         
             .form-group
@@ -22,7 +22,7 @@ block content_main
                 .col-sm-offset-1.col-sm-5
                     .progress.progress-striped.hidden
                         .progress-bar.progress-bar-info.active(style="width:0%")
-    .container#{UI_PAGE_WIDTH}
+    .container.col-sm-offset-2.col-sm-8
         .form-group
             #msgError.alert.alert-danger.invisible
     

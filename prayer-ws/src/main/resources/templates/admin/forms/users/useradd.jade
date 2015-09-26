@@ -39,10 +39,10 @@ form#fUserAdd.form-horizontal(action="#")
         .controls
             input#in_mobile.input-xlarge(type="text",name="in_mobile")
     .form-actions
-        button.btn.btn-primary(onclick="addUser()")
+        a.btn.btn-primary(onclick="addUser();return false;")
             i.icon-plus.icon-white
             span &nbsp;&nbsp;Add New
         span &nbsp;&nbsp;
-        button.btn.btn-danger(onclick="closeUserF();return false;")
+        a.btn.btn-danger(onclick="closeTabForm();return false;")
             i.icon-remove.icon-white
             span &nbsp;&nbsp;Cancel        

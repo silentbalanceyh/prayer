@@ -1,0 +1,72 @@
+extends shared/layout
+block content_main
+   .row-fluid
+      .block
+         .navbar.navbar-inner.block-header
+            ul.breadcrumb
+               i.icon-chevron-left.hide-sidebar
+                  a(href="#",title="Hide Sidebar",rel="tooltip") &nbsp;
+               i.icon-chevron-right.show-sidebar(style="display:none")
+                  a(href="#",title="Show Sidebar",rel="tooltip") &nbsp;
+               li
+                  span &nbsp;&nbsp;Framework Engine
+                  span.divider &nbsp;&gt;&nbsp;
+               li
+                  a(href="/dynamic/admin/address") Message Address Management
+         .block-content.collapse.in
+            .span12
+               fieldset
+                  legend
+                     h3
+                        i.icon-th-list
+                        span &nbsp;&nbsp;Message Address Management
+               ul#ulTab.nav.nav-tabs
+                  li.tabitem.active
+                     a(href="#tpList",data-toggle="pill") Address List
+                  li#liForm.tabitem.hidden
+                     span
+                        button#btnBack.close(style="padding-right:3px;",onclick="") &times;
+                     a(href="#tpForm",data-toggle="pill") Address Add
+               .tab-content
+                  .tab-pane.fade.in.active(id="tpList")
+                     .table-toolbar
+                        .btn-group
+                           a(href="#",onclick="$$T.formA('Address','Add')")
+                              button.btn.btn-success
+                                 i.icon-plus.icon-white
+                                 span &nbsp;&nbsp;Add New
+                           a(href="#",onclick="$$T.formV('Address','View')",style="margin-left:5px;")
+                              button.btn
+                                 i.icon-eye-open
+                                 span &nbsp;&nbsp;View
+                           a(href="#",onclick="$$T.formU('Address','Update')",style="margin-left:5px;")
+                              button.btn.btn-inverse
+                                 i.icon-refresh.icon-white
+                                 span &nbsp;&nbsp;Update
+                           a(href="#",onclick="$$T.formD('Address','View')",style="margin-left:5px;")
+                              button.btn.btn-danger
+                                 i.icon-remove.icon-white
+                                 span &nbsp;&nbsp;Delete
+                     input#fAddressListDATA(type="hidden",value="in_id,in_workclass,in_address,in_handler")
+                     table#fAddressList.table.table-striped.table-bordered(cellpadding=0,cellspacing=0,border=0)
+                        thead
+                           tr
+                              th
+                              th Work Class
+                              th Consumer Address
+                              th Consumer Handler
+                        tbody
+                           tr.odd.gradeA
+                              td(style="width:30px")
+                                 input#in_id1.radio(type="radio",name="record",value="1")
+                              td
+                                 span com.prayer.vx.verticle.RecordWorker
+                                 input#in_workclass1(type="hidden",value="com.prayer.vx.verticle.RecordWorker")
+                              td
+                                 span MSG://RECORD/QUEUE
+                                 input#in_address1(type="hidden",value="MSG://RECORD/QUEUE")
+                              td
+                                 span com.prayer.handler.message.RecordConsumer
+                                 input#in_handler1(type="hidden",value="com.prayer.handler.message.RecordConsumer")
+                  .tab-pane.fade(id="tpForm")
+

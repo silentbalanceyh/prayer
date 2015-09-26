@@ -98,8 +98,8 @@ function MENU_STATUS(path) {
             BTN.active(null, ".leftNav");
             BTN.active(null, ".topNav");
             BTN.show("#mProfile", ".topSubIcon");
-            FORM.init("#fProfile","/static/resources/rules/validate/users/profile.json");
-            FORM.init("#fPassword","/static/resources/rules/validate/users/password.json");
+            FORM.init("#fProfile", "/static/resources/rules/validate/users/profile.json");
+            FORM.init("#fPassword", "/static/resources/rules/validate/users/password.json");
         }
             break;
         case "/dynamic/admin/users":
@@ -107,22 +107,32 @@ function MENU_STATUS(path) {
             BTN.active(null, ".leftNav");
             BTN.active(null, ".topNav");
             BTN.show("#mUsers", ".topSubIcon");
+            TAB.initTable("#fUserList");
         }
             break;
         case "/dynamic/admin/scripts":
         {
-            editAreaLoader.init({
-                id: "taScript",
-                language: "en",
-                syntax: "js",
-                start_highlight: true,
-                min_height: 400,
-                toolbar: "search,go_to_line,|,undo,redo,word_wrap",
-                replace_tab_by_spaces: true,
-                debug: true,
-                allow_toggle: false,
-                allow_resize: true
-            });
+            BTN.active("#mScript", ".leftNav");
+            BTN.active(null, ".topNav");
+            BTN.show(null, ".topSubIcon");
+            TAB.initTable("#fScriptList");
+            TAB.initEditor("taScript");
+        }
+            break;
+        case "/dynamic/admin/address":
+        {
+            BTN.active("#mAddress", ".leftNav");
+            BTN.active(null, ".topNav");
+            BTN.show(null, ".topSubIcon");
+            TAB.initTable("#fAddressList");
+        }
+            break;
+        case "/dynamic/admin/verticle":
+        {
+            BTN.active("#mVerticle", ".leftNav");
+            BTN.active(null, ".topNav");
+            BTN.show(null, ".topSubIcon");
+            TAB.initTable("#fVerticleList");
         }
             break;
     }

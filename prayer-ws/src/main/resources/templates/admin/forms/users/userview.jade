@@ -17,10 +17,10 @@ form#fUserView.form-horizontal(action="#")
       .control-label
          span#in_mobile.pull-left(style="margin-left:20px;")
    .form-actions
-      button.btn.btn-default(onclick="closeUserV();return false;")
+      a.btn.btn-default(onclick="closeTabView();return false;")
          i.icon-remove
          span &nbsp;&nbsp;Close
       span &nbsp;&nbsp;
-      button#btnDelete.btn.btn-primary.hidden(onclick="deleteUser();return false;")
+      a#btnDelete.btn.btn-primary.hidden(onclick="deleteUser();return false;")
          i.icon-remove.icon-white
          span &nbsp;&nbsp;Delete

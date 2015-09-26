@@ -1,0 +1,24 @@
+{
+  "rules": {
+    "in_workclass": {
+      "required": true
+    },
+    "in_address": {
+      "required": true
+    },
+    "in_handler": {
+      "required": true
+    }
+  },
+  "messages": {
+    "in_workclass": {
+      "required": "Work class is required."
+    },
+    "in_address":{
+      "required": "Consumer address is required."
+    },
+    "in_handler":{
+      "required": "Consumer handler is required."
+    }
+  }
+}

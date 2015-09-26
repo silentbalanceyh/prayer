@@ -9,10 +9,10 @@ block content_main
                     i.icon-chevron-right.show-sidebar(style="display:none")
                         a(href="#",title="Show Sidebar",rel="tooltip") &nbsp;
                     li
-                        span &nbsp;&nbsp;Security Information
+                        span &nbsp;&nbsp;Framework Engine
                         span.divider &nbsp;&gt;&nbsp;
                     li
-                        a(href="#") Script Management
+                        a(href="/dynamic/admin/scripts") Script Management
             .block-content.collapse.in
                 .span12
                     fieldset
@@ -20,45 +20,47 @@ block content_main
                             h3
                                 i.icon-th-list
                                 span &nbsp;&nbsp;Script Management
-
-                    form.form-horizontal
-                        #lblError.alert.alert-error(style="display:none")
-                            button.close(data-dismiss="alert") &times;
-                            strong Error!
+                    ul#ulTab.nav.nav-tabs
+                        li.tabitem.active
+                            a(href="#tpList",data-toggle="pill") Script List
+                        li#liForm.tabitem.hidden
                             span
-                        #lblSuccess.alert.alert-success(style="display:none")
-                            button.close(data-dismiss="alert") &times;
-                            strong Success!
-                        .control-group
-                            .control-label.span2
-                            .controls    
-                                .table-toolbar
-                                    .btn-group
-                                        a(href="#")
-                                            button.btn.btn-inverse
-                                                i.icon-refresh.icon-white
-                                                span &nbsp;&nbsp;Save
-                                        a(href="#",style="margin-left:5px;")
-                                            button.btn.btn-primary
-                                                i.icon-search.icon-white
-                                                span &nbsp;&nbsp;Search
-                        .control-group
-                            .control-label.span2(for="txtName") Script Name
-                            .controls.span4
-                                input.input.input-xlarge(type="text",id="txtName")
-                            .control-label.span2(for="txtNamespace") Namespace
-                            .controls.span4
-                                input.input.input-xlarge(type="text",id="txtNamespace")
-                        .control-group
-                            .control-label.span2(for="taScript") Script Content
-                            .consoles.span10
-                                textarea#taScript.cusEditor
-                        .control-group
-                            .control-label.span2
-                            .controls    
-                                .table-toolbar
-                                    .btn-group
-                                        a(href="#")
-                                            button.btn.btn-inverse
-                                                i.icon-refresh.icon-white
-                                                span &nbsp;&nbsp;Save
+                                button#btnBack.close(style="padding-right:3px;",onclick="") &times;
+                            a(href="#tpForm",data-toggle="pill") Script Add
+                    .tab-content
+                        .tab-pane.fade.in.active(id="tpList")
+                            .table-toolbar
+                                .btn-group
+                                    a(href="#",onclick="formScriptA('/dynamic/admin/forms/script/scriptadd')")
+                                        button.btn.btn-success
+                                            i.icon-plus.icon-white
+                                            span &nbsp;&nbsp;Add New
+                                    a(href="#",onclick="formScriptU('/dynamic/admin/forms/script/scriptupdate')",style="margin-left:5px;")
+                                        button.btn.btn-inverse
+                                            i.icon-refresh.icon-white
+                                            span &nbsp;&nbsp;Update
+                                    a(href="#",onclick="formScriptD()",style="margin-left:5px;")
+                                        button.btn.btn-danger
+                                            i.icon-remove.icon-white
+                                            span &nbsp;&nbsp;Delete
+                            input#fScriptListDATA(type="hidden",value="in_id,in_namespace,in_name,in_content")
+                            table#fScriptList.table.table-striped.table-bordered(cellpadding=0,cellspacing=0,border=0)
+                                thead
+                                    tr
+                                        th
+                                        th Name
+                                        th Namespace
+                                        th Operations
+                                tbody
+                                    tr.odd.gradeA
+                                        td(style="width:30px")
+                                            input#in_id1.radio(type="radio",name="record",value="1")
+                                        td
+                                            span engine.script.global
+                                            input#in_namespace1(type="hidden",value="engine.script.global")
+                                        td
+                                            span js.global.util
+                                            input#in_name1(type="hidden",value="js.global.util")
+                                        td
+                                            a Export As JS
+                        .tab-pane.fade(id="tpForm")

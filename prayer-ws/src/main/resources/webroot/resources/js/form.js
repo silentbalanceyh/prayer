@@ -92,6 +92,13 @@ var FORM = function () {
         }
         return data;
     };
+    var submitFailure = function(id){
+        var form = $(id);
+        var error = $(".alert-error", form);
+        var success = $(".alert-success", form);
+        success.hide();
+        error.show();
+    };
     return {
         init: function (id, path) {
             handleValidation(id, path);
@@ -99,15 +106,94 @@ var FORM = function () {
         success: function (id) {
             return submitSuccess(id);
         },
+        failure: function(id){
+            return submitFailure(id);
+        },
         rules: function (form, path, config, funData) {
             return _rules(form, path, config, funData);
         },
         config: function (form, data, config, funData) {
             return _config(form, data, config, funData);
         }
+    };
+}();
+var $$D = function (){
+    var _type = function(type){
+        // Windows Type
+        var winType = type;
+        if(undefined == winType || null == winType){
+            winType = BootstrapDialog.TYPE_DEFAULT;
+        }
+        return winType;
+    };
+    var _button = function(type){
+        var button = null;
+        var winType = _type(type);
+        if(BootstrapDialog.TYPE_WARNING === winType){
+            button = {
+                label: "Close",
+                cssClass: "btn btn-danger"
+            }
+        }else{
+            button = {
+                label: "Close",
+                cssClass: "btn btn-primary"
+            }
+        }
+        return button;
+    };
+    _message = function(message,yes,type){
+        var winType = _type(type);
+        var button = _button(winType);
+        button["action"] = function(self){
+            self.close();
+            if(undefined !== yes && null !== yes){
+                yes();
+            }
+        };
+        BootstrapDialog.show({
+            message: message,
+            type: winType,
+            buttons: [button]
+        });
+    };
+    _confirm = function(message,yes,no,type){
+        var winType = _type(type);
+        // Buttons
+        BootstrapDialog.show({
+            message: message,
+            type: winType,
+            buttons:[{
+                label: "Yes",
+                cssClass: "btn btn-primary",
+                action:function(self){
+                    self.close();
+                    if(undefined !== yes && null !== yes){
+                        yes();
+                    }
+                }
+            },{
+                label: "No",
+                cssClass: "btn btn-danger",
+                action:function(self){
+                    self.close();
+                    if(undefined !== no && null !== no){
+                        no();
+                    }
+                }
+            }]
+        });
+    };
+    return function(){
+        return {};
     }
 }();
-
+(function(){
+    $$D = $$D.prototype = {
+        confirm:_confirm,
+        message:_message
+    };
+})();
 /**
  * Rules:
  required: "This field is required.",

@@ -32,18 +32,9 @@ var $$U = (function () {
         var selectId = jQuery(cls + ":checked").val();
         var data = {};
         if (undefined === selectId) {
-            BootstrapDialog.show({
-                message: "Please select one record that you want to process !",
-                type: BootstrapDialog.TYPE_WARNING,
-                buttons: [{
-                    label: "Close",
-                    cssClass: "btn btn-danger",
-                    action: function (self) {
-                        self.close();
-                    }
-                }]
-            });
+            $$D.message("Please select one record that you want to process !", null, BootstrapDialog.TYPE_WARNING);
         } else {
+            console.log(id);
             var row = jQuery(id).val();
             var fields = row.toString().split(',');
             for (var idx = 0; idx < fields.length; idx++) {
@@ -57,15 +48,15 @@ var $$U = (function () {
     }
 })();
 var TAB = (function () {
-    var _injectField = function(data){
-        for(var item in data){
+    var _injectField = function (data) {
+        for (var item in data) {
             var type = jQuery("#" + item).attr("type");
-            if(undefined == type){
+            if (undefined == type) {
                 jQuery("#" + item).html(data[item]);
-            }else if("text" == type){
-                jQuery("#" + item).attr("value",data[item]);
-            }else if("hidden" == type){
-                jQuery("#" + item).attr("value",data[item]);
+            } else if ("text" == type) {
+                jQuery("#" + item).attr("value", data[item]);
+            } else if ("hidden" == type) {
+                jQuery("#" + item).attr("value", data[item]);
             }
         }
     };
@@ -93,21 +84,8 @@ var TAB = (function () {
         });
     };
     _closeTab = function (callback) {
-        BootstrapDialog.show({
-            message: "Do you want to exit and all information will be dismissed ?",
-            buttons: [{
-                label: "Yes",
-                cssClass: "btn btn-primary",
-                action: function (self) {
-                    self.close();
-                    TAB.dismiss(callback);
-                }
-            }, {
-                label: "No",
-                action: function (self) {
-                    self.close();
-                }
-            }]
+        $$D.confirm("Do you want to exit and all information will be dismissed ?", function () {
+            TAB.dismiss(callback);
         });
     };
     _dismiss = function (callback) {
@@ -120,6 +98,28 @@ var TAB = (function () {
         if (undefined !== callback) {
             callback();
         }
+    };
+    _initTable = function (id) {
+        $(id).dataTable({
+            "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+            "sPaginationType": "bootstrap",
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ records per page"
+            }
+        });
+    };
+    _initEditor = function (id) {
+        editAreaLoader.init({
+            id: id,
+            language: "en",
+            syntax: "js",
+            start_highlight: true,
+            min_height: 450,
+            toolbar: "save,|,search,go_to_line,|,undo,redo,word_wrap",
+            replace_tab_by_spaces: true,
+            allow_toggle: false,
+            allow_resize: true
+        });
     };
     return function () {
         return {};
@@ -201,7 +201,9 @@ var BTN = (function () {
     TAB = TAB.prototype = {
         addTab: _addTab,
         closeTab: _closeTab,
-        dismiss: _dismiss
+        dismiss: _dismiss,
+        initTable: _initTable,
+        initEditor: _initEditor
     }
 })();
 (function () {
@@ -209,7 +211,17 @@ var BTN = (function () {
         uri: _uri
     }
 })();
-
+// Confirm Dialog Back
+function closeTabForm() {
+    TAB.closeTab(function () {
+        // 带不带Confirm Dialog的关闭
+        jQuery(".radio").attr("checked", false);
+    });
+}
+// No Confirm Dialog Back
+function closeTabView() {
+    TAB.dismiss();
+}
 // ==================进度条色差函数==================
 // 进度条功能函数
 var $$P = 0;

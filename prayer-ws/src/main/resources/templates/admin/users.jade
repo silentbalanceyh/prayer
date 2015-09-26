@@ -25,7 +25,7 @@ block content_main
                             a(href="#tpList",data-toggle="pill") User List
                         li#liForm.tabitem.hidden
                             span
-                                button#btnBack.close(style="padding-right:3px;",onclick="closeUserF();") &times;
+                                button#btnBack.close(style="padding-right:3px;",onclick="closeTabForm();") &times;
                             a(href="#tpForm",data-toggle="pill") User Add
                     .tab-content
                         .tab-pane.fade.in.active(id="tpList")
@@ -48,7 +48,7 @@ block content_main
                                             i.icon-remove.icon-white
                                             span &nbsp;&nbsp;Delete
                             input#fUserListDATA(type="hidden",value="in_id,in_username,in_email,in_mobile")
-                            table.table.table-striped.table-bordered(cellpadding=0,cellspacing=0,border=0,id="example2")
+                            table#fUserList.table.table-striped.table-bordered(cellpadding=0,cellspacing=0,border=0)
                                 thead
                                     tr
                                         th

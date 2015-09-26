@@ -27,11 +27,11 @@ form#fUserUpdate.form-horizontal(action="#")
         .controls
             input#in_mobile.input-xlarge(type="text",name="in_mobile")
     .form-actions
-        button.btn.btn-inverse(onclick="updateUser()")
+        a.btn.btn-inverse(onclick="updateUser();return false;")
             i.icon-refresh.icon-white
             span &nbsp;&nbsp;Update
         span &nbsp;&nbsp;
-        button.btn.btn-danger(onclick="closeUserF();return false;")
+        a.btn.btn-danger(onclick="closeTabForm();return false;")
             i.icon-remove.icon-white
             span &nbsp;&nbsp;Cancel
 form#fUserPwD.form-horizontal(action="#")
@@ -57,6 +57,6 @@ form#fUserPwD.form-horizontal(action="#")
         .controls
             input#in_cfmpwd.input-xlarge(type="password",name="in_cfmpwd")
     .form-actions
-        button.btn.btn-warning(onclick="updatePwD()")
+        a.btn.btn-warning(onclick="updatePwD();return false;")
             i.icon-lock.icon-white
             span &nbsp;&nbsp;Update Password

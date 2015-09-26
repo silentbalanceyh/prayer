@@ -1,0 +1,18 @@
+{
+  "rules": {
+    "in_name": {
+      "required": true
+    },
+    "in_namespace": {
+      "required": true
+    }
+  },
+  "messages": {
+    "in_name": {
+      "required": "Script name is required."
+    },
+    "in_namespace": {
+      "required": "Script namespace is required."
+    }
+  }
+}

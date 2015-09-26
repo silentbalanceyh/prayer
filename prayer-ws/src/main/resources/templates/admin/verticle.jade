@@ -1,0 +1,84 @@
+extends shared/layout
+block content_main
+   .row-fluid
+      .block
+         .navbar.navbar-inner.block-header
+            ul.breadcrumb
+               i.icon-chevron-left.hide-sidebar
+                  a(href="#",title="Hide Sidebar",rel="tooltip") &nbsp;
+               i.icon-chevron-right.show-sidebar(style="display:none")
+                  a(href="#",title="Show Sidebar",rel="tooltip") &nbsp;
+               li
+                  span &nbsp;&nbsp;Framework Engine
+                  span.divider &nbsp;&gt;&nbsp;
+               li
+                  a(href="/dynamic/admin/verticle") Verticle/Worker Management
+         .block-content.collapse.in
+            .span12
+               fieldset
+                  legend
+                     h3
+                        i.icon-th-list
+                        span &nbsp;&nbsp;Verticle/Worker Management
+               ul#ulTab.nav.nav-tabs
+                  li.tabitem.active
+                     a(href="#tpList",data-toggle="pill") Verticle List
+                  li#liForm.tabitem.hidden
+                     span
+                        button#btnBack.close(style="padding-right:3px;",onclick="") &times;
+                     a(href="#tpForm",data-toggle="pill") Address Add
+               .tab-content
+                  .tab-pane.fade.in.active(id="tpList")
+                     .table-toolbar
+                        .btn-group
+                           a(href="#",onclick="$$T.formA('Verticle','Add')")
+                              button.btn.btn-success
+                                 i.icon-plus.icon-white
+                                 span &nbsp;&nbsp;Add New
+                           a(href="#",onclick="$$T.formV('Verticle','View')",style="margin-left:5px;")
+                              button.btn
+                                 i.icon-eye-open
+                                 span &nbsp;&nbsp;View
+                           a(href="#",onclick="$$T.formU('Verticle','Update')",style="margin-left:5px;")
+                              button.btn.btn-inverse
+                                 i.icon-refresh.icon-white
+                                 span &nbsp;&nbsp;Update
+                           a(href="#",onclick="$$T.formD('Verticle','View')",style="margin-left:5px;")
+                              button.btn.btn-danger
+                                 i.icon-remove.icon-white
+                                 span &nbsp;&nbsp;Delete
+                     input#fVerticleListDATA(type="hidden",value="in_id,in_class,in_instances,in_igroup,in_ha,in_worker,in_multi")
+                     table#fVerticleList.table.table-striped.table-bordered(cellpadding=0,cellspacing=0,border=0)
+                        thead
+                           tr
+                              th
+                              th Verticle Class
+                              th Instances
+                              th Isolated Group
+                              th HA Enabled ?
+                              th Is Worker ?
+                              th Is Multi ?
+                        tbody
+                           tr.odd.gradeA
+                              td(style="width:30px")
+                                 input#in_id1.radio(type="radio",name="record",value="1")
+                              td
+                                 span com.prayer.vx.verticle.RouterVerticle
+                                 input#in_class1(type="hidden",value="com.prayer.vx.verticle.RouterVerticle")
+                              td
+                                 span 10
+                                 input#in_instances1(type="hidden",value="10")
+                              td
+                                 span __DEFAULT__
+                                 input#in_igroup1(type="hidden",value="__DEFAULT__")
+                              td
+                                 span 10
+                                 input#in_ha1(type="hidden",value="10")
+                              td
+                                 span 10
+                                 input#in_worker1(type="hidden",value="10")
+                              td
+                                 span 10
+                                 input#in_multi1(type="hidden",value="10")
+                  .tab-pane.fade(id="tpForm")
+
