@@ -57,6 +57,7 @@ public final class IOKit {
     public static String getContent(@NotNull @NotEmpty @NotBlank final String fileName) {
         final InputStream inStream = getFile(fileName);
         final StringBuilder builder = new StringBuilder(Constants.BUFFER_SIZE);
+        info(LOGGER," File = " + fileName);
         BufferedReader reader;
         String content = null;
         try {

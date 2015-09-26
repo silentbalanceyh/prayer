@@ -5,7 +5,7 @@
         "paramType":"BODY",
         "address":"MSG://RECORD/QUEUE",
         "globalId":"sec.account",
-        "script":"js.post.api.account",
+        "script":"js.api.post.sec.account",
         "sender":"com.prayer.handler.message.RecordObjectSender",
         "requiredParam":[
             "username",
@@ -22,7 +22,7 @@
         "paramType":"BODY",
         "address":"MSG://SECURITY/QUEUE",
         "globalId":"sec.account",
-        "script":"js.post.api.login",
+        "script":"js.api.get.sec.login",
         "sender":"com.prayer.handler.message.RecordObjectSender",
         "requiredParam":[
             "username",

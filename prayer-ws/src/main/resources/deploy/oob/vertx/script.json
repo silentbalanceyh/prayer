@@ -1,13 +1,11 @@
 [
     {
-        "name":"js.post.api.account",
-        "namespace":"engine.script.sec.account",
-        "content":"deploy/oob/js/post/api.account.js"
+        "name":"js.api.post.sec.account",
+        "namespace":"engine.script.sec.account"
     },
     {
-        "name":"js.post.api.login",
-        "namespace":"engine.script.sec.basic",
-        "content":"deploy/oob/js/get/api.login.js"
+        "name":"js.api.get.sec.login",
+        "namespace":"engine.script.sec.basic"
     },
     {
         "name":"js.global.util",
