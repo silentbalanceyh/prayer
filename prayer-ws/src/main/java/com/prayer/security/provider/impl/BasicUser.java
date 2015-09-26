@@ -22,6 +22,8 @@ public class BasicUser extends AbstractUser {
     private transient AuthProvider provider;
     /** 用户名信息 **/
     private transient String username;
+    /** 用户的ID信息 **/
+    private transient String userId;
     /** 用户认证信息 **/
     private transient JsonObject principal; // NOPMD
     /** 角色Role信息 **/
@@ -32,12 +34,13 @@ public class BasicUser extends AbstractUser {
     // ~ Constructors ========================================
     /** **/
     public BasicUser() {
-        this(null, null, null);
+        this(null, null, null, null);
     }
 
     /** **/
-    BasicUser(final String username, final AuthProvider provider, final String role) {
+    BasicUser(final String userId, final String username, final AuthProvider provider, final String role) {
         super();
+        this.userId = userId;
         this.username = username;
         this.provider = provider;
         this.role = role;
@@ -50,7 +53,7 @@ public class BasicUser extends AbstractUser {
     @Override
     public JsonObject principal() {
         if (null == principal) {
-            principal = new JsonObject().put("username", this.username);
+            principal = new JsonObject().put("id", this.userId).put("username", this.username);
         }
         return principal;
     }
@@ -75,7 +78,11 @@ public class BasicUser extends AbstractUser {
     @Override
     public void writeToBuffer(final Buffer buff) {
         super.writeToBuffer(buff);
-        byte[] bytes = username.getBytes(Resources.SYS_ENCODING);
+        byte[] bytes = userId.getBytes(Resources.SYS_ENCODING);
+        buff.appendInt(bytes.length);
+        buff.appendBytes(bytes);
+        
+        bytes = username.getBytes(Resources.SYS_ENCODING);
         buff.appendInt(bytes.length);
         buff.appendBytes(bytes);
 
@@ -91,6 +98,12 @@ public class BasicUser extends AbstractUser {
         int len = buffer.getInt(pos);
         pos += 4;
         byte[] bytes = buffer.getBytes(pos, pos + len);
+        userId = new String(bytes, Resources.SYS_ENCODING);
+        pos += len;
+        
+        len = buffer.getInt(pos);
+        pos += 4;
+        bytes = buffer.getBytes(pos, pos + len);
         username = new String(bytes, Resources.SYS_ENCODING);
         pos += len;
 

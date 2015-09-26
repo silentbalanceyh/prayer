@@ -6,6 +6,7 @@ import com.prayer.assistant.RouterInjector;
 import com.prayer.console.handler.OptionsHandler;
 import com.prayer.console.handler.SharedLoginHandler;
 import com.prayer.console.handler.SharedLogoutHandler;
+import com.prayer.console.handler.UserLoggedHandler;
 import com.prayer.constant.Constants;
 import com.prayer.vx.configurator.ServerConfigurator;
 
@@ -76,7 +77,8 @@ public class WebVerticle extends AbstractVerticle {
     private void injectLogged(final Router router) {
         router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.SHARED).handler(SharedLoginHandler.create());
         router.route(Constants.ACTION.LOGOUT).order(Constants.ORDER.LOGOUT).handler(SharedLogoutHandler.create());
-        router.route(Constants.WEB.DYNAMIC_OPTIONS).order(Constants.ORDER.DISPLAY).handler(OptionsHandler.create());
+        router.route(Constants.WEB.DYNAMIC_OPTIONS).order(Constants.ORDER.OD_OPTIONS).handler(OptionsHandler.create());
+        router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.OD_PROFILE).handler(UserLoggedHandler.create());
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

@@ -1,5 +1,11 @@
 package com.prayer.console.handler;
 
+import static com.prayer.assistant.WebLogger.info;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.security.provider.impl.BasicUser;
@@ -23,6 +29,9 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class SharedLoginHandler implements Handler<RoutingContext> {
     // ~ Static Fields =======================================
+
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(SharedLoginHandler.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -41,13 +50,14 @@ public final class SharedLoginHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.SHARED);
         // 1.处理Request看是否要填充user
         final HttpServerRequest request = context.request();
         final String userId = request.getParam(BasicAuth.KEY_USER_ID);
         if (StringKit.isNonNil(userId)) {
             initLogin(context, userId);
         }
-        // 2.Next
+        // 3.Next
         context.next();
     }
 

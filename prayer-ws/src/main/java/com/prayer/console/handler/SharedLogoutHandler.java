@@ -1,5 +1,11 @@
 package com.prayer.console.handler;
 
+import static com.prayer.assistant.WebLogger.info;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
 
 import io.vertx.core.Handler;
@@ -15,6 +21,9 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class SharedLogoutHandler implements Handler<RoutingContext> {
     // ~ Static Fields =======================================
+
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(SharedLogoutHandler.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -33,6 +42,7 @@ public class SharedLogoutHandler implements Handler<RoutingContext> {
      */
     @Override
     public void handle(@NotNull final RoutingContext context) {
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.LOGOUT);
         context.clearUser();
         context.response().putHeader("location", Constants.ACTION.LOGIN_PAGE).setStatusCode(302).end();
     }

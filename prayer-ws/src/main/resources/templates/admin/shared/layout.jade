@@ -4,6 +4,7 @@ html
         include resource
     body(screen_capture_injected="true")
     include header
+    input#USERDATA(type="hidden",value=context.get("user"))
     .container-fluid
         .row-fluid
             #sidebar.span3

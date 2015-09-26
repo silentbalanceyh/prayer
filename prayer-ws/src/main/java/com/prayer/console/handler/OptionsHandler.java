@@ -1,8 +1,15 @@
 package com.prayer.console.handler;
 
+import static com.prayer.assistant.WebLogger.info;
+
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.prayer.assistant.WebLogger;
+import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.util.PropertyKit;
 
@@ -22,6 +29,8 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class OptionsHandler implements Handler<RoutingContext> {
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(OptionsHandler.class);
     // ~ Instance Fields =====================================
     /** **/
     private transient final PropertyKit SEV_LOADER;
@@ -49,6 +58,7 @@ public final class OptionsHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.OD_OPTIONS);
         final HttpServerRequest request = context.request();
         final String path = request.path();
         if (path.contains("/options/h2")) {

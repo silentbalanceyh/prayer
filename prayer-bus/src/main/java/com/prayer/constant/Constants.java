@@ -99,6 +99,7 @@ public interface Constants { // NOPMD
         
         /** Options **/
         String DYNAMIC_OPTIONS = "/dynamic/admin/options/*";
+        
         /** Profile **/
         String DYNAMIC_PROFILE = "/dynamic/admin/profile";
         
@@ -122,46 +123,48 @@ public interface Constants { // NOPMD
         int NOT_SET = -10000;
 
         /** CORS Handler **/
-        int CORS = -990;
+        int CORS = -9900;
         /** Cookie Handler Order **/
-        int COOKIE = -980;
+        int COOKIE = -9800;
         /** Body Handler Order **/
-        int BODY = -970;
+        int BODY = -9700;
         /** Authentication Handler Order **/
-        int AUTH = -960;
+        int AUTH = -9600;
         /** Session Handler Order **/
-        int SESSION = -950;
+        int SESSION = -9500;
         /** Redirect之前的预处理 **/
-
-        int SHARED = -945;
+        int SHARED = -9450;
         /** User Session Handler Order **/
-        int USER_SESSION = -940; // NOPMD
+        int USER_SESSION = -9400; // NOPMD
         /** Logout **/
-        int LOGOUT = -935;
+        int LOGOUT = -9350;
         /** Redirect Handler Order **/
-        int ADMIN = -930;
+        int ADMIN = -9300;
         /** Static Handler **/
-        int STATIC = -920;
+        int STATIC = -9200;
         /** Template Handler **/
-        int DYNAMIC = -910;
+        int DYNAMIC = -9100;
         /** Context **/
-        int CONTEXT = -905;
-        /** Target **/
-        int DISPLAY = -925;
+        int CONTEXT = -9050;
+        
+        /** OPTIONS **/
+        int OD_OPTIONS = -9250;
+        /** PROFILE **/
+        int OD_PROFILE = -9249;
 
         /** Router Handler Order **/
-        int ROUTER = -400;
+        int ROUTER = -4000;
         /** Validation Handler Order **/
-        int VALIDATION = -300;
+        int VALIDATION = -3000;
         /** Convertor Handler Order **/
-        int CONVERTOR = -200;
+        int CONVERTOR = -2000;
         /** Parameters Wrapper **/
-        int WRAPPER = -100;
+        int WRAPPER = -1000;
         /** Service Handler Order **/
-        int SERVICE = 100;
+        int SERVICE = 1000;
 
         /** Failure Handler **/
-        int FAILURE = 200;
+        int FAILURE = 2000;
     }
     /** **/
     interface BUS { // NOPMD
@@ -187,6 +190,8 @@ public interface Constants { // NOPMD
         String AUTH_ERROR = "authenticateError";
         /** data节点 **/
         String DATA = PARAM.DATA;
+        /** 保存的用户信息 **/
+        String SESSION_USER = "user";
     }
 
     /** **/

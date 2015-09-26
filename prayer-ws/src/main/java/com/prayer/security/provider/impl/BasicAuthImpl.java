@@ -90,7 +90,7 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth, AuthConstants.BAS
                         authInfo.put(EXTENSION, extension);
                     }
 
-                    resultHandler.handle(Future.succeededFuture(new BasicUser(username, this, "role")));
+                    resultHandler.handle(Future.succeededFuture(new BasicUser(retObj.getString("uniqueId"),username, this, "role")));
                 } else {
                     errorHandler(authInfo, resultHandler, WebLogger.AUE_AUTH_FAILURE, RET_I_USER_PWD);
                     return; // NOPMD

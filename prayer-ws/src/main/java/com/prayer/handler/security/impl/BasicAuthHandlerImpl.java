@@ -167,6 +167,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                         if (retExt.containsKey(BasicAuth.KEY_USER_ID)) {
                             processClientLogin(routingContext, retExt.getString(BasicAuth.KEY_USER_ID), authenticated);
                         }
+                        // 将数据放入Session中
                         // 防止二次认证
                         info(LOGGER,
                                 " Request : " + request.path() + ", Configured : " + retExt.getString(BASIC.LOGIN_URL));
@@ -176,6 +177,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                                 ret.put(Constants.RET.STATUS_CODE, StatusCode.OK.status());
                                 ret.put(Constants.RET.RESPONSE, ResponseCode.SUCCESS);
                                 ret.put(Constants.RET.DATA, retExt.getJsonObject(Constants.PARAM.DATA));
+                                
                                 this.authorise(authenticated, routingContext, ret);
                             } else {
                                 this.authorise(authenticated, routingContext);
