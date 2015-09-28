@@ -2,6 +2,7 @@
 function saveProfile(){
     if($("#fProfile").valid()){
         var data = FORM.success("#fProfile");
+        
         // TODO: 
         console.log(data);
     }

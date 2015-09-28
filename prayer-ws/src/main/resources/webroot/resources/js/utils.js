@@ -131,7 +131,7 @@ var API = (function () {
         var apiUrl = jQuery("#hdApi").val();
         return apiUrl + api;
     };
-    _init = function(uri,auth){
+    _init = function(uri,auth,callback){
         jQuery("#initLoading").show();
         jQuery.ajax({
             type:"GET",
@@ -142,15 +142,13 @@ var API = (function () {
             dataType:"json",
             success:function(response){
                 if(200 == response.statusCode){
-                    var data = response.data;
-                    for(var item in data){
-                        jQuery("#in_" + item).attr("value",data[item]);
-                    }
+                    callback(response.data);
                     jQuery("#initLoading").hide();
                 }
             }
         });
     };
+    
     return function () {
         return {};
     }
