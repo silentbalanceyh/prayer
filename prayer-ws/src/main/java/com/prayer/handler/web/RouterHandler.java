@@ -130,6 +130,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 				retJson = new JsonObject(decodeURL(context.getBodyAsJson().encode()));
 			}
 		}
+		info(LOGGER,"Param Data : " + retJson.encode());
 		return retJson;
 	}
 

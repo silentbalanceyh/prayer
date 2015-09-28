@@ -1,6 +1,7 @@
 package com.prayer.bus.deploy.oob; // NOPMD
 
 import static com.prayer.bus.util.BusLogger.error;
+import static com.prayer.bus.util.BusLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.io.File;
@@ -83,18 +84,22 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
         ServiceResult<?> ret = this.manager.getVerticleService().purgeData();
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             ret = this.manager.getVerticleService().importVerticles(VX_VERTICLE);
+            info(LOGGER, " 1.EVX_VERTICLE ( Verticle deployed successfully ).");
         } else {
             error(LOGGER, BusLogger.E_PROCESS_ERR, "Verticle Deploy", ret.getErrorMessage());
         }
+
         // 2.EVX_ROUTE
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             ret = this.manager.getRouteService().purgeData();
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             ret = this.manager.getRouteService().importToList(VX_ROUTES);
-        }else {
+            info(LOGGER, " 2.EVX_ROUTE ( Route deployed successfully ).");
+        } else {
             error(LOGGER, BusLogger.E_PROCESS_ERR, "Route Deploy", ret.getErrorMessage());
         }
+
         // 3.EVX_URI
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             ret = this.manager.getRuleService().purgeData();
@@ -103,19 +108,23 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             ret = this.manager.getUriService().importToList(VX_URI);
-            if(ResponseCode.SUCCESS == ret.getResponseCode()){
+            if (ResponseCode.SUCCESS == ret.getResponseCode()) {
+                info(LOGGER, " 3.EVX_URI ( URI deployed successfully ).");
                 // URI中的Param参数List
                 final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
                 for (final UriModel model : uriModels) {
                     // 4.EVX_RULE
-                    final String paramFile = VX_URI_PARAM + model.getMethod().toString().toLowerCase(Locale.getDefault())
-                            + "/" + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".") + ".json";
+                    final String paramFile = VX_URI_PARAM
+                            + model.getMethod().toString().toLowerCase(Locale.getDefault()) + "/"
+                            + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".") + ".json";
                     ret = this.manager.getRuleService().importRules(paramFile, model);
-                    if(ResponseCode.SUCCESS != ret.getResponseCode()){
+                    if (ResponseCode.SUCCESS != ret.getResponseCode()) {
                         error(LOGGER, BusLogger.E_PROCESS_ERR, model.getUri() + " Rule Deploy", ret.getErrorMessage());
+                    }else{
+                        info(LOGGER, " 4.EVX_RULE ( Rule deployed successfully ) URL = " + model.getUri() + ", rule = " + paramFile);
                     }
                 }
-            }else {
+            } else {
                 error(LOGGER, BusLogger.E_PROCESS_ERR, "Uri Deploy", ret.getErrorMessage());
             }
         }
@@ -125,7 +134,8 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             ret = this.manager.getAddressService().importToList(VX_ADDRESS);
-        }else {
+            info(LOGGER, " 5.EVX_ADDRESS ( Message Address deployed successfully ).");
+        } else {
             error(LOGGER, BusLogger.E_PROCESS_ERR, "Address Deploy", ret.getErrorMessage());
         }
         // 6.ENG_SCRIPT
@@ -134,8 +144,8 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             ret = this.manager.getScriptService().importToList(VX_SCRIPT);
-        }
-        else {
+            info(LOGGER, " 6.EVX_SCRIPT ( Script deployed successfully ).");
+        } else {
             error(LOGGER, BusLogger.E_PROCESS_ERR, "Script Deploy", ret.getErrorMessage());
         }
         // 2.导入OOB中的Schema定义
@@ -146,6 +156,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                         .syncSchema(SCHEMA_FOLDER + jsonPath);
                 syncRet = this.manager.getSchemaService().syncMetadata(syncRet.getResult());
             });
+            info(LOGGER, " 7.Metadata H2 importing successfully!");
         }
         // 最终结果
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {

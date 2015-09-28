@@ -1,6 +1,7 @@
 package com.prayer.util;
 
 import static com.prayer.util.Error.debug;
+import static com.prayer.util.Error.info;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,11 +64,11 @@ public final class JsonKit { // NOPMD
             final InputStream inStream = IOKit.getFile(file, JsonKit.class);
             ret = MAPPER.readValue(inStream, reference);
         } catch (JsonParseException ex) {
-            debug(LOGGER, "E20003", ex, ex.toString());
+            info(LOGGER, "E20003", ex, ex.toString());
             throw new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
         } catch (IOException ex) {
             // DEBUG: ex.printStackTrace();
-            debug(LOGGER, "E20002", ex, file);
+            info(LOGGER, "E20002", ex, file);
             throw new ResourceIOException(JsonKit.class, file); // NOPMD
         }
         return ret;

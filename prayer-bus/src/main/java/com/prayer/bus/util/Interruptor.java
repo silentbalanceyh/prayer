@@ -1,9 +1,15 @@
 package com.prayer.bus.util;
 
+import java.util.concurrent.ConcurrentMap;
+
 import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractException;
+import com.prayer.exception.web.PrimaryKeyMissingException;
 import com.prayer.exception.web.ServiceParamInvalidException;
 import com.prayer.exception.web.ServiceParamMissingException;
+import com.prayer.kernel.Record;
+import com.prayer.kernel.Value;
+import com.prayer.util.StringKit;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
@@ -43,6 +49,46 @@ public final class Interruptor {
         return error;
     }
 
+    /**
+     * 
+     * @param record
+     * @return
+     */
+    public static boolean isUpdate(@NotNull final Record record){
+        boolean isUpdate = true;
+        try{
+            final ConcurrentMap<String,Value<?>> idKV = record.idKV();
+            for(final String id: idKV.keySet()){
+                final Value<?> value = idKV.get(id);
+                if(StringKit.isNil(value.literal())){
+                    isUpdate = false;
+                }
+            }
+        }catch(AbstractException ex){
+            
+        }
+        return isUpdate;
+    }
+    /**
+     * 
+     * @param record
+     * @return
+     */
+    public static AbstractException interruptPK(@NotNull final Record record){
+        AbstractException error = null;
+        try{
+            final ConcurrentMap<String,Value<?>> idKV = record.idKV();
+            for(final String id: idKV.keySet()){
+                final Value<?> value = idKV.get(id);
+                if(StringKit.isNil(value.literal())){
+                    error = new PrimaryKeyMissingException(Interruptor.class,id);
+                }
+            }
+        }catch(AbstractException ex){
+            error = ex;
+        }
+        return error;
+    }
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

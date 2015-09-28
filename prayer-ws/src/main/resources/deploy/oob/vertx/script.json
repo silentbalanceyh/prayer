@@ -4,12 +4,24 @@
         "namespace":"engine.script.sec.account"
     },
     {
+        "name":"js.api.get.sec.account",
+        "namespace":"engine.script.sec.account"
+    },
+    {
+        "name":"js.api.put.sec.account",
+        "namespace":"engine.script.sec.account"
+    },
+    {
+        "name":"js.api.delete.sec.account",
+        "namespace":"engine.script.sec.account"
+    },
+    {
         "name":"js.api.get.sec.login",
         "namespace":"engine.script.sec.basic"
     },
     {
         "name":"js.global.util",
         "namespace":"engine.script.global",
-        "content":"deploy/oob/js/engine.js"    
+        "content":"deploy/oob/js/engine.js"
     }
 ]

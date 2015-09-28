@@ -23,6 +23,7 @@ import com.prayer.vx.configurator.SecurityConfigurator;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
@@ -71,10 +72,12 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth, AuthConstants.BAS
             // 2.读取配置参数
             final JsonObject params = this.wrapperParam(authInfo);
             // 3.从系统中读取用户信息
-            final ServiceResult<JsonObject> ret = this.service.find(params);
+            final ServiceResult<JsonArray> ret = this.service.find(params);
+
             // 4.判断响应信息
-            if (ResponseCode.SUCCESS == ret.getResponseCode() && null != ret.getResult()) {
-                final JsonObject retObj = ret.getResult();
+            if (ResponseCode.SUCCESS == ret.getResponseCode() && null != ret.getResult()
+                    && Constants.ONE == ret.getResult().size()) {
+                final JsonObject retObj = ret.getResult().getJsonObject(0);
                 final String inputPWD = authInfo.getString("password");
                 final String storedPWD = retObj.getString(this.configurator.getSecurityOptions().getString(PWD));
                 if (StringUtil.equals(inputPWD, storedPWD)) {
@@ -90,7 +93,8 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth, AuthConstants.BAS
                         authInfo.put(EXTENSION, extension);
                     }
 
-                    resultHandler.handle(Future.succeededFuture(new BasicUser(retObj.getString("uniqueId"),username, this, "role")));
+                    resultHandler.handle(Future
+                            .succeededFuture(new BasicUser(retObj.getString("uniqueId"), username, this, "role")));
                 } else {
                     errorHandler(authInfo, resultHandler, WebLogger.AUE_AUTH_FAILURE, RET_I_USER_PWD);
                     return; // NOPMD

@@ -1,7 +1,9 @@
 package com.prayer.assistant;
 
 import com.prayer.constant.Constants;
+import com.prayer.model.bus.ServiceResult;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -46,6 +48,21 @@ public final class Extractor {
             }
         } catch (ClassCastException ex) {
             str = null;    // NOPMD
+        }
+        return str;
+    }
+    /**
+     * 
+     * @param jsonArray
+     * @return
+     */
+    public static String getContent(@NotNull final ServiceResult<JsonArray> jsonArray){
+        final JsonArray retArray = jsonArray.getResult();
+        String str = Constants.EMPTY_JARR;
+        if(Constants.ONE == retArray.size()){
+            str = retArray.getJsonObject(0).encode();
+        }else{
+            str = retArray.encode();
         }
         return str;
     }

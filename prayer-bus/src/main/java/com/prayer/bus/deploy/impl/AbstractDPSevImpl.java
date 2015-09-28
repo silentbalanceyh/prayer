@@ -34,7 +34,7 @@ import net.sf.oval.guard.PreValidateThis;
  * @param <ID>
  */
 @Guarded
-public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements TemplateDPService<T, ID> {    // NOPMD
+public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements TemplateDPService<T, ID> { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 通用Dao **/
@@ -52,10 +52,13 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
     // ~ Abstract Methods ====================================
     /** **/
     public abstract Class<?> getDaoClass();
+
     /** **/
     public abstract Logger getLogger();
+
     /** **/
     public abstract List<T> readJson(final String jsonPath) throws AbstractSystemException;
+
     /** **/
     public abstract T[] getArrayType();
 
@@ -76,7 +79,9 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
         }
         // 3.批量创建
         try {
-            this.dao.insert(dataList.toArray(getArrayType()));
+            if (!dataList.isEmpty()) {
+                this.dao.insert(dataList.toArray(getArrayType()));
+            }
         } catch (AbstractTransactionException ex) {
             debug(getLogger(), "SYS.KIT.DP", ex);
             ex.printStackTrace();// NOPMD
@@ -138,9 +143,9 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
     }
 
     // ~ Methods ==============================================
-    
+
     /** **/
-    protected TemplateDao<T,ID> getDao(){
+    protected TemplateDao<T, ID> getDao() {
         return this.dao;
     }
     // ~ Private Methods =====================================

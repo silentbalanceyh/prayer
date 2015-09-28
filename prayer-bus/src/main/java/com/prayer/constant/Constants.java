@@ -182,6 +182,8 @@ public interface Constants { // NOPMD
         String STATUS_CODE = "statusCode";
         /** Status Code Error: NOT_FOUND, INTERNAL_ERROR etc. **/
         String ERROR = "error";
+        /** System Error Code **/
+        String ERROR_CODE = "errorCode";
         /** Error Message: Exception description **/
         String ERROR_MSG = "errorMessage";
         /** SUCCESS/FAILURE/ERROR **/

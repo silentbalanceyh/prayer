@@ -49,11 +49,18 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
     @Override
     public ServiceResult<JsonObject> save(@NotNull final JsonObject jsonObject) {
         info(getLogger(), BusLogger.I_PARAM_INFO, "POST", jsonObject.encode());
+        return this.executeSave(jsonObject);
+    }
+
+    /** **/
+    @Override
+    public ServiceResult<JsonObject> remove(@NotNull final JsonObject jsonObject) {
+        info(LOGGER, BusLogger.I_PARAM_INFO, "DELETE", jsonObject.encode());
         ServiceResult<JsonObject> ret = new ServiceResult<>();
         final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
         if (null == error) {
             try {
-                ret = this.sharedSave(jsonObject);
+                ret = this.sharedDelete(jsonObject);
                 info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
             } catch (ScriptException ex) {
                 error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
@@ -69,26 +76,55 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 
     /** **/
     @Override
-    public ServiceResult<JsonObject> remove(@NotNull final JsonObject jsonObject) {
-        info(LOGGER, BusLogger.I_PARAM_INFO, "DELETE", jsonObject.encode());
-        return null;
-    }
-
-    /** **/
-    @Override
     public ServiceResult<JsonObject> modify(@NotNull final JsonObject jsonObject) {
         info(LOGGER, BusLogger.I_PARAM_INFO, "PUT", jsonObject.encode());
-        return null;
+        return this.executeSave(jsonObject);
     }
 
     /** **/
     @Override
     public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
         info(LOGGER, BusLogger.I_PARAM_INFO, "GET", jsonObject.encode());
-        return null;
+        ServiceResult<JsonArray> ret = new ServiceResult<>();
+        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        if (null == error) {
+            try {
+                ret = this.sharedFind(jsonObject);
+                info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
+            } catch (ScriptException ex) {
+                error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
+            } catch (AbstractException ex) {
+                ret.setResponse(null, ex);
+            }
+        } else {
+            ret.setResponse(null, error);
+        }
+
+        return ret;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private ServiceResult<JsonObject> executeSave(final JsonObject jsonObject) {
+        ServiceResult<JsonObject> ret = new ServiceResult<>();
+        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        if (null == error) {
+            try {
+                ret = this.sharedSave(jsonObject);
+                info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
+            } catch (ScriptException ex) {
+                error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
+            } catch (AbstractException ex) {
+                error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                ret.setResponse(null, ex);
+            }
+        } else {
+            ret.setResponse(null, error);
+        }
+        return ret;
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

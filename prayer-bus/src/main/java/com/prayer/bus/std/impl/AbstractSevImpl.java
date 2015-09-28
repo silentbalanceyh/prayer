@@ -1,5 +1,6 @@
 package com.prayer.bus.std.impl;
 
+import static com.prayer.bus.util.BusLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.List;
@@ -11,16 +12,21 @@ import org.slf4j.Logger;
 import com.prayer.bus.script.JSEngine;
 import com.prayer.bus.script.JSEnv;
 import com.prayer.bus.script.JSEnvExtractor;
+import com.prayer.bus.util.Interruptor;
 import com.prayer.bus.util.ParamExtractor;
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.record.RecordDao;
 import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.exception.AbstractException;
 import com.prayer.kernel.Record;
+import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.ServiceResult;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -72,8 +78,16 @@ public abstract class AbstractSevImpl {
         // 2. 将Java和脚本引擎连接实现变量共享
         initJSEnv(jsonObject, record);
         // 3. 执行Java脚本插入数据
-        final Record inserted = this.recordDao.insert(record);
-        final JsonObject retJson = extractor.extractRecord(inserted);
+        JsonObject retJson = null;
+        if (Interruptor.isUpdate(record)) {
+            info(getLogger(), " Updating mode : Input => " + record.toString());
+            final Record updated = this.executeUpdate(record);
+            retJson = extractor.extractRecord(updated);
+        } else {
+            info(getLogger(), " Inserting mode : " + record.toString());
+            final Record inserted = this.recordDao.insert(record);
+            retJson = extractor.extractRecord(inserted);
+        }
         // 4. 根据Filters的内容过滤属性
         this.extractor.filterRecord(retJson, jsonObject);
         ret.setResult(retJson);
@@ -81,27 +95,70 @@ public abstract class AbstractSevImpl {
     }
 
     /** **/
-    protected ServiceResult<JsonObject> sharedFind(@NotNull final JsonObject jsonObject)
+    protected ServiceResult<JsonObject> sharedDelete(@NotNull final JsonObject jsonObject)
             throws ScriptException, AbstractException {
         final ServiceResult<JsonObject> ret = new ServiceResult<>();
         // 1. 初始化脚本引擎以及Record对象
         final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
+        initJSEnv(jsonObject, record);
+        // 3. 删除当前记录
+        boolean deleted = this.recordDao.delete(record);
+        ret.setResult(new JsonObject().put("DELETED", deleted));
+        return ret;
+    }
+
+    /** **/
+    protected ServiceResult<JsonArray> sharedFind(@NotNull final JsonObject jsonObject)
+            throws ScriptException, AbstractException {
+        final ServiceResult<JsonArray> ret = new ServiceResult<>();
+        // 1. 初始化脚本引擎以及Record对象
+        final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
+        // 2. 将Java和脚本引擎连接实现变量共享
         final JSEnv env = initJSEnv(jsonObject, record);
         // 3. 执行Java脚本插入数据
-        final List<Record> retList = this.getDao().queryByFilter(record, Constants.T_STR_ARR,
-                env.getValues(), env.getExpr());
+        final List<Record> retList = this.getDao().queryByFilter(record, Constants.T_STR_ARR, env.getValues(),
+                env.getExpr());
         // 4. 查询结果
-        if (Constants.ONE == retList.size()) {
-            final Record queried = retList.get(0);
-            final JsonObject retJson = extractor.extractRecord(queried);
+        final JsonArray retArray = new JsonArray();
+        for (final Record retR : retList) {
+            final JsonObject retJson = extractor.extractRecord(retR);
             this.extractor.filterRecord(retJson, jsonObject);
-            ret.setResult(retJson);
+            retArray.add(retJson);
         }
+        ret.setResult(retArray);
         return ret;
     }
 
     // ~ Private Methods =====================================
+
+    private Record executeUpdate(final Record record) throws AbstractException {
+        // 更新过程才会有的问题
+        final AbstractException error = Interruptor.interruptPK(record);
+        if (null == error) {
+            // 更新遍历，更新时需要从数据库中拿到Record
+            Record queried = null;
+            if (MetaPolicy.COLLECTION == record.policy()) {
+                queried = this.recordDao.selectById(record, record.idKV());
+            } else {
+                final Value<?> value = record.idKV().values().iterator().next();
+                queried = this.recordDao.selectById(record, value);
+            }
+            info(getLogger(), " Updating mode : Queried => " + queried.toString());
+            for (final String field : record.fields().keySet()) {
+                final Value<?> value = record.get(field);
+                // 标记为NU的则不更新
+                if (null != value && !StringUtil.equals(value.literal(), "NU")) {
+                    queried.set(field, record.get(field));
+                }
+            }
+            info(getLogger(), " Updating mode : Updated => " + queried.toString());
+            return this.recordDao.update(queried);
+        } else {
+            throw error;
+        }
+    }
+
     private JSEnv initJSEnv(final JsonObject jsonObject, final Record record) throws ScriptException {
         final JSEngine engine = JSEngine.getEngine(jsonObject.getJsonObject(Constants.PARAM.DATA));
         final JSEnv env = new JSEnv();

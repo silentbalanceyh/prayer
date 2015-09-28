@@ -23,6 +23,7 @@ import com.prayer.kernel.Value;
 import com.prayer.kernel.model.Transducer.V;
 import com.prayer.model.h2.FieldModel;
 import com.prayer.model.type.DataType;
+import com.prayer.model.type.StringType;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
@@ -91,7 +92,7 @@ public class GenericRecord implements Record { // NOPMD
             throws AbstractMetadataException {
         this.verifyField(name);
         final DataType type = this._schema.getFields().get(name).getType();
-        final Value<?> wrapperValue = V.get().getValue(type, value);
+        final Value<?> wrapperValue = V.get().getValue(type,value);
         this.set(name, wrapperValue);
     }
 
@@ -173,7 +174,12 @@ public class GenericRecord implements Record { // NOPMD
         final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
         for (final FieldModel field : pkFields) {
             try {
-                retMap.put(field.getColumnName(), this.column(field.getColumnName()));
+                if(null != this.column(field.getColumnName())){
+                    retMap.put(field.getColumnName(), this.column(field.getColumnName()));
+                }else{
+                    // 默认String为主键替换Null的默认ID
+                    retMap.put(field.getColumnName(), new StringType(Constants.EMPTY_STR));
+                }
             } catch (AbstractMetadataException ex) {
                 info(LOGGER, ex.getErrorMessage());
             }

@@ -3,6 +3,7 @@ package com.prayer.handler.message;
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.singleton;
 
+import com.prayer.assistant.Extractor;
 import com.prayer.bus.std.RecordService;
 import com.prayer.bus.std.impl.RecordSevImpl;
 import com.prayer.constant.Constants;
@@ -39,6 +40,7 @@ public final class RecordConsumer implements Handler<Message<Object>> {
     public RecordConsumer() {
         this.recordSev = singleton(RecordSevImpl.class);
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
@@ -52,12 +54,12 @@ public final class RecordConsumer implements Handler<Message<Object>> {
         // 3.根据方法访问不同的Record方法
         String content = null;
         switch (method) {
-        case POST:
-            content = this.post(params);
+        case POST: {
+            content = this.save(params);
+        }
             break;
         case PUT: {
-            final ServiceResult<JsonObject> result = this.recordSev.modify(params);
-            content = result.getResult().encode();
+            content = this.modify(params);
         }
             break;
         case DELETE: {
@@ -66,8 +68,7 @@ public final class RecordConsumer implements Handler<Message<Object>> {
         }
             break;
         default: {
-            final ServiceResult<JsonArray> result = this.recordSev.find(params);
-            content = result.getResult().encode();
+            content = this.find(params);
         }
             break;
         }
@@ -76,14 +77,31 @@ public final class RecordConsumer implements Handler<Message<Object>> {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-
-    private String post(final JsonObject params) {
+    
+    private String find(final JsonObject params){
+        final ServiceResult<JsonArray> result = this.recordSev.find(params);
+        return Extractor.getContent(result);
+    }
+    
+    private String save(final JsonObject params){
         final ServiceResult<JsonObject> result = this.recordSev.save(params);
         String content = Constants.EMPTY_JOBJ;
         if (ResponseCode.SUCCESS == result.getResponseCode()) {
             final JsonObject ret = result.getResult();
             if (null != ret) {
-                content = ret.encodePrettily();
+                content = ret.encode();
+            }
+        }
+        return content;
+    }
+
+    private String modify(final JsonObject params) {
+        final ServiceResult<JsonObject> result = this.recordSev.modify(params);
+        String content = Constants.EMPTY_JOBJ;
+        if (ResponseCode.SUCCESS == result.getResponseCode()) {
+            final JsonObject ret = result.getResult();
+            if (null != ret) {
+                content = ret.encode();
             }
         }
         return content;

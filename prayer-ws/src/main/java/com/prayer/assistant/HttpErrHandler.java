@@ -142,6 +142,7 @@ public final class HttpErrHandler {
         response.put(Constants.RET.ERROR, webRef.getStatusCode().toString());
         response.put(Constants.RET.ERROR_MSG, webRef.getErrorMessage());
         response.put(Constants.RET.RESPONSE, webRef.getResponseCode().toString());
+        response.put(Constants.RET.ERROR_CODE, webRef.getError().getErrorCode());
         return response;
     }
 

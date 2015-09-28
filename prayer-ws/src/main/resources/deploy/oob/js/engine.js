@@ -1,10 +1,16 @@
-/** 全局功能函数脚本，原型定义 **/
+/** 全局功能函数脚本，原型定义 * */
 var $$E = (function(){
+    _acquire = function(value){
+        return undefined == value?"":value;
+    };
+    _updated = function(value){
+        return undefined == value?"NU":value;
+    };
     return function(){
         return {};
     }
 })();
-/** 查询条件 **/
+/** 查询条件 * */
 var $$Q = (function(){
     // 私有变量，引用Java接口
     var __restrict = Java.type("com.prayer.kernel.query.Restrictions");
@@ -21,7 +27,7 @@ var $$Q = (function(){
         return {};
     }
 })();
-/** 值转换 **/
+/** 值转换 * */
 var $$V = (function(){
     var __value = Java.type("com.prayer.bus.script.JSValue");
     // 私有变量，引用Java接口
@@ -40,7 +46,7 @@ var $$V = (function(){
     _logical = function(value){     // NOPMD
         return __value.logical(value);
     };
-    _number = function(value){         // NOPMD 
+    _number = function(value){         // NOPMD
         return __value.number(value);
     };
     _integer = function(value){        // NOPMD
@@ -61,7 +67,8 @@ var $$V = (function(){
 })();
 // -----------------------闭包造单例----------------------
 (function(){$$E = $$E.prototype = {        // NOPMD
-    
+    acquire:_acquire,
+    updated:_updated
 }})();
 (function()($$Q = $$Q.prototype = {
     eq:_eq
@@ -82,11 +89,10 @@ var $$V = (function(){
 $$ENV = $env;                // NOPMD Java记录
 $$R = $env.getRecord();        // NOPMD Java记录，从变量中读取
 $$L = $env.getValues();        // NOPMD Java的值列表，填充参数列表信息
-/** 
- * $$ENV -- JSEnv
- * $$E -- Engine单例 -- JavaScript
- * $$V -- JS转换值单例 -- JavaScript
- * $$Q -- 设置查询条件Expression的函数 -- JavaScript
- * $$R -- Record变量 -- Java :: Record
- * $$L -- $$Q中的值列表用于查询参数值 -- Java :: List<Value<?>>
- * */
+// -- 非Collection的主键中PK值
+var PK = "uniqueId";
+/**
+ * $$ENV -- JSEnv $$E -- Engine单例 -- JavaScript $$V -- JS转换值单例 -- JavaScript $$Q --
+ * 设置查询条件Expression的函数 -- JavaScript $$R -- Record变量 -- Java :: Record $$L --
+ * $$Q中的值列表用于查询参数值 -- Java :: List<Value<?>>
+ */

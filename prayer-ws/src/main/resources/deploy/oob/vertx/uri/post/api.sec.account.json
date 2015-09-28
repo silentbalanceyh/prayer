@@ -23,9 +23,33 @@
         "errorMessage":"该用户名已经存在，请输入合法用户名。"
     },
     {
-        "name":"password",
+        "name":"email",
         "type":"StringType",
         "order":3,
+        "componentType":"VALIDATOR",
+        "componentClass":"com.prayer.uca.validator.NotExistingValidator",
+        "config":{
+            "table":"SEC_ACCOUNT",
+            "column":"S_EMAIL"
+        },
+        "errorMessage":"该Email已存在，请输入合法的Email地址。"
+    },
+    {
+        "name":"mobile",
+        "type":"StringType",
+        "order":4,
+        "componentType":"VALIDATOR",
+        "componentClass":"com.prayer.uca.validator.NotExistingValidator",
+        "config":{
+            "table":"SEC_ACCOUNT",
+            "column":"S_MOBILE"
+        },
+        "errorMessage":"该Mobile已存在，请输入合法的手机号码。"
+    },
+    {
+        "name":"password",
+        "type":"StringType",
+        "order":5,
         "componentType":"VALIDATOR",
         "componentClass":"com.prayer.uca.validator.LengthValidator",
         "config":{

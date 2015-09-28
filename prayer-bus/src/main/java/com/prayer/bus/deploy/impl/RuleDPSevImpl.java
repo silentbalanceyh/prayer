@@ -1,6 +1,6 @@
 package com.prayer.bus.deploy.impl;
 
-import static com.prayer.util.Error.debug;
+import static com.prayer.util.Error.info;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import net.sf.oval.constraint.NotNull;
  * @author Lang
  *
  */
-public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implements RuleDPService {    // NOPMD
+public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implements RuleDPService { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RuleDPSevImpl.class);
@@ -47,22 +47,22 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
     public Class<?> getDaoClass() {
         return RuleDaoImpl.class;
     }
+
     /** 获取Logger **/
     @Override
     public Logger getLogger() {
         return LOGGER;
     }
-    
+
     /** T Array **/
     @Override
-    public RuleModel[] getArrayType(){
-        return new RuleModel[]{};
+    public RuleModel[] getArrayType() {
+        return new RuleModel[] {};
     }
-    
+
     /** **/
     @Override
-    public List<RuleModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath)
-            throws AbstractSystemException {
+    public List<RuleModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath) throws AbstractSystemException {
         final TypeReference<List<RuleModel>> typeRef = new TypeReference<List<RuleModel>>() {
         };
         return JsonKit.fromFile(typeRef, jsonPath);
@@ -79,7 +79,7 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
         try {
             dataList = this.readJson(jsonPath);
         } catch (AbstractSystemException ex) {
-            debug(getLogger(), "SYS.KIT.SER", ex);
+            info(getLogger(), "SYS.KIT.SER", ex);
             result.setResponse(null, ex);
         }
         try {
@@ -87,9 +87,11 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
             for (final RuleModel validator : dataList) {
                 validator.setRefUriId(uri.getUniqueId());
             }
-            this.getDao().insert(dataList.toArray(new RuleModel[] {}));
+            if (!dataList.isEmpty()) {
+                this.getDao().insert(dataList.toArray(new RuleModel[] {}));
+            }
         } catch (AbstractTransactionException ex) {
-            debug(getLogger(), "SYS.KIT.DP", ex);
+            info(getLogger(), "SYS.KIT.DP", ex);
             result.setResponse(null, ex);
         }
         // 4.返回最终的Result信息

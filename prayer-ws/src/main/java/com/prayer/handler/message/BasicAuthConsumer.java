@@ -3,6 +3,7 @@ package com.prayer.handler.message;
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.singleton;
 
+import com.prayer.assistant.Extractor;
 import com.prayer.bus.security.BasicAuthService;
 import com.prayer.bus.security.impl.BasicAuthSevImpl;
 import com.prayer.constant.Constants;
@@ -11,6 +12,7 @@ import com.prayer.model.bus.ServiceResult;
 import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -51,8 +53,8 @@ public final class BasicAuthConsumer implements Handler<Message<Object>> {
         // 3.根据方法访问不同的Record方法
         String content = null;
         if(HttpMethod.GET == method){
-            final ServiceResult<JsonObject> result = this.authSev.find(params);
-            content = result.getResult().encode();
+            final ServiceResult<JsonArray> result = this.authSev.find(params);
+            content = Extractor.getContent(result);
         }
         event.reply(content);
     }
