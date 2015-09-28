@@ -100,7 +100,9 @@ function MENU_STATUS(path) {
             BTN.show("#mProfile", ".topSubIcon");
             FORM.init("#fProfile", "/static/resources/rules/validate/users/profile.json");
             FORM.init("#fPassword", "/static/resources/rules/validate/users/password.json");
-            alert(jQuery("#USERDATA").val());
+            var params = jQuery.parseJSON(jQuery("#USERDATA").val());
+            var path = "/sec/account?id=" + params["id"];
+            API.init(path,"Basic " + params["token"]);
         }
             break;
         case "/dynamic/admin/users":

@@ -1,6 +1,7 @@
 package com.prayer.security.provider.impl;
 
 import com.prayer.constant.Resources;
+import com.prayer.security.provider.BasicAuth;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -24,6 +25,8 @@ public class BasicUser extends AbstractUser {
     private transient String username;
     /** 用户的ID信息 **/
     private transient String userId;
+    /** 用户的认证头 **/
+    private transient String token;
     /** 用户认证信息 **/
     private transient JsonObject principal; // NOPMD
     /** 角色Role信息 **/
@@ -34,14 +37,15 @@ public class BasicUser extends AbstractUser {
     // ~ Constructors ========================================
     /** **/
     public BasicUser() {
-        this(null, null, null, null);
+        this(new JsonObject("{}"), null, null);
     }
 
     /** **/
-    BasicUser(final String userId, final String username, final AuthProvider provider, final String role) {
+    BasicUser(final JsonObject data, final AuthProvider provider, final String role) {
         super();
-        this.userId = userId;
-        this.username = username;
+        this.userId = data.getString("id");
+        this.username = data.getString("username");
+        this.token = data.getString(BasicAuth.KEY_TOKEN);
         this.provider = provider;
         this.role = role;
     }
@@ -53,7 +57,8 @@ public class BasicUser extends AbstractUser {
     @Override
     public JsonObject principal() {
         if (null == principal) {
-            principal = new JsonObject().put("id", this.userId).put("username", this.username);
+            principal = new JsonObject().put("id", this.userId).put("username", this.username).put(BasicAuth.KEY_TOKEN,
+                    this.token);
         }
         return principal;
     }
@@ -81,8 +86,12 @@ public class BasicUser extends AbstractUser {
         byte[] bytes = userId.getBytes(Resources.SYS_ENCODING);
         buff.appendInt(bytes.length);
         buff.appendBytes(bytes);
-        
+
         bytes = username.getBytes(Resources.SYS_ENCODING);
+        buff.appendInt(bytes.length);
+        buff.appendBytes(bytes);
+
+        bytes = token.getBytes(Resources.SYS_ENCODING);
         buff.appendInt(bytes.length);
         buff.appendBytes(bytes);
 
@@ -100,11 +109,17 @@ public class BasicUser extends AbstractUser {
         byte[] bytes = buffer.getBytes(pos, pos + len);
         userId = new String(bytes, Resources.SYS_ENCODING);
         pos += len;
-        
+
         len = buffer.getInt(pos);
         pos += 4;
         bytes = buffer.getBytes(pos, pos + len);
         username = new String(bytes, Resources.SYS_ENCODING);
+        pos += len;
+
+        len = buffer.getInt(pos);
+        pos += 4;
+        bytes = buffer.getBytes(pos, pos + len);
+        token = new String(bytes, Resources.SYS_ENCODING);
         pos += len;
 
         len = buffer.getInt(pos);

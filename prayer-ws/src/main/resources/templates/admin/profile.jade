@@ -13,6 +13,7 @@ block content_main
                         span.divider &nbsp;&gt;&nbsp;
                     li
                         a(href="/dynamic/admin/profile") Profile
+                        
             .block-content.collapse.in
                 .span12
                     form#fProfile.form-horizontal(action="#")
@@ -23,6 +24,9 @@ block content_main
                                 h3
                                     i.icon-th-list
                                     span &nbsp;&nbsp;My Profile Information
+                                    span#initLoading.pull-right
+                                        img(src="/static/images/loading.gif")
+                                        span(style="font-size:12px;color:gray;font-weight:normal") &nbsp;&nbsp;Data Loading
                         .alert.alert-error.hide
                             button.close(data-dismiss="alert") &times;
                             strong Error!

@@ -24,4 +24,6 @@ public interface BasicAuth extends AuthProvider { // NOPMD
     String KEY_POOL_USER = "SHARED.USER";
     /** User ID **/
     String KEY_USER_ID = "UID";
+    /** TOKEN **/
+    String KEY_TOKEN = "token";
 }

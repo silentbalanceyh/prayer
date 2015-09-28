@@ -92,9 +92,11 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth, AuthConstants.BAS
                         extension.put(Constants.PARAM.DATA, retObj);
                         authInfo.put(EXTENSION, extension);
                     }
-
-                    resultHandler.handle(Future
-                            .succeededFuture(new BasicUser(retObj.getString("uniqueId"), username, this, "role")));
+                    final JsonObject user = new JsonObject();
+                    user.put("id", retObj.getString("uniqueId"));
+                    user.put("username", username);
+                    user.put(BasicAuth.KEY_TOKEN, authInfo.getString(BasicAuth.KEY_TOKEN));
+                    resultHandler.handle(Future.succeededFuture(new BasicUser(user, this, "role")));
                 } else {
                     errorHandler(authInfo, resultHandler, WebLogger.AUE_AUTH_FAILURE, RET_I_USER_PWD);
                     return; // NOPMD

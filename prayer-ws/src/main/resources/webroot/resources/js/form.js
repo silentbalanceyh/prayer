@@ -13,19 +13,19 @@ var FORM = function () {
     };
     var _config = function(form, data, config, funData){
         var jsFields = ["maxlength", "minlength", "rangelength", "range", "max", "min"];
-        // 初始化配置属性
+        // 
         data["errorElement"] = config["errorElement"];
         data["errorClass"] = config["errorClass"];
         data["focusInvalid"] = config["focusInvalid"];
         data["ignore"] = config["ignore"];
-        // 初始化配置函数
+        // 
         data["invalidHandler"] = funData["invalidHandler"];
         data["highlight"] = funData["highlight"];
         data["unhighlight"] = funData["unhighlight"];
         data["success"] = funData["success"];
         data["submitHandler"] = funData["submitHandler"];
 
-        // 验证Rules和Messages
+        // 
         var array = (data["messages"]);
         for (var key in array) {
             var obj = array[key];
@@ -44,32 +44,34 @@ var FORM = function () {
         var error = $(".alert-error", form);
         var success = $(".alert-success", form);
         FORM.rules(form, path, {
-            errorElement: 'span', //default input error message container
+            errorElement: 'span', // default input error message container
             errorClass: 'help-inline', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             ignore: ""
         }, {
-            invalidHandler: function (event, validator) { //display error alert on form submit
+            invalidHandler: function (event, validator) { 
                 success.hide();
                 error.show();
             },
 
             highlight: function (element) { // hightlight error inputs
                 $(element)
-                    .closest('.help-inline').removeClass('ok'); // display OK icon
+                    .closest('.help-inline').removeClass('ok'); // display OK
+                                                                // icon
                 $(element)
-                    .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
+                    .closest('.control-group').removeClass('success').addClass('error'); 
             },
 
-            unhighlight: function (element) { // revert the change done by hightlight
+            unhighlight: function (element) { // revert the change done by
+                                                // hightlight
                 $(element)
-                    .closest('.control-group').removeClass('error'); // set error class to the control group
+                    .closest('.control-group').removeClass('error'); 
             },
 
             success: function (label) {
                 label
-                    .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
-                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+                    .addClass('valid').addClass('help-inline ok') //
+                    .closest('.control-group').removeClass('error').addClass('success'); 
             },
 
             submitHandler: function (form) {
@@ -195,22 +197,17 @@ var $$D = function (){
     };
 })();
 /**
- * Rules:
- required: "This field is required.",
- remote: "Please fix this field.",
- email: "Please enter a valid email address.",
- url: "Please enter a valid URL.",
- date: "Please enter a valid date.",
- dateISO: "Please enter a valid date (ISO).",
- number: "Please enter a valid number.",
- digits: "Please enter only digits",
- creditcard: "Please enter a valid credit card number.",
- equalTo: "Please enter the same value again.",
- accept: "Please enter a value with a valid extension.",
- maxlength: $.validator.format("Please enter no more than {0} characters."),
- minlength: $.validator.format("Please enter at least {0} characters."),
- rangelength: $.validator.format("Please enter a value between {0} and {1} characters long."),
- range: $.validator.format("Please enter a value between {0} and {1}."),
- max: $.validator.format("Please enter a value less than or equal to {0}."),
- min: $.validator.format("Please enter a value greater than or equal to {0}.")
- **/
+ * Rules: required: "This field is required.", remote: "Please fix this field.",
+ * email: "Please enter a valid email address.", url: "Please enter a valid
+ * URL.", date: "Please enter a valid date.", dateISO: "Please enter a valid
+ * date (ISO).", number: "Please enter a valid number.", digits: "Please enter
+ * only digits", creditcard: "Please enter a valid credit card number.",
+ * equalTo: "Please enter the same value again.", accept: "Please enter a value
+ * with a valid extension.", maxlength: $.validator.format("Please enter no more
+ * than {0} characters."), minlength: $.validator.format("Please enter at least
+ * {0} characters."), rangelength: $.validator.format("Please enter a value
+ * between {0} and {1} characters long."), range: $.validator.format("Please
+ * enter a value between {0} and {1}."), max: $.validator.format("Please enter a
+ * value less than or equal to {0}."), min: $.validator.format("Please enter a
+ * value greater than or equal to {0}.")
+ */

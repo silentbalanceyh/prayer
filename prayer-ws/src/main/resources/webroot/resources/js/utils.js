@@ -131,6 +131,26 @@ var API = (function () {
         var apiUrl = jQuery("#hdApi").val();
         return apiUrl + api;
     };
+    _init = function(uri,auth){
+        jQuery("#initLoading").show();
+        jQuery.ajax({
+            type:"GET",
+            url: API.uri(uri),
+            headers:{
+                "Authorization" :auth
+            },
+            dataType:"json",
+            success:function(response){
+                if(200 == response.statusCode){
+                    var data = response.data;
+                    for(var item in data){
+                        jQuery("#in_" + item).attr("value",data[item]);
+                    }
+                    jQuery("#initLoading").hide();
+                }
+            }
+        });
+    };
     return function () {
         return {};
     }
@@ -208,7 +228,8 @@ var BTN = (function () {
 })();
 (function () {
     API = API.prototype = {
-        uri: _uri
+        uri: _uri,
+        init: _init    
     }
 })();
 // Confirm Dialog Back

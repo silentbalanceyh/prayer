@@ -2,7 +2,7 @@
 function saveProfile(){
     if($("#fProfile").valid()){
         var data = FORM.success("#fProfile");
-        // TODO: 更新Profile的执行逻辑
+        // TODO: 
         console.log(data);
     }
 }
@@ -10,7 +10,7 @@ function saveProfile(){
 function updatePassword(){
     if($("#fPassword").valid()){
         var data = FORM.success("#fPassword");
-        // TODO: 更新Password的执行逻辑
+        // TODO:
         console.log(data);
     }
 }

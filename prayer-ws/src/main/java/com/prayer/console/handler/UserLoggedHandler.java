@@ -24,6 +24,7 @@ public class UserLoggedHandler implements Handler<RoutingContext> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(UserLoggedHandler.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -40,8 +41,8 @@ public class UserLoggedHandler implements Handler<RoutingContext> {
     public void handle(@NotNull final RoutingContext routingContext) {
         info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.OD_PROFILE);
         final User user = routingContext.user();
-        if(null != user){
-            info(LOGGER," Logged user : " + user.principal().encode());
+        if (null != user) {
+            info(LOGGER, " Logged user : " + user.principal().encode());
             routingContext.put(Constants.RET.SESSION_USER, user.principal().encode());
         }
         routingContext.next();

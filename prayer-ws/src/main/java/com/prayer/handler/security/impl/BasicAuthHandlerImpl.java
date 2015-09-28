@@ -255,6 +255,8 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                 retAuthInfo.put("username", username);
                 retAuthInfo.put("password", Encryptor.encryptMD5(password));
                 retAuthInfo.put(AUTH_KEY, 200);
+                // 放入Token
+                retAuthInfo.put(BasicAuth.KEY_TOKEN, parts[1]);
             } else {
                 retAuthInfo.put(AUTH_KEY, 401);
                 handler401Error(routingContext);
