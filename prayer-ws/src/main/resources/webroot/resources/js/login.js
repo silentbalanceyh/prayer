@@ -30,7 +30,6 @@ function resetP(sec){
     $$STOP = window.setInterval(progress, sec);
 }
 function progress() {
-    var $$STOP = null;
     // TODO: Debug Progress Bar
     console.log("Current Progress -> " + $$P);
     jQuery(".progress-bar").attr("style", "width:" + $$P + "%");
@@ -39,6 +38,7 @@ function progress() {
     }
     $$P += 10;
     if ($$P > 100) {
+        console.log("Progress Stopped At -> " + $$P + "%");
         window.clearInterval($$STOP);
     }
 }

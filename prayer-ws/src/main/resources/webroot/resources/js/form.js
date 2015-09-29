@@ -101,7 +101,19 @@ var FORM = function () {
         success.hide();
         error.show();
     };
+    var _reset = function(id){
+        var form = $(id);
+        // 错误信息隐藏
+        $(".alert-error", form).hide();
+        $(".alert-success", form).hide();
+        // Help，Control Group
+        $(".help-inline", form).removeClass("ok");
+        $(".control-group", form).removeClass("error").removeClass("success");
+    };
     return {
+        reset: function(id){
+            _reset(id);
+        },
         init: function (id, path) {
             handleValidation(id, path);
         },
@@ -136,6 +148,11 @@ var $$D = function (){
                 label: "Close",
                 cssClass: "btn btn-danger"
             }
+        }else if(BootstrapDialog.TYPE_SUCCESS === winType){
+            button = {
+                label: "Finish",
+                cssClass: "btn btn-success"
+            }
         }else{
             button = {
                 label: "Close",
@@ -158,9 +175,6 @@ var $$D = function (){
             type: winType,
             buttons: [button]
         });
-    };
-    _success = function(message,yes){
-        _message(message,yes,BootstrapDialog.TYPE_SUCCESS);
     };
     _confirm = function(message,yes,no,type){
         var winType = _type(type);
@@ -196,8 +210,7 @@ var $$D = function (){
 (function(){
     $$D = $$D.prototype = {
         confirm:_confirm,
-        message:_message,
-        success:_success
+        message:_message
     };
 })();
 /**

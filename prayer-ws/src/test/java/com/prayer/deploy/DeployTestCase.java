@@ -13,7 +13,10 @@ import com.prayer.dao.record.RecordDao;
 import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.db.conn.impl.MetadataConnImpl;
+import com.prayer.kernel.Record;
+import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.util.Encryptor;
 
 /**
  * 
@@ -52,14 +55,13 @@ public class DeployTestCase {
     public void testDeploy() throws Exception {
         final ServiceResult<Boolean> ret = this.service.deployPrayerData();
         assertTrue("[TD] Deploying failure ! ", ret.getResult());
-        // 添加默认账号信息的测试用例
-        /*
-         * final Record record = new GenericRecord("sec.account");
-         * record.set("username", "lang.yu"); record.set("email",
-         * "silentbalanceyh@126.com"); record.set("mobile","15922611447");
-         * record.set("password",Encryptor.encryptMD5("pl,okm123"));
-         * this.recordDao.insert(record);
-         */
+        /*// 添加默认账号信息的测试用例
+        final Record record = new GenericRecord("sec.account");
+        record.set("username", "lang.yu");
+        record.set("email", "silentbalanceyh@126.com");
+        record.set("mobile", "15900000000");
+        record.set("password", Encryptor.encryptMD5("pl,okm123"));
+        this.recordDao.insert(record);*/
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

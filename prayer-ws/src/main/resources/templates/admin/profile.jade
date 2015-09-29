@@ -92,6 +92,8 @@ block content_main
                             .controls
                                 input#in_cfmpwd.input-xlarge(type="password",name="in_cfmpwd")
                         .form-actions
-                            button.btn.btn-warning(type="button",onclick="updatePassword();")
+                            button.btn.btn-warning(type="button",onclick="updatePassword(this);")
                                 i.icon-lock.icon-white
                                 span &nbsp;&nbsp;Update Password
+                            #barPassword.progress.progress-striped.progress-success.active.pull-right.hidden(style="width:60%")
+                                        .bar(style="width:0%")    

@@ -10,26 +10,34 @@
         "parent":"/api",
         "path":"/sec/account",
         "method":"POST",
-        "order":-100
+        "order":-100,
+        "consumerMimes":["*/json"],
+        "producerMimes":["*/json"]
     },
     
     {
         "parent":"/api",
         "path":"/sec/account",
         "method":"PUT",
-        "order":-100
+        "order":-100,
+        "consumerMimes":["*/json"],
+        "producerMimes":["*/json"]
     },
     
     {
         "parent":"/api",
         "path":"/sec/account",
         "method":"GET",
-        "order":-100
+        "order":-100,
+        "consumerMimes":["*/json"],
+        "producerMimes":["*/json"]
     },
     {
         "parent":"/api",
         "path":"/sec/account",
         "method":"DELETE",
-        "order":-100
+        "order":-100,
+        "consumerMimes":["*/json"],
+        "producerMimes":["*/json"]
     }
 ]

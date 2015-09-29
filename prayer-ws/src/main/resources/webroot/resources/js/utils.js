@@ -31,14 +31,15 @@ function resetP(sec, obj) {
     $$STOP = window.setInterval(progress, sec);
 }
 function progress() {
-    var $$STOP = null;
     // TODO: Debug Progress Bar
+    console.log("Current Progress -> " + $$P + "%");
     jQuery(".bar").attr("style", "width:" + $$P + "%");
     if ($$P > 90 && !$$FAIL) {
         successP();
     }
     $$P += 5;
     if ($$P > 100) {
+        console.log("Progress Stopped At -> " + $$P + "%");
         window.clearInterval($$STOP);
     }
 }
@@ -146,9 +147,12 @@ var API = (function() {
         var options = {
             type : config["method"] == undefined ? "GET" : config["method"],
             url : uri,
+            contentType : config["contentType"] == undefined ? "application/json"
+                    : config["contentType"],
             timeout : 3000,
             dataType : config["type"] == undefined ? "json" : config["type"],
-            data : config["data"] == undefined ? {} : config["data"]
+            data : config["data"] == undefined ? jQuery.toJSON({}) : jQuery
+                    .toJSON(config["data"])
         };
         if (token != "NONE") {
             options["headers"] = {
@@ -167,10 +171,25 @@ var API = (function() {
                 }
                 // 2.弹出对话框
                 if (undefined != callback["dialog"]) {
+
                     // 显示窗口信息
-                    var msgKey = callback["dialog"]["key"];
-                    var message = response.data[msgKey];
-                    $$D.success(message, callback["dialog"]["yes"]);
+                    var message = callback["dialog"]["message"];
+                    $$D.message(message, function() {
+                        // Fix Progress Bar不隐藏的问题
+                        if (undefined != ui["bar"]
+                                && undefined != ui["bar"]["selector"]) {
+                            jQuery(ui["bar"]["selector"]).addClass("hidden");
+                        }
+                        // Fix 按钮提交还原问题
+                        if (undefined != ui["button"]) {
+                            BTN.after(ui["button"]["ref"],
+                                    ui["button"]["after"]);
+                        }
+                        // 最后执行
+                        if (undefined != callback["dialog"]["yes"]) {
+                            callback["dialog"]["yes"](data);
+                        }
+                    }, BootstrapDialog.TYPE_SUCCESS);
                 }
                 if (undefined != callback["successcall"]) {
                     callback["successcall"](data);
@@ -259,7 +278,7 @@ var API = (function() {
         var request = {};
         for ( var item in data) {
             var key = item.toString().replace(/in\_/, "");
-            request["\"" + key + "\""] = encodeURIComponent(data[item]);
+            request[key] = encodeURIComponent(data[item]);
         }
         return request;
     }
@@ -270,11 +289,25 @@ var API = (function() {
 var BTN = (function() {
     _before = function(button, text) {
         jQuery(button).addClass("disabled");
-        jQuery(button).html(text);
+        var child = jQuery(button).children("span");
+        if (child.length <= 0) {
+            jQuery(button).html(text);
+        } else {
+            if(1 == child.length){
+                jQuery(child[0]).html(text);
+            }
+        }
     };
     _after = function(button, text) {
         jQuery(button).removeClass("disabled");
-        jQuery(button).html(text);
+        var child = jQuery(button).children("span");
+        if (child.length <= 0) {
+            jQuery(button).html(text);
+        } else {
+            if(1 == child.length){
+                jQuery(child[0]).html(text);
+            }
+        }
     };
     _checked = function(boxId, cls) {
         // 判断CheckBox是否选中
