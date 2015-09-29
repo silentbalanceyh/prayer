@@ -16,7 +16,7 @@ block content_main
             .block-content.collapse.in
                 .span12
                     form#fProfile.form-horizontal(action="#")
-                        input#fProfileDATA(type="hidden",value="in_username,in_email,in_mobile")
+                        input#fProfileDATA(type="hidden",value="in_id,in_username,in_email,in_mobile")
                         input#in_id(type="hidden")
                         fieldset
                             legend
@@ -53,11 +53,13 @@ block content_main
                             .controls
                                 input#in_mobile.input-xlarge(type="text",name="in_mobile")
                         .form-actions
-                            button.btn.btn-inverse(type="button",onclick="saveProfile();")
+                            button.btn.btn-inverse(type="button",onclick="saveProfile(this);")
                                 i.icon-refresh.icon-white
                                 span &nbsp;&nbsp;Update Profile
+                            #barProfile.progress.progress-striped.progress-success.active.pull-right.hidden(style="width:60%")
+                                        .bar(style="width:0%")    
                     form#fPassword.form-horizontal(action="#")
-                        input#fPasswordDATA(type="hidden",value="in_oldpwd,in_newpwd,in_cfmpwd")
+                        input#fPasswordDATA(type="hidden",value="in_id,in_oldpwd,in_newpwd,in_cfmpwd")
                         fieldset
                             legend
                                 h3

@@ -92,7 +92,7 @@ var FORM = function () {
         for (var idx = 0; idx < fields.length; idx++) {
             data[fields[idx]] = jQuery("#" + fields[idx]).val();
         }
-        return data;
+        return API.request(data);
     };
     var submitFailure = function(id){
         var form = $(id);
@@ -159,6 +159,9 @@ var $$D = function (){
             buttons: [button]
         });
     };
+    _success = function(message,yes){
+        _message(message,yes,BootstrapDialog.TYPE_SUCCESS);
+    };
     _confirm = function(message,yes,no,type){
         var winType = _type(type);
         // Buttons
@@ -193,7 +196,8 @@ var $$D = function (){
 (function(){
     $$D = $$D.prototype = {
         confirm:_confirm,
-        message:_message
+        message:_message,
+        success:_success
     };
 })();
 /**

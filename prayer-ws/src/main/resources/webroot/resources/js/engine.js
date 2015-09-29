@@ -99,10 +99,11 @@ function MENU_STATUS(path) {
                 "/static/resources/rules/validate/users/password.json");
         var params = jQuery.parseJSON(jQuery("#USERDATA").val());
         var path = "/sec/account?id=" + params["id"];
-        API.init(path, "Basic " + params["token"], function(data) {
+        API.init(path, function(data) {
             for ( var item in data) {
                 jQuery("#in_" + item).attr("value", data[item]);
             }
+            jQuery("#in_id").attr("value",params["id"]);
         });
     }
         break;

@@ -1,4 +1,4 @@
-// 进度条功能函数
+// 进度条功能函数, 仅仅针对Login页面的重写
 var $$P = 0;
 var $$STOP = null;
 var $$FAIL = false;
@@ -9,6 +9,7 @@ function failureP(){
     jQuery(".progress-bar").removeClass("progress-bar-success");
     jQuery(".progress-bar").removeClass("active");
     jQuery(".progress-bar").addClass("progress-bar-danger");
+    window.clearInterval($$STOP);
 }
 // Success
 function successP(){
@@ -30,6 +31,8 @@ function resetP(sec){
 }
 function progress() {
     var $$STOP = null;
+    // TODO: Debug Progress Bar
+    console.log("Current Progress -> " + $$P);
     jQuery(".progress-bar").attr("style", "width:" + $$P + "%");
     if ($$P > 60 && !$$FAIL){
         successP();
@@ -41,6 +44,53 @@ function progress() {
 }
 /** 自定义JS文件 * */
 function exeLogin(button) {
+    // 手动提供token
+    var username = $("#username").val();
+    var password = $("#password").val();
+    var token = "Basic " + $$U.base64(username + ":" + password);
+    // Data
+    var config = {
+        token:token,
+        uri:"/sec/login"
+    };
+    // UI
+    var ui = {
+        // Button UI效果
+        button:{
+            ref:button,
+            before:"Login...",
+            after:"Login"
+        },
+        // 进度条  UI效果
+        bar:{
+            reset:resetP,
+            success:successP,
+            failure:failureP,
+            selector:".progress"
+        },
+        // 隐藏error
+        msg:{
+            eid:"msgError"
+        }
+    };
+    // Reponse
+    var callback = {
+        url:function(data){
+            return "/dynamic/admin/main?UID=" + data["uniqueId"];
+        },
+        errorcall:{
+            _401:function(data){
+                if(undefined == data["authenticateError"]){
+                    $$U.message("msgError", true, MSG["AUTH"]["AUTH.MISSING"]);
+                }else{
+                    $$U.message("msgError", true,
+                            MSG["AUTH"][data["authenticateError"]]);
+                }
+            }
+        }
+    };
+    API.submit(config,ui,callback);
+    /*
     resetP(150);
     $(".progress").removeClass("hidden");
     // 获取值
@@ -79,5 +129,5 @@ function exeLogin(button) {
             $(".progress").addClass("hidden");
             BTN.after(button, "Login");
         }
-    });
+    });*/
 }
