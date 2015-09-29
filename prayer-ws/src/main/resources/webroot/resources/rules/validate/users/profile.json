@@ -18,7 +18,7 @@
     "in_mobile": {
       "required": "Mobile is required.",
       "rangelength": "$.validator.format('Please enter valid mobile number between {0} and {1} characters long.')",
-      "digits": "Please enter a valid mobile number format."
+      "digits": "Please enter a valid mobile format, mobile number must be all digits."
     }
   }
 }

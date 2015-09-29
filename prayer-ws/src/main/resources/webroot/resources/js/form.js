@@ -109,6 +109,10 @@ var FORM = function () {
         // Help，Control Group
         $(".help-inline", form).removeClass("ok");
         $(".control-group", form).removeClass("error").removeClass("success");
+        // Password 密码框
+        $("input[type=password]",form).each(function(){
+            $(this).attr("value","");
+        });
     };
     return {
         reset: function(id){

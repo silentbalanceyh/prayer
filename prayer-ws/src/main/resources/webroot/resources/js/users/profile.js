@@ -56,6 +56,7 @@ function updatePassword(button){
                message:"Your password has been updated successfully, please use new password to re-login into the system.",
                yes:function(){
                    FORM.reset("#fPassword");
+                   window.location = "/dynamic/logout";
                }
             }
         };
