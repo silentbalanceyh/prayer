@@ -6,7 +6,6 @@ import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
@@ -71,30 +70,28 @@ public class RouteConfigurator {
      * @return
      */
     @PreValidateThis
-    public ConcurrentMap<Router, String> getRouters() {
+    public Router getRouter() {
         // 1.从H2的Database中读取所有的Route信息
         final ServiceResult<ConcurrentMap<String, List<RouteModel>>> result = this.service.findRoutes();
         // 2.如果读取成功的情况
-        final ConcurrentMap<Router, String> retRouters = new ConcurrentHashMap<>();
+        final Router retRouter = Router.router(this.vertxRef);
         if (ResponseCode.SUCCESS == result.getResponseCode()) {
             // 3.Sub Router
             result.getResult().values().forEach(routeList -> {
                 // 4.Sub Router调用
                 routeList.forEach(item -> {
-                    final Router router = this.configRouter(item);
-                    retRouters.put(router, item.getParent());
+                    final Route route = this.configRouter(retRouter,item);
+                    retRouter.getRoutes().add(route);
                 });
             });
         } else {
             info(LOGGER, "[E-VX] No route has been found in H2 database !");
         }
-        return retRouters;
+        return retRouter;
     }
     // ~ Private Methods =====================================
 
-    private Router configRouter(final RouteModel metadata) {
-        // 1.创建Router
-        final Router router = Router.router(this.vertxRef);
+    private Route configRouter(final Router router, final RouteModel metadata) {
         // 2.初始化Route，设置Method
         final Route route = initRoute(router, metadata);
         // 3.设置Order
@@ -114,26 +111,28 @@ public class RouteConfigurator {
         }
         // 5.设置Handler
         this.registerHandler(route, metadata);
-        return router;
+        return route;
     }
 
     private Route initRoute(final Router router, final RouteModel metadata) {
         Route route = null;
+        // Fix: 暂时不修改表结构
+        String path = metadata.getParent() + metadata.getPath();
         switch (metadata.getMethod()) {
         case POST: {
-            route = router.post(metadata.getPath());
+            route = router.post(path);
         }
             break;
         case PUT: {
-            route = router.put(metadata.getPath());
+            route = router.put(path);
         }
             break;
         case DELETE: {
-            route = router.delete(metadata.getPath());
+            route = router.delete(path);
         }
             break;
         default: {
-            route = router.get(metadata.getPath());
+            route = router.get(path);
         }
             break;
         }

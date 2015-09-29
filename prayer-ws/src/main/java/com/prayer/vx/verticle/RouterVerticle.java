@@ -2,8 +2,6 @@ package com.prayer.vx.verticle; // NOPMD
 
 import static com.prayer.util.Instance.singleton;
 
-import java.util.concurrent.ConcurrentMap;
-
 import com.prayer.assistant.RouterInjector;
 import com.prayer.constant.Constants;
 import com.prayer.handler.web.ConversionHandler;
@@ -55,24 +53,17 @@ public class RouterVerticle extends AbstractVerticle {
     public void start() {
         // 1.根据Options创建Server相关信息
         final HttpServer server = vertx.createHttpServer(this.configurator.getApiOptions());
-
-        // 2.根路径Router
-        final Router router = Router.router(vertx);
+        // 2.先初始化Router
+        final RouteConfigurator routeConfigurator = singleton(RouteConfigurator.class, vertx);
+        final Router router = routeConfigurator.getRouter();
+        // 3.根路径Router
         RouterInjector.injectWebDefault(router);
 
-        // 3.AuthProvider创建
+        // 4.AuthProvider创建
         RouterInjector.injectSecurity(router);
         
-        // 4.最前端的URL处理
+        // 5.最前端的URL处理
         injectStandard(router);
-
-        // 5.设置Sub Router
-        final RouteConfigurator routeConfigurator = singleton(RouteConfigurator.class, vertx);
-        final ConcurrentMap<Router, String> subRouters = routeConfigurator.getRouters();
-        subRouters.forEach((subRouter, value) -> {
-            router.mountSubRouter(value, subRouter);
-        });
-
         // 6.监听Cluster端口
         server.requestHandler(router::accept).listen();
     }

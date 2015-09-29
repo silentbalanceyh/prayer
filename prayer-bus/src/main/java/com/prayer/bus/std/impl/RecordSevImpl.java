@@ -100,7 +100,6 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
         } else {
             ret.setResponse(null, error);
         }
-
         return ret;
     }
     // ~ Methods =============================================

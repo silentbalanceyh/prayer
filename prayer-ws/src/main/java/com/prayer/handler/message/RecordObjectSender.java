@@ -49,9 +49,11 @@ public final class RecordObjectSender implements Handler<AsyncResult<Message<Obj
             final JsonObject ret = new JsonObject();
             ret.put(Constants.RET.STATUS_CODE, StatusCode.OK.status());
             ret.put(Constants.RET.RESPONSE, ResponseCode.SUCCESS);
-            ret.put(Constants.RET.DATA, new JsonObject(data));
+            ret.put(Constants.RET.DATA, data);
             
             Future.success(this.response, ret.encode());
+        }else{
+            System.out.println("Hello");
         }
     }
     // ~ Methods =============================================

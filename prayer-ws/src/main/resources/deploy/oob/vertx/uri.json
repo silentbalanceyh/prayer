@@ -34,7 +34,7 @@
         ]
     },
     {
-        "uri":"/api/sec/account",
+        "uri":"/api/sec/account/:id",
         "method":"GET",
         "paramType":"QUERY",
         "address":"MSG://RECORD/QUEUE",

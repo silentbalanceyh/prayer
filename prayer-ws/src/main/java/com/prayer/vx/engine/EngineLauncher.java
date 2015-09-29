@@ -29,8 +29,6 @@ public final class EngineLauncher {
      * @param args
      */
     public static void main(final String... args) throws AbstractException {
-        // TODO：开发模式禁用File Caching
-        System.setProperty("vertx.disableFileCaching", "true");
         // 1.H2数据库集成，并且发布H2的Metadata数据
         final H2DatabaseServer server = singleton(H2DatabaseServer.class);
         if (server.start()) {
@@ -48,8 +46,8 @@ public final class EngineLauncher {
                 final VertxFactory factory = configurator.getFactory();
                 // 3.判断是普通环境还是Cluster环境
                 if (options.isClustered()) {
-                    final Config hazelcastConfig = singleton(Config.class);
-                    final ClusterManager mgr = singleton(HazelcastClusterManager.class, hazelcastConfig);
+                    final Config config = singleton(Config.class);
+                    final ClusterManager mgr = singleton(HazelcastClusterManager.class, config);
                     options.setClusterManager(mgr);
                     factory.clusteredVertx(options, singleton(VertxClusterHandler.class));
                 } else {

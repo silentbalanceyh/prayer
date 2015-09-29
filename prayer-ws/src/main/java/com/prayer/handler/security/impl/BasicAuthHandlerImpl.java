@@ -5,14 +5,12 @@ import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.Base64;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.Dispatcher;
 import com.prayer.assistant.Future;
 import com.prayer.assistant.HttpErrHandler;
 import com.prayer.assistant.WebLogger;
@@ -21,12 +19,8 @@ import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.exception.AbstractException;
-import com.prayer.exception.web.BodyParamDecodingException;
-import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.bus.web.StatusCode;
-import com.prayer.model.h2.vx.UriModel;
 import com.prayer.security.provider.AuthConstants;
 import com.prayer.security.provider.AuthConstants.BASIC;
 import com.prayer.security.provider.BasicAuth;
@@ -38,7 +32,6 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
-import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.LocalMap;
@@ -91,33 +84,18 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
     @Override
     public void handle(@NotNull final RoutingContext routingContext) {
         info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.AUTH);
-        // 1.获取请求Request和相应Response引用
-        final HttpServerRequest request = routingContext.request();
-        // 2.从系统中按URI读取接口规范
-        final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(request.path());
-        final RestfulResult webRet = RestfulResult.create();
-
-        // 3.请求转发，去除掉Error过后的信息
-        final AbstractException error = Dispatcher.requestDispatch(result, webRet, routingContext, getClass());
-
         /**
          * 4.根据Error设置相应，唯一特殊的情况是Basic认证是Body的参数方式，
          * 但其参数信息是在processAuth的过程填充到系统里的， 一旦出现了com.prayer.exception.web.
          * BodyParamDecodingException异常信息则依然可让其执行认证
          */
-        if (null == error || error instanceof BodyParamDecodingException) {
-            final User user = routingContext.user();
-            if (null == user) {
-                // 5.认证执行代码
-                this.processAuth(routingContext);
-            } else {
-                // 5.不需要认证的情况
-                authorise(user, routingContext);
-            }
+        final User user = routingContext.user();
+        if (null == user) {
+            // 5.认证执行代码
+            this.processAuth(routingContext);
         } else {
-            // 5.直接Dennied的情况
-            routingContext.put(Constants.KEY.CTX_ERROR, webRet);
-            routingContext.fail(webRet.getStatusCode().status());
+            // 5.不需要认证的情况
+            authorise(user, routingContext);
         }
     }
 

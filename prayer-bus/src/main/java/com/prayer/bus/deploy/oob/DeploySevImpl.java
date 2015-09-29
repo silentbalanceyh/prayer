@@ -116,7 +116,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                     // 4.EVX_RULE
                     final String paramFile = VX_URI_PARAM
                             + model.getMethod().toString().toLowerCase(Locale.getDefault()) + "/"
-                            + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".") + ".json";
+                            + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".").replaceAll(":","\\$") + ".json";
                     ret = this.manager.getRuleService().importRules(paramFile, model);
                     if (ResponseCode.SUCCESS != ret.getResponseCode()) {
                         error(LOGGER, BusLogger.E_PROCESS_ERR, model.getUri() + " Rule Deploy", ret.getErrorMessage());

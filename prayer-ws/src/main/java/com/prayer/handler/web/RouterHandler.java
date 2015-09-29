@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
@@ -78,9 +79,8 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.ROUTER);
 		// 1.获取请求Request和相应Response引用
 		final HttpServerRequest request = routingContext.request();
-
 		// 2.从系统中按URI读取接口规范
-		final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(request.path());
+		final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(path(request));
 		final RestfulResult webRet = RestfulResult.create();
 
 		// 3.请求转发，去除掉Error过后的信息
@@ -105,6 +105,18 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
+	private String path(final HttpServerRequest request){
+	    String ret = request.path();
+	    final Iterator<Entry<String,String>> it = request.params().entries().iterator();
+	    while(it.hasNext()){
+	        final Entry<String,String> item = it.next();
+	        if(ret.contains(item.getValue())){
+                ret = ret.replace(item.getValue(),":" + item.getKey());
+            }
+	    }
+	    return ret;
+	}
+	
 	private JsonObject extractParams(final RoutingContext context, final UriModel uri) {
 		JsonObject retJson = new JsonObject();
 		final HttpServerRequest request = context.request();

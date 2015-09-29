@@ -3,6 +3,7 @@
         "parent":"/api",
         "path":"/sec/login",
         "method":"GET",
+        "requestHandler":"com.prayer.handler.standard.BasicAuthenticateHandler",
         "order":-100
     },
     
@@ -11,6 +12,7 @@
         "path":"/sec/account",
         "method":"POST",
         "order":-100,
+        "requestHandler":"com.prayer.handler.standard.RecordHandler",
         "consumerMimes":["*/json"],
         "producerMimes":["*/json"]
     },
@@ -20,15 +22,17 @@
         "path":"/sec/account",
         "method":"PUT",
         "order":-100,
+        "requestHandler":"com.prayer.handler.standard.RecordHandler",
         "consumerMimes":["*/json"],
         "producerMimes":["*/json"]
     },
     
     {
         "parent":"/api",
-        "path":"/sec/account",
+        "path":"/sec/account/:id",
         "method":"GET",
-        "order":-100,
+        "order":-10001,
+        "requestHandler":"com.prayer.handler.standard.RecordHandler",
         "consumerMimes":["*/json"],
         "producerMimes":["*/json"]
     },
@@ -37,6 +41,7 @@
         "path":"/sec/account",
         "method":"DELETE",
         "order":-100,
+        "requestHandler":"com.prayer.handler.standard.RecordHandler",
         "consumerMimes":["*/json"],
         "producerMimes":["*/json"]
     }

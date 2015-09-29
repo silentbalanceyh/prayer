@@ -88,7 +88,7 @@ public final class RouterInjector {
     public static void injectStatic(@NotNull final Router router, @NotNull @NotBlank @NotEmpty final String apiUrl) {
         final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
         router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.STATIC)
-                .handler(StaticHandler.create());
+                .handler(StaticHandler.create().setCachingEnabled(false));
         // 引入jade模板引擎
         final TemplateHandler handler = TemplateHandler.create(JadeTemplateEngine.create());
         router.route(Constants.WEB.DYNAMIC_ROUTE).order(Constants.ORDER.DYNAMIC).handler(context -> {

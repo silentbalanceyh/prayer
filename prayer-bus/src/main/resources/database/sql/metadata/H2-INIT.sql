@@ -164,8 +164,7 @@ CREATE TABLE EVX_ROUTE(
 		CHECK(S_METHOD = 'GET' OR S_METHOD = 'POST' OR S_METHOD = 'PUT' OR S_METHOD = 'DELETE' OR S_METHOD = 'OPTIONS' OR S_METHOD = 'HEAD' OR S_METHOD = 'TRACE' OR S_METHOD = 'CONNECT' OR S_METHOD = 'PATCH'),
 	S_MIME_CONSUMER VARCHAR(2048),				-- Consumer Mimes
 	S_MIME_PRODUCER VARCHAR(2048),				-- Producer Mimes
-	S_ORDER INT								-- 同一个路径下的ORDER，这个值只有路径相同时才会使用
-		CHECK(-1000 < S_ORDER AND S_ORDER < 1000),
+	S_ORDER INT,								-- 同一个路径下的ORDER，这个值只有路径相同时才会使用
 	--处理器信息
 	S_SHANDLER VARCHAR(256),					-- Java处理当前Route的SuccessHandler内容
 	S_FHANDLER VARCHAR(256),					-- Java处理当前Route的FailureHandler内容

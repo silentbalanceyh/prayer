@@ -53,7 +53,9 @@ public class FailureHandler implements ErrorHandler {
 		// 2.获取RestfulResult
 		final RestfulResult webRet = (RestfulResult) context.get(Constants.KEY.CTX_ERROR);
 		info(LOGGER, WebLogger.I_REST_RESULT, webRet);
-		error(LOGGER, WebLogger.E_COMMON_EXP, webRet.getError());
+		if(null != webRet){
+		    error(LOGGER, WebLogger.E_COMMON_EXP, webRet.getError());
+		}
 		// 3.包装Error信息生成统一的Error格式
 		final JsonObject retData = webRet.getResult();
 		// 3.1.401的特殊信息设置

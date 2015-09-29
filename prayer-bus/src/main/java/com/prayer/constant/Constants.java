@@ -120,7 +120,7 @@ public interface Constants { // NOPMD
     /** **/
     interface ORDER { // NOPMD
         /** 默认的顺序，但不设置，作为临界值 **/
-        int NOT_SET = -10000;
+        int NOT_SET = -20000;
 
         /** CORS Handler **/
         int CORS = -9900;
