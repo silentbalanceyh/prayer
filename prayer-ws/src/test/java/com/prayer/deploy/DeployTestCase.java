@@ -13,10 +13,7 @@ import com.prayer.dao.record.RecordDao;
 import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.db.conn.impl.MetadataConnImpl;
-import com.prayer.kernel.Record;
-import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.util.Encryptor;
 
 /**
  * 

@@ -3,9 +3,7 @@ package com.prayer.assistant;
 import com.prayer.constant.Constants;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
-import com.prayer.util.JsonKit;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -91,9 +89,9 @@ public final class Extractor {
      * @param requestor
      * @return
      */
-    public static UriModel uri(@NotNull final Requestor requestor) {
-        final JsonObject uri = requestor.getRequest().getJsonObject(JsonKey.REQUEST.URI);
-        return JsonKit.fromStr(UriModel.class, uri.encode());
+    public static UriModel uri(@NotNull final RoutingContext context) {
+        final UriModel ret = context.get(Constants.KEY.CTX_URI);
+        return ret;
     }
 
     // ~ Static Methods ======================================

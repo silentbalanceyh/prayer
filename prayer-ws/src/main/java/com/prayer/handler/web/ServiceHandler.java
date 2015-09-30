@@ -54,7 +54,8 @@ public class ServiceHandler implements Handler<RoutingContext> {
         
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
-        final UriModel uri = Extractor.uri(requestor);
+        info(LOGGER, " >>>>>>>> Before Service \n" + requestor.getData().encodePrettily());
+        final UriModel uri = Extractor.uri(context);
         // 2.Service获取参数信息
         if (null == uri) {
             // 500 Internal Server

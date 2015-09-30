@@ -73,7 +73,27 @@ public final class JsonKit { // NOPMD
         }
         return ret;
     }
-
+    /**
+     * 
+     * @param reference
+     * @param content
+     * @return
+     */
+    public static <T> T fromStr(@NotNull final TypeReference<T> reference, @NotNull @NotEmpty @NotBlank final String content) {
+        T retObj = null;
+        try {
+            retObj = MAPPER.readValue(content, reference);
+        } catch (JsonParseException ex) {
+            debug(LOGGER, ERR_20004, ex, content);
+        } catch (IOException ex) {
+            debug(LOGGER, ERR_20004, ex, content);
+        }
+        // TODO: Debug
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return retObj;
+    }
     /**
      * 
      * @param reference

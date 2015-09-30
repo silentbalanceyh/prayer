@@ -76,7 +76,8 @@ public class ValidationHandler implements Handler<RoutingContext> {
         
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
-        final UriModel uri = Extractor.uri(requestor);
+        info(LOGGER, " >>>>>>>> Before Validator \n" + requestor.getData().encodePrettily());
+        final UriModel uri = Extractor.uri(context);
 
         // 2.获取当前路径下的Validator的数据
         final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
@@ -85,6 +86,7 @@ public class ValidationHandler implements Handler<RoutingContext> {
         if(this.requestDispatch(result, context, requestor)){
             // SUCCESS -->
             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
+            info(LOGGER, " >>>>>>>> After Validator \n" + requestor.getData().encodePrettily());
             context.next();
         }
     }
@@ -92,8 +94,8 @@ public class ValidationHandler implements Handler<RoutingContext> {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result, final RoutingContext context, final Requestor requestor){
-        final JsonObject params = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
         if(ResponseCode.SUCCESS == result.getResponseCode()){
+            final JsonObject params = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
             AbstractWebException error = null;
             final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
             boolean ret = true;
@@ -105,11 +107,9 @@ public class ValidationHandler implements Handler<RoutingContext> {
                 error = this.validateField(field, value, validators);
                 if(null != error){
                     ret = false;
+                    Future.error400(getClass(), context, error);
                     break;
                 }
-            }
-            if(false == ret){
-                Future.error400(getClass(), context, error);
             }
             return ret;
         }else{
@@ -156,6 +156,10 @@ public class ValidationHandler implements Handler<RoutingContext> {
             }
         } catch (AbstractWebException ex) {
             error = ex;
+        }
+        // TODO:
+        catch (Exception ex){
+            ex.printStackTrace();
         }
         return error;
     }

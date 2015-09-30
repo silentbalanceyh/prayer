@@ -80,7 +80,8 @@ public interface Constants { // NOPMD
         String CTX_RESPONSOR = "CTX.RESPONSOR";
         /** Global Requestor **/
         String CTX_REQUESTOR = "CTX.REQUESTOR";
-        
+        /** Context URI **/
+        String CTX_URI = "CTX.URI";
         /** Api的远程地址 **/
         String API_URL = "API.URL";
     }

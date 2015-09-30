@@ -73,13 +73,15 @@ public class ConversionHandler implements Handler<RoutingContext> {
         
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
-        final UriModel uri = Extractor.uri(requestor);
+        info(LOGGER, " >>>>>>>> Before Conversion \n" + requestor.getData().encodePrettily());
+        final UriModel uri = Extractor.uri(context);
         // 2.查找Convertors的数据
         final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
                 .findConvertors(uri.getUniqueId());
         if (this.requestDispatch(result, context, requestor)) {
             // SUCCESS -->
             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
+            info(LOGGER, " >>>>>>>> After Conversion \n" + requestor.getData().encodePrettily());
             context.next();
         }
     }

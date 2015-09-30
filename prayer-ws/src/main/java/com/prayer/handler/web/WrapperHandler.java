@@ -47,7 +47,8 @@ public class WrapperHandler implements Handler<RoutingContext> {
         info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.WRAPPER);
         // 1.读取请求数据
         final Requestor requestor = Extractor.requestor(context);
-        final UriModel uri = Extractor.uri(requestor);
+        info(LOGGER, " >>>>>>>> Before Wrapper \n" + requestor.getData().encodePrettily());
+        final UriModel uri = Extractor.uri(context);
         // 2.参数填充
         if(null == uri){
             // 3.500 Error
@@ -61,6 +62,7 @@ public class WrapperHandler implements Handler<RoutingContext> {
             requestor.getParams().put(JsonKey.PARAMS.DATA, requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS));
             // SUCCESS -->
             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
+            info(LOGGER, " >>>>>>>> After Wrapper \n" + requestor.getData().encodePrettily());
             context.next();
         }
     }

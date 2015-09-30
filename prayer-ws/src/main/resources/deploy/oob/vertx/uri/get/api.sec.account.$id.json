@@ -1,13 +1,2 @@
 [
-    {
-        "name":"username",
-        "type":"StringType",
-        "order":1,
-        "componentType":"VALIDATOR",
-        "componentClass":"com.prayer.uca.validator.RegexValidator",
-        "config":{
-            "regex":"^[A-Za-z0-9._-]{6,16}$"
-        },
-        "errorMessage":"用户名中只可以包含字母、数字、下划线(_)、点(.)、中划线(-)，且长度在6 ~ 16字符。"
-    }
 ]

@@ -146,11 +146,15 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                             authorise(authenticated, context, requestor.getResponse());
                         } else {
                             // Next -> 需要填充Requestor
+                            requestor.getResponse().clear();
+                            requestor.getParams().clear();
                             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
                             authorise(authenticated, context);
                         }
                     } else {
                         // Next -> 需要填充Requestor
+                        requestor.getResponse().clear();
+                        requestor.getParams().clear();
                         context.put(Constants.KEY.CTX_REQUESTOR, requestor);
                         authorise(authenticated, context);
                     }

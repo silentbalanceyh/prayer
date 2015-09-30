@@ -227,13 +227,12 @@ public class UriModel implements Serializable { // NOPMD
     }
 
     // ~ hashCode,equals,toString ============================
-    /**
-     * 
-     */
+    /** **/
     @Override
     public String toString() {
         return "UriModel [uniqueId=" + uniqueId + ", uri=" + uri + ", method=" + method + ", paramType=" + paramType
-                + ", requiredParam=" + requiredParam + "]";
+                + ", requiredParam=" + requiredParam + ", globalId=" + globalId + ", address=" + address + ", script="
+                + script + ", returnFilters=" + returnFilters + ", sender=" + sender + "]";
     }
 
     /**

@@ -33,8 +33,6 @@ public interface JsonKey {
         /** **/
         String LOGIN_URL = "login.url";
         /** **/
-        String URI = "uri";
-        /** **/
         String PARAMS = "params";
     }
 

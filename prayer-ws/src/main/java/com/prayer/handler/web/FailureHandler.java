@@ -53,6 +53,8 @@ public class FailureHandler implements ErrorHandler {
 		final Responsor responser = (Responsor) context.get(Constants.KEY.CTX_RESPONSOR);
 		if(null != responser){
 		    error(LOGGER, WebLogger.E_COMMON_EXP, responser.getError());
+		}else{
+		    info(LOGGER, WebLogger.I_COMMON_INFO, " Responser = " + responser);
 		}
 		Future.failure(response, responser.getResult().toString(), responser.getStatus().status(),
 		        responser.getStatus().name());
