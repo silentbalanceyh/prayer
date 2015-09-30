@@ -3,27 +3,34 @@ package com.prayer.handler.security.impl; // NOPMD
 import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.assistant.Dispatcher;
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Future;
 import com.prayer.assistant.WebLogger;
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
 import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.Constants;
+import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.h2.vx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.model.web.StatusCode;
+import com.prayer.security.provider.AuthConstants.BASIC;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.security.provider.impl.BasicUser;
+import com.prayer.vx.configurator.SecurityConfigurator;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.LocalMap;
 import io.vertx.core.shareddata.SharedData;
@@ -55,6 +62,9 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
     /** **/
     @NotNull
     private transient final ConfigService service;
+    /** **/
+    @NotNull
+    private transient final SecurityConfigurator configurator;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -65,39 +75,57 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
         super(provider);
         this.realm = realm;
         this.service = singleton(ConfigSevImpl.class);
+        this.configurator = singleton(SecurityConfigurator.class);
     }
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public void handle(@NotNull final RoutingContext routingContext) {
+    public void handle(@NotNull final RoutingContext context) {
         info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.AUTH);
         /**
          * 1.根据Error设置相应，唯一特殊的情况是Basic认证是Body的参数方式，
          * 但其参数信息是在processAuth的过程填充到系统里的， 一旦出现了com.prayer.exception.web.
          * BodyParamDecodingException异常信息则依然可让其执行认证
          */
-        final User user = routingContext.user();
-        if (null == user) {
-            // 5.认证执行代码
-            this.processAuth(routingContext);
-        } else {
-            // 5.不需要认证的情况
-            authorise(user, routingContext);
+        if (this.requestDispatch(context)) {
+            final User user = context.user();
+            if (null == user) {
+                // 5.认证执行代码
+                this.processAuth(context);
+            } else {
+                // 5.不需要认证的情况
+                authorise(user, context);
+            }
         }
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
+    private boolean requestDispatch(final RoutingContext context) {
+        boolean ret = true;
+        final String endpoint = this.configurator.getSecurityOptions().getString(BASIC.LOGIN_URL);
+        if (StringUtil.equals(context.request().path(), endpoint)) {
+            final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service
+                    .findUri(context.request().path());
+            if (Dispatcher.requestDispatch(getClass(), result, context)) {
+                ret = true;
+            } else {
+                ret = false;
+            }
+        }
+        return ret;
+    }
+
     private void processAuth(final RoutingContext context) {
         final Requestor requestor = Extractor.requestor(context);
-        info(LOGGER, " Input Handler Requestor >>>>>> \n" + requestor.getData().encodePrettily());
         final JsonObject response = requestor.getResponse();
         // 1.找不到Authorization头部信息
         if (StatusCode.UNAUTHORIZED.status() == response.getInteger(JsonKey.RESPONSE.STATUS)) {
             Future.error401(getClass(), context);
+            return;
         } else {
             // 2.直接传入Requestor信息
             this.authProvider.authenticate(requestor.getData(), res -> {
@@ -127,12 +155,13 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                         authorise(authenticated, context);
                     }
                 } else {
-                    info(LOGGER, " Output Handler Error >>>>>> \n" + requestor.getData().encodePrettily());
                     if (StatusCode.UNAUTHORIZED.status() == requestor.getResponse()
                             .getInteger(JsonKey.RESPONSE.STATUS)) {
                         Future.error401(getClass(), context, requestor.getResponse().getString(JsonKey.RESPONSE.KEY));
+                        return;
                     } else {
                         Future.error500(getClass(), context);
+                        return;
                     }
                 }
             });

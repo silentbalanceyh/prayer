@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Dispatcher;
 import com.prayer.assistant.Extractor;
-import com.prayer.assistant.Future;
 import com.prayer.assistant.WebLogger;
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
 import com.prayer.bus.std.ConfigService;
@@ -86,7 +85,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
         final HttpServerRequest request = context.request();
         // 2.从系统中按URI读取接口规范
         final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(path(request));
-
+        info(LOGGER, WebLogger.I_COMMON_INFO, result.getResult().size());
         // 3.请求转发，去除掉Error过后的信息
         if (Dispatcher.requestDispatch(getClass(), result, context)) {
             // SUCCESS -->
@@ -101,9 +100,6 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
             // 7.填充Requestor
             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
             context.next();
-        }else{
-            // 4. 500 Error
-            Future.error500(getClass(),context);
         }
     }
 

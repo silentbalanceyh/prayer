@@ -51,7 +51,6 @@ public class FailureHandler implements ErrorHandler {
 		final HttpServerResponse response = context.response();
 		// 2.获取RestfulResult
 		final Responsor responser = (Responsor) context.get(Constants.KEY.CTX_RESPONSOR);
-		info(LOGGER, WebLogger.I_REST_RESULT, responser);
 		if(null != responser){
 		    error(LOGGER, WebLogger.E_COMMON_EXP, responser.getError());
 		}

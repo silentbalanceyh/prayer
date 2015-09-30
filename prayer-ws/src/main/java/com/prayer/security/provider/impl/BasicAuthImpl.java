@@ -43,8 +43,10 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthImpl.class);
     // ~ Instance Fields =====================================
     /** 配置程序 **/
+    @NotNull
     private transient final SecurityConfigurator configurator;
     /** 安全认证业务接口 **/
+    @NotNull
     private transient final BasicAuthService service;
 
     // ~ Static Block ========================================
@@ -63,7 +65,6 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
      */
     @Override
     public void authenticate(@NotNull final JsonObject data, @NotNull final Handler<AsyncResult<User>> handler) {
-        info(LOGGER, " Input Provider >>>>>> \n" + data.encodePrettily());
         try {
             // 1.检查用户名和密码
             if (!this.interruptParam(data, handler)) {
@@ -71,7 +72,6 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
             }
             // 2.读取配置参数
             this.completeParam(data);
-            info(LOGGER, " Before Database Access >>>>>> \n" + data.encodePrettily());
             // 3.从系统中读取用户信息
             final ServiceResult<JsonArray> ret = this.service.find(data.getJsonObject(JsonKey.PARAMS.NAME));
 
@@ -94,7 +94,6 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
                     data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ID, retObj.getString("uniqueId"));
                     data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ROLE, "role");
                     // 构建用户信息
-                    info(LOGGER, " Build User Data >>>>>> \n" + data.encodePrettily());
                     handler.handle(Future.succeededFuture(this.buildUserData(this, data)));
                 } else {
                     error(LOGGER, WebLogger.AUE_AUTH_FAILURE);
@@ -106,7 +105,6 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
                 errorHandler(data, handler, RET_M_INVALID);
                 return;
             }
-            info(LOGGER, " Output Provider >>>>>> \n" + data.encodePrettily());
         }
         // TODO
         catch (Exception ex) { // NOPMD

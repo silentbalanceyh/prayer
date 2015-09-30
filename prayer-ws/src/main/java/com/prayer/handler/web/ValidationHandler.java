@@ -86,9 +86,6 @@ public class ValidationHandler implements Handler<RoutingContext> {
             // SUCCESS -->
             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
             context.next();
-        }else{
-            // 4. 500 Error
-            Future.error500(getClass(),context);
         }
     }
 

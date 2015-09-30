@@ -105,6 +105,8 @@ public interface Constants { // NOPMD
         String FAVICON_ICO = "/favicon.ico";
         /** favicon.ico路径 **/
         String FAVICON_PATH = "/static/favicon.ico";
+        /** **/
+        String SESSION_USER = "user";
     }
 
     /** **/
@@ -174,25 +176,25 @@ public interface Constants { // NOPMD
         String DATA = PARAM.DATA;
     }
 
-    /** **/
+/*    *//** **//*
     interface RET { // NOPMD
-        /** Status Code: 404,501 etc. **/
+        *//** Status Code: 404,501 etc. **//*
         String STATUS_CODE = "statusCode";
-        /** Status Code Error: NOT_FOUND, INTERNAL_ERROR etc. **/
+        *//** Status Code Error: NOT_FOUND, INTERNAL_ERROR etc. **//*
         String ERROR = "error";
-        /** System Error Code **/
+        *//** System Error Code **//*
         String ERROR_CODE = "errorCode";
-        /** Error Message: Exception description **/
+        *//** Error Message: Exception description **//*
         String ERROR_MSG = "errorMessage";
-        /** SUCCESS/FAILURE/ERROR **/
+        *//** SUCCESS/FAILURE/ERROR **//*
         String RESPONSE = "response";
-        /** 返回的错误信息Key值 **/
+        *//** 返回的错误信息Key值 **//*
         String AUTH_ERROR = "authenticateError";
-        /** data节点 **/
+        *//** data节点 **//*
         String DATA = PARAM.DATA;
-        /** 保存的用户信息 **/
+        *//** 保存的用户信息 **//*
         String SESSION_USER = "user";
-    }
+    }*/
 
     /** **/
     interface PARAM { // NOPMD

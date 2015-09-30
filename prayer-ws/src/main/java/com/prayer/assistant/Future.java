@@ -185,9 +185,8 @@ public final class Future {
         response.setStatusMessage(statusMsg);
         response.putHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + Resources.SYS_ENCODING.toString());
         response.putHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(length));
-        response.write(content, Resources.SYS_ENCODING.name());
         if(!response.ended()){
-            response.end();
+            response.end(content, Resources.SYS_ENCODING.name());
         }
         response.close();
     }

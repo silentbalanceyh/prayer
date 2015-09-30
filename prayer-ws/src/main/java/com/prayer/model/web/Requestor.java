@@ -41,15 +41,17 @@ public final class Requestor implements Serializable, ClusterSerializable {
     // ~ Instance Fields =====================================
     /** 请求完整数据 **/
     private transient JsonObject data;
-    /** Handler需要使用的数据 **/
-    private transient JsonObject handler;
     /** 请求参数 **/
+    @NotNull
     private transient JsonObject request;
     /** 响应参数 **/
+    @NotNull
     private transient JsonObject response;
     /** 传入到Service层的参数 **/
+    @NotNull
     private transient JsonObject params;
     /** 认证用 **/
+    @NotNull
     private transient JsonObject token;
 
     // ~ Static Block ========================================
@@ -64,7 +66,6 @@ public final class Requestor implements Serializable, ClusterSerializable {
     // ~ Constructors ========================================
 
     private Requestor(final RoutingContext context) {
-        this.handler = new JsonObject();
         this.request = new JsonObject();
         this.response = new JsonObject();
         this.params = new JsonObject();
@@ -152,7 +153,7 @@ public final class Requestor implements Serializable, ClusterSerializable {
         // 2.初始化Params
         this.initParams(context);
 
-        data.put(JsonKey.TOKEN.NAME, this.token).put("handler", this.handler).put(JsonKey.REQUEST.NAME, this.request)
+        data.put(JsonKey.TOKEN.NAME, this.token).put(JsonKey.REQUEST.NAME, this.request)
                 .put(JsonKey.PARAMS.NAME, this.params).put(JsonKey.RESPONSE.NAME, this.response);
         return data;
     }

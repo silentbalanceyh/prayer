@@ -43,7 +43,7 @@ public class UserLoggedHandler implements Handler<RoutingContext> {
         final User user = routingContext.user();
         if (null != user) {
             info(LOGGER, " Logged user : " + user.principal().encode());
-            routingContext.put(Constants.RET.SESSION_USER, user.principal().encode());
+            routingContext.put(Constants.WEB.SESSION_USER, user.principal().encode());
         }
         routingContext.next();
     }
