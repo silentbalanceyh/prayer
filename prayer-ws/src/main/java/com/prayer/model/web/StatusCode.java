@@ -1,4 +1,4 @@
-package com.prayer.model.bus.web;
+package com.prayer.model.web;
 
 import jodd.util.StringUtil;
 

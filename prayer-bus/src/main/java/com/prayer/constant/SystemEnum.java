@@ -64,6 +64,12 @@ public final class SystemEnum {     // NOPMD
         DIGEST,        // DIGEST
         OAUTH2        // OAUTH2
     }
+    /** 返回类型 **/
+    public static enum ReturnType{
+        OBJECT,         // JsonObject
+        ARRAY,          // JsonArray
+        ERROR,          // JsonObject(Error)
+    }
     // ~ Constructors ========================================
     private SystemEnum(){}
 }

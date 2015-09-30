@@ -13,13 +13,13 @@ public interface BasicAuth extends AuthProvider { // NOPMD
 
     // ----------------------------响应结果信息 --------------------------------
     /** username参数丢失 **/
-    String RET_M_USER = "USERNAME.MISSING";
+    String RET_M_USER = "${USERNAME.MISSING}";
     /** password参数丢失 **/
-    String RET_M_PWD = "PASSWORD.MISSING";
+    String RET_M_PWD = "${PASSWORD.MISSING}";
     /** user不存在 **/
-    String RET_M_INVALID = "USER.NOT.FOUND";
+    String RET_M_INVALID = "${USER.NOT.FOUND}";
     /** 用户名和密码不匹配 **/
-    String RET_I_USER_PWD = "AUTH.FAILURE";
+    String RET_I_USER_PWD = "${AUTH.FAILURE}";
     /** Shared User **/
     String KEY_POOL_USER = "SHARED.USER";
     /** User ID **/

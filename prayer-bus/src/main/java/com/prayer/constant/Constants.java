@@ -77,7 +77,7 @@ public interface Constants { // NOPMD
 
     interface KEY{    // NOPMD
         /** Global Error Key **/
-        String CTX_ERROR = "FAILURE.KEY";
+        String CTX_ERROR = "ERROR.RESPONSOR";
         /** Global URI Key **/
         String CTX_URI = "URI.ENTITY";
         /** Request Parameters **/

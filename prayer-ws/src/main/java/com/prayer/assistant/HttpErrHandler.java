@@ -13,8 +13,8 @@ import com.prayer.exception.web.MethodNotAllowedException;
 import com.prayer.exception.web.NotAuthorizationException;
 import com.prayer.exception.web.RequiredParamMissingException;
 import com.prayer.exception.web.UriSpecificationMissingException;
-import com.prayer.model.bus.web.RestfulResult;
-import com.prayer.model.bus.web.StatusCode;
+import com.prayer.model.web.RestfulResult;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;

@@ -1,4 +1,4 @@
-package com.prayer.model.bus.web;
+package com.prayer.model.web;
 
 import java.io.Serializable;
 
@@ -13,7 +13,8 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public final class RestfulResult extends ServiceResult<JsonObject>implements Serializable {
+@Deprecated
+public final class RestfulResult extends ServiceResult<JsonObject> implements Serializable {
 
     // ~ Static Fields =======================================
     /**
@@ -28,6 +29,7 @@ public final class RestfulResult extends ServiceResult<JsonObject>implements Ser
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
+    @Deprecated
     public static RestfulResult create(){
         return new RestfulResult();
     }
@@ -40,6 +42,7 @@ public final class RestfulResult extends ServiceResult<JsonObject>implements Ser
      * @param statusCode
      * @param error
      */
+    @Deprecated
     public void setResponse(final StatusCode statusCode, final AbstractWebException error) {
         super.setResponse(null, error);
         this.statusCode = statusCode;
@@ -49,6 +52,7 @@ public final class RestfulResult extends ServiceResult<JsonObject>implements Ser
      * 拷贝数据
      * @param result
      */
+    @Deprecated
     public void copyFrom(final RestfulResult result){
         this.error = result.getError();
         this.statusCode = result.getStatusCode();
@@ -61,6 +65,7 @@ public final class RestfulResult extends ServiceResult<JsonObject>implements Ser
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     /** 默认构造函数 **/
+    @Deprecated
     private RestfulResult(){
         super();
         this.statusCode = StatusCode.OK;
@@ -71,12 +76,14 @@ public final class RestfulResult extends ServiceResult<JsonObject>implements Ser
      * 
      * @return
      */
+    @Deprecated
     public AbstractWebException getError(){
         return this.error;
     }
     /**
      * @return the statusCode
      */
+    @Deprecated
     public StatusCode getStatusCode() {
         return statusCode;
     }
@@ -85,12 +92,14 @@ public final class RestfulResult extends ServiceResult<JsonObject>implements Ser
      * @param statusCode
      *            the statusCode to set
      */
+    @Deprecated
     public void setStatusCode(final StatusCode statusCode) {
         this.statusCode = statusCode;
     }
     // ~ hashCode,equals,toString ============================
 
     /** **/
+    @Deprecated
     @Override
     public String toString() {
         return "RestfulResult [statusCode=" + statusCode + ", error=" + error.getErrorMessage() + "]";

@@ -1,10 +1,8 @@
 package com.prayer.handler.security.impl; // NOPMD
 
-import static com.prayer.assistant.WebLogger.error;
 import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
-import java.util.Base64;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,27 +10,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Future;
-import com.prayer.assistant.HttpErrHandler;
 import com.prayer.assistant.WebLogger;
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
 import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.Constants;
-import com.prayer.constant.Symbol;
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.model.bus.web.RestfulResult;
-import com.prayer.model.bus.web.StatusCode;
-import com.prayer.security.provider.AuthConstants;
-import com.prayer.security.provider.AuthConstants.BASIC;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.Requestor;
+import com.prayer.model.web.StatusCode;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.security.provider.impl.BasicUser;
-import com.prayer.util.Encryptor;
-import com.prayer.util.StringKit;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.http.HttpHeaders;
-import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.LocalMap;
 import io.vertx.core.shareddata.SharedData;
@@ -57,8 +47,6 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthHandlerImpl.class);
-    /** **/
-    private static final String AUTH_KEY = "response";
     // ~ Instance Fields =====================================
     /** REALM **/
     @NotNull
@@ -85,7 +73,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
     public void handle(@NotNull final RoutingContext routingContext) {
         info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.AUTH);
         /**
-         * 4.根据Error设置相应，唯一特殊的情况是Basic认证是Body的参数方式，
+         * 1.根据Error设置相应，唯一特殊的情况是Basic认证是Body的参数方式，
          * 但其参数信息是在processAuth的过程填充到系统里的， 一旦出现了com.prayer.exception.web.
          * BodyParamDecodingException异常信息则依然可让其执行认证
          */
@@ -102,75 +90,45 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private void processAuth(final RoutingContext routingContext) {
-        final HttpServerRequest request = routingContext.request();
-        final String authorization = request.headers().get(HttpHeaders.AUTHORIZATION);
+    private void processAuth(final RoutingContext context) {
+        final Requestor requestor = Requestor.create(context);
+        info(LOGGER, " Input Handler Requestor >>>>>> \n" + requestor.getData().encodePrettily());
+        final JsonObject response = requestor.getResponse();
         // 1.找不到Authorization头部信息
-        if (null == authorization) {
-            this.handler401Error(routingContext);
-            return; // NOPMD
+        if (StatusCode.UNAUTHORIZED.status() == response.getInteger(JsonKey.RESPONSE.STATUS)) {
+            Future.error401(getClass(), context);
         } else {
-            // 2.获取AuthInfo的信息
-            final JsonObject authInfo = this.generateAuthInfo(routingContext, authorization);
-            // Fix Issue -> Response has already been sent.
-            if (401 == authInfo.getInteger(AUTH_KEY)) { // NOPMD
-                return;
-            } else {
-                authInfo.remove(AUTH_KEY);
-            }
-            // 3.设置扩展信息
-            {
-                final JsonObject extension = new JsonObject();
-                // 防止Session ID空指针异常
-                if (null != routingContext.session()) {
-                    extension.put(Constants.PARAM.ID, routingContext.session().id());
-                }
-                extension.put(Constants.PARAM.METHOD, request.method().toString()); // 暂时定义传Method
-                // 返回值的设置
-                authInfo.put(AuthConstants.BASIC.EXTENSION, extension);
-            }
-            // 4.认证授权信息
-            this.authProvider.authenticate(authInfo, res -> {
+            // 2.直接传入Requestor信息
+            this.authProvider.authenticate(requestor.getData(), res -> {
                 if (res.succeeded()) {
                     final User authenticated = res.result();
-                    // 认证成功的时候放入信息到User中
-                    routingContext.setUser(authenticated);
-                    // 放入到LocalData中用于在WebVerticle特殊环境中设置登录信息，主要用于Cross
-                    final JsonObject retExt = authInfo.containsKey(BASIC.EXTENSION)
-                            ? authInfo.getJsonObject(BASIC.EXTENSION) : null;
-                    if (null != retExt) {
-                        // Verticle的操作
-                        if (retExt.containsKey(BasicAuth.KEY_USER_ID)) {
-                            processClientLogin(routingContext, retExt.getString(BasicAuth.KEY_USER_ID), authenticated);
-                        }
-                        // 将数据放入Session中
-                        // 防止二次认证
-                        info(LOGGER, " Request : " + request.path() + ", Method : " + request.method().toString());
-                        if (retExt.containsKey(BASIC.LOGIN_URL)) {
-                            if (StringUtil.equals(request.path(), retExt.getString(BASIC.LOGIN_URL))) {
-                                final JsonObject ret = new JsonObject();
-                                ret.put(Constants.RET.STATUS_CODE, StatusCode.OK.status());
-                                ret.put(Constants.RET.RESPONSE, ResponseCode.SUCCESS);
-                                // 返回值中过滤掉密码
-                                final JsonObject data = retExt.getJsonObject(Constants.PARAM.DATA);
-                                data.remove("password");
-                                ret.put(Constants.RET.DATA, data);
-
-                                this.authorise(authenticated, routingContext, ret);
-                            } else {
-                                this.authorise(authenticated, routingContext);
-                            }
+                    context.setUser(authenticated);
+                    // 3.客户端和服务端Session同步
+                    if (requestor.getToken().containsKey(JsonKey.TOKEN.ID)) {
+                        this.processClientLogin(context, requestor.getToken().getString(JsonKey.TOKEN.ID),
+                                authenticated);
+                    }
+                    // 4.通过LOGIN_URL判断二次登录
+                    if (requestor.getRequest().containsKey(JsonKey.REQUEST.LOGIN_URL)) {
+                        if (StringUtil.equals(requestor.getRequest().getString(JsonKey.REQUEST.LOGIN_URL),
+                                context.request().path())) {
+                            requestor.getResponse().getJsonObject(JsonKey.RESPONSE.DATA).remove(JsonKey.TOKEN.PASSWORD);
+                            this.authorise(authenticated, context, requestor.getResponse());
                         } else {
-                            // 防止本身URL的认证
-                            authorise(authenticated, routingContext);
+                            authorise(authenticated, context);
                         }
+                    } else {
+                        // 不走Provider的默认方式
+                        authorise(authenticated, context);
                     }
                 } else {
-                    if (StringKit.isNonNil(authInfo.getString(Constants.RET.AUTH_ERROR))) {
-                        // 带有返回值的401信息
-                        routingContext.put(Constants.RET.AUTH_ERROR, authInfo.getString(Constants.RET.AUTH_ERROR));
+                    info(LOGGER, " Output Handler Error >>>>>> \n" + requestor.getData().encodePrettily());
+                    if (StatusCode.UNAUTHORIZED.status() == requestor.getResponse()
+                            .getInteger(JsonKey.RESPONSE.STATUS)) {
+                        Future.error401(getClass(), context, requestor.getResponse().getString(JsonKey.RESPONSE.KEY));
+                    } else {
+                        Future.error500(getClass(), context);
                     }
-                    this.handler401Error(routingContext);
                 }
             });
         }
@@ -181,7 +139,6 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
         if (requiredcount > 0) {
             AtomicInteger count = new AtomicInteger();
             AtomicBoolean sentFailure = new AtomicBoolean();
-
             Handler<AsyncResult<Boolean>> authHandler = res -> {
                 if (res.succeeded()) {
                     if (res.result()) {
@@ -217,45 +174,6 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
         }
     }
 
-    private JsonObject generateAuthInfo(final RoutingContext routingContext, final String authorization) {
-        String username;
-        String password;
-        String schema;
-        final JsonObject retAuthInfo = new JsonObject();
-        try {
-            final String[] parts = authorization.split(String.valueOf(Symbol.SPACE));
-            schema = parts[0];
-            final String[] credentials = new String(Base64.getDecoder().decode(parts[1]))
-                    .split(String.valueOf(Symbol.COLON));
-            username = credentials[0];
-            password = credentials.length > 1 ? credentials[1] : null; // NOPMD
-            if ("Basic".equals(schema)) {
-                retAuthInfo.put("username", username);
-                retAuthInfo.put("password", Encryptor.encryptMD5(password));
-                retAuthInfo.put(AUTH_KEY, 200);
-                // 放入Token
-                retAuthInfo.put(BasicAuth.KEY_TOKEN, authorization);
-            } else {
-                retAuthInfo.put(AUTH_KEY, 401);
-                handler401Error(routingContext);
-            }
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
-            retAuthInfo.put(AUTH_KEY, 401);
-            handler401Error(routingContext);
-        }
-        return retAuthInfo;
-    }
-
-    private void handler401Error(final RoutingContext context) {
-        final RestfulResult webRet = RestfulResult.create();
-        HttpErrHandler.error401(webRet, getClass(), context.request().path());
-        context.put(Constants.KEY.CTX_ERROR, webRet);
-        // Digest认证才会使用的头部信息
-        // context.response().putHeader("WWW-Authenticate", "Basic realm=\"" +
-        // this.realm + "\"");
-        context.fail(webRet.getStatusCode().status());
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 }

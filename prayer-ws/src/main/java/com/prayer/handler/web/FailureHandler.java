@@ -9,10 +9,9 @@ import org.slf4j.LoggerFactory;
 import com.prayer.assistant.Future;
 import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
-import com.prayer.model.bus.web.RestfulResult;
+import com.prayer.model.web.Responsor;
 
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.ErrorHandler;
 import net.sf.oval.constraint.NotNull;
@@ -51,34 +50,13 @@ public class FailureHandler implements ErrorHandler {
 		// 1.包装响应信息
 		final HttpServerResponse response = context.response();
 		// 2.获取RestfulResult
-		final RestfulResult webRet = (RestfulResult) context.get(Constants.KEY.CTX_ERROR);
-		info(LOGGER, WebLogger.I_REST_RESULT, webRet);
-		if(null != webRet){
-		    error(LOGGER, WebLogger.E_COMMON_EXP, webRet.getError());
+		final Responsor responser = (Responsor) context.get(Constants.KEY.CTX_ERROR);
+		info(LOGGER, WebLogger.I_REST_RESULT, responser);
+		if(null != responser){
+		    error(LOGGER, WebLogger.E_COMMON_EXP, responser.getError());
 		}
-		// 3.包装Error信息生成统一的Error格式
-		final JsonObject retData = webRet.getResult();
-		// 3.1.401的特殊信息设置
-		if (null != context.get(Constants.RET.AUTH_ERROR)) {
-			retData.put(Constants.RET.AUTH_ERROR, context.get(Constants.RET.AUTH_ERROR).toString());
-		}
-		// 4.获取响应的信息
-		final String content = retData.encodePrettily();
-
-		Future.failure(response, content, retData.getInteger(Constants.RET.STATUS_CODE),
-				retData.getString(Constants.RET.ERROR));
-
-		// // TODO: 5.后期需要改动，测试因为使用浏览器，暂时使用这种
-		// response.putHeader(HttpHeaders.CONTENT_TYPE,
-		// "application/json;charset=" + Resources.SYS_ENCODING);
-		// response.putHeader(HttpHeaders.CONTENT_LENGTH,
-		// String.valueOf(content.getBytes().length));
-		// // 6.设置StatusCode和Error
-		// response.setStatusCode(retData.getInteger(Constants.RET.STATUS_CODE));
-		// response.setStatusMessage(retData.getString(Constants.RET.ERROR));
-		// response.write(content, Resources.SYS_ENCODING.name());
-		// response.end();
-		// response.close();
+		Future.failure(response, responser.getResult().toString(), responser.getStatus().status(),
+		        responser.getStatus().name());
 	}
 
 	// ~ Methods =============================================

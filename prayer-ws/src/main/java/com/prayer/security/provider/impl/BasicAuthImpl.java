@@ -4,8 +4,6 @@ import static com.prayer.assistant.WebLogger.error;
 import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
-import java.util.ArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +13,9 @@ import com.prayer.bus.security.impl.BasicAuthSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.security.provider.AuthConstants;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.StatusCode;
+import com.prayer.security.provider.AuthConstants.BASIC;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.util.StringKit;
 import com.prayer.vx.configurator.SecurityConfigurator;
@@ -37,7 +37,7 @@ import net.sf.oval.guard.Guarded;
  * 
  */
 @Guarded
-public class BasicAuthImpl implements AuthProvider, BasicAuth, AuthConstants.BASIC {
+public class BasicAuthImpl implements AuthProvider, BasicAuth {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthImpl.class);
@@ -62,49 +62,51 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth, AuthConstants.BAS
      * 
      */
     @Override
-    public void authenticate(@NotNull final JsonObject authInfo,
-            @NotNull final Handler<AsyncResult<User>> resultHandler) {
+    public void authenticate(@NotNull final JsonObject data, @NotNull final Handler<AsyncResult<User>> handler) {
+        info(LOGGER, " Input Provider >>>>>> \n" + data.encodePrettily());
         try {
             // 1.检查用户名和密码
-            if (!this.interruptParam(authInfo, resultHandler)) {
+            if (!this.interruptParam(data, handler)) {
                 return; // NOPMD
             }
             // 2.读取配置参数
-            final JsonObject params = this.wrapperParam(authInfo);
+            this.completeParam(data);
+            info(LOGGER, " Before Database Access >>>>>> \n" + data.encodePrettily());
             // 3.从系统中读取用户信息
-            final ServiceResult<JsonArray> ret = this.service.find(params);
+            final ServiceResult<JsonArray> ret = this.service.find(data.getJsonObject(JsonKey.PARAMS.NAME));
 
             // 4.判断响应信息
             if (ResponseCode.SUCCESS == ret.getResponseCode() && null != ret.getResult()
                     && Constants.ONE == ret.getResult().size()) {
                 final JsonObject retObj = ret.getResult().getJsonObject(0);
-                final String inputPWD = authInfo.getString("password");
-                final String storedPWD = retObj.getString(this.configurator.getSecurityOptions().getString(PWD));
+                final String inputPWD = data.getJsonObject(JsonKey.TOKEN.NAME).getString(JsonKey.TOKEN.PASSWORD);
+                final String storedPWD = retObj.getString(this.configurator.getSecurityOptions().getString(BASIC.PWD));
+                // 5.密码比对
                 if (StringUtil.equals(inputPWD, storedPWD)) {
                     final String username = retObj
-                            .getString(this.configurator.getSecurityOptions().getString(ACCOUNT_ID));
+                            .getString(this.configurator.getSecurityOptions().getString(BASIC.ACCOUNT_ID));
                     info(LOGGER, WebLogger.I_COMMON_INFO, retObj.encode());
-                    {
-                        // Fix 客户端跨域问题，二次登录问题，保存数据问题，重新填充Extension
-                        final JsonObject extension = new JsonObject();
-                        extension.put(KEY_USER_ID, retObj.getString("uniqueId"));
-                        extension.put(LOGIN_URL, this.configurator.getSecurityOptions().getString(LOGIN_URL));
-                        extension.put(Constants.PARAM.DATA, retObj);
-                        authInfo.put(EXTENSION, extension);
-                    }
-                    final JsonObject user = new JsonObject();
-                    user.put("id", retObj.getString("uniqueId"));
-                    user.put("username", username);
-                    user.put(BasicAuth.KEY_TOKEN, authInfo.getString(BasicAuth.KEY_TOKEN));
-                    resultHandler.handle(Future.succeededFuture(new BasicUser(user, this, "role")));
+                    data.getJsonObject(JsonKey.RESPONSE.NAME).put(Constants.PARAM.DATA, retObj);
+                    data.getJsonObject(JsonKey.REQUEST.NAME).put(JsonKey.REQUEST.LOGIN_URL,
+                            this.configurator.getSecurityOptions().getString(BASIC.LOGIN_URL));
+                    // 用户ID注入到Token
+                    data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.USERNAME, username);
+                    data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ID, retObj.getString("uniqueId"));
+                    data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ROLE, "role");
+                    // 构建用户信息
+                    info(LOGGER, " Build User Data >>>>>> \n" + data.encodePrettily());
+                    handler.handle(Future.succeededFuture(this.buildUserData(this, data)));
                 } else {
-                    errorHandler(authInfo, resultHandler, WebLogger.AUE_AUTH_FAILURE, RET_I_USER_PWD);
+                    error(LOGGER, WebLogger.AUE_AUTH_FAILURE);
+                    errorHandler(data, handler, RET_I_USER_PWD);
                     return; // NOPMD
                 }
             } else {
-                errorHandler(authInfo, resultHandler, WebLogger.AUE_USER_INVALID, RET_M_INVALID);
+                error(LOGGER, WebLogger.AUE_USER_INVALID);
+                errorHandler(data, handler, RET_M_INVALID);
                 return;
             }
+            info(LOGGER, " Output Provider >>>>>> \n" + data.encodePrettily());
         }
         // TODO
         catch (Exception ex) { // NOPMD
@@ -114,43 +116,50 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth, AuthConstants.BAS
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private boolean interruptParam(final JsonObject authInfo, final Handler<AsyncResult<User>> resultHandler) {
-        final String username = authInfo.getString("username");
+    private BasicUser buildUserData(final AuthProvider provider, final JsonObject data) {
+        final JsonObject user = new JsonObject();
+        user.put(JsonKey.TOKEN.ID, data.getJsonObject(JsonKey.TOKEN.NAME).getString(JsonKey.TOKEN.ID));
+        user.put(JsonKey.TOKEN.USERNAME, data.getJsonObject(JsonKey.TOKEN.NAME).getString(JsonKey.TOKEN.USERNAME));
+        user.put(JsonKey.TOKEN.NAME, data.getJsonObject(JsonKey.REQUEST.NAME).getString(JsonKey.REQUEST.AUTHORIZATION));
+        return new BasicUser(user, provider, data.getJsonObject(JsonKey.TOKEN.NAME).getString(JsonKey.TOKEN.ROLE));
+    }
+
+    private boolean interruptParam(final JsonObject data, final Handler<AsyncResult<User>> handler) {
+        final String username = data.getJsonObject(JsonKey.TOKEN.NAME).getString(JsonKey.TOKEN.USERNAME);
         if (StringKit.isNil(username)) {
-            errorHandler(authInfo, resultHandler, WebLogger.AUE_USERNAME, RET_M_USER);
+            error(LOGGER, WebLogger.AUE_USERNAME);
+            errorHandler(data, handler, RET_M_USER);
+            // errorHandler(data, resultHandler, WebLogger.AUE_USERNAME,
+            // RET_M_USER);
             return false; // NOPMD
         }
-        final String password = authInfo.getString("password");
+        final String password = data.getJsonObject(JsonKey.TOKEN.NAME).getString(JsonKey.TOKEN.PASSWORD);
         if (StringKit.isNil(password)) {
-            errorHandler(authInfo, resultHandler, WebLogger.AUE_PASSWORD, RET_M_PWD);
+            error(LOGGER, WebLogger.AUE_PASSWORD);
+            errorHandler(data, handler, RET_M_PWD);
+            // errorHandler(data, resultHandler, WebLogger.AUE_PASSWORD,
+            // RET_M_PWD);
             return false; // NOPMD
         }
         return true;
     }
 
-    private void errorHandler(final JsonObject authInfo, final Handler<AsyncResult<User>> resultHandler,
-            final String loggerKey, final String authRet) {
-        authInfo.put(Constants.RET.AUTH_ERROR, authRet);
-        error(LOGGER, loggerKey);
-        resultHandler.handle(Future.failedFuture(authRet));
+    private void errorHandler(final JsonObject data, final Handler<AsyncResult<User>> handler, final String key) {
+        data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.CODE, ResponseCode.FAILURE);
+        data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
+        data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.KEY, key);
+        handler.handle(Future.failedFuture(data.encode()));
     }
 
-    private JsonObject wrapperParam(final JsonObject authInfo) {
+    private void completeParam(final JsonObject data) {
         final JsonObject options = this.configurator.getSecurityOptions();
-        final JsonObject wrapper = new JsonObject();
-        wrapper.put(Constants.PARAM.ID, options.getString(SCHEMA_ID));
-        wrapper.put(Constants.PARAM.SCRIPT, options.getString(SCRIPT_NAME));
-        {
-            final JsonObject extension = authInfo.getJsonObject(EXTENSION);
-            wrapper.put(Constants.PARAM.METHOD, extension.getString(Constants.PARAM.METHOD));
-            wrapper.put(Constants.PARAM.SESSION, extension.getString(Constants.PARAM.SESSION));
-            wrapper.put(Constants.PARAM.FILTERS, new ArrayList<>());
-            // 从AuthInfo中移除Extension
-            authInfo.remove(EXTENSION);
-        }
-        wrapper.put(Constants.PARAM.DATA, authInfo);
-        return wrapper;
-
+        data.getJsonObject(JsonKey.PARAMS.NAME).put(JsonKey.PARAMS.IDENTIFIER, options.getString(BASIC.SCHEMA_ID));
+        data.getJsonObject(JsonKey.PARAMS.NAME).put(JsonKey.PARAMS.SCRIPT, options.getString(BASIC.SCRIPT_NAME));
+        // 删除掉不必要的参数
+        final JsonObject service = data.getJsonObject(JsonKey.TOKEN.NAME).copy();
+        service.remove(JsonKey.TOKEN.SCHEMA);
+        service.remove(JsonKey.TOKEN.PASSWORD);
+        data.getJsonObject(JsonKey.PARAMS.NAME).put(JsonKey.PARAMS.DATA, service);
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

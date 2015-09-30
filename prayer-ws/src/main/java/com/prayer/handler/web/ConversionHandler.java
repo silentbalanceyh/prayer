@@ -21,9 +21,9 @@ import com.prayer.exception.AbstractWebException;
 import com.prayer.exception.web.ConvertorMultiException;
 import com.prayer.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.RuleModel;
 import com.prayer.model.h2.vx.UriModel;
+import com.prayer.model.web.RestfulResult;
 import com.prayer.uca.WebConvertor;
 
 import io.vertx.core.Handler;

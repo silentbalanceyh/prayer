@@ -3,7 +3,7 @@ package com.prayer.handler.message;
 import com.prayer.assistant.Future;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.model.bus.web.StatusCode;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

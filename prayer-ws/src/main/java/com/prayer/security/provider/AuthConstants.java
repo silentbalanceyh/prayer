@@ -13,8 +13,6 @@ public interface AuthConstants {    // NOPMD
         String SCHEMA_ID = "user.schema.id";
         /** 业务逻辑层脚本名称 **/
         String SCRIPT_NAME = "script.name";
-        /** 扩展属性 **/
-        String EXTENSION = "extension";
         
         /** 账号字段信息 **/
         String ACCOUNT_ID = "user.account";

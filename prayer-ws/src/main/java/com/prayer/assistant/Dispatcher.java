@@ -12,8 +12,8 @@ import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractWebException;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.bus.web.RestfulResult;
 import com.prayer.model.h2.vx.UriModel;
+import com.prayer.model.web.RestfulResult;
 import com.prayer.util.StringKit;
 
 import io.vertx.core.MultiMap;
