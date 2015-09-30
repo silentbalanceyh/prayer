@@ -5,15 +5,16 @@ import static com.prayer.assistant.WebLogger.info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.HttpErrHandler;
+import com.prayer.assistant.Extractor;
+import com.prayer.assistant.Future;
 import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
 import com.prayer.model.h2.vx.UriModel;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.Requestor;
 
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.Session;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -42,29 +43,25 @@ public class WrapperHandler implements Handler<RoutingContext> {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public void handle(@NotNull final RoutingContext routingContext) {
+    public void handle(@NotNull final RoutingContext context) {
         info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.WRAPPER);
-        // 2.从系统中读取URI面向业务层的规范
-        final UriModel uri = routingContext.get(Constants.KEY.CTX_URI);
-        final JsonObject params = routingContext.get(Constants.KEY.CTX_PARAMS);
-        // 3.生成封装参数
-        final JsonObject wrapper = new JsonObject();
-        if (null == params || null == uri) {
-            // 500 Internal Server
-            HttpErrHandler.handle500Error(getClass(), routingContext);
-        } else {
-            final Session session = routingContext.session();
-            // 无状态操作时session为null
-            if(null != session){
-                wrapper.put(Constants.PARAM.SESSION, session.id());
-            }
-            wrapper.put(Constants.PARAM.ID, uri.getGlobalId());
-            wrapper.put(Constants.PARAM.SCRIPT, uri.getScript());
-            wrapper.put(Constants.PARAM.METHOD, uri.getMethod().toString());
-            wrapper.put(Constants.PARAM.DATA, params);
-            wrapper.put(Constants.PARAM.FILTERS, uri.getReturnFilters());
-            routingContext.put(Constants.KEY.CTX_PARAMS, wrapper);
-            routingContext.next();
+        // 1.读取请求数据
+        final Requestor requestor = Extractor.requestor(context);
+        final UriModel uri = Extractor.uri(requestor);
+        // 2.参数填充
+        if(null == uri){
+            // 3.500 Error
+            Future.error500(getClass(), context);
+        }else{
+            // 4.填充参数
+            requestor.getParams().put(JsonKey.PARAMS.IDENTIFIER, uri.getGlobalId());
+            requestor.getParams().put(JsonKey.PARAMS.SCRIPT, uri.getScript());
+            requestor.getParams().put(JsonKey.PARAMS.METHOD, uri.getMethod());
+            requestor.getParams().put(JsonKey.PARAMS.FILTERS, uri.getReturnFilters());
+            requestor.getParams().put(JsonKey.PARAMS.DATA, requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS));
+            // SUCCESS -->
+            context.put(Constants.KEY.CTX_REQUESTOR, requestor);
+            context.next();
         }
     }
     // ~ Methods =============================================

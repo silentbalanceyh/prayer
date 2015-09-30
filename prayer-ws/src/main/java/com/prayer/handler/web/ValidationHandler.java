@@ -10,7 +10,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.HttpErrHandler;
+import com.prayer.assistant.Extractor;
+import com.prayer.assistant.Future;
 import com.prayer.assistant.Interruptor;
 import com.prayer.assistant.WebLogger;
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
@@ -23,7 +24,8 @@ import com.prayer.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.RuleModel;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.model.web.RestfulResult;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.Requestor;
 import com.prayer.uca.WebValidator;
 
 import io.vertx.core.Handler;
@@ -69,56 +71,55 @@ public class ValidationHandler implements Handler<RoutingContext> {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public void handle(@NotNull final RoutingContext routingContext) {
+    public void handle(@NotNull final RoutingContext context) {
         info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.VALIDATION);
+        
         // 1.从Context中提取参数信息
-        final UriModel uri = routingContext.get(Constants.KEY.CTX_URI);
-        // info(LOGGER, "1.Get URI ID from Context: uri = " + uriId);
+        final Requestor requestor = Extractor.requestor(context);
+        final UriModel uri = Extractor.uri(requestor);
 
         // 2.获取当前路径下的Validator的数据
         final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
                 .findValidators(uri.getUniqueId());
-        final RestfulResult webRet = RestfulResult.create();
-        // info(LOGGER, "2.Found ServiceResult: result = " + result);
-        // 3.如果获取到值
-        final AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
-        // info(LOGGER, "3.Dispatched Error: error = " + error);
-        if (null == error) {
+        // 3.Dispatcher
+        if(this.requestDispatch(result, context, requestor)){
             // SUCCESS -->
-            routingContext.next();
-        } else {
-            // 触发错误信息
-            routingContext.put(Constants.KEY.CTX_ERROR, webRet);
-            routingContext.fail(webRet.getStatusCode().status());
+            context.put(Constants.KEY.CTX_REQUESTOR, requestor);
+            context.next();
+        }else{
+            // 4. 500 Error
+            Future.error500(getClass(),context);
         }
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private AbstractWebException requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
-            final RestfulResult webRef, final RoutingContext context) {
-        AbstractWebException error = null;
-        final JsonObject params = context.get(Constants.KEY.CTX_PARAMS);
-        if (ResponseCode.SUCCESS == result.getResponseCode()) {
+    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result, final RoutingContext context, final Requestor requestor){
+        final JsonObject params = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
+        if(ResponseCode.SUCCESS == result.getResponseCode()){
+            AbstractWebException error = null;
             final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
-            // 遍历每一个字段
+            boolean ret = true;
+            // 遍历每个字段
             for (final String field : params.fieldNames()) {
                 final String value = params.getString(field);
                 final List<RuleModel> validators = dataMap.get(field);
                 // 验证当前字段信息
                 error = this.validateField(field, value, validators);
-                // 400 Bad Request
-                if (null != error) {
-                    final RestfulResult webRet = HttpErrHandler.error400(error);
-                    webRef.copyFrom(webRet);
+                if(null != error){
+                    ret = false;
                     break;
                 }
             }
-        } else {
-            // 500 Internal Server
-            error = HttpErrHandler.error500(webRef, getClass());
+            if(false == ret){
+                Future.error400(getClass(), context, error);
+            }
+            return ret;
+        }else{
+            // 500 Internal Error
+            Future.error500(getClass(), context);
+            return false;
         }
-        return error;
     }
 
     private AbstractWebException validateField(final String name, final String value,

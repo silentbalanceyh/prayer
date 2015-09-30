@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Future;
 import com.prayer.assistant.WebLogger;
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
@@ -91,7 +92,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
     // ~ Private Methods =====================================
 
     private void processAuth(final RoutingContext context) {
-        final Requestor requestor = Requestor.create(context);
+        final Requestor requestor = Extractor.requestor(context);
         info(LOGGER, " Input Handler Requestor >>>>>> \n" + requestor.getData().encodePrettily());
         final JsonObject response = requestor.getResponse();
         // 1.找不到Authorization头部信息
@@ -103,6 +104,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                 if (res.succeeded()) {
                     final User authenticated = res.result();
                     context.setUser(authenticated);
+
                     // 3.客户端和服务端Session同步
                     if (requestor.getToken().containsKey(JsonKey.TOKEN.ID)) {
                         this.processClientLogin(context, requestor.getToken().getString(JsonKey.TOKEN.ID),
@@ -113,12 +115,15 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                         if (StringUtil.equals(requestor.getRequest().getString(JsonKey.REQUEST.LOGIN_URL),
                                 context.request().path())) {
                             requestor.getResponse().getJsonObject(JsonKey.RESPONSE.DATA).remove(JsonKey.TOKEN.PASSWORD);
-                            this.authorise(authenticated, context, requestor.getResponse());
+                            authorise(authenticated, context, requestor.getResponse());
                         } else {
+                            // Next -> 需要填充Requestor
+                            context.put(Constants.KEY.CTX_REQUESTOR, requestor);
                             authorise(authenticated, context);
                         }
                     } else {
-                        // 不走Provider的默认方式
+                        // Next -> 需要填充Requestor
+                        context.put(Constants.KEY.CTX_REQUESTOR, requestor);
                         authorise(authenticated, context);
                     }
                 } else {

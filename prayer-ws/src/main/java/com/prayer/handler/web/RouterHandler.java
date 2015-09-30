@@ -15,16 +15,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Dispatcher;
+import com.prayer.assistant.Extractor;
+import com.prayer.assistant.Future;
 import com.prayer.assistant.WebLogger;
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
 import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ParamType;
-import com.prayer.exception.AbstractException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.model.web.RestfulResult;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.Requestor;
+import com.prayer.util.JsonKit;
 import com.prayer.util.StringKit;
 
 import io.vertx.core.Handler;
@@ -46,115 +49,116 @@ import net.sf.oval.guard.PostValidateThis;
 @Guarded
 public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(RouterHandler.class);
-	// ~ Instance Fields =====================================
-	/** **/
-	@NotNull
-	private transient final ConfigService service;
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(RouterHandler.class);
+    // ~ Instance Fields =====================================
+    /** **/
+    @NotNull
+    private transient final ConfigService service;
 
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	/** 创建方法 **/
-	public static RouterHandler create() {
-		return new RouterHandler();
-	}
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    /** 创建方法 **/
+    public static RouterHandler create() {
+        return new RouterHandler();
+    }
 
-	// ~ Constructors ========================================
-	/** **/
-	@PostValidateThis
-	public RouterHandler() {
-		this.service = singleton(ConfigSevImpl.class);
-	}
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
+    // ~ Constructors ========================================
+    /** **/
+    @PostValidateThis
+    public RouterHandler() {
+        this.service = singleton(ConfigSevImpl.class);
+    }
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
 
-	/**
-	 * 
-	 */
-	@Override
-	public void handle(@NotNull final RoutingContext routingContext) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.ROUTER);
-		// 1.获取请求Request和相应Response引用
-		final HttpServerRequest request = routingContext.request();
-		// 2.从系统中按URI读取接口规范
-		final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(path(request));
-		final RestfulResult webRet = RestfulResult.create();
+    /**
+     * 
+     */
+    @Override
+    public void handle(@NotNull final RoutingContext context) {
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.ROUTER);
+        
+        // 1.获取请求Request和相应Response引用
+        final Requestor requestor = Extractor.requestor(context);
+        final HttpServerRequest request = context.request();
+        // 2.从系统中按URI读取接口规范
+        final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(path(request));
 
-		// 3.请求转发，去除掉Error过后的信息
-		final AbstractException error = Dispatcher.requestDispatch(result, webRet, routingContext, getClass());
+        // 3.请求转发，去除掉Error过后的信息
+        if (Dispatcher.requestDispatch(getClass(), result, context)) {
+            // SUCCESS -->
+            // 4.保存UriModel到Request节点中
+            final UriModel uri = result.getResult().get(request.method());
+            // 5.序列化URI模型
+            final JsonObject uriData = new JsonObject(JsonKit.toStr(uri));
+            requestor.getRequest().put(JsonKey.REQUEST.URI, uriData);
+            // 6.获取请求参数
+            final JsonObject params = this.extractParams(context, uri);
+            requestor.getRequest().put(JsonKey.REQUEST.PARAMS,params);
+            // 7.填充Requestor
+            context.put(Constants.KEY.CTX_REQUESTOR, requestor);
+            context.next();
+        }else{
+            // 4. 500 Error
+            Future.error500(getClass(),context);
+        }
+    }
 
-		// 4.根据Error设置
-		if (null == error) {
-			// SUCCESS -->
-			// 5.1.保存UriModel到Context中
-			final UriModel uri = result.getResult().get(request.method());
-			routingContext.put(Constants.KEY.CTX_URI, uri);
-			// 6.1.设置参数到Context中提供给下一个Handler处理
-			final JsonObject params = extractParams(routingContext, uri);
-			routingContext.put(Constants.KEY.CTX_PARAMS, params);
-			routingContext.next();
-		} else {
-			// 5.2.保存RestfulResult到Context中
-			routingContext.put(Constants.KEY.CTX_ERROR, webRet);
-			routingContext.fail(webRet.getStatusCode().status());
-		}
-	}
-
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	private String path(final HttpServerRequest request){
-	    String ret = request.path();
-	    final Iterator<Entry<String,String>> it = request.params().entries().iterator();
-	    while(it.hasNext()){
-	        final Entry<String,String> item = it.next();
-	        if(ret.contains(item.getValue())){
-                ret = ret.replace(item.getValue(),":" + item.getKey());
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    private String path(final HttpServerRequest request) {
+        String ret = request.path();
+        final Iterator<Entry<String, String>> it = request.params().entries().iterator();
+        while (it.hasNext()) {
+            final Entry<String, String> item = it.next();
+            if (ret.contains(item.getValue())) {
+                ret = ret.replace(item.getValue(), ":" + item.getKey());
             }
-	    }
-	    return ret;
-	}
-	
-	private JsonObject extractParams(final RoutingContext context, final UriModel uri) {
-		JsonObject retJson = new JsonObject();
-		final HttpServerRequest request = context.request();
-		if (ParamType.QUERY == uri.getParamType()) {
-			retJson.clear();
-			final MultiMap params = request.params();
-			final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
-			while (kvPair.hasNext()) {
-				final Map.Entry<String, String> entity = kvPair.next();
-				retJson.put(decodeURL(entity.getKey()), decodeURL(entity.getValue()));
-			}
-		} else if (ParamType.FORM == uri.getParamType()) {
-			retJson.clear();
-			final MultiMap params = request.formAttributes();
-			final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
-			while (kvPair.hasNext()) {
-				final Map.Entry<String, String> entity = kvPair.next();
-				retJson.put(decodeURL(entity.getKey()), decodeURL(entity.getValue()));
-			}
-		} else {
-			final String body = context.getBodyAsString();
-			if (StringKit.isNonNil(body)) {
-				retJson = new JsonObject(decodeURL(context.getBodyAsJson().encode()));
-			}
-		}
-		info(LOGGER,"Param Data : " + retJson.encode());
-		return retJson;
-	}
+        }
+        return ret;
+    }
 
-	private String decodeURL(final String inputValue) {
-		String ret = inputValue;
-		try {
-			ret = URLDecoder.decode(inputValue, Resources.SYS_ENCODING.name());
-		} catch (UnsupportedEncodingException ex) {
-			debug(LOGGER, "JVM.ENCODING", ex, Resources.SYS_ENCODING.name());
-		}
-		return ret;
-	}
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    private JsonObject extractParams(final RoutingContext context, final UriModel uri) {
+        JsonObject retJson = new JsonObject();
+        final HttpServerRequest request = context.request();
+        if (ParamType.QUERY == uri.getParamType()) {
+            retJson.clear();
+            final MultiMap params = request.params();
+            final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
+            while (kvPair.hasNext()) {
+                final Map.Entry<String, String> entity = kvPair.next();
+                retJson.put(decodeURL(entity.getKey()), decodeURL(entity.getValue()));
+            }
+        } else if (ParamType.FORM == uri.getParamType()) {
+            retJson.clear();
+            final MultiMap params = request.formAttributes();
+            final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
+            while (kvPair.hasNext()) {
+                final Map.Entry<String, String> entity = kvPair.next();
+                retJson.put(decodeURL(entity.getKey()), decodeURL(entity.getValue()));
+            }
+        } else {
+            final String body = context.getBodyAsString();
+            if (StringKit.isNonNil(body)) {
+                retJson = new JsonObject(decodeURL(context.getBodyAsJson().encode()));
+            }
+        }
+        info(LOGGER, "Param Data : " + retJson.encode());
+        return retJson;
+    }
+
+    private String decodeURL(final String inputValue) {
+        String ret = inputValue;
+        try {
+            ret = URLDecoder.decode(inputValue, Resources.SYS_ENCODING.name());
+        } catch (UnsupportedEncodingException ex) {
+            debug(LOGGER, "JVM.ENCODING", ex, Resources.SYS_ENCODING.name());
+        }
+        return ret;
+    }
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

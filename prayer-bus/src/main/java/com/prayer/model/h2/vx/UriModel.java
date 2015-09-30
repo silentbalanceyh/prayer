@@ -46,26 +46,27 @@ public class UriModel implements Serializable { // NOPMD
     /** S_REQUIRED_PARAM **/
     @JsonProperty("requiredParam")
     private List<String> requiredParam = new ArrayList<>();
-    
+
     /** S_GLOBAL_ID **/
     @JsonProperty("globalId")
     private String globalId;
-    
+
     /** MSG_ADDRESS **/
     @JsonProperty("address")
     private String address;
-    
+
     /** S_SCRIPT **/
     @JsonProperty("script")
     private String script;
-    
+
     /** L_RETURN_FILTERS **/
     @JsonProperty("returnFilters")
     private List<String> returnFilters = new ArrayList<>();
-    
+
     /** S_SENDER **/
     @JsonProperty("sender")
     private String sender;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -158,7 +159,8 @@ public class UriModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param address the address to set
+     * @param address
+     *            the address to set
      */
     public void setAddress(final String address) {
         this.address = address;
@@ -172,7 +174,8 @@ public class UriModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param globalId the globalId to set
+     * @param globalId
+     *            the globalId to set
      */
     public void setGlobalId(final String globalId) {
         this.globalId = globalId;
@@ -186,7 +189,8 @@ public class UriModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param script the script to set
+     * @param script
+     *            the script to set
      */
     public void setScript(final String script) {
         this.script = script;
@@ -200,7 +204,8 @@ public class UriModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param returnFilters the returnFilters to set
+     * @param returnFilters
+     *            the returnFilters to set
      */
     public void setReturnFilters(final List<String> returnFilters) {
         this.returnFilters = returnFilters;
@@ -214,7 +219,8 @@ public class UriModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param sender the sender to set
+     * @param sender
+     *            the sender to set
      */
     public void setSender(final String sender) {
         this.sender = sender;
@@ -234,7 +240,7 @@ public class UriModel implements Serializable { // NOPMD
      * 
      */
     @Override
-    public int hashCode() {    // NOPMD
+    public int hashCode() { // NOPMD
         final int prime = Constants.HASH_BASE;
         int result = 1;
         result = prime * result + ((method == null) ? 0 : method.hashCode());

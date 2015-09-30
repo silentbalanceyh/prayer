@@ -32,6 +32,10 @@ public interface JsonKey {
         String AUTHORIZATION = HttpHeaders.AUTHORIZATION.toString();
         /** **/
         String LOGIN_URL = "login.url";
+        /** **/
+        String URI = "uri";
+        /** **/
+        String PARAMS = "params";
     }
 
     /** **/
@@ -55,7 +59,7 @@ public interface JsonKey {
         /** **/
         String NAME = "response";
         /** **/
-        String CODE = "code";
+        String RETURNCODE = "returnCode";
         /** **/
         String STATUS = "status";
         /** **/
@@ -67,7 +71,7 @@ public interface JsonKey {
     /** **/
     interface RESPONSOR {
         /** **/
-        String RETURNCODE = "returnCode";
+        String RETURNCODE = RESPONSE.RETURNCODE;
         /** **/
         String DATA = PARAMS.DATA;
 
@@ -76,7 +80,7 @@ public interface JsonKey {
             /** **/
             String NAME = RESPONSE.STATUS;
             /** **/
-            String CODE = RESPONSE.CODE;
+            String CODE = "code";
             /** **/
             String LITERAL = "literal";
         }

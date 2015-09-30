@@ -2,9 +2,14 @@ package com.prayer.assistant;
 
 import com.prayer.constant.Constants;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.h2.vx.UriModel;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.Requestor;
+import com.prayer.util.JsonKit;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -29,7 +34,7 @@ public final class Extractor {
                 integer = config.getInteger(key);
             }
         } catch (ClassCastException ex) {
-            integer = null;    // NOPMD
+            integer = null; // NOPMD
         }
         return integer;
     }
@@ -47,24 +52,48 @@ public final class Extractor {
                 str = config.getString(key);
             }
         } catch (ClassCastException ex) {
-            str = null;    // NOPMD
+            str = null; // NOPMD
         }
         return str;
     }
+
     /**
      * 
      * @param jsonArray
      * @return
      */
-    public static String getContent(@NotNull final ServiceResult<JsonArray> jsonArray){
+    public static String getContent(@NotNull final ServiceResult<JsonArray> jsonArray) {
         final JsonArray retArray = jsonArray.getResult();
         String str = Constants.EMPTY_JARR;
-        if(Constants.ONE == retArray.size()){
+        if (Constants.ONE == retArray.size()) {
             str = retArray.getJsonObject(0).encode();
-        }else{
+        } else {
             str = retArray.encode();
         }
         return str;
+    }
+
+    /**
+     * 
+     * @param context
+     * @return
+     */
+    public static Requestor requestor(@NotNull final RoutingContext context) {
+        Requestor requestor = context.get(Constants.KEY.CTX_REQUESTOR);
+        if (null == requestor) {
+            requestor = Requestor.create(context);
+        }
+        return requestor;
+    }
+
+    /**
+     * 
+     * @param requestor
+     * @return
+     */
+    public static UriModel uri(@NotNull final Requestor requestor) {
+        final JsonObject uri = requestor.getRequest().getJsonObject(JsonKey.REQUEST.URI);
+        return JsonKit.fromStr(UriModel.class, uri.encode());
     }
 
     // ~ Static Methods ======================================

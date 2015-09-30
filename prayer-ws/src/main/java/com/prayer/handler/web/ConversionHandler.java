@@ -10,7 +10,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.HttpErrHandler;
+import com.prayer.assistant.Extractor;
+import com.prayer.assistant.Future;
 import com.prayer.assistant.Interruptor;
 import com.prayer.assistant.WebLogger;
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
@@ -23,7 +24,8 @@ import com.prayer.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.RuleModel;
 import com.prayer.model.h2.vx.UriModel;
-import com.prayer.model.web.RestfulResult;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.Requestor;
 import com.prayer.uca.WebConvertor;
 
 import io.vertx.core.Handler;
@@ -66,33 +68,34 @@ public class ConversionHandler implements Handler<RoutingContext> {
 
     /** **/
     @Override
-    public void handle(@NotNull final RoutingContext routingContext) {
+    public void handle(@NotNull final RoutingContext context) {
         info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.CONVERTOR);
+        
         // 1.从Context中提取参数信息
-        final UriModel uri = routingContext.get(Constants.KEY.CTX_URI);
+        final Requestor requestor = Extractor.requestor(context);
+        final UriModel uri = Extractor.uri(requestor);
         // 2.查找Convertors的数据
         final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
                 .findConvertors(uri.getUniqueId());
-        final RestfulResult webRet = RestfulResult.create();
-        // 3.执行Dispatcher功能
-        final AbstractWebException error = this.requestDispatch(result, webRet, routingContext);
-        if (null == error) {
-            // SUCCESS ->
-            routingContext.next();
+        if (this.requestDispatch(result, context, requestor)) {
+            // SUCCESS -->
+            context.put(Constants.KEY.CTX_REQUESTOR, requestor);
+            context.next();
         } else {
-            // 触发错误信息
-            routingContext.put(Constants.KEY.CTX_ERROR, webRet);
-            routingContext.fail(webRet.getStatusCode().status());
+            // 4. 500 Error
+            Future.error500(getClass(), context);
         }
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private AbstractWebException requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
-            final RestfulResult webRef, final RoutingContext context) {
-        AbstractWebException error = null;
-        final JsonObject params = context.get(Constants.KEY.CTX_PARAMS);
+
+    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
+            final RoutingContext context, final Requestor requestor) {
+        final JsonObject params = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
         if (ResponseCode.SUCCESS == result.getResponseCode()) {
+            AbstractWebException error = null;
+            boolean ret = true;
             final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
             // 遍历每一个字段
             try {
@@ -104,7 +107,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
                     // Convertor不可以有多个
                     if (null != convertors) {
                         if (Constants.ONE < convertors.size()) {
-                            error = new ConvertorMultiException(getClass(), field);    // NOPMD
+                            error = new ConvertorMultiException(getClass(), field); // NOPMD
                             break;
                         } else if (Constants.ONE == convertors.size()) {
                             final RuleModel convertor = convertors.get(Constants.ZERO);
@@ -113,20 +116,21 @@ public class ConversionHandler implements Handler<RoutingContext> {
                         }
                     }
                 }
-                // 将更新过后的参数放到RoutingContext中
-                context.put(Constants.KEY.CTX_PARAMS, updatedParams);
+                // 更新参数节点
+                requestor.getRequest().put(JsonKey.REQUEST.PARAMS, updatedParams);
             } catch (AbstractWebException ex) {
                 error = ex;
             }
             if (null != error) {
-                final RestfulResult webRet = HttpErrHandler.error400(error);
-                webRef.copyFrom(webRet);
+                Future.error400(getClass(), context, error);
+                ret = false;
             }
+            return ret;
         } else {
-            // 500 Internal Server
-            error = HttpErrHandler.error500(webRef, getClass());
+            // 500 Internal Error
+            Future.error500(getClass(), context);
+            return false;
         }
-        return error;
     }
 
     private String convertField(final String paramName, final String paramValue, final RuleModel ruleModel)

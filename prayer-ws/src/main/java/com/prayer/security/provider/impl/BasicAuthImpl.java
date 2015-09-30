@@ -145,7 +145,7 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
     }
 
     private void errorHandler(final JsonObject data, final Handler<AsyncResult<User>> handler, final String key) {
-        data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.CODE, ResponseCode.FAILURE);
+        data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.FAILURE);
         data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
         data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.KEY, key);
         handler.handle(Future.failedFuture(data.encode()));

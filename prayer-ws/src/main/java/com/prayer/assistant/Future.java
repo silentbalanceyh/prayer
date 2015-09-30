@@ -11,14 +11,20 @@ import com.google.common.net.HttpHeaders;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.AbstractWebException;
+import com.prayer.exception.web.BodyParamDecodingException;
 import com.prayer.exception.web.InternalServerErrorException;
+import com.prayer.exception.web.MethodNotAllowedException;
 import com.prayer.exception.web.NotAuthorizationException;
+import com.prayer.exception.web.RequiredParamMissingException;
+import com.prayer.exception.web.UriSpecificationMissingException;
 import com.prayer.model.web.Responsor;
 import com.prayer.model.web.StatusCode;
 
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -39,13 +45,82 @@ public final class Future {
      * 
      * @param clazz
      * @param context
+     * @param error
+     */
+    public static void error400(@NotNull final Class<?> clazz, @NotNull final RoutingContext context,
+            @NotNull final AbstractWebException error){
+        final Responsor responsor = Responsor.failure(StatusCode.BAD_REQUEST, error);
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
+                error.getErrorMessage());
+        context.put(Constants.KEY.CTX_RESPONSOR, responsor);
+        context.fail(responsor.getStatus().status());
+    }
+    /**
+     * 
+     * @param clazz
+     * @param context
+     * @param errorCode
+     * @param params
+     */
+    public static void error400(@NotNull final Class<?> clazz, @NotNull final RoutingContext context,
+            @NotNull final int errorCode, final Object... params) {
+        AbstractWebException error = null;
+        if (-30010 == errorCode) {
+            error = new BodyParamDecodingException(clazz, params[0].toString());
+        } else if (-30001 == errorCode) {
+            error = new RequiredParamMissingException(clazz, params[0].toString(), params[1].toString(),
+                    params[2].toString());
+        }
+        final Responsor responsor = Responsor.failure(StatusCode.BAD_REQUEST, error);
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
+                error.getErrorMessage());
+        context.put(Constants.KEY.CTX_RESPONSOR, responsor);
+        context.fail(responsor.getStatus().status());
+    }
+
+    /**
+     * 
+     * @param clazz
+     * @param context
+     * @param path
+     */
+    public static void error404(@NotNull final Class<?> clazz, @NotNull final RoutingContext context,
+            @NotNull @NotBlank @NotEmpty final String path) {
+        final AbstractWebException error = new UriSpecificationMissingException(clazz, path);
+        final Responsor responsor = Responsor.failure(StatusCode.NOT_FOUND, error);
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.NOT_FOUND.status(), StatusCode.NOT_FOUND.toString(),
+                error.getErrorMessage());
+        context.put(Constants.KEY.CTX_RESPONSOR, responsor);
+        context.fail(responsor.getStatus().status());
+    }
+
+    /**
+     * 
+     * @param clazz
+     * @param context
+     * @param method
+     */
+    public static void error405(@NotNull final Class<?> clazz, @NotNull final RoutingContext context,
+            @NotNull final HttpMethod method) {
+        final AbstractWebException error = new MethodNotAllowedException(clazz, method.toString());
+        final Responsor responsor = Responsor.failure(StatusCode.METHOD_NOT_ALLOWED, error);
+        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.METHOD_NOT_ALLOWED.status(),
+                StatusCode.METHOD_NOT_ALLOWED.toString(), error.getErrorMessage());
+        context.put(Constants.KEY.CTX_RESPONSOR, responsor);
+        context.fail(responsor.getStatus().status());
+    }
+
+    /**
+     * 
+     * @param clazz
+     * @param context
      */
     public static void error500(@NotNull final Class<?> clazz, @NotNull final RoutingContext context) {
         final AbstractWebException error = new InternalServerErrorException(clazz);
         final Responsor responsor = Responsor.error(error);
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.INTERNAL_SERVER_ERROR.status(),
                 StatusCode.INTERNAL_SERVER_ERROR.toString(), error.getErrorMessage());
-        context.put(Constants.KEY.CTX_ERROR, responsor);
+        context.put(Constants.KEY.CTX_RESPONSOR, responsor);
         context.fail(responsor.getStatus().status());
     }
 
@@ -59,7 +134,7 @@ public final class Future {
         final Responsor responsor = Responsor.failure(StatusCode.UNAUTHORIZED, error);
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.UNAUTHORIZED.status(), StatusCode.UNAUTHORIZED.toString(),
                 error.getErrorMessage());
-        context.put(Constants.KEY.CTX_ERROR, responsor);
+        context.put(Constants.KEY.CTX_RESPONSOR, responsor);
         context.fail(responsor.getStatus().status());
     }
 
@@ -75,7 +150,7 @@ public final class Future {
         final Responsor responsor = Responsor.failure(StatusCode.UNAUTHORIZED, error, message);
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.UNAUTHORIZED.status(), StatusCode.UNAUTHORIZED.toString(),
                 error.getErrorMessage());
-        context.put(Constants.KEY.CTX_ERROR, responsor);
+        context.put(Constants.KEY.CTX_RESPONSOR, responsor);
         context.fail(responsor.getStatus().status());
     }
 
@@ -90,7 +165,9 @@ public final class Future {
         response.setStatusMessage(Status.OK.toString());
         response.putHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + Resources.SYS_ENCODING.toString());
         response.putHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(length));
-        response.end(content, Resources.SYS_ENCODING.name());
+        if(!response.ended()){
+            response.end(content, Resources.SYS_ENCODING.name());
+        }
         response.close();
     }
 
@@ -109,7 +186,9 @@ public final class Future {
         response.putHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + Resources.SYS_ENCODING.toString());
         response.putHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(length));
         response.write(content, Resources.SYS_ENCODING.name());
-        response.end();
+        if(!response.ended()){
+            response.end();
+        }
         response.close();
     }
     // ~ Static Methods ======================================

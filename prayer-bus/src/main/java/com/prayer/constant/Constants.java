@@ -76,12 +76,10 @@ public interface Constants { // NOPMD
     }
 
     interface KEY{    // NOPMD
-        /** Global Error Key **/
-        String CTX_ERROR = "ERROR.RESPONSOR";
-        /** Global URI Key **/
-        String CTX_URI = "URI.ENTITY";
-        /** Request Parameters **/
-        String CTX_PARAMS = "PARAMS";
+        /** Global Responsor **/
+        String CTX_RESPONSOR = "CTX.RESPONSOR";
+        /** Global Requestor **/
+        String CTX_REQUESTOR = "CTX.REQUESTOR";
         
         /** Api的远程地址 **/
         String API_URL = "API.URL";
