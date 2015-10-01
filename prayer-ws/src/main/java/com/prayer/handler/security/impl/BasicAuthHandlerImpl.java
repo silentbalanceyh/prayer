@@ -89,15 +89,20 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
          * 但其参数信息是在processAuth的过程填充到系统里的， 一旦出现了com.prayer.exception.web.
          * BodyParamDecodingException异常信息则依然可让其执行认证
          */
-        if (this.requestDispatch(context)) {
-            final User user = context.user();
-            if (null == user) {
-                // 5.认证执行代码
-                this.processAuth(context);
-            } else {
-                // 5.不需要认证的情况
-                authorise(user, context);
+        try {
+            if (this.requestDispatch(context)) {
+                final User user = context.user();
+                if (null == user) {
+                    // 5.认证执行代码
+                    this.processAuth(context);
+                } else {
+                    // 5.不需要认证的情况
+                    authorise(user, context);
+                }
             }
+            // TODO: DEBUG
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -108,6 +113,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
         boolean ret = true;
         final String endpoint = this.configurator.getSecurityOptions().getString(BASIC.LOGIN_URL);
         if (StringUtil.equals(context.request().path(), endpoint)) {
+            info(LOGGER, " Request Uri = " + context.request().path() + ", Endpoint = " + endpoint);
             final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service
                     .findUri(context.request().path());
             if (Dispatcher.requestDispatch(getClass(), result, context)) {

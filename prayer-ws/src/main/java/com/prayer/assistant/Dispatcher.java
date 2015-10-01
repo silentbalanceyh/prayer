@@ -45,6 +45,7 @@ public final class Dispatcher { // NOPMD
     public static boolean requestDispatch(final Class<?> clazz,
             final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result, final RoutingContext context) {
         final HttpServerRequest request = context.request();
+        
         if (ResponseCode.SUCCESS == result.getResponseCode()) {
             final ConcurrentMap<HttpMethod, UriModel> uriMap = result.getResult();
             if (uriMap.isEmpty()) {

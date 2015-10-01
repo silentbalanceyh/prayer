@@ -106,7 +106,7 @@ public final class Requestor implements Serializable, ClusterSerializable {
      * @return
      */
     public JsonObject getToken() {
-        if(null == this.token){
+        if (null == this.token) {
             this.token = this.data.getJsonObject(JsonKey.TOKEN.NAME);
         }
         return this.token;
@@ -117,7 +117,7 @@ public final class Requestor implements Serializable, ClusterSerializable {
      * @return
      */
     public JsonObject getResponse() {
-        if(null == this.response){
+        if (null == this.response) {
             this.response = this.data.getJsonObject(JsonKey.RESPONSE.NAME);
         }
         return this.response;
@@ -128,17 +128,18 @@ public final class Requestor implements Serializable, ClusterSerializable {
      * @return
      */
     public JsonObject getRequest() {
-        if(null == this.request){
+        if (null == this.request) {
             this.response = this.data.getJsonObject(JsonKey.REQUEST.NAME);
         }
         return this.request;
     }
+
     /**
      * 
      * @return
      */
-    public JsonObject getParams(){
-        if(null == this.params){
+    public JsonObject getParams() {
+        if (null == this.params) {
             this.params = this.data.getJsonObject(JsonKey.PARAMS.NAME);
         }
         return this.params;
@@ -199,14 +200,19 @@ public final class Requestor implements Serializable, ClusterSerializable {
                 error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
                 this.response.put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.FAILURE);
                 this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
+            } catch (IllegalArgumentException ex) {
+                error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+                this.response.put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.FAILURE);
+                this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
             }
         }
     }
+
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override
-    public String toString(){
+    public String toString() {
         return this.data.encode();
     }
 
