@@ -77,7 +77,7 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
      */
     @NotNull
     public static String prepSelectSQL(@NotNull @NotBlank @NotEmpty final String table,
-            @NotNull @MinSize(0) final List<String> columns, @NotNull final Expression whereExpr) {
+            @NotNull @MinSize(0) final List<String> columns, final Expression whereExpr) {
         // 1.构造列部分
         String cols = "*";
         if (Constants.ZERO < columns.size()) {
@@ -85,8 +85,8 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
         }
         // 2.使用模板构造参数语句
         final String majorClouse = MessageFormat.format(TB_SELECT, cols, table);
-        final String whereClouse = MessageFormat.format(TB_WHERE, whereExpr.toSql());
-        return majorClouse + SPACE + whereClouse;
+        // 3.如果Expression为null则查询所有记录
+        return finalizeSql(majorClouse, whereExpr);
     }
 
     /**
@@ -96,12 +96,11 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
      * @return
      */
     @NotNull
-    public static String prepDeleteSQL(@NotNull @NotBlank @NotEmpty final String table,
-            @NotNull final Expression whereExpr) {
+    public static String prepDeleteSQL(@NotNull @NotBlank @NotEmpty final String table, final Expression whereExpr) {
         // 1.使用模板构造参数语句
         final String majorClouse = MessageFormat.format(TB_DELETE, table);
-        final String whereClouse = MessageFormat.format(TB_WHERE, whereExpr.toSql());
-        return majorClouse + SPACE + whereClouse;
+        // 3.如果Expression为null则删除所有记录
+        return finalizeSql(majorClouse, whereExpr);
     }
 
     // ~ Constructors ========================================
@@ -109,6 +108,17 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    private static String finalizeSql(final String majorClouse, final Expression whereExpr) {
+        String retSql = null;
+        if (null == whereExpr) {
+            retSql = majorClouse;
+        } else {
+            final String whereClouse = MessageFormat.format(TB_WHERE, whereExpr.toSql());
+            retSql = majorClouse + SPACE + whereClouse;
+        }
+        return retSql;
+    }
+
     private SqlDmlStatement() {
     }
     // ~ Get/Set =============================================

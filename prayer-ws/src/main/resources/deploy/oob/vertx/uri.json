@@ -1,44 +1,28 @@
 [
     {
         "uri":"/api/sec/login",
-        "method":"GET",
         "paramType":"BODY",
         "address":"MSG://SECURITY/QUEUE",
         "globalId":"sec.account",
-        "script":"js.api.get.sec.login",
-        "sender":"com.prayer.handler.message.RecordObjectSender",
         "requiredParam":[
             "username",
             "password"
-        ],
-        "returnFilters":[
-            
         ]
     },
     {
         "uri":"/api/util/unique/:identifier/:name/:value",
-        "method":"GET",
-        "paramType":"QUERY",
-        "address":"MSG://RECORD/QUEUE",
         "globalId":"RP$identifier",
         "script":"js.api.get.util.unique",
-        "sender":"com.prayer.handler.message.RecordObjectSender",
         "requiredParam":[
             "identifier",
             "name",
             "value"
-        ],
-        "returnFilters":[
         ]
     },
     {
         "uri":"/api/sec/account",
         "method":"POST",
-        "paramType":"BODY",
-        "address":"MSG://RECORD/QUEUE",
         "globalId":"sec.account",
-        "script":"js.api.post.sec.account",
-        "sender":"com.prayer.handler.message.RecordObjectSender",
         "requiredParam":[
             "username",
             "password",
@@ -51,12 +35,8 @@
     },
     {
         "uri":"/api/sec/account/:id",
-        "method":"GET",
-        "paramType":"QUERY",
-        "address":"MSG://RECORD/QUEUE",
         "globalId":"sec.account",
-        "script":"js.api.get.sec.account",
-        "sender":"com.prayer.handler.message.RecordObjectSender",
+        "script":"js.api.get.sec.account.id",
         "requiredParam":[
             "id"
         ],
@@ -67,11 +47,7 @@
     {
         "uri":"/api/sec/account",
         "method":"PUT",
-        "paramType":"BODY",
-        "address":"MSG://RECORD/QUEUE",
         "globalId":"sec.account",
-        "script":"js.api.put.sec.account",
-        "sender":"com.prayer.handler.message.RecordObjectSender",
         "requiredParam":[
             "id"
         ],
@@ -82,16 +58,9 @@
     {
         "uri":"/api/sec/account",
         "method":"DELETE",
-        "paramType":"BODY",
-        "address":"MSG://RECORD/QUEUE",
         "globalId":"sec.account",
-        "script":"js.api.delete.sec.account",
-        "sender":"com.prayer.handler.message.RecordObjectSender",
         "requiredParam":[
             "id"
-        ],
-        "returnFilters":[
-            
         ]
     }
 ]

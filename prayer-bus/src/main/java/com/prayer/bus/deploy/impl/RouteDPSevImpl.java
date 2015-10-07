@@ -1,5 +1,6 @@
 package com.prayer.bus.deploy.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import com.prayer.model.h2.vx.RouteModel;
 import com.prayer.schema.dao.impl.RouteDaoImpl;
 import com.prayer.util.JsonKit;
 
+import io.vertx.core.http.HttpMethod;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -23,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String> implements RouteDPService {    // NOPMD
+public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String>implements RouteDPService { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RouteDPSevImpl.class);
@@ -46,10 +48,11 @@ public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String> implem
     public Logger getLogger() {
         return LOGGER;
     }
+
     /** T Array **/
     @Override
-    public RouteModel[] getArrayType(){
-        return new RouteModel[]{};
+    public RouteModel[] getArrayType() {
+        return new RouteModel[] {};
     }
 
     /** **/
@@ -58,7 +61,27 @@ public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String> implem
             throws AbstractSystemException {
         final TypeReference<List<RouteModel>> typeRef = new TypeReference<List<RouteModel>>() {
         };
-        return JsonKit.fromFile(typeRef, jsonPath);
+        final List<RouteModel> retList = JsonKit.fromFile(typeRef, jsonPath);
+        for (final RouteModel item : retList) {
+            // Default Http Method
+            if (null == item.getMethod()) {
+                item.setMethod(HttpMethod.GET);
+            }
+            // Default Order
+            if (null == item.getRequestHandler()){
+                item.setRequestHandler("com.prayer.handler.standard.RecordHandler");
+            }
+            // Default MIME
+            final List<String> mimes = new ArrayList<>();
+            mimes.add("*/json");
+            if (null == item.getConsumerMimes()){
+                item.setConsumerMimes(mimes);
+            }
+            if (null == item.getProducerMimes()){
+                item.setProducerMimes(mimes);
+            }
+        }
+        return retList;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

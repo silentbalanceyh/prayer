@@ -4,7 +4,7 @@
         "namespace":"engine.script.sec.account"
     },
     {
-        "name":"js.api.get.sec.account",
+        "name":"js.api.get.sec.account.id",
         "namespace":"engine.script.sec.account"
     },
     {
