@@ -20,6 +20,10 @@
         "namespace":"engine.script.sec.basic"
     },
     {
+        "name":"js.api.get.util.unique",
+        "namespace":"engine.script.util"
+    },
+    {
         "name":"js.global.util",
         "namespace":"engine.script.global",
         "content":"deploy/oob/js/engine.js"

@@ -98,6 +98,7 @@ function MENU_STATUS(path) {
         FORM.init("#fPassword",
                 "/static/resources/rules/validate/users/password.json");
         var params = jQuery.parseJSON(jQuery("#USERDATA").val());
+        console.log(params);
         var path = "/sec/account?id=" + params["id"];
         API.init(path, function(data) {
             for ( var item in data) {

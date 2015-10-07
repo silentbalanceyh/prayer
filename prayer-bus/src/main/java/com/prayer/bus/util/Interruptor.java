@@ -40,6 +40,18 @@ public final class Interruptor {
                     error = new ServiceParamMissingException(clazz, Constants.PARAM.SCRIPT);
                 }
             }
+            // Global ID Replaced，针对data中包含了identifier定义的情况
+            {
+                final String identifier = jsonObject.getString(Constants.PARAM.ID);
+                if (StringKit.isNonNil(identifier) && identifier.startsWith("RP")) {
+                    final String[] rpId = identifier.split("\\$");
+                    if (Constants.ONE < rpId.length) {
+                        final String idAttr = rpId[1];
+                        final String idVal = jsonObject.getJsonObject(Constants.PARAM.DATA).getString(idAttr);
+                        jsonObject.put(Constants.PARAM.ID, idVal);
+                    }
+                }
+            }
             jsonObject.getString(Constants.PARAM.ID);
             jsonObject.getJsonObject(Constants.PARAM.DATA);
             jsonObject.getString(Constants.PARAM.SCRIPT);
@@ -54,41 +66,43 @@ public final class Interruptor {
      * @param record
      * @return
      */
-    public static boolean isUpdate(@NotNull final Record record){
+    public static boolean isUpdate(@NotNull final Record record) {
         boolean isUpdate = true;
-        try{
-            final ConcurrentMap<String,Value<?>> idKV = record.idKV();
-            for(final String id: idKV.keySet()){
+        try {
+            final ConcurrentMap<String, Value<?>> idKV = record.idKV();
+            for (final String id : idKV.keySet()) {
                 final Value<?> value = idKV.get(id);
-                if(StringKit.isNil(value.literal())){
+                if (StringKit.isNil(value.literal())) {
                     isUpdate = false;
                 }
             }
-        }catch(AbstractException ex){
-            
+        } catch (AbstractException ex) {
+
         }
         return isUpdate;
     }
+
     /**
      * 
      * @param record
      * @return
      */
-    public static AbstractException interruptPK(@NotNull final Record record){
+    public static AbstractException interruptPK(@NotNull final Record record) {
         AbstractException error = null;
-        try{
-            final ConcurrentMap<String,Value<?>> idKV = record.idKV();
-            for(final String id: idKV.keySet()){
+        try {
+            final ConcurrentMap<String, Value<?>> idKV = record.idKV();
+            for (final String id : idKV.keySet()) {
                 final Value<?> value = idKV.get(id);
-                if(StringKit.isNil(value.literal())){
-                    error = new PrimaryKeyMissingException(Interruptor.class,id);
+                if (StringKit.isNil(value.literal())) {
+                    error = new PrimaryKeyMissingException(Interruptor.class, id);
                 }
             }
-        }catch(AbstractException ex){
+        } catch (AbstractException ex) {
             error = ex;
         }
         return error;
     }
+
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

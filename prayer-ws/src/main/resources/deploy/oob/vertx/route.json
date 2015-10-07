@@ -6,35 +6,57 @@
         "requestHandler":"com.prayer.handler.standard.BasicAuthenticateHandler",
         "order":-100
     },
-    
+    {
+        "parent":"/api",
+        "path":"/util/unique/:identifier/:name/:value",
+        "method":"GET",
+        "order":-10001,
+        "requestHandler":"com.prayer.handler.standard.RecordHandler",
+        "consumerMimes":[
+            "*/json"
+        ],
+        "producerMimes":[
+            "*/json"
+        ]
+    },
     {
         "parent":"/api",
         "path":"/sec/account",
         "method":"POST",
         "order":-100,
         "requestHandler":"com.prayer.handler.standard.RecordHandler",
-        "consumerMimes":["*/json"],
-        "producerMimes":["*/json"]
+        "consumerMimes":[
+            "*/json"
+        ],
+        "producerMimes":[
+            "*/json"
+        ]
     },
-    
     {
         "parent":"/api",
         "path":"/sec/account",
         "method":"PUT",
         "order":-100,
         "requestHandler":"com.prayer.handler.standard.RecordHandler",
-        "consumerMimes":["*/json"],
-        "producerMimes":["*/json"]
+        "consumerMimes":[
+            "*/json"
+        ],
+        "producerMimes":[
+            "*/json"
+        ]
     },
-    
     {
         "parent":"/api",
         "path":"/sec/account/:id",
         "method":"GET",
         "order":-10001,
         "requestHandler":"com.prayer.handler.standard.RecordHandler",
-        "consumerMimes":["*/json"],
-        "producerMimes":["*/json"]
+        "consumerMimes":[
+            "*/json"
+        ],
+        "producerMimes":[
+            "*/json"
+        ]
     },
     {
         "parent":"/api",
@@ -42,7 +64,11 @@
         "method":"DELETE",
         "order":-100,
         "requestHandler":"com.prayer.handler.standard.RecordHandler",
-        "consumerMimes":["*/json"],
-        "producerMimes":["*/json"]
+        "consumerMimes":[
+            "*/json"
+        ],
+        "producerMimes":[
+            "*/json"
+        ]
     }
 ]

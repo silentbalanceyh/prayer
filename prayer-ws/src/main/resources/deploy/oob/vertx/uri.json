@@ -16,6 +16,23 @@
         ]
     },
     {
+        "uri":"/api/util/unique/:identifier/:name/:value",
+        "method":"GET",
+        "paramType":"QUERY",
+        "address":"MSG://RECORD/QUEUE",
+        "globalId":"RP$identifier",
+        "script":"js.api.get.util.unique",
+        "sender":"com.prayer.handler.message.RecordObjectSender",
+        "requiredParam":[
+            "identifier",
+            "name",
+            "value"
+        ],
+        "returnFilters":[
+            "password"
+        ]
+    },
+    {
         "uri":"/api/sec/account",
         "method":"POST",
         "paramType":"BODY",

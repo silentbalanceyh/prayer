@@ -78,7 +78,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
     @Override
     public void handle(@NotNull final RoutingContext context) {
         info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.ROUTER);
-        
+
         // 1.获取请求Request和相应Response引用
         final Requestor requestor = Extractor.requestor(context);
         info(LOGGER, " >>>>>>>> Before Router \n" + requestor.getData().encodePrettily());
@@ -94,7 +94,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
             context.put(Constants.KEY.CTX_URI, uri);
             // 6.获取请求参数
             final JsonObject params = this.extractParams(context, uri);
-            requestor.getRequest().put(JsonKey.REQUEST.PARAMS,params);
+            requestor.getRequest().put(JsonKey.REQUEST.PARAMS, params);
             // 7.填充Requestor
             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
             info(LOGGER, " >>>>>>>> After Router \n" + requestor.getData().encodePrettily());
@@ -113,6 +113,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
                 ret = ret.replace(item.getValue(), ":" + item.getKey());
             }
         }
+        info(LOGGER, "Final URI = " + ret);
         return ret;
     }
 

@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.prayer.constant.Constants;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
+import com.prayer.kernel.model.GenericRecord;
 /**
  * 
  * @author Lang
@@ -36,8 +38,14 @@ public class JSEnv implements Serializable{
     /**
      * @return the record
      */
-    public Record getRecord() {
-        return record;
+    public Record getRecord(final String... ids) {
+        Record refR = null;
+        if(Constants.ZERO == ids.length){
+            refR = this.record;
+        }else if(Constants.ZERO < ids.length){
+            refR = new GenericRecord(ids[Constants.ZERO]);
+        }
+        return refR;
     }
 
     /**
