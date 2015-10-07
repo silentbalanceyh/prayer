@@ -1,2 +1,13 @@
 [
+    {
+        "name":"password",
+        "type":"StringType",
+        "order":1,
+        "componentType":"CONVERTOR",
+        "componentClass":"com.prayer.uca.convertor.EncryptionConvertor",
+        "config":{
+            "algorithm":"MD5"
+        },
+        "errorMessage":"密码加密过程出现问题，请联系管理员。"
+    }
 ]
