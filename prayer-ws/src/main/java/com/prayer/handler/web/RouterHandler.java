@@ -110,6 +110,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
         while (it.hasNext()) {
             final Entry<String, String> item = it.next();
             if (ret.contains(item.getValue())) {
+                info(LOGGER, "Replace Item : item.key = " + item.getKey() + ", item.value = " + item.getValue());
                 ret = ret.replace(item.getValue(), ":" + item.getKey());
             }
         }

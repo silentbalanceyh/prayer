@@ -10,7 +10,7 @@
         "parent":"/api",
         "path":"/util/unique/:identifier/:name/:value",
         "method":"GET",
-        "order":-10001,
+        "order":-10002,
         "requestHandler":"com.prayer.handler.standard.RecordHandler",
         "consumerMimes":[
             "*/json"
