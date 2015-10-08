@@ -12,6 +12,16 @@
     },
     {
         "parent":"/api",
+        "path":"/sec/account/:id",
+        "order":-10001
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/account",
+        "order":-100
+    },
+    {
+        "parent":"/api",
         "path":"/sec/account",
         "method":"POST",
         "order":-100
@@ -21,11 +31,6 @@
         "path":"/sec/account",
         "method":"PUT",
         "order":-100
-    },
-    {
-        "parent":"/api",
-        "path":"/sec/account/:id",
-        "order":-10001
     },
     {
         "parent":"/api",

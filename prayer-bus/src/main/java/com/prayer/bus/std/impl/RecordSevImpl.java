@@ -66,6 +66,7 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
                 error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
                 ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
             } catch (AbstractException ex) {
+                error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
                 ret.setResponse(null, ex);
             }
         } else {
@@ -95,6 +96,7 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
                 error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
                 ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
             } catch (AbstractException ex) {
+                error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
                 ret.setResponse(null, ex);
             }
         } else {
@@ -116,7 +118,7 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
                 error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
                 ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
             } catch (AbstractException ex) {
-                error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
                 ret.setResponse(null, ex);
             }
         } else {

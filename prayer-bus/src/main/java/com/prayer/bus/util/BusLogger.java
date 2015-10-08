@@ -67,9 +67,9 @@ public final class BusLogger {
     public static void error(@NotNull final Logger logger, @NotNull @NotBlank @NotEmpty final String patternAndMsg,
             final Object... params) {
         if (params.length == 0) {
-            logger.error("[E-BUS] " + patternAndMsg);
+            logger.info("[E-BUS] " + patternAndMsg);
         } else {
-            logger.error(MessageFormat.format("[E-BUS] " + patternAndMsg, params));
+            logger.info(MessageFormat.format("[E-BUS] " + patternAndMsg, params));
         }
     }
 

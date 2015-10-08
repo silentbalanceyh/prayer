@@ -52,10 +52,13 @@ public final class Interruptor {
                     }
                 }
             }
+            // Exception
             jsonObject.getString(Constants.PARAM.ID);
             jsonObject.getJsonObject(Constants.PARAM.DATA);
             jsonObject.getString(Constants.PARAM.SCRIPT);
         } catch (ClassCastException ex) {
+            // TODO: Debug
+            ex.printStackTrace();
             error = new ServiceParamInvalidException(clazz, ex.toString());
         }
         return error;

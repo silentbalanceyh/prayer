@@ -102,7 +102,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
     public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinLength(1) final String[] columns,
-            final List<Value<?>> params, @NotNull final Expression filters) throws AbstractMetadataException {
+            final List<Value<?>> params, final Expression filters) throws AbstractMetadataException {
         return this.dao.queryByFilter(record, columns, params, filters);
     }
     // ~ Methods =============================================

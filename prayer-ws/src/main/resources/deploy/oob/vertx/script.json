@@ -8,6 +8,10 @@
         "namespace":"engine.script.sec.account"
     },
     {
+        "name":"js.api.get.sec.account",
+        "namespace":"engine.script.sec.account"
+    },
+    {
         "name":"js.api.put.sec.account",
         "namespace":"engine.script.sec.account"
     },
