@@ -14,6 +14,7 @@ import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractWebException;
 import com.prayer.model.h2.vx.UriModel;
+import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 
 import io.vertx.core.AsyncResult;
@@ -50,17 +51,24 @@ public class ServiceHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.SERVICE);
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.SERVICE),context.request().path());
         
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
-        info(LOGGER, " >>>>>>>> Before Service \n" + requestor.getData().encodePrettily());
+        info(LOGGER, " >>>>>>>> Before Service \n ==========> " + requestor.getData().encode());
         final UriModel uri = Extractor.uri(context);
         // 2.Service获取参数信息
         if (null == uri) {
             // 500 Internal Server
             Future.error500(getClass(), context);
         } else {
+            // Param参数准备过程
+            requestor.getParams().put(JsonKey.PARAMS.IDENTIFIER, uri.getGlobalId());
+            requestor.getParams().put(JsonKey.PARAMS.SCRIPT, uri.getScript());
+            requestor.getParams().put(JsonKey.PARAMS.METHOD, uri.getMethod());
+            requestor.getParams().put(JsonKey.PARAMS.FILTERS, uri.getReturnFilters());
+            requestor.getParams().put(JsonKey.PARAMS.DATA, requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS));
+            // 设置VertX信息
             final Vertx vertx = context.vertx();
             final EventBus bus = vertx.eventBus();
             // 设置Class类信息

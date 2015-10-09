@@ -53,7 +53,7 @@ public final class Future {
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
                 error.getErrorMessage());
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 400 Error \n" + responsor.getResult().encodePrettily());
+        info(LOGGER, " >>>>>>>> 400 Error \n ==========> " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
     /**
@@ -76,7 +76,7 @@ public final class Future {
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
                 error.getErrorMessage());
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 400 Params \n" + responsor.getResult().encodePrettily());
+        info(LOGGER, " >>>>>>>> 400 Params \n ==========> " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -93,7 +93,7 @@ public final class Future {
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.NOT_FOUND.status(), StatusCode.NOT_FOUND.toString(),
                 error.getErrorMessage());
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 404 \n" + responsor.getResult().encodePrettily());
+        info(LOGGER, " >>>>>>>> 404 \n ==========> " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -110,7 +110,7 @@ public final class Future {
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.METHOD_NOT_ALLOWED.status(),
                 StatusCode.METHOD_NOT_ALLOWED.toString(), error.getErrorMessage());
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 405 \n" + responsor.getResult().encodePrettily());
+        info(LOGGER, " >>>>>>>> 405 \n ==========> " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -125,7 +125,7 @@ public final class Future {
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.INTERNAL_SERVER_ERROR.status(),
                 StatusCode.INTERNAL_SERVER_ERROR.toString(), error.getErrorMessage());
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 500 \n" + responsor.getResult().encodePrettily());
+        info(LOGGER, " >>>>>>>> 500 \n ==========> " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -140,7 +140,7 @@ public final class Future {
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.UNAUTHORIZED.status(), StatusCode.UNAUTHORIZED.toString(),
                 error.getErrorMessage());
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 401 \n" + responsor.getResult().encodePrettily());
+        info(LOGGER, " >>>>>>>> 401 \n ==========> " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -157,7 +157,7 @@ public final class Future {
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.UNAUTHORIZED.status(), StatusCode.UNAUTHORIZED.toString(),
                 error.getErrorMessage());
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 401 \n" + responsor.getResult().encodePrettily());
+        info(LOGGER, " >>>>>>>> 401 \n ==========> " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 

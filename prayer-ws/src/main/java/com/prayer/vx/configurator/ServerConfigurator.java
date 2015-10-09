@@ -107,7 +107,6 @@ public class ServerConfigurator { // NOPMD
             // Whether support compression
             options.setCompressionSupported(this.LOADER.getBoolean("server.compression.support"));
             options.setAcceptBacklog(this.LOADER.getInt("server.accept.backlog"));
-            options.setClientAuthRequired(this.LOADER.getBoolean("server.client.auth.required"));
         }
         return options;
     }

@@ -80,6 +80,8 @@ public interface Constants { // NOPMD
         String CTX_RESPONSOR = "CTX.RESPONSOR";
         /** Global Requestor **/
         String CTX_REQUESTOR = "CTX.REQUESTOR";
+        /** Final Url **/
+        String CTX_FINAL_URL = "CTX.FINAL.URL";
         /** Context URI **/
         String CTX_URI = "CTX.URI";
         /** Api的远程地址 **/
@@ -124,48 +126,48 @@ public interface Constants { // NOPMD
         int NOT_SET = -20000;
 
         /** CORS Handler **/
-        int CORS = -9900;
+        int CORS = -19900;
         /** Cookie Handler Order **/
-        int COOKIE = -9800;
+        int COOKIE = -19800;
         /** Body Handler Order **/
-        int BODY = -9700;
+        int BODY = -19700;
         /** Authentication Handler Order **/
-        int AUTH = -9600;
+        int AUTH = -19600;
         /** Session Handler Order **/
-        int SESSION = -9500;
+        int SESSION = -10000;
         /** Redirect之前的预处理 **/
-        int SHARED = -9450;
+        int SHARED = -9990;
         /** User Session Handler Order **/
-        int USER_SESSION = -9400; // NOPMD
+        int USER_SESSION = -9980; // NOPMD
         /** Logout **/
-        int LOGOUT = -9350;
+        int LOGOUT = -9970;
         /** Redirect Handler Order **/
-        int ADMIN = -9300;
+        int ADMIN = -9960;
         /** Static Handler **/
-        int STATIC = -9200;
+        int STATIC = -9950;
         /** Template Handler **/
-        int DYNAMIC = -9100;
+        int DYNAMIC = -9940;
         /** Context **/
-        int CONTEXT = -9050;
+        int CONTEXT = -9930;
         
         /** OPTIONS **/
-        int OD_OPTIONS = -9250;
+        int OD_OPTIONS = -9920;
         /** PROFILE **/
-        int OD_PROFILE = -9249;
+        int OD_PROFILE = -9910;
 
         /** Router Handler Order **/
-        int ROUTER = -4000;
+        int ROUTER = -9900;
         /** Validation Handler Order **/
-        int VALIDATION = -3000;
+        int VALIDATION = -9800;
         /** Convertor Handler Order **/
         int CONVERTOR = -2000;
         /** Parameters Wrapper **/
         int WRAPPER = -1000;
         /** Service Handler Order **/
-        int SERVICE = 1000;
+        int SERVICE = 19000;
 
         /** Failure Handler **/
-        int FAILURE = 2000;
+        int FAILURE = 20000;
     }
     /** **/
     interface BUS { // NOPMD

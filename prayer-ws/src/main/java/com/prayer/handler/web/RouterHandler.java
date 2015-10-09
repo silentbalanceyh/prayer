@@ -8,7 +8,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
@@ -77,14 +76,12 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
      */
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.ROUTER);
-
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.ROUTER),context.request().path());
         // 1.获取请求Request和相应Response引用
         final Requestor requestor = Extractor.requestor(context);
-        info(LOGGER, " >>>>>>>> Before Router \n" + requestor.getData().encodePrettily());
         final HttpServerRequest request = context.request();
         // 2.从系统中按URI读取接口规范
-        final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(path(request));
+        final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(context.get(Constants.KEY.CTX_FINAL_URL));
         // 3.请求转发，去除掉Error过后的信息
         if (Dispatcher.requestDispatch(getClass(), result, context)) {
             // SUCCESS -->
@@ -97,27 +94,12 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
             requestor.getRequest().put(JsonKey.REQUEST.PARAMS, params);
             // 7.填充Requestor
             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
-            info(LOGGER, " >>>>>>>> After Router \n" + requestor.getData().encodePrettily());
             context.next();
         }
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private String path(final HttpServerRequest request) {
-        String ret = request.path();
-        final Iterator<Entry<String, String>> it = request.params().entries().iterator();
-        while (it.hasNext()) {
-            final Entry<String, String> item = it.next();
-            if (ret.contains(item.getValue())) {
-                info(LOGGER, "Replace Item : item.key = " + item.getKey() + ", item.value = " + item.getValue());
-                ret = ret.replace(item.getValue(), ":" + item.getKey());
-            }
-        }
-        info(LOGGER, "Final URI = " + ret);
-        return ret;
-    }
-
     private JsonObject extractParams(final RoutingContext context, final UriModel uri) {
         JsonObject retJson = new JsonObject();
         final HttpServerRequest request = context.request();

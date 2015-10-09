@@ -24,7 +24,7 @@
         "namespace":"engine.script.sec.basic"
     },
     {
-        "name":"js.api.get.util.unique",
+        "name":"js.api.get.sec.util.unique",
         "namespace":"engine.script.util"
     },
     {

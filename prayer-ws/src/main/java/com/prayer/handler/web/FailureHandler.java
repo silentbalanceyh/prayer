@@ -46,7 +46,7 @@ public class FailureHandler implements ErrorHandler {
 	 */
 	@Override
 	public void handle(@NotNull final RoutingContext context) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.FAILURE);
+		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.FAILURE),context.request().path());
 		// 1.包装响应信息
 		final HttpServerResponse response = context.response();
 		// 2.获取RestfulResult

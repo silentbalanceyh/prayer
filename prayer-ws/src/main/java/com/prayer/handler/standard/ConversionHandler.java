@@ -1,4 +1,4 @@
-package com.prayer.handler.web;
+package com.prayer.handler.standard;
 
 import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.instance;
@@ -69,11 +69,10 @@ public class ConversionHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.CONVERTOR);
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.CONVERTOR),context.request().path());
         
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
-        info(LOGGER, " >>>>>>>> Before Conversion \n" + requestor.getData().encodePrettily());
         final UriModel uri = Extractor.uri(context);
         // 2.查找Convertors的数据
         final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
@@ -81,7 +80,6 @@ public class ConversionHandler implements Handler<RoutingContext> {
         if (this.requestDispatch(result, context, requestor)) {
             // SUCCESS -->
             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
-            info(LOGGER, " >>>>>>>> After Conversion \n" + requestor.getData().encodePrettily());
             context.next();
         }
     }

@@ -4,12 +4,9 @@ import static com.prayer.util.Instance.singleton;
 
 import com.prayer.assistant.RouterInjector;
 import com.prayer.constant.Constants;
-import com.prayer.handler.web.ConversionHandler;
 import com.prayer.handler.web.FailureHandler;
 import com.prayer.handler.web.RouterHandler;
 import com.prayer.handler.web.ServiceHandler;
-import com.prayer.handler.web.ValidationHandler;
-import com.prayer.handler.web.WrapperHandler;
 import com.prayer.vx.configurator.RouteConfigurator;
 import com.prayer.vx.configurator.ServerConfigurator;
 
@@ -58,12 +55,12 @@ public class RouterVerticle extends AbstractVerticle {
         final Router router = routeConfigurator.getRouter();
         // 3.根路径Router
         RouterInjector.injectWebDefault(router);
-
         // 4.AuthProvider创建
         RouterInjector.injectSecurity(router);
         
         // 5.最前端的URL处理
         injectStandard(router);
+        
         // 6.监听Cluster端口
         server.requestHandler(router::accept).listen();
     }
@@ -73,10 +70,9 @@ public class RouterVerticle extends AbstractVerticle {
 
     private void injectStandard(final Router router) {
         router.route(Constants.ROUTE.API).order(Constants.ORDER.ROUTER).handler(RouterHandler.create());
-        router.route(Constants.ROUTE.API).order(Constants.ORDER.VALIDATION).handler(ValidationHandler.create());
-        router.route(Constants.ROUTE.API).order(Constants.ORDER.CONVERTOR).handler(ConversionHandler.create());
+        // router.route(Constants.ROUTE.API).order(Constants.ORDER.VALIDATION).handler(ValidationHandler.create());
+        // router.route(Constants.ROUTE.API).order(Constants.ORDER.CONVERTOR).handler(ConversionHandler.create());
         router.route(Constants.ROUTE.API).order(Constants.ORDER.SERVICE).handler(ServiceHandler.create());
-        router.route(Constants.ROUTE.API).order(Constants.ORDER.WRAPPER).handler(WrapperHandler.create());
         // 7.Failure处理器设置
         router.route(Constants.ROUTE.API).order(Constants.ORDER.FAILURE).failureHandler(FailureHandler.create());
     }

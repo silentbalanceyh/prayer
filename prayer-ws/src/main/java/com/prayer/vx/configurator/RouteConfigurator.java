@@ -80,7 +80,7 @@ public class RouteConfigurator {
             result.getResult().values().forEach(routeList -> {
                 // 4.Sub Router调用
                 routeList.forEach(item -> {
-                    final Route route = this.configRouter(retRouter,item);
+                    final Route route = this.configRouter(retRouter, item);
                     retRouter.getRoutes().add(route);
                 });
             });
@@ -93,22 +93,24 @@ public class RouteConfigurator {
 
     private Route configRouter(final Router router, final RouteModel metadata) {
         // 2.初始化Route，设置Method
-        final Route route = initRoute(router, metadata);
+        Route route = initRoute(router, metadata);
         // 3.设置Order
         if (Constants.ORDER.NOT_SET != metadata.getOrder()) {
-            route.order(metadata.getOrder());
+            route = route.order(metadata.getOrder());
         }
         // 4.设置MIME
         if (null != metadata.getConsumerMimes() && !metadata.getConsumerMimes().isEmpty()) {
             for (final String mime : metadata.getConsumerMimes()) {
-                route.consumes(mime);
+                route = route.consumes(mime);
             }
         }
-        if (null != metadata.getProducerMimes() && !metadata.getProducerMimes().isEmpty()) {
-            for (final String mime : metadata.getProducerMimes()) {
-                route.produces(mime);
-            }
-        }
+        /* 
+         * Producer会影响Match的流程
+         * if (null != metadata.getProducerMimes() &&
+         * !metadata.getProducerMimes().isEmpty()) { for (final String mime :
+         * metadata.getProducerMimes()) { info(LOGGER, "[I-WEB] Produce -> " +
+         * mime + " : " + route); route = route.produces(mime); } }
+         */
         // 5.设置Handler
         this.registerHandler(route, metadata);
         return route;

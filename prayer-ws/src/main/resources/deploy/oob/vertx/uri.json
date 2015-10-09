@@ -10,7 +10,7 @@
         ]
     },
     {
-        "uri":"/api/util/unique/:identifier/:name/:value",
+        "uri":"/api/sec/util/unique/:identifier/:name/:value",
         "globalId":"RP$identifier",
         "script":"js.api.get.util.unique",
         "requiredParam":[

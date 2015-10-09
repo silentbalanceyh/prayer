@@ -1,7 +1,7 @@
 [
     {
         "name":"com.prayer.vx.verticle.RouterVerticle",
-        "instances":10,
+        "instances":1,
         "ha":true,
         "deployOrder":1
     },
@@ -13,14 +13,14 @@
     },
     {
         "name":"com.prayer.vx.verticle.RecordWorker",
-        "instances":10,
+        "instances":100,
         "ha":true,
         "worker":true,
         "deployOrder":1000
     },
     {
         "name":"com.prayer.vx.verticle.SecurityWorker",
-        "instances":10,
+        "instances":100,
         "ha":true,
         "worker":true,
         "deployOrder":1000

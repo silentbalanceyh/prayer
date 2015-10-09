@@ -18,7 +18,6 @@ import com.prayer.bus.std.DeployService;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.db.conn.MetadataConn;
-import com.prayer.handler.web.ConversionHandler;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.vx.configurator.ServerConfigurator;
 
@@ -36,7 +35,7 @@ public class H2DatabaseServer {
     // ~ Static Fields =======================================
 
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConversionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(H2DatabaseServer.class);
     /** **/
     private static final String DATABASE = "Database";
     /** **/

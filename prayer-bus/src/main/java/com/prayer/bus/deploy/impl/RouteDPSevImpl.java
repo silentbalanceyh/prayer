@@ -73,7 +73,7 @@ public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String>impleme
             }
             // Default MIME
             final List<String> mimes = new ArrayList<>();
-            mimes.add("*/json");
+            mimes.add("json");
             if (null == item.getConsumerMimes()){
                 item.setConsumerMimes(mimes);
             }

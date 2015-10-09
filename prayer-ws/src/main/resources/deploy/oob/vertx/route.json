@@ -3,39 +3,85 @@
         "parent":"/api",
         "path":"/sec/login",
         "requestHandler":"com.prayer.handler.standard.BasicAuthenticateHandler",
-        "order":-100
+        "order":-8000
     },
     {
         "parent":"/api",
-        "path":"/util/unique/:identifier/:name/:value",
-        "order":-10002
+        "path":"/sec/util/unique/:identifier/:name/:value",
+        "requestHandler":"com.prayer.handler.standard.PatternHandler",
+        "order":-11000
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/util/unique/:identifier/:name/:value",
+        "order":-8500,
+        "requestHandler":"com.prayer.handler.standard.ConversionHandler"
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/util/unique/:identifier/:name/:value",
+        "order":-8000
     },
     {
         "parent":"/api",
         "path":"/sec/account/:id",
-        "order":-10001
+        "requestHandler":"com.prayer.handler.standard.PatternHandler",
+        "order":-11000
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/account/:id",
+        "order":-8000
     },
     {
         "parent":"/api",
         "path":"/sec/account",
-        "order":-100
-    },
-    {
-        "parent":"/api",
-        "path":"/sec/account",
-        "method":"POST",
-        "order":-100
-    },
-    {
-        "parent":"/api",
-        "path":"/sec/account",
-        "method":"PUT",
-        "order":-100
+        "order":-8000
     },
     {
         "parent":"/api",
         "path":"/sec/account",
         "method":"DELETE",
-        "order":-100
+        "order":-8000
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/account",
+        "method":"POST",
+        "order":-8800,
+        "requestHandler":"com.prayer.handler.standard.ValidationHandler"
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/account",
+        "method":"POST",
+        "order":-8500,
+        "requestHandler":"com.prayer.handler.standard.ConversionHandler"
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/account",
+        "method":"POST",
+        "order":-8000
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/account",
+        "method":"PUT",
+        "order":-8800,
+        "requestHandler":"com.prayer.handler.standard.ValidationHandler"
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/account",
+        "method":"PUT",
+        "order":-8500,
+        "requestHandler":"com.prayer.handler.standard.ConversionHandler"
+    },
+    {
+        "parent":"/api",
+        "path":"/sec/account",
+        "method":"PUT",
+        "order":-8000
     }
 ]
