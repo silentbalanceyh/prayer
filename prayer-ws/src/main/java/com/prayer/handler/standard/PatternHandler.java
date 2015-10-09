@@ -51,8 +51,7 @@ public class PatternHandler implements Handler<RoutingContext> {
             if (0 <= start) {
                 info(LOGGER, "Replace Item : item.key = " + item.getKey() + ", item.value = " + item.getValue());
                 final int end = start + item.getValue().length();
-                path.replace(start, end, Constants.EMPTY_STR);
-                path.append(Symbol.COLON).append(item.getKey());
+                path.replace(start, end, Symbol.COLON + item.getKey());
             }
         }
         info(LOGGER, "Final URI = " + path);

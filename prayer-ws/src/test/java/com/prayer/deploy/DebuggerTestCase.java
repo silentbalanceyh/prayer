@@ -21,7 +21,7 @@ public class DebuggerTestCase {
     // ~ Methods =============================================
     @Test
     public void testSelect(){
-        final JsonObject params = new JsonObject("{\"identifier\":\"sec.account\",\"filters\":[\"password\"],\"method\":\"GET\",\"data\":{},\"script\":\"js.api.get.sec.account\"}");
+        final JsonObject params = new JsonObject("{\"identifier\":\"RP$identifier\",\"filters\":[],\"method\":\"GET\",\"data\":{\"name\":\"username\",\"identifier\":\"sec.account\",\"value\":\"lang.yu\"},\"script\":\"js.api.get.util.unique\"}");
         ServiceResult<JsonArray> ret = service.find(params);
         System.out.println(ret.getResult().encode());
     }

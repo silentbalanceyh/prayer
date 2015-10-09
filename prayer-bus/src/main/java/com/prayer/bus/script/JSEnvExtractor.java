@@ -56,7 +56,7 @@ public final class JSEnvExtractor {
     private String getJsByName(final String scriptName){
         final ServiceResult<ScriptModel> script = this.configSev.findScript(scriptName);
         String ret = "";
-        if (ResponseCode.SUCCESS == script.getResponseCode()) {
+        if (ResponseCode.SUCCESS == script.getResponseCode() && null != script.getResult()) {
             ret = script.getResult().getContent();
         }
         return ret;

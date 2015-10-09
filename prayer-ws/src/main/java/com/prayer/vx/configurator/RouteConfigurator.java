@@ -81,6 +81,7 @@ public class RouteConfigurator {
                 // 4.Sub Router调用
                 routeList.forEach(item -> {
                     final Route route = this.configRouter(retRouter, item);
+                    info(LOGGER,"[I-WEB] Route = " + route);
                     retRouter.getRoutes().add(route);
                 });
             });

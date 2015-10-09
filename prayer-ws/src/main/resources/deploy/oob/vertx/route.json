@@ -9,7 +9,7 @@
         "parent":"/api",
         "path":"/sec/util/unique/:identifier/:name/:value",
         "requestHandler":"com.prayer.handler.standard.PatternHandler",
-        "order":-11000
+        "order":-11001
     },
     {
         "parent":"/api",
@@ -26,7 +26,7 @@
         "parent":"/api",
         "path":"/sec/account/:id",
         "requestHandler":"com.prayer.handler.standard.PatternHandler",
-        "order":-11000
+        "order":-11002
     },
     {
         "parent":"/api",
