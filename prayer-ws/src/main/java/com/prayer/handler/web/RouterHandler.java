@@ -76,12 +76,13 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
      */
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.ROUTER),context.request().path());
+        final String path = Extractor.path(context);
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.ROUTER),path);
         // 1.获取请求Request和相应Response引用
         final Requestor requestor = Extractor.requestor(context);
         final HttpServerRequest request = context.request();
         // 2.从系统中按URI读取接口规范
-        final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(context.get(Constants.KEY.CTX_FINAL_URL));
+        final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(path);
         // 3.请求转发，去除掉Error过后的信息
         if (Dispatcher.requestDispatch(getClass(), result, context)) {
             // SUCCESS -->

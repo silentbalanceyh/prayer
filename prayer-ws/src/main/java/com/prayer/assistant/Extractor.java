@@ -94,6 +94,16 @@ public final class Extractor {
         return ret;
     }
 
+    /**
+     * 
+     * @param context
+     * @return
+     */
+    public static String path(@NotNull final RoutingContext context) {
+        return null == context.get(Constants.KEY.CTX_FINAL_URL) ? context.request().path()
+                : context.get(Constants.KEY.CTX_FINAL_URL);
+    }
+
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

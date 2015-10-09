@@ -14,6 +14,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.util.Encryptor;
+import com.prayer.util.StringKit;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
@@ -188,7 +189,11 @@ public final class Requestor implements Serializable, ClusterSerializable {
                     // 3.Token内容
                     this.token.put(JsonKey.TOKEN.SCHEMA, schema);
                     this.token.put(JsonKey.TOKEN.USERNAME, username);
-                    this.token.put(JsonKey.TOKEN.PASSWORD, Encryptor.encryptMD5(password));
+                    if(StringKit.isNil(password)){
+                        this.token.put(JsonKey.TOKEN.PASSWORD, Constants.EMPTY_STR);
+                    }else{
+                        this.token.put(JsonKey.TOKEN.PASSWORD, Encryptor.encryptMD5(password));
+                    }
                     // 4.设置
                     this.response.put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.SUCCESS);
                     this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.OK.status());

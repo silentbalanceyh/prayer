@@ -60,7 +60,6 @@ public class RouterVerticle extends AbstractVerticle {
         
         // 5.最前端的URL处理
         injectStandard(router);
-        
         // 6.监听Cluster端口
         server.requestHandler(router::accept).listen();
     }

@@ -56,7 +56,8 @@ public class PatternHandler implements Handler<RoutingContext> {
             }
         }
         info(LOGGER, "Final URI = " + path);
-        context.put(Constants.KEY.CTX_FINAL_URL, path);
+        // 注意放入到Context中的数据类型，path即使是StringBuilder的类型，但也会导致ClassCastException的异常
+        context.put(Constants.KEY.CTX_FINAL_URL, path.toString());
         context.next();
     }
     // ~ Methods =============================================
