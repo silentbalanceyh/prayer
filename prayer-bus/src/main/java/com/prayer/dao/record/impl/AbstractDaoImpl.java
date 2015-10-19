@@ -29,6 +29,7 @@ import com.prayer.exception.metadata.PolicyConflictCallException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
+import com.prayer.kernel.query.OrderBy;
 import com.prayer.model.h2.FieldModel;
 
 import net.sf.oval.constraint.MinSize;
@@ -185,7 +186,27 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
         // 1.获取JDBC访问器
         final JdbcContext jdbc = this.getContext(record.identifier());
         // 2.生成SQL语句
-        final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters);
+        final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters, null);
+        // 3.根据参数表生成查询结果集
+        final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
+        return SqlHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), cols));
+    }
+    /**
+     * 生成查询结果集
+     * @param record
+     * @param columns
+     * @param params
+     * @param filters
+     * @param orders
+     * @return
+     * @throws AbstractMetadataException
+     */
+    protected List<Record> sharedSelect(@NotNull final Record record, @NotNull @MinSize(0) final String[] columns,
+            final List<Value<?>> params, final Expression filters, final OrderBy orders) throws AbstractMetadataException {
+        // 1.获取JDBC访问器
+        final JdbcContext jdbc = this.getContext(record.identifier());
+        // 2.生成SQL语句
+        final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters, orders);
         // 3.根据参数表生成查询结果集
         final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
         return SqlHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), cols));

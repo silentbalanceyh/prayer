@@ -14,6 +14,7 @@ import com.prayer.exception.metadata.MoreThanOneException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
+import com.prayer.kernel.query.OrderBy;
 import com.prayer.model.h2.FieldModel;
 
 import net.sf.oval.constraint.MinSize;
@@ -105,6 +106,13 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
     public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinSize(0) final String[] columns,
             final List<Value<?>> params, final Expression filters) throws AbstractMetadataException {
         return super.sharedSelect(record, columns, params, filters);
+    }
+    
+    /** **/
+    @Override
+    public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinSize(0) final String[] columns,
+            final List<Value<?>> params, final Expression filters, final OrderBy orders) throws AbstractMetadataException {
+        return super.sharedSelect(record, columns, params, filters, orders);
     }
 
     /**

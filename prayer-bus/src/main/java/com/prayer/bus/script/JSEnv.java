@@ -9,6 +9,7 @@ import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
+import com.prayer.kernel.query.OrderBy;
 /**
  * 
  * @author Lang
@@ -25,6 +26,8 @@ public class JSEnv implements Serializable{
     private transient Expression expr;
     /** Record 记录引用 **/
     private transient Record record;
+    /** Order 表达式引用 **/
+    private transient OrderBy order = new OrderBy();
     /** Values **/
     private transient List<Value<?>> values = new ArrayList<>();
     // ~ Static Block ========================================
@@ -47,7 +50,20 @@ public class JSEnv implements Serializable{
         }
         return refR;
     }
-
+    /**
+     * 
+     * @param order
+     */
+    public void setOrder(final OrderBy order){
+    	this.order = order;
+    }
+    /** 
+     * 
+     * @return
+     */
+    public OrderBy getOrder(){
+    	return this.order;
+    }
     /**
      * @param record the record to set
      */

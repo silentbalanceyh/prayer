@@ -110,7 +110,20 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 	public ServiceResult<JsonArray> page(@NotNull final JsonObject jsonObject) {
 		info(LOGGER, BusLogger.I_PARAM_INFO, "POST - Query", jsonObject.encode());
 		ServiceResult<JsonArray> ret = new ServiceResult<>();
-		final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+		AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+		if (null == error) {
+			// Page特殊参数
+			error = Interruptor.interruptPageParams(getClass(), jsonObject);
+			if (null == error) {
+				
+			} else {
+				// Page特殊参数缺失
+				ret.setResponse(null, error);
+			}
+		} else {
+			// 通用参数缺失
+			ret.setResponse(null, error);
+		}
 		return ret;
 	}
 	// ~ Methods =============================================

@@ -83,7 +83,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.AUTH);
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.AUTH, context.request().path());
         /**
          * 1.根据Error设置相应，唯一特殊的情况是Basic认证是Body的参数方式，
          * 但其参数信息是在processAuth的过程填充到系统里的， 一旦出现了com.prayer.exception.web.
