@@ -35,4 +35,11 @@ public interface RecordService {
      * @return
      */
     ServiceResult<JsonArray> find(JsonObject jsonObject);
+    // ===========================================================
+    /**
+     * POST：特殊查询接口，分页列表带排序查询
+     * @param jsonObject
+     * @return
+     */
+    ServiceResult<JsonArray> page(JsonObject jsonObject);
 }

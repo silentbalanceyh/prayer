@@ -7,5 +7,9 @@
         "workClass":"com.prayer.vx.verticle.SecurityWorker",
         "consumerAddr":"MSG://SECURITY/QUEUE",
         "consumerHandler":"com.prayer.uca.consumer.BasicAuthConsumer"
+    },{
+    	"workClass":"com.prayer.vx.verticle.PagerWorker",
+        "consumerAddr":"MSG://RECORD/PAGER/QUEUE",
+        "consumerHandler":"com.prayer.uca.consumer.QueryConsumer"
     }
 ]

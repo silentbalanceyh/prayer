@@ -20,6 +20,10 @@
         "namespace":"engine.script.sec.account"
     },
     {
+    	"name":"js.api.post.sec.account.page",
+    	"namespace":"engine.script.sec.account"
+    },
+    {
         "name":"js.api.get.sec.login",
         "namespace":"engine.script.sec.basic"
     },

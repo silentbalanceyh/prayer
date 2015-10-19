@@ -19,6 +19,13 @@
         "deployOrder":1000
     },
     {
+        "name":"com.prayer.vx.verticle.PagerWorker",
+        "instances":100,
+        "ha":true,
+        "worker":true,
+        "deployOrder":1000
+    },
+    {
         "name":"com.prayer.vx.verticle.SecurityWorker",
         "instances":100,
         "ha":true,

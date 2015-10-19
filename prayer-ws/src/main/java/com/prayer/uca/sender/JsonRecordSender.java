@@ -1,6 +1,12 @@
 package com.prayer.uca.sender;
 
+import static com.prayer.assistant.WebLogger.info;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.prayer.assistant.Future;
+import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
 import com.prayer.model.web.Responsor;
 import com.prayer.model.web.StatusCode;
@@ -24,6 +30,8 @@ import net.sf.oval.guard.PreValidateThis;
 @Guarded
 public final class JsonRecordSender implements Handler<AsyncResult<Message<Object>>> {
     // ~ Static Fields =======================================
+	/** **/
+	private static final Logger LOGGER = LoggerFactory.getLogger(JsonRecordSender.class);
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
@@ -46,6 +54,7 @@ public final class JsonRecordSender implements Handler<AsyncResult<Message<Objec
     @Override
     @PreValidateThis
     public void handle(@NotNull final AsyncResult<Message<Object>> event) {
+		info(LOGGER,WebLogger.I_COMMON_INFO,"Sender --> " + getClass().toString());
         if (event.succeeded()) {
             final String data = event.result().body().toString();
 
