@@ -22,7 +22,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public final class RecordObjectSender implements Handler<AsyncResult<Message<Object>>> {
+public final class JsonRecordSender implements Handler<AsyncResult<Message<Object>>> {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -36,7 +36,7 @@ public final class RecordObjectSender implements Handler<AsyncResult<Message<Obj
      * 
      * @param response
      */
-    public RecordObjectSender(final HttpServerResponse response) {
+    public JsonRecordSender(final HttpServerResponse response) {
         this.response = response;
     }
 
