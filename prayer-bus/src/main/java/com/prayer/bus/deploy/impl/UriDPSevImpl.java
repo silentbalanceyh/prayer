@@ -84,7 +84,7 @@ public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String>implements 
                 item.setRequiredParam(emptyArr);
             }
             if (null == item.getSender()){
-                item.setSender("com.prayer.handler.message.RecordObjectSender");
+                item.setSender("com.prayer.uca.sender.RecordObjectSender");
             }
             if (null == item.getScript()) {
                 final StringBuilder script = new StringBuilder();

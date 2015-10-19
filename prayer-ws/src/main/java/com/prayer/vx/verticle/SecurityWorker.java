@@ -5,9 +5,9 @@ import static com.prayer.util.Instance.singleton;
 import com.prayer.bus.deploy.oob.ConfigSevImpl;
 import com.prayer.bus.std.ConfigService;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.handler.message.BasicAuthConsumer;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.AddressModel;
+import com.prayer.uca.consumer.BasicAuthConsumer;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;

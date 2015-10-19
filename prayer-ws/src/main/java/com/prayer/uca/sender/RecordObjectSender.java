@@ -1,4 +1,4 @@
-package com.prayer.handler.message;
+package com.prayer.uca.sender;
 
 import com.prayer.assistant.Future;
 import com.prayer.constant.Constants;
