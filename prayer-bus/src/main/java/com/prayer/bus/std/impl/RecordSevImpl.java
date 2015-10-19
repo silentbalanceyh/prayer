@@ -115,7 +115,16 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 			// Page特殊参数
 			error = Interruptor.interruptPageParams(getClass(), jsonObject);
 			if (null == error) {
-				
+				try {
+					ret = this.sharedFind(jsonObject);
+					info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
+				} catch (ScriptException ex) {
+					error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+					ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
+				} catch (AbstractException ex) {
+					error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
+					ret.setResponse(null, ex);
+				}
 			} else {
 				// Page特殊参数缺失
 				ret.setResponse(null, error);

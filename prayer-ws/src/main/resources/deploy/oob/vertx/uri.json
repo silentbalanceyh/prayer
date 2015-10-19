@@ -45,7 +45,7 @@
 		"address":"MSG://RECORD/PAGER/QUEUE",
 		"requiredParam":[
 			"page",
-			"order"
+			"orders"
 		],
 		"returnFilters":[
 			"password"

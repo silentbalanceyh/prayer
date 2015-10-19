@@ -31,10 +31,11 @@ public final class Interruptor {
 			@NotNull final JsonObject jsonObject) {
 		AbstractException error = null;
 		try {
-			if (!jsonObject.containsKey(Constants.PARAM.PAGE.NAME)) {
+			final JsonObject data = jsonObject.getJsonObject(Constants.PARAM.DATA);
+			if (!data.containsKey(Constants.PARAM.PAGE.NAME)) {
 				error = new ServiceParamMissingException(clazz, Constants.PARAM.PAGE.NAME);
 			} else {
-				final JsonObject page = jsonObject.getJsonObject(Constants.PARAM.PAGE.NAME);
+				final JsonObject page = data.getJsonObject(Constants.PARAM.PAGE.NAME);
 				if (!(page.containsKey(Constants.PARAM.PAGE.PAGE_INDEX)
 						&& page.containsKey(Constants.PARAM.PAGE.PAGE_SIZE))) {
 					if (!page.containsKey(Constants.PARAM.PAGE.PAGE_INDEX)) {
@@ -42,9 +43,11 @@ public final class Interruptor {
 								Constants.PARAM.PAGE.NAME + "->" + Constants.PARAM.PAGE.PAGE_INDEX);
 					}else if(!page.containsKey(Constants.PARAM.PAGE.PAGE_SIZE)){
 						error = new ServiceParamMissingException(clazz,
-								Constants.PARAM.PAGE.NAME + "->" + Constants.PARAM.PAGE.PAGE_INDEX);
+								Constants.PARAM.PAGE.NAME + "->" + Constants.PARAM.PAGE.PAGE_SIZE);
 					}
 				}
+				page.getInteger(Constants.PARAM.PAGE.PAGE_INDEX);
+				page.getInteger(Constants.PARAM.PAGE.PAGE_SIZE);
 			}
 		} catch (ClassCastException ex) {
 			// TODO: Debug

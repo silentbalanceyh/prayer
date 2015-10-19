@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.assistant.Future;
 import com.prayer.assistant.WebLogger;
 import com.prayer.constant.Constants;
+import com.prayer.model.web.JsonKey.RESPONSOR;
 import com.prayer.model.web.Responsor;
 import com.prayer.model.web.StatusCode;
 
@@ -29,62 +30,76 @@ import net.sf.oval.guard.PreValidateThis;
  */
 @Guarded
 public final class JsonRecordSender implements Handler<AsyncResult<Message<Object>>> {
-    // ~ Static Fields =======================================
+	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(JsonRecordSender.class);
-    // ~ Instance Fields =====================================
-    /** **/
-    @NotNull
-    private transient final HttpServerResponse response;
+	// ~ Instance Fields =====================================
+	/** **/
+	@NotNull
+	private transient final HttpServerResponse response;
 
-    // ~ Static Block ========================================
-    // ~ Static Methods ======================================
-    // ~ Constructors ========================================
-    /**
-     * 
-     * @param response
-     */
-    public JsonRecordSender(final HttpServerResponse response) {
-        this.response = response;
-    }
+	// ~ Static Block ========================================
+	// ~ Static Methods ======================================
+	// ~ Constructors ========================================
+	/**
+	 * 
+	 * @param response
+	 */
+	public JsonRecordSender(final HttpServerResponse response) {
+		this.response = response;
+	}
 
-    // ~ Abstract Methods ====================================
-    // ~ Override Methods ====================================
-    /** **/
-    @Override
-    @PreValidateThis
-    public void handle(@NotNull final AsyncResult<Message<Object>> event) {
-		info(LOGGER,WebLogger.I_COMMON_INFO,"Sender --> " + getClass().toString());
-        if (event.succeeded()) {
-            final String data = event.result().body().toString();
+	// ~ Abstract Methods ====================================
+	// ~ Override Methods ====================================
+	/** **/
+	@Override
+	@PreValidateThis
+	public void handle(@NotNull final AsyncResult<Message<Object>> event) {
+		info(LOGGER, WebLogger.I_COMMON_INFO, "Sender --> " + getClass().toString());
+		if (event.succeeded()) {
+			final String data = event.result().body().toString();
 
-            final Responsor ret = responsor(data);
+			final Responsor ret = responsor(data);
+			// Return Service Error ?
+			if (null == ret.getError()) {
+				Future.success(this.response, ret.getResult().encode());
+			} else {
+				Future.failure(response, ret.getError(StatusCode.INTERNAL_SERVER_ERROR, new JsonObject(data)).encode(),
+						StatusCode.INTERNAL_SERVER_ERROR.status(), StatusCode.INTERNAL_SERVER_ERROR.name());
+			}
+		} else {
+			if (null != event.result()) {
+				Future.failure(this.response, event.result().body().toString(),
+						StatusCode.INTERNAL_SERVER_ERROR.status(), StatusCode.INTERNAL_SERVER_ERROR.name());
+			} else {
+				Future.failure(this.response, "event.result() == null", StatusCode.INTERNAL_SERVER_ERROR.status(),
+						StatusCode.INTERNAL_SERVER_ERROR.name());
+			}
+		}
+	}
+	// ~ Methods =============================================
+	// ~ Private Methods =====================================
 
-            Future.success(this.response, ret.getResult().encode());
-        } else {
-            Future.failure(this.response, event.result().body().toString(), StatusCode.INTERNAL_SERVER_ERROR.status(),
-                    StatusCode.INTERNAL_SERVER_ERROR.name());
-        }
-    }
-    // ~ Methods =============================================
-    // ~ Private Methods =====================================
-
-    private Responsor responsor(final String content) {
-        // 1.Json Object
-        Responsor responsor = null;
-        if (StringUtil.equals(Constants.EMPTY_JARR, content)) {
-            responsor = Responsor.success(new JsonArray());
-        } else if (StringUtil.equals(Constants.EMPTY_JOBJ, content)) {
-            responsor = Responsor.success(new JsonObject());
-        } else if (StringUtil.startsWithChar(content,'{')){
-            JsonObject data = new JsonObject(content);
-            responsor = Responsor.success(data);
-        }else if(StringUtil.startsWithChar(content, '[')){
-            JsonArray data = new JsonArray(content);
-            responsor = Responsor.success(data);
-        }
-        return responsor;
-    }
-    // ~ Get/Set =============================================
-    // ~ hashCode,equals,toString ============================
+	private Responsor responsor(final String content) {
+		// 1.Json Object
+		Responsor responsor = null;
+		if (StringUtil.equals(Constants.EMPTY_JARR, content)) {
+			responsor = Responsor.success(new JsonArray());
+		} else if (StringUtil.equals(Constants.EMPTY_JOBJ, content)) {
+			responsor = Responsor.success(new JsonObject());
+		} else if (StringUtil.startsWithChar(content, '{')) {
+			JsonObject data = new JsonObject(content);
+			if (data.containsKey(RESPONSOR.ERROR.NAME)) {
+				responsor = Responsor.serviceError(getClass());
+			} else {
+				responsor = Responsor.success(data);
+			}
+		} else if (StringUtil.startsWithChar(content, '[')) {
+			JsonArray data = new JsonArray(content);
+			responsor = Responsor.success(data);
+		}
+		return responsor;
+	}
+	// ~ Get/Set =============================================
+	// ~ hashCode,equals,toString ============================
 }
