@@ -13,6 +13,8 @@ import com.prayer.bus.std.RecordService;
 import com.prayer.bus.std.impl.RecordSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.web.Responsor;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
@@ -52,13 +54,13 @@ public final class QueryConsumer implements Handler<Message<Object>> {
 	@Override
 	@PreValidateThis
 	public void handle(@NotNull final Message<Object> event) {
-		info(LOGGER,WebLogger.I_COMMON_INFO,"Consumer --> " + getClass().toString());
+		info(LOGGER, WebLogger.I_COMMON_INFO, "Consumer --> " + getClass().toString());
 		// 1.从EventBus中接受数据
 		final JsonObject params = (JsonObject) event.body();
 		// 2.获取方法信息
 		final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM.METHOD));
 		// 3.根据不同的方法的Record
-		String content = null;
+		Responsor content = null;
 		switch (method) {
 		// 只有POST方法才能触发这种分页的信息
 		case POST: {
@@ -66,7 +68,7 @@ public final class QueryConsumer implements Handler<Message<Object>> {
 		}
 			break;
 		default: {
-			content = Constants.EMPTY_JOBJ;
+			content = null;
 		}
 			break;
 		}
@@ -75,9 +77,9 @@ public final class QueryConsumer implements Handler<Message<Object>> {
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
 
-	private String page(final JsonObject params) {
+	private Responsor page(final JsonObject params) {
 		final ServiceResult<JsonArray> result = this.recordSev.page(params);
-		return Extractor.getContent(result);
+		return Extractor.responsor(result, StatusCode.OK);
 	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================

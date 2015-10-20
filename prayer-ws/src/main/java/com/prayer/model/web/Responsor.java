@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.constant.SystemEnum.ReturnType;
-import com.prayer.exception.AbstractWebException;
+import com.prayer.exception.AbstractException;
 import com.prayer.exception.web.InternalServerErrorException;
 
 import io.vertx.core.buffer.Buffer;
@@ -32,7 +32,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
 	/** HTTP状态代码 **/
 	private transient StatusCode status;
 	/** 抽象Web异常信息 **/
-	private transient AbstractWebException error;
+	private transient AbstractException error;
 	/** 返回类型信息 **/
 	private transient ReturnType retType;
 	/** 最终返回数据信息 **/
@@ -71,7 +71,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
 	 * @param error
 	 * @return
 	 */
-	public static Responsor error(@NotNull final AbstractWebException error) {
+	public static Responsor error(@NotNull final AbstractException error) {
 		return failure(StatusCode.INTERNAL_SERVER_ERROR, error, error.getErrorMessage());
 	}
 
@@ -80,7 +80,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
 	 * @return
 	 */
 	public static Responsor serviceError(@NotNull final Class<?> clazz) {
-		final AbstractWebException error = new InternalServerErrorException(clazz);
+		final AbstractException error = new InternalServerErrorException(clazz);
 		return failure(StatusCode.INTERNAL_SERVER_ERROR, error, error.getErrorMessage());
 	}
 
@@ -90,7 +90,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
 	 * @param error
 	 * @return
 	 */
-	public static Responsor failure(@NotNull final StatusCode status, @NotNull final AbstractWebException error) {
+	public static Responsor failure(@NotNull final StatusCode status, @NotNull final AbstractException error) {
 		return failure(status, error, error.getErrorMessage());
 	}
 
@@ -101,7 +101,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
 	 * @param display
 	 * @return
 	 */
-	public static Responsor failure(@NotNull final StatusCode status, @NotNull final AbstractWebException error,
+	public static Responsor failure(@NotNull final StatusCode status, @NotNull final AbstractException error,
 			final String display) {
 		final Responsor err = new Responsor(error);
 		err.setDisplay(status, error, display);
@@ -113,7 +113,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
 	 * 
 	 * @param error
 	 */
-	private Responsor(final AbstractWebException error) {
+	private Responsor(final AbstractException error) {
 		this.retType = ReturnType.ERROR;
 		this.status = StatusCode.INTERNAL_SERVER_ERROR;
 		this.error = error;
@@ -241,7 +241,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
 	 * 
 	 * @return
 	 */
-	public AbstractWebException getError() {
+	public AbstractException getError() {
 		return this.error;
 	}
 
@@ -251,7 +251,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
 	 * 
 	 * @param display
 	 */
-	private void setDisplay(final StatusCode status, final AbstractWebException error, final String display) {
+	private void setDisplay(final StatusCode status, final AbstractException error, final String display) {
 		// 三个基本信息的设置
 		if (null == display) {
 			this.display = error.getErrorMessage();

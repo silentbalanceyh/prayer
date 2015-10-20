@@ -56,8 +56,7 @@ public class ConfigSevImpl implements ConfigService {
     public ServiceResult<VerticleChain> findVerticles(@NotNull @NotBlank @NotEmpty final String group) {
         final ServiceResult<VerticleChain> result = new ServiceResult<>();
         final VerticleChain chain = this.manager.getVerticleDao().getByGroup(group);
-        result.setResponse(chain, null);
-        return result;
+        return result.success(chain);
     }
 
     /** 读取数据库中所有的VerticleModel配置信息 **/
@@ -68,10 +67,8 @@ public class ConfigSevImpl implements ConfigService {
         final ServiceResult<ConcurrentMap<String, VerticleChain>> result = new ServiceResult<>();
         // 2.读取所有的VerticleModel相关信息
         final List<VerticleModel> verticles = this.manager.getVerticleDao().getAll();
-        // 3.设置返回结果
-        result.setResponse(ResultExtractor.extractVerticles(verticles), null);
-        // 4.返回最终结果
-        return result;
+        // 3.返回最终结果
+        return result.success(ResultExtractor.extractVerticles(verticles));
     }
 
     /** 读取主路由下的子路由 **/
@@ -82,10 +79,8 @@ public class ConfigSevImpl implements ConfigService {
         final ServiceResult<List<RouteModel>> result = new ServiceResult<>();
         // 2.读取所有的RouteMode相关信息
         final List<RouteModel> routes = this.manager.getRouteDao().getByParent(parent);
-        // 3.设置返回结果
-        result.setResponse(routes, null);
-        // 4.返回最终结果
-        return result;
+        // 3.返回最终结果
+        return result.success(routes);
     }
 
     /** 读取所有路由信息 **/
@@ -98,9 +93,8 @@ public class ConfigSevImpl implements ConfigService {
         final List<RouteModel> routes = this.manager.getRouteDao().getAll();
         // 3.设置返回结果
         final ConcurrentMap<String, List<RouteModel>> listRet = ResultExtractor.extractList(routes, "parent");
-        result.setResponse(listRet, null);
         // 4.返回最终结果
-        return result;
+        return result.success(listRet);
     }
 
     /** **/
@@ -113,8 +107,7 @@ public class ConfigSevImpl implements ConfigService {
         final List<UriModel> ret = this.manager.getUriDao().getByUri(uri);
         // 3.设置响应信息
         final ConcurrentMap<HttpMethod, UriModel> retMap = ResultExtractor.extractUris(ret);
-        result.setResponse(retMap, null);
-        return result;
+        return result.success(retMap);
     }
 
     /** **/
@@ -130,8 +123,7 @@ public class ConfigSevImpl implements ConfigService {
         ret = ret.stream().filter(item -> ComponentType.VALIDATOR == item.getComponentType())
                 .collect(Collectors.toList());
         final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
-        result.setResponse(listRet, null);
-        return result;
+        return result.success(listRet);
     }
 
     /** **/
@@ -147,8 +139,7 @@ public class ConfigSevImpl implements ConfigService {
         ret = ret.stream().filter(item -> ComponentType.CONVERTOR == item.getComponentType())
                 .collect(Collectors.toList());
         final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
-        result.setResponse(listRet, null);
-        return result;
+        return result.success(listRet);
     }
 
     /** **/
@@ -160,8 +151,7 @@ public class ConfigSevImpl implements ConfigService {
         // 2.调用读取方法
         final AddressModel ret = this.manager.getAddressDao().getByClass(workClass.getName());
         // 3.设置最终响应结果
-        result.setResponse(ret, null);
-        return result;
+        return result.success(ret);
     }
 
     /** **/
@@ -173,8 +163,7 @@ public class ConfigSevImpl implements ConfigService {
         // 2.调用读取方法
         final ScriptModel ret = this.manager.getScriptDao().getByName(name);
         // 3.设置最终响应结果
-        result.setResponse(ret, null);
-        return result;
+        return result.success(ret);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

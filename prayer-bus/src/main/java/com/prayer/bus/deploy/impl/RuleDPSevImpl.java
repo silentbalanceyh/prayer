@@ -80,7 +80,7 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
             dataList = this.readJson(jsonPath);
         } catch (AbstractSystemException ex) {
             info(getLogger(), "SYS.KIT.SER", ex);
-            result.setResponse(null, ex);
+            result.error(ex);
         }
         try {
             // 3.设置RefID的值
@@ -92,12 +92,12 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
             }
         } catch (AbstractTransactionException ex) {
             info(getLogger(), "SYS.KIT.DP", ex);
-            result.setResponse(null, ex);
+            result.error(ex);
         }
         // 4.返回最终的Result信息
         if (ResponseCode.SUCCESS == result.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {
             final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(dataList, "refUriId");
-            result.setResponse(listRet, null);
+            result.success(listRet);
         }
         return result;
     }

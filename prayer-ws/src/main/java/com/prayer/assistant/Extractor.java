@@ -6,6 +6,8 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
+import com.prayer.model.web.Responsor;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -85,6 +87,29 @@ public final class Extractor {
 			str = error.encode();
 		}
 		return str;
+	}
+
+	/**
+	 * 
+	 * @param sevRets
+	 * @return
+	 */
+	public static Responsor responsor(@NotNull final ServiceResult<?> sevRets, @NotNull final StatusCode status) {
+		Responsor ret = null;
+		if (ResponseCode.SUCCESS == sevRets.getResponseCode()) {
+			if (null != sevRets.getResult()) {
+				if (sevRets.getResult() instanceof JsonObject) {
+					ret = Responsor.success((JsonObject) sevRets.getResult());
+				}else if(sevRets.getResult() instanceof JsonArray){
+					ret = Responsor.success((JsonArray)sevRets.getResult());
+				}
+			}
+		} else if (ResponseCode.FAILURE == sevRets.getResponseCode()) {
+			ret = Responsor.failure(status, sevRets.getServiceError());
+		} else {
+			ret = Responsor.error(sevRets.getServiceError());
+		}
+		return ret;
 	}
 
 	/**

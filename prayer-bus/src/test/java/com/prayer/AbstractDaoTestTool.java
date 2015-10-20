@@ -66,7 +66,7 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
 
     /** 从Json到H2并且读取Metadata同步到对应数据库 **/
     protected ServiceResult<GenericSchema> syncMetadata(final String filePath, final String identifier) {
-        ServiceResult<GenericSchema> finalRet = new ServiceResult<>(null, null);
+        ServiceResult<GenericSchema> finalRet = new ServiceResult<>();
         if (this.isValidDB()) {
             // 基础数据
             final ServiceResult<GenericSchema> syncRet = this.getService().syncSchema(DAO_DATA_PATH + filePath);

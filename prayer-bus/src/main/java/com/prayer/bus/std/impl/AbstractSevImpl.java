@@ -94,7 +94,7 @@ public abstract class AbstractSevImpl {
 		}
 		// 4. 根据Filters的内容过滤属性
 		this.extractor.filterRecord(retJson, jsonObject);
-		ret.setResult(retJson);
+		ret.success(retJson);
 		return ret;
 	}
 
@@ -108,7 +108,7 @@ public abstract class AbstractSevImpl {
 		initJSEnv(jsonObject, record);
 		// 3. 删除当前记录
 		boolean deleted = this.recordDao.delete(record);
-		ret.setResult(new JsonObject().put("DELETED", deleted));
+		ret.success(new JsonObject().put("DELETED", deleted));
 		return ret;
 	}
 
@@ -144,7 +144,7 @@ public abstract class AbstractSevImpl {
 			this.extractor.filterRecord(retJson, jsonObject);
 			retArray.add(retJson);
 		}
-		ret.setResult(retArray);
+		ret.success(retArray);
 		return ret;
 	}
 

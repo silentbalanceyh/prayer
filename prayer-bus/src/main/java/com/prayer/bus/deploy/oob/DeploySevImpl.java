@@ -70,8 +70,8 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
         final boolean executedRet = this.metaConn.initMeta(IOKit.getFile(scriptPath));
         // 2.设置相应信息
         final ServiceResult<Boolean> ret = new ServiceResult<>();
-        ret.setResponse(executedRet, null);
-        return ret;
+
+        return ret.success(executedRet);
     }
 
     /**
@@ -160,10 +160,14 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
         }
         // 最终结果
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            result.setResponse(Boolean.TRUE, null);
+            result.success(Boolean.TRUE);
         } else {
             final AbstractException exp = new DeploymentException(getClass());
-            result.setResponse(Boolean.FALSE, exp);
+            if(ResponseCode.ERROR == ret.getResponseCode()){
+            	result.error(exp);
+            }else{
+            	result.failure(exp);
+            }
             error(LOGGER, BusLogger.E_DPDATA_ERR);
         }
         return result;

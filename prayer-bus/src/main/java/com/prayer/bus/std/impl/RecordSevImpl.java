@@ -64,13 +64,13 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 				info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
 			} catch (ScriptException ex) {
 				error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
-				ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
+				ret.error(new JSScriptEngineException(getClass(), ex.toString()));
 			} catch (AbstractException ex) {
 				error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
-				ret.setResponse(null, ex);
+				ret.error(ex);
 			}
 		} else {
-			ret.setResponse(null, error);
+			ret.failure(error);
 		}
 		return ret;
 	}
@@ -94,13 +94,13 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 				info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
 			} catch (ScriptException ex) {
 				error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
-				ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
+				ret.error(new JSScriptEngineException(getClass(), ex.toString()));
 			} catch (AbstractException ex) {
 				error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
-				ret.setResponse(null, ex);
+				ret.error(ex);
 			}
 		} else {
-			ret.setResponse(null, error);
+			ret.failure(error);
 		}
 		return ret;
 	}
@@ -120,18 +120,18 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 					info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
 				} catch (ScriptException ex) {
 					error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
-					ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
+					ret.error(new JSScriptEngineException(getClass(), ex.toString()));
 				} catch (AbstractException ex) {
 					error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
-					ret.setResponse(null, ex);
+					ret.error(ex);
 				}
 			} else {
 				// Page特殊参数缺失
-				ret.setResponse(null, error);
+				ret.failure(error);
 			}
 		} else {
 			// 通用参数缺失
-			ret.setResponse(null, error);
+			ret.failure(error);
 		}
 		return ret;
 	}
@@ -147,13 +147,13 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 				info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
 			} catch (ScriptException ex) {
 				error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
-				ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
+				ret.error(new JSScriptEngineException(getClass(), ex.toString()));
 			} catch (AbstractException ex) {
 				error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
-				ret.setResponse(null, ex);
+				ret.error(ex);
 			}
 		} else {
-			ret.setResponse(null, error);
+			ret.failure(error);
 		}
 		return ret;
 	}
