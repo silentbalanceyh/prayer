@@ -4,9 +4,10 @@ import static com.prayer.bus.util.BusLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.script.ScriptException;
 
@@ -26,6 +27,7 @@ import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.query.OrderBy;
+import com.prayer.kernel.query.Pager;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonArray;
@@ -116,8 +118,37 @@ public abstract class AbstractSevImpl {
     protected ServiceResult<JsonObject> sharedPage(@NotNull final JsonObject jsonObject)
             throws ScriptException, AbstractException {
         final ServiceResult<JsonObject> ret = new ServiceResult<>();
-        
-        return ret;
+        // 1. 初始化脚本引擎以及Record对象
+        final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
+        // 2. 将Java和脚本引擎连接实现变量共享
+        final JSEnv env = initJSEnv(jsonObject, record);
+        // 3. 执行Java脚本插入数据
+        ConcurrentMap<Long, List<Record>> retMap = new ConcurrentHashMap<>();
+        final OrderBy orders = env.getOrder();
+        if (null != orders && orders.containOrderBy()) {
+            // Order By Processing....
+            retMap = this.getDao().queryByPage(record, Constants.T_STR_ARR, env.getValues(), env.getExpr(), orders,
+                    env.getPager());
+        } else {
+            // TODO: OrderBy Error
+        }
+        // 5.构造结果
+        final JsonObject retObj = new JsonObject();
+        if (Constants.ONE == retMap.size()) {
+            final Map.Entry<Long, List<Record>> entry = retMap.entrySet().iterator().next();
+            retObj.put(Constants.PARAM.PAGE.RET_COUNT, entry.getKey());
+            // 6.Filter
+            final JsonArray retList = new JsonArray();
+            for (final Record retR : entry.getValue()) {
+                final JsonObject retJson = extractor.extractRecord(retR);
+                this.extractor.filterRecord(retJson, jsonObject);
+                retList.add(retJson);
+            }
+            retObj.put(Constants.PARAM.PAGE.RET_LIST, retList);
+        }else{
+            // TODO: Return Value Error
+        }
+        return ret.success(retObj);
     }
 
     /** **/
@@ -145,8 +176,7 @@ public abstract class AbstractSevImpl {
             this.extractor.filterRecord(retJson, jsonObject);
             retArray.add(retJson);
         }
-        ret.success(retArray);
-        return ret;
+        return ret.success(retArray);
     }
 
     // ~ Private Methods =====================================
@@ -186,11 +216,29 @@ public abstract class AbstractSevImpl {
         engine.put(JSEngine.ENV, env);
         // 2.关于OrderBy的判断，参数中包含了orders的信息
         this.injectOrders(jsonObject, record, env);
-        // 3.设置全局脚本
+        // 3.关于Pager的注入
+        this.injectPager(jsonObject, env);
+        // 4.设置全局脚本
         engine.execute(jsExtractor.extractJSEnv());
-        // 4.执行局部配置脚本
+        // 5.执行局部配置脚本
         engine.execute(jsExtractor.extractJSContent(jsonObject));
         return env;
+    }
+
+    private void injectPager(final JsonObject jsonObject, final JSEnv env) {
+        final JsonObject data = jsonObject.getJsonObject(Constants.PARAM.DATA);
+        if (data.containsKey(Constants.PARAM.PAGE.NAME)) {
+            JsonObject pager = null;
+            try {
+                pager = data.getJsonObject(Constants.PARAM.PAGE.NAME);
+            } catch (ClassCastException ex) {
+                info(getLogger(), " Convert to String paring : " + ex.toString());
+                pager = new JsonObject(data.getString(Constants.PARAM.PAGE.NAME));
+            }
+            if (null != pager) {
+                env.setPager(Pager.create(pager));
+            }
+        }
     }
 
     private void injectOrders(final JsonObject jsonObject, final Record record, final JSEnv env) {
@@ -203,21 +251,8 @@ public abstract class AbstractSevImpl {
                 info(getLogger(), " Convert to String parsing : " + ex.toString());
                 orderArr = new JsonArray(data.getString(Constants.PARAM.ORDERS));
             }
-            for (int idx = 0; idx < orderArr.size(); idx++) {
-                final JsonObject item = orderArr.getJsonObject(idx);
-                final Iterator<Map.Entry<String, Object>> it = item.iterator();
-                // Orders只包含一个元素
-                if (it.hasNext()) {
-                    Map.Entry<String, Object> entry = it.next();
-                    try {
-                        final String column = record.toColumn(entry.getKey());
-                        final String flag = entry.getValue().toString();
-                        env.getOrder().add(column, flag);
-                    } catch (AbstractException ex) {
-                        info(getLogger(), " Invalid field to column : " + entry.getKey());
-                        continue;
-                    }
-                }
+            if (null != orderArr && null != record) {
+                env.setOrder(OrderBy.create(orderArr, record));
             }
         }
     }

@@ -233,6 +233,10 @@ public interface Constants { // NOPMD
 			String PAGE_INDEX = "index";
 			/** Size 参数：每一页的数量 **/
 			String PAGE_SIZE = "size";
+			/** Return Counter **/
+			String RET_COUNT = "count";
+			/** Return List **/
+			String RET_LIST = "list";
 		}
 	}
 }

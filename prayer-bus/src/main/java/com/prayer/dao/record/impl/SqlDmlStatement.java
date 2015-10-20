@@ -91,6 +91,17 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
     }
 
     /**
+     * 带查询的Count
+     */
+    @NotNull
+    public static String prepCountSQL(@NotNull @NotBlank @NotEmpty final String table, final Expression whereExpr) {
+        // 1.构造Count主干语句
+        final String majorClouse = MessageFormat.format(TB_COUNT, table);
+        // 2.最终Count语句
+        return finalizeSql(majorClouse, whereExpr, null);
+    }
+
+    /**
      * 
      * @param table
      * @param whereExpr

@@ -183,16 +183,22 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
      */
     protected List<Record> sharedSelect(@NotNull final Record record, @NotNull @MinSize(0) final String[] columns,
             final List<Value<?>> params, final Expression filters) throws AbstractMetadataException {
-        // 1.获取JDBC访问器
-        final JdbcContext jdbc = this.getContext(record.identifier());
-        // 2.生成SQL语句
-        final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters, null);
-        // 3.根据参数表生成查询结果集
-        final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
-        return SqlHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), cols));
+        return sharedSelect(record, columns, params, filters, null);
+        /*
+         * // 1.获取JDBC访问器 final JdbcContext jdbc =
+         * this.getContext(record.identifier()); // 2.生成SQL语句 final String sql =
+         * SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns),
+         * filters, null); // 3.根据参数表生成查询结果集 final String[] cols =
+         * columns.length > 0 ? columns :
+         * record.columns().toArray(Constants.T_STR_ARR); return
+         * SqlHelper.extractData(record, jdbc.select(sql, params,
+         * record.columnTypes(), cols));
+         */
     }
+
     /**
      * 生成查询结果集
+     * 
      * @param record
      * @param columns
      * @param params
@@ -202,7 +208,8 @@ abstract class AbstractDaoImpl implements RecordDao { // NOPMD
      * @throws AbstractMetadataException
      */
     protected List<Record> sharedSelect(@NotNull final Record record, @NotNull @MinSize(0) final String[] columns,
-            final List<Value<?>> params, final Expression filters, final OrderBy orders) throws AbstractMetadataException {
+            final List<Value<?>> params, final Expression filters, final OrderBy orders)
+                    throws AbstractMetadataException {
         // 1.获取JDBC访问器
         final JdbcContext jdbc = this.getContext(record.identifier());
         // 2.生成SQL语句

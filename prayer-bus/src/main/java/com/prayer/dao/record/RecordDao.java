@@ -8,6 +8,7 @@ import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.kernel.query.OrderBy;
+import com.prayer.kernel.query.Pager;
 
 /**
  * 
@@ -66,6 +67,7 @@ public interface RecordDao {
      */
     List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters)
             throws AbstractMetadataException;
+
     /**
      * 
      * @param record
@@ -76,6 +78,19 @@ public interface RecordDao {
      * @return
      * @throws AbstractMetadataException
      */
-    List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters, OrderBy orders)
-    		throws AbstractMetadataException;
+    List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters,
+            OrderBy orders) throws AbstractMetadataException;
+
+    /**
+     * 
+     * @param record
+     * @param columns
+     * @param params
+     * @param filters
+     * @param orders
+     * @return
+     * @throws AbstractMetadataException
+     */
+    ConcurrentMap<Long, List<Record>> queryByPage(Record record, String[] columns, List<Value<?>> params,
+            Expression filters, OrderBy orders, Pager pager) throws AbstractMetadataException;
 }

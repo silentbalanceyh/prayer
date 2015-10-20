@@ -10,6 +10,7 @@ import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.query.OrderBy;
+import com.prayer.kernel.query.Pager;
 /**
  * 
  * @author Lang
@@ -28,6 +29,8 @@ public class JSEnv implements Serializable{
     private transient Record record;
     /** Order 表达式引用 **/
     private transient OrderBy order = new OrderBy();
+    /** Pager 相关信息 **/
+    private transient Pager pager = new Pager();
     /** Values **/
     private transient List<Value<?>> values = new ArrayList<>();
     // ~ Static Block ========================================
@@ -50,6 +53,22 @@ public class JSEnv implements Serializable{
         }
         return refR;
     }
+    /**
+     * 
+     * @return
+     */
+    public Pager getPager() {
+        return pager;
+    }
+    /**
+     * 
+     * @param pager
+     */
+    public void setPager(final Pager pager) {
+        this.pager = pager;
+    }
+
+
     /**
      * 
      * @param order
@@ -96,11 +115,11 @@ public class JSEnv implements Serializable{
     public void setValues(final List<Value<?>> values) {
         this.values = values;
     }
-
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override
     public String toString() {
-        return "JSEnv [expr=" + expr + ", record=" + record + ", values=" + values + "]";
+        return "JSEnv [expr=" + expr + ", record=" + record + ", order=" + order + ", pager=" + pager + ", values="
+                + values + "]";
     }
 }
