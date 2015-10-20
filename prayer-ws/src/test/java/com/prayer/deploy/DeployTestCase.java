@@ -14,6 +14,7 @@ import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.db.conn.impl.MetadataConnImpl;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.util.Encryptor;
 
 /**
  * 
@@ -59,6 +60,7 @@ public class DeployTestCase {
         record.set("mobile", "15900000000");
         record.set("password", Encryptor.encryptMD5("pl,okm123"));
         this.recordDao.insert(record);*/
+        System.out.println(Encryptor.encryptMD5("pl,okmijn123"));
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
