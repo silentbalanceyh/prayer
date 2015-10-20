@@ -12,7 +12,10 @@ import com.prayer.assistant.WebLogger;
 import com.prayer.bus.security.BasicAuthService;
 import com.prayer.bus.security.impl.BasicAuthSevImpl;
 import com.prayer.constant.Constants;
+import com.prayer.exception.web.MethodNotAllowedException;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.web.Responsor;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
@@ -31,8 +34,8 @@ import net.sf.oval.guard.PreValidateThis;
 @Guarded
 public final class BasicAuthConsumer implements Handler<Message<Object>> {
     // ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthConsumer.class);
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthConsumer.class);
     // ~ Instance Fields =====================================
 
     /** **/
@@ -53,23 +56,25 @@ public final class BasicAuthConsumer implements Handler<Message<Object>> {
     @Override
     @PreValidateThis
     public void handle(@NotNull final Message<Object> event) {
-    	info(LOGGER,WebLogger.I_COMMON_INFO,"Consumer --> " + getClass().toString());
+        info(LOGGER, WebLogger.I_COMMON_INFO, "Consumer --> " + getClass().toString());
         // 1.从EventBus中接受数据
         final JsonObject params = (JsonObject) event.body();
         // 2.获取方法信息
         final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM.METHOD));
         // 3.根据方法访问不同的Record方法
-        String content = null;
-        if(HttpMethod.GET == method){
+        Responsor responsor = null;
+        if (HttpMethod.GET == method) {
             final ServiceResult<JsonArray> result = this.authSev.find(params);
-            content = Extractor.getContent(result);
+            responsor = Extractor.responsor(result, StatusCode.OK);
+        } else {
+            responsor = Responsor.failure(StatusCode.METHOD_NOT_ALLOWED,
+                    new MethodNotAllowedException(getClass(), method.toString()));
         }
-        event.reply(content);
+        event.reply(responsor.getResult());
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    
 
     private BasicAuthConsumer() {
         this.authSev = singleton(BasicAuthSevImpl.class);

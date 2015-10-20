@@ -20,7 +20,7 @@
         "namespace":"engine.script.sec.account"
     },
     {
-    	"name":"js.api.post.sec.account.page",
+    	"name":"js.api.post.sec.page.account",
     	"namespace":"engine.script.sec.account"
     },
     {

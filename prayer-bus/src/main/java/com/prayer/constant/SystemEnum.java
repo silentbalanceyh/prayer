@@ -51,7 +51,8 @@ public final class SystemEnum {     // NOPMD
     public static enum ParamType{
         QUERY,        // /uri/:a/:b/, /uri?a=x&b=y
         FORM,        // 表单上获取
-        BODY        // 直接从Body中获取
+        BODY,        // 直接从Body中获取
+        CUSTOM       // 自定义
     }
     /** Rule的类型，目前仅包含验证器和转换器 **/
     public static enum ComponentType{

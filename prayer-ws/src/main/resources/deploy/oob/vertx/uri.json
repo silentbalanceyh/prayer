@@ -1,7 +1,7 @@
 [
 	{
 		"uri":"/api/sec/login",
-		"paramType":"BODY",
+		"paramType":"CUSTOM",
 		"address":"MSG://SECURITY/QUEUE",
 		"globalId":"sec.account",
 		"requiredParam":[
@@ -38,7 +38,7 @@
 		]
 	},
 	{
-		"uri":"/api/sec/account/page",
+		"uri":"/api/sec/page/account",
 		"globalId":"sec.account",
 		"method":"POST",
 		"paramType":"BODY",

@@ -116,11 +116,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
             info(LOGGER, " Request Uri = " + context.request().path() + ", Endpoint = " + endpoint);
             final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service
                     .findUri(context.request().path());
-            if (Dispatcher.requestDispatch(getClass(), result, context)) {
-                ret = true;
-            } else {
-                ret = false;
-            }
+            ret = Dispatcher.requestDispatch(getClass(), result, context);
         }
         return ret;
     }

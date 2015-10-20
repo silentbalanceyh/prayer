@@ -40,7 +40,7 @@
 	},
 	{
 		"parent":"/api",
-		"path":"/sec/account/page",
+		"path":"/sec/page/account",
 		"method":"POST",
 		"order":-8800
 	},

@@ -12,8 +12,9 @@ import com.prayer.assistant.WebLogger;
 import com.prayer.bus.std.RecordService;
 import com.prayer.bus.std.impl.RecordSevImpl;
 import com.prayer.constant.Constants;
-import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.web.Responsor;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
@@ -60,60 +61,34 @@ public final class RecordConsumer implements Handler<Message<Object>> {
         // 2.获取方法信息
         final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM.METHOD));
         // 3.根据方法访问不同的Record方法
-        String content = null;
+        Responsor responsor = null;
         switch (method) {
         case POST: {
-            content = this.save(params);
+            final ServiceResult<JsonObject> result = this.recordSev.save(params);
+            responsor = Extractor.responsor(result, StatusCode.OK);
         }
             break;
         case PUT: {
-            content = this.modify(params);
+            final ServiceResult<JsonObject> result = this.recordSev.modify(params);
+            responsor = Extractor.responsor(result, StatusCode.OK);
         }
             break;
         case DELETE: {
             final ServiceResult<JsonObject> result = this.recordSev.remove(params);
-            content = result.getResult().encode();
+            responsor = Extractor.responsor(result, StatusCode.OK);
         }
             break;
         default: {
-            content = this.find(params);
+            final ServiceResult<JsonArray> result = this.recordSev.find(params);
+            responsor = Extractor.responsor(result, StatusCode.OK);
         }
             break;
         }
-        event.reply(content);
+        event.reply(responsor.getResult());
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    
-    private String find(final JsonObject params){
-        final ServiceResult<JsonArray> result = this.recordSev.find(params);
-        return Extractor.getContent(result);
-    }
-    
-    private String save(final JsonObject params){
-        final ServiceResult<JsonObject> result = this.recordSev.save(params);
-        String content = Constants.EMPTY_JOBJ;
-        if (ResponseCode.SUCCESS == result.getResponseCode()) {
-            final JsonObject ret = result.getResult();
-            if (null != ret) {
-                content = ret.encode();
-            }
-        }
-        return content;
-    }
-
-    private String modify(final JsonObject params) {
-        final ServiceResult<JsonObject> result = this.recordSev.modify(params);
-        String content = Constants.EMPTY_JOBJ;
-        if (ResponseCode.SUCCESS == result.getResponseCode()) {
-            final JsonObject ret = result.getResult();
-            if (null != ret) {
-                content = ret.encode();
-            }
-        }
-        return content;
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 }

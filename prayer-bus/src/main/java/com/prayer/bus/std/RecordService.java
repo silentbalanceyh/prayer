@@ -41,5 +41,5 @@ public interface RecordService {
      * @param jsonObject
      * @return
      */
-    ServiceResult<JsonArray> page(JsonObject jsonObject);
+    ServiceResult<JsonObject> page(JsonObject jsonObject);
 }

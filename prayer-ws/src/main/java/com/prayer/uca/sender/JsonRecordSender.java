@@ -1,24 +1,22 @@
 package com.prayer.uca.sender;
 
 import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Converter.fromStr;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Future;
 import com.prayer.assistant.WebLogger;
-import com.prayer.constant.Constants;
-import com.prayer.model.web.JsonKey.RESPONSOR;
-import com.prayer.model.web.Responsor;
+import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PreValidateThis;
@@ -57,15 +55,16 @@ public final class JsonRecordSender implements Handler<AsyncResult<Message<Objec
 	public void handle(@NotNull final AsyncResult<Message<Object>> event) {
 		info(LOGGER, WebLogger.I_COMMON_INFO, "Sender --> " + getClass().toString());
 		if (event.succeeded()) {
-			final String data = event.result().body().toString();
-
-			final Responsor ret = responsor(data);
+			final JsonObject retData = (JsonObject)event.result().body();
+			
+			final ResponseCode code = fromStr(ResponseCode.class,retData.getString(JsonKey.RESPONSOR.RETURNCODE));
 			// Return Service Error ?
-			if (null == ret.getError()) {
-				Future.success(this.response, ret.getResult().encode());
+			if (ResponseCode.SUCCESS == code) {
+				Future.success(this.response, retData.encode());
 			} else {
-				Future.failure(response, ret.getError(StatusCode.INTERNAL_SERVER_ERROR, new JsonObject(data)).encode(),
-						StatusCode.INTERNAL_SERVER_ERROR.status(), StatusCode.INTERNAL_SERVER_ERROR.name());
+			    final JsonObject status = retData.getJsonObject(JsonKey.RESPONSOR.STATUS.NAME);
+				Future.failure(response, retData.encode(),
+						status.getInteger(JsonKey.RESPONSOR.STATUS.CODE), status.getString(JsonKey.RESPONSOR.STATUS.LITERAL));
 			}
 		} else {
 			if (null != event.result()) {
@@ -79,27 +78,6 @@ public final class JsonRecordSender implements Handler<AsyncResult<Message<Objec
 	}
 	// ~ Methods =============================================
 	// ~ Private Methods =====================================
-
-	private Responsor responsor(final String content) {
-		// 1.Json Object
-		Responsor responsor = null;
-		if (StringUtil.equals(Constants.EMPTY_JARR, content)) {
-			responsor = Responsor.success(new JsonArray());
-		} else if (StringUtil.equals(Constants.EMPTY_JOBJ, content)) {
-			responsor = Responsor.success(new JsonObject());
-		} else if (StringUtil.startsWithChar(content, '{')) {
-			JsonObject data = new JsonObject(content);
-			if (data.containsKey(RESPONSOR.ERROR.NAME)) {
-				responsor = Responsor.serviceError(getClass());
-			} else {
-				responsor = Responsor.success(data);
-			}
-		} else if (StringUtil.startsWithChar(content, '[')) {
-			JsonArray data = new JsonArray(content);
-			responsor = Responsor.success(data);
-		}
-		return responsor;
-	}
 	// ~ Get/Set =============================================
 	// ~ hashCode,equals,toString ============================
 }

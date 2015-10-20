@@ -217,28 +217,6 @@ public final class Responsor implements Serializable, ClusterSerializable {
 
 	/**
 	 * 
-	 * @param status
-	 * @param data
-	 * @return
-	 */
-	public JsonObject getError(@NotNull final StatusCode status, @NotNull final JsonObject data) {
-		final JsonObject result = new JsonObject();
-		// 1.Status节点
-		result.put(JsonKey.RESPONSOR.STATUS.NAME, new JsonObject().put(JsonKey.RESPONSOR.STATUS.CODE, status.status())
-				.put(JsonKey.RESPONSOR.STATUS.LITERAL, status));
-		// 2.Response节点
-		result.put(JsonKey.RESPONSOR.RETURNCODE, ResponseCode.FAILURE.name());
-		// 4.Error -> 失败返回值
-		final JsonObject error = new JsonObject();
-		error.put(JsonKey.RESPONSOR.ERROR.CODE, data.getInteger(JsonKey.RESPONSOR.ERROR.CODE));
-		error.put(JsonKey.RESPONSOR.ERROR.MESSAGE, data.getString(JsonKey.RESPONSOR.ERROR.MESSAGE));
-		error.put(JsonKey.RESPONSOR.ERROR.DISPLAY, data.getString(JsonKey.RESPONSOR.ERROR.DISPLAY));
-		result.put(JsonKey.RESPONSOR.ERROR.NAME, error);
-		return result;
-	}
-
-	/**
-	 * 
 	 * @return
 	 */
 	public AbstractException getError() {

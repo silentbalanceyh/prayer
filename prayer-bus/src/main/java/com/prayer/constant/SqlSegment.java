@@ -34,6 +34,8 @@ public interface SqlSegment { // NOPMD
     String WHERE = "WHERE";
     /** ALTER关键字 **/
     String ALTER = "ALTER";
+    /** Order By **/
+    String ORDER_BY = "ORDER BY";
 
     // ~ SQL语句模板 ========================================
     /** 创建表的语句模板 **/
