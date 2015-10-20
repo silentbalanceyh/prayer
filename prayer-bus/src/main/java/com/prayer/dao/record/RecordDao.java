@@ -7,6 +7,7 @@ import com.prayer.exception.AbstractMetadataException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
+import com.prayer.kernel.query.OrderBy;
 
 /**
  * 
@@ -65,4 +66,16 @@ public interface RecordDao {
      */
     List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters)
             throws AbstractMetadataException;
+    /**
+     * 
+     * @param record
+     * @param columns
+     * @param params
+     * @param filters
+     * @param orders
+     * @return
+     * @throws AbstractMetadataException
+     */
+    List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters, OrderBy orders)
+    		throws AbstractMetadataException;
 }

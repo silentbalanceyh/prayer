@@ -76,19 +76,19 @@ public class SchemaSevImpl implements SchemaService {
             // 4.因为importer中已经检查过，所以不需要再检查
             importer.syncSchema(schema);
             // 5.成功代码
-            result.setResponse(schema, null);
+            result.success(schema);
         } catch (AbstractTransactionException ex) {
             error(LOGGER, BusLogger.E_PROCESS_ERR, "4.Data Loading", ex.toString());
-            result.setResponse(null, ex);
+            result.error(ex);
         } catch (SerializationException ex) {
             error(LOGGER, BusLogger.E_PROCESS_ERR, "3.Serialization", ex.toString());
-            result.setResponse(null, ex);
+            result.error(ex);
         } catch (AbstractSystemException ex) {
             error(LOGGER, BusLogger.E_PROCESS_ERR, "1.Reading json schema file. file = " + filePath, ex.toString());
-            result.setResponse(null, ex);
+            result.error(ex);
         } catch (AbstractSchemaException ex) {
             error(LOGGER, BusLogger.E_PROCESS_ERR, "2.Verifying Schema", ex.toString());
-            result.setResponse(null, ex);
+            result.failure(ex);
         }
         return result;
     }
@@ -106,7 +106,11 @@ public class SchemaSevImpl implements SchemaService {
         }
         // 如果有错误则getError()就不是null值则会导致Build异常
         final ServiceResult<GenericSchema> result = new ServiceResult<>();
-        result.setResponse(schema, builder.getError());
+        if(null == builder.getError()){
+        	result.success(schema);
+        }else{
+        	result.failure(builder.getError());
+        }
         return result;
     }
 
@@ -117,9 +121,9 @@ public class SchemaSevImpl implements SchemaService {
         final GenericSchema schema = this.dao.getById(identifier);
         final ServiceResult<GenericSchema> result = new ServiceResult<>();
         if (null == schema) {
-            result.setResponse(null, new SchemaNotFoundException(getClass(), identifier));
+            result.failure(new SchemaNotFoundException(getClass(), identifier));
         } else {
-            result.setResponse(schema, null);
+            result.success(schema);
         }
         return result;
     }
@@ -131,10 +135,10 @@ public class SchemaSevImpl implements SchemaService {
         final ServiceResult<Boolean> result = new ServiceResult<>();
         try {
             final Boolean ret = this.dao.deleteById(identifier);
-            result.setResponse(ret, null);
+            result.success(ret);
         } catch (AbstractTransactionException ex) {
             error(LOGGER, BusLogger.E_AT_ERROR, ex.toString());
-            result.setResponse(null, ex);
+            result.error(ex);
         }
         return result;
     }

@@ -54,12 +54,12 @@ public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthServic
                 ret = this.sharedFind(jsonObject);
             } catch (ScriptException ex) {
                 error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
-                ret.setResponse(null, new JSScriptEngineException(getClass(), ex.toString()));
+                ret.error(new JSScriptEngineException(getClass(), ex.toString()));
             } catch (AbstractException ex) {
-                ret.setResponse(null, ex);
+                ret.failure(ex);
             }
         } else {
-            ret.setResponse(null, error);
+            ret.failure(error);
         }
         return ret;
     }

@@ -76,7 +76,7 @@ public class VerticleDPSevImpl extends AbstractDPSevImpl<VerticleModel, String>i
         final ServiceResult<ConcurrentMap<String, VerticleChain>> result = new ServiceResult<>();
         final ServiceResult<List<VerticleModel>> retList = this.importToList(jsonPath);
         if (ResponseCode.SUCCESS == retList.getResponseCode() && Constants.RC_SUCCESS == retList.getErrorCode()) {
-            result.setResponse(ResultExtractor.extractVerticles(retList.getResult()), null);
+            result.success(ResultExtractor.extractVerticles(retList.getResult()));
         }
         return result;
     }

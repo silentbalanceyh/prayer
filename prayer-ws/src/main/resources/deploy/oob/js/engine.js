@@ -86,9 +86,10 @@ var $$V = (function(){
     long:_number        // 接口重命名
 }))();
 
-$$ENV = $env;                // NOPMD Java记录
-$$R = $env.getRecord();        // NOPMD Java记录，从变量中读取
-$$L = $env.getValues();        // NOPMD Java的值列表，填充参数列表信息
+$$ENV = $env;                	// NOPMD Java记录
+$$R = $env.getRecord();        	// NOPMD Java记录，从变量中读取
+$$L = $env.getValues();        	// NOPMD Java的值列表，填充参数列表信息
+$$O = $env.getOrder();			// NOPMD Java中的OrderBy子句
 // -- 非Collection的主键中PK值
 var PK = "uniqueId";
 /**

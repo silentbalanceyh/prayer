@@ -2,10 +2,14 @@
     {
         "workClass":"com.prayer.vx.verticle.RecordWorker",
         "consumerAddr":"MSG://RECORD/QUEUE",
-        "consumerHandler":"com.prayer.handler.message.RecordConsumer"
+        "consumerHandler":"com.prayer.uca.consumer.RecordConsumer"
     },{
         "workClass":"com.prayer.vx.verticle.SecurityWorker",
         "consumerAddr":"MSG://SECURITY/QUEUE",
-        "consumerHandler":"com.prayer.handler.message.BasicAuthConsumer"
+        "consumerHandler":"com.prayer.uca.consumer.BasicAuthConsumer"
+    },{
+    	"workClass":"com.prayer.vx.verticle.PagerWorker",
+        "consumerAddr":"MSG://RECORD/PAGER/QUEUE",
+        "consumerHandler":"com.prayer.uca.consumer.QueryConsumer"
     }
 ]

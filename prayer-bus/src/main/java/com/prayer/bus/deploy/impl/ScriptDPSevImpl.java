@@ -83,7 +83,7 @@ public class ScriptDPSevImpl extends AbstractDPSevImpl<ScriptModel, String>imple
 			dataList = this.readJson(jsonPath);
 		} catch (AbstractSystemException ex) {
 			debug(getLogger(), "SYS.KIT.SER", ex, jsonPath);
-			result.setResponse(null, ex);
+			result.error(ex);
 		}
 		// 3.脚本内容读取
 		for (final ScriptModel script : dataList) {
@@ -99,10 +99,10 @@ public class ScriptDPSevImpl extends AbstractDPSevImpl<ScriptModel, String>imple
 			this.getDao().insert(dataList.toArray(getArrayType()));
 		} catch (AbstractTransactionException ex) {
 			debug(getLogger(), "SYS.KIT.DP", ex);
-			result.setResponse(null, ex);
+			result.error(ex);
 		}
 		if (ResponseCode.SUCCESS == result.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {
-			result.setResponse(dataList, null);
+			result.success(dataList);
 		}
 		return result;
 	}

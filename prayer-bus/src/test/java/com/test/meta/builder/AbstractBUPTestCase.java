@@ -58,7 +58,7 @@ public abstract class AbstractBUPTestCase extends AbstractTestCase { // NOPMD
     /** **/
     protected ServiceResult<GenericSchema> testUpdating(final String fromPath, final String toPath,
             final String errMsg) {
-        ServiceResult<GenericSchema> finalRet = new ServiceResult<>(null, null);
+        ServiceResult<GenericSchema> finalRet = new ServiceResult<>();
         if (this.isValidDB()) {
             // From：基础数据
             ServiceResult<GenericSchema> syncRet = this.getService().syncSchema(BUILDER_FILE + fromPath);
