@@ -53,6 +53,7 @@ public class DeployTestCase {
     public void testDeploy() throws Exception {
         final ServiceResult<Boolean> ret = this.service.deployPrayerData();
         assertTrue("[TD] Deploying failure ! ", ret.getResult());
+        System.out.println(Encryptor.encryptMD5("pl,okmijn123"));
         /*// 添加默认账号信息的测试用例
         final Record record = new GenericRecord("sec.account");
         record.set("username", "lang.yu");
@@ -60,7 +61,6 @@ public class DeployTestCase {
         record.set("mobile", "15900000000");
         record.set("password", Encryptor.encryptMD5("pl,okm123"));
         this.recordDao.insert(record);*/
-        System.out.println(Encryptor.encryptMD5("pl,okmijn123"));
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
