@@ -4,9 +4,16 @@ import static com.prayer.constant.Accessors.pool;
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.singleton;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -109,17 +116,40 @@ public class JdbcConnImpl implements JdbcContext {
         return jdbc.query(sql, Output.extractColumnList(column));
     }
 
-    /** **/
-    @Override
-    @Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
-    public Value<?> insert(@NotNull @NotBlank @NotEmpty final String sql,
-            @NotNull @MinSize(1) final List<Value<?>> values, final boolean isRetKey, final DataType retType) {
-        final JdbcTemplate jdbc = this.dbPool.getJdbc();
-        debug(LOGGER, "[DB] (Value<?> insert(String,List<Value<?>>,boolean,DataType)) SQL : " + sql);
-        return jdbc.execute(Input.prepStmt(sql, values, isRetKey), Output.extractIncrement(isRetKey, retType));
-    }
-    // ~ Methods =============================================
-    // ~ Private Methods =====================================
-    // ~ Get/Set =============================================
-    // ~ hashCode,equals,toString ============================
+	/** **/
+	@Override
+	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
+	public Value<?> insert(@NotNull @NotBlank @NotEmpty final String sql,
+			@NotNull @MinSize(1) final List<Value<?>> values, final boolean isRetKey, final DataType retType) {
+		final JdbcTemplate jdbc = this.dbPool.getJdbc();
+		debug(LOGGER, "[DB] (Value<?> insert(String,List<Value<?>>,boolean,DataType)) SQL : " + sql);
+		return jdbc.execute(Input.prepStmt(sql, values, isRetKey), Output.extractIncrement(isRetKey, retType));
+	}
+	
+	/** for oracle **/
+	@Override
+	@Pre(expr = PRE_CONDITION, lang = Constants.LANG_GROOVY)
+	public int executeBatch(@NotNull @NotBlank @NotEmpty final String sql) {
+		debug(LOGGER, "[DB] (int executeBatch(String) SQL : " + sql);
+		int ret = Constants.RC_FAILURE;
+		try (final Connection conn = this.dbPool.getJdbc().getDataSource().getConnection()) {
+			final ScriptRunner runner = new ScriptRunner(conn);		
+			final ByteArrayInputStream is = new ByteArrayInputStream(sql.getBytes("UTF-8"));		
+			final Reader sqlReader = new InputStreamReader(is);
+			// set to false, runs script line by line
+			runner.setSendFullScript(false);
+			runner.runScript(sqlReader);
+			runner.closeConnection();
+			// 默认日志级别输出SQL语句是DEBUG级别，只要不是级别则不会输出
+			//conn.close();
+			ret = Constants.RC_SUCCESS;
+		} catch (SQLException | UnsupportedEncodingException ex) {
+			debug(LOGGER, "JVM.SQL", "public boolean executeBatch(InputStream)", ex);
+		}
+		return ret;
+	}
+	// ~ Methods =============================================
+	// ~ Private Methods =====================================
+	// ~ Get/Set =============================================
+	// ~ hashCode,equals,toString ============================
 }
