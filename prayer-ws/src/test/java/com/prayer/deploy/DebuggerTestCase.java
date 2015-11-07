@@ -1,7 +1,5 @@
 package com.prayer.deploy;
 
-import org.junit.Test;
-
 import com.prayer.bus.std.RecordService;
 import com.prayer.bus.std.impl.RecordSevImpl;
 import com.prayer.model.bus.ServiceResult;
@@ -19,7 +17,6 @@ public class DebuggerTestCase {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    @Test
     public void testSelect(){
         final JsonObject params = new JsonObject("{\"identifier\":\"RP$identifier\",\"filters\":[],\"method\":\"GET\",\"data\":{\"name\":\"username\",\"identifier\":\"sec.account\",\"value\":\"lang.yu\"},\"script\":\"js.api.get.util.unique\"}");
         ServiceResult<JsonArray> ret = service.find(params);
