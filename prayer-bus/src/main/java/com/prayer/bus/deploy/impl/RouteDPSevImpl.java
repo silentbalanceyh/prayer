@@ -71,6 +71,10 @@ public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String>impleme
             if (null == item.getRequestHandler()){
                 item.setRequestHandler("com.prayer.handler.standard.RecordHandler");
             }
+            // Default Parent
+            if (null == item.getParent()){
+                item.setParent("/api");
+            }
             // Default MIME
             final List<String> mimes = new ArrayList<>();
             mimes.add("json");

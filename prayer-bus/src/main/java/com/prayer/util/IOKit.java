@@ -12,6 +12,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,13 +60,13 @@ public final class IOKit {
     public static String getContent(@NotNull @NotEmpty @NotBlank final String fileName) {
         final InputStream inStream = getFile(fileName);
         final StringBuilder builder = new StringBuilder(Constants.BUFFER_SIZE);
-        info(LOGGER," File = " + fileName);
+        info(LOGGER, " File = " + fileName);
         BufferedReader reader;
         String content = null;
         try {
             reader = new BufferedReader(new InputStreamReader(inStream, Resources.SYS_ENCODING));
             String line = null;
-            while (null != (line = reader.readLine())) {    // NOPMD
+            while (null != (line = reader.readLine())) { // NOPMD
                 builder.append(line).append(Symbol.NEW_LINE);
             }
             content = builder.toString();
@@ -118,6 +121,23 @@ public final class IOKit {
             retStream = null == retStream ? getFile(fileName, null) : retStream;
         }
         return retStream;
+    }
+
+    /**
+     * 
+     * @param folder
+     * @return
+     */
+    public static List<String> listFiles(@NotNull @NotEmpty @NotBlank final String folder) {
+        final URL url = getURL(folder);
+        final List<String> retList = new ArrayList<>();
+        if (null != url) {
+            File file = new File(url.getFile());
+            if (file.isDirectory() && file.exists()) {
+                retList.addAll(Arrays.asList(file.list()));
+            }
+        }
+        return retList;
     }
 
     // ~ Constructors ========================================

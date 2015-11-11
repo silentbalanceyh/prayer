@@ -94,8 +94,11 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             ret = this.manager.getRouteService().purgeData();
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            ret = this.manager.getRouteService().importToList(VX_ROUTES);
-            info(LOGGER, " 2.EVX_ROUTE ( Route deployed successfully ).");
+            final List<String> files = IOKit.listFiles(VX_ROUTES);
+            for (final String file : files) {
+                ret = this.manager.getRouteService().importToList(VX_ROUTES + file);
+                info(LOGGER, " 2.EVX_ROUTE ( Route deployed successfully ). PATH = " + VX_ROUTES + file);
+            }
         } else {
             error(LOGGER, BusLogger.E_PROCESS_ERR, "Route Deploy", ret.getErrorMessage());
         }
@@ -107,25 +110,30 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             ret = this.manager.getUriService().purgeData();
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            ret = this.manager.getUriService().importToList(VX_URI);
-            if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-                info(LOGGER, " 3.EVX_URI ( URI deployed successfully ).");
-                // URI中的Param参数List
-                final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
-                for (final UriModel model : uriModels) {
-                    // 4.EVX_RULE
-                    final String paramFile = VX_URI_PARAM
-                            + model.getMethod().toString().toLowerCase(Locale.getDefault()) + "/"
-                            + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".").replaceAll(":","\\$") + ".json";
-                    ret = this.manager.getRuleService().importRules(paramFile, model);
-                    if (ResponseCode.SUCCESS != ret.getResponseCode()) {
-                        error(LOGGER, BusLogger.E_PROCESS_ERR, model.getUri() + " Rule Deploy", ret.getErrorMessage());
-                    }else{
-                        info(LOGGER, " 4.EVX_RULE ( Rule deployed successfully ) URL = " + model.getUri() + ", rule = " + paramFile);
+            final List<String> files = IOKit.listFiles(VX_URI);
+            for (final String file : files) {
+                ret = this.manager.getUriService().importToList(VX_URI + file);
+                info(LOGGER, " 3.EVX_URI ( URI deployed successfully ). PATH = " + VX_URI + file);
+                if (ResponseCode.SUCCESS == ret.getResponseCode()) {
+                    // URI中的Param参数List
+                    final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
+                    for (final UriModel model : uriModels) {
+                        // 4.EVX_RULE
+                        final String paramFile = VX_URI_PARAM
+                                + model.getMethod().toString().toLowerCase(Locale.getDefault()) + "/" + model.getUri()
+                                        .substring(1, model.getUri().length()).replaceAll("/", ".").replaceAll(":", "\\$")
+                                + ".json";
+                        ret = this.manager.getRuleService().importRules(paramFile, model);
+                        if (ResponseCode.SUCCESS != ret.getResponseCode()) {
+                            error(LOGGER, BusLogger.E_PROCESS_ERR, model.getUri() + " Rule Deploy", ret.getErrorMessage());
+                        } else {
+                            info(LOGGER, " 3 -> 4.EVX_RULE ( Rule deployed successfully ) URL = " + model.getUri() + ", rule = "
+                                    + paramFile);
+                        }
                     }
+                } else {
+                    error(LOGGER, BusLogger.E_PROCESS_ERR, "Uri Deploy", ret.getErrorMessage());
                 }
-            } else {
-                error(LOGGER, BusLogger.E_PROCESS_ERR, "Uri Deploy", ret.getErrorMessage());
             }
         }
         // 5.EVX_ADDRESS
@@ -163,10 +171,10 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             result.success(Boolean.TRUE);
         } else {
             final AbstractException exp = new DeploymentException(getClass());
-            if(ResponseCode.ERROR == ret.getResponseCode()){
-            	result.error(exp);
-            }else{
-            	result.failure(exp);
+            if (ResponseCode.ERROR == ret.getResponseCode()) {
+                result.error(exp);
+            } else {
+                result.failure(exp);
             }
             error(LOGGER, BusLogger.E_DPDATA_ERR);
         }

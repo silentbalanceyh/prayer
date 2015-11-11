@@ -1,12 +1,16 @@
 package com.prayer.bus.std.impl;
 
+import static com.prayer.bus.util.BusLogger.info;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.std.MetaService;
+import com.prayer.bus.util.BusLogger;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.NotNull;
 
 /**
  * 
@@ -48,12 +52,17 @@ public class MetaSevImpl implements MetaService {
         return null;
     }
 
+    /**
+     * 
+     */
     @Override
-    public ServiceResult<JsonObject> page(JsonObject jsonObject) {
+    public ServiceResult<JsonObject> page(@NotNull final JsonObject jsonObject) {
+        info(LOGGER, BusLogger.I_PARAM_INFO, "POST - Query", jsonObject.encode());
+        ServiceResult<JsonObject> ret = new ServiceResult<>();
         // TODO Auto-generated method stub
-        return null;
+        return ret;
     }
-    
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

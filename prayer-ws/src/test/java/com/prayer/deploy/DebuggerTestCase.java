@@ -1,8 +1,11 @@
 package com.prayer.deploy;
 
+import org.junit.Test;
+
 import com.prayer.bus.std.RecordService;
 import com.prayer.bus.std.impl.RecordSevImpl;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.util.IOKit;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -21,6 +24,11 @@ public class DebuggerTestCase {
         final JsonObject params = new JsonObject("{\"identifier\":\"RP$identifier\",\"filters\":[],\"method\":\"GET\",\"data\":{\"name\":\"username\",\"identifier\":\"sec.account\",\"value\":\"lang.yu\"},\"script\":\"js.api.get.util.unique\"}");
         ServiceResult<JsonArray> ret = service.find(params);
         System.out.println(ret.getResult().encode());
+    }
+    
+    @Test
+    public void testFolder(){
+        System.out.println(IOKit.listFiles("deploy/oob/vertx/route"));
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
