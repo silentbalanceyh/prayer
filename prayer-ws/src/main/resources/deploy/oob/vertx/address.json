@@ -11,5 +11,9 @@
     	"workClass":"com.prayer.vx.verticle.PagerWorker",
         "consumerAddr":"MSG://RECORD/PAGER/QUEUE",
         "consumerHandler":"com.prayer.uca.consumer.QueryConsumer"
+    },{
+        "workClass":"com.prayer.vx.verticle.H2PagerWorker",
+        "consumerAddr":"MSG://METADATA/PAGER/QUEUE",
+        "consumerHandler":"com.prayer.uca.consumer.meta.QueryConsumer"
     }
 ]

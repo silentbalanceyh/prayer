@@ -31,5 +31,12 @@
         "ha":true,
         "worker":true,
         "deployOrder":1000
+    },
+    {
+        "name":"com.prayer.vx.verticle.H2PagerWorker",
+        "instances":100,
+        "ha":true,
+        "worker":true,
+        "deployOrder":1000
     }
 ]

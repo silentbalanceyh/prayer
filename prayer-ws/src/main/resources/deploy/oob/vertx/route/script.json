@@ -1,0 +1,7 @@
+[
+    {
+        "path":"/sec/page/meta/script",
+        "method":"POST",
+        "order":-8800
+    }
+]
