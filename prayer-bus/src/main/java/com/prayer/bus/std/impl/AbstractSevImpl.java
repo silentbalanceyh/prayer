@@ -23,6 +23,8 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.record.RecordDao;
 import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.exception.AbstractException;
+import com.prayer.exception.web.ServiceOrderByException;
+import com.prayer.exception.web.ServiceReturnSizeException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
@@ -117,7 +119,7 @@ public abstract class AbstractSevImpl {
     /** **/
     protected ServiceResult<JsonObject> sharedPage(@NotNull final JsonObject jsonObject)
             throws ScriptException, AbstractException {
-        final ServiceResult<JsonObject> ret = new ServiceResult<>();
+        ServiceResult<JsonObject> ret = new ServiceResult<>();
         // 1. 初始化脚本引擎以及Record对象
         final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
@@ -130,7 +132,8 @@ public abstract class AbstractSevImpl {
             retMap = this.getDao().queryByPage(record, Constants.T_STR_ARR, env.getValues(), env.getExpr(), orders,
                     env.getPager());
         } else {
-            // TODO: OrderBy Error
+            // Order By Exception
+            throw new ServiceOrderByException(getClass());
         }
         // 5.构造结果
         final JsonObject retObj = new JsonObject();
@@ -145,10 +148,12 @@ public abstract class AbstractSevImpl {
                 retList.add(retJson);
             }
             retObj.put(Constants.PARAM.PAGE.RET_LIST, retList);
-        }else{
-            // TODO: Return Value Error
+            ret.success(retObj);
+        } else {
+            // Return Size Exception
+            throw new ServiceReturnSizeException(getClass(), String.valueOf(Constants.ONE));
         }
-        return ret.success(retObj);
+        return ret;
     }
 
     /** **/

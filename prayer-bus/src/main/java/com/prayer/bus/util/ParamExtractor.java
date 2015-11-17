@@ -9,7 +9,7 @@ import com.prayer.bus.std.SchemaService;
 import com.prayer.bus.std.impl.SchemaSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
@@ -63,9 +63,9 @@ public final class ParamExtractor {
      * 
      * @param record
      * @return
-     * @throws AbstractMetadataException
+     * @throws AbstractDatabaseException
      */
-    public JsonObject extractRecord(final Record record) throws AbstractMetadataException {
+    public JsonObject extractRecord(final Record record) throws AbstractDatabaseException {
         final Set<String> fields = record.fields().keySet();
         final JsonObject retObj = new JsonObject();
         for (final String field : fields) {

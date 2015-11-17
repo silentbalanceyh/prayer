@@ -1,37 +1,37 @@
-package com.prayer.exception.metadata;
+package com.prayer.exception;
 
-import com.prayer.exception.AbstractDatabaseException;
+import static com.prayer.util.Error.error;
+
 /**
- * 
+ * Builder处理元数据过程的抽象异常类，在生成数据库信息时候出现异常
  * @author Lang
  *
  */
-public class ColumnInvalidException extends AbstractDatabaseException {
+public abstract class AbstractDatabaseException extends AbstractException{
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = 732279106869851763L;
+    private static final long serialVersionUID = -3587573542243637734L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    public AbstractDatabaseException(final String message){
+        super(message);
+    }
     /**
      * 
      * @param clazz
-     * @param column
-     * @param table
+     * @param errorCode
+     * @param params
      */
-    public ColumnInvalidException(final Class<?> clazz, final String column, final String table){
-        super(clazz, -11010, column, table);
+    public AbstractDatabaseException(final Class<?> clazz, final int errorCode, final Object... params) {
+        super(error(clazz, errorCode, params));
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public int getErrorCode(){
-        return -11010;
-    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

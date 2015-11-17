@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.util.BusLogger;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
 import com.prayer.model.type.DateType;
@@ -96,7 +96,7 @@ public final class JSValue {
         ScriptType ret = null;
         try {
             ret = new ScriptType(value);
-        } catch (AbstractMetadataException ex) {
+        } catch (AbstractDatabaseException ex) {
             error(LOGGER, BusLogger.E_AT_ERROR, ex.toString());
         }
         return ret;
@@ -111,7 +111,7 @@ public final class JSValue {
         XmlType ret = null;
         try {
             ret = new XmlType(value);
-        } catch (AbstractMetadataException ex) {
+        } catch (AbstractDatabaseException ex) {
             error(LOGGER, BusLogger.E_AT_ERROR, ex.toString());
         }
         return ret;
@@ -126,7 +126,7 @@ public final class JSValue {
         JsonType ret = null;
         try {
             ret = new JsonType(value);
-        } catch (AbstractMetadataException ex) {
+        } catch (AbstractDatabaseException ex) {
             error(LOGGER, BusLogger.E_AT_ERROR, ex.toString());
         }
         return ret;

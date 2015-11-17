@@ -14,7 +14,7 @@ import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.db.conn.JdbcContext;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.metadata.ExecuteFailureException;
 import com.prayer.exception.metadata.MoreThanOneException;
 import com.prayer.kernel.Expression;
@@ -47,7 +47,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
      * INCREMENT中需要过滤ID列，这个方法用于获取ID列
      */
     @Override
-    public Set<String> getPKFilters(@NotNull final Record record) throws AbstractMetadataException {
+    public Set<String> getPKFilters(@NotNull final Record record) throws AbstractDatabaseException {
         final MetaPolicy policy = record.policy();
         if (MetaPolicy.INCREMENT == policy) {
             return record.idKV().keySet();// SqlHelper.prepPKWhere(record).keySet();
@@ -59,7 +59,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
      * Insert的第一个版本完成，调用共享Insert方法
      */
     @Override
-    public Record insert(@NotNull final Record record) throws AbstractMetadataException {
+    public Record insert(@NotNull final Record record) throws AbstractDatabaseException {
         // 1.调用父类方法
         final boolean ret = super.sharedInsert(record);
         // 2.后期执行检查
@@ -70,7 +70,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 
     /** **/
     @Override
-    public Record update(@NotNull final Record record) throws AbstractMetadataException {
+    public Record update(@NotNull final Record record) throws AbstractDatabaseException {
         // 1.主键值验证
         this.interrupt(record);
         // 2.调用父类函数
@@ -86,7 +86,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
      */
     @Override
     public Record selectById(@NotNull final Record record, @NotNull final Value<?> uniqueId)
-            throws AbstractMetadataException {
+            throws AbstractDatabaseException {
         // 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy
         this.interrupt(record.policy(), false);
         // 1.填充主键参数
@@ -99,7 +99,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
 
     /** **/
     @Override
-    public boolean delete(@NotNull final Record record) throws AbstractMetadataException {
+    public boolean delete(@NotNull final Record record) throws AbstractDatabaseException {
         // 1.主键值验证
         this.interrupt(record);
         // 2.调用父类函数
@@ -112,7 +112,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
     /** **/
     @Override
     public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinSize(0) final String[] columns,
-            final List<Value<?>> params, final Expression filters) throws AbstractMetadataException {
+            final List<Value<?>> params, final Expression filters) throws AbstractDatabaseException {
         return super.sharedSelect(record, columns, params, filters);
     }
 
@@ -120,7 +120,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
     @Override
     public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinSize(0) final String[] columns,
             final List<Value<?>> params, final Expression filters, final OrderBy orders)
-                    throws AbstractMetadataException {
+                    throws AbstractDatabaseException {
         return super.sharedSelect(record, columns, params, filters, orders);
     }
 
@@ -129,7 +129,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
      */
     @Override
     public Record selectById(@NotNull final Record record,
-            @NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractMetadataException {
+            @NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException {
         // 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy，这个地方必须过滤
         this.interrupt(record.policy(), true);
         // 1.调用内部函数
@@ -140,7 +140,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
     @Override
     public ConcurrentMap<Long, List<Record>> queryByPage(@NotNull final Record record,
             @NotNull @MinSize(0) final String[] columns, List<Value<?>> params, Expression filters,
-            @NotNull OrderBy orders, @NotNull Pager pager) throws AbstractMetadataException {
+            @NotNull OrderBy orders, @NotNull Pager pager) throws AbstractDatabaseException {
         // 1.获取JDBC访问器
         final JdbcContext jdbc = this.getContext(record.identifier());
         // 2.生成SQL Count语句
@@ -173,7 +173,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
      * @return
      */
     private String prepSelectPageSQL(final Record record, final String[] columns, final List<Value<?>> params,
-            final Expression filters, final OrderBy orders, final Pager pager) throws AbstractMetadataException {
+            final Expression filters, final OrderBy orders, final Pager pager) throws AbstractDatabaseException {
         // 1.构造Page的SQL语句
         final StringBuilder retSql = new StringBuilder();
         final String T1 = "T1";
@@ -233,7 +233,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
     }
 
     private Record select(final Record record, final ConcurrentMap<String, Value<?>> uniqueIds)
-            throws AbstractMetadataException {
+            throws AbstractDatabaseException {
         // 1.填充主键参数
         final List<Record> records = this.sharedSelect(record, uniqueIds);
         if (Constants.ONE < records.size()) {
@@ -243,7 +243,7 @@ final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
         return Constants.ZERO == records.size() ? null : records.get(Constants.ZERO);
     }
 
-    private void interrupt(final boolean retFlag) throws AbstractMetadataException {
+    private void interrupt(final boolean retFlag) throws AbstractDatabaseException {
         if (!retFlag) {
             throw new ExecuteFailureException(getClass());
         }

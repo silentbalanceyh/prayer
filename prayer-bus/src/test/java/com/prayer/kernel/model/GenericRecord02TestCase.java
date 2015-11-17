@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractDaoTestTool;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
@@ -70,68 +70,68 @@ public class GenericRecord02TestCase extends AbstractDaoTestTool { // NOPMD
     // ~ Methods =============================================
     /** **/
     @Test(expected = PatternFailureException.class)
-    public void testT05059Mset() throws AbstractMetadataException {
+    public void testT05059Mset() throws AbstractDatabaseException {
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("uk1", "Validator");
     }
     /** **/
     @Test(expected = NotNullFailureException.class)
-    public void testT05060Mset() throws AbstractMetadataException{
+    public void testT05060Mset() throws AbstractDatabaseException{
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("uk1", "");
     }
     /** **/
     @Test(expected = LengthFailureException.class)
-    public void testT05061Mset() throws AbstractMetadataException{
+    public void testT05061Mset() throws AbstractDatabaseException{
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("muk1", "tst");
     }
     /** **/
     @Test(expected = LengthFailureException.class)
-    public void testT05062Mset() throws AbstractMetadataException{
+    public void testT05062Mset() throws AbstractDatabaseException{
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("muk1", "lang.yu@hp.com");
     }
     /** **/
     @Test(expected = RangeFailureException.class)
-    public void testT05063Mset() throws AbstractMetadataException{
+    public void testT05063Mset() throws AbstractDatabaseException{
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("tint","2");
     }
     /** **/
     @Test(expected = RangeFailureException.class)
-    public void testT05064Mset() throws AbstractMetadataException{
+    public void testT05064Mset() throws AbstractDatabaseException{
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("tint","20000");
     }
     /** **/
     @Test(expected = RangeFailureException.class)
-    public void testT05065Mset() throws AbstractMetadataException{
+    public void testT05065Mset() throws AbstractDatabaseException{
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("tlong","2");
     }
     /** **/
     @Test(expected = RangeFailureException.class)
-    public void testT05066Mset() throws AbstractMetadataException{
+    public void testT05066Mset() throws AbstractDatabaseException{
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("tlong","223");
     }
     /** **/
     @Test(expected = PrecisionFailureException.class)
-    public void testT05067Mset() throws AbstractMetadataException{
+    public void testT05067Mset() throws AbstractDatabaseException{
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("tdecimal","781111211.34");
     }
     /** **/
     @Test(expected = PrecisionFailureException.class)
-    public void testT05068Mset() throws AbstractMetadataException{
+    public void testT05068Mset() throws AbstractDatabaseException{
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("tdecimal","73.3");
     }
     
     /** **/
     @Test(expected = CustomValidatorException.class)
-    public void testT05069Mset() throws AbstractMetadataException{
+    public void testT05069Mset() throws AbstractDatabaseException{
         final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
         record.set("tstring","15922611448");
     }

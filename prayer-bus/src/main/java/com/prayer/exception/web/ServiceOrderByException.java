@@ -1,39 +1,41 @@
-package com.prayer.exception;
+package com.prayer.exception.web;
 
-import static com.prayer.util.Error.error;
+import com.prayer.exception.AbstractWebException;
 
 /**
- * Builder处理元数据过程的抽象异常类，在生成数据库信息时候出现异常
+ * 
  * @author Lang
  *
  */
-public abstract class AbstractMetadataException extends AbstractException{
+public class ServiceOrderByException extends AbstractWebException{
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = -3587573542243637734L;
+    private static final long serialVersionUID = -2185089278314685749L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    public AbstractMetadataException(final String message){
-        super(message);
-    }
     /**
      * 
      * @param clazz
-     * @param errorCode
-     * @param params
      */
-    public AbstractMetadataException(final Class<?> clazz, final int errorCode, final Object... params) {
-        super(error(clazz, errorCode, params));
+    public ServiceOrderByException(final Class<?> clazz){
+        super(clazz,-30016);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public int getErrorCode(){
+        return -30016;
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

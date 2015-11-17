@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractTestTool;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.IntType;
@@ -56,7 +56,7 @@ public class Restrictions09PrAndTestCase extends AbstractTestTool { // NOPMD
     public void testE05054Mand() {
         try {
             Restrictions.and(null, Restrictions.eq(COL_NAME, STR_VAL));
-        } catch (AbstractMetadataException ex) {
+        } catch (AbstractDatabaseException ex) {
             info(LOGGER, ex.getErrorMessage());
         }
         failure(TST_OVAL);
@@ -67,39 +67,39 @@ public class Restrictions09PrAndTestCase extends AbstractTestTool { // NOPMD
     public void testE05055Mand() {
         try {
             Restrictions.and(Restrictions.eq(COL_NAME, STR_VAL), null);
-        } catch (AbstractMetadataException ex) {
+        } catch (AbstractDatabaseException ex) {
             info(LOGGER, ex.getErrorMessage());
         }
         failure(TST_OVAL);
     }
 
     /** **/
-    @Test(expected = AbstractMetadataException.class)
-    public void testE05056Mand() throws AbstractMetadataException {
+    @Test(expected = AbstractDatabaseException.class)
+    public void testE05056Mand() throws AbstractDatabaseException {
         final Expression columnExpr = instance("com.prayer.kernel.query.ColumnLeafNode", COL_NAME);
         Restrictions.and(columnExpr, Restrictions.eq(COL_NAME, STR_VAL));
         failure(TST_PR);
     }
 
     /** **/
-    @Test(expected = AbstractMetadataException.class)
-    public void testE05057Mand() throws AbstractMetadataException {
+    @Test(expected = AbstractDatabaseException.class)
+    public void testE05057Mand() throws AbstractDatabaseException {
         final Expression columnExpr = instance("com.prayer.kernel.query.ColumnLeafNode", COL_NAME);
         Restrictions.and(Restrictions.eq(COL_NAME, STR_VAL), columnExpr);
         failure(TST_PR);
     }
 
     /** **/
-    @Test(expected = AbstractMetadataException.class)
-    public void testE05058Mand() throws AbstractMetadataException {
+    @Test(expected = AbstractDatabaseException.class)
+    public void testE05058Mand() throws AbstractDatabaseException {
         final Expression valueExpr = instance("com.prayer.kernel.query.ValueLeafNode");
         Restrictions.and(Restrictions.eq(COL_NAME, STR_VAL), valueExpr);
         failure(TST_PR);
     }
 
     /** **/
-    @Test(expected = AbstractMetadataException.class)
-    public void testE05059Mand() throws AbstractMetadataException {
+    @Test(expected = AbstractDatabaseException.class)
+    public void testE05059Mand() throws AbstractDatabaseException {
         final Expression valueExpr = instance("com.prayer.kernel.query.ValueLeafNode");
         Restrictions.and(valueExpr, Restrictions.eq(COL_NAME, STR_VAL));
         failure(TST_PR);
@@ -107,7 +107,7 @@ public class Restrictions09PrAndTestCase extends AbstractTestTool { // NOPMD
 
     /** **/
     @Test
-    public void testT05025Mand() throws AbstractMetadataException {
+    public void testT05025Mand() throws AbstractDatabaseException {
         final Expression expr = Restrictions.and(Restrictions.eq(COL_NAME, STR_VAL),
                 Restrictions.lt(COL_NAME1, STR_VAL));
         final String sqlSeg = expr.toSql();
@@ -116,7 +116,7 @@ public class Restrictions09PrAndTestCase extends AbstractTestTool { // NOPMD
     }
     /** **/
     @Test
-    public void testT05026Mand() throws AbstractMetadataException {
+    public void testT05026Mand() throws AbstractDatabaseException {
         final Expression expr = Restrictions.and(Restrictions.eq(COL_NAME, INT_VAL),
                 Restrictions.lt(COL_NAME1, INT_VAL));
         final String sqlSeg = expr.toSql();
@@ -125,7 +125,7 @@ public class Restrictions09PrAndTestCase extends AbstractTestTool { // NOPMD
     }
     /** **/
     @Test
-    public void testT05027Mand() throws AbstractMetadataException {
+    public void testT05027Mand() throws AbstractDatabaseException {
         Expression expr = Restrictions.and(Restrictions.eq(COL_NAME, INT_VAL),
                 Restrictions.lt(COL_NAME1, INT_VAL));
         expr = Restrictions.and(expr, Restrictions.eq(COL_NAME, STR_VAL));

@@ -2,7 +2,7 @@ package com.prayer.kernel.model;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
 
@@ -19,7 +19,7 @@ interface Transducer {
      * @param value
      * @return
      */
-    Value<?> getValue(DataType type, String value) throws AbstractMetadataException;
+    Value<?> getValue(DataType type, String value) throws AbstractDatabaseException;
 
     /**
      * 内部类

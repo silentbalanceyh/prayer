@@ -1,6 +1,6 @@
 package com.prayer.kernel.model;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
@@ -29,7 +29,7 @@ final class ValueTransducer implements Transducer {    // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public Value<?> getValue(final DataType type, final String value) throws AbstractMetadataException{    // NOPMD
+    public Value<?> getValue(final DataType type, final String value) throws AbstractDatabaseException{    // NOPMD
         Value<?> ret = null;
         switch (type) {
         case BOOLEAN:

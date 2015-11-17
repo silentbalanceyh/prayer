@@ -1,6 +1,6 @@
 package com.prayer.exception.validator;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 
 /**
  * min, max两个属性的异常信息
@@ -8,7 +8,7 @@ import com.prayer.exception.AbstractMetadataException;
  * @author Lang
  *
  */
-public class RangeFailureException extends AbstractMetadataException {
+public class RangeFailureException extends AbstractDatabaseException {
     // ~ Static Fields =======================================
     /**
      * 

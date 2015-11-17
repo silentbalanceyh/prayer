@@ -19,7 +19,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 
 import com.prayer.constant.Constants;
 import com.prayer.db.conn.tools.Transducer.T;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.IntType;
@@ -113,7 +113,7 @@ public final class Output { // NOPMD
                     for (final String column : columns) {
                         try {
                             record.put(column, T.get().getValue(retSet, columnTypes.get(column), column));
-                        } catch (AbstractMetadataException ex) {
+                        } catch (AbstractDatabaseException ex) {
                             info(LOGGER, "[DB-OUT] Exception: " + ex.getErrorMessage(), ex);
                         }
                     }

@@ -7,7 +7,7 @@ import org.dom4j.DocumentHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.metadata.ContentErrorException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
@@ -35,7 +35,7 @@ final class XmlValidator implements Validator {    // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractMetadataException {
+    public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractDatabaseException {
         boolean ret = false;
         try {
             DocumentHelper.parseText(value.literal());

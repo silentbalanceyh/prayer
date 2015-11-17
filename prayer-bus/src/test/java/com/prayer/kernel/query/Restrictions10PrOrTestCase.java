@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractTestTool;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.IntType;
@@ -56,7 +56,7 @@ public class Restrictions10PrOrTestCase extends AbstractTestTool { // NOPMD
     public void testE05054Mor() {
         try {
             Restrictions.or(null, Restrictions.eq(COL_NAME, STR_VAL));
-        } catch (AbstractMetadataException ex) {
+        } catch (AbstractDatabaseException ex) {
             info(LOGGER, ex.getErrorMessage());
         }
         failure(TST_OVAL);
@@ -67,39 +67,39 @@ public class Restrictions10PrOrTestCase extends AbstractTestTool { // NOPMD
     public void testE05055Mor() {
         try {
             Restrictions.or(Restrictions.eq(COL_NAME, STR_VAL), null);
-        } catch (AbstractMetadataException ex) {
+        } catch (AbstractDatabaseException ex) {
             info(LOGGER, ex.getErrorMessage());
         }
         failure(TST_OVAL);
     }
 
     /** **/
-    @Test(expected = AbstractMetadataException.class)
-    public void testE05056Mor() throws AbstractMetadataException {
+    @Test(expected = AbstractDatabaseException.class)
+    public void testE05056Mor() throws AbstractDatabaseException {
         final Expression columnExpr = instance("com.prayer.kernel.query.ColumnLeafNode", COL_NAME);
         Restrictions.or(columnExpr, Restrictions.eq(COL_NAME, STR_VAL));
         failure(TST_PR);
     }
 
     /** **/
-    @Test(expected = AbstractMetadataException.class)
-    public void testE05057Mor() throws AbstractMetadataException {
+    @Test(expected = AbstractDatabaseException.class)
+    public void testE05057Mor() throws AbstractDatabaseException {
         final Expression columnExpr = instance("com.prayer.kernel.query.ColumnLeafNode", COL_NAME);
         Restrictions.or(Restrictions.eq(COL_NAME, STR_VAL), columnExpr);
         failure(TST_PR);
     }
 
     /** **/
-    @Test(expected = AbstractMetadataException.class)
-    public void testE05058Mor() throws AbstractMetadataException {
+    @Test(expected = AbstractDatabaseException.class)
+    public void testE05058Mor() throws AbstractDatabaseException {
         final Expression valueExpr = instance("com.prayer.kernel.query.ValueLeafNode");
         Restrictions.or(Restrictions.eq(COL_NAME, STR_VAL), valueExpr);
         failure(TST_PR);
     }
 
     /** **/
-    @Test(expected = AbstractMetadataException.class)
-    public void testE05059Mor() throws AbstractMetadataException {
+    @Test(expected = AbstractDatabaseException.class)
+    public void testE05059Mor() throws AbstractDatabaseException {
         final Expression valueExpr = instance("com.prayer.kernel.query.ValueLeafNode");
         Restrictions.or(valueExpr, Restrictions.eq(COL_NAME, STR_VAL));
         failure(TST_PR);
@@ -107,7 +107,7 @@ public class Restrictions10PrOrTestCase extends AbstractTestTool { // NOPMD
 
     /** **/
     @Test
-    public void testT05025Mor() throws AbstractMetadataException {
+    public void testT05025Mor() throws AbstractDatabaseException {
         final Expression expr = Restrictions.or(Restrictions.eq(COL_NAME, STR_VAL),
                 Restrictions.lt(COL_NAME1, STR_VAL));
         final String sqlSeg = expr.toSql();
@@ -116,7 +116,7 @@ public class Restrictions10PrOrTestCase extends AbstractTestTool { // NOPMD
     }
     /** **/
     @Test
-    public void testT05026Mor() throws AbstractMetadataException {
+    public void testT05026Mor() throws AbstractDatabaseException {
         final Expression expr = Restrictions.or(Restrictions.eq(COL_NAME, INT_VAL),
                 Restrictions.lt(COL_NAME1, INT_VAL));
         final String sqlSeg = expr.toSql();
@@ -125,7 +125,7 @@ public class Restrictions10PrOrTestCase extends AbstractTestTool { // NOPMD
     }
     /** **/
     @Test
-    public void testT05027Mor() throws AbstractMetadataException {
+    public void testT05027Mor() throws AbstractDatabaseException {
         Expression expr = Restrictions.or(Restrictions.eq(COL_NAME, INT_VAL),
                 Restrictions.lt(COL_NAME1, INT_VAL));
         expr = Restrictions.or(expr, Restrictions.eq(COL_NAME, STR_VAL));

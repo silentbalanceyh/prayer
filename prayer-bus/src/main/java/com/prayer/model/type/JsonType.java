@@ -2,7 +2,7 @@ package com.prayer.model.type;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 
@@ -22,7 +22,7 @@ public class JsonType extends StringType implements Value<String> {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public JsonType(final String value) throws AbstractMetadataException{
+    public JsonType(final String value) throws AbstractDatabaseException{
         super(value);
         // Json内容验证代码
         this.innerValidator.validate(new StringType(value));

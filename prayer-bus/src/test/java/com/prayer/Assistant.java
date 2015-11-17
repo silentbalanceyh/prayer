@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
@@ -47,7 +47,7 @@ public final class Assistant { // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
-    public static Value<?> generate(final DataType type,final boolean isUpdate) throws AbstractMetadataException { // NOPMD
+    public static Value<?> generate(final DataType type,final boolean isUpdate) throws AbstractDatabaseException { // NOPMD
         Value<?> ret = null;
         switch (type) {
         case INT:

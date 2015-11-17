@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.AbstractDaoTestTool;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.metadata.PolicyConflictCallException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
@@ -77,7 +77,7 @@ public class MsSqlDao05TestCase extends AbstractDaoTestTool { // NOPMD
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05095Minsert() throws AbstractMetadataException {
+    public void testE05095Minsert() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             this.getRecordDao().insert(null);
             failure(message(TST_OVAL));
@@ -86,7 +86,7 @@ public class MsSqlDao05TestCase extends AbstractDaoTestTool { // NOPMD
 
     /** **/
     @Test
-    public void testT05045Minsert() throws AbstractMetadataException {
+    public void testT05045Minsert() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             final Record before = this.getRecord(IDENTIFIER);
             final Record after = this.getRecordDao().insert(before);
@@ -101,7 +101,7 @@ public class MsSqlDao05TestCase extends AbstractDaoTestTool { // NOPMD
      * 非法调用：this.getRecordDao().selectById(before, null);
      **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05096MselectById() throws AbstractMetadataException {
+    public void testE05096MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             this.getRecordDao().selectById(null, V_ID);
             failure(message(TST_OVAL));
@@ -110,7 +110,7 @@ public class MsSqlDao05TestCase extends AbstractDaoTestTool { // NOPMD
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05097MselectById() throws AbstractMetadataException {
+    public void testE05097MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             final Record before = this.getRecord(IDENTIFIER);
             this.getRecordDao().selectById(before, new ConcurrentHashMap<>());
@@ -120,7 +120,7 @@ public class MsSqlDao05TestCase extends AbstractDaoTestTool { // NOPMD
 
     /** **/
     @Test(expected = PolicyConflictCallException.class)
-    public void testT05046MselectById() throws AbstractMetadataException {
+    public void testT05046MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据
             final Record before = this.getRecord(IDENTIFIER);
@@ -140,7 +140,7 @@ public class MsSqlDao05TestCase extends AbstractDaoTestTool { // NOPMD
 
     /** **/
     @Test
-    public void testT05047MselectById() throws AbstractMetadataException {
+    public void testT05047MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据
             final Record before = this.getRecord(IDENTIFIER);
@@ -165,7 +165,7 @@ public class MsSqlDao05TestCase extends AbstractDaoTestTool { // NOPMD
     }
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05098Mupdate() throws AbstractMetadataException {
+    public void testE05098Mupdate() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             this.getRecordDao().update(null);
             failure(message(TST_OVAL));
@@ -174,7 +174,7 @@ public class MsSqlDao05TestCase extends AbstractDaoTestTool { // NOPMD
 
     /** **/
     @Test
-    public void testT05048Mupdate() throws AbstractMetadataException {
+    public void testT05048Mupdate() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据
             final Record before = this.getRecord(IDENTIFIER);
@@ -195,7 +195,7 @@ public class MsSqlDao05TestCase extends AbstractDaoTestTool { // NOPMD
     
     /** **/
     @Test
-    public void testT05049MselectById() throws AbstractMetadataException {
+    public void testT05049MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据
             final Record before = this.getRecord(IDENTIFIER);

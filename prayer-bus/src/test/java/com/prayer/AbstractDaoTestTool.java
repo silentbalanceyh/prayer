@@ -13,7 +13,7 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.record.RecordDao;
 import com.prayer.dao.record.impl.RecordDaoImpl;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.model.GenericSchema;
@@ -86,7 +86,7 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
         for (final String field : record.fields().keySet()) {
             try {
                 record.set(field, Assistant.generate(record.fields().get(field), false));
-            } catch (AbstractMetadataException ex) {
+            } catch (AbstractDatabaseException ex) {
                 info(getLogger(), ex.getErrorMessage(), ex);
             }
         }
@@ -107,7 +107,7 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
                 if (!ids.contains(field)) {
                     record.set(field, Assistant.generate(record.fields().get(field), true));
                 }
-            } catch (AbstractMetadataException ex) {
+            } catch (AbstractDatabaseException ex) {
                 info(getLogger(), ex.getErrorMessage(), ex);
             }
         }

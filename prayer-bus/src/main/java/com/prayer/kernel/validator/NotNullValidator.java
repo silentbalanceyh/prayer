@@ -1,6 +1,6 @@
 package com.prayer.kernel.validator;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 import com.prayer.util.StringKit;
@@ -26,7 +26,7 @@ final class NotNullValidator implements Validator {    // NOPMD
     /** **/
     @Override
     public boolean validate(@NotNull final Value<?> value, @NotNull @MinSize(0) final Object... params)
-            throws AbstractMetadataException {
+            throws AbstractDatabaseException {
         boolean ret = false;
         if (null != value.getValue() && StringKit.isNonNil(value.getValue().toString())) {
             ret = true;

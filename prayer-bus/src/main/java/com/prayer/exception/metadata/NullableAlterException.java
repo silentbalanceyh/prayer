@@ -1,13 +1,13 @@
 package com.prayer.exception.metadata;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 
 /**
  * 【Checked】-11001，将一个字段从NULL改成NOT NULL时因为该字段本身有null值，所以不可更改
  * @author Lang
  *
  */
-public class NullableAlterException extends AbstractMetadataException{
+public class NullableAlterException extends AbstractDatabaseException{
     // ~ Static Fields =======================================
     /**
      * 

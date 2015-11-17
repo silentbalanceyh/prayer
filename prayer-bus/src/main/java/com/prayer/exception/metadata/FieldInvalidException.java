@@ -1,12 +1,12 @@
 package com.prayer.exception.metadata;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 /**
  * 
  * @author Lang
  *
  */
-public class FieldInvalidException extends AbstractMetadataException{
+public class FieldInvalidException extends AbstractDatabaseException{
     // ~ Static Fields =======================================
     /**
      * 

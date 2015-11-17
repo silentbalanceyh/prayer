@@ -1,13 +1,13 @@
 package com.prayer.exception.metadata;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 
 /**
  * 调用方法出现了Policy不匹配的情况
  * @author Lang
  *
  */
-public class PolicyConflictCallException extends AbstractMetadataException{
+public class PolicyConflictCallException extends AbstractDatabaseException{
     // ~ Static Fields =======================================
     /**
      * 

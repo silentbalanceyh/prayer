@@ -1,13 +1,13 @@
 package com.prayer.exception.validator;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class CustomValidatorException extends AbstractMetadataException {
+public class CustomValidatorException extends AbstractDatabaseException {
     // ~ Static Fields =======================================
     /**
      * 

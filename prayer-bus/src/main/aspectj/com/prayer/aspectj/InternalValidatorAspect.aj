@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import com.prayer.constant.Constants;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;
@@ -35,7 +35,7 @@ public aspect InternalValidatorAspect extends AbstractValidatorAspect {
 
     // ~ Point Cut Implementation ============================
     /** 针对pattern拦截点的实现，需要抛出异常信息 **/
-    before(final String field, final Value<?> value) throws AbstractMetadataException: ValidatorPointCut(field,value){
+    before(final String field, final Value<?> value) throws AbstractDatabaseException: ValidatorPointCut(field,value){
         // 1.获取被拦截的字段的Schema
         final FieldModel schema = this.getField(thisJoinPoint.getTarget(), field);
         // 2.Nullable的验证
@@ -52,7 +52,7 @@ public aspect InternalValidatorAspect extends AbstractValidatorAspect {
 
     // ~ Private Methods =====================================
 
-    private void verifyPrecision(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
+    private void verifyPrecision(final FieldModel schema, final Value<?> value) throws AbstractDatabaseException {
         if (null != schema && DataType.DECIMAL == value.getDataType()) {
             final int length = schema.getLength();
             final int precision = schema.getPrecision();
@@ -67,7 +67,7 @@ public aspect InternalValidatorAspect extends AbstractValidatorAspect {
         }
     }
 
-    private void verifyRange(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
+    private void verifyRange(final FieldModel schema, final Value<?> value) throws AbstractDatabaseException {
         if (null != schema && (Arrays.asList(T_NUMBER).contains(value.getDataType()))) {
             final long min = schema.getMin();
             if (Constants.RANGE != min) {
@@ -88,7 +88,7 @@ public aspect InternalValidatorAspect extends AbstractValidatorAspect {
         }
     }
 
-    private void verifyLength(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
+    private void verifyLength(final FieldModel schema, final Value<?> value) throws AbstractDatabaseException {
         if (null != schema && (Arrays.asList(T_TEXT).contains(value.getDataType()))) {
             final int minLength = schema.getMinLength();
             if (Constants.RANGE != minLength) {
@@ -109,7 +109,7 @@ public aspect InternalValidatorAspect extends AbstractValidatorAspect {
         }
     }
 
-    private void verifyNullable(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
+    private void verifyNullable(final FieldModel schema, final Value<?> value) throws AbstractDatabaseException {
         if (null != schema) {
             final boolean isNull = schema.isNullable();
             if (!isNull) {
@@ -122,7 +122,7 @@ public aspect InternalValidatorAspect extends AbstractValidatorAspect {
     }
 
     /** **/
-    private void verifyPattern(final FieldModel schema, final Value<?> value) throws AbstractMetadataException {
+    private void verifyPattern(final FieldModel schema, final Value<?> value) throws AbstractDatabaseException {
         if (null != schema && (Arrays.asList(T_TEXT).contains(value.getDataType()))) {
             final String pattern = schema.getPattern();
             if (StringKit.isNonNil(pattern)) {

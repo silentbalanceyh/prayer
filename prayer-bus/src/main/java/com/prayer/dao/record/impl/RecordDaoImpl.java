@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.dao.record.RecordDao;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
@@ -52,11 +52,11 @@ public class RecordDaoImpl implements RecordDao {
      * 
      * @param record
      * @return
-     * @throws AbstractMetadataException
+     * @throws AbstractDatabaseException
      */
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record insert(@NotNull final Record record) throws AbstractMetadataException {
+    public Record insert(@NotNull final Record record) throws AbstractDatabaseException {
         return this.dao.insert(record);
     }
 
@@ -65,7 +65,7 @@ public class RecordDaoImpl implements RecordDao {
      */
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record update(@NotNull final Record record) throws AbstractMetadataException {
+    public Record update(@NotNull final Record record) throws AbstractDatabaseException {
         return this.dao.update(record);
     }
 
@@ -75,7 +75,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
     public Record selectById(@NotNull final Record record, @NotNull final Value<?> uniqueId)
-            throws AbstractMetadataException {
+            throws AbstractDatabaseException {
         return this.dao.selectById(record, uniqueId);
     }
 
@@ -85,7 +85,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
     public Record selectById(@NotNull final Record record,
-            @NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractMetadataException {
+            @NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException {
         return this.dao.selectById(record, uniqueIds);
     }
 
@@ -94,7 +94,7 @@ public class RecordDaoImpl implements RecordDao {
      */
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public boolean delete(@NotNull final Record record) throws AbstractMetadataException {
+    public boolean delete(@NotNull final Record record) throws AbstractDatabaseException {
         return this.dao.delete(record);
     }
 
@@ -105,12 +105,12 @@ public class RecordDaoImpl implements RecordDao {
      * @param params
      * @param filters
      * @return
-     * @throws AbstractMetadataException
+     * @throws AbstractDatabaseException
      */
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
     public List<Record> queryByFilter(@NotNull final Record record, @NotNull @MinLength(1) final String[] columns,
-            final List<Value<?>> params, final Expression filters) throws AbstractMetadataException {
+            final List<Value<?>> params, final Expression filters) throws AbstractDatabaseException {
         return this.dao.queryByFilter(record, columns, params, filters);
     }
 
@@ -122,13 +122,13 @@ public class RecordDaoImpl implements RecordDao {
      * @param filters
      * @param orders
      * @return
-     * @throws AbstractMetadataException
+     * @throws AbstractDatabaseException
      */
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
     public List<Record> queryByFilter(@NotNull final Record record, @NotNull final String[] columns,
             final List<Value<?>> params, final Expression filters, @NotNull final OrderBy orders)
-                    throws AbstractMetadataException {
+                    throws AbstractDatabaseException {
         return this.dao.queryByFilter(record, columns, params, filters, orders);
     }
 
@@ -141,13 +141,13 @@ public class RecordDaoImpl implements RecordDao {
      * @param orders
      * @param pager
      * @return
-     * @throws AbstractMetadataException
+     * @throws AbstractDatabaseException
      */
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<Long, List<Record>> queryByPage(@NotNull final Record record,
             @NotNull final String[] columns, final List<Value<?>> params, final Expression filters,
-            @NotNull final OrderBy orders, @NotNull final Pager pager) throws AbstractMetadataException {
+            @NotNull final OrderBy orders, @NotNull final Pager pager) throws AbstractDatabaseException {
         return this.dao.queryByPage(record, columns, params, filters, orders, pager);
     }
 

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.metadata.ValidatorConflictException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
@@ -42,7 +42,7 @@ final class PatternValidator implements Validator {    // NOPMD
     /** **/
     @Override
     public boolean validate(@NotNull final Value<?> value, @NotNull @Size(min = 1, max = 1) final Object... params)
-            throws AbstractMetadataException {
+            throws AbstractDatabaseException {
         // 冲突
         if (!Arrays.asList(T_REQUIRED).contains(value.getDataType())) {
             throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "pattern");

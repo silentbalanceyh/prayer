@@ -1,13 +1,13 @@
 package com.prayer.exception.validator;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 
 /**
  * nullable为false的时候的验证失败异常，即不可为null，空串
  * @author Lang
  *
  */
-public class NotNullFailureException extends AbstractMetadataException{
+public class NotNullFailureException extends AbstractDatabaseException{
     // ~ Static Fields =======================================
     /**
      * 

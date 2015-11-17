@@ -1,7 +1,7 @@
 package com.prayer.kernel;
 
 import com.prayer.constant.Symbol;
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.model.GenericSchema;
 
 /**
@@ -42,5 +42,5 @@ public interface Builder extends Symbol{
      * 获取执行步骤中的Exception
      * @return
      */
-    AbstractMetadataException getError();
+    AbstractDatabaseException getError();
 }

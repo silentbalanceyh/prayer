@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.std.MetaService;
 import com.prayer.bus.util.BusLogger;
+import com.prayer.bus.util.Interruptor;
+import com.prayer.exception.AbstractException;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonObject;
@@ -59,6 +61,20 @@ public class MetaSevImpl implements MetaService {
     public ServiceResult<JsonObject> page(@NotNull final JsonObject jsonObject) {
         info(LOGGER, BusLogger.I_PARAM_INFO, "POST - Query", jsonObject.encode());
         ServiceResult<JsonObject> ret = new ServiceResult<>();
+        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        if(null == error){
+            // Page特殊参数
+            error = Interruptor.interruptPageParams(getClass(), jsonObject);
+            if(null == error){
+                
+            }else{
+                // Page特殊参数缺失
+                ret.failure(error);
+            }
+        }else{
+            // 通用参数缺失
+            ret.failure(error);
+        }
         // TODO Auto-generated method stub
         return ret;
     }

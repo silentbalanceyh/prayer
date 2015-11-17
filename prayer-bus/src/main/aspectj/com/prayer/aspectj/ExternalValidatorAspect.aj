@@ -2,7 +2,7 @@ package com.prayer.aspectj;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Validator;
@@ -26,7 +26,7 @@ public aspect ExternalValidatorAspect extends AbstractValidatorAspect {
 
     // ~ Point Cut Implementation ============================
     /** 针对pattern拦截点的实现，需要抛出异常信息 **/
-    after(final String field, final Value<?> value) throws AbstractMetadataException: ValidatorPointCut(field,value){
+    after(final String field, final Value<?> value) throws AbstractDatabaseException: ValidatorPointCut(field,value){
         // 1.获取被拦截的字段的Schema
         final FieldModel schema = this.getField(thisJoinPoint.getTarget(), field);
         if (null != schema) {

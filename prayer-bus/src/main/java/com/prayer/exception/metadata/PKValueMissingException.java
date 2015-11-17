@@ -1,12 +1,12 @@
 package com.prayer.exception.metadata;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 /**
  * 
  * @author Lang
  *
  */
-public class PKValueMissingException extends AbstractMetadataException{
+public class PKValueMissingException extends AbstractDatabaseException{
     // ~ Static Fields =======================================
     /**
      * 

@@ -3,7 +3,7 @@ package com.prayer.dao.record;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
@@ -21,15 +21,15 @@ public interface RecordDao {
      * @param record
      * @return
      */
-    Record insert(Record record) throws AbstractMetadataException;
+    Record insert(Record record) throws AbstractDatabaseException;
 
     /**
      * 
      * @param record
      * @return
-     * @throws AbstractMetadataException
+     * @throws AbstractDatabaseException
      */
-    Record update(Record record) throws AbstractMetadataException;
+    Record update(Record record) throws AbstractDatabaseException;
 
     /**
      * 主键策略：GUID, ASSIGNED, INCREMENT
@@ -38,7 +38,7 @@ public interface RecordDao {
      * @param uniqueId
      * @return
      */
-    Record selectById(Record record, Value<?> uniqueId) throws AbstractMetadataException;
+    Record selectById(Record record, Value<?> uniqueId) throws AbstractDatabaseException;
 
     /**
      * 主键策略：COLLECTION
@@ -47,7 +47,7 @@ public interface RecordDao {
      * @param uniqueIds
      * @return
      */
-    Record selectById(Record record, ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractMetadataException;
+    Record selectById(Record record, ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException;
 
     /**
      * 
@@ -55,7 +55,7 @@ public interface RecordDao {
      * @param uniqueId
      * @return
      */
-    boolean delete(Record record) throws AbstractMetadataException;
+    boolean delete(Record record) throws AbstractDatabaseException;
 
     /**
      * 
@@ -63,10 +63,10 @@ public interface RecordDao {
      * @param columns
      * @param filter
      * @return
-     * @throws AbstractMetadataException
+     * @throws AbstractDatabaseException
      */
     List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters)
-            throws AbstractMetadataException;
+            throws AbstractDatabaseException;
 
     /**
      * 
@@ -76,10 +76,10 @@ public interface RecordDao {
      * @param filters
      * @param orders
      * @return
-     * @throws AbstractMetadataException
+     * @throws AbstractDatabaseException
      */
     List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters,
-            OrderBy orders) throws AbstractMetadataException;
+            OrderBy orders) throws AbstractDatabaseException;
 
     /**
      * 
@@ -89,8 +89,8 @@ public interface RecordDao {
      * @param filters
      * @param orders
      * @return
-     * @throws AbstractMetadataException
+     * @throws AbstractDatabaseException
      */
     ConcurrentMap<Long, List<Record>> queryByPage(Record record, String[] columns, List<Value<?>> params,
-            Expression filters, OrderBy orders, Pager pager) throws AbstractMetadataException;
+            Expression filters, OrderBy orders, Pager pager) throws AbstractDatabaseException;
 }

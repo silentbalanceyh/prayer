@@ -1,13 +1,13 @@
 package com.prayer.exception.metadata;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 
 /**
  * 特殊属性验证的时候其类型必须匹配，不匹配的验证会抛出该异常
  * @author Lang
  *
  */
-public class ValidatorConflictException extends AbstractMetadataException{
+public class ValidatorConflictException extends AbstractDatabaseException{
     // ~ Static Fields =======================================
     /**
      * 

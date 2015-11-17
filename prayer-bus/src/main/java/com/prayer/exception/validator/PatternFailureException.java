@@ -1,13 +1,13 @@
 package com.prayer.exception.validator;
 
-import com.prayer.exception.AbstractMetadataException;
+import com.prayer.exception.AbstractDatabaseException;
 
 /**
  * 验证pattern属性出错时的特殊异常
  * @author Lang
  *
  */
-public class PatternFailureException extends AbstractMetadataException{
+public class PatternFailureException extends AbstractDatabaseException{
     // ~ Static Fields =======================================
     /**
      * 
