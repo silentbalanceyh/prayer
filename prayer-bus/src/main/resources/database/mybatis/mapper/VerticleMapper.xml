@@ -156,4 +156,10 @@
             DELETE FROM EVX_VERTICLE WHERE S_CLASS=#{name}
         ]]>
     </delete>
+    
+    <select id="selectByPage" resultMap="verticleObject">
+        <![CDATA[
+            SELECT * FROM EVX_VERTICLE ORDER BY #{order} LIMIT #{size} OFFSET #{start}
+        ]]>
+    </select>
 </mapper>

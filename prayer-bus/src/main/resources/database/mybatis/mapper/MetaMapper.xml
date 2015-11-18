@@ -174,4 +174,9 @@
             SELECT * FROM SYS_META WHERE S_GLOBAL_ID=#{globalId}
         ]]>
     </select>
+    <select id="selectByPage" resultMap="metaObject">
+        <![CDATA[
+            SELECT * FROM SYS_META ORDER BY #{order} LIMIT #{size} OFFSET #{start}
+        ]]>
+    </select>
 </mapper>

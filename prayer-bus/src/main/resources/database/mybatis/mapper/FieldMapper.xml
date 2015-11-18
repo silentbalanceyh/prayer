@@ -224,4 +224,9 @@
             SELECT * FROM SYS_FIELDS WHERE R_META_ID=#{metaId}
         ]]>
     </select>
+    <select id="selectByPage" resultMap="fieldObject">
+        <![CDATA[
+            SELECT * FROM SYS_FIELDS ORDER BY #{order} LIMIT #{size} OFFSET #{start}
+        ]]>
+    </select>
 </mapper>

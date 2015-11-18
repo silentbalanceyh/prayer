@@ -112,4 +112,9 @@
             SELECT * FROM SYS_KEYS WHERE R_META_ID=#{metaId}
         ]]>
     </select>
+    <select id="selectByPage" resultMap="keyObject">
+        <![CDATA[
+            SELECT * FROM SYS_KEYS ORDER BY #{order} LIMIT #{size} OFFSET #{start}
+        ]]>
+    </select>
 </mapper>

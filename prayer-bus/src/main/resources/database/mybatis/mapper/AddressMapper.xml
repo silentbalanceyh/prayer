@@ -91,4 +91,10 @@
             SELECT * FROM EVX_ADDRESS WHERE S_WORK_CLASS=#{workClass}
         ]]>
     </select>
+    
+    <select id="selectByPage" resultMap="addressObject">
+        <![CDATA[
+            SELECT * FROM EVX_ADDRESS ORDER BY #{order} LIMIT #{size} OFFSET #{start}
+        ]]>
+    </select>
 </mapper>

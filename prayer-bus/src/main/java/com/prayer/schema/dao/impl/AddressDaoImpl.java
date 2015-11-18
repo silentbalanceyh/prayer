@@ -20,7 +20,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class AddressDaoImpl extends TemplateDaoImpl<AddressModel, String>implements AddressDao {    // NOPMD
+public class AddressDaoImpl extends TemplateDaoImpl<AddressModel, String> implements AddressDao {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(AddressDaoImpl.class);

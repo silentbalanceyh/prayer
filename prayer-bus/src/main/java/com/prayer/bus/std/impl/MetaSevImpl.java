@@ -75,7 +75,6 @@ public class MetaSevImpl implements MetaService {
             // 通用参数缺失
             ret.failure(error);
         }
-        // TODO Auto-generated method stub
         return ret;
     }
 
