@@ -51,6 +51,14 @@ public interface H2TMapper<T, ID> {    // NOPMD
     List<T> selectAll();
     /**
      * 
+     * @param order
+     * @param size
+     * @param start
+     * @return
+     */
+    List<T> selectByPage(String order, int size, int start);
+    /**
+     * 
      * @return
      */
     boolean purgeData();

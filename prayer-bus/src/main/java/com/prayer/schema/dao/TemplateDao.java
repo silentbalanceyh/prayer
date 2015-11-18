@@ -49,6 +49,14 @@ public interface TemplateDao<T, ID extends Serializable> {    // NOPMD
      * @return
      */
     List<T> getAll();
+    /**
+     * 
+     * @param index 从1开始，第几页
+     * @param size
+     * @param orderBy
+     * @return
+     */
+    List<T> getByPage(int index, int size, String orderBy);
 
     /**
      * 

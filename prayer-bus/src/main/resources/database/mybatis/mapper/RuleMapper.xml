@@ -124,4 +124,9 @@
             SELECT * FROM EVX_RULE WHERE R_URI_ID=#{refUriId} ORDER BY J_COMPONENT_TYPE, S_ORDER ASC
         ]]>
     </select>
+    <select id="selectByPage" resultMap="ruleObject">
+        <![CDATA[
+            SELECT * FROM SYS_RULE ORDER BY #{order} LIMIT #{size} OFFSET #{start}
+        ]]>
+    </select>
 </mapper>

@@ -139,4 +139,9 @@
             SELECT * FROM EVX_ROUTE WHERE S_PARENT=#{parent}
         ]]>
     </select>
+    <select id="selectByPage" resultMap="routeObject">
+        <![CDATA[
+            SELECT * FROM SYS_ROUTE ORDER BY #{order} LIMIT #{size} OFFSET #{start}
+        ]]>
+    </select>
 </mapper>

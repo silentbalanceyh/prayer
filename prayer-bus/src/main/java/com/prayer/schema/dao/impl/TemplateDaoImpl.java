@@ -21,7 +21,10 @@ import com.prayer.schema.dao.TemplateDao;
 import com.prayer.schema.db.H2TMapper;
 import com.prayer.schema.db.SessionManager;
 
+import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.MinLength;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -162,6 +165,29 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
             session.close();
         } catch (AbstractTransactionException ex) {
             info(getLogger(), "[H2] (List<T> getAll()) Exception occurs !", ex);
+        }
+        return retList;
+    }
+    /**
+     * 
+     * @return
+     */
+    @Override
+    public List<T> getByPage(@Min(1) final int index, @Min(1) final int size, @NotNull @NotEmpty @NotBlank final String orderBy){
+        // 1.初始化SqlSession
+        final SqlSession session = SessionManager.getSession();
+        // 2.计算偏移量
+        int start = (index - 1) * size;
+        List<T> retList = null;
+        try{
+            // 3.获取Mapper
+            final H2TMapper<T,ID> mapper = (H2TMapper<T,ID>)session.getMapper(mapper());
+            // 4.读取返回列表
+            retList = mapper.selectByPage(orderBy, size, start);
+            // 5.关闭Session返回最终结果
+            session.close();
+        }catch(AbstractTransactionException ex){
+            info(getLogger(),"[H2] (List<T> getByPage(int,int,String)) Exception occurs !",ex);
         }
         return retList;
     }
