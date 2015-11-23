@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 
 import com.prayer.bus.script.JSEngine;
 import com.prayer.bus.script.JSEnv;
-import com.prayer.bus.script.JSEnvExtractor;
 import com.prayer.bus.util.Interruptor;
 import com.prayer.bus.util.ParamExtractor;
 import com.prayer.constant.Constants;
@@ -29,7 +28,6 @@ import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.query.OrderBy;
-import com.prayer.kernel.query.Pager;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonArray;
@@ -49,9 +47,6 @@ public abstract class AbstractSevImpl {
     private transient final ParamExtractor extractor;
     /** **/
     @NotNull
-    private transient final JSEnvExtractor jsExtractor;
-    /** **/
-    @NotNull
     private transient final RecordDao recordDao;
 
     // ~ Static Block ========================================
@@ -62,7 +57,6 @@ public abstract class AbstractSevImpl {
     public AbstractSevImpl() {
         this.extractor = singleton(ParamExtractor.class);
         this.recordDao = singleton(RecordDaoImpl.class);
-        this.jsExtractor = singleton(JSEnvExtractor.class);
     }
 
     // ~ Abstract Methods ====================================
@@ -84,7 +78,7 @@ public abstract class AbstractSevImpl {
         // 1. 初始化脚本引擎以及Record对象
         final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
-        initJSEnv(jsonObject, record);
+        JSEngine.initJSRecordEnv(jsonObject, record);
         // 3. 执行Java脚本插入数据
         JsonObject retJson = null;
         if (Interruptor.isUpdate(record)) {
@@ -109,7 +103,7 @@ public abstract class AbstractSevImpl {
         // 1. 初始化脚本引擎以及Record对象
         final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
-        initJSEnv(jsonObject, record);
+        JSEngine.initJSRecordEnv(jsonObject, record);
         // 3. 删除当前记录
         boolean deleted = this.recordDao.delete(record);
         ret.success(new JsonObject().put("DELETED", deleted));
@@ -123,7 +117,7 @@ public abstract class AbstractSevImpl {
         // 1. 初始化脚本引擎以及Record对象
         final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
-        final JSEnv env = initJSEnv(jsonObject, record);
+        final JSEnv env = JSEngine.initJSRecordEnv(jsonObject, record);
         // 3. 执行Java脚本插入数据
         ConcurrentMap<Long, List<Record>> retMap = new ConcurrentHashMap<>();
         final OrderBy orders = env.getOrder();
@@ -163,7 +157,7 @@ public abstract class AbstractSevImpl {
         // 1. 初始化脚本引擎以及Record对象
         final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
-        final JSEnv env = initJSEnv(jsonObject, record);
+        final JSEnv env = JSEngine.initJSRecordEnv(jsonObject, record);
         // 3. 执行Java脚本插入数据
         List<Record> retList = new ArrayList<>();
         final OrderBy orders = env.getOrder();
@@ -210,55 +204,6 @@ public abstract class AbstractSevImpl {
             return this.recordDao.update(queried);
         } else {
             throw error;
-        }
-    }
-
-    private JSEnv initJSEnv(final JsonObject jsonObject, final Record record) throws ScriptException {
-        final JSEngine engine = JSEngine.getEngine(jsonObject.getJsonObject(Constants.PARAM.DATA));
-        final JSEnv env = new JSEnv();
-        // 1.设置变量绑定
-        env.setRecord(record);
-        engine.put(JSEngine.ENV, env);
-        // 2.关于OrderBy的判断，参数中包含了orders的信息
-        this.injectOrders(jsonObject, record, env);
-        // 3.关于Pager的注入
-        this.injectPager(jsonObject, env);
-        // 4.设置全局脚本
-        engine.execute(jsExtractor.extractJSEnv());
-        // 5.执行局部配置脚本
-        engine.execute(jsExtractor.extractJSContent(jsonObject));
-        return env;
-    }
-
-    private void injectPager(final JsonObject jsonObject, final JSEnv env) {
-        final JsonObject data = jsonObject.getJsonObject(Constants.PARAM.DATA);
-        if (data.containsKey(Constants.PARAM.PAGE.NAME)) {
-            JsonObject pager = null;
-            try {
-                pager = data.getJsonObject(Constants.PARAM.PAGE.NAME);
-            } catch (ClassCastException ex) {
-                info(getLogger(), " Convert to String paring : " + ex.toString());
-                pager = new JsonObject(data.getString(Constants.PARAM.PAGE.NAME));
-            }
-            if (null != pager) {
-                env.setPager(Pager.create(pager));
-            }
-        }
-    }
-
-    private void injectOrders(final JsonObject jsonObject, final Record record, final JSEnv env) {
-        final JsonObject data = jsonObject.getJsonObject(Constants.PARAM.DATA);
-        if (data.containsKey(Constants.PARAM.ORDERS)) {
-            JsonArray orderArr = null;
-            try {
-                orderArr = data.getJsonArray(Constants.PARAM.ORDERS);
-            } catch (ClassCastException ex) {
-                info(getLogger(), " Convert to String parsing : " + ex.toString());
-                orderArr = new JsonArray(data.getString(Constants.PARAM.ORDERS));
-            }
-            if (null != orderArr && null != record) {
-                env.setOrder(OrderBy.create(orderArr, record));
-            }
         }
     }
     // ~ Get/Set =============================================

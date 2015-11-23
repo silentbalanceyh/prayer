@@ -49,6 +49,14 @@ public class OrderBy implements Serializable {
     public static OrderBy create(@NotNull final JsonArray orderArr, @NotNull final Record record) {
         return new OrderBy(orderArr, record);
     }
+    /**
+     * 
+     * @param orderArr
+     * @return
+     */
+    public static OrderBy create(@NotNull final JsonArray orderArr){
+        return new OrderBy(orderArr);
+    }
 
     // ~ Constructors ========================================
     /**
@@ -56,6 +64,23 @@ public class OrderBy implements Serializable {
      */
     public OrderBy() {
         this.clear();
+    }
+
+    /**
+     * 
+     * @param orderArr
+     */
+    private OrderBy(final JsonArray orderArr) {
+        for (int idx = 0; idx < orderArr.size(); idx++) {
+            final JsonObject item = orderArr.getJsonObject(idx);
+            final Iterator<Map.Entry<String, Object>> it = item.iterator();
+            // Orders只包含一个元素
+            if (it.hasNext()) {
+                Map.Entry<String, Object> entry = it.next();
+                final String flag = entry.getValue().toString();
+                this.add(entry.getKey(), flag);
+            }
+        }
     }
 
     /**

@@ -123,7 +123,7 @@ public class ScriptModel implements Serializable { // NOPMD
 
     /** **/
     @Override
-    public boolean equals(final Object obj) {    // NOPMD
+    public boolean equals(final Object obj) { // NOPMD
         if (this == obj) {
             return true;
         }
