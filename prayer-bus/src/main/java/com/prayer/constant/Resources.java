@@ -66,6 +66,8 @@ public final class Resources { // NOPMD
     public static final String VX_CFG_FILE;
     /** Server的配置文件路径 **/
     public static final String SEV_CFG_FILE;
+    /** Meta Data的配置文件路径 **/
+    public static final String META_CFG_FILE;
 
     /**
      * Private singleton resource LOADER. *
@@ -150,6 +152,11 @@ public final class Resources { // NOPMD
         SEV_CFG_FILE = LOADER.getString("server.config.file");
         if (null == SEV_CFG_FILE) {
             debug(LOGGER, ERR_SYS_NULL, "SEV_CFG_FILE", SEV_CFG_FILE);
+        }
+        // Meta
+        META_CFG_FILE = LOADER.getString("meta.config.file");
+        if (null == META_CFG_FILE){
+            debug(LOGGER, ERR_SYS_NULL, "META_CFG_FILE", META_CFG_FILE);
         }
     }
 

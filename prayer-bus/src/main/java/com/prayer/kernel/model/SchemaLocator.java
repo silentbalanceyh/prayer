@@ -12,7 +12,6 @@ import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.schema.json.internal.CommunionImporter;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -28,8 +27,7 @@ import net.sf.oval.guard.Guarded;
 final class SchemaLocator {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommunionImporter.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaLocator.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
