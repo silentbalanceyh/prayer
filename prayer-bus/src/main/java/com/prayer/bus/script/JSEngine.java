@@ -58,7 +58,8 @@ public final class JSEngine {
      * @param record
      * @throws ScriptException
      */
-    public static JSEnv initJSRecordEnv(final JsonObject jsonObject, final Record record) throws ScriptException {
+    public static JSEnv initJSRecordEnv(@NotNull final JsonObject jsonObject, @NotNull final Record record)
+            throws ScriptException {
         final JSEngine engine = new JSEngine(jsonObject.getJsonObject(Constants.PARAM.DATA));
         final JSEnvExtractor extractor = singleton(JSEnvExtractor.class);
         final JSEnv env = new JSEnv();
@@ -71,6 +72,28 @@ public final class JSEngine {
         env.setPager(ClauseInjector.genPager(jsonObject));
         // 4.设置全局脚本
         engine.execute(extractor.extractJSEnv());
+        // 5.设置局部配置脚本
+        engine.execute(extractor.extractJSContent(jsonObject));
+        return env;
+    }
+
+    /**
+     * 
+     * @param jsonObject
+     * @return
+     * @throws ScriptException
+     */
+    public static JSEnv initJSMetaEnv(@NotNull final JsonObject jsonObject) throws ScriptException {
+        final JSEngine engine = new JSEngine(jsonObject.getJsonObject(Constants.PARAM.DATA));
+        final JSEnvExtractor extractor = singleton(JSEnvExtractor.class);
+        final JSEnv env = new JSEnv();
+        engine.put(JSEngine.ENV, env);
+        // 2.关于OrderBy的判断，参数中包含了orders的信息
+        env.setOrder(ClauseInjector.genOrderBy(jsonObject));
+        // 3.关于Pager的注入
+        env.setPager(ClauseInjector.genPager(jsonObject));
+        // 4.设置全局脚本
+        engine.execute(extractor.extractJSMetaEnv());
         // 5.设置局部配置脚本
         engine.execute(extractor.extractJSContent(jsonObject));
         return env;

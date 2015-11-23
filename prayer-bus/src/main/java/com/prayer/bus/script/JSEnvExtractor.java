@@ -23,6 +23,8 @@ public final class JSEnvExtractor {
     // ~ Static Fields =======================================
     /** **/
     private static final String JS_GLOBAL_ID = "js.global.util";
+    /** **/
+    private static final String JS_META_ID = "js.global.meta";
     // ~ Instance Fields =====================================
     /** Config Service 接口 **/
     private transient final ConfigService configSev;
@@ -49,6 +51,13 @@ public final class JSEnvExtractor {
      */
     public String extractJSEnv(){
         return this.getJsByName(JS_GLOBAL_ID);
+    }
+    /**
+     * 
+     * @return
+     */
+    public String extractJSMetaEnv(){
+        return this.getJsByName(JS_META_ID);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
