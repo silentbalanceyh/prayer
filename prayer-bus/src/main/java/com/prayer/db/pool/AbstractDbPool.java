@@ -8,6 +8,8 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.util.PropertyKit;
 
+import net.sf.oval.constraint.AssertFieldConstraints;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -36,6 +38,7 @@ public abstract class AbstractDbPool {
      * 资源加载器
      */
     @NotNull
+    @InstanceOfAny(PropertyKit.class)
     protected transient final PropertyKit LOADER = new PropertyKit(getClass(), Resources.DB_CFG_FILE);
 
     // ~ Constructors ========================================
@@ -53,7 +56,7 @@ public abstract class AbstractDbPool {
      * @param category
      */
     @PostValidateThis
-    protected AbstractDbPool(@NotNull @NotEmpty @NotBlank final String category) {
+    protected AbstractDbPool(@AssertFieldConstraints("category") final String category) {
         synchronized (getClass()) {
             this.category = category;
             // 初始化数据源
@@ -104,6 +107,7 @@ public abstract class AbstractDbPool {
      * @return
      */
     @NotNull
+    @Pre(expr = "_this.category != null", lang = Constants.LANG_GROOVY)
     public String getCategory() {
         return this.category;
     }

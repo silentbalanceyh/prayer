@@ -11,6 +11,7 @@ import com.prayer.model.h2.FieldModel;
 import com.prayer.model.h2.KeyModel;
 import com.prayer.model.h2.MetaModel;
 
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -79,6 +80,7 @@ public class GenericSchema implements Serializable { // NOPMD
      * 
      * @return
      */
+    @InstanceOfAny(FieldModel.class)
     public FieldModel getForeignField() {
         return SchemaExpander.getForeignField(this.getFields());
     }
@@ -88,6 +90,7 @@ public class GenericSchema implements Serializable { // NOPMD
      * 
      * @return
      */
+    @InstanceOfAny(KeyModel.class)
     public KeyModel getForeignKey() {
         return SchemaExpander.getForeignKey(this.getKeys());
     }
@@ -112,6 +115,7 @@ public class GenericSchema implements Serializable { // NOPMD
     /**
      * @return the meta
      */
+    @InstanceOfAny(MetaModel.class)
     public MetaModel getMeta() {
         return meta;
     }

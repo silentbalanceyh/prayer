@@ -33,6 +33,7 @@ import com.prayer.exception.schema.SubtableWrongException;
 import com.prayer.exception.schema.ZeroLengthException;
 import com.prayer.util.JsonKit;
 
+import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.NotBlank;
@@ -41,7 +42,6 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.Pre;
-import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -73,7 +73,7 @@ final class JArrayValidator { // NOPMD
 
     /** **/
     @PostValidateThis
-    public JArrayValidator(@NotNull final ArrayNode verifiedNodes, @NotEmpty @NotBlank final String name) {
+    public JArrayValidator(@NotNull final ArrayNode verifiedNodes, @AssertFieldConstraints("name") final String name) {
         this.verifiedNodes = verifiedNodes;
         if (null == name) {
             this.name = "ROOT";
@@ -89,7 +89,6 @@ final class JArrayValidator { // NOPMD
      * 
      * @param table
      */
-    @PreValidateThis
     public void setTable(@NotNull @NotBlank @NotEmpty final String table) {
         this.table = table;
     }
@@ -99,7 +98,7 @@ final class JArrayValidator { // NOPMD
      * 
      * @return
      */
-    @PreValidateThis
+    @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyZero() {
         AbstractSchemaException retExp = null;
         if (this.verifiedNodes.size() <= 0) {
@@ -117,7 +116,6 @@ final class JArrayValidator { // NOPMD
      * @param regexStr
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyFkColumnType(@NotNull @NotBlank @NotEmpty final String attr,
             @NotNull final ConcurrentMap<String, Object> filter, @NotNull @NotBlank @NotEmpty final String regexStr) {
@@ -147,7 +145,6 @@ final class JArrayValidator { // NOPMD
      * 
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyFkType(@NotNull @NotBlank @NotEmpty final String attr,
             @NotNull final ConcurrentMap<String, Object> filter, @MinLength(1) final String... values) {
@@ -176,7 +173,6 @@ final class JArrayValidator { // NOPMD
      * 
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyJObjectNodes() {
         AbstractSchemaException retExp = null;
@@ -201,7 +197,6 @@ final class JArrayValidator { // NOPMD
      * 
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyStringNodes() {
         AbstractSchemaException retExp = null;
@@ -228,7 +223,6 @@ final class JArrayValidator { // NOPMD
      * @param expectedValues
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyPKeyPolicyType(@NotNull final MetaPolicy policy,
             @NotNull final ConcurrentMap<String, Object> filter, @MinLength(1) final String... expectedValues) {
@@ -257,7 +251,6 @@ final class JArrayValidator { // NOPMD
      * @param policy
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyPKeyNonCOPolicy(@NotNull @NotBlank @NotEmpty final String attr,
             @NotNull final MetaPolicy policy) {
@@ -277,7 +270,6 @@ final class JArrayValidator { // NOPMD
      * @param policy
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyPKeyCOPolicy(@NotNull @NotBlank @NotEmpty final String attr,
             @NotNull final MetaPolicy policy) {
@@ -295,7 +287,6 @@ final class JArrayValidator { // NOPMD
      * 
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyRelMissing(@NotNull @NotBlank @NotEmpty final String attr, final Object value,
             @Min(1) final int minOccurs) {
@@ -317,7 +308,6 @@ final class JArrayValidator { // NOPMD
      * @param minOccurs
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyPKeyMissing(@NotNull @NotBlank @NotEmpty final String attr, final Object value,
             @Min(1) final int minOccurs) {
@@ -338,7 +328,6 @@ final class JArrayValidator { // NOPMD
      * @param attr
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyKeysDuplicated(@NotNull @NotBlank @NotEmpty final String attr) {
         // Occurs的计算不能使用，attrExpStr的计算存在，所以不可使用Occurs计算
@@ -368,7 +357,6 @@ final class JArrayValidator { // NOPMD
      * @param attr
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyDuplicated(@NotNull @NotBlank @NotEmpty final String attr) {
         // Occurs的计算不能使用，attrExpStr的计算存在，所以不可使用Occurs计算

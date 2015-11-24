@@ -19,6 +19,7 @@ import com.prayer.model.h2.vx.UriModel;
 import com.prayer.model.h2.vx.VerticleModel;
 
 import io.vertx.core.http.HttpMethod;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -53,6 +54,7 @@ public class ConfigSevImpl implements ConfigService {
     /** 读取的特殊方法，无异常信息抛出。 **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<VerticleChain> findVerticles(@NotNull @NotBlank @NotEmpty final String group) {
         final ServiceResult<VerticleChain> result = new ServiceResult<>();
         final VerticleChain chain = this.manager.getVerticleDao().getByGroup(group);
@@ -62,6 +64,7 @@ public class ConfigSevImpl implements ConfigService {
     /** 读取数据库中所有的VerticleModel配置信息 **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<ConcurrentMap<String, VerticleChain>> findVerticles() {
         // 1.构造响应数据
         final ServiceResult<ConcurrentMap<String, VerticleChain>> result = new ServiceResult<>();
@@ -74,6 +77,7 @@ public class ConfigSevImpl implements ConfigService {
     /** 读取主路由下的子路由 **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<List<RouteModel>> findRoutes(@NotNull @NotBlank @NotEmpty final String parent) {
         // 1.构造响应数据
         final ServiceResult<List<RouteModel>> result = new ServiceResult<>();
@@ -86,6 +90,7 @@ public class ConfigSevImpl implements ConfigService {
     /** 读取所有路由信息 **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<ConcurrentMap<String, List<RouteModel>>> findRoutes() {
         // 1.构造响应数据
         final ServiceResult<ConcurrentMap<String, List<RouteModel>>> result = new ServiceResult<>();
@@ -100,6 +105,7 @@ public class ConfigSevImpl implements ConfigService {
     /** **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<ConcurrentMap<HttpMethod, UriModel>> findUri(@NotNull @NotBlank @NotEmpty final String uri) {
         // 1.构造响应数据
         final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = new ServiceResult<>();
@@ -113,6 +119,7 @@ public class ConfigSevImpl implements ConfigService {
     /** **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findValidators(
             @NotNull @NotBlank @NotEmpty final String uriId) {
         // 1.构造响应数据
@@ -129,6 +136,7 @@ public class ConfigSevImpl implements ConfigService {
     /** **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors(
             @NotNull @NotBlank @NotEmpty final String uriId) {
         // 1.构造响应数据
@@ -145,6 +153,7 @@ public class ConfigSevImpl implements ConfigService {
     /** **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<AddressModel> findAddress(@NotNull final Class<?> workClass) {
         // 1.构造响应数据
         final ServiceResult<AddressModel> result = new ServiceResult<>();
@@ -157,6 +166,7 @@ public class ConfigSevImpl implements ConfigService {
     /** **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<ScriptModel> findScript(@NotNull @NotBlank @NotEmpty final String name) {
         // 1.构造响应数据
         final ServiceResult<ScriptModel> result = new ServiceResult<>();

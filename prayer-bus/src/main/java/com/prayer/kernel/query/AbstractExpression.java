@@ -2,6 +2,8 @@ package com.prayer.kernel.query;
 
 import com.prayer.kernel.Expression;
 
+import net.sf.oval.constraint.AssertFieldConstraints;
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -46,8 +48,8 @@ abstract class AbstractExpression implements Expression {
      * @param right
      */
     @PostValidateThis
-    AbstractExpression(final Expression left, @NotNull @NotEmpty @NotBlank final String data,
-            final Expression right) {
+    AbstractExpression(@InstanceOf(Expression.class) final Expression left,
+            @AssertFieldConstraints("data") final String data, @InstanceOf(Expression.class) final Expression right) {
         this.left = left;
         this.right = right;
         this.data = data;
@@ -59,7 +61,7 @@ abstract class AbstractExpression implements Expression {
      * @param data
      */
     @PostValidateThis
-    AbstractExpression(@NotNull @NotBlank @NotEmpty final String data) {
+    AbstractExpression(@AssertFieldConstraints("data") final String data) {
         this(null, data, null);
     }
 
@@ -67,19 +69,20 @@ abstract class AbstractExpression implements Expression {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /**
-     * 默认为非复杂表达式  
-     * **/
+     * 默认为非复杂表达式
+     **/
     @Override
-    public boolean isComplex(){
+    public boolean isComplex() {
         return false;
     }
+
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     /**
      * @param left
      *            the left to set
      */
-    public void setLeft(final Expression left) {
+    public void setLeft(@InstanceOf(Expression.class) final Expression left) {
         this.left = left;
     }
 
@@ -87,7 +90,7 @@ abstract class AbstractExpression implements Expression {
      * @param right
      *            the right to set
      */
-    public void setRight(final Expression right) {
+    public void setRight(@InstanceOf(Expression.class) final Expression right) {
         this.right = right;
     }
 

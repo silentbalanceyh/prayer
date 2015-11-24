@@ -45,6 +45,9 @@ final class NullableExpression extends AbstractExpression implements Expression,
     // ~ Override Methods ====================================
     /** **/
     @Override
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public String toSql() {
         final StringBuilder sql = new StringBuilder();
         sql.append(this.getLeft().toSql()).append(Symbol.SPACE).append(this.getData());

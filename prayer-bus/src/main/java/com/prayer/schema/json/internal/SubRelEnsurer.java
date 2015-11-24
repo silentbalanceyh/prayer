@@ -3,6 +3,7 @@ package com.prayer.schema.json.internal;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.AbstractSchemaException;
@@ -45,6 +46,7 @@ final class SubRelEnsurer implements InternalEnsurer {
      * 
      */
     @Override
+    @PreValidateThis
     public void validate() throws AbstractSchemaException {
         // 1.验证关系是否正确
         validateRelMissing();

@@ -25,6 +25,7 @@ import com.prayer.schema.dao.SchemaDao;
 import com.prayer.schema.dao.impl.SchemaDaoImpl;
 import com.prayer.schema.json.internal.CommunionImporter;
 
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -63,6 +64,7 @@ public class SchemaSevImpl implements SchemaService {
      */
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<GenericSchema> syncSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
         final Importer importer = this.getImporter(filePath);
         final ServiceResult<GenericSchema> result = new ServiceResult<>();
@@ -96,6 +98,7 @@ public class SchemaSevImpl implements SchemaService {
     /** **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<GenericSchema> syncMetadata(@NotNull final GenericSchema schema) {
         // 使用池化单件模式，每一个ID的Schema拥有一个Builder
         final Builder builder = reservoir(MemoryPool.POOL_BUILDER, schema.getIdentifier(), Accessors.builder(), schema);
@@ -117,6 +120,7 @@ public class SchemaSevImpl implements SchemaService {
     /** **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<GenericSchema> findSchema(@NotNull @NotEmpty @NotBlank final String identifier) {
         final GenericSchema schema = this.dao.getById(identifier);
         final ServiceResult<GenericSchema> result = new ServiceResult<>();
@@ -131,6 +135,7 @@ public class SchemaSevImpl implements SchemaService {
     /** **/
     @Override
     @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<Boolean> removeSchema(@NotNull @NotEmpty @NotBlank final String identifier) {
         final ServiceResult<Boolean> result = new ServiceResult<>();
         try {

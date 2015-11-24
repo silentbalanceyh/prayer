@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -25,10 +26,12 @@ public class Pager implements Serializable {
     /**
      * 第几页
      */
+    @Min(1)
     private transient Integer pageIndex = 1;
     /**
      * 每一页数量
      */
+    @Min(1)
     private transient Integer pageSize = 10;
 
     // ~ Static Block ========================================
@@ -40,11 +43,13 @@ public class Pager implements Serializable {
 
     // ~ Constructors ========================================
     /** **/
+    @PostValidateThis
     public Pager() {
         this(1, 10);
     }
 
     /** **/
+    @PostValidateThis
     public Pager(@Min(1) final Integer pageIndex, @Min(1) final Integer pageSize) {
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
@@ -71,7 +76,7 @@ public class Pager implements Serializable {
      * 
      * @param pageIndex
      */
-    public void setPageIndex(final Integer pageIndex) {
+    public void setPageIndex(@Min(1) final Integer pageIndex) {
         this.pageIndex = pageIndex;
     }
 
@@ -87,7 +92,7 @@ public class Pager implements Serializable {
      * 
      * @param pageSize
      */
-    public void setPageSize(final Integer pageSize) {
+    public void setPageSize(@Min(1) final Integer pageSize) {
         this.pageSize = pageSize;
     }
 

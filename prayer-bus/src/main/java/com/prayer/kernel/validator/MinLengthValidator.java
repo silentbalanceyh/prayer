@@ -13,6 +13,7 @@ import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Size;
 import net.sf.oval.guard.Guarded;
@@ -23,12 +24,11 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class MinLengthValidator implements Validator {    // NOPMD
+final class MinLengthValidator implements Validator { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(MinLengthValidator.class);
     /** 符合该验证器的属性 **/
-    // TODO: 等待加入Binary验证
     private static final DataType[] T_REQUIRED = new DataType[] { DataType.STRING, DataType.XML, DataType.JSON,
             DataType.SCRIPT };
 
@@ -40,8 +40,8 @@ final class MinLengthValidator implements Validator {    // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public boolean validate(@NotNull final Value<?> value, @NotNull @Size(min = 1, max = 1) final Object... params)
-            throws AbstractDatabaseException {
+    public boolean validate(@NotNull @InstanceOf(Value.class) final Value<?> value,
+            @NotNull @Size(min = 1, max = 1) final Object... params) throws AbstractDatabaseException {
         // 类型冲突
         if (!Arrays.asList(T_REQUIRED).contains(value.getDataType())) {
             throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "minLength");

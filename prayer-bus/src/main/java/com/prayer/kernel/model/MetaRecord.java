@@ -77,9 +77,10 @@ public class MetaRecord implements Record {
      * 
      */
     @Override
+    @NotNull
+    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
     public MetaPolicy policy() {
-        // TODO Auto-generated method stub
-        return null;
+        return this._connector.policy();
     }
 
     @Override

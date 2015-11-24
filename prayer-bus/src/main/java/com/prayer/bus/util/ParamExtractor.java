@@ -16,8 +16,12 @@ import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.Pre;
 
 /**
  * 
@@ -30,12 +34,14 @@ public final class ParamExtractor {
     // ~ Instance Fields =====================================
 
     /** Schema Service 接口 **/
+    @NotNull
     private transient final SchemaService schemaSev;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
+    @PostValidateThis
     ParamExtractor() {
         this.schemaSev = singleton(SchemaSevImpl.class);
     }
@@ -48,6 +54,8 @@ public final class ParamExtractor {
      * @param parameters
      * @return
      */
+    @InstanceOfAny(GenericSchema.class)
+    @Pre(expr = "_this.schemaSev != null", lang = Constants.LANG_GROOVY)
     public GenericSchema extractSchema(@NotNull final JsonObject parameters) {
         final String identifier = parameters.getString(Constants.PARAM.ID);
         final ServiceResult<GenericSchema> schema = this.schemaSev.findSchema(identifier);
@@ -65,7 +73,7 @@ public final class ParamExtractor {
      * @return
      * @throws AbstractDatabaseException
      */
-    public JsonObject extractRecord(final Record record) throws AbstractDatabaseException {
+    public JsonObject extractRecord(@InstanceOf(Record.class) final Record record) throws AbstractDatabaseException {
         final Set<String> fields = record.fields().keySet();
         final JsonObject retObj = new JsonObject();
         for (final String field : fields) {

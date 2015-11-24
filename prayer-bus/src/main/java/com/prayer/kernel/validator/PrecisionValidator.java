@@ -13,6 +13,7 @@ import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Size;
 import net.sf.oval.guard.Guarded;
@@ -24,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class PrecisionValidator implements Validator {    // NOPMD
+final class PrecisionValidator implements Validator { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PrecisionValidator.class);
@@ -37,8 +38,8 @@ final class PrecisionValidator implements Validator {    // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public boolean validate(@NotNull final Value<?> value, @NotNull @Size(min = 2, max = 2) final Object... params)
-            throws AbstractDatabaseException {
+    public boolean validate(@NotNull @InstanceOf(Value.class) final Value<?> value,
+            @NotNull @Size(min = 2, max = 2) final Object... params) throws AbstractDatabaseException {
         // 类型冲突
         if (DataType.DECIMAL != value.getDataType()) {
             throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "precision");

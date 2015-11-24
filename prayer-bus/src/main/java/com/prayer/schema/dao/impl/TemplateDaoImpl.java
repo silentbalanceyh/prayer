@@ -22,7 +22,7 @@ import com.prayer.schema.db.H2TMapper;
 import com.prayer.schema.db.SessionManager;
 
 import net.sf.oval.constraint.Min;
-import net.sf.oval.constraint.MinLength;
+import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -64,7 +64,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
 
     /** 可支持批量创建的创建方法 **/
     @Override
-    public List<T> insert(@NotNull @MinLength(1) final T... entities) throws AbstractTransactionException {
+    public List<T> insert(@NotNull @MinSize(1) final T... entities) throws AbstractTransactionException {
         // 1.设置返回List
         final List<T> retList = new ArrayList<>();
         // 2.开启Mybatis事务处理
@@ -133,7 +133,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
 
     /** 获取实体的模板方法 **/
     @Override
-    public T getById(final ID uniqueId) {
+    public T getById(@NotNull final ID uniqueId) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         T ret = null;

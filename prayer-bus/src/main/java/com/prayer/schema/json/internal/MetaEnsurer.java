@@ -16,6 +16,7 @@ import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -81,6 +82,7 @@ final class MetaEnsurer implements InternalEnsurer {
      * 
      */
     @Override
+    @PreValidateThis
     public void validate() throws AbstractSchemaException {
         // 1.验证root节点：__keys__, __meta__, __fields__
         validateMetaAttr();

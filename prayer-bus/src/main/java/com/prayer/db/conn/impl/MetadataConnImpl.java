@@ -15,6 +15,7 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Constants;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.db.pool.AbstractDbPool;
 import com.prayer.db.pool.BoneCPPool;
@@ -23,6 +24,7 @@ import com.prayer.model.bus.Metadata;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.Pre;
 
 /**
  * 
@@ -90,6 +92,7 @@ public class MetadataConnImpl implements MetadataConn {
      * 加载SQL文件
      */
     @Override
+    @Pre(expr = "_this.dbPool != null",lang = Constants.LANG_GROOVY)
     public boolean loadSqlFile(@NotNull final InputStream sqlFile) {
         boolean ret = false;
         try (final Connection conn = this.dbPool.getJdbc().getDataSource().getConnection()) {
@@ -108,6 +111,7 @@ public class MetadataConnImpl implements MetadataConn {
      * 初始化元数据
      */
     @Override
+    @Pre(expr = "_this.h2Pool != null",lang = Constants.LANG_GROOVY)
     public boolean initMeta(@NotNull final InputStream sqlFile) {
         boolean ret = false;
         try (final Connection conn = this.h2Pool.getJdbc().getDataSource().getConnection()) {

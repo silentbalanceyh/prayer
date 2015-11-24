@@ -8,6 +8,7 @@ import com.prayer.kernel.Expression;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -40,7 +41,7 @@ final class ValueLeafNode extends AbstractExpression implements Expression{
      * 直接值构造
      * @param value
      */
-    public ValueLeafNode(final Value<?> value){
+    public ValueLeafNode(@InstanceOf(Value.class) final Value<?> value){
         // 直接值的构造主要考虑是否添加单引号
         super(quote(value));
     }

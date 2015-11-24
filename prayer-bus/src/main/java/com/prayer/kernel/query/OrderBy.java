@@ -15,6 +15,7 @@ import com.prayer.kernel.Record;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jodd.util.StringUtil;
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -46,19 +47,20 @@ public class OrderBy implements Serializable {
      * @param record
      * @return
      */
-    public static OrderBy create(@NotNull final JsonArray orderArr, @NotNull final Record record) {
+    public static OrderBy create(@NotNull final JsonArray orderArr,
+            @NotNull @InstanceOf(Record.class) final Record record) {
         return new OrderBy(orderArr, record);
     }
+
     /**
      * 
      * @param orderArr
      * @return
      */
-    public static OrderBy create(@NotNull final JsonArray orderArr){
+    public static OrderBy create(@NotNull final JsonArray orderArr) {
         return new OrderBy(orderArr);
     }
 
-    // ~ Constructors ========================================
     /**
      * 
      */
@@ -66,6 +68,7 @@ public class OrderBy implements Serializable {
         this.clear();
     }
 
+    // ~ Constructors ========================================
     /**
      * 
      * @param orderArr

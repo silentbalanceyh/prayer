@@ -26,6 +26,7 @@ import com.prayer.model.h2.KeyModel;
 import com.prayer.model.h2.MetaModel;
 import com.prayer.util.StringKit;
 
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -53,7 +54,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public MsSqlBuilder(@NotNull final GenericSchema schema) {
+    public MsSqlBuilder(@NotNull @InstanceOfAny(GenericSchema.class) final GenericSchema schema) {
         super(schema);
     }
 

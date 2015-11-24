@@ -52,6 +52,9 @@ final class StandardExpression extends AbstractExpression implements Expression 
      * 
      */
     @Override
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public String toSql() {
         final StringBuilder sql = new StringBuilder();
         sql.append(this.getLeft().toSql()).append(this.getData()).append(this.getRight().toSql());

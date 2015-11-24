@@ -26,6 +26,7 @@ import com.prayer.model.type.IntType;
 import com.prayer.model.type.LongType;
 import com.prayer.util.StringKit;
 
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
@@ -69,7 +70,8 @@ public final class Output { // NOPMD
      * 
      * @return
      */
-    public static PreparedStatementCallback<Value<?>> extractIncrement(final boolean isRetKey, final DataType retType) {
+    public static PreparedStatementCallback<Value<?>> extractIncrement(final boolean isRetKey,
+            @InstanceOfAny(DataType.class) final DataType retType) {
         return new PreparedStatementCallback<Value<?>>() {
             /** **/
             @Override

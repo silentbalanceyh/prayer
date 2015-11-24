@@ -5,6 +5,7 @@ import static com.prayer.util.Error.info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.metadata.ContentErrorException;
 import com.prayer.kernel.Validator;
@@ -12,8 +13,10 @@ import com.prayer.kernel.Value;
 
 import jodd.json.JsonException;
 import jodd.json.JsonParser;
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.Pre;
 
 /**
  * Internal Format：Json格式验证器
@@ -27,6 +30,7 @@ final class JsonValidator implements Validator { // NOPMD
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonValidator.class);
     /** **/
+    @NotNull
     private transient final JsonParser PARSER = new JsonParser();
 
     // ~ Instance Fields =====================================
@@ -37,7 +41,9 @@ final class JsonValidator implements Validator { // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractDatabaseException {
+    @Pre(expr = "_this.PARSER != null", lang = Constants.LANG_GROOVY)
+    public boolean validate(@InstanceOf(Value.class) final Value<?> value, final Object... params)
+            throws AbstractDatabaseException {
         boolean ret = false;
         if (null == value) {
             ret = true;

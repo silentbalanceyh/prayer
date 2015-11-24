@@ -5,6 +5,8 @@ import com.prayer.constant.Symbol;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Value;
 
+import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -29,8 +31,9 @@ public class LikeExpression extends AbstractExpression implements Expression, Sq
      * @param value
      * @param matchMode
      */
-    public LikeExpression(@NotNull @NotBlank @NotEmpty final String column, @NotNull final Value<?> value,
-            @NotNull final MatchMode matchMode) {
+    public LikeExpression(@NotNull @NotBlank @NotEmpty final String column,
+            @NotNull @InstanceOf(Value.class) final Value<?> value,
+            @NotNull @InstanceOfAny(MatchMode.class) final MatchMode matchMode) {
         super(LIKE);
         this.setLeft(new ColumnLeafNode(column));
         this.setRight(new ValueLeafNode(matchMode.toMatchString(value.literal())));
@@ -42,6 +45,9 @@ public class LikeExpression extends AbstractExpression implements Expression, Sq
      * 构造LIKE语句
      */
     @Override
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public String toSql() {
         final StringBuilder sql = new StringBuilder();
         sql.append(this.getLeft().toSql()).append(Symbol.SPACE).append(this.getData()).append(Symbol.SPACE)

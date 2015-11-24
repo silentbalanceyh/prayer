@@ -19,11 +19,12 @@ public final class Calculator {
     // ~ Static Methods ======================================
     /**
      * 交集运算，不改变传参的两个集合
-     * 
+     * <code>约束：返回值不可为null；</code>
      * @param left
      * @param right
      * @return
      */
+    @NotNull
     public static <T extends Object> Collection<T> intersect(@NotNull final Collection<T> left,
             @NotNull final Collection<T> right) {
         final Collection<T> ret = new HashSet<>();
@@ -34,11 +35,12 @@ public final class Calculator {
 
     /**
      * 并集运算，不改变传参的两个集合
-     * 
+     * <code>约束：返回值不可为null；</code>
      * @param left
      * @param right
      * @return
      */
+    @NotNull
     public static <T extends Object> Collection<T> union(@NotNull final Collection<T> left,
             @NotNull final Collection<T> right) {
         final Collection<T> ret = new HashSet<>();
@@ -49,11 +51,12 @@ public final class Calculator {
 
     /**
      * 集合减法，交集运算，不改变传参的两个集合，但有顺序
-     * 
+     * <code>约束：返回值不可为null；</code>
      * @param subtrahend
      * @param minuend
      * @return
      */
+    @NotNull
     public static <T extends Object> Collection<T> diff(@NotNull final Collection<T> subtrahend,
             @NotNull final Collection<T> minuend) {
         final Collection<T> ret = new HashSet<>();

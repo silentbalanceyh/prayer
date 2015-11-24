@@ -12,7 +12,9 @@ import com.prayer.exception.metadata.ContentErrorException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
+import net.sf.oval.constraint.Size;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -21,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class XmlValidator implements Validator {    // NOPMD
+final class XmlValidator implements Validator { // NOPMD
 
     // ~ Static Fields =======================================
     /** **/
@@ -35,14 +37,15 @@ final class XmlValidator implements Validator {    // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractDatabaseException {
+    public boolean validate(@NotNull @InstanceOf(Value.class) final Value<?> value,
+            @Size(min = 0, max = 0) final Object... params) throws AbstractDatabaseException {
         boolean ret = false;
         try {
             DocumentHelper.parseText(value.literal());
             ret = true;
         } catch (DocumentException ex) {
             info(LOGGER, "[E] Xml Data Format Error! Output = " + value, ex);
-            throw new ContentErrorException(getClass(), "Xml", value.literal());    // NOPMD
+            throw new ContentErrorException(getClass(), "Xml", value.literal()); // NOPMD
         }
         return ret;
     }

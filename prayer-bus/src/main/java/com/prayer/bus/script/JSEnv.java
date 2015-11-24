@@ -11,12 +11,18 @@ import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.query.OrderBy;
 import com.prayer.kernel.query.Pager;
+
+import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.guard.Guarded;
+
 /**
  * 
  * @author Lang
  *
  */
-public class JSEnv implements Serializable{
+@Guarded
+public class JSEnv implements Serializable {
     // ~ Static Fields =======================================
     /**
      * 
@@ -33,6 +39,7 @@ public class JSEnv implements Serializable{
     private transient Pager pager = new Pager();
     /** Values **/
     private transient List<Value<?>> values = new ArrayList<>();
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -46,13 +53,14 @@ public class JSEnv implements Serializable{
      */
     public Record getRecord(final String... ids) {
         Record refR = null;
-        if(Constants.ZERO == ids.length){
+        if (Constants.ZERO == ids.length) {
             refR = this.record;
-        }else if(Constants.ZERO < ids.length){
+        } else if (Constants.ZERO < ids.length) {
             refR = new GenericRecord(ids[Constants.ZERO]);
         }
         return refR;
     }
+
     /**
      * 
      * @return
@@ -60,48 +68,54 @@ public class JSEnv implements Serializable{
     public Pager getPager() {
         return pager;
     }
+
     /**
      * 
      * @param pager
      */
-    public void setPager(final Pager pager) {
+    public void setPager(@InstanceOfAny(Pager.class) final Pager pager) {
         this.pager = pager;
     }
-
 
     /**
      * 
      * @param order
      */
-    public void setOrder(final OrderBy order){
-    	this.order = order;
+    public void setOrder(@InstanceOfAny(OrderBy.class) final OrderBy order) {
+        this.order = order;
     }
-    /** 
+
+    /**
      * 
      * @return
      */
-    public OrderBy getOrder(){
-    	return this.order;
+    public OrderBy getOrder() {
+        return this.order;
     }
+
     /**
-     * @param record the record to set
+     * @param record
+     *            the record to set
      */
-    public void setRecord(final Record record) {
+    public void setRecord(@InstanceOf(Record.class) final Record record) {
         this.record = record;
     }
+
     /**
      * @return the expr
      */
     public Expression getExpr() {
         return expr;
     }
+
     /**
-     * @param expr the expr to set
+     * @param expr
+     *            the expr to set
      */
-    public void setExpr(final Expression expr) {
+    public void setExpr(@InstanceOf(Expression.class) final Expression expr) {
         this.expr = expr;
     }
-    
+
     /**
      * @return the values
      */
@@ -110,11 +124,13 @@ public class JSEnv implements Serializable{
     }
 
     /**
-     * @param values the values to set
+     * @param values
+     *            the values to set
      */
     public void setValues(final List<Value<?>> values) {
         this.values = values;
     }
+
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override

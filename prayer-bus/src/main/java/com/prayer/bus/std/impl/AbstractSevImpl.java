@@ -33,9 +33,11 @@ import com.prayer.model.bus.ServiceResult;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jodd.util.StringUtil;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /** **/
 @Guarded
@@ -72,6 +74,9 @@ public abstract class AbstractSevImpl {
     }
 
     /** **/
+    @NotNull
+    @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     protected ServiceResult<JsonObject> sharedSave(@NotNull final JsonObject jsonObject)
             throws ScriptException, AbstractException {
         final ServiceResult<JsonObject> ret = new ServiceResult<>();
@@ -97,6 +102,9 @@ public abstract class AbstractSevImpl {
     }
 
     /** **/
+    @NotNull
+    @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     protected ServiceResult<JsonObject> sharedDelete(@NotNull final JsonObject jsonObject)
             throws ScriptException, AbstractException {
         final ServiceResult<JsonObject> ret = new ServiceResult<>();
@@ -111,6 +119,9 @@ public abstract class AbstractSevImpl {
     }
 
     /** **/
+    @NotNull
+    @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     protected ServiceResult<JsonObject> sharedPage(@NotNull final JsonObject jsonObject)
             throws ScriptException, AbstractException {
         ServiceResult<JsonObject> ret = new ServiceResult<>();
@@ -151,6 +162,9 @@ public abstract class AbstractSevImpl {
     }
 
     /** **/
+    @NotNull
+    @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     protected ServiceResult<JsonArray> sharedFind(@NotNull final JsonObject jsonObject)
             throws ScriptException, AbstractException {
         final ServiceResult<JsonArray> ret = new ServiceResult<>();

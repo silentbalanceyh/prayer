@@ -4,6 +4,9 @@ import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.kernel.Expression;
 
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -50,6 +53,9 @@ final class ProjectionExpression extends AbstractExpression implements Expressio
 
     /** **/
     @Override
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public String toSql() {
         final StringBuilder sql = new StringBuilder();
         // 左表达式

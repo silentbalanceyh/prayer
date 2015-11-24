@@ -9,13 +9,16 @@ import javax.script.ScriptException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.metadata.ContentErrorException;
 import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.ScriptType;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
+import net.sf.oval.constraint.Size;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -25,12 +28,12 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class ScriptValidator implements Validator {    // NOPMD
+final class ScriptValidator implements Validator { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(ScriptType.class);
     /** **/
-    private static final ScriptEngine ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
+    private static final ScriptEngine ENGINE = new ScriptEngineManager().getEngineByName(Constants.SCRIPT_ENGINE);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -40,7 +43,8 @@ final class ScriptValidator implements Validator {    // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public boolean validate(@NotNull final Value<?> value, final Object... params) throws AbstractDatabaseException {
+    public boolean validate(@NotNull @InstanceOf(Value.class) final Value<?> value,
+            @Size(min = 0, max = 0) final Object... params) throws AbstractDatabaseException {
         boolean ret = false;
         if (null == value) {
             ret = true;
@@ -50,7 +54,7 @@ final class ScriptValidator implements Validator {    // NOPMD
                 ret = true;
             } catch (ScriptException ex) {
                 info(LOGGER, "[E] Script error! Output = " + value, ex);
-                throw new ContentErrorException(getClass(), "JavaScript", value.literal());    // NOPMD
+                throw new ContentErrorException(getClass(), "JavaScript", value.literal()); // NOPMD
             }
         }
         return ret;

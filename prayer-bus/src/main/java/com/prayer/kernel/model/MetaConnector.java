@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.SchemaNotFoundException;
+import com.prayer.util.Converter;
 import com.prayer.util.PropertyKit;
 
 import jodd.util.StringUtil;
@@ -76,11 +78,22 @@ public class MetaConnector {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /**
+     * 获取主键的Policy策略
+     * @return
+     */
+    @NotNull
+    @Pre(expr = PRE_ID_CON, lang = Constants.LANG_GROOVY)
+    public MetaPolicy policy(){
+        return Converter.fromStr(MetaPolicy.class, LOADER.getString(this._identifier + ".meta.policy"));
+    }
+    /**
      * 获取当前Global ID
      * 
      * @return
      */
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Pre(expr = PRE_ID_CON, lang = Constants.LANG_GROOVY)
     public String identifier() {
         return this._identifier;

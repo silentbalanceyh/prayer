@@ -128,6 +128,7 @@ public final class IOKit {
      * @param folder
      * @return
      */
+    @NotNull
     public static List<String> listFiles(@NotNull @NotEmpty @NotBlank final String folder) {
         final URL url = getURL(folder);
         final List<String> retList = new ArrayList<>();

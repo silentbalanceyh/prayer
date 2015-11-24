@@ -17,6 +17,7 @@ import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -47,6 +48,7 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 	 * 添加、保存方法
 	 */
 	@Override
+	@InstanceOfAny(ServiceResult.class)
 	public ServiceResult<JsonObject> save(@NotNull final JsonObject jsonObject) {
 		info(getLogger(), BusLogger.I_PARAM_INFO, "POST", jsonObject.encode());
 		return this.executeSave(jsonObject);
@@ -54,6 +56,7 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 
 	/** **/
 	@Override
+	@InstanceOfAny(ServiceResult.class)
 	public ServiceResult<JsonObject> remove(@NotNull final JsonObject jsonObject) {
 		info(LOGGER, BusLogger.I_PARAM_INFO, "DELETE", jsonObject.encode());
 		ServiceResult<JsonObject> ret = new ServiceResult<>();
@@ -77,6 +80,7 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 
 	/** **/
 	@Override
+	@InstanceOfAny(ServiceResult.class)
 	public ServiceResult<JsonObject> modify(@NotNull final JsonObject jsonObject) {
 		info(LOGGER, BusLogger.I_PARAM_INFO, "PUT", jsonObject.encode());
 		return this.executeSave(jsonObject);
@@ -84,6 +88,7 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 
 	/** **/
 	@Override
+	@InstanceOfAny(ServiceResult.class)
 	public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
 		info(LOGGER, BusLogger.I_PARAM_INFO, "GET", jsonObject.encode());
 		ServiceResult<JsonArray> ret = new ServiceResult<>();
@@ -107,6 +112,7 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 
 	/** **/
 	@Override
+	@InstanceOfAny(ServiceResult.class)
 	public ServiceResult<JsonObject> page(@NotNull final JsonObject jsonObject) {
 		info(LOGGER, BusLogger.I_PARAM_INFO, "POST - Query", jsonObject.encode());
 		ServiceResult<JsonObject> ret = new ServiceResult<>();

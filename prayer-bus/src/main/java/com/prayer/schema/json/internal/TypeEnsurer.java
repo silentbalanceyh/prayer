@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentMap;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -136,6 +137,7 @@ final class TypeEnsurer implements InternalEnsurer {
      * 
      */
     @Override
+    @PreValidateThis
     public void validate() throws AbstractSchemaException {
         // 1.验证-10001的必须属性是否存在
         validateRequired();

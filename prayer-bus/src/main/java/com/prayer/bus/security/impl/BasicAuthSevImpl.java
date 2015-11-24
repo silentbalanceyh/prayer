@@ -18,6 +18,8 @@ import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -45,7 +47,8 @@ public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthServic
 
     /** **/
     @Override
-    public ServiceResult<JsonArray> find(final JsonObject jsonObject) {
+    @InstanceOfAny(ServiceResult.class)
+    public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
         info(getLogger(), BusLogger.I_PARAM_INFO, "GET", jsonObject.encode());
         ServiceResult<JsonArray> ret = new ServiceResult<>();
         final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);

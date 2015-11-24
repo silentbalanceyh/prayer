@@ -27,6 +27,7 @@ import com.prayer.exception.schema.UnsupportAttrException;
 import com.prayer.util.JsonKit;
 
 import jodd.util.StringUtil;
+import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -34,7 +35,6 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.Pre;
-import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -63,7 +63,7 @@ final class JObjectValidator {
 
     /** **/
     @PostValidateThis
-    public JObjectValidator(@NotNull final JsonNode verifiedNode, @NotEmpty @NotBlank final String name) {
+    public JObjectValidator(@NotNull final JsonNode verifiedNode, @AssertFieldConstraints("name") final String name) {
         this.verifiedNode = verifiedNode;
         if (null == name) {
             this.name = "ROOT";
@@ -81,7 +81,6 @@ final class JObjectValidator {
      * @param attrs
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyRequired(@MinLength(1) final String... attrs) {
         AbstractSchemaException retExp = null;
@@ -103,7 +102,6 @@ final class JObjectValidator {
      * @param attrRight
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyNotSame(@NotNull @NotEmpty @NotBlank final String attrLeft,
             @NotNull @NotEmpty @NotBlank final String attrRight) {
@@ -124,7 +122,6 @@ final class JObjectValidator {
      * @param attr
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyJArray(@NotNull @NotEmpty @NotBlank final String attr) {
         final JsonNode attrNode = this.verifiedNode.path(attr);
@@ -143,7 +140,6 @@ final class JObjectValidator {
      * @param attr
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyJObject(@NotNull @NotEmpty @NotBlank final String attr) {
         final JsonNode attrNode = this.verifiedNode.path(attr);
@@ -162,7 +158,6 @@ final class JObjectValidator {
      * @param attrs
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyUnsupported(@MinLength(1) final String... attrs) {
         final Set<String> reqAttrs = new HashSet<>(Arrays.asList(attrs));
@@ -190,7 +185,6 @@ final class JObjectValidator {
      * @param regexStr
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyPattern(@NotNull @NotEmpty @NotBlank final String attr,
             @NotNull @NotEmpty @NotBlank final String regexStr) {
@@ -213,7 +207,6 @@ final class JObjectValidator {
      * @param attrs
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyMissing(@MinLength(1) final String... attrs) {
         AbstractSchemaException retExp = null;
@@ -236,7 +229,6 @@ final class JObjectValidator {
      * @param attrs
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyExisting(@MinLength(1) final String... attrs) {
         AbstractSchemaException retExp = null;
@@ -257,7 +249,6 @@ final class JObjectValidator {
      * 
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyIn(@NotNull @NotBlank @NotEmpty final String attr,
             @MinLength(1) final String... values) {
@@ -277,7 +268,6 @@ final class JObjectValidator {
      * @param values
      * @return
      */
-    @PreValidateThis
     @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
     public AbstractSchemaException verifyNotIn(@NotNull @NotBlank @NotEmpty final String attr,
             @MinLength(1) final String... values) {
