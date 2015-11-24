@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 
-import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -55,7 +54,7 @@ public final class Converter {
     @NotNull
     @NotEmpty
     @NotBlank
-    public static String toStr(@NotNull @MinLength(1) final String... setArr) {
+    public static String toStr(@NotNull @MinSize(1) final String... setArr) {
         final StringBuilder retStr = new StringBuilder();
         for (int i = 0; i < setArr.length; i++) {
             retStr.append(setArr[i]);

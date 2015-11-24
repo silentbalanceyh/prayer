@@ -26,6 +26,7 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vx.UriModel;
 import com.prayer.util.IOKit;
 
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -65,6 +66,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
      * @return
      */
     @Override
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<Boolean> initH2Database(@NotNull @NotBlank @NotEmpty final String scriptPath) {
         // 1.执行Script脚本
         final boolean executedRet = this.metaConn.initMeta(IOKit.getFile(scriptPath));
@@ -78,6 +80,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
      * 
      */
     @Override
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<Boolean> deployPrayerData() { // NOPMD
         final ServiceResult<Boolean> result = new ServiceResult<>();
         // 1.EVX_VERTICLE

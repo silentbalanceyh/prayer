@@ -17,6 +17,7 @@ import com.prayer.kernel.Record;
 import com.prayer.util.StringKit;
 
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -58,8 +59,9 @@ public final class JSEngine {
      * @param record
      * @throws ScriptException
      */
-    public static JSEnv initJSRecordEnv(@NotNull final JsonObject jsonObject, @NotNull final Record record)
-            throws ScriptException {
+    @NotNull
+    public static JSEnv initJSRecordEnv(@NotNull final JsonObject jsonObject,
+            @NotNull @InstanceOf(Record.class) final Record record) throws ScriptException {
         final JSEngine engine = new JSEngine(jsonObject.getJsonObject(Constants.PARAM.DATA));
         final JSEnvExtractor extractor = singleton(JSEnvExtractor.class);
         final JSEnv env = new JSEnv();
@@ -83,6 +85,7 @@ public final class JSEngine {
      * @return
      * @throws ScriptException
      */
+    @NotNull
     public static JSEnv initJSMetaEnv(@NotNull final JsonObject jsonObject) throws ScriptException {
         final JSEngine engine = new JSEngine(jsonObject.getJsonObject(Constants.PARAM.DATA));
         final JSEnvExtractor extractor = singleton(JSEnvExtractor.class);

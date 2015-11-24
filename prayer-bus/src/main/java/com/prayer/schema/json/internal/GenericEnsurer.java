@@ -6,6 +6,7 @@ import static com.prayer.util.JsonKit.occursAttr;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaMapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.AbstractSchemaException;
@@ -14,6 +15,8 @@ import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.Pre;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -74,6 +77,7 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
      * 
      */
     @Override
+    @Pre(expr = "_this.rootNode != null", lang = Constants.LANG_GROOVY)
     public JsonNode getRaw() {
         return this.rootNode;
     }
@@ -82,6 +86,7 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
      * 
      */
     @Override
+    @PreValidateThis
     public boolean validate() { // NOPMD
         // 1.验证root节点：__keys__, __meta__, __fields__
         boolean ret = validateRoot();

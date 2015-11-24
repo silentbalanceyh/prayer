@@ -5,6 +5,7 @@ import com.prayer.kernel.Validator;
 import com.prayer.kernel.Value;
 import com.prayer.util.StringKit;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -15,7 +16,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class NotNullValidator implements Validator {    // NOPMD
+final class NotNullValidator implements Validator { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -25,8 +26,8 @@ final class NotNullValidator implements Validator {    // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public boolean validate(@NotNull final Value<?> value, @NotNull @MinSize(0) final Object... params)
-            throws AbstractDatabaseException {
+    public boolean validate(@NotNull @InstanceOf(Value.class) final Value<?> value,
+            @NotNull @MinSize(0) final Object... params) throws AbstractDatabaseException {
         boolean ret = false;
         if (null != value.getValue() && StringKit.isNonNil(value.getValue().toString())) {
             ret = true;

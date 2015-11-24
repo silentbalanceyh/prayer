@@ -23,7 +23,9 @@ import com.prayer.model.h2.FieldModel;
 import com.prayer.model.h2.KeyModel;
 import com.prayer.util.StringKit;
 
-import net.sf.oval.constraint.MinSize;
+import net.sf.oval.constraint.AssertFieldConstraints;
+import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -42,12 +44,14 @@ abstract class AbstractBuilder implements Builder { // NOPMD
     // ~ Instance Fields =====================================
     /** 数据库连接 **/
     @NotNull
+    @InstanceOf(JdbcContext.class)
     private transient final JdbcContext context;
     /** 创建表的Sql语句 **/
     @NotNull
     private transient final List<String> sqlLines;
     /** Metadata对象 **/
     @NotNull
+    @InstanceOfAny(GenericSchema.class)
     private transient final GenericSchema schema;
     /** 构建过程中的Error信息 **/
     private transient AbstractDatabaseException error;
@@ -60,8 +64,8 @@ abstract class AbstractBuilder implements Builder { // NOPMD
      * @param schema
      */
     @PostValidateThis
-    public AbstractBuilder(@NotNull final GenericSchema schema) {
-        this.context = reservoir(MemoryPool.POOL_JDBC,schema.getIdentifier(),JdbcConnImpl.class);
+    public AbstractBuilder(@AssertFieldConstraints("schema") final GenericSchema schema) {
+        this.context = reservoir(MemoryPool.POOL_JDBC, schema.getIdentifier(), JdbcConnImpl.class);
         this.sqlLines = new ArrayList<>();
         this.schema = schema;
     }
@@ -116,7 +120,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
      * @param field
      * @return
      */
-    protected String genAddColumns(@NotNull final FieldModel field) {
+    protected String genAddColumns(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
         return SqlDdlStatement.addColSql(this.getTable(), this.genColumnLine(field));
     }
 
@@ -126,7 +130,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
      * @param field
      * @return
      */
-    protected String genAlterColumns(@NotNull final FieldModel field) {
+    protected String genAlterColumns(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
         return SqlDdlStatement.alterColSql(this.getTable(), this.genColumnLine(field));
     }
 
@@ -148,7 +152,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
      * @param key
      * @return
      */
-    protected String genKeyLine(@NotNull final KeyModel key) {
+    protected String genKeyLine(@NotNull @InstanceOfAny(KeyModel.class) final KeyModel key) {
         String sql = null;
         if (KeyCategory.UniqueKey == key.getCategory()) {
             sql = SqlDdlStatement.newUKSql(key);
@@ -164,7 +168,8 @@ abstract class AbstractBuilder implements Builder { // NOPMD
      * @param key
      * @return
      */
-    protected String genAddCsLine(@NotNull final KeyModel key, final FieldModel field) {
+    protected String genAddCsLine(@NotNull @InstanceOfAny(KeyModel.class) final KeyModel key,
+            @InstanceOfAny(FieldModel.class) final FieldModel field) {
         String sql = null;
         if (KeyCategory.ForeignKey == key.getCategory()) {
             sql = SqlDdlStatement.addCSSql(this.getTable(), SqlDdlStatement.newFKSql(key, field));
@@ -180,7 +185,7 @@ abstract class AbstractBuilder implements Builder { // NOPMD
      * @param field
      * @return
      */
-    protected String genColumnLine(@NotNull final FieldModel field) {
+    protected String genColumnLine(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
         return SqlDdlStatement.newColumnSql(lengthTypes(), precisionTypes(), field);
     }
 
@@ -211,31 +216,33 @@ abstract class AbstractBuilder implements Builder { // NOPMD
      * @param newCols
      * @return
      */
-    protected ConcurrentMap<StatusFlag, Collection<String>> getColumnStatus(
-            @MinSize(0) final Collection<String> oldCols, @MinSize(0) final Collection<String> newCols) {
+    protected ConcurrentMap<StatusFlag, Collection<String>> getColumnStatus(final Collection<String> oldCols,
+            final Collection<String> newCols) {
         final ConcurrentMap<StatusFlag, Collection<String>> statusMap = new ConcurrentHashMap<>();
         // ADD：新集合减去旧的集合
-        statusMap.put(StatusFlag.ADD, diff(newCols,oldCols));
+        statusMap.put(StatusFlag.ADD, diff(newCols, oldCols));
         // DELET：旧集合减去新的集合
-        statusMap.put(StatusFlag.DELETE, diff(oldCols,newCols));
+        statusMap.put(StatusFlag.DELETE, diff(oldCols, newCols));
         // UPDATE：两个集合的交集
-        statusMap.put(StatusFlag.UPDATE, intersect(oldCols,newCols));
+        statusMap.put(StatusFlag.UPDATE, intersect(oldCols, newCols));
         return statusMap;
     }
+
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     /**
      * 
      * @return
      */
-    @Pre(expr = "_this.schema != null",lang = Constants.LANG_GROOVY)
-    protected String getTable(){
+    @Pre(expr = "_this.schema != null", lang = Constants.LANG_GROOVY)
+    protected String getTable() {
         String table = null;
-        if(null != this.schema.getMeta()){
+        if (null != this.schema.getMeta()) {
             table = this.schema.getMeta().getTable();
         }
         return table;
     }
+
     /**
      * @return the context
      */
@@ -243,17 +250,19 @@ abstract class AbstractBuilder implements Builder { // NOPMD
     protected JdbcContext getContext() {
         return context;
     }
+
     /**
      * @return the schema
      */
     @NotNull
-    protected GenericSchema getSchema(){
+    protected GenericSchema getSchema() {
         return schema;
     }
 
     /**
      * @return the sqlLines
      */
+    @NotNull
     protected List<String> getSqlLines() {
         return sqlLines;
     }
@@ -265,11 +274,12 @@ abstract class AbstractBuilder implements Builder { // NOPMD
     public AbstractDatabaseException getError() {
         return this.error;
     }
+
     /**
      * 
      * @param error
      */
-    protected void setError(final AbstractDatabaseException error){
+    protected void setError(final AbstractDatabaseException error) {
         this.error = error;
     }
 

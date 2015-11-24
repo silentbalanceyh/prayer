@@ -10,8 +10,12 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.script.ScriptModel;
 
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -27,10 +31,13 @@ public final class JSEnvExtractor {
     private static final String JS_META_ID = "js.global.meta";
     // ~ Instance Fields =====================================
     /** Config Service 接口 **/
+    @NotNull
+    @InstanceOf(ConfigService.class)
     private transient final ConfigService configSev;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    @PostValidateThis
     JSEnvExtractor(){
         this.configSev = singleton(ConfigSevImpl.class);
     }
@@ -41,6 +48,9 @@ public final class JSEnvExtractor {
      * @param parameters
      * @return
      */
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public String extractJSContent(@NotNull final JsonObject parameters) {
         final String scriptName = parameters.getString(Constants.PARAM.SCRIPT);
         return this.getJsByName(scriptName);
@@ -49,6 +59,9 @@ public final class JSEnvExtractor {
      * 
      * @return
      */
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public String extractJSEnv(){
         return this.getJsByName(JS_GLOBAL_ID);
     }
@@ -56,6 +69,9 @@ public final class JSEnvExtractor {
      * 
      * @return
      */
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public String extractJSMetaEnv(){
         return this.getJsByName(JS_META_ID);
     }

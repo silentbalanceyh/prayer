@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.prayer.constant.Constants;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.model.h2.FieldModel;
 import com.prayer.model.h2.KeyModel;
@@ -23,7 +24,7 @@ import com.prayer.schema.Serializer;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
-import net.sf.oval.guard.PreValidateThis;
+import net.sf.oval.guard.Pre;
 
 /**
  * 
@@ -38,6 +39,7 @@ public class CommunionSerializer implements Serializer {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommunionSerializer.class);
     /** **/
     private static final String ERR_20004 = "E20004";
+    
     // ~ Instance Fields =====================================
     /**
      * JackSon Mapper
@@ -62,7 +64,7 @@ public class CommunionSerializer implements Serializer {
      * 
      */
     @Override
-    @PreValidateThis
+    @Pre(expr = "_this.mapper != null", lang = Constants.LANG_GROOVY)
     public MetaModel readMeta(@NotNull final JsonNode metaNode) throws SerializationException {
         final String metaStr = metaNode.toString();
         MetaModel meta = new MetaModel();
@@ -83,7 +85,7 @@ public class CommunionSerializer implements Serializer {
      * 
      */
     @Override
-    @PreValidateThis
+    @Pre(expr = "_this.mapper != null", lang = Constants.LANG_GROOVY)
     public List<KeyModel> readKeys(@NotNull final ArrayNode keysNodes) throws SerializationException {
         final String keysStr = keysNodes.toString();
         List<KeyModel> keys = new ArrayList<>();
@@ -104,7 +106,7 @@ public class CommunionSerializer implements Serializer {
      * 
      */
     @Override
-    @PreValidateThis
+    @Pre(expr = "_this.mapper != null", lang = Constants.LANG_GROOVY)
     public List<FieldModel> readFields(@NotNull final ArrayNode fieldsNodes) throws SerializationException {
         final String fieldsStr = fieldsNodes.toString();
         List<FieldModel> fields = new ArrayList<>();

@@ -7,12 +7,6 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +18,14 @@ import com.prayer.exception.schema.PKNullableConflictException;
 import com.prayer.exception.schema.PKUniqueConflictException;
 import com.prayer.model.type.DataType;
 import com.prayer.util.StringKit;
+
+import net.sf.oval.constraint.AssertFieldConstraints;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -50,16 +52,17 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {    // NOPMD
     /** **/
     @NotNull
     private transient final ArrayNode fieldsNode;
-    /** **/
-    @NotNull
-    @NotEmpty
-    @NotBlank
-    private transient final String policyStr; // NOPMD
+    
     /** **/
     @NotNull
     @NotEmpty
     @NotBlank
     private transient final String table; // NOPMD
+    /** **/
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    private transient final String policyStr; // NOPMD
     /** **/
     @NotNull
     private transient final JArrayValidator validator;
@@ -79,8 +82,8 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {    // NOPMD
      * @param policyStr
      */
     @PostValidateThis
-    public PrimaryKeyEnsurer(@NotNull final ArrayNode fieldsNode, @NotNull @NotBlank @NotEmpty final String policyStr,
-            @NotNull @NotBlank @NotEmpty final String table) {
+    public PrimaryKeyEnsurer(@NotNull final ArrayNode fieldsNode, @AssertFieldConstraints("policyStr") final String policyStr,
+            @AssertFieldConstraints("table") final String table) {
         this.fieldsNode = fieldsNode;
         this.policyStr = policyStr;
         this.table = table;
@@ -97,6 +100,7 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {    // NOPMD
      * @throws AbstractSchemaException
      */
     @Override
+    @PreValidateThis
     public void validate() throws AbstractSchemaException {
         // 1.验证Primary Key是否定义
         validatePKeyMissing();

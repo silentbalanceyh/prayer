@@ -24,10 +24,8 @@ import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
 
 import jodd.util.StringUtil;
-import net.sf.oval.constraint.Digits;
-import net.sf.oval.constraint.Max;
 import net.sf.oval.constraint.Min;
-import net.sf.oval.constraint.MinLength;
+import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -73,13 +71,15 @@ public final class JsonKit { // NOPMD
         }
         return ret;
     }
+
     /**
      * 
      * @param reference
      * @param content
      * @return
      */
-    public static <T> T fromStr(@NotNull final TypeReference<T> reference, @NotNull @NotEmpty @NotBlank final String content) {
+    public static <T> T fromStr(@NotNull final TypeReference<T> reference,
+            @NotNull @NotEmpty @NotBlank final String content) {
         T retObj = null;
         try {
             retObj = MAPPER.readValue(content, reference);
@@ -89,11 +89,12 @@ public final class JsonKit { // NOPMD
             debug(LOGGER, ERR_20004, ex, content);
         }
         // TODO: Debug
-        catch (Exception ex){
+        catch (Exception ex) {
             ex.printStackTrace();
         }
         return retObj;
     }
+
     /**
      * 
      * @param reference
@@ -195,9 +196,7 @@ public final class JsonKit { // NOPMD
      * @param attr
      * @return
      */
-    @Digits
     @Min(0)
-    @Max(Integer.MAX_VALUE)
     public static int occursAttr(@NotNull final JsonNode jsonNode, @NotNull @NotBlank @NotEmpty final String attr) {
         int occurs = 0;
         final Iterator<String> attrIt = jsonNode.fieldNames();
@@ -216,9 +215,7 @@ public final class JsonKit { // NOPMD
      * @param attr
      * @return
      */
-    @Digits
     @Min(0)
-    @Max(Integer.MAX_VALUE)
     public static int occursAttr(@NotNull final ArrayNode arrayNode, @NotNull @NotBlank @NotEmpty final String attr) {
         int occurs = 0;
         final Iterator<JsonNode> nodeIt = arrayNode.iterator();
@@ -235,9 +232,7 @@ public final class JsonKit { // NOPMD
      * @param caseSensitive
      * @return
      */
-    @Digits
     @Min(0)
-    @Max(Integer.MAX_VALUE)
     public static int occursAttr(@NotNull final ArrayNode arrayNode, @NotNull @NotBlank @NotEmpty final String attr,
             final Object value, final boolean caseSensitive) {
         int occurs = 0;
@@ -256,9 +251,7 @@ public final class JsonKit { // NOPMD
      * @param caseSensitive
      * @return
      */
-    @Digits
     @Min(0)
-    @Max(Integer.MAX_VALUE)
     public static int occursAttr(@NotNull final JsonNode jsonNode, @NotNull @NotBlank @NotEmpty final String attr,
             final Object value, final boolean caseSensitive) {
         int occurs = 0;
@@ -295,7 +288,7 @@ public final class JsonKit { // NOPMD
      * @return
      */
     public static boolean isAttrIn(@NotNull final JsonNode jsonNode, @NotNull @NotBlank @NotEmpty final String attr,
-            @MinLength(1) final String... values) {
+            @MinSize(1) final String... values) {
         final JsonNode attrNode = jsonNode.path(attr);
         final String jsonValue = attrNode.asText();
         boolean ret = false;

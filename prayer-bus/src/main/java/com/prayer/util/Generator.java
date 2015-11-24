@@ -5,9 +5,9 @@ import java.util.Random;
 import java.util.UUID;
 
 import jodd.util.MathUtil;
-import net.sf.oval.constraint.Digits;
-import net.sf.oval.constraint.Max;
 import net.sf.oval.constraint.Min;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -28,6 +28,8 @@ public final class Generator {
      * @return
      */
     @NotNull
+    @NotBlank
+    @NotEmpty
     public static String uuid() {
         return UUID.randomUUID().toString().toUpperCase(Locale.getDefault());
     }
@@ -37,6 +39,7 @@ public final class Generator {
      * 
      * @return
      */
+    @NotNull
     public static boolean bool() {
         final int number = number(100);
         return MathUtil.isEven(number);
@@ -49,8 +52,6 @@ public final class Generator {
      * @return
      */
     @Min(1)
-    @Digits
-    @Max(Integer.MAX_VALUE)
     public static int number(@Min(0) final int range) {
         return index(range) + 1;
     }
@@ -62,8 +63,6 @@ public final class Generator {
      * @return
      */
     @Min(0)
-    @Digits
-    @Max(Integer.MAX_VALUE)
     public static int index(@Min(1) final int range) {
         final Random rand = new Random();
         return rand.nextInt(range);

@@ -17,6 +17,9 @@ import com.prayer.util.StringKit;
 
 import jodd.util.ArraysUtil;
 import jodd.util.StringUtil;
+import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -27,7 +30,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class SqlDdlStatement implements SqlSegment,Symbol {
+final class SqlDdlStatement implements SqlSegment, Symbol {
     // ~ Static Fields =======================================
     /** 数据库类型映射 **/
     public static final ConcurrentMap<String, String> DB_TYPES = new ConcurrentHashMap<>();
@@ -59,7 +62,9 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
      * @param foreignField
      * @return
      */
-    public static String newFKSql(final KeyModel foreignKey, final FieldModel foreignField) {
+    @NotNull
+    public static String newFKSql(@InstanceOfAny(KeyModel.class) final KeyModel foreignKey,
+            @InstanceOfAny(FieldModel.class) final FieldModel foreignField) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.添加外键约束
@@ -80,7 +85,8 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
      * @param key
      * @return
      */
-    public static String newUKSql(@NotNull final KeyModel key) {
+    @NotNull
+    public static String newUKSql(@NotNull @InstanceOfAny(KeyModel.class) final KeyModel key) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.添加Unique键约束
@@ -97,7 +103,8 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
      * @param key
      * @return
      */
-    public static String newPKSql(@NotNull final KeyModel key) {
+    @NotNull
+    public static String newPKSql(@NotNull @InstanceOfAny(KeyModel.class) final KeyModel key) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.添加主键约束
@@ -117,8 +124,9 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
      * @param field
      * @return
      */
+    @NotNull
     public static String newColumnSql(@NotNull final String[] lengthTypes, @NotNull final String[] precisionTypes,
-            @NotNull final FieldModel field) {
+            @NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         final String columnType = DB_TYPES.get(field.getColumnType());
@@ -128,7 +136,7 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
         // 3.包含了length属性的字段构建，先precision，再length
         if (ArraysUtil.contains(precisionTypes, columnType)) {
             sql.append(BRACKET_SL).append(field.getLength()).append(COMMA).append(field.getPrecision())
-            .append(BRACKET_SR);
+                    .append(BRACKET_SR);
         } else if (ArraysUtil.contains(lengthTypes, columnType)) {
             sql.append(BRACKET_SL).append(field.getLength()).append(BRACKET_SR);
         }
@@ -148,7 +156,9 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
      * @param name
      * @return
      */
-    public static String dropCSSql(@NotNull final String table, @NotNull final String name) {
+    @NotNull
+    public static String dropCSSql(@NotNull @NotEmpty @NotBlank final String table,
+            @NotNull @NotEmpty @NotBlank final String name) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.填充模板第二部分
@@ -164,7 +174,9 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
      * @param name
      * @return
      */
-    public static String dropColSql(@NotNull final String table, @NotNull final String name) {
+    @NotNull
+    public static String dropColSql(@NotNull @NotEmpty @NotBlank final String table,
+            @NotNull @NotEmpty @NotBlank final String name) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.填充模板第二部分
@@ -180,7 +192,9 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
      * @param columnLine
      * @return
      */
-    public static String addColSql(@NotNull final String table, @NotNull final String columnLine) {
+    @NotNull
+    public static String addColSql(@NotNull @NotEmpty @NotBlank final String table,
+            @NotNull @NotEmpty @NotBlank final String columnLine) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.填充模板的第二部分
@@ -196,7 +210,9 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
      * @param columnLine
      * @return
      */
-    public static String alterColSql(@NotNull final String table, @NotNull final String columnLine) {
+    @NotNull
+    public static String alterColSql(@NotNull @NotEmpty @NotBlank final String table,
+            @NotNull @NotEmpty @NotBlank final String columnLine) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.填充模板的第二部分
@@ -204,13 +220,17 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
         // 3.返回最终语句
         return MessageFormat.format(TB_ALTER, table, sql.toString());
     }
+
     /**
      * 生成添加约束的Sql语句：ALTER TABLE TABLE_NAME ADD [CONATRAINT LINE]
+     * 
      * @param table
      * @param csLine
      * @return
      */
-    public static String addCSSql(@NotNull final String table, @NotNull final String csLine){
+    @NotNull
+    public static String addCSSql(@NotNull @NotEmpty @NotBlank final String table,
+            @NotNull @NotEmpty @NotBlank final String csLine) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.填充模板的第二部分
@@ -225,7 +245,8 @@ final class SqlDdlStatement implements SqlSegment,Symbol {
      * @param table
      * @return
      */
-    public static String genCountRowsSql(@NotNull final String table) {
+    @NotNull
+    public static String genCountRowsSql(@NotNull @NotEmpty @NotBlank final String table) {
         return MessageFormat.format(TB_COUNT, table);
     }
 

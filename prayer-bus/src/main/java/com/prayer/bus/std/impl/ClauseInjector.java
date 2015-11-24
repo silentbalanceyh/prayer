@@ -12,6 +12,8 @@ import com.prayer.kernel.query.Pager;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -34,6 +36,7 @@ public final class ClauseInjector {
      * @param jsonObject
      * @return
      */
+    @InstanceOfAny(Pager.class)
     public static Pager genPager(@NotNull final JsonObject jsonObject) {
         final JsonObject data = jsonObject.getJsonObject(Constants.PARAM.DATA);
         JsonObject pager = null;
@@ -53,6 +56,7 @@ public final class ClauseInjector {
      * @param jsonObject
      * @return
      */
+    @InstanceOfAny(OrderBy.class)
     public static OrderBy genOrderBy(@NotNull final JsonObject jsonObject) {
         final JsonObject data = jsonObject.getJsonObject(Constants.PARAM.DATA);
         JsonArray orderArr = null;
@@ -72,7 +76,9 @@ public final class ClauseInjector {
      * @param jsonObject
      * @return
      */
-    public static OrderBy genOrderBy(@NotNull final JsonObject jsonObject, @NotNull final Record record) {
+    @InstanceOfAny(OrderBy.class)
+    public static OrderBy genOrderBy(@NotNull final JsonObject jsonObject,
+            @NotNull @InstanceOf(Record.class) final Record record) {
         final JsonObject data = jsonObject.getJsonObject(Constants.PARAM.DATA);
         JsonArray orderArr = null;
         if (data.containsKey(Constants.PARAM.ORDERS)) {

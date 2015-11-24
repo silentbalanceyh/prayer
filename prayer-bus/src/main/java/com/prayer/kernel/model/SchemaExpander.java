@@ -13,7 +13,6 @@ import com.prayer.model.h2.KeyModel;
 import com.prayer.util.StringKit;
 
 import jodd.util.StringUtil;
-import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -35,7 +34,7 @@ public final class SchemaExpander {
      * @param keys
      * @return
      */
-    public static ConcurrentMap<String, KeyModel> toKeysMap(@NotNull @MinSize(0) final List<KeyModel> keys) {
+    public static ConcurrentMap<String, KeyModel> toKeysMap(@NotNull final List<KeyModel> keys) {
         final ConcurrentMap<String, KeyModel> retMap = new ConcurrentHashMap<>();
         for (final KeyModel key : keys) {
             if (StringKit.isNonNil(key.getName())) {
@@ -51,7 +50,7 @@ public final class SchemaExpander {
      * @param fields
      * @return
      */
-    public static ConcurrentMap<String, FieldModel> toFieldsMap(@NotNull @MinSize(0) final List<FieldModel> fields) {
+    public static ConcurrentMap<String, FieldModel> toFieldsMap(@NotNull final List<FieldModel> fields) {
         final ConcurrentMap<String, FieldModel> retMap = new ConcurrentHashMap<>();
         for (final FieldModel field : fields) {
             if (StringKit.isNonNil(field.getName())) {
@@ -67,7 +66,7 @@ public final class SchemaExpander {
      * @param colName
      * @return
      */
-    public static FieldModel getColumn(@NotNull @MinSize(0) final ConcurrentMap<String, FieldModel> fields,
+    public static FieldModel getColumn(@NotNull final ConcurrentMap<String, FieldModel> fields,
             @NotNull @NotBlank @NotEmpty final String colName) {
         FieldModel colField = null;
         for (final FieldModel field : fields.values()) {
@@ -85,7 +84,7 @@ public final class SchemaExpander {
      * @param fields
      * @return
      */
-    public static Set<String> getColumns(@NotNull @MinSize(0) final ConcurrentMap<String, FieldModel> fields) {
+    public static Set<String> getColumns(@NotNull final ConcurrentMap<String, FieldModel> fields) {
         // 因为列顺序会对SQL语句生成影响，所以使用了TreeSet的自然排序
         final Set<String> columns = new TreeSet<>();
         for (final FieldModel field : fields.values()) {
@@ -102,7 +101,7 @@ public final class SchemaExpander {
      * @param fields
      * @return
      */
-    public static List<FieldModel> getPrimaryKeys(@NotNull @MinSize(0) final ConcurrentMap<String, FieldModel> fields) {
+    public static List<FieldModel> getPrimaryKeys(@NotNull final ConcurrentMap<String, FieldModel> fields) {
         final List<FieldModel> retList = new ArrayList<>();
         for (final FieldModel field : fields.values()) {
             if (field.isPrimaryKey()) {
@@ -118,7 +117,7 @@ public final class SchemaExpander {
      * @param keys
      * @return
      */
-    public static KeyModel getForeignKey(@NotNull @MinSize(0) final ConcurrentMap<String, KeyModel> keys) {
+    public static KeyModel getForeignKey(@NotNull final ConcurrentMap<String, KeyModel> keys) {
         KeyModel foreignKey = null;
         for (final KeyModel key : keys.values()) {
             if (KeyCategory.ForeignKey == key.getCategory()) {
@@ -135,7 +134,7 @@ public final class SchemaExpander {
      * @param fields
      * @return
      */
-    public static FieldModel getForeignField(@NotNull @MinSize(0) final ConcurrentMap<String, FieldModel> fields) {
+    public static FieldModel getForeignField(@NotNull final ConcurrentMap<String, FieldModel> fields) {
         FieldModel foreignField = null;
         for (final FieldModel field : fields.values()) {
             if (field.isForeignKey()) {

@@ -14,12 +14,17 @@ import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.StringType;
 import com.prayer.model.type.XmlType;
 
+import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+
 /**
  * 
  * @author Lang
  *
  */
-final class ValueTransducer implements Transducer {    // NOPMD
+@Guarded
+final class ValueTransducer implements Transducer { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -29,7 +34,9 @@ final class ValueTransducer implements Transducer {    // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public Value<?> getValue(final DataType type, final String value) throws AbstractDatabaseException{    // NOPMD
+    @NotNull
+    public Value<?> getValue(@NotNull @InstanceOf(DataType.class) final DataType type, final String value)
+            throws AbstractDatabaseException { // NOPMD
         Value<?> ret = null;
         switch (type) {
         case BOOLEAN:

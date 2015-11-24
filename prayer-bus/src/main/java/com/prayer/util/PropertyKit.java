@@ -10,20 +10,19 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Symbol;
 
 import jodd.util.StringPool;
 import jodd.util.StringUtil;
-import net.sf.oval.constraint.Digits;
-import net.sf.oval.constraint.Max;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
-import net.sf.oval.guard.PreValidateThis;
+import net.sf.oval.guard.Pre;
 
 /**
  * 属性文件加载器
@@ -82,9 +81,7 @@ public final class PropertyKit {
      * @param propKey
      * @return
      */
-    @Digits
-    @Max(Long.MAX_VALUE)
-    @Min(Long.MIN_VALUE)
+    @Min(-1)
     public long getLong(@NotNull @NotEmpty @NotBlank final String propKey) {
         final String orgValue = this.getString(propKey);
         long retValue = -1;
@@ -100,9 +97,7 @@ public final class PropertyKit {
      * @param propKey
      * @return
      */
-    @Digits
-    @Max(Integer.MAX_VALUE)
-    @Min(Integer.MIN_VALUE)
+    @Min(-1)
     public int getInt(@NotNull @NotEmpty @NotBlank final String propKey) {
         final String orgValue = this.getString(propKey);
         int retValue = -1;
@@ -141,14 +136,16 @@ public final class PropertyKit {
         }
         return ret;
     }
+
     /**
      * 
      * @param propKey
      * @return
      */
-    public String[] getArray(@NotNull @NotBlank @NotEmpty final String propKey){
+    @NotNull
+    public String[] getArray(@NotNull @NotBlank @NotEmpty final String propKey) {
         final String ret = this.getString(propKey);
-        return StringUtil.split(ret,String.valueOf(Symbol.COMMA));
+        return StringUtil.split(ret, String.valueOf(Symbol.COMMA));
     }
 
     /**
@@ -156,7 +153,7 @@ public final class PropertyKit {
      * @return
      */
     @NotNull
-    @PreValidateThis
+    @Pre(expr = "_this.prop != null", lang = Constants.LANG_GROOVY)
     public Properties getProp() {
         return this.prop;
     }
@@ -166,6 +163,7 @@ public final class PropertyKit {
      * @param resource
      * @return
      */
+    @NotNull
     public Properties getProp(@NotNull @NotEmpty @NotBlank final String resource) {
         return MemoryPool.POOL_PROP.get(resource);
     }

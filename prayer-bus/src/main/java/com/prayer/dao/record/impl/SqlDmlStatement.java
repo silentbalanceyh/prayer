@@ -12,6 +12,8 @@ import com.prayer.kernel.Expression;
 import com.prayer.kernel.query.OrderBy;
 import com.prayer.util.StringKit;
 
+import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -78,7 +80,8 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
      */
     @NotNull
     public static String prepSelectSQL(@NotNull @NotBlank @NotEmpty final String table,
-            @NotNull @MinSize(0) final List<String> columns, final Expression whereExpr, final OrderBy orders) {
+            @NotNull final List<String> columns, @InstanceOf(Expression.class) final Expression whereExpr,
+            @InstanceOfAny(OrderBy.class) final OrderBy orders) {
         // 1.构造列部分
         String cols = "*";
         if (Constants.ZERO < columns.size()) {
@@ -94,7 +97,8 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
      * 带查询的Count
      */
     @NotNull
-    public static String prepCountSQL(@NotNull @NotBlank @NotEmpty final String table, final Expression whereExpr) {
+    public static String prepCountSQL(@NotNull @NotBlank @NotEmpty final String table,
+            @InstanceOf(Expression.class) final Expression whereExpr) {
         // 1.构造Count主干语句
         final String majorClouse = MessageFormat.format(TB_COUNT, table);
         // 2.最终Count语句
@@ -108,7 +112,8 @@ final class SqlDmlStatement implements SqlSegment, Symbol {
      * @return
      */
     @NotNull
-    public static String prepDeleteSQL(@NotNull @NotBlank @NotEmpty final String table, final Expression whereExpr) {
+    public static String prepDeleteSQL(@NotNull @NotBlank @NotEmpty final String table,
+            @InstanceOf(Expression.class) final Expression whereExpr) {
         // 1.使用模板构造参数语句
         final String majorClouse = MessageFormat.format(TB_DELETE, table);
         // 3.如果Expression为null则删除所有记录

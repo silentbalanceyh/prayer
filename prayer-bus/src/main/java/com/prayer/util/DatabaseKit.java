@@ -24,6 +24,9 @@ public final class DatabaseKit {
      * @param version
      * @return
      */
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public static String getDatabaseVersion(
             @NotNull @NotBlank @NotEmpty final String productName,
             @NotNull @NotBlank @NotEmpty final String version){
@@ -36,7 +39,7 @@ public final class DatabaseKit {
             retVar = getPostgreSql(version);
         }break;
         default:{
-            retVar = null;    // NOPMD
+            retVar = "Other";    // NOPMD
         }break;
         }
         return retVar;
@@ -47,6 +50,9 @@ public final class DatabaseKit {
      * @param version
      * @return
      */
+    @NotNull
+    @NotBlank
+    @NotEmpty
     private static String getSqlServer(
             @NotNull @NotBlank @NotEmpty final String version) {
         String ret = null;
@@ -74,6 +80,9 @@ public final class DatabaseKit {
      * @param version
      * @return
      */
+    @NotNull
+    @NotBlank
+    @NotEmpty
     private static String getPostgreSql(
             @NotNull @NotBlank @NotEmpty final String version) {
         String ret = null;

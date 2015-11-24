@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.AbstractTransactionException;
@@ -27,13 +28,13 @@ import com.prayer.schema.dao.impl.SchemaDaoImpl;
 import com.prayer.schema.json.CommunionSerializer;
 import com.prayer.util.JsonKit;
 
+import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.Pre;
-import net.sf.oval.guard.PreValidateThis;
 
 /**
  * Json中的导入器
@@ -49,6 +50,8 @@ public class CommunionImporter implements Importer {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
+    @NotEmpty
+    @NotBlank
     private transient String filePath;
     /** **/
     @NotNull
@@ -72,7 +75,7 @@ public class CommunionImporter implements Importer {
      * @param filePath
      */
     @PostValidateThis
-    public CommunionImporter(@NotNull @NotEmpty @NotBlank final String filePath) {
+    public CommunionImporter(@AssertFieldConstraints("filePath") final String filePath) {
         this.initialize(filePath);
         if (null == this.filePath) {
             info(LOGGER, "[E] File path initializing met error!",
@@ -86,7 +89,7 @@ public class CommunionImporter implements Importer {
      * 初始化文件读取的过程
      */
     @Override
-    @PreValidateThis
+    @Pre(expr = "_this.filePath != null && _this.ensurer != null", lang = Constants.LANG_GROOVY)
     public void readSchema() throws AbstractSystemException {
         final JsonNode schemaData = JsonKit.readJson(this.filePath);
         /**
@@ -104,7 +107,7 @@ public class CommunionImporter implements Importer {
      * 验证Schema文件信息
      */
     @Override
-    @PreValidateThis
+    @Pre(expr = "_this.ensurer != null", lang = Constants.LANG_GROOVY)
     public void ensureSchema() throws AbstractSchemaException {
         if (this.ensurer.validate()) {
             this.rawData = this.ensurer.getRaw();
@@ -119,8 +122,8 @@ public class CommunionImporter implements Importer {
      * 
      */
     @Override
-    @PreValidateThis
-    public void refreshSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
+    @PostValidateThis
+    public void refreshSchema(@AssertFieldConstraints("filePath") final String filePath) {
         this.initialize(filePath);
         if (null == this.filePath) {
             info(LOGGER, "[E] File path initializing met error!",
@@ -132,14 +135,14 @@ public class CommunionImporter implements Importer {
      * 
      */
     @Override
-    @Pre(expr = "_this.schema != null && _this.rawData != null", lang = "groovy")
+    @Pre(expr = "_this.schema != null && _this.rawData != null && _this.serializer != null", lang = Constants.LANG_GROOVY)
     public GenericSchema transformSchema() throws SerializationException {
         final MetaModel meta = this.readMeta();
         try {
-            schema.setMeta(meta);
-            schema.setIdentifier(meta.getGlobalId());
-            schema.setKeys(this.readKeys());
-            schema.setFields(this.readFields());
+            this.schema.setMeta(meta);
+            this.schema.setIdentifier(meta.getGlobalId());
+            this.schema.setKeys(this.readKeys());
+            this.schema.setFields(this.readFields());
         } catch (SerializationException ex) {
             info(LOGGER, "Serialization Exception Happen! Data = " + this.rawData.toString(), ex);
             this.schema = null; // NOPMD
@@ -151,7 +154,7 @@ public class CommunionImporter implements Importer {
      * 
      */
     @Override
-    @PreValidateThis
+    @Pre(expr = "_this.schemaDao != null",lang = Constants.LANG_GROOVY)
     public boolean syncSchema(@NotNull final GenericSchema schema) throws AbstractTransactionException {
         GenericSchema retSchema = null;
         info(LOGGER, "[I] UniqueId = " + schema.getMeta().getUniqueId());
@@ -171,6 +174,7 @@ public class CommunionImporter implements Importer {
 
     /** **/
     @Override
+    @Pre(expr = "_this.schema != null", lang = Constants.LANG_GROOVY)
     public GenericSchema getSchema() {
         return this.schema;
     }
@@ -179,6 +183,7 @@ public class CommunionImporter implements Importer {
      * 
      */
     @Override
+    @Pre(expr = "_this.ensurer != null",lang = Constants.LANG_GROOVY)
     public ExternalEnsurer getEnsurer() {
         return this.ensurer;
     }

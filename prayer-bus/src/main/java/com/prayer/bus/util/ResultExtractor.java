@@ -29,6 +29,7 @@ public final class ResultExtractor {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** Object extracting **/
+    @NotNull
     public static <T> ConcurrentMap<String, T> extractEntity(@NotNull final List<T> dataList,
             @NotNull @NotBlank @NotEmpty final String field) {
         // 1.构造结果
@@ -42,6 +43,7 @@ public final class ResultExtractor {
     }
 
     /** List<Object> extracting **/
+    @NotNull
     public static <T> ConcurrentMap<String, List<T>> extractList(@NotNull final List<T> dataList,
             @NotNull @NotBlank @NotEmpty final String field) {
         // 1.构造结果
@@ -65,6 +67,7 @@ public final class ResultExtractor {
     }
 
     /** **/
+    @NotNull
     public static ConcurrentMap<HttpMethod, UriModel> extractUris(@NotNull final List<UriModel> dataList) {
         // 1.构造结果
         final ConcurrentMap<HttpMethod, UriModel> retMap = new ConcurrentHashMap<>();
@@ -81,6 +84,7 @@ public final class ResultExtractor {
      * @param dataList
      * @return
      */
+    @NotNull
     public static ConcurrentMap<String, VerticleChain> extractVerticles(@NotNull final List<VerticleModel> dataList) {
         // 1.构造结果
         final ConcurrentMap<String, VerticleChain> retMap = new ConcurrentHashMap<>();

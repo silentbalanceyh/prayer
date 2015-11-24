@@ -26,6 +26,7 @@ import com.prayer.db.pool.AbstractDbPool;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.DataType;
 
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -48,6 +49,8 @@ public class JdbcConnImpl implements JdbcContext {
     private static final String PRE_CONDITION = "_this.dbPool != null";
     // ~ Instance Fields =====================================
     /** **/
+    @NotNull
+    @InstanceOfAny(AbstractDbPool.class)
     private transient final AbstractDbPool dbPool;
 
     // ~ Static Block ========================================

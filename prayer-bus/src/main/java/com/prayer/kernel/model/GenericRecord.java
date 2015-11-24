@@ -25,6 +25,8 @@ import com.prayer.model.h2.FieldModel;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.StringType;
 
+import net.sf.oval.constraint.AssertFieldConstraints;
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -48,11 +50,14 @@ public class GenericRecord implements Record { // NOPMD
     // ~ Instance Fields =====================================
     /** 全局标识符 **/
     @NotNull
+    @NotBlank
+    @NotEmpty
     private transient final String _identifier;
     /** 和当前Record绑定的Schema引用 **/
     @NotNull
     private transient GenericSchema _schema; // NOPMD
     /** 当前Record中的数据 **/
+    @NotNull
     private transient final ConcurrentMap<String, Value<?>> data;
 
     // ~ Static Block ========================================
@@ -63,7 +68,7 @@ public class GenericRecord implements Record { // NOPMD
      * @param _identifier
      */
     @PostValidateThis
-    public GenericRecord(@NotNull @NotBlank @NotEmpty final String identifier) {
+    public GenericRecord(@AssertFieldConstraints("_identifier") final String identifier) {
         this._identifier = identifier.trim();
         try {
             this._schema = SchemaLocator.getSchema(identifier.trim());
@@ -79,8 +84,8 @@ public class GenericRecord implements Record { // NOPMD
     /** **/
     @Override
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public void set(@NotNull @NotBlank @NotEmpty final String name, final Value<?> value)
-            throws AbstractDatabaseException {
+    public void set(@AssertFieldConstraints("_identifier") final String name,
+            @InstanceOf(Value.class) final Value<?> value) throws AbstractDatabaseException {
         this.verifyField(name);
         this.data.put(name, value);
     }
@@ -88,25 +93,28 @@ public class GenericRecord implements Record { // NOPMD
     /** **/
     @Override
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public void set(@NotNull @NotBlank @NotEmpty final String name, final String value)
+    public void set(@AssertFieldConstraints("_identifier") final String name, final String value)
             throws AbstractDatabaseException {
         this.verifyField(name);
         final DataType type = this._schema.getFields().get(name).getType();
-        final Value<?> wrapperValue = V.get().getValue(type,value);
+        final Value<?> wrapperValue = V.get().getValue(type, value);
         this.set(name, wrapperValue);
     }
 
     /** **/
     @Override
-    public Value<?> get(@NotNull @NotBlank @NotEmpty final String name) throws AbstractDatabaseException {
+    @InstanceOf(Value.class)
+    public Value<?> get(@AssertFieldConstraints("_identifier") final String name) throws AbstractDatabaseException {
         this.verifyField(name);
         return this.data.get(name);
     }
 
     /** **/
     @Override
+    @InstanceOf(Value.class)
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public Value<?> column(@NotNull @NotBlank @NotEmpty final String column) throws AbstractDatabaseException {
+    public Value<?> column(@AssertFieldConstraints("_identifier") final String column)
+            throws AbstractDatabaseException {
         this.verifyColumn(column);
         final FieldModel colInfo = this._schema.getColumn(column);
         return this.data.get(colInfo.getName());
@@ -148,7 +156,7 @@ public class GenericRecord implements Record { // NOPMD
     @Override
     @NotNull
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public String toField(@NotNull @NotBlank @NotEmpty final String column) throws AbstractDatabaseException {
+    public String toField(@AssertFieldConstraints("_identifier") final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
         final FieldModel field = this._schema.getColumn(column);
         return field.getName();
@@ -158,7 +166,7 @@ public class GenericRecord implements Record { // NOPMD
     @Override
     @NotNull
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public String toColumn(@NotNull @NotBlank @NotEmpty final String field) throws AbstractDatabaseException {
+    public String toColumn(@AssertFieldConstraints("_identifier") final String field) throws AbstractDatabaseException {
         this.verifyField(field);
         final FieldModel column = this._schema.getFields().get(field);
         return column.getColumnName();
@@ -174,9 +182,9 @@ public class GenericRecord implements Record { // NOPMD
         final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
         for (final FieldModel field : pkFields) {
             try {
-                if(null != this.column(field.getColumnName())){
+                if (null != this.column(field.getColumnName())) {
                     retMap.put(field.getColumnName(), this.column(field.getColumnName()));
-                }else{
+                } else {
                     // 默认String为主键替换Null的默认ID
                     retMap.put(field.getColumnName(), new StringType(Constants.EMPTY_STR));
                 }
@@ -208,7 +216,7 @@ public class GenericRecord implements Record { // NOPMD
         }
         return retMap;
     }
-    
+
     /** **/
     @Override
     @NotNull
@@ -217,7 +225,8 @@ public class GenericRecord implements Record { // NOPMD
     public ConcurrentMap<String, DataType> columnTypes() {
         final ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
         for (final String name : this._schema.getFields().keySet()) {
-            retMap.put(this._schema.getFields().get(name).getColumnName(), this._schema.getFields().get(name).getType());
+            retMap.put(this._schema.getFields().get(name).getColumnName(),
+                    this._schema.getFields().get(name).getType());
         }
         return retMap;
     }

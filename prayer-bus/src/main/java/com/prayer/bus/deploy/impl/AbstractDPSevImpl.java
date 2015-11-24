@@ -19,6 +19,7 @@ import com.prayer.exception.AbstractTransactionException;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.schema.dao.TemplateDao;
 
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -66,6 +67,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 	/** **/
 	@PreValidateThis
 	@Override
+	@InstanceOfAny(ServiceResult.class)
 	public ServiceResult<List<T>> importToList(@NotNull @NotBlank @NotEmpty final String jsonPath) {
 		// 1.构造响应结果
 		final ServiceResult<List<T>> result = new ServiceResult<>();
@@ -96,6 +98,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 	/** **/
 	@PreValidateThis
 	@Override
+	@InstanceOfAny(ServiceResult.class)
 	public ServiceResult<ConcurrentMap<String, T>> importToMap(@NotNull @NotBlank @NotEmpty final String jsonPath,
 			@NotNull @NotBlank @NotEmpty final String field) {
 		// 1.构造响应结果
@@ -112,6 +115,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 	/** **/
 	@PreValidateThis
 	@Override
+	@InstanceOfAny(ServiceResult.class)
 	public ServiceResult<ConcurrentMap<String, List<T>>> importToMapList(
 			@NotNull @NotBlank @NotEmpty final String jsonPath, @NotNull @NotBlank @NotEmpty final String field) {
 		// 1.构造响应结果
@@ -128,6 +132,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 	/** **/
 	@PreValidateThis
 	@Override
+	@InstanceOfAny(ServiceResult.class)
 	public ServiceResult<Boolean> purgeData() {
 		// 1.构造响应数据
 		final ServiceResult<Boolean> result = new ServiceResult<>();

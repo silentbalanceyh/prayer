@@ -74,7 +74,7 @@ public final class Input {
      * @return
      */
     public static PreparedStatementCreator prepStmt(@NotNull @NotBlank @NotEmpty final String sql,
-            @NotNull @MinSize(0) final List<Value<?>> values) {
+            @NotNull final List<Value<?>> values) {
         return new PreparedStatementCreator() {
             /** **/
             @Override

@@ -9,10 +9,6 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +16,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.schema.MultiForFKPolicyException;
 import com.prayer.exception.schema.KeysNameSpecificationException;
+import com.prayer.exception.schema.MultiForFKPolicyException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.util.JsonKit;
+
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -80,6 +81,7 @@ final class KeysEnsurer implements InternalEnsurer {
      * @throws AbstractSchemaException
      */
     @Override
+    @PreValidateThis
     public void validate() throws AbstractSchemaException {
         // 1.验证Zero长度异常
         validateKeysAttr();

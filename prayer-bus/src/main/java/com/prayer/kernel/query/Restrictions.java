@@ -11,6 +11,7 @@ import com.prayer.exception.metadata.ProjectionInvalidException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Value;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -21,7 +22,7 @@ import net.sf.oval.guard.Guarded;
  * @author Lang
  */
 @Guarded
-public final class Restrictions implements SqlSegment {    // NOPMD
+public final class Restrictions implements SqlSegment { // NOPMD
     // ~ Static Fields =======================================
 
     /** **/
@@ -36,6 +37,7 @@ public final class Restrictions implements SqlSegment {    // NOPMD
     // ~ Static Methods ======================================
     /**
      * COLUMN = Value
+     * 
      * @param column
      * @param value
      * @return
@@ -47,6 +49,7 @@ public final class Restrictions implements SqlSegment {    // NOPMD
 
     /**
      * COLUMN = ?
+     * 
      * @param column
      * @return
      */
@@ -212,8 +215,8 @@ public final class Restrictions implements SqlSegment {    // NOPMD
      * @return
      */
     @NotNull
-    public static Expression and(@NotNull final Expression left, @NotNull final Expression right)
-            throws AbstractDatabaseException {
+    public static Expression and(@NotNull @InstanceOf(Expression.class) final Expression left,
+            @NotNull @InstanceOf(Expression.class) final Expression right) throws AbstractDatabaseException {
         verifyExpr(left, right);
         return ProjectionExpression.and(left, right);
     }
@@ -226,8 +229,9 @@ public final class Restrictions implements SqlSegment {    // NOPMD
      * @return
      */
     @NotNull
-    public static Expression or(@NotNull final Expression left, @NotNull final Expression right) // NOPMD
-            throws AbstractDatabaseException {
+    public static Expression or(@NotNull @InstanceOf(Expression.class) final Expression left,
+            @NotNull @InstanceOf(Expression.class) final Expression right) // NOPMD
+                    throws AbstractDatabaseException {
         verifyExpr(left, right);
         return ProjectionExpression.or(left, right);
     }

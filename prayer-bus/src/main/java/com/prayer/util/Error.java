@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import com.prayer.constant.Resources;
 import com.prayer.exception.AbstractException;
 
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.Max;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -37,6 +38,9 @@ public final class Error { // NOPMD
      * @param params
      * @return
      */
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public static String error(@Max(-10000) final int errorCode, final Object... params) {
         return error(null, errorCode, params);
     }
@@ -48,6 +52,9 @@ public final class Error { // NOPMD
      * @param params
      * @return
      */
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public static String error(@NotNull final Class<?> clazz, @Max(-10000) final int errorCode,
             final Object... params) {
         return format(clazz, errorKey('E', errorCode), params);
@@ -62,7 +69,8 @@ public final class Error { // NOPMD
      * @param params
      */
     public static void debug(@NotNull final Logger logger, @NotNull final Class<?> clazz, final String errKey,
-            final AbstractException exp, final Object... params) {
+            @InstanceOfAny(com.prayer.exception.AbstractException.class) final AbstractException exp,
+            final Object... params) {
         final StringBuilder errMsg = new StringBuilder("[D] ==> ");
         if (logger.isDebugEnabled()) {
             if (StringKit.isNil(errKey)) {
@@ -103,17 +111,18 @@ public final class Error { // NOPMD
             }
         }
     }
-    
+
     /**
      * 
      * @param logger
      * @param message
      */
-    public static void debug(@NotNull final Logger logger, @NotNull @NotBlank @NotEmpty final String message){
-        if(logger.isDebugEnabled()){
+    public static void debug(@NotNull final Logger logger, @NotNull @NotBlank @NotEmpty final String message) {
+        if (logger.isDebugEnabled()) {
             logger.debug(message);
         }
     }
+
     /**
      * 
      * @param logger
@@ -121,7 +130,8 @@ public final class Error { // NOPMD
      * @param exp
      * @param params
      */
-    public static void info(@NotNull final Logger logger, @NotNull final String errKey, final Throwable exp,final Object... params){
+    public static void info(@NotNull final Logger logger, @NotNull final String errKey, final Throwable exp,
+            final Object... params) {
         if (logger.isInfoEnabled()) {
             if (null == exp) {
                 logger.info(message(errKey, params), params);
@@ -130,6 +140,7 @@ public final class Error { // NOPMD
             }
         }
     }
+
     /**
      * 
      * @param logger
@@ -163,6 +174,7 @@ public final class Error { // NOPMD
      * @param params
      * @return
      */
+    @NotNull
     public static String message(@NotNull final String errKey, final Object... params) {
         return null == loader ? "" : MessageFormat.format(loader.getString(errKey), params);
     }

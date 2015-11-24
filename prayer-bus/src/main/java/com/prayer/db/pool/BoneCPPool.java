@@ -7,17 +7,18 @@ import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.Pre;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 import com.prayer.constant.MemoryPool;
+
+import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.Pre;
 
 /**
  * Bone CP连接池
@@ -60,6 +61,7 @@ public class BoneCPPool extends AbstractDbPool {
      * 获取数据源引用
      */
     @Override
+    @InstanceOfAny(BoneCPDataSource.class)
     @Pre(expr = "_this.dataSource != null", lang = "groovy")
     public BoneCPDataSource getDataSource() {
         return (BoneCPDataSource) dataSource;

@@ -22,6 +22,7 @@ import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.query.Restrictions;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -45,6 +46,7 @@ final class SqlHelper {
      *            传入一个TreeSet
      * @return
      */
+    @InstanceOf(Expression.class)
     public static Expression getAndExpr(@NotNull final Set<String> columns) {
         Expression ret = null;
         // 记得使用TreeSet
@@ -63,13 +65,15 @@ final class SqlHelper {
         }
         return ret;
     }
+
     /**
      * 将查询的结果集List<ConcurrentMap<String,String>>转换成List<Record>
      * 
      * @param record
      * @param result
      */
-    public static List<Record> extractData(@NotNull final Record record,
+    @NotNull
+    public static List<Record> extractData(@NotNull @InstanceOf(Record.class) final Record record,
             @NotNull final List<ConcurrentMap<String, Value<?>>> resultData) {
         final String identifier = record.identifier();
         // 从List中抽取记录
@@ -90,6 +94,7 @@ final class SqlHelper {
         }
         return retList;
     }
+
     /**
      * 生成Insert语句
      * 
@@ -97,7 +102,8 @@ final class SqlHelper {
      * @param filters
      * @return
      */
-    public static String prepInsertSQL(final Record record, final String... filters) {
+    @NotNull
+    public static String prepInsertSQL(@InstanceOf(Record.class) final Record record, final String... filters) {
         final Collection<String> columns = diff(record.columns(), Arrays.asList(filters));
         return SqlDmlStatement.prepInsertSQL(record.table(), columns);
     }
@@ -109,7 +115,9 @@ final class SqlHelper {
      * @param filters
      * @return
      */
-    public static List<Value<?>> prepParam(final Record record, final String... filters) throws AbstractDatabaseException{
+    @NotNull
+    public static List<Value<?>> prepParam(@InstanceOf(Record.class) final Record record, final String... filters)
+            throws AbstractDatabaseException {
         final Collection<String> columns = diff(record.columns(), Arrays.asList(filters));
         final List<Value<?>> retParam = new ArrayList<>();
         for (final String column : columns) {
@@ -117,6 +125,7 @@ final class SqlHelper {
         }
         return retParam;
     }
+
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

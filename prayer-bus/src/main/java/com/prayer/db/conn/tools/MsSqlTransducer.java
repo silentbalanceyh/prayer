@@ -24,16 +24,19 @@ import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.StringType;
 import com.prayer.model.type.XmlType;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
+@Guarded
 final class MsSqlTransducer implements Transducer { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
@@ -44,8 +47,8 @@ final class MsSqlTransducer implements Transducer { // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public void injectArgs(@NotNull final PreparedStatement stmt, @Min(0) final int idx, @NotNull final Value<?> value)
-            throws SQLException {
+    public void injectArgs(@NotNull final PreparedStatement stmt, @Min(1) final int idx,
+            @NotNull @InstanceOf(Value.class) final Value<?> value) throws SQLException {
         switch (value.getDataType()) {
         case INT: {
             stmt.setInt(idx, ((IntType) value).getValue());
@@ -84,8 +87,9 @@ final class MsSqlTransducer implements Transducer { // NOPMD
 
     /** **/
     @Override
+    @InstanceOf(Value.class)
     public Value<?> getValue(@NotNull final ResultSet retSet, @NotNull final DataType type, // NOPMD
-            @NotNull @NotEmpty @NotBlank final String column) throws SQLException,AbstractDatabaseException {
+            @NotNull @NotEmpty @NotBlank final String column) throws SQLException, AbstractDatabaseException {
         Value<?> ret = null;
         switch (type) {
         case INT: {

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.util.PropertyKit;
 
 import jodd.util.StringUtil;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -175,6 +176,7 @@ public final class Resources { // NOPMD
      * @return
      */
     @NotNull
+    @InstanceOfAny(PropertyKit.class)
     public static PropertyKit getLoader() {
         return LOADER;
     }

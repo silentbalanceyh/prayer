@@ -34,6 +34,9 @@ final class ColumnLeafNode extends AbstractExpression implements Expression{
      * 
      */
     @Override
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public String toSql(){
         return this.keywordFilter(getData());
     }

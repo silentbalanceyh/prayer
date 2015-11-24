@@ -27,6 +27,9 @@ public final class Encryptor {
      * @param algorithm
      * @return
      */
+    @NotNull
+    @NotBlank
+    @NotEmpty
     public static String encryptMD5(@NotNull @NotBlank @NotEmpty final String inputValue) {
         String retValue = null;
         try {
@@ -46,7 +49,6 @@ public final class Encryptor {
                 middleStr[position++] = Constants.UTI_HEX_ARR[byte0 & 0xF]; // 取字节中高4位
             }
             retValue = new String(middleStr);
-
         } catch (NoSuchAlgorithmException ex) {
             retValue = inputValue;
         }

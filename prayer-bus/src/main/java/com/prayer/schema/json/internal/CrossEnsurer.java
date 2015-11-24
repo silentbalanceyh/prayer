@@ -6,11 +6,6 @@ import static com.prayer.util.Instance.instance;
 
 import java.util.Iterator;
 
-import jodd.util.StringUtil;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +21,12 @@ import com.prayer.exception.schema.MultiForPKPolicyException;
 import com.prayer.exception.schema.PKNotOnlyOneException;
 import com.prayer.exception.schema.WrongTimeAttrException;
 import com.prayer.util.JsonKit;
+
+import jodd.util.StringUtil;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -73,6 +74,7 @@ final class CrossEnsurer implements InternalEnsurer {    // NOPMD
      * @throws AbstractSchemaException
      */
     @Override
+    @PreValidateThis
     public void validate() throws AbstractSchemaException {
         // 1.验证PK的Policy和Multi的冲突
         validateMetaPKPolicy();
