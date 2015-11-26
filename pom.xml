@@ -58,7 +58,7 @@
 		<oval.version>1.84</oval.version>
 		<oval.groovy>2.1.6</oval.groovy>
 		<!-- JODD版本 -->
-		<jodd.version>3.6.6</jodd.version>
+		<jodd.version>3.6.7</jodd.version>
 		<!-- Pool池化管理 -->
 		<pool2.version>2.3</pool2.version>
 		<!-- ReflectASM -->
