@@ -12,6 +12,7 @@ import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Expression;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
+import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.query.OrderBy;
 import com.prayer.kernel.query.Pager;
 
@@ -24,7 +25,7 @@ import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.Pre;
 
 /**
- * 
+ * 注意OVal验证了对象的实际类型，这个Dao只能针对GenericRecord类型
  * @author Lang
  *
  */
@@ -58,7 +59,8 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @InstanceOf(Record.class)
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record insert(@NotNull @InstanceOf(Record.class) final Record record) throws AbstractDatabaseException {
+    public Record insert(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+            throws AbstractDatabaseException {
         return this.dao.insert(record);
     }
 

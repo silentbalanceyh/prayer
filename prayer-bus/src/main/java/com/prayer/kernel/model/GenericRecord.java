@@ -27,6 +27,7 @@ import com.prayer.model.type.StringType;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -139,6 +140,7 @@ public class GenericRecord implements Record { // NOPMD
     /** 获取当前Record的Schema定义 **/
     @Override
     @NotNull
+    @InstanceOfAny(MetaPolicy.class)
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public MetaPolicy policy() {
         return this._schema.getMeta().getPolicy();
