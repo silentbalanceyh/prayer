@@ -1,4 +1,4 @@
-package com.prayer.dao.meta.impl;
+package com.prayer.dao.record.meta.impl;
 
 import java.io.Serializable;
 

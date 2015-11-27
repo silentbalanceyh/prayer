@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.std.MetaService;
-import com.prayer.dao.meta.impl.MetaDaoImpl;
+import com.prayer.dao.record.meta.impl.MetaDaoImpl;
 import com.prayer.kernel.model.MetaRecord;
 
 import net.sf.oval.guard.Guarded;
