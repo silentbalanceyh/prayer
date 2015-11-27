@@ -1,6 +1,6 @@
 package com.prayer.dao.record.impl;
 
-import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Instance.singleton;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -26,6 +26,7 @@ import net.sf.oval.guard.Pre;
 
 /**
  * 注意OVal验证了对象的实际类型，这个Dao只能针对GenericRecord类型
+ * 
  * @author Lang
  *
  */
@@ -45,7 +46,7 @@ public class RecordDaoImpl implements RecordDao {
     /** **/
     @PostValidateThis
     public RecordDaoImpl() {
-        this.dao = instance(Resources.DB_DAO);
+        this.dao = singleton(Resources.DB_DAO);
     }
 
     // ~ Abstract Methods ====================================
@@ -70,7 +71,8 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @InstanceOf(Record.class)
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record update(@NotNull @InstanceOf(Record.class) final Record record) throws AbstractDatabaseException {
+    public Record update(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+            throws AbstractDatabaseException {
         return this.dao.update(record);
     }
 
@@ -80,7 +82,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @InstanceOf(Record.class)
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record selectById(@NotNull @InstanceOf(Record.class) final Record record,
+    public Record selectById(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
             @NotNull @InstanceOf(Value.class) final Value<?> uniqueId) throws AbstractDatabaseException {
         return this.dao.selectById(record, uniqueId);
     }
@@ -91,7 +93,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @InstanceOf(Record.class)
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record selectById(@NotNull @InstanceOf(Record.class) final Record record,
+    public Record selectById(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
             @NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException {
         return this.dao.selectById(record, uniqueIds);
     }
@@ -101,7 +103,8 @@ public class RecordDaoImpl implements RecordDao {
      */
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public boolean delete(@NotNull @InstanceOf(Record.class) final Record record) throws AbstractDatabaseException {
+    public boolean delete(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+            throws AbstractDatabaseException {
         return this.dao.delete(record);
     }
 
@@ -117,8 +120,8 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @NotNull
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public List<Record> queryByFilter(@NotNull @InstanceOf(Record.class) final Record record,
-            @NotNull @MinSize(1) final String[] columns, final List<Value<?>> params,
+    public List<Record> queryByFilter(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
+            @NotNull final String[] columns, final List<Value<?>> params,
             @InstanceOf(Expression.class) final Expression filters) throws AbstractDatabaseException {
         return this.dao.queryByFilter(record, columns, params, filters);
     }
@@ -136,7 +139,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @NotNull
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public List<Record> queryByFilter(@NotNull @InstanceOf(Record.class) final Record record,
+    public List<Record> queryByFilter(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params,
             @InstanceOf(Expression.class) final Expression filters,
             @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders) throws AbstractDatabaseException {
@@ -157,9 +160,9 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @NotNull
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public ConcurrentMap<Long, List<Record>> queryByPage(@NotNull @InstanceOf(Record.class) final Record record,
-            @NotNull final String[] columns, final List<Value<?>> params,
-            final @InstanceOf(Expression.class) Expression filters,
+    public ConcurrentMap<Long, List<Record>> queryByPage(
+            @NotNull @InstanceOfAny(GenericRecord.class) final Record record, @NotNull final String[] columns,
+            final List<Value<?>> params, final @InstanceOf(Expression.class) Expression filters,
             @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders,
             @NotNull @InstanceOfAny(Pager.class) final Pager pager) throws AbstractDatabaseException {
         return this.dao.queryByPage(record, columns, params, filters, orders, pager);

@@ -10,7 +10,7 @@ import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 import javax.script.SimpleScriptContext;
 
-import com.prayer.bus.std.impl.ClauseInjector;
+import com.prayer.bus.std.util.ClauseInjector;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.kernel.Record;
@@ -60,7 +60,7 @@ public final class JSEngine {
      * @throws ScriptException
      */
     @NotNull
-    public static JSEnv initJSRecordEnv(@NotNull final JsonObject jsonObject,
+    public static JSEnv initJSEnv(@NotNull final JsonObject jsonObject,
             @NotNull @InstanceOf(Record.class) final Record record) throws ScriptException {
         final JSEngine engine = new JSEngine(jsonObject.getJsonObject(Constants.PARAM.DATA));
         final JSEnvExtractor extractor = singleton(JSEnvExtractor.class);
@@ -74,29 +74,6 @@ public final class JSEngine {
         env.setPager(ClauseInjector.genPager(jsonObject));
         // 4.设置全局脚本
         engine.execute(extractor.extractJSEnv());
-        // 5.设置局部配置脚本
-        engine.execute(extractor.extractJSContent(jsonObject));
-        return env;
-    }
-
-    /**
-     * 
-     * @param jsonObject
-     * @return
-     * @throws ScriptException
-     */
-    @NotNull
-    public static JSEnv initJSMetaEnv(@NotNull final JsonObject jsonObject) throws ScriptException {
-        final JSEngine engine = new JSEngine(jsonObject.getJsonObject(Constants.PARAM.DATA));
-        final JSEnvExtractor extractor = singleton(JSEnvExtractor.class);
-        final JSEnv env = new JSEnv();
-        engine.put(JSEngine.ENV, env);
-        // 2.关于OrderBy的判断，参数中包含了orders的信息
-        env.setOrder(ClauseInjector.genOrderBy(jsonObject));
-        // 3.关于Pager的注入
-        env.setPager(ClauseInjector.genPager(jsonObject));
-        // 4.设置全局脚本
-        engine.execute(extractor.extractJSMetaEnv());
         // 5.设置局部配置脚本
         engine.execute(extractor.extractJSContent(jsonObject));
         return env;

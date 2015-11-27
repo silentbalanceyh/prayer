@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 
 import org.junit.Test;
 
+import com.prayer.bus.security.BasicAuthService;
+import com.prayer.bus.security.impl.BasicAuthSevImpl;
 import com.prayer.bus.std.RecordService;
 import com.prayer.bus.std.impl.RecordSevImpl;
 import com.prayer.model.bus.ServiceResult;
@@ -19,17 +21,18 @@ public class DebuggerTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     private transient RecordService service = new RecordSevImpl();
-
+    private transient BasicAuthService secSev = new BasicAuthSevImpl();
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
+    @Test
     public void testSelect() {
         final JsonObject params = new JsonObject(
-                "{\"identifier\":\"RP$identifier\",\"filters\":[],\"method\":\"GET\",\"data\":{\"name\":\"username\",\"identifier\":\"sec.account\",\"value\":\"lang.yu\"},\"script\":\"js.api.get.util.unique\"}");
-        ServiceResult<JsonArray> ret = service.find(params);
+                "{\"method\":\"GET\",\"filters\":[],\"identifier\":\"sec.account\",\"script\":\"js.api.get.sec.login\",\"data\":{\"username\":\"user.not.found\"}}");
+        ServiceResult<JsonArray> ret = secSev.find(params);
         System.out.println(ret.getResult().encode());
     }
 

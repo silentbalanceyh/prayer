@@ -46,11 +46,11 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-abstract class AbstractDaoImpl implements RecordDao { // NOPMD
+public abstract class AbstractRecordDaoImpl implements RecordDao { // NOPMD
     // ~ Static Fields =======================================
 
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRecordDaoImpl.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

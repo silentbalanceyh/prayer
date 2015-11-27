@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import com.prayer.bus.std.RecordService;
 import com.prayer.bus.util.BusLogger;
 import com.prayer.bus.util.Interruptor;
+import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.exception.AbstractException;
 import com.prayer.exception.web.JSScriptEngineException;
+import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonArray;
@@ -36,6 +38,10 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
+	/** **/
+	public RecordSevImpl(){
+	    super(RecordDaoImpl.class,GenericRecord.class);
+	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	/** **/

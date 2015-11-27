@@ -35,10 +35,5 @@
         "name":"js.global.util",
         "namespace":"engine.script.global",
         "content":"deploy/oob/js/engine.js"
-    },
-    {
-        "name":"js.global.meta",
-        "namespace":"engine.script.global",
-        "content":"deploy/oob/js/meta.js"
     }
 ]

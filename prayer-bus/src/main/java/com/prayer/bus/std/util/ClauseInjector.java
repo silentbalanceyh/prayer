@@ -1,4 +1,4 @@
-package com.prayer.bus.std.impl;
+package com.prayer.bus.std.util;
 
 import static com.prayer.bus.util.BusLogger.info;
 

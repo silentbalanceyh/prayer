@@ -1,6 +1,8 @@
 package com.prayer.bus.std.impl;
 
+import static com.prayer.bus.util.BusLogger.error;
 import static com.prayer.bus.util.BusLogger.info;
+import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.ArrayList;
@@ -12,21 +14,21 @@ import java.util.concurrent.ConcurrentMap;
 import javax.script.ScriptException;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.script.JSEngine;
 import com.prayer.bus.script.JSEnv;
+import com.prayer.bus.security.impl.BasicAuthSevImpl;
 import com.prayer.bus.util.Interruptor;
 import com.prayer.bus.util.ParamExtractor;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.record.RecordDao;
-import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.exception.AbstractException;
 import com.prayer.exception.web.ServiceOrderByException;
 import com.prayer.exception.web.ServiceReturnSizeException;
 import com.prayer.kernel.Record;
 import com.prayer.kernel.Value;
-import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.query.OrderBy;
 import com.prayer.model.bus.ServiceResult;
 
@@ -34,6 +36,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -43,6 +47,8 @@ import net.sf.oval.guard.PreValidateThis;
 @Guarded
 public abstract class AbstractSevImpl {
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthSevImpl.class);
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
@@ -50,15 +56,22 @@ public abstract class AbstractSevImpl {
     /** **/
     @NotNull
     private transient final RecordDao recordDao;
+    /** **/
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    private transient final String recordCls;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public AbstractSevImpl() {
+    public AbstractSevImpl(@NotNull final Class<?> daoCls, @NotNull final Class<?> entityCls) {
         this.extractor = singleton(ParamExtractor.class);
-        this.recordDao = singleton(RecordDaoImpl.class);
+        this.recordDao = singleton(daoCls);
+        this.recordCls = entityCls.getName();
+        error(LOGGER, "Init : RecordDao = " + this.recordDao + ", Entity Class = " + this.recordCls);
     }
 
     // ~ Abstract Methods ====================================
@@ -81,9 +94,9 @@ public abstract class AbstractSevImpl {
             throws ScriptException, AbstractException {
         final ServiceResult<JsonObject> ret = new ServiceResult<>();
         // 1. 初始化脚本引擎以及Record对象
-        final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
+        final Record record = instance(this.recordCls, jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
-        JSEngine.initJSRecordEnv(jsonObject, record);
+        JSEngine.initJSEnv(jsonObject, record);
         // 3. 执行Java脚本插入数据
         JsonObject retJson = null;
         if (Interruptor.isUpdate(record)) {
@@ -92,7 +105,7 @@ public abstract class AbstractSevImpl {
             retJson = extractor.extractRecord(updated);
         } else {
             info(getLogger(), " Inserting mode : " + record.toString());
-            final Record inserted = this.recordDao.insert(record);
+            final Record inserted = this.getDao().insert(record);
             retJson = extractor.extractRecord(inserted);
         }
         // 4. 根据Filters的内容过滤属性
@@ -109,11 +122,11 @@ public abstract class AbstractSevImpl {
             throws ScriptException, AbstractException {
         final ServiceResult<JsonObject> ret = new ServiceResult<>();
         // 1. 初始化脚本引擎以及Record对象
-        final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
+        final Record record = instance(this.recordCls, jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
-        JSEngine.initJSRecordEnv(jsonObject, record);
+        JSEngine.initJSEnv(jsonObject, record);
         // 3. 删除当前记录
-        boolean deleted = this.recordDao.delete(record);
+        boolean deleted = this.getDao().delete(record);
         ret.success(new JsonObject().put("DELETED", deleted));
         return ret;
     }
@@ -126,9 +139,9 @@ public abstract class AbstractSevImpl {
             throws ScriptException, AbstractException {
         ServiceResult<JsonObject> ret = new ServiceResult<>();
         // 1. 初始化脚本引擎以及Record对象
-        final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
+        final Record record = instance(this.recordCls, jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
-        final JSEnv env = JSEngine.initJSRecordEnv(jsonObject, record);
+        final JSEnv env = JSEngine.initJSEnv(jsonObject, record);
         // 3. 执行Java脚本插入数据
         ConcurrentMap<Long, List<Record>> retMap = new ConcurrentHashMap<>();
         final OrderBy orders = env.getOrder();
@@ -169,9 +182,9 @@ public abstract class AbstractSevImpl {
             throws ScriptException, AbstractException {
         final ServiceResult<JsonArray> ret = new ServiceResult<>();
         // 1. 初始化脚本引擎以及Record对象
-        final Record record = new GenericRecord(jsonObject.getString(Constants.PARAM.ID));
+        final Record record = instance(this.recordCls, jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
-        final JSEnv env = JSEngine.initJSRecordEnv(jsonObject, record);
+        final JSEnv env = JSEngine.initJSEnv(jsonObject, record);
         // 3. 执行Java脚本插入数据
         List<Record> retList = new ArrayList<>();
         final OrderBy orders = env.getOrder();
@@ -201,10 +214,10 @@ public abstract class AbstractSevImpl {
             // 更新遍历，更新时需要从数据库中拿到Record
             Record queried = null;
             if (MetaPolicy.COLLECTION == record.policy()) {
-                queried = this.recordDao.selectById(record, record.idKV());
+                queried = this.getDao().selectById(record, record.idKV());
             } else {
                 final Value<?> value = record.idKV().values().iterator().next();
-                queried = this.recordDao.selectById(record, value);
+                queried = this.getDao().selectById(record, value);
             }
             info(getLogger(), " Updating mode : Queried => " + queried.toString());
             for (final String field : record.fields().keySet()) {
@@ -215,7 +228,7 @@ public abstract class AbstractSevImpl {
                 }
             }
             info(getLogger(), " Updating mode : Updated => " + queried.toString());
-            return this.recordDao.update(queried);
+            return this.getDao().update(queried);
         } else {
             throw error;
         }

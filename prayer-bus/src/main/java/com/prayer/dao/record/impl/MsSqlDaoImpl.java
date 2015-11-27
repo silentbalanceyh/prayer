@@ -37,7 +37,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class MsSqlDaoImpl extends AbstractDaoImpl { // NOPMD
+final class MsSqlDaoImpl extends AbstractRecordDaoImpl { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

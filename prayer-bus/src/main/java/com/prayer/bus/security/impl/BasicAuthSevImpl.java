@@ -12,8 +12,10 @@ import com.prayer.bus.security.BasicAuthService;
 import com.prayer.bus.std.impl.AbstractSevImpl;
 import com.prayer.bus.util.BusLogger;
 import com.prayer.bus.util.Interruptor;
+import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.exception.AbstractException;
 import com.prayer.exception.web.JSScriptEngineException;
+import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonArray;
@@ -37,6 +39,11 @@ public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthServic
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    public BasicAuthSevImpl() {
+        super(RecordDaoImpl.class, GenericRecord.class);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
@@ -58,8 +65,17 @@ public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthServic
             } catch (ScriptException ex) {
                 error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
                 ret.error(new JSScriptEngineException(getClass(), ex.toString()));
+                // TODO: Debug
+                ex.printStackTrace();
             } catch (AbstractException ex) {
+                error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
                 ret.failure(ex);
+                // TODO: Debug
+                ex.printStackTrace();
+            } 
+            // TODO: Debug
+            catch(Exception ex){
+                ex.printStackTrace();
             }
         } else {
             ret.failure(error);
