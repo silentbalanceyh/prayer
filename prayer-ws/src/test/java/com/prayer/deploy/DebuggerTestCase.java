@@ -28,7 +28,6 @@ public class DebuggerTestCase {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    @Test
     public void testSelect() {
         final JsonObject params = new JsonObject(
                 "{\"method\":\"GET\",\"filters\":[],\"identifier\":\"sec.account\",\"script\":\"js.api.get.sec.login\",\"data\":{\"username\":\"user.not.found\"}}");
