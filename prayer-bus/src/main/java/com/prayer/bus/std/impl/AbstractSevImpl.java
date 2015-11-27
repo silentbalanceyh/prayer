@@ -19,12 +19,14 @@ import org.slf4j.LoggerFactory;
 import com.prayer.bus.script.JSEngine;
 import com.prayer.bus.script.JSEnv;
 import com.prayer.bus.security.impl.BasicAuthSevImpl;
+import com.prayer.bus.util.BusLogger;
 import com.prayer.bus.util.Interruptor;
 import com.prayer.bus.util.ParamExtractor;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.record.RecordDao;
 import com.prayer.exception.AbstractException;
+import com.prayer.exception.web.JSScriptEngineException;
 import com.prayer.exception.web.ServiceOrderByException;
 import com.prayer.exception.web.ServiceReturnSizeException;
 import com.prayer.kernel.Record;
@@ -233,6 +235,122 @@ public abstract class AbstractSevImpl {
             throw error;
         }
     }
+
+    private ServiceResult<JsonObject> executeSave(final JsonObject jsonObject) {
+        ServiceResult<JsonObject> ret = new ServiceResult<>();
+        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        if (null == error) {
+            try {
+                ret = this.sharedSave(jsonObject);
+                info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
+            } catch (ScriptException ex) {
+                error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                ret.error(new JSScriptEngineException(getClass(), ex.toString()));
+            } catch (AbstractException ex) {
+                error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
+                ret.error(ex);
+            }
+        } else {
+            ret.failure(error);
+        }
+        return ret;
+    }
     // ~ Get/Set =============================================
+
+    // ~ Template Method =====================================
+    /**
+     * 
+     * @param jsonObject
+     * @return
+     */
+    @InstanceOfAny(ServiceResult.class)
+    public ServiceResult<JsonObject> save(@NotNull final JsonObject jsonObject) {
+        info(getLogger(), BusLogger.I_PARAM_INFO, "POST", jsonObject.encode());
+        return this.executeSave(jsonObject);
+    }
+
+    /** **/
+    @InstanceOfAny(ServiceResult.class)
+    public ServiceResult<JsonObject> remove(@NotNull final JsonObject jsonObject) {
+        info(LOGGER, BusLogger.I_PARAM_INFO, "DELETE", jsonObject.encode());
+        ServiceResult<JsonObject> ret = new ServiceResult<>();
+        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        if (null == error) {
+            try {
+                ret = this.sharedDelete(jsonObject);
+                info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
+            } catch (ScriptException ex) {
+                error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                ret.error(new JSScriptEngineException(getClass(), ex.toString()));
+            } catch (AbstractException ex) {
+                error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
+                ret.error(ex);
+            }
+        } else {
+            ret.failure(error);
+        }
+        return ret;
+    }
+
+    /** **/
+    @InstanceOfAny(ServiceResult.class)
+    public ServiceResult<JsonObject> modify(@NotNull final JsonObject jsonObject) {
+        info(LOGGER, BusLogger.I_PARAM_INFO, "PUT", jsonObject.encode());
+        return this.executeSave(jsonObject);
+    }
+
+    /** **/
+    @InstanceOfAny(ServiceResult.class)
+    public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
+        info(LOGGER, BusLogger.I_PARAM_INFO, "GET", jsonObject.encode());
+        ServiceResult<JsonArray> ret = new ServiceResult<>();
+        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        if (null == error) {
+            try {
+                ret = this.sharedFind(jsonObject);
+                info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
+            } catch (ScriptException ex) {
+                error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                ret.error(new JSScriptEngineException(getClass(), ex.toString()));
+            } catch (AbstractException ex) {
+                error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
+                ret.error(ex);
+            }
+        } else {
+            ret.failure(error);
+        }
+        return ret;
+    }
+
+    /** **/
+    @InstanceOfAny(ServiceResult.class)
+    public ServiceResult<JsonObject> page(@NotNull final JsonObject jsonObject) {
+        info(LOGGER, BusLogger.I_PARAM_INFO, "POST - Query", jsonObject.encode());
+        ServiceResult<JsonObject> ret = new ServiceResult<>();
+        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        if (null == error) {
+            // Page特殊参数
+            error = Interruptor.interruptPageParams(getClass(), jsonObject);
+            if (null == error) {
+                try {
+                    ret = this.sharedPage(jsonObject);
+                    info(getLogger(), BusLogger.I_RESULT_DB, ret.getResult().encode());
+                } catch (ScriptException ex) {
+                    error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                    ret.error(new JSScriptEngineException(getClass(), ex.toString()));
+                } catch (AbstractException ex) {
+                    error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
+                    ret.error(ex);
+                }
+            } else {
+                // Page特殊参数缺失
+                ret.failure(error);
+            }
+        } else {
+            // 通用参数缺失
+            ret.failure(error);
+        }
+        return ret;
+    }
     // ~ hashCode,equals,toString ============================
 }

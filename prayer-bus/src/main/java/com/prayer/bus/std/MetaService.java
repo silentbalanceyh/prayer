@@ -2,6 +2,7 @@ package com.prayer.bus.std;
 
 import com.prayer.model.bus.ServiceResult;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -33,7 +34,7 @@ public interface MetaService {
      * @param jsonObject
      * @return
      */
-    ServiceResult<JsonObject> find(JsonObject jsonObject);
+    ServiceResult<JsonArray> find(JsonObject jsonObject);
     // ============================================================
     /**
      * POST：特殊查询接口，分页列表带排序查询
