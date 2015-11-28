@@ -12,7 +12,7 @@ import com.prayer.facade.dao.schema.VerticleDao;
 import com.prayer.facade.mapper.SessionManager;
 import com.prayer.facade.mapper.VerticleMapper;
 import com.prayer.model.bus.VerticleChain;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.h2.vertx.VerticleModel;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

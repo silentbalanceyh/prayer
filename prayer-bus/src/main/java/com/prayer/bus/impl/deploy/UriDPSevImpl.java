@@ -11,7 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.prayer.dao.impl.schema.UriDaoImpl;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.facade.bus.deploy.UriDPService;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.util.JsonKit;
 import com.prayer.util.cv.SystemEnum.ParamType;
 

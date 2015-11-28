@@ -5,7 +5,7 @@ import static com.prayer.util.Instance.singleton;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.h2.vertx.ScriptModel;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 

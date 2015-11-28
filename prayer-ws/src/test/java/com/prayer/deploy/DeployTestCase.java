@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.prayer.bus.impl.oob.DeploySevImpl;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
-import com.prayer.dao.impl.record.RecordDaoImpl;
+import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.facade.bus.DeployService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.dao.jdbc.MetadataConn;

@@ -14,7 +14,7 @@ import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.schema.FieldModel;
+import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.type.DataType;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;
@@ -31,7 +31,7 @@ public aspect InternalValidatorAspect extends AbstractValidatorAspect {
      * 针对pattern的拦截点，因为set(String,String)内部调用了set(String,Value
      * <?>)，所以仅仅在set(String,Value<?>)植入就可以了
      **/
-    pointcut ValidatorPointCut(final String field, final Value<?> value): execution(void com.prayer.kernel.model.GenericRecord.set*(String,Value<?>)) && args(field,value) && target(Record);
+    pointcut ValidatorPointCut(final String field, final Value<?> value): execution(void com.prayer.model.kernel.GenericRecord.set*(String,Value<?>)) && args(field,value) && target(Record);
 
     // ~ Point Cut Implementation ============================
     /** 针对pattern拦截点的实现，需要抛出异常信息 **/

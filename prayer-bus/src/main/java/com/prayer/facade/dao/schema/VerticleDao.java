@@ -3,7 +3,7 @@ package com.prayer.facade.dao.schema;
 import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.database.DataAccessException;
 import com.prayer.model.bus.VerticleChain;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.h2.vertx.VerticleModel;
 
 /**
  * 

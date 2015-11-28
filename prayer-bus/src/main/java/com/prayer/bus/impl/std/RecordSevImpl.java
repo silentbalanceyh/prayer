@@ -3,9 +3,9 @@ package com.prayer.bus.impl.std;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.impl.record.RecordDaoImpl;
+import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.facade.bus.RecordService;
-import com.prayer.kernel.model.GenericRecord;
+import com.prayer.model.kernel.GenericRecord;
 
 import net.sf.oval.guard.Guarded;
 

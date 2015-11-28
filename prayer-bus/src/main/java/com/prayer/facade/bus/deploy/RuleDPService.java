@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.RuleModel;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.h2.vertx.RuleModel;
+import com.prayer.model.h2.vertx.UriModel;
 
 /**
  * 

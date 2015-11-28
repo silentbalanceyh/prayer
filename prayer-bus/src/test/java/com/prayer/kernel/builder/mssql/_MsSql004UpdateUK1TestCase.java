@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.kernel.builder.AbstractBUPTestCase;
-import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 /**

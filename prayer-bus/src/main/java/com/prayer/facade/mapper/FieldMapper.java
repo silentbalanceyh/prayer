@@ -2,7 +2,7 @@ package com.prayer.facade.mapper;
 
 import java.util.List;
 
-import com.prayer.model.schema.FieldModel;
+import com.prayer.model.h2.schema.FieldModel;
 
 /**
  * 

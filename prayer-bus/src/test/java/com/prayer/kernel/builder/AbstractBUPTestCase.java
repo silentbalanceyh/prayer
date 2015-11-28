@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import com.prayer.AbstractTestCase;
 import com.prayer.bus.impl.std.SchemaSevImpl;
 import com.prayer.facade.bus.SchemaService;
-import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 

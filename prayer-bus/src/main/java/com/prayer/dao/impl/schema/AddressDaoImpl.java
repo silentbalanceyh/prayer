@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.facade.dao.schema.AddressDao;
 import com.prayer.facade.mapper.AddressMapper;
 import com.prayer.facade.mapper.SessionManager;
-import com.prayer.model.vertx.AddressModel;
+import com.prayer.model.h2.vertx.AddressModel;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.facade.mapper.VerticleMapper;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.h2.vertx.VerticleModel;
 import com.prayer.util.cv.Resources;
 
 /**

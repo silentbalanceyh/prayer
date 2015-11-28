@@ -5,8 +5,8 @@ import static com.prayer.util.bus.BusinessLogger.info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.kernel.model.GenericSchema;
-import com.prayer.model.schema.FieldModel;
+import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.type.DataType;
 import com.prayer.util.Instance;
 import com.prayer.util.bus.BusinessLogger;

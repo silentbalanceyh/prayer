@@ -5,8 +5,8 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.model.schema.FieldModel;
-import com.prayer.model.schema.KeyModel;
+import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.h2.schema.KeyModel;
 import com.prayer.util.PropertyKit;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;

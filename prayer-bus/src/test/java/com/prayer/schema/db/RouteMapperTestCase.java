@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.facade.mapper.RouteMapper;
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.h2.vertx.RouteModel;
 import com.prayer.util.cv.Resources;
 
 /**

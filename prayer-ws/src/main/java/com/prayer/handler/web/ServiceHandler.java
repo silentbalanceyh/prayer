@@ -12,7 +12,7 @@ import com.prayer.assistant.Future;
 import com.prayer.assistant.Interruptor;
 import com.prayer.assistant.WebLogger;
 import com.prayer.exception.AbstractWebException;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.util.cv.Constants;

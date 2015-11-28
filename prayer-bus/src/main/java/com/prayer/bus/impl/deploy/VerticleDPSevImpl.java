@@ -12,7 +12,7 @@ import com.prayer.exception.AbstractSystemException;
 import com.prayer.facade.bus.deploy.VerticleDPService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.h2.vertx.VerticleModel;
 import com.prayer.util.JsonKit;
 import com.prayer.util.bus.ResultExtractor;
 import com.prayer.util.cv.Constants;

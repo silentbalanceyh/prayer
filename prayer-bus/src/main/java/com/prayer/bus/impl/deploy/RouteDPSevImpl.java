@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.prayer.dao.impl.schema.RouteDaoImpl;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.facade.bus.deploy.RouteDPService;
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.h2.vertx.RouteModel;
 import com.prayer.util.JsonKit;
 
 import io.vertx.core.http.HttpMethod;

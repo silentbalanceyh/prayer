@@ -9,8 +9,8 @@ import javax.sql.DataSource;
 import com.prayer.facade.dao.builder.Builder;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.schema.Importer;
-import com.prayer.kernel.model.GenericSchema;
-import com.prayer.kernel.model.MetaConnector;
+import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.kernel.MetaConnector;
 
 /**
  * 静态变量统一管理

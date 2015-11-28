@@ -14,7 +14,7 @@ import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Importer;
 import com.prayer.facade.schema.Serializer;
-import com.prayer.kernel.model.GenericSchema;
+import com.prayer.model.kernel.GenericSchema;
 import com.prayer.schema.CommunionSerializer;
 import com.prayer.schema.json.CommunionImporter;
 

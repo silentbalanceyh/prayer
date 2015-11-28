@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.facade.dao.schema.SchemaDao;
-import com.prayer.kernel.model.GenericSchema;
+import com.prayer.model.kernel.GenericSchema;
 import com.prayer.schema.json.CommunionImporter;
 
 /**
