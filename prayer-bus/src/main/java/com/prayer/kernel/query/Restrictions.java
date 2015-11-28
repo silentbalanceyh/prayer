@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.database.ProjectionInvalidException;
-import com.prayer.kernel.i.Expression;
-import com.prayer.kernel.i.Value;
+import com.prayer.facade.kernel.Expression;
+import com.prayer.facade.kernel.Value;
 import com.prayer.util.cv.SqlSegment;
 
 import net.sf.oval.constraint.InstanceOf;

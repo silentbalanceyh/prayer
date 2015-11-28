@@ -16,9 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.i.Expression;
-import com.prayer.kernel.i.Record;
-import com.prayer.kernel.i.Value;
+import com.prayer.facade.kernel.Expression;
+import com.prayer.facade.kernel.Record;
+import com.prayer.facade.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.query.Restrictions;
 

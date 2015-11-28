@@ -1,6 +1,6 @@
 package com.prayer.kernel.query;
 
-import com.prayer.kernel.i.Expression;
+import com.prayer.facade.kernel.Expression;
 import com.prayer.util.cv.SqlSegment;
 import com.prayer.util.cv.Symbol;
 

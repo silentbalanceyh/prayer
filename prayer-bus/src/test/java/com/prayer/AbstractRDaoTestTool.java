@@ -7,12 +7,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.prayer.bus.i.SchemaService;
 import com.prayer.bus.impl.std.SchemaSevImpl;
-import com.prayer.dao.i.RecordDao;
 import com.prayer.dao.impl.record.RecordDaoImpl;
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.i.Record;
+import com.prayer.facade.bus.SchemaService;
+import com.prayer.facade.dao.RecordDao;
+import com.prayer.facade.kernel.Record;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;

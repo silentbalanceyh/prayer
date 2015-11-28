@@ -9,10 +9,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.i.jdbc.MetadataConn;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
+import com.prayer.facade.dao.jdbc.MetadataConn;
+import com.prayer.facade.mapper.ScriptMapper;
 import com.prayer.model.vertx.ScriptModel;
-import com.prayer.plugin.mapper.ScriptMapper;
 import com.prayer.util.cv.Resources;
 
 /**

@@ -2,13 +2,6 @@ package com.prayer.bus.impl.oob;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.bus.i.SchemaService;
-import com.prayer.bus.i.deploy.AddressDPService;
-import com.prayer.bus.i.deploy.RouteDPService;
-import com.prayer.bus.i.deploy.RuleDPService;
-import com.prayer.bus.i.deploy.ScriptDPService;
-import com.prayer.bus.i.deploy.UriDPService;
-import com.prayer.bus.i.deploy.VerticleDPService;
 import com.prayer.bus.impl.deploy.AddressDPSevImpl;
 import com.prayer.bus.impl.deploy.RouteDPSevImpl;
 import com.prayer.bus.impl.deploy.RuleDPSevImpl;
@@ -16,6 +9,13 @@ import com.prayer.bus.impl.deploy.ScriptDPSevImpl;
 import com.prayer.bus.impl.deploy.UriDPSevImpl;
 import com.prayer.bus.impl.deploy.VerticleDPSevImpl;
 import com.prayer.bus.impl.std.SchemaSevImpl;
+import com.prayer.facade.bus.SchemaService;
+import com.prayer.facade.bus.deploy.AddressDPService;
+import com.prayer.facade.bus.deploy.RouteDPService;
+import com.prayer.facade.bus.deploy.RuleDPService;
+import com.prayer.facade.bus.deploy.ScriptDPService;
+import com.prayer.facade.bus.deploy.UriDPService;
+import com.prayer.facade.bus.deploy.VerticleDPService;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

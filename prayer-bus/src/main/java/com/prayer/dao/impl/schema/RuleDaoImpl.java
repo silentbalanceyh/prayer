@@ -6,10 +6,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.i.schema.RuleDao;
+import com.prayer.facade.dao.schema.RuleDao;
+import com.prayer.facade.mapper.RuleMapper;
+import com.prayer.facade.mapper.SessionManager;
 import com.prayer.model.vertx.RuleModel;
-import com.prayer.plugin.mapper.RuleMapper;
-import com.prayer.plugin.mapper.SessionManager;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

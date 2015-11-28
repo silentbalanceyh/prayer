@@ -5,8 +5,8 @@ import static com.prayer.util.Instance.singleton;
 import org.slf4j.Logger;
 
 import com.prayer.AbstractTestCase;
-import com.prayer.bus.i.SchemaService;
 import com.prayer.bus.impl.std.SchemaSevImpl;
+import com.prayer.facade.bus.SchemaService;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.cv.Resources;

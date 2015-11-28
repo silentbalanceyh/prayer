@@ -6,10 +6,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.i.schema.UriDao;
+import com.prayer.facade.dao.schema.UriDao;
+import com.prayer.facade.mapper.SessionManager;
+import com.prayer.facade.mapper.UriMapper;
 import com.prayer.model.vertx.UriModel;
-import com.prayer.plugin.mapper.SessionManager;
-import com.prayer.plugin.mapper.UriMapper;
 
 import io.vertx.core.http.HttpMethod;
 import net.sf.oval.constraint.NotBlank;

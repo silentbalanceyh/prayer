@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.plugin.mapper.KeyMapper">
+<mapper namespace="com.prayer.facade.mapper.KeyMapper">
     <!-- 返回对象定义 -->
     <resultMap type="Key" id="keyObject">
         <id column="K_ID" property="uniqueId" />

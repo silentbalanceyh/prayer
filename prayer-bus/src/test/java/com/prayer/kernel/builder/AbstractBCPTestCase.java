@@ -12,10 +12,6 @@ import org.slf4j.Logger;
 
 import com.prayer.AbstractTestCase;
 import com.prayer.Assistant;
-import com.prayer.dao.i.RecordDao;
-import com.prayer.dao.i.builder.Builder;
-import com.prayer.dao.i.jdbc.JdbcContext;
-import com.prayer.dao.i.schema.SchemaDao;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.dao.impl.record.RecordDaoImpl;
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
@@ -24,10 +20,14 @@ import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.kernel.i.Record;
+import com.prayer.facade.dao.RecordDao;
+import com.prayer.facade.dao.builder.Builder;
+import com.prayer.facade.dao.jdbc.JdbcContext;
+import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.facade.kernel.Record;
+import com.prayer.facade.schema.Importer;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.model.GenericSchema;
-import com.prayer.schema.Importer;
 import com.prayer.schema.json.CommunionImporter;
 import com.prayer.util.cv.Resources;
 

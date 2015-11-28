@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-import com.prayer.bus.i.ConfigService;
+import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.vertx.AddressModel;

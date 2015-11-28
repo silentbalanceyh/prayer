@@ -6,11 +6,11 @@ import java.util.concurrent.ConcurrentMap;
 
 import javax.sql.DataSource;
 
-import com.prayer.dao.i.builder.Builder;
-import com.prayer.dao.i.jdbc.JdbcContext;
+import com.prayer.facade.dao.builder.Builder;
+import com.prayer.facade.dao.jdbc.JdbcContext;
+import com.prayer.facade.schema.Importer;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.kernel.model.MetaConnector;
-import com.prayer.schema.Importer;
 
 /**
  * 静态变量统一管理

@@ -18,13 +18,13 @@ import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.i.Value;
+import com.prayer.facade.dao.JdbcTransducer.T;
+import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.IntType;
 import com.prayer.model.type.LongType;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;
-import com.prayer.util.db.Transducer.T;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinLength;

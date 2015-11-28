@@ -15,9 +15,9 @@ public final class Accessors {
     /** 默认值 **/
     private static final String DFT_DB_POOL = "com.prayer.db.pool.BoneCPPool";
     /** Builder 默认值 **/
-    private static final String DFT_DB_BUILDER = "com.prayer.kernel.i.builder.MsSqlBuilder";
+    private static final String DFT_DB_BUILDER = "com.prayer.facade.kernel.builder.MsSqlBuilder";
     /** Dao 默认值 **/
-    private static final String DFT_DB_DAO = "com.prayer.dao.i.impl.MsSqlRDaoImpl";
+    private static final String DFT_DB_DAO = "com.prayer.facade.dao.impl.MsSqlRDaoImpl";
     /** Transverter默认值 **/
     private static final String DFT_DB_TRANS = "com.prayer.util.db.MsSqlTransducer";
     // ~ Instance Fields =====================================

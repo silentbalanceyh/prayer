@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.WebLogger;
-import com.prayer.bus.i.MetaService;
 import com.prayer.bus.impl.std.MetaSevImpl;
 import com.prayer.exception.web.MethodNotAllowedException;
+import com.prayer.facade.bus.MetaService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.web.Responsor;
 import com.prayer.model.web.StatusCode;

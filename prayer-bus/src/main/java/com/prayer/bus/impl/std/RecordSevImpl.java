@@ -3,8 +3,8 @@ package com.prayer.bus.impl.std;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.i.RecordService;
 import com.prayer.dao.impl.record.RecordDaoImpl;
+import com.prayer.facade.bus.RecordService;
 import com.prayer.kernel.model.GenericRecord;
 
 import net.sf.oval.guard.Guarded;

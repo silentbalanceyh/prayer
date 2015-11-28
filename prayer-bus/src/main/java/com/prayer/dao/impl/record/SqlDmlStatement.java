@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.prayer.kernel.i.Expression;
+import com.prayer.facade.kernel.Expression;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;

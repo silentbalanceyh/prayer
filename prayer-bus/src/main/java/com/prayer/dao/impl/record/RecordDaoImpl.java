@@ -5,11 +5,11 @@ import static com.prayer.util.Instance.singleton;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.dao.i.RecordDao;
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.i.Expression;
-import com.prayer.kernel.i.Record;
-import com.prayer.kernel.i.Value;
+import com.prayer.facade.dao.RecordDao;
+import com.prayer.facade.kernel.Expression;
+import com.prayer.facade.kernel.Record;
+import com.prayer.facade.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;

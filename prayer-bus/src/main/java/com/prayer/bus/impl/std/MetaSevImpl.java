@@ -3,8 +3,8 @@ package com.prayer.bus.impl.std;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.i.MetaService;
 import com.prayer.dao.impl.meta.MetaDaoImpl;
+import com.prayer.facade.bus.MetaService;
 import com.prayer.kernel.model.MetaRecord;
 
 import net.sf.oval.guard.Guarded;

@@ -7,13 +7,13 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.bus.i.SchemaService;
 import com.prayer.bus.impl.std.SchemaSevImpl;
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.i.Record;
-import com.prayer.kernel.i.Value;
+import com.prayer.facade.bus.SchemaService;
+import com.prayer.facade.kernel.Record;
+import com.prayer.facade.kernel.Value;
+import com.prayer.facade.kernel.Transducer.V;
 import com.prayer.kernel.model.GenericSchema;
-import com.prayer.kernel.model.Transducer.V;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.type.DataType;
 import com.prayer.util.cv.Constants;

@@ -6,12 +6,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.prayer.bus.i.DeployService;
 import com.prayer.bus.impl.oob.DeploySevImpl;
-import com.prayer.dao.i.RecordDao;
-import com.prayer.dao.i.jdbc.MetadataConn;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.dao.impl.record.RecordDaoImpl;
+import com.prayer.facade.bus.DeployService;
+import com.prayer.facade.dao.RecordDao;
+import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.Encryptor;
 import com.prayer.util.cv.Resources;

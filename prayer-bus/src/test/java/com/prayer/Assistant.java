@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.i.Value;
+import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
 import com.prayer.model.type.DataType;

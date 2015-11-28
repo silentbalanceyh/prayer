@@ -9,12 +9,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
-import com.prayer.dao.i.RecordDao;
-import com.prayer.dao.i.schema.TemplateDao;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.AbstractTransactionException;
-import com.prayer.kernel.i.JsonEntity;
-import com.prayer.kernel.i.Record;
+import com.prayer.facade.dao.RecordDao;
+import com.prayer.facade.dao.schema.TemplateDao;
+import com.prayer.facade.kernel.JsonEntity;
+import com.prayer.facade.kernel.Record;
 import com.prayer.kernel.model.MetaRecord;
 import com.prayer.model.AbstractMetadata;
 import com.prayer.util.bus.RecordSerializer;

@@ -16,8 +16,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import com.prayer.plugin.mapper.H2TMapper;
-import com.prayer.plugin.mapper.SessionManager;
+import com.prayer.facade.mapper.H2TMapper;
+import com.prayer.facade.mapper.SessionManager;
 import com.prayer.util.cv.Constants;
 
 /**

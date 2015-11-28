@@ -3,8 +3,8 @@ package com.prayer.model.type;
 import static com.prayer.util.Instance.singleton;
 
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.i.Validator;
-import com.prayer.kernel.i.Value;
+import com.prayer.facade.kernel.Validator;
+import com.prayer.facade.kernel.Value;
 
 /**
  * 类型：Script格式【默认JavaScript】

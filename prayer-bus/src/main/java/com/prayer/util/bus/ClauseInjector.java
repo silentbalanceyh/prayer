@@ -5,7 +5,7 @@ import static com.prayer.util.bus.BusinessLogger.info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.kernel.i.Record;
+import com.prayer.facade.kernel.Record;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
 import com.prayer.util.cv.Constants;

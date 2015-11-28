@@ -8,10 +8,10 @@ import javax.script.ScriptException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.i.BasicAuthService;
 import com.prayer.dao.impl.record.RecordDaoImpl;
 import com.prayer.exception.AbstractException;
 import com.prayer.exception.web.JSScriptEngineException;
+import com.prayer.facade.bus.BasicAuthService;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.bus.BusinessLogger;

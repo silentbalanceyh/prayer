@@ -12,8 +12,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.i.ConfigService;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
+import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.vertx.VerticleModel;

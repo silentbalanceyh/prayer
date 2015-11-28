@@ -11,17 +11,17 @@ import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.i.schema.SchemaDao;
 import com.prayer.exception.AbstractTransactionException;
+import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.facade.mapper.FieldMapper;
+import com.prayer.facade.mapper.KeyMapper;
+import com.prayer.facade.mapper.MetaMapper;
+import com.prayer.facade.mapper.SessionManager;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.kernel.model.SchemaExpander;
 import com.prayer.model.schema.FieldModel;
 import com.prayer.model.schema.KeyModel;
 import com.prayer.model.schema.MetaModel;
-import com.prayer.plugin.mapper.FieldMapper;
-import com.prayer.plugin.mapper.KeyMapper;
-import com.prayer.plugin.mapper.MetaMapper;
-import com.prayer.plugin.mapper.SessionManager;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotBlank;

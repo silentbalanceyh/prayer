@@ -14,11 +14,11 @@ import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.i.schema.TemplateDao;
 import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.database.MapperClassNullException;
-import com.prayer.plugin.mapper.H2TMapper;
-import com.prayer.plugin.mapper.SessionManager;
+import com.prayer.facade.dao.schema.TemplateDao;
+import com.prayer.facade.mapper.H2TMapper;
+import com.prayer.facade.mapper.SessionManager;
 import com.prayer.util.cv.Constants;
 
 import net.sf.oval.constraint.Min;

@@ -1,6 +1,6 @@
 package com.prayer.model;
 
-import com.prayer.kernel.i.JsonEntity;
+import com.prayer.facade.kernel.JsonEntity;
 import com.prayer.util.cv.Resources;
 
 import io.vertx.core.buffer.Buffer;

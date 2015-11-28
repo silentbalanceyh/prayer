@@ -10,10 +10,10 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
-import com.prayer.bus.i.deploy.TemplateDPService;
-import com.prayer.dao.i.schema.TemplateDao;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.AbstractTransactionException;
+import com.prayer.facade.bus.deploy.TemplateDPService;
+import com.prayer.facade.dao.schema.TemplateDao;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.bus.ResultExtractor;
 import com.prayer.util.cv.Constants;

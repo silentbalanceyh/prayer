@@ -2,18 +2,18 @@ package com.prayer.bus.impl.oob;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.dao.i.schema.AddressDao;
-import com.prayer.dao.i.schema.RouteDao;
-import com.prayer.dao.i.schema.RuleDao;
-import com.prayer.dao.i.schema.ScriptDao;
-import com.prayer.dao.i.schema.UriDao;
-import com.prayer.dao.i.schema.VerticleDao;
 import com.prayer.dao.impl.schema.AddressDaoImpl;
 import com.prayer.dao.impl.schema.RouteDaoImpl;
 import com.prayer.dao.impl.schema.RuleDaoImpl;
 import com.prayer.dao.impl.schema.ScriptDaoImpl;
 import com.prayer.dao.impl.schema.UriDaoImpl;
 import com.prayer.dao.impl.schema.VerticleDaoImpl;
+import com.prayer.facade.dao.schema.AddressDao;
+import com.prayer.facade.dao.schema.RouteDao;
+import com.prayer.facade.dao.schema.RuleDao;
+import com.prayer.facade.dao.schema.ScriptDao;
+import com.prayer.facade.dao.schema.UriDao;
+import com.prayer.facade.dao.schema.VerticleDao;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

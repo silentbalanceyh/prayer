@@ -8,7 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.prayer.exception.AbstractException;
-import com.prayer.kernel.i.Record;
+import com.prayer.facade.kernel.Record;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Symbol;
 

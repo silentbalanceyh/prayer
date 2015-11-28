@@ -3,8 +3,8 @@ package com.prayer.kernel.query;
 import java.util.Arrays;
 import java.util.List;
 
-import com.prayer.kernel.i.Expression;
-import com.prayer.kernel.i.Value;
+import com.prayer.facade.kernel.Expression;
+import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.util.cv.Symbol;
 

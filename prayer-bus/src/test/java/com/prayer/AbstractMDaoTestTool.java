@@ -7,10 +7,10 @@ import static com.prayer.util.Instance.singleton;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import com.prayer.dao.i.RecordDao;
 import com.prayer.dao.impl.meta.MetaDaoImpl;
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.i.Record;
+import com.prayer.facade.dao.RecordDao;
+import com.prayer.facade.kernel.Record;
 import com.prayer.kernel.model.MetaRecord;
 
 /**

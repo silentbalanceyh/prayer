@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.WebLogger;
-import com.prayer.bus.i.BasicAuthService;
 import com.prayer.bus.impl.std.BasicAuthSevImpl;
+import com.prayer.facade.bus.BasicAuthService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.StatusCode;

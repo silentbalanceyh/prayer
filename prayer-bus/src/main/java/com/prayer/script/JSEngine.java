@@ -10,7 +10,7 @@ import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 import javax.script.SimpleScriptContext;
 
-import com.prayer.kernel.i.Record;
+import com.prayer.facade.kernel.Record;
 import com.prayer.util.StringKit;
 import com.prayer.util.bus.ClauseInjector;
 import com.prayer.util.cv.Constants;

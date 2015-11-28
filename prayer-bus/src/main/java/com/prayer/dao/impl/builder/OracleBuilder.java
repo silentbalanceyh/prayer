@@ -126,7 +126,7 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 
 
     /* (non-Javadoc)
-     * @see com.prayer.kernel.i.Builder#purgeTable()
+     * @see com.prayer.facade.kernel.Builder#purgeTable()
      */
     @Override
     @PreValidateThis
@@ -151,7 +151,7 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
     }
 
 	/* (non-Javadoc)
-	 * @see com.prayer.kernel.i.builder.AbstractBuilder#lengthTypes()
+	 * @see com.prayer.facade.kernel.builder.AbstractBuilder#lengthTypes()
 	 */
 	@Override
 	protected String[] lengthTypes() {
@@ -159,7 +159,7 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.prayer.kernel.i.builder.AbstractBuilder#precisionTypes()
+	 * @see com.prayer.facade.kernel.builder.AbstractBuilder#precisionTypes()
 	 */
 	@Override
 	protected String[] precisionTypes() {
@@ -167,7 +167,7 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.prayer.kernel.i.builder.AbstractBuilder#nullRows(java.lang.String)
+	 * @see com.prayer.facade.kernel.builder.AbstractBuilder#nullRows(java.lang.String)
 	 */
 	@Override
 	protected Long nullRows(String column) {

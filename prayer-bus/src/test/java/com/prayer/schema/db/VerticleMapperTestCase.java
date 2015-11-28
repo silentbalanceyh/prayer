@@ -13,10 +13,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.i.jdbc.MetadataConn;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
+import com.prayer.facade.dao.jdbc.MetadataConn;
+import com.prayer.facade.mapper.VerticleMapper;
 import com.prayer.model.vertx.VerticleModel;
-import com.prayer.plugin.mapper.VerticleMapper;
 import com.prayer.util.cv.Resources;
 
 /**

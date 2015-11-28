@@ -9,13 +9,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.dao.i.jdbc.JdbcContext;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.database.ExecuteFailureException;
 import com.prayer.exception.database.MoreThanOneException;
-import com.prayer.kernel.i.Expression;
-import com.prayer.kernel.i.Record;
-import com.prayer.kernel.i.Value;
+import com.prayer.facade.dao.jdbc.JdbcContext;
+import com.prayer.facade.kernel.Expression;
+import com.prayer.facade.kernel.Record;
+import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
 import com.prayer.model.schema.FieldModel;

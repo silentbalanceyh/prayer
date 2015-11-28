@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.dao.i.builder.Builder;
-import com.prayer.dao.i.jdbc.JdbcContext;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.facade.dao.builder.Builder;
+import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.schema.FieldModel;
 import com.prayer.model.schema.KeyModel;

@@ -12,8 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 
-import com.prayer.kernel.i.Value;
-import com.prayer.util.db.Transducer.T;
+import com.prayer.facade.dao.JdbcTransducer.T;
+import com.prayer.facade.kernel.Value;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;

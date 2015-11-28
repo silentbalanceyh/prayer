@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.prayer.kernel.i.Expression;
-import com.prayer.kernel.i.Record;
-import com.prayer.kernel.i.Value;
+import com.prayer.facade.kernel.Expression;
+import com.prayer.facade.kernel.Record;
+import com.prayer.facade.kernel.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
