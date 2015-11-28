@@ -81,6 +81,8 @@ public class MetaRecord implements Record {
         } catch (AbstractSystemException ex) {
             this._connector = null; // NOPMD
             debug(LOGGER, getClass(), "D20006", ex, identifier);
+            // TODO: Debug
+            ex.printStackTrace();
         }
         // 连接成功
         this._identifier = this._connector.identifier();

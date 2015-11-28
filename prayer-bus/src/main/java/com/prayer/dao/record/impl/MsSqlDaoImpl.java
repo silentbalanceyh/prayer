@@ -25,18 +25,12 @@ import com.prayer.kernel.query.Pager;
 import com.prayer.model.h2.FieldModel;
 
 import jodd.util.StringUtil;
-import net.sf.oval.constraint.InstanceOf;
-import net.sf.oval.constraint.InstanceOfAny;
-import net.sf.oval.constraint.MinSize;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
-@Guarded
 final class MsSqlDaoImpl extends AbstractRecordDaoImpl { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
@@ -49,9 +43,7 @@ final class MsSqlDaoImpl extends AbstractRecordDaoImpl { // NOPMD
      * INCREMENT中需要过滤ID列，这个方法用于获取ID列
      */
     @Override
-    @NotNull
-    public Set<String> getPKFilters(@NotNull @InstanceOf(Record.class) final Record record)
-            throws AbstractDatabaseException {
+    public Set<String> getPKFilters(final Record record) throws AbstractDatabaseException {
         final MetaPolicy policy = record.policy();
         if (MetaPolicy.INCREMENT == policy) {
             return record.idKV().keySet();// SqlHelper.prepPKWhere(record).keySet();
@@ -63,8 +55,7 @@ final class MsSqlDaoImpl extends AbstractRecordDaoImpl { // NOPMD
      * Insert的第一个版本完成，调用共享Insert方法
      */
     @Override
-    @InstanceOf(Record.class)
-    public Record insert(@NotNull @InstanceOf(Record.class) final Record record) throws AbstractDatabaseException {
+    public Record insert(final Record record) throws AbstractDatabaseException {
         // 1.调用父类方法
         final boolean ret = super.sharedInsert(record);
         // 2.后期执行检查
@@ -75,7 +66,7 @@ final class MsSqlDaoImpl extends AbstractRecordDaoImpl { // NOPMD
 
     /** **/
     @Override
-    public Record update(@NotNull @InstanceOf(Record.class) final Record record) throws AbstractDatabaseException {
+    public Record update(final Record record) throws AbstractDatabaseException {
         // 1.主键值验证
         this.interrupt(record);
         // 2.调用父类函数
@@ -90,9 +81,7 @@ final class MsSqlDaoImpl extends AbstractRecordDaoImpl { // NOPMD
      * 
      */
     @Override
-    @InstanceOf(Record.class)
-    public Record selectById(@NotNull @InstanceOf(Record.class) final Record record, @NotNull final Value<?> uniqueId)
-            throws AbstractDatabaseException {
+    public Record selectById(final Record record, final Value<?> uniqueId) throws AbstractDatabaseException {
         // 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy
         this.interrupt(record.policy(), false);
         // 1.填充主键参数
@@ -105,7 +94,7 @@ final class MsSqlDaoImpl extends AbstractRecordDaoImpl { // NOPMD
 
     /** **/
     @Override
-    public boolean delete(@NotNull @InstanceOf(Record.class) final Record record) throws AbstractDatabaseException {
+    public boolean delete(final Record record) throws AbstractDatabaseException {
         // 1.主键值验证
         this.interrupt(record);
         // 2.调用父类函数
@@ -117,20 +106,15 @@ final class MsSqlDaoImpl extends AbstractRecordDaoImpl { // NOPMD
 
     /** **/
     @Override
-    @NotNull
-    public List<Record> queryByFilter(@NotNull @InstanceOf(Record.class) final Record record,
-            @NotNull final String[] columns, final List<Value<?>> params,
-            @InstanceOf(Expression.class) final Expression filters) throws AbstractDatabaseException {
+    public List<Record> queryByFilter(final Record record, final String[] columns, final List<Value<?>> params,
+            final Expression filters) throws AbstractDatabaseException {
         return super.sharedSelect(record, columns, params, filters);
     }
 
     /** **/
     @Override
-    @NotNull
-    public List<Record> queryByFilter(@NotNull @InstanceOf(Record.class) final Record record,
-            @NotNull final String[] columns, final List<Value<?>> params,
-            @InstanceOf(Expression.class) final Expression filters, @InstanceOfAny(OrderBy.class) final OrderBy orders)
-                    throws AbstractDatabaseException {
+    public List<Record> queryByFilter(final Record record, final String[] columns, final List<Value<?>> params,
+            final Expression filters, final OrderBy orders) throws AbstractDatabaseException {
         return super.sharedSelect(record, columns, params, filters, orders);
     }
 
@@ -138,9 +122,8 @@ final class MsSqlDaoImpl extends AbstractRecordDaoImpl { // NOPMD
      * 
      */
     @Override
-    @InstanceOf(Record.class)
-    public Record selectById(@NotNull @InstanceOf(Record.class) final Record record,
-            @NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException {
+    public Record selectById(final Record record, final ConcurrentMap<String, Value<?>> uniqueIds)
+            throws AbstractDatabaseException {
         // 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy，这个地方必须过滤
         this.interrupt(record.policy(), true);
         // 1.调用内部函数
@@ -149,11 +132,8 @@ final class MsSqlDaoImpl extends AbstractRecordDaoImpl { // NOPMD
 
     /** **/
     @Override
-    @NotNull
-    public ConcurrentMap<Long, List<Record>> queryByPage(@NotNull @InstanceOf(Record.class) final Record record,
-            @NotNull final String[] columns, List<Value<?>> params, @InstanceOf(Expression.class) Expression filters,
-            @NotNull @InstanceOfAny(OrderBy.class) OrderBy orders, @InstanceOfAny(Pager.class) @NotNull Pager pager)
-                    throws AbstractDatabaseException {
+    public ConcurrentMap<Long, List<Record>> queryByPage(final Record record, final String[] columns,
+            List<Value<?>> params, Expression filters, OrderBy orders, Pager pager) throws AbstractDatabaseException {
         // 1.获取JDBC访问器
         final JdbcContext jdbc = this.getContext(record.identifier());
         // 2.生成SQL Count语句

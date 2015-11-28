@@ -20,7 +20,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class ScriptDaoImpl extends TemplateDaoImpl<ScriptModel, String>implements ScriptDao {    // NOPMD
+public class ScriptDaoImpl extends TemplateDaoImpl<ScriptModel, String> implements ScriptDao {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(ScriptDaoImpl.class);

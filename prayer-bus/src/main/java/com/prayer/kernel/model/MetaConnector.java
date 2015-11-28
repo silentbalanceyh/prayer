@@ -2,6 +2,7 @@ package com.prayer.kernel.model;
 
 import static com.prayer.util.Calculator.index;
 import static com.prayer.util.Error.info;
+import static com.prayer.util.Instance.reservoir;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
+import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.AbstractSystemException;
@@ -60,16 +62,12 @@ public class MetaConnector {
     /** 全局标识符 **/
     private transient final String _identifier;
     /** 当前Model所有字段集合 **/
-    @MinSize(1)
     private transient final List<String> nameList = new ArrayList<>();
     /** 当前Meta Model中所有字段的类型集合 **/
-    @MinSize(1)
     private transient final List<DataType> typeList = new ArrayList<>();
     /** 当前Model中所有列集合 **/
-    @MinSize(1)
     private transient final List<String> columnList = new ArrayList<>();
     /** 当前Model中所有的列类型集合 **/
-    @MinSize(1)
     private transient final List<String> colTypeList = new ArrayList<>();
 
     // ~ Static Block ========================================
@@ -79,9 +77,10 @@ public class MetaConnector {
      * @param identifier
      * @return
      */
+    @NotNull
     public static MetaConnector connect(@NotNull @NotBlank @NotEmpty final String identifier)
             throws AbstractSystemException {
-        return new MetaConnector(identifier);
+        return reservoir(MemoryPool.POOL_CONNECTOR, identifier, MetaConnector.class, identifier);
     }
 
     // ~ Constructors ========================================
@@ -93,7 +92,7 @@ public class MetaConnector {
         // 2.检查成功针对identifer中的数据进行赋值，如果检查不成功会抛出异常
         this._identifier = identifier;
         // 3.检查identifier成功，初始化所有的List列表
-        initDefinitions(identifier);
+        initDefinitions();
     }
 
     // ~ Abstract Methods ====================================
@@ -127,7 +126,7 @@ public class MetaConnector {
     @NotNull
     @MinSize(1)
     @Pre(expr = "_this.columnList != null && !_this.columnList.isEmpty() && _this.typeList != null && !_this.typeList.isEmpty()", lang = Constants.LANG_GROOVY)
-    public ConcurrentMap<String,DataType> columns() {
+    public ConcurrentMap<String, DataType> columns() {
         final ConcurrentMap<String, DataType> fields = new ConcurrentHashMap<>();
         int size = this.columnList.size();
         for (int idx = 0; idx < size; idx++) {
@@ -135,17 +134,18 @@ public class MetaConnector {
         }
         return fields;
     }
-    
+
     @NotNull
     @MinSize(1)
-    public List<FieldModel> idschema(){
-        final List<String> ids = fromStr(LOADER.getString(this.identifier() + ".ids"),",");
+    public List<FieldModel> idschema() {
+        final List<String> ids = fromStr(LOADER.getString(this.identifier() + ".ids"), ",");
         final List<FieldModel> ret = new ArrayList<>();
-        for(final String id: ids){
+        for (final String id : ids) {
             ret.add(this.getPrimaryKey(id));
         }
         return ret;
     }
+
     /**
      * 
      * @return
@@ -182,7 +182,7 @@ public class MetaConnector {
     public List<String> getFieldList() {
         return this.nameList;
     }
-    
+
     /**
      * 
      * @return
@@ -195,13 +195,13 @@ public class MetaConnector {
     }
 
     // ~ Private Methods =====================================
-    
-    private FieldModel getPrimaryKey(final String id){
+
+    private FieldModel getPrimaryKey(final String id) {
         final FieldModel pKeySchema = new FieldModel();
         // 1.Field Name
         pKeySchema.setName(id);
         // 2.Basic Information
-        final int idx = index(this.nameList,id);
+        final int idx = index(this.nameList, id);
         pKeySchema.setColumnName(this.columnList.get(idx));
         pKeySchema.setColumnType(this.colTypeList.get(idx));
         pKeySchema.setType(this.typeList.get(idx));
@@ -214,7 +214,7 @@ public class MetaConnector {
         return pKeySchema;
     }
 
-    private void initDefinitions(final String identifier) throws AbstractSystemException {
+    private void initDefinitions() throws AbstractSystemException {
         // 1.Field Definitions
         if (null != this.nameList && this.nameList.isEmpty()) {
             this.nameList.addAll(fromStr(LOADER.getString(this.identifier() + ".field.names"), ","));
@@ -226,7 +226,7 @@ public class MetaConnector {
         // 2.Type Definitions
         if (null != this.typeList && this.typeList.isEmpty()) {
             final List<String> typeLiteral = fromStr(LOADER.getString(this.identifier() + ".field.types"), ",");
-            if (this.typeList.isEmpty()) {
+            if (typeLiteral.isEmpty()) {
                 throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
                         this.identifier() + ".field.types");
             } else {
@@ -244,7 +244,7 @@ public class MetaConnector {
         }
         // 3.Column Definitions
         if (null != this.columnList && this.columnList.isEmpty()) {
-            this.columnList.addAll(fromStr(LOADER.getString(identifier + ".column.names"), ","));
+            this.columnList.addAll(fromStr(LOADER.getString(this.identifier() + ".column.names"), ","));
             if (this.columnList.isEmpty()) {
                 throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
                         this.identifier() + ".column.names");
@@ -253,7 +253,7 @@ public class MetaConnector {
         // 4.Column Type Definitions
         if (null != this.colTypeList && this.colTypeList.isEmpty()) {
             final List<String> typeLiteral = fromStr(LOADER.getString(this.identifier() + ".column.types"), ",");
-            if (this.colTypeList.isEmpty()) {
+            if (typeLiteral.isEmpty()) {
                 throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
                         this.identifier() + ".column.types");
             } else {

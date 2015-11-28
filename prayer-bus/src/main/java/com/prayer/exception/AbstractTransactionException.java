@@ -1,13 +1,11 @@
 package com.prayer.exception;
 
-import static com.prayer.util.Error.error;
-
 /**
  * 
  * @author Lang
  *
  */
-public abstract class AbstractTransactionException extends AbstractException {
+public abstract class AbstractTransactionException extends AbstractDatabaseException {
     // ~ Static Fields =======================================
 
     /**
@@ -21,7 +19,7 @@ public abstract class AbstractTransactionException extends AbstractException {
     // ~ Constructors ========================================
     /** 特殊数据处理异常 **/
     public AbstractTransactionException(final Class<?> clazz, final int errorCode, final String process) {
-        super(error(clazz, errorCode, process));
+        super(clazz, errorCode, process);
     }
 
     // ~ Abstract Methods ====================================
