@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractRDaoTestTool;
-import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.exception.validator.LengthFailureException;
@@ -16,8 +15,9 @@ import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;
 import com.prayer.exception.validator.PrecisionFailureException;
 import com.prayer.exception.validator.RangeFailureException;
-import com.prayer.kernel.Record;
+import com.prayer.kernel.i.Record;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 /**
  * 

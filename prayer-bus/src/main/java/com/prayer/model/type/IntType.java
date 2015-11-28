@@ -5,8 +5,8 @@ import java.lang.reflect.Type;
 import jodd.mutable.MutableInteger;
 import jodd.typeconverter.Convert;
 
-import com.prayer.constant.Constants;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Value;
+import com.prayer.util.cv.Constants;
 
 /**
  * 类型：整数类型

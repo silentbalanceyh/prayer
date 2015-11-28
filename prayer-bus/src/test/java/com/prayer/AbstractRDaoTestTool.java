@@ -7,18 +7,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.prayer.bus.std.SchemaService;
-import com.prayer.bus.std.impl.SchemaSevImpl;
-import com.prayer.constant.Resources;
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.dao.record.RecordDao;
-import com.prayer.dao.record.impl.RecordDaoImpl;
+import com.prayer.bus.i.SchemaService;
+import com.prayer.bus.impl.std.SchemaSevImpl;
+import com.prayer.dao.i.RecordDao;
+import com.prayer.dao.impl.record.RecordDaoImpl;
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.Record;
+import com.prayer.kernel.i.Record;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.FieldModel;
+import com.prayer.model.schema.FieldModel;
+import com.prayer.util.cv.Resources;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import jodd.util.StringUtil;
 

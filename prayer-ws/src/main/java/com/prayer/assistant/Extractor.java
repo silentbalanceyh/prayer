@@ -1,13 +1,13 @@
 package com.prayer.assistant;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.vx.UriModel;
+import com.prayer.model.vertx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.model.web.Responsor;
 import com.prayer.model.web.StatusCode;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

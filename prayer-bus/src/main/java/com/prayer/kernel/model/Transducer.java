@@ -3,7 +3,7 @@ package com.prayer.kernel.model;
 import static com.prayer.util.Instance.singleton;
 
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Value;
 import com.prayer.model.type.DataType;
 
 import io.vertx.core.json.JsonObject;

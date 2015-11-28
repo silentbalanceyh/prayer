@@ -3,8 +3,8 @@ package com.prayer.model.type;
 import static com.prayer.util.Instance.singleton;
 
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.Validator;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Validator;
+import com.prayer.kernel.i.Value;
 
 /**
  * 类型: Xml格式的字符串
@@ -15,7 +15,7 @@ import com.prayer.kernel.Value;
 public class JsonType extends StringType implements Value<String> {
     // ~ Static Fields =======================================
     /** **/
-    private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.JsonValidator");
+    private transient final Validator innerValidator = singleton("com.prayer.plugin.validator.JsonValidator");
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

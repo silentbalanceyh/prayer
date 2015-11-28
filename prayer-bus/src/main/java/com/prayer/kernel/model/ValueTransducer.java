@@ -2,9 +2,8 @@ package com.prayer.kernel.model;
 
 import java.math.BigDecimal;
 
-import com.prayer.constant.Resources;
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Value;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
 import com.prayer.model.type.DataType;
@@ -16,6 +15,7 @@ import com.prayer.model.type.LongType;
 import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.StringType;
 import com.prayer.model.type.XmlType;
+import com.prayer.util.cv.Resources;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;

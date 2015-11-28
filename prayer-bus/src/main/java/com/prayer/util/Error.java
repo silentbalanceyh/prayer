@@ -4,8 +4,8 @@ import java.text.MessageFormat;
 
 import org.slf4j.Logger;
 
-import com.prayer.constant.Resources;
 import com.prayer.exception.AbstractException;
+import com.prayer.util.cv.Resources;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.Max;

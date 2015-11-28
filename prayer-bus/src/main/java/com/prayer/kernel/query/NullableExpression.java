@@ -1,8 +1,8 @@
 package com.prayer.kernel.query;
 
-import com.prayer.constant.SqlSegment;
-import com.prayer.constant.Symbol;
-import com.prayer.kernel.Expression;
+import com.prayer.kernel.i.Expression;
+import com.prayer.util.cv.SqlSegment;
+import com.prayer.util.cv.Symbol;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

@@ -9,10 +9,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
-import com.prayer.db.conn.MetadataConn;
+import com.prayer.dao.i.jdbc.MetadataConn;
 import com.prayer.model.bus.Metadata;
 import com.prayer.util.DatabaseKit;
+import com.prayer.util.cv.Resources;
 
 import jodd.util.StringPool;
 
@@ -29,7 +29,7 @@ public class MetadataTestCase {     // NOPMD
             .getLogger(MetadataTestCase.class);
     // ~ Instance Fields =====================================
     /** **/
-    private transient final MetadataConn metaConn = singleton("com.prayer.db.conn.impl.MetadataConnImpl");
+    private transient final MetadataConn metaConn = singleton("com.prayer.dao.impl.jdbc.MetadataConnImpl");
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

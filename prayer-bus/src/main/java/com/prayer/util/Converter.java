@@ -11,8 +11,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.Symbol;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.Symbol;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;

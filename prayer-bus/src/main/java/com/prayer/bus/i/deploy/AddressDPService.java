@@ -1,0 +1,12 @@
+package com.prayer.bus.i.deploy;
+
+import com.prayer.model.vertx.AddressModel;
+
+/**
+ * 
+ * @author Lang
+ *
+ */
+public interface AddressDPService extends TemplateDPService<AddressModel,String>{
+
+}

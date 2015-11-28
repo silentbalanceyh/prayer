@@ -3,8 +3,8 @@ package com.prayer.model.type;
 import static com.prayer.util.Instance.singleton;
 
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.Validator;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Validator;
+import com.prayer.kernel.i.Value;
 
 /**
  * 类型：Script格式【默认JavaScript】
@@ -15,7 +15,7 @@ import com.prayer.kernel.Value;
 public class ScriptType extends StringType implements Value<String> {
     // ~ Static Fields =======================================
     /** **/
-    private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.ScriptValidator");
+    private transient final Validator innerValidator = singleton("com.prayer.plugin.validator.ScriptValidator");
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

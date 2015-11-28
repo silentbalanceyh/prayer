@@ -7,9 +7,9 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 import org.junit.Test;
 
 import com.prayer.AbstractTestCase;
-import com.prayer.constant.Resources;
-import com.prayer.db.pool.AbstractDbPool;
-import com.prayer.db.pool.BoneCPPool;
+import com.prayer.dao.impl.jdbc.AbstractDbPool;
+import com.prayer.dao.impl.jdbc.BoneCPPool;
+import com.prayer.util.cv.Resources;
 
 /**
  * 

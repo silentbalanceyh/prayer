@@ -3,10 +3,10 @@ package com.prayer.vx.verticle; // NOPMD
 import static com.prayer.util.Instance.singleton;
 
 import com.prayer.assistant.RouterInjector;
-import com.prayer.constant.Constants;
 import com.prayer.handler.web.FailureHandler;
 import com.prayer.handler.web.RouterHandler;
 import com.prayer.handler.web.ServiceHandler;
+import com.prayer.util.cv.Constants;
 import com.prayer.vx.configurator.RouteConfigurator;
 import com.prayer.vx.configurator.ServerConfigurator;
 

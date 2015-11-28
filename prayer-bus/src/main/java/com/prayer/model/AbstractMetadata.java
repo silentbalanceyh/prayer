@@ -1,7 +1,7 @@
 package com.prayer.model;
 
-import com.prayer.constant.Resources;
-import com.prayer.kernel.JsonEntity;
+import com.prayer.kernel.i.JsonEntity;
+import com.prayer.util.cv.Resources;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;

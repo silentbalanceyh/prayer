@@ -3,7 +3,7 @@ package com.prayer.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.prayer.constant.Constants;
+import com.prayer.util.cv.Constants;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

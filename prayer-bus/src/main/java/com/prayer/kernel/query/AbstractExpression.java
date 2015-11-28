@@ -1,6 +1,6 @@
 package com.prayer.kernel.query;
 
-import com.prayer.kernel.Expression;
+import com.prayer.kernel.i.Expression;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.InstanceOf;

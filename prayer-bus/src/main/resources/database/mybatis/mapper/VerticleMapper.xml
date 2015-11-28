@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.schema.db.VerticleMapper">
+<mapper namespace="com.prayer.plugin.mapper.VerticleMapper">
     <!-- 返回对象定义 -->
     <resultMap type="Verticle" id="verticleObject">
         <id column="K_ID" property="uniqueId" />
@@ -11,10 +11,10 @@
         <result column="S_IGROUP" property="group" />
         <result column="S_JSON_CONFIG" property="jsonConfig" />
         <result column="S_ISOLATED_CLASS" property="isolatedClasses"
-            typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
+            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
 
         <result column="CP_EXT" property="extraCp"
-            typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
+            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
 
         <result column="IS_HA" property="ha" />
         <result column="IS_WORKER" property="worker" />
@@ -46,8 +46,8 @@
                 #{instances},
                 #{group},
                 #{jsonConfig},
-                #{isolatedClasses, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-                #{extraCp, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                #{isolatedClasses, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                #{extraCp, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{ha},
                 #{worker},
                 #{multi},
@@ -81,8 +81,8 @@
                 #{item.instances},
                 #{item.group},
                 #{item.jsonConfig},
-                #{item.isolatedClasses, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-                #{item.extraCp, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                #{item.isolatedClasses, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                #{item.extraCp, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.ha},
                 #{item.worker},
                 #{item.multi},
@@ -99,8 +99,8 @@
                 S_INSTANCES=#{instances},
                 S_IGROUP=#{group},
                 S_JSON_CONFIG=#{jsonConfig},
-                S_ISOLATED_CLASSES=#{isolatedClasses, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-                CP_EXT=#{extraCp, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                S_ISOLATED_CLASSES=#{isolatedClasses, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                CP_EXT=#{extraCp, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 IS_HA=#{ha},
                 IS_WORKER=#{worker},
                 IS_MULTI=#{multi},

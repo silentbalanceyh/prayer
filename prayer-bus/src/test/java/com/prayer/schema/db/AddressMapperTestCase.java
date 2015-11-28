@@ -9,10 +9,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
-import com.prayer.db.conn.MetadataConn;
-import com.prayer.db.conn.impl.MetadataConnImpl;
-import com.prayer.model.h2.vx.AddressModel;
+import com.prayer.dao.i.jdbc.MetadataConn;
+import com.prayer.dao.impl.jdbc.MetadataConnImpl;
+import com.prayer.model.vertx.AddressModel;
+import com.prayer.plugin.mapper.AddressMapper;
+import com.prayer.util.cv.Resources;
 
 /**
  * 

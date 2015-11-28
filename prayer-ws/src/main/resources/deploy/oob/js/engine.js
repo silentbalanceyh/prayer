@@ -13,7 +13,7 @@ var $$E = (function(){
 /** 查询条件 * */
 var $$Q = (function(){
     // 私有变量，引用Java接口
-    var __restrict = Java.type("com.prayer.kernel.query.Restrictions");
+    var __restrict = Java.type("com.prayer.kernel.i.query.Restrictions");
     _eq = function(){    // NOPMD
         var expr = null;
         if(arguments.length === 2){
@@ -29,7 +29,7 @@ var $$Q = (function(){
 })();
 /** 值转换 * */
 var $$V = (function(){
-    var __value = Java.type("com.prayer.bus.script.JSValue");
+    var __value = Java.type("com.prayer.script.JSValue");
     // 私有变量，引用Java接口
     _string = function(value){        // NOPMD
         return __value.string(value);

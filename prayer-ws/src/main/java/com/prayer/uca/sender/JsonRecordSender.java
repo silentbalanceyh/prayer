@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Future;
 import com.prayer.assistant.WebLogger;
-import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.StatusCode;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

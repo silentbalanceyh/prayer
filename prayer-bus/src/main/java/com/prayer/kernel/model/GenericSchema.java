@@ -6,10 +6,10 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Constants;
-import com.prayer.model.h2.FieldModel;
-import com.prayer.model.h2.KeyModel;
-import com.prayer.model.h2.MetaModel;
+import com.prayer.model.schema.FieldModel;
+import com.prayer.model.schema.KeyModel;
+import com.prayer.model.schema.MetaModel;
+import com.prayer.util.cv.Constants;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;

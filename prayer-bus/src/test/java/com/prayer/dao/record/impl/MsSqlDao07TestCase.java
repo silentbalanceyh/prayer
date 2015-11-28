@@ -12,16 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractRDaoTestTool;
-import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.exception.metadata.PolicyConflictCallException;
-import com.prayer.kernel.Record;
-import com.prayer.kernel.Value;
+import com.prayer.exception.database.PolicyConflictCallException;
+import com.prayer.kernel.i.Record;
+import com.prayer.kernel.i.Value;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.type.StringType;
+import com.prayer.util.cv.SystemEnum.MetaPolicy;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import jodd.util.StringUtil;
 import net.sf.oval.exception.ConstraintsViolatedException;

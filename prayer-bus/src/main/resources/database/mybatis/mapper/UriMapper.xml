@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.schema.db.UriMapper">
+<mapper namespace="com.prayer.plugin.mapper.UriMapper">
     <resultMap type="Uri" id="uriObject">
         <id column="K_ID" property="uniqueId" />
         <result column="S_URI" property="uri" />
@@ -12,12 +12,12 @@
             typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
         <result column="S_GLOBAL_ID" property="globalId" />
         <result column="L_REQUIRED_PARAM" property="requiredParam"
-            typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
+            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
         <result column="MSG_ADDRESS" property="address" />
         <result column="S_SCRIPT" property="script" />
         <result column="S_SENDER" property="sender" />
         <result column="L_RETURN_FILTERS" property="returnFilters"
-            typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
+            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
     </resultMap>
     <insert id="insert" parameterType="Uri" keyColumn="K_ID"
         keyProperty="uniqueId">
@@ -42,8 +42,8 @@
                 #{globalId},
                 #{script},
                 #{sender},
-                #{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-                #{returnFilters, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
+                #{requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                #{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             )
         ]]>
     </insert>
@@ -73,8 +73,8 @@
                 #{item.globalId},
                 #{item.script},
                 #{item.sender},
-                #{item.requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-                #{item.returnFilters, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
+                #{item.requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                #{item.returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             )]]>
         </foreach>
     </insert>
@@ -89,8 +89,8 @@
                 S_GLOBAL_ID=#{globalId},
                 S_SCRIPT=#{script},
                 S_SENDER=#{sender},
-                L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-                L_RETURN_FILTERS=#{returnFilters, typeHandler=com.prayer.schema.db.handler.ArrayHandler}
+                L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                L_RETURN_FILTERS=#{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             WHERE K_ID=#{uniqueId}
         ]]>
     </update>

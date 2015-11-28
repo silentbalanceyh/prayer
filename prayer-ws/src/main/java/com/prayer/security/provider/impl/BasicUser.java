@@ -1,7 +1,7 @@
 package com.prayer.security.provider.impl;
 
-import com.prayer.constant.Resources;
 import com.prayer.security.provider.BasicAuth;
+import com.prayer.util.cv.Resources;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

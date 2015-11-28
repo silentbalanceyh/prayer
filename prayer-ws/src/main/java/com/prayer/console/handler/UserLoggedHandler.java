@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.WebLogger;
-import com.prayer.constant.Constants;
+import com.prayer.util.cv.Constants;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.auth.User;

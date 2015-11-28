@@ -2,9 +2,9 @@ package com.prayer.model.bus;
 
 import java.io.Serializable;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractException;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 /**
  * 

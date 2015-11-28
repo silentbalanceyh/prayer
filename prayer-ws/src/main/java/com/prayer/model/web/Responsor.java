@@ -2,11 +2,11 @@ package com.prayer.model.web;
 
 import java.io.Serializable;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.constant.SystemEnum.ReturnType;
 import com.prayer.exception.AbstractException;
 import com.prayer.exception.web.InternalServerErrorException;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
+import com.prayer.util.cv.SystemEnum.ReturnType;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;

@@ -19,9 +19,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.Resources;
-import com.prayer.constant.Symbol;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.Resources;
+import com.prayer.util.cv.Symbol;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

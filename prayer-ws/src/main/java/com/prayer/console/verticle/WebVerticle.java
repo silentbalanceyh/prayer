@@ -7,7 +7,7 @@ import com.prayer.console.handler.OptionsHandler;
 import com.prayer.console.handler.SharedLoginHandler;
 import com.prayer.console.handler.SharedLogoutHandler;
 import com.prayer.console.handler.UserLoggedHandler;
-import com.prayer.constant.Constants;
+import com.prayer.util.cv.Constants;
 import com.prayer.vx.configurator.ServerConfigurator;
 
 import io.vertx.core.AbstractVerticle;

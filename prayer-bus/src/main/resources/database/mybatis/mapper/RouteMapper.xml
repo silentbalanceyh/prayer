@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.schema.db.RouteMapper">
+<mapper namespace="com.prayer.plugin.mapper.RouteMapper">
     <resultMap type="Route" id="routeObject">
         <id column="K_ID" property="uniqueId" />
         <result column="S_PARENT" property="parent" />
@@ -11,9 +11,9 @@
             typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 
         <result column="S_MIME_CONSUMER" property="consumerMimes"
-            typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
+            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
         <result column="S_MIME_PRODUCER" property="producerMimes"
-            typeHandler="com.prayer.schema.db.handler.ArrayHandler" />
+            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
 
         <result column="S_ORDER" property="order" />
 
@@ -41,8 +41,8 @@
                 #{parent},
                 #{path},
                 #{method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-                #{consumerMimes, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-                #{producerMimes, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                #{consumerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                #{producerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{order},
                 #{requestHandler},
                 #{failureHandler},
@@ -72,8 +72,8 @@
                 #{item.parent},
                 #{item.path},
                 #{item.method, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-                #{item.consumerMimes, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-                #{item.producerMimes, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                #{item.consumerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                #{item.producerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.order},
                 #{item.requestHandler},
                 #{item.failureHandler},
@@ -88,8 +88,8 @@
                 S_PARENT=#{parent},
                 S_PATH=#{path},
                 S_METHOD=#{method,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-                S_MIME_CONSUMER=#{consumerMimes, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
-                S_MIME_PRODUCER=#{producerMimes, typeHandler=com.prayer.schema.db.handler.ArrayHandler},
+                S_MIME_CONSUMER=#{consumerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                S_MIME_PRODUCER=#{producerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 S_ORDER=#{order},
                 S_SHANDLER=#{requestHandler},
                 S_FHANDLER=#{failureHandler},

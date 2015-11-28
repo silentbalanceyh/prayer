@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractRDaoTestTool;
 import com.prayer.Assistant;
-import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 

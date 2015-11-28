@@ -10,9 +10,9 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
-import com.prayer.constant.Symbol;
 import com.prayer.util.PropertyKit;
+import com.prayer.util.cv.Resources;
+import com.prayer.util.cv.Symbol;
 
 import io.vertx.core.http.HttpServerOptions;
 import net.sf.oval.guard.Guarded;

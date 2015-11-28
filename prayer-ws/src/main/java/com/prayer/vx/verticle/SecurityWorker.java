@@ -2,12 +2,12 @@ package com.prayer.vx.verticle;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.bus.deploy.oob.ConfigSevImpl;
-import com.prayer.bus.std.ConfigService;
-import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.bus.i.ConfigService;
+import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.vx.AddressModel;
+import com.prayer.model.vertx.AddressModel;
 import com.prayer.uca.consumer.BasicAuthConsumer;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;

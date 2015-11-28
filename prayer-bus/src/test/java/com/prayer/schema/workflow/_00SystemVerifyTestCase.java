@@ -8,7 +8,7 @@ import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
 import com.prayer.schema.Importer;
-import com.prayer.schema.json.internal.CommunionImporter;
+import com.prayer.schema.json.CommunionImporter;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 

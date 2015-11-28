@@ -7,10 +7,10 @@ import java.util.regex.Pattern;
 
 import org.junit.Test;
 
-import com.prayer.bus.security.BasicAuthService;
-import com.prayer.bus.security.impl.BasicAuthSevImpl;
-import com.prayer.bus.std.RecordService;
-import com.prayer.bus.std.impl.RecordSevImpl;
+import com.prayer.bus.i.BasicAuthService;
+import com.prayer.bus.i.RecordService;
+import com.prayer.bus.impl.std.BasicAuthSevImpl;
+import com.prayer.bus.impl.std.RecordSevImpl;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.IOKit;
 

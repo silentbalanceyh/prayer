@@ -94,7 +94,7 @@
             "type": "StringType",
             "columnType": "STRING1",
             "length": 256,
-            "validator":"com.prayer.kernel.validator.MobileValidator"
+            "validator":"com.prayer.plugin.validator.MobileValidator"
         },
 
         {

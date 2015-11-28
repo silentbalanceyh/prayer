@@ -8,16 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.WebLogger;
-import com.prayer.bus.security.BasicAuthService;
-import com.prayer.bus.security.impl.BasicAuthSevImpl;
-import com.prayer.constant.Constants;
-import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.bus.i.BasicAuthService;
+import com.prayer.bus.impl.std.BasicAuthSevImpl;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.StatusCode;
 import com.prayer.security.provider.AuthConstants.BASIC;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.util.StringKit;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 import com.prayer.vx.configurator.SecurityConfigurator;
 
 import io.vertx.core.AsyncResult;

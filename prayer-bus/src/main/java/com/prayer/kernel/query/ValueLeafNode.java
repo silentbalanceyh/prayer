@@ -3,10 +3,10 @@ package com.prayer.kernel.query;
 import java.util.Arrays;
 import java.util.List;
 
-import com.prayer.constant.Symbol;
-import com.prayer.kernel.Expression;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Expression;
+import com.prayer.kernel.i.Value;
 import com.prayer.model.type.DataType;
+import com.prayer.util.cv.Symbol;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.guard.Guarded;

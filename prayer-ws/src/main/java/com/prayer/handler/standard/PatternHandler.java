@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.WebLogger;
-import com.prayer.constant.Constants;
-import com.prayer.constant.Symbol;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.Symbol;
 
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerRequest;

@@ -12,24 +12,24 @@ import org.slf4j.Logger;
 
 import com.prayer.AbstractTestCase;
 import com.prayer.Assistant;
-import com.prayer.constant.Resources;
-import com.prayer.dao.record.RecordDao;
-import com.prayer.dao.record.impl.RecordDaoImpl;
-import com.prayer.db.conn.JdbcContext;
-import com.prayer.db.conn.impl.JdbcConnImpl;
+import com.prayer.dao.i.RecordDao;
+import com.prayer.dao.i.builder.Builder;
+import com.prayer.dao.i.jdbc.JdbcContext;
+import com.prayer.dao.i.schema.SchemaDao;
+import com.prayer.dao.impl.jdbc.JdbcConnImpl;
+import com.prayer.dao.impl.record.RecordDaoImpl;
+import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.kernel.Builder;
-import com.prayer.kernel.Record;
+import com.prayer.kernel.i.Record;
 import com.prayer.kernel.model.GenericRecord;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.schema.Importer;
-import com.prayer.schema.dao.SchemaDao;
-import com.prayer.schema.dao.impl.SchemaDaoImpl;
-import com.prayer.schema.json.internal.CommunionImporter;
+import com.prayer.schema.json.CommunionImporter;
+import com.prayer.util.cv.Resources;
 
 import jodd.util.StringUtil;
 

@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Future;
 import com.prayer.assistant.WebLogger;
-import com.prayer.constant.Constants;
 import com.prayer.model.web.Responsor;
+import com.prayer.util.cv.Constants;
 
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;

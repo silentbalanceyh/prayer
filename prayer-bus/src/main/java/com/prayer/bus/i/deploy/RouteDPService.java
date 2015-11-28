@@ -1,0 +1,12 @@
+package com.prayer.bus.i.deploy;
+
+import com.prayer.model.vertx.RouteModel;
+
+/**
+ * 
+ * @author Lang
+ *
+ */
+public interface RouteDPService extends TemplateDPService<RouteModel,String>{
+
+}

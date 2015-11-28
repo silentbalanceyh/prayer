@@ -11,16 +11,16 @@
         <setting name="useColumnLabel" value="true" />
     </settings>
     <typeAliases>
-        <typeAlias type="com.prayer.model.h2.KeyModel" alias="Key" />
-        <typeAlias type="com.prayer.model.h2.FieldModel" alias="Field" />
-        <typeAlias type="com.prayer.model.h2.MetaModel" alias="Meta" />
-        <typeAlias type="com.prayer.model.h2.vx.VerticleModel"
+        <typeAlias type="com.prayer.model.schema.KeyModel" alias="Key" />
+        <typeAlias type="com.prayer.model.schema.FieldModel" alias="Field" />
+        <typeAlias type="com.prayer.model.schema.MetaModel" alias="Meta" />
+        <typeAlias type="com.prayer.model.vertx.VerticleModel"
             alias="Verticle" />
-        <typeAlias type="com.prayer.model.h2.vx.RouteModel" alias="Route" />
-        <typeAlias type="com.prayer.model.h2.vx.UriModel" alias="Uri" />
-        <typeAlias type="com.prayer.model.h2.vx.RuleModel" alias="Rule"/>
-        <typeAlias type="com.prayer.model.h2.vx.AddressModel" alias="Address"/>
-        <typeAlias type="com.prayer.model.h2.script.ScriptModel" alias="Script"/>
+        <typeAlias type="com.prayer.model.vertx.RouteModel" alias="Route" />
+        <typeAlias type="com.prayer.model.vertx.UriModel" alias="Uri" />
+        <typeAlias type="com.prayer.model.vertx.RuleModel" alias="Rule"/>
+        <typeAlias type="com.prayer.model.vertx.AddressModel" alias="Address"/>
+        <typeAlias type="com.prayer.model.vertx.ScriptModel" alias="Script"/>
     </typeAliases>
     <environments default="H2Environment">
         <environment id="H2Environment">

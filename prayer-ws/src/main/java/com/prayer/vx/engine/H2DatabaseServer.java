@@ -13,12 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.WebLogger;
-import com.prayer.bus.deploy.oob.DeploySevImpl;
-import com.prayer.bus.std.DeployService;
-import com.prayer.constant.Resources;
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.db.conn.MetadataConn;
+import com.prayer.bus.i.DeployService;
+import com.prayer.bus.impl.oob.DeploySevImpl;
+import com.prayer.dao.i.jdbc.MetadataConn;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.util.cv.Resources;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 import com.prayer.vx.configurator.ServerConfigurator;
 
 import net.sf.oval.constraint.NotNull;

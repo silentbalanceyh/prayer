@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractTestTool;
 import com.prayer.Assistant;
-import com.prayer.kernel.Expression;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Expression;
+import com.prayer.kernel.i.Value;
 import com.prayer.model.type.IntType;
 import com.prayer.model.type.StringType;
 

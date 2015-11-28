@@ -13,9 +13,8 @@ import java.util.TreeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Value;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
 import com.prayer.model.type.DataType;
@@ -28,6 +27,7 @@ import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.StringType;
 import com.prayer.model.type.XmlType;
 import com.prayer.util.Instance;
+import com.prayer.util.cv.Constants;
 
 /**
  * 

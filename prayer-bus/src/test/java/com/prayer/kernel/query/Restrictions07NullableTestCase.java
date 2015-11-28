@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractTestTool;
-import com.prayer.kernel.Expression;
+import com.prayer.kernel.i.Expression;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 

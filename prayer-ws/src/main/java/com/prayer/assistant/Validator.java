@@ -3,7 +3,7 @@ package com.prayer.assistant;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.prayer.constant.Constants;
+import com.prayer.util.cv.Constants;
 
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotBlank;

@@ -6,15 +6,15 @@ import java.text.MessageFormat;
 
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Interruptor;
-import com.prayer.constant.Constants;
-import com.prayer.constant.SqlSegment;
-import com.prayer.constant.Symbol;
-import com.prayer.db.conn.JdbcContext;
-import com.prayer.db.conn.impl.JdbcConnImpl;
+import com.prayer.dao.i.jdbc.JdbcContext;
+import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.exception.AbstractWebException;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.uca.WebValidator;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.SqlSegment;
+import com.prayer.util.cv.Symbol;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;

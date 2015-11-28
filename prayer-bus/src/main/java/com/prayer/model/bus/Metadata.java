@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Constants;
 import com.prayer.util.DatabaseKit;
+import com.prayer.util.cv.Constants;
 
 /**
  * 数据库元数据

@@ -11,19 +11,19 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.Symbol;
-import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.metadata.ColumnInvalidException;
-import com.prayer.exception.metadata.FieldInvalidException;
-import com.prayer.kernel.Record;
-import com.prayer.kernel.Value;
+import com.prayer.exception.database.ColumnInvalidException;
+import com.prayer.exception.database.FieldInvalidException;
+import com.prayer.kernel.i.Record;
+import com.prayer.kernel.i.Value;
 import com.prayer.kernel.model.Transducer.V;
-import com.prayer.model.h2.FieldModel;
+import com.prayer.model.schema.FieldModel;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.StringType;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.Symbol;
+import com.prayer.util.cv.SystemEnum.MetaPolicy;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.InstanceOf;

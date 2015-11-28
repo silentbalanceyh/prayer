@@ -5,12 +5,12 @@ import static com.prayer.util.Instance.singleton;
 import org.slf4j.Logger;
 
 import com.prayer.AbstractTestCase;
-import com.prayer.bus.std.SchemaService;
-import com.prayer.bus.std.impl.SchemaSevImpl;
-import com.prayer.constant.Resources;
-import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.bus.i.SchemaService;
+import com.prayer.bus.impl.std.SchemaSevImpl;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.util.cv.Resources;
+import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import jodd.util.StringUtil;
 

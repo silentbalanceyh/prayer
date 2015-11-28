@@ -2,7 +2,7 @@ package com.prayer.util;
 
 import java.util.Collection;
 
-import com.prayer.constant.Constants;
+import com.prayer.util.cv.Constants;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.MinSize;

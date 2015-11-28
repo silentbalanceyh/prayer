@@ -2,18 +2,18 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.schema.db.RuleMapper">
+<mapper namespace="com.prayer.plugin.mapper.RuleMapper">
     <resultMap type="Rule" id="ruleObject">
         <id column="K_ID" property="uniqueId" />
         <result column="S_NAME" property="name" />
         <result column="S_TYPE" property="type"
-            typeHandler="com.prayer.schema.db.handler.DataTypeHandler" />
+            typeHandler="com.prayer.plugin.db.handler.DataTypeHandler" />
         <result column="S_ORDER" property="order" />
         <result column="J_COMPONENT_TYPE" property="componentType"
             typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
         <result column="J_COMPONENT_CLASS" property="componentClass" />
         <result column="J_CONFIG" property="config"
-            typeHandler="com.prayer.schema.db.handler.JsonHandler" />
+            typeHandler="com.prayer.plugin.db.handler.JsonHandler" />
         <result column="J_ERROR_MSG" property="errorMessage"/>
         <result column="R_URI_ID" property="refUriId" />
     </resultMap>
@@ -33,11 +33,11 @@
             ) VALUES (
                 #{uniqueId},
                 #{name},
-                #{type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
+                #{type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
                 #{order},
                 #{componentType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
                 #{componentClass},
-                #{config, typeHandler=com.prayer.schema.db.handler.JsonHandler},
+                #{config, typeHandler=com.prayer.plugin.db.handler.JsonHandler},
                 #{errorMessage},
                 #{refUriId}
             )
@@ -62,11 +62,11 @@
             <![CDATA[(
                 #{item.uniqueId},
                 #{item.name},
-                #{item.type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
+                #{item.type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
                 #{item.order},
                 #{item.componentType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
                 #{item.componentClass},
-                #{item.config, typeHandler=com.prayer.schema.db.handler.JsonHandler},
+                #{item.config, typeHandler=com.prayer.plugin.db.handler.JsonHandler},
                 #{item.errorMessage},
                 #{item.refUriId}
             )]]>
@@ -77,11 +77,11 @@
         <![CDATA[
             UPDATE EVX_RULE SET
                 S_NAME=#{name},
-                S_TYPE=#{type, typeHandler=com.prayer.schema.db.handler.DataTypeHandler},
+                S_TYPE=#{type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
                 S_ORDER=#{order},
                 J_COMPONENT_TYPE=#{componentType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
                 J_COMPONENT_CLASS=#{componentClass},
-                J_CONFIG=#{config,typeHandler=com.prayer.schema.db.handler.JsonHandler},
+                J_CONFIG=#{config,typeHandler=com.prayer.plugin.db.handler.JsonHandler},
                 J_ERROR_MSG=#{errorMessage},
                 R_URI_ID=#{refUriId}
             WHERE K_ID=#{uniqueId}

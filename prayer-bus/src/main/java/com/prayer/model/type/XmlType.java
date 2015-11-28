@@ -3,8 +3,8 @@ package com.prayer.model.type;
 import static com.prayer.util.Instance.singleton;
 
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.kernel.Validator;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Validator;
+import com.prayer.kernel.i.Value;
 
 /**
  * 类型：Xml格式
@@ -16,7 +16,7 @@ public class XmlType extends StringType implements Value<String> {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
-    private transient final Validator innerValidator = singleton("com.prayer.kernel.validator.XmlValidator");
+    private transient final Validator innerValidator = singleton("com.prayer.plugin.validator.XmlValidator");
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

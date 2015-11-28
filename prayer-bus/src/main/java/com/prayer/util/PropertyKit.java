@@ -10,9 +10,9 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.MemoryPool;
-import com.prayer.constant.Symbol;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.MemoryPool;
+import com.prayer.util.cv.Symbol;
 
 import jodd.util.StringPool;
 import jodd.util.StringUtil;

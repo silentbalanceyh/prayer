@@ -2,10 +2,10 @@ package com.prayer.model.type;
 
 import java.lang.reflect.Type;
 
-import com.prayer.constant.Constants;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.system.TypeInitException;
-import com.prayer.kernel.Value;
+import com.prayer.kernel.i.Value;
+import com.prayer.util.cv.Constants;
 
 /**
  * ee
