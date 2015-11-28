@@ -4,7 +4,6 @@ import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
-import org.h2.engine.MetaRecord;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -12,6 +11,7 @@ import com.prayer.dao.record.RecordDao;
 import com.prayer.dao.record.meta.impl.MetaDaoImpl;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Record;
+import com.prayer.kernel.model.MetaRecord;
 
 /**
  * 

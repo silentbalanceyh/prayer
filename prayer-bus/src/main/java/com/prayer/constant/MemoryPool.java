@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import com.prayer.db.conn.JdbcContext;
 import com.prayer.kernel.Builder;
 import com.prayer.kernel.model.GenericSchema;
+import com.prayer.kernel.model.MetaConnector;
 import com.prayer.schema.Importer;
 
 /**
@@ -32,6 +33,8 @@ public interface MemoryPool {    // NOPMD
     ConcurrentMap<String, Object> POOL_OBJECT = new ConcurrentHashMap<>();
     /** 资源文件池 **/
     ConcurrentMap<String, Properties> POOL_PROP = new ConcurrentHashMap<>();
+    /** Metadata Connector 全局单例模式 **/
+    ConcurrentMap<String, MetaConnector> POOL_CONNECTOR = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
