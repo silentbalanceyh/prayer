@@ -1,11 +1,11 @@
 package com.prayer.aspectj;
 
-import static com.prayer.bus.util.BusLogger.info;
+import static com.prayer.bus.util.BusinessLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.util.BusLogger;
+import com.prayer.bus.util.BusinessLogger;
 import com.prayer.kernel.model.GenericSchema;
 import com.prayer.model.h2.FieldModel;
 import com.prayer.model.type.DataType;
@@ -39,7 +39,7 @@ public abstract class AbstractValidatorAspect { // NOPMD
         final GenericSchema schema = Instance.field(instance, "_schema");
         FieldModel fieldSchema = null;
         if (null == schema || null == field) {
-            info(LOGGER, BusLogger.I_AOP_V_ERROR, schema, field);
+            info(LOGGER, BusinessLogger.I_AOP_V_ERROR, schema, field);
         } else {
             fieldSchema = schema.getFields().get(field);
         }

@@ -7,6 +7,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.constant.Constants;
+import com.prayer.model.AbstractMetadata;
+
+import io.vertx.core.json.JsonObject;
 
 /**
  * 
@@ -14,7 +17,7 @@ import com.prayer.constant.Constants;
  *
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
-public class ScriptModel implements Serializable { // NOPMD
+public class ScriptModel extends AbstractMetadata implements Serializable { // NOPMD
     // ~ Static Fields =======================================
     /**
      * 
@@ -102,6 +105,32 @@ public class ScriptModel implements Serializable { // NOPMD
         this.content = content;
     }
 
+    // ~ Cluster Serialization ===============================
+    /**
+     * 将Metadata对象和Vertx架构下的序列化系统连接
+     */
+    @Override
+    public JsonObject toJson(){
+        final JsonObject data = new JsonObject();
+        data.put("uniqueId",this.uniqueId);
+        data.put("name", this.name);
+        data.put("namespace", this.namespace);
+        data.put("content", this.content);
+        return data;
+    }
+    /**
+     * 
+     */
+    @Override
+    public ScriptModel fromJson(final JsonObject data){
+        if(null != data){
+            this.uniqueId = data.getString("uniqueId");
+            this.name = data.getString("name");
+            this.namespace = data.getString("namespace");
+            this.content = data.getString("content");
+        }
+        return this;
+    }
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override

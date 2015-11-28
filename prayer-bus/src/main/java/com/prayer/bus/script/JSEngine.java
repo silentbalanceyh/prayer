@@ -10,7 +10,7 @@ import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 import javax.script.SimpleScriptContext;
 
-import com.prayer.bus.std.util.ClauseInjector;
+import com.prayer.bus.util.ClauseInjector;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.kernel.Record;

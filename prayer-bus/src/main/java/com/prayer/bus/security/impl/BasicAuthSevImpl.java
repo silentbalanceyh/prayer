@@ -1,7 +1,7 @@
 package com.prayer.bus.security.impl;
 
-import static com.prayer.bus.util.BusLogger.error;
-import static com.prayer.bus.util.BusLogger.info;
+import static com.prayer.bus.util.BusinessLogger.error;
+import static com.prayer.bus.util.BusinessLogger.info;
 
 import javax.script.ScriptException;
 
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.security.BasicAuthService;
 import com.prayer.bus.std.impl.AbstractSevImpl;
-import com.prayer.bus.util.BusLogger;
+import com.prayer.bus.util.BusinessLogger;
 import com.prayer.bus.util.Interruptor;
 import com.prayer.dao.record.impl.RecordDaoImpl;
 import com.prayer.exception.AbstractException;
@@ -56,19 +56,19 @@ public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthServic
     @Override
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
-        info(getLogger(), BusLogger.I_PARAM_INFO, "GET", jsonObject.encode());
+        info(getLogger(), BusinessLogger.I_PARAM_INFO, "GET", jsonObject.encode());
         ServiceResult<JsonArray> ret = new ServiceResult<>();
         final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
         if (null == error) {
             try {
                 ret = this.helper().sharedFind(jsonObject);
             } catch (ScriptException ex) {
-                error(getLogger(), BusLogger.E_JS_ERROR, ex.toString());
+                error(getLogger(), BusinessLogger.E_JS_ERROR, ex.toString());
                 ret.error(new JSScriptEngineException(getClass(), ex.toString()));
                 // TODO: Debug
                 ex.printStackTrace();
             } catch (AbstractException ex) {
-                error(getLogger(), BusLogger.E_AT_ERROR, ex.toString());
+                error(getLogger(), BusinessLogger.E_AT_ERROR, ex.toString());
                 ret.failure(ex);
                 // TODO: Debug
                 ex.printStackTrace();

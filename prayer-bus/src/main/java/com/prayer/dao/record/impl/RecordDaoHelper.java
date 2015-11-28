@@ -1,6 +1,6 @@
 package com.prayer.dao.record.impl;
 
-import static com.prayer.bus.util.BusLogger.info;
+import static com.prayer.bus.util.BusinessLogger.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.bus.script.JSEngine;
 import com.prayer.bus.script.JSEnv;
 import com.prayer.bus.util.Interruptor;
-import com.prayer.bus.util.ParamExtractor;
+import com.prayer.bus.util.RecordSerializer;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.record.RecordDao;
@@ -54,7 +54,7 @@ public class RecordDaoHelper {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient final ParamExtractor extractor;
+    private transient final RecordSerializer serializer;
     /** **/
     @NotNull
     private transient final RecordDao dao;
@@ -69,7 +69,7 @@ public class RecordDaoHelper {
     /** **/
     @PostValidateThis
     public RecordDaoHelper(@NotNull final RecordDao recordDao, @NotNull final Class<?> entityCls){
-        this.extractor = singleton(ParamExtractor.class);
+        this.serializer = singleton(RecordSerializer.class);
         this.dao = recordDao;
         this.recordCls = entityCls.getName();
     }
@@ -93,14 +93,14 @@ public class RecordDaoHelper {
         if (Interruptor.isUpdate(record)) {
             info(LOGGER, " Updating mode : Input => " + record.toString());
             final Record updated = this.executeUpdate(record);
-            retJson = extractor.extractRecord(updated);
+            retJson = serializer.extractRecord(updated);
         } else {
             info(LOGGER, " Inserting mode : " + record.toString());
             final Record inserted = this.dao.insert(record);
-            retJson = this.extractor.extractRecord(inserted);
+            retJson = this.serializer.extractRecord(inserted);
         }
         // 4. 根据Filters的内容过滤属性
-        this.extractor.filterRecord(retJson, jsonObject);
+        this.serializer.filterRecord(retJson, jsonObject);
         ret.success(retJson);
         return ret;
     }
@@ -154,8 +154,8 @@ public class RecordDaoHelper {
             // 6.Filter
             final JsonArray retList = new JsonArray();
             for (final Record retR : entry.getValue()) {
-                final JsonObject retJson = extractor.extractRecord(retR);
-                this.extractor.filterRecord(retJson, jsonObject);
+                final JsonObject retJson = serializer.extractRecord(retR);
+                this.serializer.filterRecord(retJson, jsonObject);
                 retList.add(retJson);
             }
             retObj.put(Constants.PARAM.PAGE.RET_LIST, retList);
@@ -191,8 +191,8 @@ public class RecordDaoHelper {
         // 4. 查询结果
         final JsonArray retArray = new JsonArray();
         for (final Record retR : retList) {
-            final JsonObject retJson = extractor.extractRecord(retR);
-            this.extractor.filterRecord(retJson, jsonObject);
+            final JsonObject retJson = serializer.extractRecord(retR);
+            this.serializer.filterRecord(retJson, jsonObject);
             retArray.add(retJson);
         }
         return ret.success(retArray);

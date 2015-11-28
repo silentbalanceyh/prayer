@@ -1,9 +1,11 @@
 package com.prayer.bus.util;
 
+import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.bus.std.SchemaService;
 import com.prayer.bus.std.impl.SchemaSevImpl;
@@ -11,13 +13,18 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Record;
+import com.prayer.kernel.Value;
 import com.prayer.kernel.model.GenericSchema;
+import com.prayer.kernel.model.Transducer.V;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.type.DataType;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -29,7 +36,7 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
-public final class ParamExtractor {
+public final class RecordSerializer {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
 
@@ -42,7 +49,7 @@ public final class ParamExtractor {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    ParamExtractor() {
+    RecordSerializer() {
         this.schemaSev = singleton(SchemaSevImpl.class);
     }
 
@@ -84,6 +91,24 @@ public final class ParamExtractor {
             }
         }
         return retObj;
+    }
+
+    /**
+     * 
+     * @param identifier
+     * @param data
+     * @return
+     */
+    public Record encloseRecord(@NotNull @NotBlank @NotEmpty final String identifier, @NotNull final Class<?> recordCls,
+            @NotNull final JsonObject data) throws AbstractDatabaseException {
+        final Record record = instance(recordCls.getName(), identifier);
+        final ConcurrentMap<String, DataType> fields = record.fields();
+        for (final String field : fields.keySet()) {
+            final DataType type = fields.get(field);
+            final Value<?> value = V.get().getValue(data, type, field);
+            record.set(field, value);
+        }
+        return record;
     }
 
     /**

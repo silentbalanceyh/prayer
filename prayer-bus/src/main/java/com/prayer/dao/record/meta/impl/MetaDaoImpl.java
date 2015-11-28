@@ -28,7 +28,7 @@ import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.Pre;
 
 /**
- * 
+ * 为了统一和RecordDao中的接口以及反射构造，MetaDao使用延迟加载方式
  * @author Lang
  *
  */

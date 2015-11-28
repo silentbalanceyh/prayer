@@ -1,11 +1,11 @@
 package com.prayer.bus.script;
 
-import static com.prayer.bus.util.BusLogger.error;
+import static com.prayer.bus.util.BusinessLogger.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.util.BusLogger;
+import com.prayer.bus.util.BusinessLogger;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
@@ -97,7 +97,7 @@ public final class JSValue {
         try {
             ret = new ScriptType(value);
         } catch (AbstractDatabaseException ex) {
-            error(LOGGER, BusLogger.E_AT_ERROR, ex.toString());
+            error(LOGGER, BusinessLogger.E_AT_ERROR, ex.toString());
         }
         return ret;
     }
@@ -112,7 +112,7 @@ public final class JSValue {
         try {
             ret = new XmlType(value);
         } catch (AbstractDatabaseException ex) {
-            error(LOGGER, BusLogger.E_AT_ERROR, ex.toString());
+            error(LOGGER, BusinessLogger.E_AT_ERROR, ex.toString());
         }
         return ret;
     }
@@ -127,7 +127,7 @@ public final class JSValue {
         try {
             ret = new JsonType(value);
         } catch (AbstractDatabaseException ex) {
-            error(LOGGER, BusLogger.E_AT_ERROR, ex.toString());
+            error(LOGGER, BusinessLogger.E_AT_ERROR, ex.toString());
         }
         return ret;
     }

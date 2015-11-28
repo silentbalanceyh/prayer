@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.AbstractDaoTestTool;
+import com.prayer.AbstractRDaoTestTool;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.validator.CustomValidatorException;
@@ -24,7 +24,7 @@ import com.prayer.model.bus.ServiceResult;
  * @author Lang
  *
  */
-public class GenericRecord02TestCase extends AbstractDaoTestTool { // NOPMD
+public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(GenericRecord02TestCase.class);

@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.AbstractDaoTestTool;
+import com.prayer.AbstractRDaoTestTool;
 import com.prayer.Assistant;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.system.SchemaNotFoundException;
@@ -20,7 +20,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  *
  */
-public class SchemaExpander01TestCase extends AbstractDaoTestTool { // NOPMD
+public class SchemaExpander01TestCase extends AbstractRDaoTestTool { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(SchemaExpander01TestCase.class);

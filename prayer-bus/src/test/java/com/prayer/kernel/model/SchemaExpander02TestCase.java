@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.AbstractDaoTestTool;
+import com.prayer.AbstractRDaoTestTool;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
@@ -27,7 +27,7 @@ import com.prayer.model.h2.KeyModel;
  * @author Lang
  *
  */
-public class SchemaExpander02TestCase extends AbstractDaoTestTool { // NOPMD
+public class SchemaExpander02TestCase extends AbstractRDaoTestTool { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(SchemaExpander02TestCase.class);

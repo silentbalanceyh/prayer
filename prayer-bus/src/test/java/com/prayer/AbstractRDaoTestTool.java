@@ -28,7 +28,7 @@ import jodd.util.StringUtil;
  * @author Lang
  *
  */
-public abstract class AbstractDaoTestTool extends AbstractTestTool {
+public abstract class AbstractRDaoTestTool extends AbstractTestTool {
     // ~ Static Fields =======================================
     /** **/
     protected static final String DAO_DATA_PATH = "/schema/data/json/dao/";
@@ -42,7 +42,7 @@ public abstract class AbstractDaoTestTool extends AbstractTestTool {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public AbstractDaoTestTool() {
+    public AbstractRDaoTestTool() {
         super();
         this.service = instance(SchemaSevImpl.class.getName());
         this.recordDao = singleton(RecordDaoImpl.class);

@@ -1,7 +1,7 @@
 package com.prayer.bus.deploy.oob; // NOPMD
 
-import static com.prayer.bus.util.BusLogger.error;
-import static com.prayer.bus.util.BusLogger.info;
+import static com.prayer.bus.util.BusinessLogger.error;
+import static com.prayer.bus.util.BusinessLogger.info;
 import static com.prayer.util.Instance.singleton;
 
 import java.io.File;
@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.std.DeployService;
-import com.prayer.bus.util.BusLogger;
+import com.prayer.bus.util.BusinessLogger;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.db.conn.MetadataConn;
 import com.prayer.db.conn.impl.MetadataConnImpl;
@@ -89,7 +89,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             ret = this.manager.getVerticleService().importVerticles(VX_VERTICLE);
             info(LOGGER, " 1.EVX_VERTICLE ( Verticle deployed successfully ).");
         } else {
-            error(LOGGER, BusLogger.E_PROCESS_ERR, "Verticle Deploy", ret.getErrorMessage());
+            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Verticle Deploy", ret.getErrorMessage());
         }
 
         // 2.EVX_ROUTE
@@ -103,7 +103,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                 info(LOGGER, " 2.EVX_ROUTE ( Route deployed successfully ). PATH = " + VX_ROUTES + file);
             }
         } else {
-            error(LOGGER, BusLogger.E_PROCESS_ERR, "Route Deploy", ret.getErrorMessage());
+            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Route Deploy", ret.getErrorMessage());
         }
 
         // 3.EVX_URI
@@ -128,14 +128,14 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                                 + ".json";
                         ret = this.manager.getRuleService().importRules(paramFile, model);
                         if (ResponseCode.SUCCESS != ret.getResponseCode()) {
-                            error(LOGGER, BusLogger.E_PROCESS_ERR, model.getUri() + " Rule Deploy", ret.getErrorMessage());
+                            error(LOGGER, BusinessLogger.E_PROCESS_ERR, model.getUri() + " Rule Deploy", ret.getErrorMessage());
                         } else {
                             info(LOGGER, " 3 -> 4.EVX_RULE ( Rule deployed successfully ) URL = " + model.getUri() + ", rule = "
                                     + paramFile);
                         }
                     }
                 } else {
-                    error(LOGGER, BusLogger.E_PROCESS_ERR, "Uri Deploy", ret.getErrorMessage());
+                    error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Uri Deploy", ret.getErrorMessage());
                 }
             }
         }
@@ -147,7 +147,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             ret = this.manager.getAddressService().importToList(VX_ADDRESS);
             info(LOGGER, " 5.EVX_ADDRESS ( Message Address deployed successfully ).");
         } else {
-            error(LOGGER, BusLogger.E_PROCESS_ERR, "Address Deploy", ret.getErrorMessage());
+            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Address Deploy", ret.getErrorMessage());
         }
         // 6.ENG_SCRIPT
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
@@ -157,7 +157,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             ret = this.manager.getScriptService().importToList(VX_SCRIPT);
             info(LOGGER, " 6.EVX_SCRIPT ( Script deployed successfully ).");
         } else {
-            error(LOGGER, BusLogger.E_PROCESS_ERR, "Script Deploy", ret.getErrorMessage());
+            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Script Deploy", ret.getErrorMessage());
         }
         // 2.导入OOB中的Schema定义
         {
@@ -179,7 +179,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             } else {
                 result.failure(exp);
             }
-            error(LOGGER, BusLogger.E_DPDATA_ERR);
+            error(LOGGER, BusinessLogger.E_DPDATA_ERR);
         }
         return result;
     }

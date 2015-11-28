@@ -1,7 +1,7 @@
 package com.prayer.bus.std.impl;
 
-import static com.prayer.bus.util.BusLogger.error;
-import static com.prayer.bus.util.BusLogger.info;
+import static com.prayer.bus.util.BusinessLogger.error;
+import static com.prayer.bus.util.BusinessLogger.info;
 import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
 
@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.std.SchemaService;
-import com.prayer.bus.util.BusLogger;
+import com.prayer.bus.util.BusinessLogger;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.MemoryPool;
 import com.prayer.exception.AbstractSchemaException;
@@ -80,16 +80,16 @@ public class SchemaSevImpl implements SchemaService {
             // 5.成功代码
             result.success(schema);
         } catch (AbstractTransactionException ex) {
-            error(LOGGER, BusLogger.E_PROCESS_ERR, "4.Data Loading", ex.toString());
+            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "4.Data Loading", ex.toString());
             result.error(ex);
         } catch (SerializationException ex) {
-            error(LOGGER, BusLogger.E_PROCESS_ERR, "3.Serialization", ex.toString());
+            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "3.Serialization", ex.toString());
             result.error(ex);
         } catch (AbstractSystemException ex) {
-            error(LOGGER, BusLogger.E_PROCESS_ERR, "1.Reading json schema file. file = " + filePath, ex.toString());
+            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "1.Reading json schema file. file = " + filePath, ex.toString());
             result.error(ex);
         } catch (AbstractSchemaException ex) {
-            error(LOGGER, BusLogger.E_PROCESS_ERR, "2.Verifying Schema", ex.toString());
+            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "2.Verifying Schema", ex.toString());
             result.failure(ex);
         }
         return result;
@@ -142,7 +142,7 @@ public class SchemaSevImpl implements SchemaService {
             final Boolean ret = this.dao.deleteById(identifier);
             result.success(ret);
         } catch (AbstractTransactionException ex) {
-            error(LOGGER, BusLogger.E_AT_ERROR, ex.toString());
+            error(LOGGER, BusinessLogger.E_AT_ERROR, ex.toString());
             result.error(ex);
         }
         return result;
@@ -157,10 +157,10 @@ public class SchemaSevImpl implements SchemaService {
         Importer importer = MemoryPool.POOL_IMPORTER.get(filePath);
         if (null == importer) {
             importer = reservoir(MemoryPool.POOL_IMPORTER, filePath, CommunionImporter.class, filePath);
-            info(LOGGER, BusLogger.I_IMPORTER_NEW, filePath);
+            info(LOGGER, BusinessLogger.I_IMPORTER_NEW, filePath);
         } else {
             importer.refreshSchema(filePath);
-            info(LOGGER, BusLogger.I_IMPORTER_EXIST, filePath);
+            info(LOGGER, BusinessLogger.I_IMPORTER_EXIST, filePath);
         }
         return importer;// instance(CommunionImporter.class.getName(),
                         // filePath);

@@ -15,7 +15,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class BusLogger {
+public final class BusinessLogger {
     // ~ Static Fields =======================================
     /** **/
     public static final String I_AOP_V_ERROR = "[AOP] Aspect validator met error ! Schema = {0}, Field = {1}";
@@ -78,7 +78,7 @@ public final class BusLogger {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private BusLogger() {
+    private BusinessLogger() {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

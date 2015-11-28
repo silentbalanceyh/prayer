@@ -1,6 +1,6 @@
-package com.prayer.bus.std.util;
+package com.prayer.bus.util;
 
-import static com.prayer.bus.util.BusLogger.info;
+import static com.prayer.bus.util.BusinessLogger.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,5 +1,8 @@
 package com.prayer.kernel.model;
 
+import java.math.BigDecimal;
+
+import com.prayer.constant.Resources;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.Value;
 import com.prayer.model.type.BinaryType;
@@ -14,7 +17,10 @@ import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.StringType;
 import com.prayer.model.type.XmlType;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -32,6 +38,67 @@ final class ValueTransducer implements Transducer { // NOPMD
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    @Override
+    @NotNull
+    public Value<?> getValue(@NotNull final JsonObject data, @NotNull @InstanceOf(DataType.class) final DataType type,
+            @NotNull @NotEmpty @NotBlank final String field) throws AbstractDatabaseException{
+        Value<?> ret = null;
+        switch (type) {
+        case BOOLEAN: {
+            final boolean value = data.getBoolean(field, Boolean.FALSE);
+            ret = new BooleanType(value);
+        }
+            break;
+        case INT: {
+            final int value = data.getInteger(field, 0);
+            ret = new IntType(value);
+        }
+            break;
+        case LONG: {
+            final long value = data.getLong(field, 0L);
+            ret = new LongType(value);
+        }
+            break;
+        case DECIMAL: {
+            final BigDecimal value = BigDecimal.valueOf(data.getDouble(field, 0.0));
+            ret = new DecimalType(value);
+        }
+            break;
+        case DATE: {
+            final String value = data.getString(field);
+            ret = new DateType(value);
+        }
+            break;
+        case BINARY: {
+            final byte[] bytes = data.getString(field).getBytes(Resources.SYS_ENCODING);
+            ret = new BinaryType(bytes);
+        }
+            break;
+        case XML: {
+            final String value = data.getString(field);
+            ret = new XmlType(value);
+        }
+            break;
+        case SCRIPT: {
+            final String value = data.getString(field);
+            ret = new ScriptType(value);
+        }
+            break;
+        case JSON: {
+            final String value = data.getString(field);
+            ret = new JsonType(value);
+        }
+            break;
+        default: {
+            final String value = data.getString(field);
+            ret = new StringType(value);
+        }
+            break;
+        }
+        return ret;
+    }
+
     /** **/
     @Override
     @NotNull
