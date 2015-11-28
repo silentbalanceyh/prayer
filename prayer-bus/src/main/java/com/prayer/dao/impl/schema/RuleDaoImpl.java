@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.facade.dao.schema.RuleDao;
 import com.prayer.facade.mapper.RuleMapper;
 import com.prayer.facade.mapper.SessionManager;
-import com.prayer.model.vertx.RuleModel;
+import com.prayer.model.h2.vertx.RuleModel;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

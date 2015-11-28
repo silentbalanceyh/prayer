@@ -14,7 +14,7 @@ import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.AbstractTransactionException;
 import com.prayer.facade.bus.deploy.ScriptDPService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.h2.vertx.ScriptModel;
 import com.prayer.util.IOKit;
 import com.prayer.util.JsonKit;
 import com.prayer.util.cv.Constants;

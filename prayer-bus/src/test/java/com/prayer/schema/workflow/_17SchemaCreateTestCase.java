@@ -18,10 +18,10 @@ import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.AbstractSystemException;
 import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.kernel.model.GenericSchema;
-import com.prayer.model.schema.FieldModel;
-import com.prayer.model.schema.KeyModel;
-import com.prayer.model.schema.MetaModel;
+import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.h2.schema.KeyModel;
+import com.prayer.model.h2.schema.MetaModel;
+import com.prayer.model.kernel.GenericSchema;
 import com.prayer.schema.json.CommunionImporter;
 import com.prayer.util.JsonKit;
 

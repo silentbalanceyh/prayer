@@ -18,10 +18,10 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
-import com.prayer.kernel.model.GenericSchema;
-import com.prayer.model.schema.FieldModel;
-import com.prayer.model.schema.KeyModel;
-import com.prayer.model.schema.MetaModel;
+import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.h2.schema.KeyModel;
+import com.prayer.model.h2.schema.MetaModel;
+import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SqlSegment;

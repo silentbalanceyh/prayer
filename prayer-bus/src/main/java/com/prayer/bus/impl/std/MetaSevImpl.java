@@ -3,9 +3,9 @@ package com.prayer.bus.impl.std;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.impl.meta.MetaDaoImpl;
+import com.prayer.dao.impl.std.meta.MetaDaoImpl;
 import com.prayer.facade.bus.MetaService;
-import com.prayer.kernel.model.MetaRecord;
+import com.prayer.model.kernel.MetaRecord;
 
 import net.sf.oval.guard.Guarded;
 

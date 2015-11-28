@@ -17,7 +17,7 @@ import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.exception.AbstractWebException;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.h2.vertx.RouteModel;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 

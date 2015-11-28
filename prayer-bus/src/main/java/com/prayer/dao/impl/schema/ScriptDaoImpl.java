@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.facade.dao.schema.ScriptDao;
 import com.prayer.facade.mapper.ScriptMapper;
 import com.prayer.facade.mapper.SessionManager;
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.h2.vertx.ScriptModel;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

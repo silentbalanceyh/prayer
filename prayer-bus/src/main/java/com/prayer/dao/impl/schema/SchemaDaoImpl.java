@@ -17,11 +17,11 @@ import com.prayer.facade.mapper.FieldMapper;
 import com.prayer.facade.mapper.KeyMapper;
 import com.prayer.facade.mapper.MetaMapper;
 import com.prayer.facade.mapper.SessionManager;
-import com.prayer.kernel.model.GenericSchema;
-import com.prayer.kernel.model.SchemaExpander;
-import com.prayer.model.schema.FieldModel;
-import com.prayer.model.schema.KeyModel;
-import com.prayer.model.schema.MetaModel;
+import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.h2.schema.KeyModel;
+import com.prayer.model.h2.schema.MetaModel;
+import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.kernel.SchemaExpander;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotBlank;

@@ -5,11 +5,11 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
-import com.prayer.model.vertx.AddressModel;
-import com.prayer.model.vertx.RouteModel;
-import com.prayer.model.vertx.RuleModel;
-import com.prayer.model.vertx.ScriptModel;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.h2.vertx.AddressModel;
+import com.prayer.model.h2.vertx.RouteModel;
+import com.prayer.model.h2.vertx.RuleModel;
+import com.prayer.model.h2.vertx.ScriptModel;
+import com.prayer.model.h2.vertx.UriModel;
 
 import io.vertx.core.http.HttpMethod;
 

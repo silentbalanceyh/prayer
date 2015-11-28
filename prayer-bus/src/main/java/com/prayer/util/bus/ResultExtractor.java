@@ -6,8 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.VerticleChain;
-import com.prayer.model.vertx.UriModel;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.h2.vertx.VerticleModel;
 import com.prayer.util.Instance;
 import com.prayer.util.StringKit;
 

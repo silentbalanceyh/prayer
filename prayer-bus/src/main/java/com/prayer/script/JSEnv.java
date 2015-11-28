@@ -7,9 +7,9 @@ import java.util.List;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
-import com.prayer.kernel.model.GenericRecord;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
+import com.prayer.model.kernel.GenericRecord;
 import com.prayer.util.cv.Constants;
 
 import net.sf.oval.constraint.InstanceOf;

@@ -6,7 +6,7 @@ import static com.prayer.util.Instance.singleton;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.AddressModel;
+import com.prayer.model.h2.vertx.AddressModel;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import io.vertx.core.AbstractVerticle;

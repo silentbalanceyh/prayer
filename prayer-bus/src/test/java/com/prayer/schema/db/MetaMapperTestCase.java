@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.facade.mapper.MetaMapper;
-import com.prayer.model.schema.MetaModel;
+import com.prayer.model.h2.schema.MetaModel;
 import com.prayer.util.cv.Resources;
 
 /**

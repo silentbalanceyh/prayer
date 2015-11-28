@@ -2,7 +2,7 @@ package com.prayer.facade.mapper;
 
 import java.util.List;
 
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.h2.vertx.RouteModel;
 
 /**
  * 

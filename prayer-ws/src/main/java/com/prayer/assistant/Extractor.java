@@ -1,7 +1,7 @@
 package com.prayer.assistant;
 
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.model.web.Responsor;
