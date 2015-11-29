@@ -60,6 +60,7 @@ public abstract class AbstractMDaoTestTool {
     public void testInsert() throws AbstractDatabaseException {
         final Record before = this.getRecord(this.identifier());
         final Record after = this.getRecordDao().insert(before);
+        System.out.println(before);
         System.out.println(after);
     }
     // ~ Private Methods =====================================
