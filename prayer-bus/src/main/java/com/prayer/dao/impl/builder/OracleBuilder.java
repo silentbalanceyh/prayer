@@ -78,6 +78,8 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 			final boolean ret = Constants.RC_SUCCESS == respCode;
 			if (ret) {
 				TB_COUNT_MAP.put(this.getTable(), Boolean.TRUE);
+				// for oracle case
+				this.createSeq();
 			}
 			return ret;
 		}
@@ -142,6 +144,8 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
             final boolean ret = Constants.RC_SUCCESS == respCode;
             if (ret && TB_COUNT_MAP.containsKey(this.getTable())) {
                 TB_COUNT_MAP.remove(this.getTable());
+                // for oracle case
+    			this.removeSeq();
             }
             return Constants.RC_SUCCESS == respCode;
         } else {
@@ -343,6 +347,41 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 			final FieldModel field = this.getSchema().getPrimaryKeys().get(Constants.ZERO);
 			addSqlLine(this.genColumnLine(field));
 			// this.getSqlLines().add(this.genColumnLine(field));
+		}
+	}
+	
+	/**
+	 * Remove related sequence
+	 */
+	private void removeSeq() {
+		String removeSeqSql;
+		final MetaPolicy policy = this.getSchema().getMeta().getPolicy();
+		if (MetaPolicy.INCREMENT == policy) {
+			removeSeqSql = MessageFormat.format(SEQ_REMOVE, this
+					.getSchema().getMeta().getSeqName());
+			final int respCode = this.getContext().execute(removeSeqSql, null);
+			final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
+					: ResponseCode.FAILURE.toString());
+			info(LOGGER, "[I] Location: removeSeq(), Result : " + respStr);
+		}
+	}
+	
+	/**
+	 * Create related sequence
+	 */
+	private void createSeq() {
+		String createSeqSql;
+		final MetaPolicy policy = this.getSchema().getMeta().getPolicy();
+		if (MetaPolicy.INCREMENT == policy) {
+			createSeqSql = MessageFormat.format(SEQ_CREATE, this
+					.getSchema().getMeta().getSeqName(),
+					// fill with fixed values(min, max) for the time being
+					"1", "999999999", this.getSchema().getMeta().getSeqInit(),
+					this.getSchema().getMeta().getSeqStep());
+			final int respCode = this.getContext().execute(createSeqSql, null);
+			final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
+					: ResponseCode.FAILURE.toString());
+			info(LOGGER, "[I] Location: createSeq(), Result : " + respStr);
 		}
 	}
 	
