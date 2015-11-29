@@ -3,6 +3,7 @@ package com.prayer.dao.impl.schema;
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.Instance.field;
+import static com.prayer.util.Instance.reservoir;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,13 +15,17 @@ import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.dao.impl.jdbc.H2ConnImpl;
 import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.database.MapperClassNullException;
+import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.dao.schema.TemplateDao;
 import com.prayer.facade.mapper.H2TMapper;
 import com.prayer.facade.mapper.SessionManager;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.MemoryPool;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
@@ -204,6 +209,16 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
         // 3.事务提交完成
         submit(transaction, EXP_CLASS);
         return true;
+    }
+    /** 获取连接信息 **/
+    @NotNull
+    @InstanceOf(JdbcContext.class)
+    public JdbcContext getContext(@NotNull @NotEmpty @NotBlank final String identifier){
+        JdbcContext context = MemoryPool.POOL_JDBC.get(identifier);
+        if (null == context) {
+            context = reservoir(MemoryPool.POOL_JDBC, identifier, H2ConnImpl.class);
+        }
+        return context;
     }
 
     // ~ Methods =============================================

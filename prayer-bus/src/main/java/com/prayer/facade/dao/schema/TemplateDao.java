@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.prayer.exception.AbstractTransactionException;
+import com.prayer.facade.dao.jdbc.JdbcContext;
 
 /**
  * 
@@ -63,4 +64,10 @@ public interface TemplateDao<T, ID extends Serializable> {    // NOPMD
      * @return
      */
     boolean clear() throws AbstractTransactionException;
+    /**
+     * 从底层获取H2的连接信息
+     * @param identifier
+     * @return
+     */
+    JdbcContext getContext(String identifier);
 }

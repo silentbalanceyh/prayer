@@ -11,19 +11,18 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class JdbcConnImpl extends AbstractConn {
+public class H2ConnImpl extends AbstractConn{
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcConnImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(H2ConnImpl.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public JdbcConnImpl() {
-        super(null);
+    public H2ConnImpl(){
+        super("H2");
     }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
@@ -31,8 +30,9 @@ public class JdbcConnImpl extends AbstractConn {
     public Logger getLogger(){
         return LOGGER;
     }
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
+
 }

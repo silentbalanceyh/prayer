@@ -70,25 +70,6 @@ final class ScriptMDaoImpl extends AbstractMDaoImpl<ScriptModel, String> {
     }
 
     @Override
-    public Record selectById(Record record, Value<?> uniqueId) throws AbstractDatabaseException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Record selectById(Record record, ConcurrentMap<String, Value<?>> uniqueIds)
-            throws AbstractDatabaseException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public boolean delete(Record record) throws AbstractDatabaseException {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
     public List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters)
             throws AbstractDatabaseException {
         // TODO Auto-generated method stub
@@ -105,12 +86,6 @@ final class ScriptMDaoImpl extends AbstractMDaoImpl<ScriptModel, String> {
     @Override
     public ConcurrentMap<Long, List<Record>> queryByPage(Record record, String[] columns, List<Value<?>> params,
             Expression filters, OrderBy orders, Pager pager) throws AbstractDatabaseException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Record update(Record record) throws AbstractDatabaseException {
         // TODO Auto-generated method stub
         return null;
     }

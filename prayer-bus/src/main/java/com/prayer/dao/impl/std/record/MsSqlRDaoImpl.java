@@ -10,8 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.exception.database.ExecuteFailureException;
-import com.prayer.exception.database.MoreThanOneException;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
@@ -23,6 +21,9 @@ import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SqlSegment;
 import com.prayer.util.cv.Symbol;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
+import com.prayer.util.dao.Interrupter.Policy;
+import com.prayer.util.dao.Interrupter.PrimaryKey;
+import com.prayer.util.dao.Interrupter.Response;
 
 import jodd.util.StringUtil;
 
@@ -59,7 +60,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
         // 1.调用父类方法
         final boolean ret = super.sharedInsert(record);
         // 2.后期执行检查
-        interrupt(ret);
+        Response.interrupt(getClass(), ret);
         // 3.返回修改过的record
         return record;
     }
@@ -68,11 +69,11 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
     @Override
     public Record update(final Record record) throws AbstractDatabaseException {
         // 1.主键值验证
-        this.interrupt(record);
+        PrimaryKey.interrupt(getClass(), record);
         // 2.调用父类函数
         final boolean ret = super.sharedUpdate(record);
         // 3.后期执行检查
-        interrupt(ret);
+        Response.interrupt(getClass(), ret);
         // 4.返回最终修改过的record
         return record;
     }
@@ -82,25 +83,29 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
      */
     @Override
     public Record selectById(final Record record, final Value<?> uniqueId) throws AbstractDatabaseException {
-        // 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy
-        this.interrupt(record.policy(), false);
+        // ERR.主键值验证
+        PrimaryKey.interrupt(getClass(), record);
+        // ERR.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy
+        Policy.interrupt(getClass(), record.policy(), false);
         // 1.填充主键参数
         final FieldModel pkField = record.idschema().get(Constants.ZERO);
-        final ConcurrentMap<String, Value<?>> paramMap = new ConcurrentHashMap<>();
-        paramMap.put(pkField.getColumnName(), uniqueId);
+        final ConcurrentMap<String, Value<?>> uniqueIds = new ConcurrentHashMap<>();
+        uniqueIds.put(pkField.getColumnName(), uniqueId);
         // 2.调用内部函数
-        return this.select(record, paramMap);
+        final List<Record> records = this.sharedSelect(record, uniqueIds);
+        // 3.响应结果检查
+        return Response.interrupt(getClass(), records, record.table());
     }
 
     /** **/
     @Override
     public boolean delete(final Record record) throws AbstractDatabaseException {
         // 1.主键值验证
-        this.interrupt(record);
+        PrimaryKey.interrupt(getClass(), record);
         // 2.调用父类函数
         final boolean ret = super.sharedDelete(record, record.idKV());
         // 3.后期执行检查
-        interrupt(ret);
+        Response.interrupt(getClass(), ret);
         return ret;
     }
 
@@ -125,9 +130,11 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
     public Record selectById(final Record record, final ConcurrentMap<String, Value<?>> uniqueIds)
             throws AbstractDatabaseException {
         // 0.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy，这个地方必须过滤
-        this.interrupt(record.policy(), true);
+        Policy.interrupt(getClass(), record.policy(), true);
         // 1.调用内部函数
-        return this.select(record, uniqueIds);
+        final List<Record> records = this.sharedSelect(record, uniqueIds);
+        // 2.响应结果检查
+        return Response.interrupt(getClass(), records, record.table());
     }
 
     /** **/
@@ -223,23 +230,6 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
         retSql.append(
                 StringUtil.join(lastWhere.toArray(Constants.T_STR_ARR), Symbol.SPACE + SqlSegment.AND + Symbol.SPACE));
         return retSql.toString();
-    }
-
-    private Record select(final Record record, final ConcurrentMap<String, Value<?>> uniqueIds)
-            throws AbstractDatabaseException {
-        // 1.填充主键参数
-        final List<Record> records = this.sharedSelect(record, uniqueIds);
-        if (Constants.ONE < records.size()) {
-            throw new MoreThanOneException(getClass(), record.table());
-        }
-        // 2.根据查询结果返回
-        return Constants.ZERO == records.size() ? null : records.get(Constants.ZERO);
-    }
-
-    private void interrupt(final boolean retFlag) throws AbstractDatabaseException {
-        if (!retFlag) {
-            throw new ExecuteFailureException(getClass());
-        }
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

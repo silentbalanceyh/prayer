@@ -1,7 +1,6 @@
 package com.prayer.dao.impl.std.record; // NOPMD
 
 import static com.prayer.util.Calculator.diff;
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.Instance.reservoir;
 
@@ -13,14 +12,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.exception.database.InvalidPKParameterException;
-import com.prayer.exception.database.PKValueMissingException;
-import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.kernel.Expression;
@@ -32,10 +25,10 @@ import com.prayer.model.kernel.GenericRecord;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.MemoryPool;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
+import com.prayer.util.dao.Interrupter.PrimaryKey;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
-import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -49,10 +42,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
     // ~ Static Fields =======================================
-
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRDaoImpl.class);
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -88,9 +77,8 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
      */
     protected boolean sharedUpdate(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
             throws AbstractDatabaseException {
-        // 1.获取主键条件语句
-        // final ConcurrentMap<String, Value<?>> params =
-        // SqlHelper.prepPKWhere(record);
+        // ERR：检查主键定义
+        PrimaryKey.interrupt(getClass(), record.identifier(), record.idschema().size());
         // 2.获取参数列表
         final List<Value<?>> paramValues = new ArrayList<>();
         final Set<String> pkCols = new TreeSet<>(record.idKV().keySet());
@@ -124,10 +112,12 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
      */
     protected boolean sharedInsert(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
             throws AbstractDatabaseException {
+        // ERR：检查主键定义
+        PrimaryKey.interrupt(getClass(), record.identifier(), record.idschema().size());
         // 获取主键Policy策略以及Jdbc访问器
         final MetaPolicy policy = record.policy();
         final JdbcContext jdbc = this.getContext(record.identifier());
-        if (MetaPolicy.INCREMENT == policy && Constants.ZERO < record.idschema().size()) {
+        if (MetaPolicy.INCREMENT == policy) {
             /**
              * 如果主键是自增长的，在插入数据的时候不需要传参，并且插入成功过后需要获取返回值
              */
@@ -141,7 +131,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
             // <== 填充返回主键
             record.set(pkSchema.getName(), ret);
         } else {
-            if (MetaPolicy.GUID == policy && Constants.ZERO < record.idschema().size()) {
+            if (MetaPolicy.GUID == policy) {
                 // 如果主键是GUID的策略，则需要预处理主键的赋值
                 final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
                 record.set(pkSchema.getName(), uuid());
@@ -168,7 +158,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
             @NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
         // 1.生成Expression所需要的主键Where子句列，验证查询条件是否主键列
         final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
-        interrupt(record, paramCols);
+        PrimaryKey.interrupt(getClass(), record, paramCols);
         // 2.生成参数表
         final List<Value<?>> paramValues = new ArrayList<>();
         for (final String column : paramCols) {
@@ -258,56 +248,8 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
     }
 
     // ~ Assistant Methods ===================================
-    /**
-     * 主键带值验证
-     * 
-     * @param record
-     * @throws AbstractDatabaseException
-     */
-    protected void interrupt(@NotNull @InstanceOf(Record.class) final Record record) throws AbstractDatabaseException {
-        for (final FieldModel field : record.idschema()) {
-            final Value<?> value = record.get(field.getName());
-            if (null == value) {
-                throw new PKValueMissingException(getClass(), field.getColumnName(), record.table());
-            }
-        }
-    }
-
     // ~ Exception Throws ====================================
     // ~ Private Methods =====================================
-    /**
-     * 验证pkeys中的列是否主键
-     * 
-     * @param record
-     * @param pkeys
-     * @throws AbstractDatabaseException
-     */
-    private void interrupt(@NotNull @InstanceOf(Record.class) final Record record,
-            @NotNull @MinSize(1) final Collection<String> pkeys) throws AbstractDatabaseException {
-        for (final FieldModel pkSchema : record.idschema()) {
-            if (!pkeys.contains(pkSchema.getColumnName())) {
-                throw new InvalidPKParameterException(getClass(), pkSchema.getColumnName(), record.table());
-            }
-        }
-    }
-
-    /**
-     * 
-     * @param policy
-     * @param isMulti
-     * @throws AbstractDatabaseException
-     */
-    protected void interrupt(@NotNull @InstanceOfAny(MetaPolicy.class) final MetaPolicy policy, final boolean isMulti)
-            throws AbstractDatabaseException {
-        if (isMulti && MetaPolicy.COLLECTION != policy) {
-            debug(LOGGER, "Multi = true, policy must be COLLECTION");
-            throw new PolicyConflictCallException(getClass(), policy.toString());
-        }
-        if (!isMulti && MetaPolicy.COLLECTION == policy) {
-            debug(LOGGER, "Multi = false, policy must not be COLLECTION");
-            throw new PolicyConflictCallException(getClass(), policy.toString());
-        }
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 }
