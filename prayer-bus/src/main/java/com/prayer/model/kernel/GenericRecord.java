@@ -254,7 +254,7 @@ public class GenericRecord implements Record { // NOPMD
     @Override
     public String toString() {
         final StringBuilder retStr = new StringBuilder(100);
-        retStr.append("======================> : Record Data ");
+        retStr.append("======================> : Data (Record)");
         for (final String col : this.columns()) {
             try {
                 final String value = null == this.column(col) ? "" : this.column(col).toString();

@@ -24,6 +24,7 @@ import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.StringType;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.Symbol;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
@@ -262,5 +263,19 @@ public class MetaRecord implements Record {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
+    /** 调试用方法 **/
+    @Override
+    public String toString() {
+        final StringBuilder retStr = new StringBuilder(100);
+        retStr.append("======================> : Data (Meta) ");
+        for (final String col : this.columns()) {
+            try {
+                final String value = null == this.column(col) ? "" : this.column(col).toString();
+                retStr.append(col).append(" : ").append(value).append(Symbol.COMMA);
+            } catch (AbstractDatabaseException ex) {
+                info(LOGGER, ex.getErrorMessage());
+            }
+        }
+        return retStr.toString();
+    }
 }

@@ -5,8 +5,11 @@ import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.Instance.singleton;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
@@ -14,6 +17,7 @@ import org.slf4j.Logger;
 import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.AbstractTransactionException;
 import com.prayer.facade.dao.RecordDao;
+import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.dao.schema.TemplateDao;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.JsonEntity;
@@ -26,11 +30,15 @@ import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.kernel.MetaRecord;
 import com.prayer.util.bus.RecordSerializer;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.SqlSegment;
+import com.prayer.util.cv.Symbol;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
 import com.prayer.util.dao.Interrupter.Api;
 import com.prayer.util.dao.Interrupter.Policy;
 import com.prayer.util.dao.Interrupter.PrimaryKey;
 import com.prayer.util.dao.Interrupter.Response;
+import com.prayer.util.dao.SqlDmlStatement;
+import com.prayer.util.dao.SqlHelper;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;
@@ -170,28 +178,61 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
         return null;
     }
 
+    /**
+     * 
+     */
     @Override
-    public List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters)
-            throws AbstractDatabaseException {
-        // TODO Auto-generated method stub
-        return null;
+    @NotNull
+    public List<Record> queryByFilter(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
+            @NotNull final String[] columns, final List<Value<?>> params, final Expression filters)
+                    throws AbstractDatabaseException {
+        return this.queryByFilter(record, columns, params, filters, null);
+    }
+    /** **/
+    @Override
+    @NotNull
+    public List<Record> queryByFilter(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
+            @NotNull final String[] columns, final List<Value<?>> params,
+            @InstanceOf(Expression.class) final Expression filters,
+            @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders) throws AbstractDatabaseException {
+        // 1.获取JDBC访问器
+        final JdbcContext jdbc = this.getDao().getContext(record.identifier());
+        // 2.生成SQL语句
+        final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters, orders);
+        // 3.根据参数表生成查询结果集
+        final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
+        return SqlHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), cols));
     }
 
+    /** **/
     @Override
-    public List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters,
-            OrderBy orders) throws AbstractDatabaseException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ConcurrentMap<Long, List<Record>> queryByPage(Record record, String[] columns, List<Value<?>> params,
-            Expression filters, OrderBy orders, Pager pager) throws AbstractDatabaseException {
-        // TODO Auto-generated method stub
-        return null;
+    @NotNull
+    public ConcurrentMap<Long, List<Record>> queryByPage(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
+            @NotNull final String[] columns, final List<Value<?>> params,
+            final @InstanceOf(Expression.class) Expression filters,
+            @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders,
+            @NotNull @InstanceOfAny(Pager.class) final Pager pager) throws AbstractDatabaseException {
+        // 1.获取JDBC访问器
+        final JdbcContext jdbc = this.getDao().getContext(record.identifier());
+        // 2.生成SQL Count语句
+        final String countSql = SqlDmlStatement.prepCountSQL(record.table(), filters);
+        // 3.返回Sql Count
+        final Long count = jdbc.count(countSql);
+        // 4.生成Page语句
+        final String pageSql = this.prepSelectPageSQL(record, columns, params, filters, orders, pager);
+        // 5.列信息
+        final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
+        // 6.结果
+        final List<Record> list = SqlHelper.extractData(record,
+                jdbc.select(pageSql, params, record.columnTypes(), cols));
+        // 7 封装结果集
+        final ConcurrentMap<Long, List<Record>> retMap = new ConcurrentHashMap<>();
+        retMap.put(count, list);
+        return retMap;
     }
 
     // ~ Methods =============================================
+
     /** **/
     @NotNull
     protected RecordSerializer serializer() {
@@ -227,7 +268,31 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
             final Expression filters, final OrderBy orders, final Pager pager) throws AbstractDatabaseException {
         // 1.构Page的SQL语句
         final StringBuilder retSql = new StringBuilder();
-        
+        // 2.Select部分
+        retSql.append("SELECT").append(Symbol.SPACE);
+        if (Constants.ZERO < columns.length) {
+            for (int idx = 0; idx < columns.length; idx++) {
+                retSql.append(columns[idx]);
+                if (idx < (columns.length - 1)) {
+                    retSql.append(Symbol.COMMA);
+                }
+            }
+        } else {
+            retSql.append("*");
+        }
+        retSql.append(Symbol.SPACE).append("FROM").append(Symbol.SPACE).append(record.table());
+        // 3.Where子句
+        if (null != filters) {
+            retSql.append(Symbol.SPACE).append(MessageFormat.format(SqlSegment.TB_WHERE, filters.toSql()))
+                    .append(Symbol.SPACE);
+        }
+        // 4.Order By
+        retSql.append(Symbol.SPACE).append(SqlSegment.ORDER_BY).append(Symbol.SPACE).append(orders.toSql())
+                .append(Symbol.SPACE);
+        // 5.Limit & Offset
+        final Integer start = (pager.getPageIndex() - 1) * pager.getPageSize();
+        retSql.append("LIMIT").append(Symbol.SPACE).append(pager.getPageSize()).append(Symbol.SPACE).append("OFFSET")
+                .append(Symbol.SPACE).append(start);
         return retSql.toString();
     }
     // ~ Get/Set =============================================

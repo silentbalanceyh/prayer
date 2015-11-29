@@ -19,7 +19,6 @@ import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.kernel.GenericRecord;
 import com.prayer.model.query.Restrictions;
 
 import net.sf.oval.constraint.InstanceOf;
@@ -80,7 +79,7 @@ public final class SqlHelper {
         final List<Record> retList = new ArrayList<>();
         for (final ConcurrentMap<String, Value<?>> item : resultData) {
             // 从Map中抽取字段
-            final Record ret = instance(GenericRecord.class.getName(), identifier);
+            final Record ret = instance(record.getClass().getName(), identifier);
             for (final String column : item.keySet()) {
                 try {
                     final String field = record.toField(column);
