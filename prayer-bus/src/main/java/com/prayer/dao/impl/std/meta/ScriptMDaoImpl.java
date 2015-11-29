@@ -2,21 +2,12 @@ package com.prayer.dao.impl.std.meta;
 
 import static com.prayer.util.Instance.singleton;
 
-import java.util.List;
-import java.util.concurrent.ConcurrentMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.dao.impl.schema.ScriptDaoImpl;
-import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.facade.dao.schema.ScriptDao;
 import com.prayer.facade.dao.schema.TemplateDao;
-import com.prayer.facade.kernel.Expression;
-import com.prayer.facade.kernel.Record;
-import com.prayer.facade.kernel.Value;
-import com.prayer.model.bus.OrderBy;
-import com.prayer.model.bus.Pager;
 import com.prayer.model.h2.vertx.ScriptModel;
 
 import net.sf.oval.constraint.InstanceOf;
@@ -67,27 +58,6 @@ final class ScriptMDaoImpl extends AbstractMDaoImpl<ScriptModel, String> {
     @Override
     public ScriptModel newT(){
         return new ScriptModel();
-    }
-
-    @Override
-    public List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters)
-            throws AbstractDatabaseException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters,
-            OrderBy orders) throws AbstractDatabaseException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ConcurrentMap<Long, List<Record>> queryByPage(Record record, String[] columns, List<Value<?>> params,
-            Expression filters, OrderBy orders, Pager pager) throws AbstractDatabaseException {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     // ~ Methods =============================================

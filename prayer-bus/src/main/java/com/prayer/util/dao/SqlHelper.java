@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.std.record;
+package com.prayer.util.dao;
 
 import static com.prayer.util.Calculator.diff;
 import static com.prayer.util.Error.debug;
@@ -32,7 +32,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class SqlHelper {
+public final class SqlHelper {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlHelper.class);

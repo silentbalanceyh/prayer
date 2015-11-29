@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.std.record;
+package com.prayer.util.dao;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class SqlDmlStatement implements SqlSegment, Symbol {
+public final class SqlDmlStatement implements SqlSegment, Symbol {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

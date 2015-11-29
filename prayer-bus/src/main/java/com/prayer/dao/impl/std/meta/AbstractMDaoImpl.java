@@ -15,9 +15,12 @@ import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.AbstractTransactionException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.dao.schema.TemplateDao;
+import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.JsonEntity;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
+import com.prayer.model.bus.OrderBy;
+import com.prayer.model.bus.Pager;
 import com.prayer.model.h2.AbstractMetadata;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.kernel.MetaRecord;
@@ -167,6 +170,27 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
         return null;
     }
 
+    @Override
+    public List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters)
+            throws AbstractDatabaseException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Record> queryByFilter(Record record, String[] columns, List<Value<?>> params, Expression filters,
+            OrderBy orders) throws AbstractDatabaseException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ConcurrentMap<Long, List<Record>> queryByPage(Record record, String[] columns, List<Value<?>> params,
+            Expression filters, OrderBy orders, Pager pager) throws AbstractDatabaseException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     // ~ Methods =============================================
     /** **/
     @NotNull
@@ -198,6 +222,14 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
         return ret;
     }
     // ~ Private Methods =====================================
+
+    private String prepSelectPageSQL(final Record record, final String[] columns, final List<Value<?>> params,
+            final Expression filters, final OrderBy orders, final Pager pager) throws AbstractDatabaseException {
+        // 1.构Page的SQL语句
+        final StringBuilder retSql = new StringBuilder();
+        
+        return retSql.toString();
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 
