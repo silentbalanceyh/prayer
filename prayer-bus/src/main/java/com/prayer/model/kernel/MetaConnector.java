@@ -30,7 +30,6 @@ import com.prayer.util.cv.MemoryPool;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
 
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -138,7 +137,8 @@ public class MetaConnector {
     @NotNull
     @MinSize(1)
     public List<FieldModel> idschema() {
-        final List<String> ids = fromStr(LOADER.getString(this.identifier() + ".ids"), ",");
+        final List<String> ids = Arrays.asList(LOADER.getArray(this.identifier() + ".ids"));
+        // final List<String> ids = fromStr(LOADER.getString(this.identifier() + ".ids"), ",");
         final List<FieldModel> ret = new ArrayList<>();
         for (final String id : ids) {
             ret.add(this.getPrimaryKey(id));
@@ -217,7 +217,7 @@ public class MetaConnector {
     private void initDefinitions() throws AbstractSystemException {
         // 1.Field Definitions
         if (null != this.nameList && this.nameList.isEmpty()) {
-            this.nameList.addAll(fromStr(LOADER.getString(this.identifier() + ".field.names"), ","));
+            this.nameList.addAll(Arrays.asList(LOADER.getArray(this.identifier() + ".field.names")));
             if (this.nameList.isEmpty()) {
                 throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
                         this.identifier() + ".field.names");
@@ -225,7 +225,7 @@ public class MetaConnector {
         }
         // 2.Type Definitions
         if (null != this.typeList && this.typeList.isEmpty()) {
-            final List<String> typeLiteral = fromStr(LOADER.getString(this.identifier() + ".field.types"), ",");
+            final List<String> typeLiteral = Arrays.asList(LOADER.getArray(this.identifier() + ".field.types"));
             if (typeLiteral.isEmpty()) {
                 throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
                         this.identifier() + ".field.types");
@@ -244,7 +244,9 @@ public class MetaConnector {
         }
         // 3.Column Definitions
         if (null != this.columnList && this.columnList.isEmpty()) {
-            this.columnList.addAll(fromStr(LOADER.getString(this.identifier() + ".column.names"), ","));
+            this.columnList.addAll(Arrays.asList(LOADER.getArray(this.identifier() + ".column.names")));
+            // this.columnList.addAll(fromStr(LOADER.getString(this.identifier()
+            // + ".column.names"), ","));
             if (this.columnList.isEmpty()) {
                 throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
                         this.identifier() + ".column.names");
@@ -252,7 +254,7 @@ public class MetaConnector {
         }
         // 4.Column Type Definitions
         if (null != this.colTypeList && this.colTypeList.isEmpty()) {
-            final List<String> typeLiteral = fromStr(LOADER.getString(this.identifier() + ".column.types"), ",");
+            final List<String> typeLiteral = Arrays.asList(LOADER.getArray(this.identifier() + ".column.types"));
             if (typeLiteral.isEmpty()) {
                 throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
                         this.identifier() + ".column.types");
@@ -285,20 +287,11 @@ public class MetaConnector {
     private void initIdentifier(final String identifier) throws SchemaNotFoundException {
         info(LOGGER, "[I] Checking virtual schema from Property files : identifier = " + identifier);
         if (null != ID_SET && ID_SET.isEmpty()) {
-            ID_SET.addAll(fromStr(LOADER.getString("h2.meta.ids"), ","));
+            ID_SET.addAll(Arrays.asList(LOADER.getArray("h2.meta.ids")));
         }
         if (!ID_SET.contains(identifier)) {
             throw new SchemaNotFoundException(getClass(), identifier);
         }
-    }
-
-    private List<String> fromStr(final String content, final String delimiter) {
-        final List<String> dataSet = new ArrayList<>();
-        if (null != content) {
-            final String[] dataArr = StringUtil.split(content, delimiter);
-            dataSet.addAll(Arrays.asList(dataArr));
-        }
-        return dataSet;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

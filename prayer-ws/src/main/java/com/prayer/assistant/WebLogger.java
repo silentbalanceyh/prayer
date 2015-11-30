@@ -44,8 +44,14 @@ public final class WebLogger {
     /** **/
     public static final String I_H2_DB_AFTER_SP = "H2 {0} stopped.";
     /** **/
+    public static final String I_H2_DB_CLS_INIT_S = "H2 Database Cluster initialized successfully! Name List : {0}";
+    /** **/
+    public static final String I_H2_DB_CLS_STD = "H2 Database Cluster has been started successfully with parameters: {0}";
+    /** **/
+    public static final String I_H2_DB_CLS_DIS = "H2 Database Cluster has been disabled!";
+    /** **/
     public static final String I_COMMON_INFO = "Information -> {0}";
-    
+
     /** **/
     public static final String E_VERTICLE_ERROR = "Async deploying verticles failure ! Result = {0}";
     /** **/
@@ -62,7 +68,7 @@ public final class WebLogger {
     public static final String E_UCA_CFG_ERROR = "UCA Config Error : {0}";
     /** **/
     public static final String E_H2_DB_ERROR = "Starting H2 Database met error. Error = {0}";
-    
+
     /** **/
     public static final String AUE_USERNAME = "Passed parameter 'authInfo' must contain username in 'username' field";
     /** **/
@@ -71,11 +77,13 @@ public final class WebLogger {
     public static final String AUE_USER_INVALID = "User does not exist in database, please provide valid user.";
     /** **/
     public static final String AUE_AUTH_FAILURE = "Authentication failure, the password does not match.";
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
      * Web Information
+     * 
      * @param logger
      * @param patternAndMsg
      * @param params
@@ -88,17 +96,19 @@ public final class WebLogger {
             com.prayer.util.Error.info(logger, MessageFormat.format("[I-WEB] " + patternAndMsg, params));
         }
     }
+
     /**
      * Web Error
+     * 
      * @param logger
      * @param patternAndMsg
      * @param params
      */
     public static void error(@NotNull final Logger logger, @NotNull @NotBlank @NotEmpty final String patternAndMsg,
-            final Object... params){
+            final Object... params) {
         if (params.length == 0) {
             logger.error("[E-WEB] " + patternAndMsg);
-        }else{
+        } else {
             logger.error(MessageFormat.format("[E-WEB] " + patternAndMsg, params));
         }
     }
