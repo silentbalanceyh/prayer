@@ -33,8 +33,8 @@ import net.sf.oval.guard.PreValidateThis;
 @Guarded
 public final class RecordConsumer implements Handler<Message<Object>> {
     // ~ Static Fields =======================================
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(RecordConsumer.class);
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecordConsumer.class);
     // ~ Instance Fields =====================================
 
     /** **/
@@ -55,11 +55,13 @@ public final class RecordConsumer implements Handler<Message<Object>> {
     @Override
     @PreValidateThis
     public void handle(@NotNull final Message<Object> event) {
-    	info(LOGGER,WebLogger.I_COMMON_INFO,"Consumer --> " + getClass().toString());
+        info(LOGGER, WebLogger.I_COMMON_INFO, "Consumer --> " + getClass().toString());
         // 1.从EventBus中接受数据
         final JsonObject params = (JsonObject) event.body();
         // 2.获取方法信息
         final HttpMethod method = fromStr(HttpMethod.class, params.getString(Constants.PARAM.METHOD));
+        // Fix：移除不需要的Method参数，底层不需要该参数
+        params.remove(Constants.PARAM.METHOD);
         // 3.根据方法访问不同的Record方法
         Responsor responsor = null;
         switch (method) {

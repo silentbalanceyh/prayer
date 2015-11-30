@@ -8,6 +8,9 @@
         "requiredParam":[
             "page",
             "orders"
+        ],
+        "returnFilters":[
+            "content"
         ]
     }
 ]
