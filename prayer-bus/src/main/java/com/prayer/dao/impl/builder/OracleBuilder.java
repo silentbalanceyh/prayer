@@ -20,7 +20,6 @@ import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
-import com.prayer.model.h2.schema.MetaModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;
