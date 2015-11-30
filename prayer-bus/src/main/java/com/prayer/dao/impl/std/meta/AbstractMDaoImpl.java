@@ -209,7 +209,7 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
     @NotNull
     public ConcurrentMap<Long, List<Record>> queryByPage(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params,
-            final @InstanceOf(Expression.class) Expression filters,
+            @InstanceOf(Expression.class) final Expression filters,
             @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders,
             @NotNull @InstanceOfAny(Pager.class) final Pager pager) throws AbstractDatabaseException {
         // 1.获取JDBC访问器

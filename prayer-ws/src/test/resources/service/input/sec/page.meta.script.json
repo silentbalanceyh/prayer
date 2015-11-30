@@ -1,0 +1,26 @@
+{
+	"identifier": "meta-script",
+	"filters": 
+	[
+		
+	],
+
+	"method": "POST",
+	"data": 
+	{
+		"orders": 
+		[
+			{
+				"name": "desc"
+			}
+		],
+
+		"page": 
+		{
+			"size": 20,
+			"index": 1
+		}
+	},
+
+	"script": "js.api.post.sec.page.meta.script"
+}

@@ -24,6 +24,7 @@ import net.sf.oval.guard.Guarded;
 
 /**
  * 为了统一和RecordDao中的接口以及反射构造，MetaDao使用延迟加载方式
+ * 
  * @author Lang
  *
  */
@@ -112,16 +113,17 @@ public class MetaDaoImpl implements RecordDao {
     @NotNull
     public ConcurrentMap<Long, List<Record>> queryByPage(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params,
-            @NotNull @InstanceOf(Expression.class) final Expression filters,
+            @InstanceOf(Expression.class) final Expression filters,
             @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders,
             @NotNull @InstanceOfAny(Pager.class) final Pager pager) throws AbstractDatabaseException {
         this.initLazyDao(record);
         return this.dao.queryByPage(record, columns, params, filters, orders, pager);
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private RecordDao initLazyDao(final Record record){
-        if(null == this.dao){
+    private RecordDao initLazyDao(final Record record) {
+        if (null == this.dao) {
             this.dao = singleton(LOADER.getString(record.identifier() + ".dao.impl"));
         }
         return this.dao;

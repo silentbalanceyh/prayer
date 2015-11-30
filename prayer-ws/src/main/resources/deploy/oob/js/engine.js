@@ -13,7 +13,7 @@ var $$E = (function(){
 /** 查询条件 * */
 var $$Q = (function(){
     // 私有变量，引用Java接口
-    var __restrict = Java.type("com.prayer.facade.kernel.query.Restrictions");
+    var __restrict = Java.type("com.prayer.model.query.Restrictions");
     _eq = function(){    // NOPMD
         var expr = null;
         if(arguments.length === 2){
