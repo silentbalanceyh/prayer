@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractMDaoTestTool;
+import com.prayer.dao.impl.schema.ScriptDaoImpl;
 
 
 /**
@@ -31,9 +32,15 @@ public class ScriptDaoTestCase extends AbstractMDaoTestTool{
     public String identifier(){
         return "meta-script";
     }
+    /** **/
+    @Override
+    protected Class<?> getTarget() {
+        return ScriptDaoImpl.class;
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+    
 
 }

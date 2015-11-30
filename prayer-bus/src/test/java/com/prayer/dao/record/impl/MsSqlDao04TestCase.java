@@ -19,10 +19,10 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.type.StringType;
+import com.prayer.util.RecordKit;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
-import jodd.util.StringUtil;
 import net.sf.oval.exception.ConstraintsViolatedException;
 
 /**
@@ -128,11 +128,8 @@ public class MsSqlDao04TestCase extends AbstractRDaoTestTool { // NOPMD
             // 调用select
             final Record selectR = this.getRecordDao().selectById(after, after.idKV());
             // 循环内equals检查
-            for (final String field : after.fields().keySet()) {
-                final boolean equals = StringUtil.equals(after.get(field).literal(), selectR.get(field).literal());
-                assertTrue(message(TST_TF, Boolean.TRUE), equals);
-                // assertEquals(message(TST_EQUAL),after.get(field).getValue(),selectR.get(field).getValue());
-            }
+            boolean ret = RecordKit.equal(after, selectR);
+            assertTrue(message(TST_TF, Boolean.TRUE), ret);
             // 检查完毕将新插入的数据删除掉
             this.getRecordDao().delete(selectR);
         }
@@ -152,11 +149,8 @@ public class MsSqlDao04TestCase extends AbstractRDaoTestTool { // NOPMD
                 if (null != uniqueId) { // NOPMD
                     final Record selectR = this.getRecordDao().selectById(after, uniqueId);
                     // 循环内equals检查
-                    for (final String field : after.fields().keySet()) {
-                        final boolean equals = StringUtil.equals(after.get(field).literal(),
-                                selectR.get(field).literal());
-                        assertTrue(message(TST_TF, Boolean.TRUE), equals);
-                    }
+                    boolean ret = RecordKit.equal(after, selectR);
+                    assertTrue(message(TST_TF, Boolean.TRUE), ret);
                     // 检查完毕
                     this.getRecordDao().delete(selectR);
                 }
@@ -184,11 +178,8 @@ public class MsSqlDao04TestCase extends AbstractRDaoTestTool { // NOPMD
             this.updateRecord(after);
             final Record updateR = this.getRecordDao().update(after);
             // 循环内equals检查
-            for (final String field : after.fields().keySet()) {
-                final boolean equals = StringUtil.equals(after.get(field).literal(), updateR.get(field).literal());
-                assertTrue(message(TST_TF, Boolean.TRUE), equals);
-                // assertEquals(message(TST_EQUAL),after.get(field).getValue(),selectR.get(field).getValue());
-            }
+            boolean ret = RecordKit.equal(after, updateR);
+            assertTrue(message(TST_TF, Boolean.TRUE), ret);
             // 检查完毕将新插入的数据删除掉
             this.getRecordDao().delete(updateR);
         }

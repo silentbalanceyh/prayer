@@ -13,7 +13,6 @@ import com.prayer.facade.bus.DeployService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.util.Encryptor;
 import com.prayer.util.cv.Resources;
 
 /**
@@ -53,7 +52,6 @@ public class DeployTestCase {
     public void testDeploy() throws Exception {
         final ServiceResult<Boolean> ret = this.service.deployPrayerData();
         assertTrue("[TD] Deploying failure ! ", ret.getResult());
-        System.out.println(Encryptor.encryptMD5("pl,okmijn123"));
         /*// 添加默认账号信息的测试用例
         final Record record = new GenericRecord("sec.account");
         record.set("username", "lang.yu");

@@ -114,7 +114,8 @@ public final class Output { // NOPMD
                     final ConcurrentMap<String, Value<?>> record = new ConcurrentHashMap<>();
                     for (final String column : columns) {
                         try {
-                            record.put(column, T.get().getValue(retSet, columnTypes.get(column), column));
+                            final Value<?> value = T.get().getValue(retSet, columnTypes.get(column), column);
+                            record.put(column, value);
                         } catch (AbstractDatabaseException ex) {
                             info(LOGGER, "[DB-OUT] Exception: " + ex.getErrorMessage(), ex);
                         }

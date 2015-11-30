@@ -198,7 +198,6 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
         // initSubOrder不执行更新
         // oobFile不执行更新
         // using不执行更新
-        info(LOGGER, "[I] Meta from database original = " + original);
         if (null == original || null == original.getMeta() || null == schema || null == schema.getMeta()) {
             info(LOGGER, "[I] The meta data object does not exist in H2 : Global Id = " + schema.getIdentifier());
         } else {
