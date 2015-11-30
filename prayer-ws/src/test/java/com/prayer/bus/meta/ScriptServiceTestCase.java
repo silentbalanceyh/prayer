@@ -39,7 +39,7 @@ public class ScriptServiceTestCase extends AbstractSevTestCase{
         final JsonObject params = this.getParameter("page.meta.script.json");
         final ServiceResult<JsonObject> result = this.getMService().page(params);
         if(!console(result)){
-            fail("[ERR] Api Call Error !");
+            fail("[ERR] Api Call Error ! /api/sec/page/meta/script ");
         }
     }
     // ~ Private Methods =====================================

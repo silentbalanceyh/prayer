@@ -1,43 +1,47 @@
-package com.prayer.bus.impl.std;
+package com.prayer.bus.sec;
 
+import static org.junit.Assert.fail;
+
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.impl.std.record.RecordDaoImpl;
-import com.prayer.facade.bus.RecordService;
-import com.prayer.model.kernel.GenericRecord;
+import com.prayer.bus.AbstractSevTestCase;
+import com.prayer.model.bus.ServiceResult;
 
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 
  * @author Lang
  *
  */
-@Guarded
-public class RecordSevImpl extends AbstractSevImpl implements RecordService {
+public class BasicAuthServiceTestCase extends AbstractSevTestCase{
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecordSevImpl.class);
+    /** 日志记录器 **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthServiceTestCase.class);
     // ~ Instance Fields =====================================
-
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    public RecordSevImpl() {
-        super(RecordDaoImpl.class, GenericRecord.class);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
-    @NotNull
-    public Logger getLogger() {
+    @Override
+    public Logger getLogger(){
         return LOGGER;
     }
     // ~ Methods =============================================
+    /** **/
+    @Test
+    public void testApiLogin(){
+        final JsonObject params = this.getParameter("login.json");
+        final ServiceResult<JsonArray> result = this.getRService().find(params);
+        if(!console(result)){
+            fail("[ERR] Api Call Error ! /api/sec/login");
+        }
+    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

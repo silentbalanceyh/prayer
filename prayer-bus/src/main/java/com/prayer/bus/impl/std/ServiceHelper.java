@@ -47,7 +47,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-final class ServiceHelper {
+public final class ServiceHelper {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceHelper.class);

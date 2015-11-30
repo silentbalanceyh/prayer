@@ -1,7 +1,7 @@
 package com.prayer.dao.impl.jdbc;
 
 import static com.prayer.util.Error.debug;
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.cv.Accessors.pool;
 
 import java.io.ByteArrayInputStream;
@@ -21,6 +21,7 @@ import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.MemoryPool;
 import com.prayer.util.db.Input;
 import com.prayer.util.db.Output;
 
@@ -54,9 +55,10 @@ public abstract class AbstractConn implements JdbcContext {
     public AbstractConn(@NotEmpty @NotBlank final String category) {
         synchronized (getClass()) {
             if (null == category) {
-                this.dbPool = singleton(pool());
+                // Fix数据源切换的问题
+                this.dbPool = reservoir(MemoryPool.POOL_CONPOOL, "DEFAULT", pool());
             } else {
-                this.dbPool = singleton(pool(), category);
+                this.dbPool = reservoir(MemoryPool.POOL_CONPOOL, category, pool(), category);
             }
         }
     }

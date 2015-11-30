@@ -1,0 +1,14 @@
+{
+	"method": "GET",
+	"filters": 
+	[
+		
+	],
+
+	"identifier": "sec.account",
+	"script": "js.api.get.sec.login",
+	"data": 
+	{
+		"username": "lang.yu"
+	}
+}

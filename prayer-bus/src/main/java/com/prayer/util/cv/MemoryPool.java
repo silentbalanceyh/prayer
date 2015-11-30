@@ -6,6 +6,8 @@ import java.util.concurrent.ConcurrentMap;
 
 import javax.sql.DataSource;
 
+import com.prayer.bus.impl.std.ServiceHelper;
+import com.prayer.dao.impl.jdbc.AbstractDbPool;
 import com.prayer.facade.dao.builder.Builder;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.schema.Importer;
@@ -23,6 +25,8 @@ public interface MemoryPool {    // NOPMD
     ConcurrentMap<String, Builder> POOL_BUILDER = new ConcurrentHashMap<>();
     /** Schema Importer Pool **/
     ConcurrentMap<String, Importer> POOL_IMPORTER = new ConcurrentHashMap<>();
+    /** 连接池，用于传统数据库和H2之间的切换 **/
+    ConcurrentMap<String, AbstractDbPool> POOL_CONPOOL = new ConcurrentHashMap<>();
     /** JDBC的Context的延迟池化技术 **/
     ConcurrentMap<String, JdbcContext> POOL_JDBC = new ConcurrentHashMap<>();
     /** 数据源的Pool **/
@@ -35,6 +39,8 @@ public interface MemoryPool {    // NOPMD
     ConcurrentMap<String, Properties> POOL_PROP = new ConcurrentHashMap<>();
     /** Metadata Connector 全局单例模式 **/
     ConcurrentMap<String, MetaConnector> POOL_CONNECTOR = new ConcurrentHashMap<>();
+    /** Service Helper 全局单例模式 **/
+    ConcurrentMap<String, ServiceHelper> POOL_SEV_HELPER = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

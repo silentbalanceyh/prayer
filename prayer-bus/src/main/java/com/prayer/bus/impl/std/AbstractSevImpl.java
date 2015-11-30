@@ -1,5 +1,6 @@
 package com.prayer.bus.impl.std;
 
+import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.bus.BusinessLogger.error;
 import static com.prayer.util.bus.BusinessLogger.info;
@@ -14,6 +15,7 @@ import com.prayer.facade.dao.RecordDao;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.bus.BusinessLogger;
 import com.prayer.util.bus.Interruptor;
+import com.prayer.util.cv.MemoryPool;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -41,7 +43,8 @@ public abstract class AbstractSevImpl {
     @PostValidateThis
     public AbstractSevImpl(@NotNull final Class<?> daoCls, @NotNull final Class<?> entityCls) {
         this.recordDao = singleton(daoCls);
-        this.helper = singleton(ServiceHelper.class, this.recordDao, entityCls);
+        this.helper = reservoir(MemoryPool.POOL_SEV_HELPER, this.recordDao.getClass().getName(), ServiceHelper.class,
+                this.recordDao, entityCls);
     }
 
     // ~ Abstract Methods ====================================
@@ -55,9 +58,10 @@ public abstract class AbstractSevImpl {
     protected RecordDao getDao() {
         return this.recordDao;
     }
+
     /** **/
     @NotNull
-    protected ServiceHelper helper(){
+    protected ServiceHelper helper() {
         return this.helper;
     }
 
