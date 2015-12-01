@@ -15,6 +15,7 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.dao.impl.jdbc.H2ConnImpl;
 import com.prayer.util.PropertyKit;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.Symbol;
@@ -96,17 +97,15 @@ public class ServerConfigurator { // NOPMD
     public String[] getClusterParams() throws SQLException {
         final List<String> params = new ArrayList<>();
         // 1.获取数据库名
-        final String database = this.LOADER.getString("h2.database.cluster.database");
+        final String database = H2ConnImpl.getH2DatabaseName();
         // 2.获取数据库用户名和密码
-        final String user = this.LOADER.getString("h2.database.cluster.user");
-        final String password = this.LOADER.getString("h2.database.cluster.password");
         final String host = this.LOADER.getString("h2.database.cluster.host");
         {
             // 3.构造基本参数-user,-password
             params.add("-user");
-            params.add(user);
+            params.add(H2ConnImpl.getH2User());
             params.add("-password");
-            params.add(password);
+            params.add(H2ConnImpl.getH2Password());
         }
         final ConcurrentMap<String, Server> servers = this.getH2CDatabases();
         {
@@ -119,7 +118,7 @@ public class ServerConfigurator { // NOPMD
             params.add("-urlSource");
             final StringBuilder url = new StringBuilder();
             url.append("jdbc:h2:tcp://").append(StringUtil.join(srcParams.toArray(new String[] {}), Symbol.COMMA))
-                    .append("/META/").append(database);
+                    .append("/META/").append(database).append(";PASSWORD_HASH=TRUE");
             params.add(url.toString());
         }
         {
@@ -132,7 +131,7 @@ public class ServerConfigurator { // NOPMD
             params.add("-urlTarget");
             final StringBuilder url = new StringBuilder();
             url.append("jdbc:h2:tcp://").append(StringUtil.join(dstParams.toArray(new String[] {}), Symbol.COMMA))
-                    .append("/META/").append(database);
+                    .append("/META/").append(database).append(";PASSWORD_HASH=TRUE");
             params.add(url.toString());
         }
         {
