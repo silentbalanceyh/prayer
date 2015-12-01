@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.dao.JdbcTransducer;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.BinaryType;

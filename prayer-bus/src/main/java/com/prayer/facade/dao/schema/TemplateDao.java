@@ -3,7 +3,7 @@ package com.prayer.facade.dao.schema;
 import java.io.Serializable;
 import java.util.List;
 
-import com.prayer.exception.AbstractTransactionException;
+import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 
 /**

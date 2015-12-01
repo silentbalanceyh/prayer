@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.net.HttpHeaders;
-import com.prayer.exception.AbstractWebException;
+import com.prayer.base.exception.AbstractWebException;
 import com.prayer.exception.web.BodyParamDecodingException;
 import com.prayer.exception.web.InternalServerErrorException;
 import com.prayer.exception.web.MethodNotAllowedException;

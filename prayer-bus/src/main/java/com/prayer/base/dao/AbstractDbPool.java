@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.jdbc;
+package com.prayer.base.dao;
 
 import javax.sql.DataSource;
 

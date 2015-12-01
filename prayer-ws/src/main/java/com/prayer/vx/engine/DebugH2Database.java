@@ -2,7 +2,7 @@ package com.prayer.vx.engine;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.exception.AbstractException;
+import com.prayer.base.exception.AbstractException;
 /**
  * 
  * @author Lang

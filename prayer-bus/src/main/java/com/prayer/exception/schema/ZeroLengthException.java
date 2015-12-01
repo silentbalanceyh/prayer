@@ -1,6 +1,6 @@
 package com.prayer.exception.schema;
 
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10006：Array类型Json节点长度为0异常 1.如果Array类型的Json节点中没有任何元素则抛出该异常

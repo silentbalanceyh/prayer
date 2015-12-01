@@ -2,7 +2,7 @@ package com.prayer.util.bus;
 
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.exception.AbstractException;
+import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.web.PrimaryKeyMissingException;
 import com.prayer.exception.web.ServiceParamInvalidException;
 import com.prayer.exception.web.ServiceParamMissingException;

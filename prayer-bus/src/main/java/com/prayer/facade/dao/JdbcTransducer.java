@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.util.cv.Accessors;

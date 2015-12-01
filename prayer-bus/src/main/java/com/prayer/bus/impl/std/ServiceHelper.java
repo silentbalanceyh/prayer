@@ -15,7 +15,7 @@ import javax.script.ScriptException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractException;
+import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.web.ServiceOrderByException;
 import com.prayer.exception.web.ServiceReturnSizeException;
 import com.prayer.facade.dao.RecordDao;

@@ -1,6 +1,6 @@
 package com.prayer.exception.system;
 
-import com.prayer.exception.AbstractSystemException;
+import com.prayer.base.exception.AbstractSystemException;
 
 /**
  * 【Checked】Error-20007：Schema从H2数据库中移除过程出错

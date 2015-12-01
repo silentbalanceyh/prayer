@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.bus.impl.std.SchemaSevImpl;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
-import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Record;

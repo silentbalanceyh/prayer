@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Interruptor;
-import com.prayer.exception.AbstractWebException;
+import com.prayer.base.exception.AbstractWebException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.StringType;
 import com.prayer.uca.WebConvertor;

@@ -2,7 +2,8 @@ package com.prayer.plugin.aspectj;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.base.plugin.AbstractValidatorAspect;
 import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Validator;

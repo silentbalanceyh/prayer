@@ -1,4 +1,4 @@
-package com.prayer.exception;
+package com.prayer.base.exception;
 
 /**
  * 

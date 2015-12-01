@@ -1,6 +1,6 @@
 package com.prayer.exception.database;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
 
 /**

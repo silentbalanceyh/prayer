@@ -3,7 +3,7 @@ package com.prayer.uca.validator;
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Interruptor;
 import com.prayer.assistant.Validator;
-import com.prayer.exception.AbstractWebException;
+import com.prayer.base.exception.AbstractWebException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.uca.WebValidator;
 

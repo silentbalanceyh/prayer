@@ -3,7 +3,7 @@ package com.prayer.facade.kernel;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
 /**
  * 

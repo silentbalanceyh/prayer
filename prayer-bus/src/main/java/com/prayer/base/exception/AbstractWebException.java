@@ -1,30 +1,37 @@
-package com.prayer.exception;
+package com.prayer.base.exception;
+
+import static com.prayer.util.Error.error;
 
 /**
  * 
  * @author Lang
  *
  */
-public abstract class AbstractTransactionException extends AbstractDatabaseException {
+public abstract class AbstractWebException extends AbstractException{
     // ~ Static Fields =======================================
 
     /**
      * 
      */
-    private static final long serialVersionUID = 4040980881677364462L;
-
+    private static final long serialVersionUID = 8417948701227330418L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** 特殊数据处理异常 **/
-    public AbstractTransactionException(final Class<?> clazz, final int errorCode, final String process) {
-        super(clazz, errorCode, process);
-    }
-
-    // ~ Abstract Methods ====================================
     /** **/
-    public abstract int getErrorCode();
+    public AbstractWebException(final String message){
+        super(message);
+    }
+    /**
+     * 
+     * @param clazz
+     * @param errorCode
+     * @param params
+     */
+    public AbstractWebException(final Class<?> clazz, final int errorCode, final Object... params){
+        this(error(clazz,errorCode,params));
+    }
+    // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================

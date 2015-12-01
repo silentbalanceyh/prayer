@@ -5,6 +5,7 @@ import static com.prayer.util.Instance.singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.base.dao.AbstractMDaoImpl;
 import com.prayer.dao.impl.schema.ScriptDaoImpl;
 import com.prayer.facade.dao.schema.ScriptDao;
 import com.prayer.facade.dao.schema.TemplateDao;

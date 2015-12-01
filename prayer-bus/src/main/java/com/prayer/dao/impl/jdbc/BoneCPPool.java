@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jolbox.bonecp.BoneCPDataSource;
+import com.prayer.base.dao.AbstractDbPool;
 import com.prayer.util.cv.MemoryPool;
 
 import net.sf.oval.constraint.InstanceOfAny;

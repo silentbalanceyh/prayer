@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 
 import org.slf4j.Logger;
 
-import com.prayer.exception.AbstractException;
+import com.prayer.base.exception.AbstractException;
 import com.prayer.util.cv.Resources;
 
 import net.sf.oval.constraint.InstanceOfAny;
@@ -69,7 +69,7 @@ public final class Error { // NOPMD
      * @param params
      */
     public static void debug(@NotNull final Logger logger, @NotNull final Class<?> clazz, final String errKey,
-            @InstanceOfAny(com.prayer.exception.AbstractException.class) final AbstractException exp,
+            @InstanceOfAny(AbstractException.class) final AbstractException exp,
             final Object... params) {
         final StringBuilder errMsg = new StringBuilder("[D] ==> ");
         if (logger.isDebugEnabled()) {

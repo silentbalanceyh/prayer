@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.base.dao.AbstractBuilder;
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
 import com.prayer.model.h2.schema.FieldModel;
@@ -25,6 +26,7 @@ import com.prayer.util.cv.SystemEnum.KeyCategory;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 import com.prayer.util.cv.SystemEnum.StatusFlag;
+import com.prayer.util.dao.SqlDdlStatement;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;

@@ -6,7 +6,7 @@ import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.PreValidateThis;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 
 /**
  * 

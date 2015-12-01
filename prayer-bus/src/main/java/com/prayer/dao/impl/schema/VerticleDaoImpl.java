@@ -7,7 +7,7 @@ import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractTransactionException;
+import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.facade.dao.schema.VerticleDao;
 import com.prayer.facade.mapper.SessionManager;
 import com.prayer.facade.mapper.VerticleMapper;

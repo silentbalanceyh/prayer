@@ -1,4 +1,4 @@
-package com.prayer.plugin.aspectj;
+package com.prayer.base.plugin;
 
 import static com.prayer.util.bus.BusinessLogger.info;
 

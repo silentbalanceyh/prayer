@@ -12,13 +12,13 @@ import org.slf4j.Logger;
 
 import com.prayer.AbstractTestCase;
 import com.prayer.Assistant;
+import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
-import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.dao.builder.Builder;

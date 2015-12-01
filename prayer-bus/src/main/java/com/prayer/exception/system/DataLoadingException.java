@@ -1,6 +1,6 @@
 package com.prayer.exception.system;
 
-import com.prayer.exception.AbstractTransactionException;
+import com.prayer.base.exception.AbstractTransactionException;
 
 /**
  * 【Checked】Error-20005：Loading Schema异常

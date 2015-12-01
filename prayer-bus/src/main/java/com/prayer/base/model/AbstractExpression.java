@@ -1,4 +1,4 @@
-package com.prayer.model.query;
+package com.prayer.base.model;
 
 import com.prayer.facade.kernel.Expression;
 
@@ -17,7 +17,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-abstract class AbstractExpression implements Expression {
+public abstract class AbstractExpression implements Expression {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /**
@@ -48,7 +48,7 @@ abstract class AbstractExpression implements Expression {
      * @param right
      */
     @PostValidateThis
-    AbstractExpression(@InstanceOf(Expression.class) final Expression left,
+    public AbstractExpression(@InstanceOf(Expression.class) final Expression left,
             @AssertFieldConstraints("data") final String data, @InstanceOf(Expression.class) final Expression right) {
         this.left = left;
         this.right = right;
@@ -61,7 +61,7 @@ abstract class AbstractExpression implements Expression {
      * @param data
      */
     @PostValidateThis
-    AbstractExpression(@AssertFieldConstraints("data") final String data) {
+    public AbstractExpression(@AssertFieldConstraints("data") final String data) {
         this(null, data, null);
     }
 

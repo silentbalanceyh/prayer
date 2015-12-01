@@ -5,7 +5,7 @@ import static com.prayer.util.Instance.singleton;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;

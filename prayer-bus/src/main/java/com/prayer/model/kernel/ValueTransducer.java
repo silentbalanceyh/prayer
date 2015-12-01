@@ -2,7 +2,7 @@ package com.prayer.model.kernel;
 
 import java.math.BigDecimal;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.kernel.Transducer;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.BinaryType;

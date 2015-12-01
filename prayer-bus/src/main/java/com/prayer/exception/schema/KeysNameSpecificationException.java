@@ -1,6 +1,6 @@
 package com.prayer.exception.schema;
 
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10019：字段__keys__中的定义每一个Key的name和category必须对应

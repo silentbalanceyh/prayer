@@ -1,4 +1,4 @@
-package com.prayer.model.h2;
+package com.prayer.base.model;
 
 import com.prayer.facade.kernel.JsonEntity;
 import com.prayer.util.cv.Resources;

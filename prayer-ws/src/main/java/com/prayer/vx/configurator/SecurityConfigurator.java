@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Interruptor;
 import com.prayer.assistant.WebLogger;
-import com.prayer.exception.AbstractWebException;
+import com.prayer.base.exception.AbstractWebException;
 import com.prayer.security.provider.AuthConstants;
 import com.prayer.util.PropertyKit;
 import com.prayer.util.cv.Resources;

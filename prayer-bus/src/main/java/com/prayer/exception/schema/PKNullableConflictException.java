@@ -1,6 +1,6 @@
 package com.prayer.exception.schema;
 
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10026：所有policy中的主键的nullable必须是false

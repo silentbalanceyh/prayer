@@ -5,7 +5,7 @@ import static com.prayer.util.Error.info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.exception.database.ProjectionInvalidException;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;

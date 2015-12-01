@@ -9,7 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractWebException;
+import com.prayer.base.exception.AbstractWebException;
 import com.prayer.exception.web.UCAConfigErrorException;
 import com.prayer.exception.web.UCAConfigMissingException;
 import com.prayer.exception.web.UCAInvalidException;

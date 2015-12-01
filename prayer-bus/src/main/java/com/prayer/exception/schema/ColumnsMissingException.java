@@ -1,6 +1,6 @@
 package com.prayer.exception.schema;
 
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10023：columns中属性在__fields__中丢失：1.

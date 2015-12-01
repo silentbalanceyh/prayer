@@ -3,7 +3,7 @@ package com.prayer.vx.engine;
 import static com.prayer.util.Instance.singleton;
 
 import com.hazelcast.config.Config;
-import com.prayer.exception.AbstractException;
+import com.prayer.base.exception.AbstractException;
 import com.prayer.handler.deploy.VertxClusterHandler;
 import com.prayer.vx.configurator.VertxConfigurator;
 

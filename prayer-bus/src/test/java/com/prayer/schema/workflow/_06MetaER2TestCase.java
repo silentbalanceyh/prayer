@@ -4,9 +4,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractSchemaException;
 import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
+import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.DuplicatedTablesException;
 
 /**

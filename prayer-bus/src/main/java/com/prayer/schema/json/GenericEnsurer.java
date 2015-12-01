@@ -6,7 +6,7 @@ import static com.prayer.util.JsonKit.occursAttr;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.facade.schema.ExternalEnsurer;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;

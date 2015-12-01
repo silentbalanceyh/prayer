@@ -1,4 +1,4 @@
-package com.prayer.exception;
+package com.prayer.base.exception;
 
 import static com.prayer.util.Error.error;
 

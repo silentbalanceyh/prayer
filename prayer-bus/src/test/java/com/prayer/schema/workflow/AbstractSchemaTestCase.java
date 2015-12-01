@@ -6,10 +6,10 @@ import static com.prayer.util.Instance.singleton;
 import org.slf4j.Logger;
 
 import com.prayer.AbstractTestCase;
+import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
-import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Importer;

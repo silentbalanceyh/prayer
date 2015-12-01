@@ -1,6 +1,6 @@
 package com.prayer.exception.web;
 
-import com.prayer.exception.AbstractWebException;
+import com.prayer.base.exception.AbstractWebException;
 
 /**
  * 

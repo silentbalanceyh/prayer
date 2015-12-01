@@ -1,5 +1,6 @@
 package com.prayer.model.query;
 
+import com.prayer.base.model.AbstractExpression;
 import com.prayer.facade.kernel.Expression;
 
 import net.sf.oval.constraint.NotBlank;

@@ -5,7 +5,8 @@ import static com.prayer.util.Instance.singleton;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.base.plugin.AbstractValidatorAspect;
 import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;

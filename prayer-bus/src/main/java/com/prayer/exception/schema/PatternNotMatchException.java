@@ -1,6 +1,6 @@
 package com.prayer.exception.schema;
 
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10003：存在属性的Pattern不匹配

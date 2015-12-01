@@ -15,6 +15,7 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.base.dao.AbstractDbPool;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.model.bus.Metadata;
 import com.prayer.util.cv.Constants;

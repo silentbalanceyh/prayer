@@ -1,4 +1,4 @@
-package com.prayer.deploy;
+package com.prayer.bus;
 
 import static com.prayer.util.Instance.singleton;
 import static org.junit.Assert.assertTrue;

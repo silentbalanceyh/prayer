@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.DuplicatedTablesException;
 import com.prayer.exception.schema.InvalidValueException;
 import com.prayer.exception.schema.JsonTypeConfusedException;

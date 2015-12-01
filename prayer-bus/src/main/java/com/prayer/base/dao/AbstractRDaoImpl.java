@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.std.record; // NOPMD
+package com.prayer.base.dao; // NOPMD
 
 import static com.prayer.util.Calculator.diff;
 import static com.prayer.util.Generator.uuid;
@@ -12,8 +12,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
-import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.kernel.Expression;

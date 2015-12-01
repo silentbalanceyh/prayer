@@ -1,6 +1,6 @@
 package com.prayer.exception.database;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 
 /**
  * 特殊属性验证的时候其类型必须匹配，不匹配的验证会抛出该异常

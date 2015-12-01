@@ -1,7 +1,7 @@
 package com.prayer.facade.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 
 /**
  * Schema的验证接口

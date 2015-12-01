@@ -7,7 +7,7 @@ import org.dom4j.DocumentHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.exception.database.ContentErrorException;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;

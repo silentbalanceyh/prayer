@@ -3,6 +3,8 @@ package com.prayer.dao.impl.jdbc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.base.dao.AbstractConn;
+
 import net.sf.oval.guard.Guarded;
 
 /**

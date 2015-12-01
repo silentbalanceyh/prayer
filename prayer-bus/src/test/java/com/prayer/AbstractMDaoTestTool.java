@@ -13,8 +13,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.dao.impl.std.meta.MetaDaoImpl;
-import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.exception.database.OperationNotSupportException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Record;

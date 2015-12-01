@@ -1,6 +1,6 @@
 package com.prayer.plugin.validator;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;

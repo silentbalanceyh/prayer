@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.builder;
+package com.prayer.base.dao;
 
 import static com.prayer.util.Calculator.diff;
 import static com.prayer.util.Calculator.intersect;
@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
-import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.facade.dao.builder.Builder;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.model.h2.schema.FieldModel;
@@ -22,6 +22,7 @@ import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.MemoryPool;
 import com.prayer.util.cv.SystemEnum.KeyCategory;
 import com.prayer.util.cv.SystemEnum.StatusFlag;
+import com.prayer.util.dao.SqlDdlStatement;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.InstanceOf;
@@ -39,7 +40,7 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
-abstract class AbstractBuilder implements Builder { // NOPMD
+public abstract class AbstractBuilder implements Builder { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 数据库连接 **/

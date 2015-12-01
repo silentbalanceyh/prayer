@@ -1,4 +1,4 @@
-package com.prayer.bus.impl.std;
+package com.prayer.base.bus;
 
 import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
@@ -9,7 +9,8 @@ import javax.script.ScriptException;
 
 import org.slf4j.Logger;
 
-import com.prayer.exception.AbstractException;
+import com.prayer.base.exception.AbstractException;
+import com.prayer.bus.impl.std.ServiceHelper;
 import com.prayer.exception.web.JSScriptEngineException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.model.bus.ServiceResult;

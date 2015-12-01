@@ -15,8 +15,9 @@ import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.base.dao.AbstractDaoImpl;
+import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.dao.impl.jdbc.H2ConnImpl;
-import com.prayer.exception.AbstractTransactionException;
 import com.prayer.exception.database.MapperClassNullException;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.dao.schema.TemplateDao;

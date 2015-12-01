@@ -2,7 +2,7 @@ package com.prayer.model.web;
 
 import java.io.Serializable;
 
-import com.prayer.exception.AbstractException;
+import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.web.InternalServerErrorException;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.ResponseCode;

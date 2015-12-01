@@ -5,7 +5,7 @@ import static com.prayer.util.bus.BusinessLogger.error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
 import com.prayer.model.type.DateType;

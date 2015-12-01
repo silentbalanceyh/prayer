@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractSystemException;
+import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.exception.system.MetaCounterException;
 import com.prayer.exception.system.MetaTypeWrongException;
 import com.prayer.exception.system.MetadataDefMissingException;

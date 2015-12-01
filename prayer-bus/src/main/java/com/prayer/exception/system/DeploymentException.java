@@ -1,6 +1,6 @@
 package com.prayer.exception.system;
 
-import com.prayer.exception.AbstractSystemException;
+import com.prayer.base.exception.AbstractSystemException;
 
 /**
  * 

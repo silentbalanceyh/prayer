@@ -6,8 +6,8 @@ import java.util.concurrent.ConcurrentMap;
 
 import javax.sql.DataSource;
 
+import com.prayer.base.dao.AbstractDbPool;
 import com.prayer.bus.impl.std.ServiceHelper;
-import com.prayer.dao.impl.jdbc.AbstractDbPool;
 import com.prayer.facade.dao.builder.Builder;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.schema.Importer;

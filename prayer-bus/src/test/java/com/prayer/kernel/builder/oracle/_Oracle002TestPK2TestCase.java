@@ -10,8 +10,8 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.dao.impl.builder.OracleBuilder;
-import com.prayer.exception.AbstractDatabaseException;
 import com.prayer.kernel.builder.AbstractBCPTestCase;
 
 /**

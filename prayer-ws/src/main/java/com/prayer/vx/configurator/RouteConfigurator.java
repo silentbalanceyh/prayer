@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Interruptor;
 import com.prayer.assistant.WebLogger;
+import com.prayer.base.exception.AbstractWebException;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
-import com.prayer.exception.AbstractWebException;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vertx.RouteModel;

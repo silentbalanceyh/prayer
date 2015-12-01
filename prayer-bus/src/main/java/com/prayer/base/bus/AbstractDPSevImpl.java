@@ -1,4 +1,4 @@
-package com.prayer.bus.impl.deploy;
+package com.prayer.base.bus;
 
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.singleton;
@@ -10,8 +10,8 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
-import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.AbstractTransactionException;
+import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.facade.bus.deploy.TemplateDPService;
 import com.prayer.facade.dao.schema.TemplateDao;
 import com.prayer.model.bus.ServiceResult;

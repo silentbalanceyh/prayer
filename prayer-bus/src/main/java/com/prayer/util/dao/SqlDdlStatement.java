@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.builder;
+package com.prayer.util.dao;
 
 import java.text.MessageFormat;
 import java.util.Properties;
@@ -30,7 +30,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class SqlDdlStatement implements SqlSegment, Symbol {
+public final class SqlDdlStatement implements SqlSegment, Symbol {
     // ~ Static Fields =======================================
     /** 数据库类型映射 **/
     public static final ConcurrentMap<String, String> DB_TYPES = new ConcurrentHashMap<>();

@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.ColumnsMissingException;
 import com.prayer.exception.schema.FKNotOnlyOneException;
 import com.prayer.exception.schema.KeysNameSpecificationException;

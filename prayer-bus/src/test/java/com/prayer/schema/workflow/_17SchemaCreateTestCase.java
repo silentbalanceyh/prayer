@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.AbstractTransactionException;
+import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;

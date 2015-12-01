@@ -1,36 +1,30 @@
-package com.prayer.exception;
-
-import static com.prayer.util.Error.error;
+package com.prayer.base.exception;
 
 /**
- * Builder处理元数据过程的抽象异常类，在生成数据库信息时候出现异常
+ * 
  * @author Lang
  *
  */
-public abstract class AbstractDatabaseException extends AbstractException{
+public abstract class AbstractTransactionException extends AbstractDatabaseException {
     // ~ Static Fields =======================================
+
     /**
      * 
      */
-    private static final long serialVersionUID = -3587573542243637734L;
+    private static final long serialVersionUID = 4040980881677364462L;
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    public AbstractDatabaseException(final String message){
-        super(message);
+    /** 特殊数据处理异常 **/
+    public AbstractTransactionException(final Class<?> clazz, final int errorCode, final String process) {
+        super(clazz, errorCode, process);
     }
-    /**
-     * 
-     * @param clazz
-     * @param errorCode
-     * @param params
-     */
-    public AbstractDatabaseException(final Class<?> clazz, final int errorCode, final Object... params) {
-        super(error(clazz, errorCode, params));
-    }
+
     // ~ Abstract Methods ====================================
+    /** **/
+    public abstract int getErrorCode();
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================

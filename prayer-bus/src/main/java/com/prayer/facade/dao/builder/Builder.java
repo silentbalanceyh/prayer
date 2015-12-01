@@ -1,6 +1,6 @@
 package com.prayer.facade.dao.builder;
 
-import com.prayer.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.cv.Symbol;
 

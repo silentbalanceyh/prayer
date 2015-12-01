@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.SystemEnum.MetaCategory;
 import com.prayer.util.cv.SystemEnum.MetaMapping;

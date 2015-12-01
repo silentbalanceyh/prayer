@@ -1,8 +1,8 @@
 package com.prayer.facade.schema;
 
-import com.prayer.exception.AbstractSchemaException;
-import com.prayer.exception.AbstractSystemException;
-import com.prayer.exception.AbstractTransactionException;
+import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.system.DataLoadingException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.model.kernel.GenericSchema;

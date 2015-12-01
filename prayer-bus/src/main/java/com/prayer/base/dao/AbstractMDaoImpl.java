@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.std.meta;
+package com.prayer.base.dao;
 
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Generator.uuid;
@@ -14,8 +14,9 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
-import com.prayer.exception.AbstractDatabaseException;
-import com.prayer.exception.AbstractTransactionException;
+import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractTransactionException;
+import com.prayer.base.model.AbstractMetadata;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.dao.schema.TemplateDao;
@@ -25,7 +26,6 @@ import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
-import com.prayer.model.h2.AbstractMetadata;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.kernel.MetaRecord;
 import com.prayer.util.bus.RecordSerializer;

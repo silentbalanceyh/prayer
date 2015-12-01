@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.PKColumnTypePolicyException;
 import com.prayer.exception.schema.PKMissingException;
 import com.prayer.exception.schema.PKNullableConflictException;

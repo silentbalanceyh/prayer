@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.schema;
+package com.prayer.base.dao;
 
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.instance;
@@ -11,7 +11,7 @@ import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.slf4j.Logger;
 
-import com.prayer.exception.AbstractTransactionException;
+import com.prayer.base.exception.AbstractTransactionException;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

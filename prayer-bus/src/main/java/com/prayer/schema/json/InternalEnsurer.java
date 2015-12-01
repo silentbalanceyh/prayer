@@ -1,6 +1,6 @@
 package com.prayer.schema.json;
 
-import com.prayer.exception.AbstractSchemaException;
+import com.prayer.base.exception.AbstractSchemaException;
 
 /**
  * Schema的内部接口，包内使用
