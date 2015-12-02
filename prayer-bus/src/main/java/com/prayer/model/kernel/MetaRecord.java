@@ -278,4 +278,10 @@ public class MetaRecord implements Record {
         }
         return retStr.toString();
     }
+
+	@Override
+	public String seqname() {
+		// TODO Auto-generated method stub
+		return this.connector().seqname();
+	}
 }

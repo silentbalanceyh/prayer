@@ -265,4 +265,10 @@ public class GenericRecord implements Record { // NOPMD
         }
         return retStr.toString();
     }
+
+	@Override
+	public String seqname() {
+		// TODO Auto-generated method stub
+        return this._schema.getMeta().getSeqName();
+	}
 }

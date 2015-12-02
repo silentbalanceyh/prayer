@@ -28,4 +28,10 @@ interface RecordPK {
      * @return
      */
     List<FieldModel> idschema();
+    /**
+     * seq name
+     * 
+     * @return
+     */
+    String seqname();
 }

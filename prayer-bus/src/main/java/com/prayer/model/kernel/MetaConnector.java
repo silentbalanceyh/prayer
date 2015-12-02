@@ -155,6 +155,16 @@ public class MetaConnector {
     public String table() {
         return LOADER.getString(this._identifier + ".meta.table");
     }
+    
+    /**
+     * 
+     * @return
+     */
+    @NotNull
+    @Pre(expr = PRE_ID_CON, lang = Constants.LANG_GROOVY)
+    public String seqname() {
+        return LOADER.getString(this._identifier + ".meta.seqname");
+    }
 
     /**
      * 

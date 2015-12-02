@@ -1,5 +1,7 @@
 package com.prayer.dao.impl.std.record;
 
+import static com.prayer.util.Generator.uuid;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,6 +10,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.NotNull;
 
 import com.prayer.base.dao.AbstractRDaoImpl;
 import com.prayer.base.exception.AbstractDatabaseException;
@@ -18,6 +23,7 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
 import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.kernel.GenericRecord;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SqlSegment;
 import com.prayer.util.cv.Symbol;
@@ -37,6 +43,7 @@ import jodd.util.StringUtil;
  */
 final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
     // ~ Static Fields =======================================
+	private final static String SQL_NEXT_SEQ = "SELECT {0}.NEXTVAL FROM DUAL";
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -61,7 +68,7 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
     @Override
     public Record insert(final Record record) throws AbstractDatabaseException {
         // 1.调用父类方法
-        final boolean ret = super.sharedInsert(record);
+        final boolean ret = this.oracleInsert(record);
         // 2.后期执行检查
         Response.interrupt(getClass(), ret);
         // 3.返回修改过的record
@@ -234,6 +241,47 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
                 StringUtil.join(lastWhere.toArray(Constants.T_STR_ARR), Symbol.SPACE + SqlSegment.AND + Symbol.SPACE));
         return retSql.toString();
     }
+    
+    /**
+     * oracle Inert语句，increment特殊处理，其它部分和父类 sharedInsert一致
+     * @param record
+     * @throws AbstractDatabaseException
+     */
+    private boolean oracleInsert(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+            throws AbstractDatabaseException {
+        // ERR：检查主键定义
+        PrimaryKey.interrupt(getClass(), record.identifier(), record.idschema().size());
+        // 获取主键Policy策略以及Jdbc访问器
+        final MetaPolicy policy = record.policy();
+        final JdbcContext jdbc = this.getContext(record.identifier());
+        if (MetaPolicy.INCREMENT == policy) {
+            /**
+             * 如果主键是自增长的，需要获取相应的SEQ值
+             */
+            final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
+            record.set(pkSchema.getName(), getSEQ(record,jdbc));
+        } else if (MetaPolicy.GUID == policy) {
+                // 如果主键是GUID的策略，则需要预处理主键的赋值
+                final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
+                record.set(pkSchema.getName(), uuid());
+        }
+        // 父类方法，不过滤任何传参流程
+        final String sql = SqlHelper.prepInsertSQL(record, Constants.T_STR_ARR);
+        final List<Value<?>> params = SqlHelper.prepParam(record, Constants.T_STR_ARR);
+
+        jdbc.insert(sql, params, false, null);
+        return true;
+    }
+    
+	/**
+	 * This method is for Oracle only
+	 */
+	private String getSEQ(final Record record, final JdbcContext jdbc) {
+		final String seqSql = MessageFormat.format(SQL_NEXT_SEQ, record.seqname());
+		final List<String> retList = jdbc.select(seqSql, "NEXTVAL");
+
+		return retList.get(0);
+	}
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 
