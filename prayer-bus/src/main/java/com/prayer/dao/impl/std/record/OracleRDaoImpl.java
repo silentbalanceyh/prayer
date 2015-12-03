@@ -67,7 +67,7 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
      */
     @Override
     public Record insert(final Record record) throws AbstractDatabaseException {
-        // 1.调用父类方法
+        // 1.调用自身方法
         final boolean ret = this.oracleInsert(record);
         // 2.后期执行检查
         Response.interrupt(getClass(), ret);
@@ -259,7 +259,7 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
              * 如果主键是自增长的，需要获取相应的SEQ值
              */
             final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
-            record.set(pkSchema.getName(), getSEQ(record,jdbc));
+            record.set(pkSchema.getName(), this.getSEQ(record, jdbc));
         } else if (MetaPolicy.GUID == policy) {
                 // 如果主键是GUID的策略，则需要预处理主键的赋值
                 final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
