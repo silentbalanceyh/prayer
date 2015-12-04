@@ -148,6 +148,17 @@ public final class SqlDdlStatement implements SqlSegment, Symbol {
         }
         return sql.toString();
     }
+    
+    /**
+     * getColType
+     * 
+     * @param field
+     * @return
+     */
+    @NotNull
+    public static String getColType(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
+        return DB_TYPES.get(field.getColumnType());
+    }
 
     /**
      * 生成删除约束的Sql语句：ALTER TABLE TABLE_NAME DROP CONSTRAINT C_NAME

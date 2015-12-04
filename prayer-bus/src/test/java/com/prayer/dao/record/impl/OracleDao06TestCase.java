@@ -90,7 +90,7 @@ public class OracleDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     }
 
     /** **/
-    //@Test
+    @Test
     public void testT05040Minsert() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             final Record before = this.getRecord(IDENTIFIER);
@@ -144,7 +144,7 @@ public class OracleDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     }
 
     /** **/
-    //@Test
+    @Test
     public void testT05051MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据
@@ -178,7 +178,7 @@ public class OracleDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     }
 
     /** **/
-    //@Test
+    @Test
     public void testT05052Mupdate() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据
@@ -198,7 +198,7 @@ public class OracleDao06TestCase extends AbstractRDaoTestTool { // NOPMD
         }
     }
     /** **/
-    //@Test
+    @Test
     public void testT05053MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据

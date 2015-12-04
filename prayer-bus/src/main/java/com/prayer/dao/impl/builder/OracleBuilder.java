@@ -180,6 +180,12 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 	
 	@Override
 	protected String genAlterColumns(@NotNull final FieldModel field) {
+		
+		// 0. oracle dedicated handle for clob/blob fields, remove/add instead of modify (ORA-22859: invalid modification of columns)
+		if (this.getColType(field).equalsIgnoreCase("CLOB") || this.getColType(field).equalsIgnoreCase("BLOB"))
+		{
+			return "";
+		}	
 		// 1.初始化缓冲区
 		final StringBuilder sql = new StringBuilder();
 		// 2.填充模板的第二部分
