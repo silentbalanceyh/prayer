@@ -2,8 +2,11 @@ package com.prayer.dao.record.impl;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import io.vertx.core.json.JsonObject;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +18,8 @@ import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
+import com.prayer.model.bus.OrderBy;
+import com.prayer.model.bus.Pager;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.model.kernel.GenericSchema;
@@ -85,7 +90,7 @@ public class OracleDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     }
 
     /** **/
-    @Test
+    //@Test
     public void testT05040Minsert() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             final Record before = this.getRecord(IDENTIFIER);
@@ -200,6 +205,20 @@ public class OracleDao06TestCase extends AbstractRDaoTestTool { // NOPMD
             final Record before = this.getRecord(IDENTIFIER);
             final Record selectR = this.getRecordDao().selectById(before, V_ID);
             assertNull(message(TST_NULL), selectR);
+        }
+    }
+    
+    //@Test
+    public void testTqueryByPage() throws AbstractDatabaseException {
+        if (this.isValidDB()) {
+            // 准备数据
+            final Record before = this.getRecord(IDENTIFIER);
+            final String[] cols = {"T_ID", "T_LONG", "T_SCRIPT", "T_JSON", "T_DECIMAL", "T_STRING","T_INT","T_DATE","T_XML" ,"T_BOOLEAN","T_UK1","T_MUK2","T_MUK1","T_BINARY"};
+            final OrderBy order = new OrderBy();
+            order.add("T_ID","ASC");
+            final Pager page = new Pager(2,3);
+            
+            final ConcurrentMap<Long, List<Record>> selectRlist = this.getRecordDao().queryByPage(before, cols, null, null ,order, page);
         }
     }
     // ~ Methods =============================================
