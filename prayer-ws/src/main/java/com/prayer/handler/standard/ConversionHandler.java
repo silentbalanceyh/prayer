@@ -69,8 +69,8 @@ public class ConversionHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.CONVERTOR),context.request().path());
-        
+        info(LOGGER, WebLogger.I_CFG_HANDLER, getClass().getName(), context.request().path());
+
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
         final UriModel uri = Extractor.uri(context);

@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.WebLogger;
 import com.prayer.util.PropertyKit;
-import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Resources;
 
 import io.vertx.core.Handler;
@@ -58,7 +57,7 @@ public final class OptionsHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.OD_OPTIONS);
+        info(LOGGER, WebLogger.I_CFG_HANDLER, getClass().getName());
         final HttpServerRequest request = context.request();
         final String path = request.path();
         if (path.contains("/options/h2")) {
@@ -81,16 +80,16 @@ public final class OptionsHandler implements Handler<RoutingContext> {
     private void injectSecurity(final RoutingContext context) {
         final String current = this.SEV_LOADER.getString("server.security.mode");
         context.put("security.mode", current);
-        // * Http Method 
+        // * Http Method
         final List<String> methods = Arrays.asList(this.SEV_LOADER.getArray("server.security.cors.methods"));
         final List<String> methodSet = Arrays.asList(new String[] { HttpMethod.GET.toString(),
                 HttpMethod.POST.toString(), HttpMethod.PUT.toString(), HttpMethod.DELETE.toString(),
                 HttpMethod.OPTIONS.toString(), HttpMethod.HEAD.toString(), HttpMethod.PATCH.toString() });
         final JsonObject methodObj = new JsonObject();
-        for(final String method: methodSet){
-            if(methods.contains(method)){
+        for (final String method : methodSet) {
+            if (methods.contains(method)) {
                 methodObj.put(method, Boolean.TRUE);
-            }else{
+            } else {
                 methodObj.put(method, Boolean.FALSE);
             }
         }

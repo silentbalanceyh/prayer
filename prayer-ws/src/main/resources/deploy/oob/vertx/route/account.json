@@ -9,6 +9,40 @@
         "order":-8000
     },
     {
+        "path":"/sec/account",
+        "method":"POST",
+        "order":-8800,
+        "requestHandler":"com.prayer.handler.standard.ValidationHandler"
+    },
+    {
+        "path":"/sec/account",
+        "method":"POST",
+        "order":-8500,
+        "requestHandler":"com.prayer.handler.standard.ConversionHandler"
+    },
+    {
+        "path":"/sec/account",
+        "method":"POST",
+        "order":-8000
+    },
+    {
+        "path":"/sec/account",
+        "method":"PUT",
+        "order":-8800,
+        "requestHandler":"com.prayer.handler.standard.ValidationHandler"
+    },
+    {
+        "path":"/sec/account",
+        "method":"PUT",
+        "order":-8500,
+        "requestHandler":"com.prayer.handler.standard.ConversionHandler"
+    },
+    {
+        "path":"/sec/account",
+        "method":"PUT",
+        "order":-8000
+    },
+    {
         "path":"/sec/page/account",
         "method":"POST",
         "order":-8800
@@ -16,40 +50,6 @@
     {
         "path":"/sec/account",
         "method":"DELETE",
-        "order":-8000
-    },
-    {
-        "path":"/sec/account",
-        "method":"POST",
-        "order":-8800,
-        "requestHandler":"com.prayer.handler.standard.ValidationHandler"
-    },
-    {
-        "path":"/sec/account",
-        "method":"POST",
-        "order":-8500,
-        "requestHandler":"com.prayer.handler.standard.ConversionHandler"
-    },
-    {
-        "path":"/sec/account",
-        "method":"POST",
-        "order":-8000
-    },
-    {
-        "path":"/sec/account",
-        "method":"PUT",
-        "order":-8800,
-        "requestHandler":"com.prayer.handler.standard.ValidationHandler"
-    },
-    {
-        "path":"/sec/account",
-        "method":"PUT",
-        "order":-8500,
-        "requestHandler":"com.prayer.handler.standard.ConversionHandler"
-    },
-    {
-        "path":"/sec/account",
-        "method":"PUT",
         "order":-8000
     }
 ]

@@ -8,9 +8,7 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 import com.prayer.bus.impl.std.BasicAuthSevImpl;
-import com.prayer.bus.impl.std.RecordSevImpl;
 import com.prayer.facade.bus.BasicAuthService;
-import com.prayer.facade.bus.RecordService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.IOKit;
 
@@ -20,7 +18,6 @@ import io.vertx.core.json.JsonObject;
 public class DebuggerTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    private transient RecordService service = new RecordSevImpl();
     private transient BasicAuthService secSev = new BasicAuthSevImpl();
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

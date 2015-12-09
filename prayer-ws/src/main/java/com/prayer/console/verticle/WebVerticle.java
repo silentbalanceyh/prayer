@@ -3,7 +3,6 @@ package com.prayer.console.verticle;
 import static com.prayer.util.Instance.singleton;
 
 import com.prayer.assistant.RouterInjector;
-import com.prayer.console.handler.OptionsHandler;
 import com.prayer.console.handler.SharedLoginHandler;
 import com.prayer.console.handler.SharedLogoutHandler;
 import com.prayer.console.handler.UserLoggedHandler;
@@ -77,7 +76,7 @@ public class WebVerticle extends AbstractVerticle {
     private void injectLogged(final Router router) {
         router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.SHARED).handler(SharedLoginHandler.create());
         router.route(Constants.ACTION.LOGOUT).order(Constants.ORDER.LOGOUT).handler(SharedLogoutHandler.create());
-        router.route(Constants.WEB.DYNAMIC_OPTIONS).order(Constants.ORDER.OD_OPTIONS).handler(OptionsHandler.create());
+        // router.route(Constants.WEB.DYNAMIC_OPTIONS).order(Constants.ORDER.OD_OPTIONS).handler(OptionsHandler.create());
         router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.OD_PROFILE).handler(UserLoggedHandler.create());
     }
     // ~ Get/Set =============================================

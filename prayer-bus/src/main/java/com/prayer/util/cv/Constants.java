@@ -155,16 +155,16 @@ public interface Constants { // NOPMD
         int CONTEXT = -9930;
 
         /** OPTIONS **/
-        int OD_OPTIONS = -9920;
+        // int OD_OPTIONS = -9920;
         /** PROFILE **/
         int OD_PROFILE = -9910;
 
         /** Router Handler Order **/
         int ROUTER = -9900;
         /** Validation Handler Order **/
-        int VALIDATION = -9800;
+        // int VALIDATION = -9800;
         /** Convertor Handler Order **/
-        int CONVERTOR = -2000;
+        // int CONVERTOR = -2000;
         /** Parameters Wrapper **/
         int WRAPPER = -1000;
         /** Service Handler Order **/

@@ -72,8 +72,8 @@ public class ValidationHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.VALIDATION),context.request().path());
-        
+        info(LOGGER, WebLogger.I_CFG_HANDLER, getClass().getName(), context.request().path());
+
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
         final UriModel uri = Extractor.uri(context);
@@ -82,7 +82,7 @@ public class ValidationHandler implements Handler<RoutingContext> {
         final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
                 .findValidators(uri.getUniqueId());
         // 3.Dispatcher
-        if(this.requestDispatch(result, context, requestor)){
+        if (this.requestDispatch(result, context, requestor)) {
             // SUCCESS -->
             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
             context.next();
@@ -91,8 +91,9 @@ public class ValidationHandler implements Handler<RoutingContext> {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result, final RoutingContext context, final Requestor requestor){
-        if(ResponseCode.SUCCESS == result.getResponseCode()){
+    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
+            final RoutingContext context, final Requestor requestor) {
+        if (ResponseCode.SUCCESS == result.getResponseCode()) {
             final JsonObject params = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
             AbstractWebException error = null;
             final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
@@ -103,14 +104,14 @@ public class ValidationHandler implements Handler<RoutingContext> {
                 final List<RuleModel> validators = dataMap.get(field);
                 // 验证当前字段信息
                 error = this.validateField(field, value, validators);
-                if(null != error){
+                if (null != error) {
                     ret = false;
                     Future.error400(getClass(), context, error);
                     break;
                 }
             }
             return ret;
-        }else{
+        } else {
             // 500 Internal Error
             Future.error500(getClass(), context);
             return false;
@@ -156,7 +157,7 @@ public class ValidationHandler implements Handler<RoutingContext> {
             error = ex;
         }
         // TODO:
-        catch (Exception ex){
+        catch (Exception ex) {
             ex.printStackTrace();
         }
         return error;

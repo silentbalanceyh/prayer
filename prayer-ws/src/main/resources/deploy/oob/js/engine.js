@@ -94,7 +94,10 @@ $$P = $env.getPager();          // NOPMD Java中的Pager信息
 // -- 非Collection的主键中PK值
 var PK = "uniqueId";
 /**
- * $$ENV -- JSEnv $$E -- Engine单例 -- JavaScript $$V -- JS转换值单例 -- JavaScript $$Q --
- * 设置查询条件Expression的函数 -- JavaScript $$R -- Record变量 -- Java :: Record $$L --
- * $$Q中的值列表用于查询参数值 -- Java :: List<Value<?>>
+ * <li>$$ENV -- JSEnv</li>
+ * <li>$$E -- Engine单例 -- JavaScript </li>
+ * <li>$$V -- JS转换值单例 -- JavaScript </li>
+ * <li>$$Q -- 设置查询条件Expression的函数 -- JavaScript</li>
+ * <li>$$R -- Record变量 -- Java :: Record </li>
+ * <li>$$L -- $$Q中的值列表用于查询参数值 -- Java :: List<Value<?>></li>
  */

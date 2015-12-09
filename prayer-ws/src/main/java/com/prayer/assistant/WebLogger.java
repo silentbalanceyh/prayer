@@ -34,6 +34,8 @@ public final class WebLogger {
     /** **/
     public static final String I_STD_HANDLER = " Order = {1}, Path = {2} , Handler = {0}";
     /** **/
+    public static final String I_CFG_HANDLER = " Path = {1}, Handler = {0}";
+    /** **/
     public static final String I_REST_RESULT = " RestfulResult = {0}";
     /** **/
     public static final String I_VERTICLE_WORK = "Verticle Worker -> {0}";
