@@ -191,6 +191,16 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
     }
 
     /**
+     * 
+     * 
+     * @param field
+     * @return
+     */
+    protected String getColType(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
+        return SqlDdlStatement.getColType(field);
+    }
+    
+    /**
      * 统计表中有多少数据
      * 
      * @return

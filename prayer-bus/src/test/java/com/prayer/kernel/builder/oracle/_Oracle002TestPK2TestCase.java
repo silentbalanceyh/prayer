@@ -72,7 +72,7 @@ public class _Oracle002TestPK2TestCase extends AbstractBCPTestCase {    // NOPMD
     }
 
     /** **/
-    @Test
+    //@Test
     public void test001UKPurge() {
     	if (this.isValidDB()){
     	final boolean ret = this.purgeTable();

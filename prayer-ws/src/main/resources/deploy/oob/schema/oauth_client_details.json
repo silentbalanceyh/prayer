@@ -120,7 +120,7 @@
             "type": "StringType",
             "columnName": "S_ADDITIONAL_INFO",
             "columnType": "STRING1",
-            "length": 4096
+            "length": 4000
         },
 
         {

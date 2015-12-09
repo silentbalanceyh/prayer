@@ -180,6 +180,12 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 	
 	@Override
 	protected String genAlterColumns(@NotNull final FieldModel field) {
+		
+		// 0. oracle dedicated handle for clob/blob fields, remove/add instead of modify (ORA-22859: invalid modification of columns)
+		if (this.getColType(field).equalsIgnoreCase("CLOB") || this.getColType(field).equalsIgnoreCase("BLOB"))
+		{
+			return "";
+		}	
 		// 1.初始化缓冲区
 		final StringBuilder sql = new StringBuilder();
 		// 2.填充模板的第二部分
@@ -357,12 +363,23 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 		String removeSeqSql;
 		final MetaPolicy policy = this.getSchema().getMeta().getPolicy();
 		if (MetaPolicy.INCREMENT == policy) {
-			removeSeqSql = MessageFormat.format(SEQ_REMOVE, this
+			// check if is not existed
+			final String sql = OracleHelper.getSeqExist(this
 					.getSchema().getMeta().getSeqName());
-			final int respCode = this.getContext().execute(removeSeqSql, null);
-			final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
-					: ResponseCode.FAILURE.toString());
-			info(LOGGER, "[I] Location: removeSeq(), Result : " + respStr);
+			final Long counter = this.getContext().count(sql);
+			if (0 == counter)
+			{
+				info(LOGGER, "[I] Location: removeSeq(), Result : already is not existed");
+			}
+			else
+			{
+				removeSeqSql = MessageFormat.format(SEQ_REMOVE, this
+						.getSchema().getMeta().getSeqName());
+				final int respCode = this.getContext().execute(removeSeqSql, null);
+				final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
+						: ResponseCode.FAILURE.toString());
+				info(LOGGER, "[I] Location: removeSeq(), Result : " + respStr);
+			}
 		}
 	}
 	
@@ -373,15 +390,26 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 		String createSeqSql;
 		final MetaPolicy policy = this.getSchema().getMeta().getPolicy();
 		if (MetaPolicy.INCREMENT == policy) {
-			createSeqSql = MessageFormat.format(SEQ_CREATE, this
-					.getSchema().getMeta().getSeqName(),
-					// fill with fixed values(min, max) for the time being
-					"1", "999999999", this.getSchema().getMeta().getSeqInit(),
-					this.getSchema().getMeta().getSeqStep());
-			final int respCode = this.getContext().execute(createSeqSql, null);
-			final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
-					: ResponseCode.FAILURE.toString());
-			info(LOGGER, "[I] Location: createSeq(), Result : " + respStr);
+			// check if is existed
+			final String sql = OracleHelper.getSeqExist(this
+					.getSchema().getMeta().getSeqName());
+			final Long counter = this.getContext().count(sql);
+			if (0 == counter)
+			{
+				createSeqSql = MessageFormat.format(SEQ_CREATE, this
+						.getSchema().getMeta().getSeqName(),
+						// fill with fixed values(min, max) for the time being
+						"1", "999999999", this.getSchema().getMeta().getSeqInit(),
+						this.getSchema().getMeta().getSeqStep());
+				final int respCode = this.getContext().execute(createSeqSql, null);
+				final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
+						: ResponseCode.FAILURE.toString());
+				info(LOGGER, "[I] Location: createSeq(), Result : " + respStr);
+			}
+			else
+			{
+				info(LOGGER, "[I] Location: createSeq(), Result : already existed");
+			}
 		}
 	}
 	

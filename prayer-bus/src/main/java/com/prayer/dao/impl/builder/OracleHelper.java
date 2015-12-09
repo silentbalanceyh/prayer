@@ -27,13 +27,15 @@ public final class OracleHelper {
 	/**
 	 * Exiting table checking SQL statement. *
 	 */
-	private final static String SQL_TB_EXIST = "SELECT COUNT(1) FROM ALL_TABLES WHERE OWNER=''{0}'' AND TABLE_NAME=''{1}''";
+	private final static String SQL_TB_EXIST = "SELECT COUNT(*) FROM ALL_TABLES WHERE OWNER=''{0}'' AND TABLE_NAME=''{1}''";
 	/** **/
 	private final static String SQL_TB_COLUMN = "SELECT COLUMN_NAME,NULLABLE,DATA_TYPE,DATA_LENGTH FROM ALL_TAB_COLUMNS WHERE OWNER=''{0}'' AND TABLE_NAME=''{1}''";
 	/** 增加 distinct 出除重复的约束名**/
 	private final static String SQL_TB_CONSTRAINT = "SELECT DISTINCT T.CONSTRAINT_NAME,C.CONSTRAINT_TYPE FROM USER_CONSTRAINTS C,USER_CONS_COLUMNS T WHERE T.CONSTRAINT_NAME=C.CONSTRAINT_NAME AND T.OWNER=''{0}'' AND T.TABLE_NAME=''{1}'' ORDER BY T.CONSTRAINT_NAME";
 	/** 列空值检测 **/
 	private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
+	/** SEQUENCE存在检测 **/
+	private final static String SQL_SEQ_EXIST = "SELECT COUNT(*) FROM ALL_SEQUENCES WHERE SEQUENCE_OWNER=''{0}'' AND SEQUENCE_NAME=''{1}''";
 	/** 数据库配置资源加载器 **/
 	private static final PropertyKit LOADER = new PropertyKit(OracleHelper.class, Resources.DB_CFG_FILE);
 	
@@ -91,6 +93,18 @@ public final class OracleHelper {
 	public static String getSqlNull(@NotNull @NotBlank @NotEmpty final String tableName,
 			@NotNull @NotBlank @NotEmpty final String colName) {
 		return MessageFormat.format(SQL_TB_NULL, tableName, colName);
+	}
+	
+	/**
+	 * 统计系统中的表的SQL
+	 * 
+	 * @param tableName
+	 * @return
+	 */
+	@NotNull
+	public static String getSeqExist(@NotNull @NotBlank @NotEmpty final String seqName) {
+		final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+		return MessageFormat.format(SQL_SEQ_EXIST, database, seqName);
 	}
 	// ~ Constructors ========================================
 	// ~ Abstract Methods ====================================
