@@ -12,7 +12,10 @@ import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.facade.bus.DeployService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.dao.jdbc.MetadataConn;
+import com.prayer.facade.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.kernel.GenericRecord;
+import com.prayer.util.Encryptor;
 import com.prayer.util.cv.Resources;
 
 /**
@@ -54,11 +57,13 @@ public class DeployTestCase {
         assertTrue("[TD] Deploying failure ! ", ret.getResult());
         /*// 添加默认账号信息的测试用例
         final Record record = new GenericRecord("sec.account");
-        record.set("username", "lang.yu");
-        record.set("email", "silentbalanceyh@126.com");
-        record.set("mobile", "15900000000");
+        record.set("username", "lang.yu1");
+        record.set("email", "silentbalanceyh1@126.com");
+        record.set("mobile", "15900000001");
         record.set("password", Encryptor.encryptMD5("pl,okm123"));
-        this.recordDao.insert(record);*/
+        this.recordDao.insert(record);
+        */
+        
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
