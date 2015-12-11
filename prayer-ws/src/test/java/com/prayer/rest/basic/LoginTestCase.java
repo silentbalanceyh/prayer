@@ -1,17 +1,16 @@
-package com.prayer.rest;
+package com.prayer.rest.basic;
 
 import static com.prayer.util.Error.info;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Locale;
 import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.AbstractRestBasicTestCase;
+import com.prayer.bus.AbstractRBTestCase;
 import com.prayer.model.web.StatusCode;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
@@ -23,10 +22,10 @@ import jodd.util.StringUtil;
  * @author Lang
  *
  */
-public class LoginRestTestCase extends AbstractRestBasicTestCase {
+public class LoginTestCase extends AbstractRBTestCase {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginRestTestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginTestCase.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -46,7 +45,7 @@ public class LoginRestTestCase extends AbstractRestBasicTestCase {
      */
     @Test
     public void testLoginNoHeader() {
-        final ConcurrentMap<String, String> headers = getBasicHeaders(null, null);
+        final ConcurrentMap<String, String> headers = getHeaders(null, null);
         this.testFailure(headers, "[E30014]");
     }
 
@@ -55,7 +54,7 @@ public class LoginRestTestCase extends AbstractRestBasicTestCase {
      */
     @Test
     public void testLoginNoUsername() {
-        final ConcurrentMap<String, String> headers = getBasicHeaders(null, "pl,okmijn123");
+        final ConcurrentMap<String, String> headers = getHeaders(null, "pl,okmijn123");
         this.testFailure(headers, "USERNAME.MISSING");
     }
 
@@ -64,7 +63,7 @@ public class LoginRestTestCase extends AbstractRestBasicTestCase {
      */
     @Test
     public void testLoginNoPwD() {
-        final ConcurrentMap<String, String> headers = getBasicHeaders("lang.yu", null);
+        final ConcurrentMap<String, String> headers = getHeaders("lang.yu", null);
         this.testFailure(headers, "PASSWORD.MISSING");
     }
 
@@ -73,7 +72,7 @@ public class LoginRestTestCase extends AbstractRestBasicTestCase {
      */
     @Test
     public void testLoginUserNotFound() {
-        final ConcurrentMap<String, String> headers = getBasicHeaders("user.not.found", "pl,okmijn123");
+        final ConcurrentMap<String, String> headers = getHeaders("user.not.found", "pl,okmijn123");
         this.testFailure(headers, "USER.NOT.FOUND");
     }
 
@@ -82,7 +81,7 @@ public class LoginRestTestCase extends AbstractRestBasicTestCase {
      */
     @Test
     public void testLoginAuthFail() {
-        final ConcurrentMap<String, String> headers = getBasicHeaders("lang.yu", "password.error");
+        final ConcurrentMap<String, String> headers = getHeaders("lang.yu", "password.error");
         this.testFailure(headers, "AUTH.FAILURE");
     }
 
@@ -91,8 +90,8 @@ public class LoginRestTestCase extends AbstractRestBasicTestCase {
      */
     @Test
     public void testLoginSuccess() {
-        final ConcurrentMap<String, String> headers = getBasicHeaders("lang.yu", "pl,okmijn123");
-        final JsonObject resp = this.get(this.api("/sec/login"), headers);
+        final ConcurrentMap<String, String> headers = getHeaders("lang.yu", "pl,okmijn123");
+        final JsonObject resp = this.requestGet(this.getApi("/sec/login"), headers);
         if (!StringUtil.equals("SKIP", resp.getString("status"))) {
             boolean ret = this.checkSuccess(resp);
             assertTrue("[TST] ( 200 : " + resp.getJsonObject("data").getJsonObject("data").encode() + " ) Unsuccessful !",
@@ -102,7 +101,7 @@ public class LoginRestTestCase extends AbstractRestBasicTestCase {
     // ~ Private Methods =====================================
 
     private void testFailure(final ConcurrentMap<String, String> headers, final String retStr) {
-        final JsonObject resp = this.get(this.api("/sec/login"), headers);
+        final JsonObject resp = this.requestGet(this.getApi("/sec/login"), headers);
         if (!StringUtil.equals("SKIP", resp.getString("status"))) {
             boolean ret = checkResp(resp);
             if (ret) {
@@ -125,8 +124,7 @@ public class LoginRestTestCase extends AbstractRestBasicTestCase {
         // Return Code
         ret = ret && this.checkReturnCode(data, ResponseCode.FAILURE);
         // Status Information
-        ret = ret && this.checkStatus(data.getJsonObject("status"), StatusCode.UNAUTHORIZED.status(),
-                StatusCode.UNAUTHORIZED.toString().toUpperCase(Locale.getDefault()));
+        ret = ret && this.checkStatus(data.getJsonObject("status"), StatusCode.UNAUTHORIZED);
         // Passed
         ret = ret && StringUtil.equals("PASSED", resp.getString("status"));
         return ret;

@@ -122,16 +122,24 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                     final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
                     for (final UriModel model : uriModels) {
                         // 4.EVX_RULE
-                        final String paramFile = VX_URI_PARAM
-                                + model.getMethod().toString().toLowerCase(Locale.getDefault()) + "/" + model.getUri()
-                                        .substring(1, model.getUri().length()).replaceAll("/", ".").replaceAll(":", "\\$")
-                                + ".json";
-                        ret = this.manager.getRuleService().importRules(paramFile, model);
-                        if (ResponseCode.SUCCESS != ret.getResponseCode()) {
-                            error(LOGGER, BusinessLogger.E_PROCESS_ERR, model.getUri() + " Rule Deploy", ret.getErrorMessage());
-                        } else {
-                            info(LOGGER, " 3 -> 4.EVX_RULE ( Rule deployed successfully ) URL = " + model.getUri() + ", rule = "
-                                    + paramFile);
+                        final String paramFolder = VX_URI_PARAM
+                                + model.getMethod().toString().toLowerCase(Locale.getDefault()) + "/"
+                                + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".")
+                                        .replaceAll(":", "\\$");
+                        final List<String> paramFiles = IOKit.listFiles(paramFolder);
+                        for (final String paramFile : paramFiles) {
+                            // Rule Sub Files for field
+                            final String ruleFile = paramFolder + "/" + paramFile;
+                            ret = this.manager.getRuleService().importRules(ruleFile, model);
+                            if (ResponseCode.SUCCESS != ret.getResponseCode()) {
+                                error(LOGGER, BusinessLogger.E_PROCESS_ERR,
+                                        model.getUri() + " Rule Deploy : file = " + ruleFile, ret.getErrorMessage());
+                            } else {
+                                info(LOGGER,
+                                        " ---> 4.EVX_RULE ( Rule deployed successfully ) " + "Method = "
+                                                + model.getMethod().toString() + ", URL = " + model.getUri()
+                                                + ", Rule = " + ruleFile);
+                            }
                         }
                     }
                 } else {

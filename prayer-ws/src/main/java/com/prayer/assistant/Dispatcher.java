@@ -61,15 +61,15 @@ public final class Dispatcher { // NOPMD
                     Future.error405(clazz, context, request.method());
                     return false;
                 } else {
-                    final String params = getErrorParam(uriSpec, context);
-                    if (StringKit.isNonNil(params)) {
-                        if ("DECODE".equals(params)) {
+                    final String param = getErrorParam(uriSpec, context);
+                    if (StringKit.isNonNil(param)) {
+                        if ("DECODE".equals(param)) {
                             // 401需要Skip这种情况
                             Future.error400(clazz, context, -30010, request.path());
                             return false;
                         } else {
                             Future.error400(clazz, context, -30001, request.path(), uriSpec.getParamType().toString(),
-                                    params);
+                                    param);
                             return false;
                         }
                     } else {

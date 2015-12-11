@@ -1,13 +1,13 @@
 [
     {
         "name":"com.prayer.vx.verticle.RouterVerticle",
-        "instances":1,
+        "instances":20,
         "ha":true,
         "deployOrder":1
     },
     {
         "name":"com.prayer.console.verticle.WebVerticle",
-        "instances":10,
+        "instances":20,
         "ha":true,
         "deployOrder":2
     },

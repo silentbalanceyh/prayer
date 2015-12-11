@@ -48,7 +48,7 @@ public final class Future {
      * @param error
      */
     public static void error400(@NotNull final Class<?> clazz, @NotNull final RoutingContext context,
-            @NotNull final AbstractWebException error){
+            @NotNull final AbstractWebException error) {
         final Responsor responsor = Responsor.failure(StatusCode.BAD_REQUEST, error);
         info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
                 error.getErrorMessage());
@@ -56,6 +56,7 @@ public final class Future {
         info(LOGGER, " >>>>>>>> 400  ->  " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
+
     /**
      * 
      * @param clazz
