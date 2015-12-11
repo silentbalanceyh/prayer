@@ -245,7 +245,7 @@ public abstract class AbstractRBTestCase {
         if (status.getInteger("code") != statusCode.status()) {
             ret = false;
         }
-        if (!StringUtil.equals(status.getString("literal"), statusCode.toString().toUpperCase(Locale.getDefault()))) {
+        if (!StringUtil.equals(status.getString("literal"), statusCode.name().toUpperCase(Locale.getDefault()))) {
             ret = false;
         }
         return ret;
@@ -279,6 +279,7 @@ public abstract class AbstractRBTestCase {
                 injectRef.put("status", "ERROR");
             }
         }
+        info(getLogger(),"[INFO] Finale Result : " + injectRef.encode());
     }
 
     private void injectHeaders(final HttpRequestBase request, final ConcurrentMap<String, String> headers) {
