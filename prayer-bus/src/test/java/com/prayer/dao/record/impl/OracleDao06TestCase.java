@@ -2,7 +2,6 @@ package com.prayer.dao.record.impl;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import io.vertx.core.json.JsonObject;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractRDaoTestTool;
 import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
@@ -28,7 +26,6 @@ import com.prayer.util.cv.SystemEnum.MetaPolicy;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import jodd.util.StringUtil;
-import net.sf.oval.exception.ConstraintsViolatedException;
 
 /**
  * 

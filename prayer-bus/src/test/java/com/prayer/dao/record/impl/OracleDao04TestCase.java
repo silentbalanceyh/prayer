@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractRDaoTestTool;
 import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
@@ -22,8 +21,6 @@ import com.prayer.model.type.StringType;
 import com.prayer.util.RecordKit;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
-
-import net.sf.oval.exception.ConstraintsViolatedException;
 
 /**
  * 

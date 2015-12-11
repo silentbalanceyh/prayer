@@ -2,7 +2,9 @@ package com.prayer.util;
 
 import static com.prayer.util.Error.debug;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.sql.Clob;
 import java.sql.SQLException;
@@ -12,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.Symbol;
 
 import net.sf.oval.constraint.MinSize;
@@ -63,6 +66,27 @@ public final class Converter {
             }
         }
         return retStr.toString();
+    }
+
+    /**
+     * 
+     * @param in
+     * @return
+     */
+    public static String toStr(@NotNull final InputStream in) throws IOException {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] data = new byte[Constants.BYTE_BUF_SIZE];
+        int count = Constants.RANGE;
+        String ret = null;
+        while (Constants.RANGE != (count = in.read(data, Constants.ZERO, Constants.BYTE_BUF_SIZE))) {
+            out.write(data, Constants.ZERO, count);
+        }
+        if (Constants.ZERO < out.size()) {
+            ret = new String(out.toByteArray(), Resources.SYS_ENCODING);
+            // Close Output Stream
+            out.close();
+        }
+        return ret;
     }
 
     /**
