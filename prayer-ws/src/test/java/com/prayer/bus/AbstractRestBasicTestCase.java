@@ -21,7 +21,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.model.web.StatusCode;
 import com.prayer.util.PropertyKit;
+import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.Symbol;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
@@ -47,8 +49,6 @@ public abstract class AbstractRestBasicTestCase {
     private static final SecurityConfigurator SECUTOR = singleton(SecurityConfigurator.class);
     /** **/
     private static final PropertyKit LOADER = new PropertyKit(AbstractRestBasicTestCase.class, "/account.properties");
-    /** **/
-    private static final CloseableHttpClient CLIENT = HttpClients.createDefault();
     /** **/
     private static final ConcurrentMap<String, String> DEFAULT_HEADERS;
     /** **/
@@ -76,7 +76,7 @@ public abstract class AbstractRestBasicTestCase {
 
     // ~ Static Methods ======================================
     /** Mock **/
-    protected static ConcurrentMap<String, String> getBasicHeaders(final String username, final String password) {
+    protected static ConcurrentMap<String, String> getBasicHeaders(String username, String password) {
         final ConcurrentMap<String, String> retMap = new ConcurrentHashMap<>();
         retMap.put("User-Agent", "Apache-HttpClient/4.5.3 (java 1.7)");
         retMap.put("Connection", "Keep-Alive");
@@ -84,6 +84,14 @@ public abstract class AbstractRestBasicTestCase {
                 CONFIGURATOR.getApiOptions().getHost() + Symbol.COLON + CONFIGURATOR.getApiOptions().getPort());
         retMap.put("Accept-Encoding", "gzip,deflate");
         if (null != username || null != password) {
+            // User Name Missing
+            if (null == username) {
+                username = Constants.EMPTY_STR;
+            }
+            // Password Missing
+            if (null == password) {
+                password = Constants.EMPTY_STR;
+            }
             final String token = Base64.getEncoder()
                     .encodeToString((username + Symbol.COLON + password).getBytes(Resources.SYS_ENCODING));
             info(LOGGER, "[INFO] Token : " + token);
@@ -113,16 +121,18 @@ public abstract class AbstractRestBasicTestCase {
      * @return
      */
     protected JsonObject get(final String api, final ConcurrentMap<String, String> headers) {
-        info(getLogger(), "[INFO] Remote Api Testing ... " + api);
         final JsonObject ret = new JsonObject();
         ret.put("status", "SKIP");
         if (SecurityMode.BASIC == SECUTOR.getMode() && running) {
+            info(getLogger(), "[INFO] Remote Api Requesting (GET) ... " + api);
             HttpGet url = new HttpGet(api);
             // 直接注入Header
             this.injectHeaders(url, headers);
             // 请求发送
+
+            final CloseableHttpClient client = HttpClients.createDefault();
             try {
-                final CloseableHttpResponse resp = CLIENT.execute(url);
+                final CloseableHttpResponse resp = client.execute(url);
                 ret.put("code", resp.getStatusLine().getStatusCode());
                 try {
                     final HttpEntity entity = resp.getEntity();
@@ -134,23 +144,54 @@ public abstract class AbstractRestBasicTestCase {
                 } finally {
                     resp.close();
                 }
-            } catch (Exception ex) {
+            } catch (IOException ex) {
                 info(getLogger(), "[ERR] Network issue: ", ex);
                 ret.put("status", "ERROR");
+            } finally {
+                try {
+                    client.close();
+                } catch (IOException ex) {
+                    info(getLogger(), "[ERR] Close Http Client issue : ", ex);
+                    ret.put("status", "ERROR");
+                }
             }
         }
         return ret;
     }
-    
+
     // ~ Response Check =====================================
     /** **/
-    protected boolean checkErrorCode(final JsonObject error, final int code){
+    protected boolean checkSuccess(final JsonObject resp) {
+        boolean ret = true;
+        if (StatusCode.OK.status() != resp.getInteger("code")) {
+            ret = false;
+        }
+        if (!StringUtil.equals(resp.getString("status"), "PASSED")) {
+            ret = false;
+        }
+        JsonObject data = resp.getJsonObject("data");
+        final ResponseCode code = fromStr(ResponseCode.class, data.getString("returnCode"));
+        if (ResponseCode.SUCCESS != code) {
+            ret = false;
+        }
+        if (StatusCode.OK.status() != data.getInteger("status")) {
+            ret = false;
+        }
+        data = data.getJsonObject("data");
+        if (data.isEmpty()) {
+            ret = false;
+        }
+        return ret;
+    }
+
+    /** **/
+    protected boolean checkErrorCode(final JsonObject error, final int code) {
         final int errorCode = error.getInteger("code");
         return errorCode == code;
     }
-    
+
     /** **/
-    protected boolean checkHttpStatus(final JsonObject resp, final int code){
+    protected boolean checkHttpStatus(final JsonObject resp, final int code) {
         final int statusCode = resp.getInteger("code");
         return statusCode == code;
     }
@@ -167,7 +208,7 @@ public abstract class AbstractRestBasicTestCase {
         if (status.getInteger("code") != code) {
             ret = false;
         }
-        if (StringUtil.equals(status.getString("literal"), literal)) {
+        if (!StringUtil.equals(status.getString("literal"), literal)) {
             ret = false;
         }
         return ret;
