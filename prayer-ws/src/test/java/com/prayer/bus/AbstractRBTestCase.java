@@ -1,13 +1,9 @@
 package com.prayer.bus;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Locale;
-import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
@@ -27,6 +23,7 @@ public abstract class AbstractRBTestCase {
     // ~ Instance Fields =====================================
     /** Rest Client **/
     private transient final RestClient rest = singleton(RestClient.class);
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -37,10 +34,10 @@ public abstract class AbstractRBTestCase {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /** **/
-    protected RestClient client(){
+    protected RestClient client() {
         return this.rest;
     }
-    // ~ Response Check =====================================
+    // ~ Response Check ======================================
     /** **/
     protected boolean checkSuccess(final JsonObject resp) {
         boolean ret = true;
@@ -92,59 +89,6 @@ public abstract class AbstractRBTestCase {
         if (!StringUtil.equals(status.getString("literal"), statusCode.name().toUpperCase(Locale.getDefault()))) {
             ret = false;
         }
-        return ret;
-    }
-    // ~ Template Testing =====================================
-    /** **/
-    protected void testPostValidation(final String api, final String inputFile, final String retStr) {
-        final ConcurrentMap<String, String> headers = RestClient.getHeaders(rest.getUserName(), rest.getPassword());
-        headers.put("Content-Type", "application/json");
-        final JsonObject params = rest.getParameter(inputFile);
-        final JsonObject resp = rest.requestPost(rest.getApi(api), headers, params);
-        if (!StringUtil.equals("SKIP", resp.getString("status"))) {
-            boolean ret = check30001Resp(resp);
-            if (ret) {
-                final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                info(getLogger(), "[INFO] Display Error: " + display);
-                ret = 0 <= display.indexOf(retStr);
-                assertTrue("[TST] ( 400 : " + retStr + ") Unsuccessful !", ret);
-            } else {
-                fail("[ERR] Basic Information Checking Failure !");
-            }
-        }
-    }
-    /** **/
-    protected void testPostRequired(final String api, final String inputFile, final String retStr) {
-        final ConcurrentMap<String, String> headers = RestClient.getHeaders(rest.getUserName(), rest.getPassword());
-        headers.put("Content-Type", "application/json");
-        final JsonObject params = rest.getParameter(inputFile);
-        final JsonObject resp = rest.requestPost(rest.getApi(api), headers, params);
-        if (!StringUtil.equals("SKIP", resp.getString("status"))) {
-            boolean ret = check30001Resp(resp);
-            if (ret) {
-                final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                info(getLogger(), "[INFO] Display Error: " + display);
-                ret = 0 <= display.indexOf(retStr);
-                assertTrue("[TST] ( 400 : Required -> " + retStr + ") Unsuccessful !", ret);
-            } else {
-                fail("[ERR] Basic Information Checking Failure !");
-            }
-        }
-    }
-    // ~ Private Methods =====================================
-
-    private boolean check30001Resp(final JsonObject resp) {
-        final JsonObject data = resp.getJsonObject("data");
-        // Error Code
-        boolean ret = this.checkErrorCode(data.getJsonObject("error"), -30001);
-        // Http Status
-        ret = ret && this.checkHttpStatus(resp, StatusCode.BAD_REQUEST.status());
-        // Return Code
-        ret = ret && this.checkReturnCode(data, ResponseCode.FAILURE);
-        // Status Information
-        ret = ret && this.checkStatus(data.getJsonObject("status"), StatusCode.BAD_REQUEST);
-        // Passed
-        ret = ret && StringUtil.equals("PASSED", resp.getString("status"));
         return ret;
     }
 

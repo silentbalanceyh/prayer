@@ -1,39 +1,26 @@
 package com.prayer.rest.basic.post;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.AbstractRBTestCase;
+import com.prayer.bus.AbstractTemplateTestCase;
 
 /**
  * 
  * @author Lang
  *
  */
-public class AccountTestCase extends AbstractRBTestCase {
+public class AccountTestCase extends AbstractTemplateTestCase {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountTestCase.class);
-    /** **/
-    private static final ConcurrentMap<String,String> REQ_RULE = new ConcurrentHashMap<>();
-    /** **/
-    private static final ConcurrentMap<String,String> FMT_RULE = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
-    /** **/
-    static{
-        // Required Parameters
-        REQ_RULE.put("post/001account-params-missing.json", "name = username");
-        REQ_RULE.put("post/002account-params-missing.json", "name = password");
-        REQ_RULE.put("post/003account-params-missing.json", "name = mobile");
-        REQ_RULE.put("post/004account-params-missing.json", "name = email");
-        // Format Parameters
-        FMT_RULE.put("post/001account-params-format.json", "xx");
-    }
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
@@ -43,24 +30,37 @@ public class AccountTestCase extends AbstractRBTestCase {
     public Logger getLogger() {
         return LOGGER;
     }
+    /** **/
+    @Override
+    public String getPath(){
+        return "/sec/account";
+    }
+    /** **/
+    @Override
+    public ConcurrentMap<String,String> getRequiredMap(){
+        final ConcurrentMap<String,String> requiredRules = new ConcurrentHashMap<>();
+        requiredRules.put("post/account/missing-params-001.json", "name = username");
+        requiredRules.put("post/account/missing-params-002.json", "name = password");
+        requiredRules.put("post/account/missing-params-003.json", "name = mobile");
+        requiredRules.put("post/account/missing-params-004.json", "name = email");
+        return requiredRules;
+    }
+    /** **/
+    @Override
+    public List<String> getValidateList(){
+        final List<String> validateRules = new ArrayList<>();
+        validateRules.add("post/account/format-params-001.json");
+        validateRules.add("post/account/format-params-002.json");
+        validateRules.add("post/account/format-params-003.json");
+        validateRules.add("post/account/format-params-004.json");
+        validateRules.add("post/account/existing-params-001.json");
+        validateRules.add("post/account/existing-params-002.json");
+        validateRules.add("post/account/existing-params-003.json");
+        return validateRules;
+    }
 
     // ~ Methods =============================================
-    /** **/
-    @Test
-    public void testRequired() {
-        for(final String key: REQ_RULE.keySet()){
-            this.testPostRequired("/sec/account", key, REQ_RULE.get(key));
-        }
-    }
-    @Test
-    /** **/
-    public void testFormat(){
-        for(final String key: FMT_RULE.keySet()){
-            this.testPostValidation("/sec/account", key, FMT_RULE.get(key));
-        }
-    }
     // ~ Private Methods =====================================
-
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

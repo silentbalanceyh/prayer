@@ -15,8 +15,10 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.commons.net.telnet.TelnetClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -140,7 +142,6 @@ public class RestClient {
         api.append(path);
         return api.toString();
     }
-
     /**
      * 
      * @param api
@@ -150,26 +151,18 @@ public class RestClient {
      */
     public JsonObject requestPost(final String api, final ConcurrentMap<String, String> headers,
             final JsonObject data) {
-        final JsonObject ret = new JsonObject();
-        ret.put("status", "SKIP");
-        if (SecurityMode.BASIC == SECUTOR.getMode() && running) {
-            HttpPost request = new HttpPost(api);
-            // 直接注入Header
-            this.injectHeaders(request, headers);
-            try {
-                // 参数设置
-                final StringEntity body = new StringEntity(
-                        URLEncoder.encode(data.encode(), Resources.SYS_ENCODING.name()));
-                body.setContentEncoding(Resources.SYS_ENCODING.name());
-                body.setContentType("application/json");
-                request.setEntity(body);
-                // 请求发送
-                this.sendRequest(request, ret);
-            } catch (UnsupportedEncodingException ex) {
-                info(LOGGER, "[ERR] Encoding error: ", ex);
-            }
-        }
-        return ret;
+        return this.executeRequest(new HttpPost(api), headers, data);
+    }
+
+    /**
+     * 
+     * @param api
+     * @param headers
+     * @param data
+     * @return
+     */
+    public JsonObject requestPut(final String api, final ConcurrentMap<String, String> headers, final JsonObject data) {
+        return this.executeRequest(new HttpPut(api), headers, data);
     }
 
     /**
@@ -189,7 +182,26 @@ public class RestClient {
         }
         return ret;
     }
+
     // ~ Private Methods =====================================
+    private JsonObject executeRequest(final HttpEntityEnclosingRequestBase request,
+            final ConcurrentMap<String, String> headers, final JsonObject data) {
+        final JsonObject ret = new JsonObject();
+        ret.put("status", "SKIP");
+        if (SecurityMode.BASIC == SECUTOR.getMode() && running) {
+            // 直接注入Header
+            this.injectHeaders(request, headers);
+            try {
+                // 参数设置
+                this.injectEntity(request, data);
+                // 请求发送
+                this.sendRequest(request, ret);
+            } catch (UnsupportedEncodingException ex) {
+                info(LOGGER, "[ERR] Encoding error: ", ex);
+            }
+        }
+        return ret;
+    }
 
     private void sendRequest(final HttpRequestBase request, final JsonObject injectRef) {
         final CloseableHttpClient client = HttpClients.createDefault();
@@ -218,6 +230,14 @@ public class RestClient {
             }
         }
         info(LOGGER, "[INFO] Finale Result : " + injectRef.encode());
+    }
+
+    private void injectEntity(final HttpEntityEnclosingRequestBase request, final JsonObject data)
+            throws UnsupportedEncodingException {
+        final StringEntity body = new StringEntity(URLEncoder.encode(data.encode(), Resources.SYS_ENCODING.name()));
+        body.setContentEncoding(Resources.SYS_ENCODING.name());
+        body.setContentType("application/json");
+        request.setEntity(body);
     }
 
     private void injectHeaders(final HttpRequestBase request, final ConcurrentMap<String, String> headers) {
