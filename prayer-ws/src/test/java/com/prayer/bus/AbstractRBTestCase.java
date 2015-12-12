@@ -4,12 +4,14 @@ import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.singleton;
 
 import java.util.Locale;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
 import com.prayer.model.web.StatusCode;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import jodd.util.StringUtil;
 
@@ -37,6 +39,54 @@ public abstract class AbstractRBTestCase {
     protected RestClient client() {
         return this.rest;
     }
+
+    // ~ Util Methods ========================================
+    /** **/
+    protected JsonObject sendRequest(final String path, final JsonObject params, final HttpMethod method) {
+        final ConcurrentMap<String, String> headers = RestClient.getHeaders(this.client().getUserName(),
+                this.client().getPassword());
+        headers.put("Content-Type", "application/json");
+        JsonObject resp = null;
+        if (HttpMethod.POST == method) {
+            resp = this.client().requestPost(this.client().getApi(path), headers, params);
+        }else if(HttpMethod.DELETE == method){
+            resp = this.client().requestDelete(this.client().getApi(path), headers, params);
+        }
+        return resp;
+    }
+
+    /** **/
+    protected boolean check30007Resp(final JsonObject resp) {
+        final JsonObject data = resp.getJsonObject("data");
+        // Error Code
+        boolean ret = this.checkErrorCode(data.getJsonObject("error"), -30007);
+        // Http Status
+        ret = ret && this.checkHttpStatus(resp, StatusCode.BAD_REQUEST.status());
+        // Return Code
+        ret = ret && this.checkReturnCode(data, ResponseCode.FAILURE);
+        // Status Information
+        ret = ret && this.checkStatus(data.getJsonObject("status"), StatusCode.BAD_REQUEST);
+        // Passed
+        ret = ret && StringUtil.equals("PASSED", resp.getString("status"));
+        return ret;
+    }
+
+    /** **/
+    protected boolean check30001Resp(final JsonObject resp) {
+        final JsonObject data = resp.getJsonObject("data");
+        // Error Code
+        boolean ret = this.checkErrorCode(data.getJsonObject("error"), -30001);
+        // Http Status
+        ret = ret && this.checkHttpStatus(resp, StatusCode.BAD_REQUEST.status());
+        // Return Code
+        ret = ret && this.checkReturnCode(data, ResponseCode.FAILURE);
+        // Status Information
+        ret = ret && this.checkStatus(data.getJsonObject("status"), StatusCode.BAD_REQUEST);
+        // Passed
+        ret = ret && StringUtil.equals("PASSED", resp.getString("status"));
+        return ret;
+    }
+
     // ~ Response Check ======================================
     /** **/
     protected boolean checkSuccess(final JsonObject resp) {

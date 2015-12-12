@@ -4,15 +4,15 @@
         "namespace":"engine.script.sec.account"
     },
     {
+        "name":"js.api.delete.sec.account",
+        "namespace":"engine.script.sec.account"
+    },
+    {
         "name":"js.api.get.sec.account.id",
         "namespace":"engine.script.sec.account"
     },
     {
         "name":"js.api.put.sec.account",
-        "namespace":"engine.script.sec.account"
-    },
-    {
-        "name":"js.api.delete.sec.account",
         "namespace":"engine.script.sec.account"
     },
     {

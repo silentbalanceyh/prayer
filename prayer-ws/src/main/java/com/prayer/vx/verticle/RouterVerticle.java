@@ -12,7 +12,6 @@ import com.prayer.vx.configurator.ServerConfigurator;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
-import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -54,9 +53,6 @@ public class RouterVerticle extends AbstractVerticle {
         // 2.先初始化Router
         final RouteConfigurator routeConfigurator = singleton(RouteConfigurator.class, vertx);
         final Router router = routeConfigurator.getRouter();
-        for(final Route route: router.getRoutes()){
-            System.out.println(route);
-        }
         // 3.根路径Router
         RouterInjector.injectWebDefault(router);
         // 4.AuthProvider创建

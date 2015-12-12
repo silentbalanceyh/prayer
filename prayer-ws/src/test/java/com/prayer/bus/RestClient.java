@@ -111,7 +111,7 @@ public class RestClient {
      * 
      * @return
      */
-    protected String getUserName() {
+    public String getUserName() {
         return LOADER.getString("BASIC.api.username");
     }
 
@@ -142,6 +142,7 @@ public class RestClient {
         api.append(path);
         return api.toString();
     }
+
     /**
      * 
      * @param api
@@ -167,14 +168,29 @@ public class RestClient {
 
     /**
      * 
+     * @param api
+     * @param headers
+     * @return
+     */
+    public JsonObject requestDelete(final String api, final ConcurrentMap<String, String> headers,
+            final JsonObject data) {
+        return this.executeRequest(new HttpDelete(api), headers, data);
+    }
+
+    /**
+     * 
      * @param URI
      * @return
      */
     public JsonObject requestGet(final String api, final ConcurrentMap<String, String> headers) {
+        return this.executeRequest(new HttpGet(api), headers);
+    }
+
+    // ~ Private Methods =====================================
+    private JsonObject executeRequest(final HttpRequestBase request, final ConcurrentMap<String, String> headers) {
         final JsonObject ret = new JsonObject();
         ret.put("status", "SKIP");
         if (SecurityMode.BASIC == SECUTOR.getMode() && running) {
-            HttpGet request = new HttpGet(api);
             // 直接注入Header
             this.injectHeaders(request, headers);
             // 请求发送
@@ -183,7 +199,6 @@ public class RestClient {
         return ret;
     }
 
-    // ~ Private Methods =====================================
     private JsonObject executeRequest(final HttpEntityEnclosingRequestBase request,
             final ConcurrentMap<String, String> headers, final JsonObject data) {
         final JsonObject ret = new JsonObject();

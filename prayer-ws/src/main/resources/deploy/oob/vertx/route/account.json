@@ -17,9 +17,20 @@
         "order":-4000
     },
     {
+        "path":"/sec/account",
+        "method":"DELETE",
+        "order":-8000,
+        "requestHandler":"com.prayer.handler.standard.ValidationHandler"
+    },
+    {
+        "path":"/sec/account",
+        "method":"DELETE",
+        "order":-4000
+    },
+    {
         "path":"/sec/account/:id",
         "requestHandler":"com.prayer.handler.standard.PatternHandler",
-        "order":-11002
+        "order":-11003
     },
     {
         "path":"/sec/account/:id",
@@ -46,10 +57,5 @@
         "path":"/sec/page/account",
         "method":"POST",
         "order":-8800
-    },
-    {
-        "path":"/sec/account",
-        "method":"DELETE",
-        "order":-8000
     }
 ]

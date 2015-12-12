@@ -11,6 +11,14 @@
         ]
     },
     {
+        "uri":"/api/sec/account",
+        "globalId":"sec.account",
+        "method":"DELETE",
+        "requiredParam":[
+            "id"
+        ]
+    },
+    {
         "uri":"/api/sec/page/account",
         "globalId":"sec.account",
         "method":"POST",
@@ -47,14 +55,6 @@
         ],
         "returnFilters":[
             "password"
-        ]
-    },
-    {
-        "uri":"/api/sec/account",
-        "method":"DELETE",
-        "globalId":"sec.account",
-        "requiredParam":[
-            "id"
         ]
     }
 ]
