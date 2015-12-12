@@ -34,7 +34,12 @@
     },
     {
         "path":"/sec/account/:id",
+        "requestHandler":"com.prayer.handler.standard.ValidationHandler",
         "order":-8000
+    },
+    {
+        "path":"/sec/account/:id",
+        "order":-4000
     },
     {
         "path":"/sec/account",
