@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.AbstractRBTestCase;
+import com.prayer.bus.RestClient;
 import com.prayer.model.web.StatusCode;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
@@ -18,6 +19,7 @@ import io.vertx.core.json.JsonObject;
 import jodd.util.StringUtil;
 
 /**
+ * 因为headers中的内容会有变化，所以
  * 
  * @author Lang
  *
@@ -45,7 +47,7 @@ public class LoginTestCase extends AbstractRBTestCase {
      */
     @Test
     public void testLoginNoHeader() {
-        final ConcurrentMap<String, String> headers = getHeaders(null, null);
+        final ConcurrentMap<String, String> headers = RestClient.getHeaders(null, null);
         this.testFailure(headers, "[E30014]");
     }
 
@@ -54,7 +56,7 @@ public class LoginTestCase extends AbstractRBTestCase {
      */
     @Test
     public void testLoginNoUsername() {
-        final ConcurrentMap<String, String> headers = getHeaders(null, "pl,okmijn123");
+        final ConcurrentMap<String, String> headers = RestClient.getHeaders(null, "pl,okmijn123");
         this.testFailure(headers, "USERNAME.MISSING");
     }
 
@@ -63,7 +65,7 @@ public class LoginTestCase extends AbstractRBTestCase {
      */
     @Test
     public void testLoginNoPwD() {
-        final ConcurrentMap<String, String> headers = getHeaders("lang.yu", null);
+        final ConcurrentMap<String, String> headers = RestClient.getHeaders("lang.yu", null);
         this.testFailure(headers, "PASSWORD.MISSING");
     }
 
@@ -72,7 +74,7 @@ public class LoginTestCase extends AbstractRBTestCase {
      */
     @Test
     public void testLoginUserNotFound() {
-        final ConcurrentMap<String, String> headers = getHeaders("user.not.found", "pl,okmijn123");
+        final ConcurrentMap<String, String> headers = RestClient.getHeaders("user.not.found", "pl,okmijn123");
         this.testFailure(headers, "USER.NOT.FOUND");
     }
 
@@ -81,7 +83,7 @@ public class LoginTestCase extends AbstractRBTestCase {
      */
     @Test
     public void testLoginAuthFail() {
-        final ConcurrentMap<String, String> headers = getHeaders("lang.yu", "password.error");
+        final ConcurrentMap<String, String> headers = RestClient.getHeaders("lang.yu", "password.error");
         this.testFailure(headers, "AUTH.FAILURE");
     }
 
@@ -90,24 +92,25 @@ public class LoginTestCase extends AbstractRBTestCase {
      */
     @Test
     public void testLoginSuccess() {
-        final ConcurrentMap<String, String> headers = getHeaders("lang.yu", "pl,okmijn123");
-        final JsonObject resp = this.requestGet(this.getApi("/sec/login"), headers);
+        final ConcurrentMap<String, String> headers = RestClient.getHeaders("lang.yu", "pl,okmijn123");
+        final JsonObject resp = this.client().requestGet(this.client().getApi("/sec/login"), headers);
         if (!StringUtil.equals("SKIP", resp.getString("status"))) {
             boolean ret = this.checkSuccess(resp);
-            assertTrue("[TST] ( 200 : " + resp.getJsonObject("data").getJsonObject("data").encode() + " ) Unsuccessful !",
+            assertTrue(
+                    "[TST] ( 200 : " + resp.getJsonObject("data").getJsonObject("data").encode() + " ) Unsuccessful !",
                     ret);
         }
     }
     // ~ Private Methods =====================================
 
     private void testFailure(final ConcurrentMap<String, String> headers, final String retStr) {
-        final JsonObject resp = this.requestGet(this.getApi("/sec/login"), headers);
+        final JsonObject resp = this.client().requestGet(this.client().getApi("/sec/login"), headers);
         if (!StringUtil.equals("SKIP", resp.getString("status"))) {
             boolean ret = checkResp(resp);
             if (ret) {
                 final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
                 info(LOGGER, "[INFO] Display Error: " + display);
-                ret = (0 <= display.indexOf(retStr));
+                ret = 0 <= display.indexOf(retStr);
                 assertTrue("[TST] ( 401 :" + retStr + " ) Unsuccessful !", ret);
             } else {
                 fail("[ERR] Basic Information Checking Failure !");

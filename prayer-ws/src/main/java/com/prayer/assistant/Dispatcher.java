@@ -1,6 +1,7 @@
 package com.prayer.assistant;
 
 import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.util.StringKit.decodeURL;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -113,7 +114,7 @@ public final class Dispatcher { // NOPMD
                 final String body = context.getBodyAsString();
                 if (StringKit.isNonNil(body)) {
                     try {
-                        final JsonObject params = context.getBodyAsJson();
+                        final JsonObject params = new JsonObject(decodeURL(body));
                         for (final String param : paramList) {
                             if (params.containsKey(param)) {
                                 if (StringUtil.equals(param, Constants.PARAM.PAGE.NAME)) {

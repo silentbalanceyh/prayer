@@ -1,8 +1,17 @@
 package com.prayer.util;
 
+import static com.prayer.util.Error.debug;
+import static com.prayer.util.Error.info;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.Resources;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.MinSize;
@@ -16,8 +25,9 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public final class StringKit {
-
 	// ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(StringKit.class);
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -25,6 +35,19 @@ public final class StringKit {
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
 	// ~ Methods =============================================
+    /** **/
+    public static String decodeURL(final String inputValue) {
+        String ret = inputValue;
+        try {
+            ret = URLDecoder.decode(inputValue, Resources.SYS_ENCODING.name());
+        } catch (UnsupportedEncodingException ex) {
+            debug(LOGGER, "JVM.ENCODING", ex, Resources.SYS_ENCODING.name());
+        } catch (IllegalArgumentException ex) {
+            // Decoding Error and pick up old value;
+            info(LOGGER, "Not Needed : " + ex.getMessage());
+        }
+        return ret;
+    }
 	/**
 	 * 
 	 * @param collection

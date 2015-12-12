@@ -1,7 +1,7 @@
 [
     {
         "name":"com.prayer.vx.verticle.RouterVerticle",
-        "instances":20,
+        "instances":1,
         "ha":true,
         "deployOrder":1
     },
