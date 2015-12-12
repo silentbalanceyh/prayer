@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.dao.impl.jdbc.H2ConnImpl;
 import com.prayer.util.PropertyKit;
+import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.Symbol;
 
@@ -116,7 +117,7 @@ public class ServerConfigurator { // NOPMD
                 srcParams.add(this.readH2Url(host, servers.get(source).getPort()));
             }
             params.add("-urlSource");
-            final StringBuilder url = new StringBuilder();
+            final StringBuilder url = new StringBuilder(Constants.BUFFER_SIZE);
             url.append("jdbc:h2:tcp://").append(StringUtil.join(srcParams.toArray(new String[] {}), Symbol.COMMA))
                     .append("/META/").append(database).append(";PASSWORD_HASH=TRUE");
             params.add(url.toString());
@@ -129,7 +130,7 @@ public class ServerConfigurator { // NOPMD
                 dstParams.add(this.readH2Url(host, servers.get(target).getPort()));
             }
             params.add("-urlTarget");
-            final StringBuilder url = new StringBuilder();
+            final StringBuilder url = new StringBuilder(Constants.BUFFER_SIZE);
             url.append("jdbc:h2:tcp://").append(StringUtil.join(dstParams.toArray(new String[] {}), Symbol.COMMA))
                     .append("/META/").append(database).append(";PASSWORD_HASH=TRUE");
             params.add(url.toString());
@@ -188,8 +189,8 @@ public class ServerConfigurator { // NOPMD
     // ~ Private Methods =====================================
 
     private String readH2Url(final String host, final int port) {
-        final StringBuilder url = new StringBuilder();
-        url.append(host).append(":").append(port);
+        final StringBuilder url = new StringBuilder(Constants.BUFFER_SIZE);
+        url.append(host).append(Symbol.COLON).append(port); // NOPMD
         return url.toString();
     }
 

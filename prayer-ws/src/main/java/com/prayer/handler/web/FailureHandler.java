@@ -25,43 +25,44 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class FailureHandler implements ErrorHandler {
 
-	// ~ Static Fields =======================================
+    // ~ Static Fields =======================================
 
-	/** **/
-	private static final Logger LOGGER = LoggerFactory.getLogger(FailureHandler.class);
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(FailureHandler.class);
 
-	// ~ Instance Fields =====================================
-	// ~ Static Block ========================================
-	// ~ Static Methods ======================================
-	/** 创建方法 **/
-	public static FailureHandler create() {
-		return new FailureHandler();
-	}
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    /** 创建方法 **/
+    public static FailureHandler create() {
+        return new FailureHandler();
+    }
 
-	// ~ Constructors ========================================
-	// ~ Abstract Methods ====================================
-	// ~ Override Methods ====================================
-	/**
-	 * 直接从Context中获取处理结果
-	 */
-	@Override
-	public void handle(@NotNull final RoutingContext context) {
-		info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.FAILURE),context.request().path());
-		// 1.包装响应信息
-		final HttpServerResponse response = context.response();
-		// 2.获取RestfulResult
-		final Responsor responser = (Responsor) context.get(Constants.KEY.CTX_RESPONSOR);
-		if(null != responser){
-		    error(LOGGER, WebLogger.E_COMMON_EXP, responser.getError());
-		}else{
-		    info(LOGGER, WebLogger.I_COMMON_INFO, " Responser = " + responser);
-		}
-		Future.failure(response, responser.getResult().toString(), responser.getStatus().status(),
-		        responser.getStatus().name());
-	}
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /**
+     * 直接从Context中获取处理结果
+     */
+    @Override
+    public void handle(@NotNull final RoutingContext context) {
+        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.FAILURE),
+                context.request().path());
+        // 1.包装响应信息
+        final HttpServerResponse response = context.response();
+        // 2.获取RestfulResult
+        final Responsor responser = (Responsor) context.get(Constants.KEY.CTX_RESPONSOR);
+        if (null == responser) {
+            info(LOGGER, WebLogger.I_COMMON_INFO, " Responser = " + responser);
+        } else {
+            error(LOGGER, WebLogger.E_COMMON_EXP, responser.getError());
+        }
+        Future.failure(response, responser.getResult().toString(), responser.getStatus().status(),
+                responser.getStatus().name());
+    }
 
-	// ~ Methods =============================================
-	// ~ Private Methods =====================================
-	// ~ Get/Set =============================================
-	// ~ hashCode,equals,toString ============================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
 }

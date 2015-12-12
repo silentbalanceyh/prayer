@@ -32,11 +32,11 @@ public final class Responsor implements Serializable, ClusterSerializable {
     /** HTTP状态代码 **/
     private transient StatusCode status;
     /** 抽象Web异常信息 **/
-    private transient AbstractException error;
+    private transient AbstractException error;  // NOPMD
     /** 返回类型信息 **/
     private transient ReturnType retType;
     /** 最终返回数据信息 **/
-    private transient Buffer data;
+    private transient final Buffer data;
     /** 响应代码 **/
     private transient ResponseCode code;
     /** 显示信息 **/
@@ -129,9 +129,9 @@ public final class Responsor implements Serializable, ClusterSerializable {
     private Responsor(final JsonArray array) {
         this.retType = ReturnType.ARRAY;
         this.status = StatusCode.OK;
-        this.error = null;
+        this.error = null;      // NOPMD
         this.code = ResponseCode.SUCCESS;
-        this.display = null;
+        this.display = null;    // NOPMD
         this.data = Buffer.buffer();
         array.writeToBuffer(this.data);
     }
@@ -146,8 +146,8 @@ public final class Responsor implements Serializable, ClusterSerializable {
         this.code = ResponseCode.SUCCESS;
         this.data = Buffer.buffer();
         object.writeToBuffer(this.data);
-        this.error = null;
-        this.display = null;
+        this.error = null;      // NOPMD
+        this.display = null;    // NOPMD
     }
 
     // ~ Abstract Methods ====================================
@@ -166,7 +166,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
      * 
      */
     @Override
-    public int readFromBuffer(int pos, final Buffer buffer) {
+    public int readFromBuffer(final int pos, final Buffer buffer) {
         // 响应结果读取到Buffer中
         return this.getResult().readFromBuffer(pos, buffer);
     }

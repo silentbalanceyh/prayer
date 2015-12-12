@@ -7,9 +7,9 @@ import io.vertx.core.http.HttpHeaders;
  * @author Lang
  *
  */
-public interface JsonKey {
+public interface JsonKey {  // NOPMD
     /** **/
-    interface TOKEN {
+    interface TOKEN {       // NOPMD
         /** **/
         String NAME = "token";
         /** **/
@@ -19,13 +19,13 @@ public interface JsonKey {
         /** **/
         String PASSWORD = "password";
         /** **/
-        String ID = "id";
+        String ID = "id";   // NOPMD
         /** **/
         String ROLE = "role";
     }
 
     /** **/
-    interface REQUEST {
+    interface REQUEST {     // NOPMD
         /** **/
         String NAME = "request";
         /** **/
@@ -37,7 +37,7 @@ public interface JsonKey {
     }
 
     /** **/
-    interface PARAMS {
+    interface PARAMS {      // NOPMD
         /** **/
         String NAME = "params";
         /** **/
@@ -53,7 +53,7 @@ public interface JsonKey {
     }
 
     /** **/
-    interface RESPONSE {
+    interface RESPONSE {    // NOPMD
         /** **/
         String NAME = "response";
         /** **/
@@ -67,14 +67,14 @@ public interface JsonKey {
     }
 
     /** **/
-    interface RESPONSOR {
+    interface RESPONSOR {   // NOPMD
         /** **/
         String RETURNCODE = RESPONSE.RETURNCODE;
         /** **/
         String DATA = PARAMS.DATA;
 
         /** **/
-        interface STATUS {
+        interface STATUS {  // NOPMD
             /** **/
             String NAME = RESPONSE.STATUS;
             /** **/
@@ -84,7 +84,7 @@ public interface JsonKey {
         }
 
         /** **/
-        interface ERROR {
+        interface ERROR {   // NOPMD
             /** **/
             String NAME = "error";
             /** **/

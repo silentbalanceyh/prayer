@@ -109,6 +109,7 @@ public class H2DatabaseServer {
                 info(LOGGER, WebLogger.I_H2_DB_CLS_STD,Converter.toStr(params));
             } catch (SQLException ex) {
                 info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
+                // TODO: Debug
                 ex.printStackTrace();
                 started = false;
             }

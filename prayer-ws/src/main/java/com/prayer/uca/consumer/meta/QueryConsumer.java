@@ -63,18 +63,12 @@ public class QueryConsumer implements Handler<Message<Object>> {
         params.remove(Constants.PARAM.METHOD);
         // 3.根据不同的方法的Record
         Responsor responsor = null;
-        switch (method) {
-        // 只有POST方法才能触发这种分页的信息
-        case POST: {
+        if (HttpMethod.POST == method) {
             final ServiceResult<JsonObject> result = this.metaSev.page(params);
             responsor = Extractor.responsor(result, StatusCode.OK);
-        }
-            break;
-        default: {
+        } else {
             responsor = Responsor.failure(StatusCode.METHOD_NOT_ALLOWED,
                     new MethodNotAllowedException(getClass(), method.toString()));
-        }
-            break;
         }
         event.reply(responsor.getResult());
     }

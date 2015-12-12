@@ -119,7 +119,7 @@ public class RouteConfigurator {
     private Route initRoute(final Router router, final RouteModel metadata) {
         Route route = null;
         // Fix: 暂时不修改表结构
-        String path = metadata.getParent() + metadata.getPath();
+        final String path = metadata.getParent() + metadata.getPath();
         switch (metadata.getMethod()) {
         case POST: {
             route = router.post(path);

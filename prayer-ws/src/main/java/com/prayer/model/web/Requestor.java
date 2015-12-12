@@ -41,10 +41,10 @@ public final class Requestor implements Serializable, ClusterSerializable {
     private static final long serialVersionUID = -7936179017250680612L;
     // ~ Instance Fields =====================================
     /** 请求完整数据 **/
-    private transient JsonObject data;
+    private transient final JsonObject data;
     /** 请求参数 **/
     @NotNull
-    private transient JsonObject request;
+    private transient final JsonObject request;
     /** 响应参数 **/
     @NotNull
     private transient JsonObject response;
