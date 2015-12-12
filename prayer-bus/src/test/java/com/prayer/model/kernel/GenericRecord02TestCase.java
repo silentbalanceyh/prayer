@@ -17,8 +17,6 @@ import com.prayer.exception.validator.PrecisionFailureException;
 import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericRecord;
-import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 /**

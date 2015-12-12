@@ -52,7 +52,7 @@ public class CommunionImporter implements Importer {
     @NotNull
     @NotEmpty
     @NotBlank
-    private transient String filePath;
+    private transient String filePath;  // NOPMD
     /** **/
     @NotNull
     private transient ExternalEnsurer ensurer;

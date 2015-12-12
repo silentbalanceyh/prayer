@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.prayer.dao.impl.builder;
+package com.prayer.dao.impl.builder;    // NOPMD
 
 
 import static com.prayer.util.Error.info;

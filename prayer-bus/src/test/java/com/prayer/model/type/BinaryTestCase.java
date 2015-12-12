@@ -1,15 +1,12 @@
 package com.prayer.model.type;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
 import org.junit.Test;
-
-import com.prayer.model.type.BinaryType;
-import com.prayer.model.type.DataType;
 
 /**
  * 

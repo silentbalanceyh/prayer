@@ -14,6 +14,7 @@ import com.prayer.dao.impl.schema.UriDaoImpl;
 import com.prayer.facade.bus.deploy.UriDPService;
 import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.util.JsonKit;
+import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.ParamType;
 
 import io.vertx.core.http.HttpMethod;
@@ -28,7 +29,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String>implements UriDPService { // NOPMD
+public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String> implements UriDPService { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(UriDPSevImpl.class);
@@ -59,7 +60,7 @@ public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String>implements 
 
     /** **/
     @Override
-    public List<UriModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath) throws AbstractSystemException {
+    public List<UriModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath) throws AbstractSystemException { // NOPMD
         final TypeReference<List<UriModel>> typeRef = new TypeReference<List<UriModel>>() {
         };
         final List<UriModel> retList = JsonKit.fromFile(typeRef, jsonPath);
@@ -77,20 +78,20 @@ public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String>implements 
             if (null == item.getAddress()) {
                 item.setAddress("MSG://RECORD/QUEUE");
             }
-            final List<String> emptyArr = new ArrayList<>();
+            final List<String> emptyArr = new ArrayList<>(); // NOPMD
             if (null == item.getReturnFilters()) {
                 item.setReturnFilters(emptyArr);
             }
             if (null == item.getRequiredParam()) {
                 item.setRequiredParam(emptyArr);
             }
-            if (null == item.getSender()){
+            if (null == item.getSender()) {
                 item.setSender("com.prayer.uca.sender.JsonRecordSender");
             }
             if (null == item.getScript()) {
-                final StringBuilder script = new StringBuilder();
-                script.append("js.api.").append(item.getMethod().toString().toLowerCase(Locale.getDefault()));
-                script.append(".");
+                final StringBuilder script = new StringBuilder(Constants.BUFFER_SIZE); // NOPMD
+                script.append("js.api.").append(item.getMethod().toString().toLowerCase(Locale.getDefault()))
+                        .append('.');
                 final String exeJS = item.getUri().replaceAll("/api/", "").replaceAll("/", "\\.");
                 script.append(exeJS);
                 item.setScript(script.toString());

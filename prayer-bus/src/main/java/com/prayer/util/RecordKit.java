@@ -16,7 +16,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RecordKit {
+public final class RecordKit {  // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -28,11 +28,9 @@ public class RecordKit {
      * @param right
      * @return
      */
-    public static boolean equal(@NotNull final Record left, @NotNull final Record right) {
+    public static boolean equal(@NotNull final Record left, @NotNull final Record right) {  // NOPMD
         boolean equal = true;
-        if (!StringUtil.equals(left.identifier(), right.identifier())) {
-            equal = false;
-        } else {
+        if (StringUtil.equals(left.identifier(), right.identifier())) {
             for (final String field : left.fields().keySet()) {
                 try {
                     final Value<?> lValue = left.get(field);
@@ -40,9 +38,9 @@ public class RecordKit {
                     if (null == lValue && null == rValue) {
                         // 两个字段都为空，直接Pass
                         continue;
-                    } else if (null != lValue && null != rValue) {
+                    } else if (null != lValue && null != rValue) {  // NOPMD
                         if (lValue.getDataType() == DataType.DATE) {
-                            // TODO: 时间有1纳秒的差距，不直接使用equal
+                            // 时间有1纳秒的差距，不直接使用equal
                             if (lValue.literal().equals(rValue.literal())) {
                                 // 两个值相等，直接Pass
                                 continue;
@@ -71,6 +69,8 @@ public class RecordKit {
                     equal = false;
                 }
             }
+        } else {
+            equal = false;
         }
         return equal;
     }

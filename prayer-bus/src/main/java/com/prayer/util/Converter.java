@@ -70,15 +70,15 @@ public final class Converter {
 
     /**
      * 
-     * @param in
+     * @param istream
      * @return
      */
-    public static String toStr(@NotNull final InputStream in) throws IOException {
+    public static String toStr(@NotNull final InputStream istream) throws IOException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] data = new byte[Constants.BYTE_BUF_SIZE];
+        final byte[] data = new byte[Constants.BYTE_BUF_SIZE];
         int count = Constants.RANGE;
         String ret = null;
-        while (Constants.RANGE != (count = in.read(data, Constants.ZERO, Constants.BYTE_BUF_SIZE))) {
+        while (Constants.RANGE != (count = istream.read(data, Constants.ZERO, Constants.BYTE_BUF_SIZE))) {  // NOPMD
             out.write(data, Constants.ZERO, count);
         }
         if (Constants.ZERO < out.size()) {

@@ -62,7 +62,7 @@ public abstract class AbstractSevImpl {
 
     /** **/
     @NotNull
-    protected ServiceHelper helper() {
+    protected ServiceHelper getHelper() {
         return this.helper;
     }
 

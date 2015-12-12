@@ -42,8 +42,8 @@ final class ValueTransducer implements Transducer { // NOPMD
     /** **/
     @Override
     @NotNull
-    public Value<?> getValue(@NotNull final JsonObject data, @NotNull @InstanceOf(DataType.class) final DataType type,
-            @NotNull @NotEmpty @NotBlank final String field) throws AbstractDatabaseException{
+    public Value<?> getValue(@NotNull final JsonObject data, @NotNull @InstanceOf(DataType.class) final DataType type, // NOPMD
+            @NotNull @NotEmpty @NotBlank final String field) throws AbstractDatabaseException {
         Value<?> ret = null;
         switch (type) {
         case BOOLEAN: {
@@ -103,8 +103,8 @@ final class ValueTransducer implements Transducer { // NOPMD
     /** **/
     @Override
     @NotNull
-    public Value<?> getValue(@NotNull @InstanceOf(DataType.class) final DataType type, final String value)
-            throws AbstractDatabaseException { // NOPMD
+    public Value<?> getValue(@NotNull @InstanceOf(DataType.class) final DataType type, final String value) // NOPMD
+            throws AbstractDatabaseException {
         Value<?> ret = null;
         switch (type) {
         case BOOLEAN:

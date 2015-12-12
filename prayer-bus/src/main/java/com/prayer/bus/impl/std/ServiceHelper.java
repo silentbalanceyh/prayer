@@ -1,4 +1,4 @@
-package com.prayer.bus.impl.std;
+package com.prayer.bus.impl.std; // NOPMD
 
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
@@ -62,13 +62,14 @@ public final class ServiceHelper {
     @NotNull
     @NotBlank
     @NotEmpty
-    private transient final String recordCls;
+    private transient final String recordCls; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+
     /** **/
     @PostValidateThis
-    public ServiceHelper(@NotNull final RecordDao recordDao, @NotNull final Class<?> entityCls){
+    public ServiceHelper(@NotNull final RecordDao recordDao, @NotNull final Class<?> entityCls) {
         this.serializer = singleton(RecordSerializer.class);
         this.dao = recordDao;
         this.recordCls = entityCls.getName();
@@ -104,8 +105,6 @@ public final class ServiceHelper {
         ret.success(retJson);
         return ret;
     }
-    
-
 
     /** **/
     @NotNull
@@ -119,7 +118,7 @@ public final class ServiceHelper {
         // 2. 将Java和脚本引擎连接实现变量共享
         JSEngine.initJSEnv(jsonObject, record);
         // 3. 删除当前记录
-        boolean deleted = this.dao.delete(record);
+        final boolean deleted = this.dao.delete(record);
         ret.success(new JsonObject().put("DELETED", deleted));
         return ret;
     }
@@ -130,7 +129,6 @@ public final class ServiceHelper {
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<JsonObject> sharedPage(@NotNull final JsonObject jsonObject)
             throws ScriptException, AbstractException {
-        ServiceResult<JsonObject> ret = new ServiceResult<>();
         // 1. 初始化脚本引擎以及Record对象
         final Record record = instance(this.recordCls, jsonObject.getString(Constants.PARAM.ID));
         // 2. 将Java和脚本引擎连接实现变量共享
@@ -148,6 +146,7 @@ public final class ServiceHelper {
         }
         // 5.构造结果
         final JsonObject retObj = new JsonObject();
+        final ServiceResult<JsonObject> ret = new ServiceResult<>();
         if (Constants.ONE == retMap.size()) {
             final Map.Entry<Long, List<Record>> entry = retMap.entrySet().iterator().next();
             retObj.put(Constants.PARAM.PAGE.RET_COUNT, entry.getKey());

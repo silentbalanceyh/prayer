@@ -1,4 +1,4 @@
-package com.prayer.util;
+package com.prayer.util;    // NOPMD
 
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
@@ -87,10 +87,6 @@ public final class JsonKit { // NOPMD
             debug(LOGGER, ERR_20004, ex, content);
         } catch (IOException ex) {
             debug(LOGGER, ERR_20004, ex, content);
-        }
-        // TODO: Debug
-        catch (Exception ex) {
-            ex.printStackTrace();
         }
         return retObj;
     }

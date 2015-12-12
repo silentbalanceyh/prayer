@@ -38,13 +38,14 @@ public abstract class AbstractMDaoTestTool extends AbstractTestTool {
     private static final Value<?> V_ID = new StringType("ID");
     // ~ Instance Fields =====================================
     /** **/
-    private transient RecordDao dao;
+    private final transient RecordDao dao;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
     public AbstractMDaoTestTool() {
+        super();
         this.dao = singleton(MetaDaoImpl.class);
     }
 
@@ -140,10 +141,10 @@ public abstract class AbstractMDaoTestTool extends AbstractTestTool {
         final Record before = this.getRecord(this.identifier());
         final Record after = this.getRecordDao().insert(before);
         // 调用select
-        final String id = after.idschema().get(Constants.ZERO).getName();
-        final Record selectR = this.getRecordDao().selectById(after, after.get(id));
+        final String uniqueId = after.idschema().get(Constants.ZERO).getName();
+        final Record selectR = this.getRecordDao().selectById(after, after.get(uniqueId));
         // 判断equals
-        boolean ret = RecordKit.equal(after, selectR);
+        final boolean ret = RecordKit.equal(after, selectR);
         assertTrue(message(TST_TF, Boolean.TRUE), ret);
         // 检查完过后将新插入的数据删除
         this.getRecordDao().delete(after);
@@ -165,7 +166,7 @@ public abstract class AbstractMDaoTestTool extends AbstractTestTool {
         this.updateRecord(after);
         final Record updateR = this.getRecordDao().update(after);
         // 循环内equals检查
-        boolean ret = RecordKit.equal(after, updateR);
+        final boolean ret = RecordKit.equal(after, updateR);
         assertTrue(message(TST_TF, Boolean.TRUE), ret);
         // 检查完毕将新插入的数据删除掉
         this.getRecordDao().delete(updateR);

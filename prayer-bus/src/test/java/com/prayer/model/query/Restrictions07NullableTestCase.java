@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractTestTool;
 import com.prayer.facade.kernel.Expression;
-import com.prayer.model.query.Restrictions;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 

@@ -61,21 +61,13 @@ public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthServic
         final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
         if (null == error) {
             try {
-                ret = this.helper().sharedFind(jsonObject);
+                ret = this.getHelper().sharedFind(jsonObject);
             } catch (ScriptException ex) {
                 error(getLogger(), BusinessLogger.E_JS_ERROR, ex.toString());
                 ret.error(new JSScriptEngineException(getClass(), ex.toString()));
-                // TODO: Debug
-                ex.printStackTrace();
             } catch (AbstractException ex) {
                 error(getLogger(), BusinessLogger.E_AT_ERROR, ex.toString());
                 ret.failure(ex);
-                // TODO: Debug
-                ex.printStackTrace();
-            } 
-            // TODO: Debug
-            catch(Exception ex){
-                ex.printStackTrace();
             }
         } else {
             ret.failure(error);

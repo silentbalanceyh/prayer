@@ -15,8 +15,6 @@ import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericRecord;
-import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.type.StringType;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 

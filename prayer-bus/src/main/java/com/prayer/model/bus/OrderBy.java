@@ -37,7 +37,7 @@ public class OrderBy implements Serializable {
     /**
      * 
      */
-    private transient final List<String> orderBy = new ArrayList<>();
+    private transient final List<String> orderByList = new ArrayList<>();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -65,7 +65,9 @@ public class OrderBy implements Serializable {
      * 
      */
     public OrderBy() {
-        this.clear();
+        if (!orderByList.isEmpty()) {
+            orderByList.clear();
+        }
     }
 
     // ~ Constructors ========================================
@@ -76,10 +78,10 @@ public class OrderBy implements Serializable {
     private OrderBy(final JsonArray orderArr) {
         for (int idx = 0; idx < orderArr.size(); idx++) {
             final JsonObject item = orderArr.getJsonObject(idx);
-            final Iterator<Map.Entry<String, Object>> it = item.iterator();
+            final Iterator<Map.Entry<String, Object>> itor = item.iterator();
             // Orders只包含一个元素
-            if (it.hasNext()) {
-                Map.Entry<String, Object> entry = it.next();
+            if (itor.hasNext()) {
+                final Map.Entry<String, Object> entry = itor.next();
                 final String flag = entry.getValue().toString();
                 this.add(entry.getKey(), flag);
             }
@@ -93,10 +95,10 @@ public class OrderBy implements Serializable {
     private OrderBy(final JsonArray orderArr, final Record record) {
         for (int idx = 0; idx < orderArr.size(); idx++) {
             final JsonObject item = orderArr.getJsonObject(idx);
-            final Iterator<Map.Entry<String, Object>> it = item.iterator();
+            final Iterator<Map.Entry<String, Object>> itor = item.iterator();
             // Orders只包含一个元素
-            if (it.hasNext()) {
-                Map.Entry<String, Object> entry = it.next();
+            if (itor.hasNext()) {
+                final Map.Entry<String, Object> entry = itor.next();
                 try {
                     final String column = record.toColumn(entry.getKey());
                     final String flag = entry.getValue().toString();
@@ -120,28 +122,28 @@ public class OrderBy implements Serializable {
         } else {
             statement.append("DESC");
         }
-        this.orderBy.add(statement.toString());
+        this.orderByList.add(statement.toString());
     }
 
     /** 清除掉当前的OrderBy Queue **/
     public void clear() {
-        if (!orderBy.isEmpty()) {
-            orderBy.clear();
+        if (!orderByList.isEmpty()) {
+            orderByList.clear();
         }
     }
 
     /** **/
     public String toSql() {
         String orderBySql = "";
-        if (!orderBy.isEmpty()) {
-            orderBySql = StringUtil.join(this.orderBy.toArray(Constants.T_STR_ARR), Symbol.COMMA);
+        if (!orderByList.isEmpty()) {
+            orderBySql = StringUtil.join(this.orderByList.toArray(Constants.T_STR_ARR), Symbol.COMMA);
         }
         return orderBySql;
     }
 
     /** **/
     public boolean containOrderBy() {
-        return !this.orderBy.isEmpty();
+        return !this.orderByList.isEmpty();
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

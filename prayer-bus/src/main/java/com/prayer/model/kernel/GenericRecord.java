@@ -1,4 +1,4 @@
-package com.prayer.model.kernel;
+package com.prayer.model.kernel; // NOPMD
 
 import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.info;
@@ -48,12 +48,14 @@ public class GenericRecord implements Record { // NOPMD
     private static final Logger LOGGER = LoggerFactory.getLogger(GenericRecord.class);
     /** 前置条件 **/
     private static final String PRE_SCHEMA_CON = "_this._schema != null && _this.data != null";
+    /** **/
+    private static final String RULE_ID = "_identifier";
     // ~ Instance Fields =====================================
     /** 全局标识符 **/
     @NotNull
     @NotBlank
     @NotEmpty
-    private transient final String _identifier;
+    private transient final String _identifier; // NOPMD
     /** 和当前Record绑定的Schema引用 **/
     @NotNull
     private transient GenericSchema _schema; // NOPMD
@@ -69,7 +71,7 @@ public class GenericRecord implements Record { // NOPMD
      * @param _identifier
      */
     @PostValidateThis
-    public GenericRecord(@AssertFieldConstraints("_identifier") final String identifier) {
+    public GenericRecord(@AssertFieldConstraints(RULE_ID) final String identifier) {
         this._identifier = identifier.trim();
         try {
             this._schema = SchemaLocator.getSchema(identifier.trim());
@@ -85,8 +87,8 @@ public class GenericRecord implements Record { // NOPMD
     /** **/
     @Override
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public void set(@AssertFieldConstraints("_identifier") final String name,
-            @InstanceOf(Value.class) final Value<?> value) throws AbstractDatabaseException {
+    public void set(@AssertFieldConstraints(RULE_ID) final String name, @InstanceOf(Value.class) final Value<?> value)
+            throws AbstractDatabaseException {
         this.verifyField(name);
         this.data.put(name, value);
     }
@@ -94,7 +96,7 @@ public class GenericRecord implements Record { // NOPMD
     /** **/
     @Override
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public void set(@AssertFieldConstraints("_identifier") final String name, final String value)
+    public void set(@AssertFieldConstraints(RULE_ID) final String name, final String value)
             throws AbstractDatabaseException {
         this.verifyField(name);
         final DataType type = this._schema.getFields().get(name).getType();
@@ -105,7 +107,7 @@ public class GenericRecord implements Record { // NOPMD
     /** **/
     @Override
     @InstanceOf(Value.class)
-    public Value<?> get(@AssertFieldConstraints("_identifier") final String name) throws AbstractDatabaseException {
+    public Value<?> get(@AssertFieldConstraints(RULE_ID) final String name) throws AbstractDatabaseException {
         this.verifyField(name);
         return this.data.get(name);
     }
@@ -114,8 +116,7 @@ public class GenericRecord implements Record { // NOPMD
     @Override
     @InstanceOf(Value.class)
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public Value<?> column(@AssertFieldConstraints("_identifier") final String column)
-            throws AbstractDatabaseException {
+    public Value<?> column(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
         final FieldModel colInfo = this._schema.getColumn(column);
         return this.data.get(colInfo.getName());
@@ -158,7 +159,7 @@ public class GenericRecord implements Record { // NOPMD
     @Override
     @NotNull
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public String toField(@AssertFieldConstraints("_identifier") final String column) throws AbstractDatabaseException {
+    public String toField(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
         final FieldModel field = this._schema.getColumn(column);
         return field.getName();
@@ -168,7 +169,7 @@ public class GenericRecord implements Record { // NOPMD
     @Override
     @NotNull
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public String toColumn(@AssertFieldConstraints("_identifier") final String field) throws AbstractDatabaseException {
+    public String toColumn(@AssertFieldConstraints(RULE_ID) final String field) throws AbstractDatabaseException {
         this.verifyField(field);
         final FieldModel column = this._schema.getFields().get(field);
         return column.getColumnName();
@@ -184,11 +185,11 @@ public class GenericRecord implements Record { // NOPMD
         final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
         for (final FieldModel field : pkFields) {
             try {
-                if (null != this.column(field.getColumnName())) {
-                    retMap.put(field.getColumnName(), this.column(field.getColumnName()));
-                } else {
+                if (null == this.column(field.getColumnName())) {
                     // 默认String为主键替换Null的默认ID
-                    retMap.put(field.getColumnName(), new StringType(Constants.EMPTY_STR));
+                    retMap.put(field.getColumnName(), new StringType(Constants.EMPTY_STR)); // NOPMD
+                } else {
+                    retMap.put(field.getColumnName(), this.column(field.getColumnName()));
                 }
             } catch (AbstractDatabaseException ex) {
                 info(LOGGER, ex.getErrorMessage());
@@ -265,10 +266,10 @@ public class GenericRecord implements Record { // NOPMD
         }
         return retStr.toString();
     }
-
-	@Override
-	public String seqname() {
-		// TODO Auto-generated method stub
+    /** **/
+    @Override
+    public String seqname() {
+        // TODO Auto-generated method stub
         return this._schema.getMeta().getSeqName();
-	}
+    }
 }

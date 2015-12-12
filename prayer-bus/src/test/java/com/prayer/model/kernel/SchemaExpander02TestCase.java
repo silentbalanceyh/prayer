@@ -19,8 +19,6 @@ import com.prayer.AbstractRDaoTestTool;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
-import com.prayer.model.kernel.GenericSchema;
-import com.prayer.model.kernel.SchemaExpander;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 

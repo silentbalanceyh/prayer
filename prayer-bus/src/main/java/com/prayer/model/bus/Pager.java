@@ -36,7 +36,11 @@ public class Pager implements Serializable {
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-
+    /**
+     * 
+     * @param pageJson
+     * @return
+     */
     public static Pager create(@NotNull final JsonObject pageJson) {
         return new Pager(pageJson);
     }

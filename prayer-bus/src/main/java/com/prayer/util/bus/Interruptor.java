@@ -18,7 +18,7 @@ import net.sf.oval.guard.Guarded;
 
 /** **/
 @Guarded
-public final class Interruptor {
+public final class Interruptor {    // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -33,13 +33,11 @@ public final class Interruptor {
         AbstractException error = null;
         try {
             final JsonObject data = jsonObject.getJsonObject(Constants.PARAM.DATA);
-            if (!data.containsKey(Constants.PARAM.PAGE.NAME)) {
-                error = new ServiceParamMissingException(clazz, Constants.PARAM.PAGE.NAME);
-            } else {
+            if (data.containsKey(Constants.PARAM.PAGE.NAME)) {
                 final JsonObject page = data.getJsonObject(Constants.PARAM.PAGE.NAME);
                 if (!(page.containsKey(Constants.PARAM.PAGE.PAGE_INDEX)
                         && page.containsKey(Constants.PARAM.PAGE.PAGE_SIZE))) {
-                    if (!page.containsKey(Constants.PARAM.PAGE.PAGE_INDEX)) {
+                    if (!page.containsKey(Constants.PARAM.PAGE.PAGE_INDEX)) { // NOPMD
                         error = new ServiceParamMissingException(clazz,
                                 Constants.PARAM.PAGE.NAME + "->" + Constants.PARAM.PAGE.PAGE_INDEX);
                     } else if (!page.containsKey(Constants.PARAM.PAGE.PAGE_SIZE)) {
@@ -49,10 +47,10 @@ public final class Interruptor {
                 }
                 page.getInteger(Constants.PARAM.PAGE.PAGE_INDEX);
                 page.getInteger(Constants.PARAM.PAGE.PAGE_SIZE);
+            } else {
+                error = new ServiceParamMissingException(clazz, Constants.PARAM.PAGE.NAME);
             }
         } catch (ClassCastException ex) {
-            // TODO: Debug
-            ex.printStackTrace();
             error = new ServiceParamInvalidException(clazz, ex.toString());
         }
         return error;
@@ -63,7 +61,7 @@ public final class Interruptor {
      * @param jsonObject
      * @return
      */
-    public static AbstractException interruptParams(@NotNull final Class<?> clazz,
+    public static AbstractException interruptParams(@NotNull final Class<?> clazz,  // NOPMD
             @NotNull final JsonObject jsonObject) {
         AbstractException error = null;
         try {
@@ -94,8 +92,6 @@ public final class Interruptor {
             jsonObject.getJsonObject(Constants.PARAM.DATA);
             jsonObject.getString(Constants.PARAM.SCRIPT);
         } catch (ClassCastException ex) {
-            // TODO: Debug
-            ex.printStackTrace();
             error = new ServiceParamInvalidException(clazz, ex.toString());
         }
         return error;
@@ -117,7 +113,8 @@ public final class Interruptor {
                 }
             }
         } catch (AbstractException ex) {
-
+            // TODO:
+            ex.printStackTrace();// NOPMD
         }
         return isUpdate;
     }
@@ -134,7 +131,7 @@ public final class Interruptor {
             for (final String id : idKV.keySet()) {
                 final Value<?> value = idKV.get(id);
                 if (StringKit.isNil(value.literal())) {
-                    error = new PrimaryKeyMissingException(Interruptor.class, id);
+                    error = new PrimaryKeyMissingException(Interruptor.class, id);  // NOPMD
                 }
             }
         } catch (AbstractException ex) {

@@ -1,4 +1,4 @@
-package com.prayer.base.dao;
+package com.prayer.base.dao;    // NOPMD
 
 import static com.prayer.util.Calculator.diff;
 import static com.prayer.util.Calculator.intersect;
@@ -46,14 +46,14 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
     /** 数据库连接 **/
     @NotNull
     @InstanceOf(JdbcContext.class)
-    private transient final JdbcContext context;
+    private transient final JdbcContext context;    // NOPMD
     /** 创建表的Sql语句 **/
     @NotNull
     private transient final List<String> sqlLines;
     /** Metadata对象 **/
     @NotNull
     @InstanceOfAny(GenericSchema.class)
-    private transient final GenericSchema schema;
+    private transient final GenericSchema schema;   // NOPMD
     /** 构建过程中的Error信息 **/
     private transient AbstractDatabaseException error;
 

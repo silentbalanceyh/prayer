@@ -6,9 +6,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.util.IOKit;
-import com.prayer.util.JsonKit;
-import com.prayer.util.StringKit;
 import com.prayer.util.cv.Accessors;
 import com.prayer.util.cv.Resources;
 

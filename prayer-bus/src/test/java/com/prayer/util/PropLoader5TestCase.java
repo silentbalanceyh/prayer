@@ -2,12 +2,12 @@ package com.prayer.util;
 
 import static com.prayer.util.Instance.reservoir;
 import static org.junit.Assert.assertEquals;
-import net.sf.oval.exception.ConstraintsViolatedException;
 
 import org.junit.Test;
 
 import com.prayer.AbstractTestCase;
-import com.prayer.util.PropertyKit;
+
+import net.sf.oval.exception.ConstraintsViolatedException;
 /**
  * 
  *

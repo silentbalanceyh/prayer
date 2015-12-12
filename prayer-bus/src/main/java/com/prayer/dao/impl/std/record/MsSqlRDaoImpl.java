@@ -143,7 +143,8 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
     /** **/
     @Override
     public ConcurrentMap<Long, List<Record>> queryByPage(final Record record, final String[] columns,
-            List<Value<?>> params, Expression filters, OrderBy orders, Pager pager) throws AbstractDatabaseException {
+            final List<Value<?>> params, final Expression filters, final OrderBy orders, final Pager pager)
+                    throws AbstractDatabaseException {
         // 1.获取JDBC访问器
         final JdbcContext jdbc = this.getContext(record.identifier());
         // 2.生成SQL Count语句
@@ -151,7 +152,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
         // 3.返回Sql Count
         final Long count = jdbc.count(countSql);
         // 4.生成Page语句
-        final String pageSql = this.prepSelectPageSQL(record, columns, params, filters, orders, pager);
+        final String pageSql = this.prepSelectPageSQL(record, columns, filters, orders, pager);
         // 5.列信息
         final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
         // 6.结果
@@ -175,13 +176,13 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
      * @param orders
      * @return
      */
-    private String prepSelectPageSQL(final Record record, final String[] columns, final List<Value<?>> params,
-            final Expression filters, final OrderBy orders, final Pager pager) throws AbstractDatabaseException {
+    private String prepSelectPageSQL(final Record record, final String[] columns, final Expression filters,
+            final OrderBy orders, final Pager pager) throws AbstractDatabaseException {
         // 1.构造Page的SQL语句
-        final StringBuilder retSql = new StringBuilder();
-        final String T1 = "T1";
-        final String T2 = "T2";
-        final String ROW = "N";
+        final StringBuilder retSql = new StringBuilder(Constants.BUFFER_SIZE);
+        final String T1 = "T1"; // NOPMD
+        final String T2 = "T2"; // NOPMD
+        final String ROW = "N"; // NOPMD
         // 2.Select部分
         retSql.append("SELECT").append(Symbol.SPACE);
         if (Constants.ZERO < columns.length) {
@@ -192,7 +193,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
                 }
             }
         } else {
-            retSql.append(T1).append(Symbol.DOT).append("*");
+            retSql.append(T1).append(Symbol.DOT).append('*');
         }
         retSql.append(Symbol.SPACE).append("FROM").append(Symbol.SPACE).append(record.table()).append(Symbol.SPACE)
                 .append(T1).append(Symbol.COMMA);
@@ -217,11 +218,11 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
             retSql.append(Symbol.SPACE).append(T2);
         }
         // 4.Where子句
-        if (null != filters) {
+        if (null == filters) {
+            retSql.append(Symbol.SPACE).append("WHERE").append(Symbol.SPACE);
+        } else {
             retSql.append(Symbol.SPACE).append(MessageFormat.format(SqlSegment.TB_WHERE, filters.toSql()))
                     .append(Symbol.SPACE);
-        } else {
-            retSql.append(Symbol.SPACE).append("WHERE").append(Symbol.SPACE);
         }
         // 5.最后一部分Where子句
         final List<String> lastWhere = new ArrayList<>();

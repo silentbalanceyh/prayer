@@ -88,11 +88,11 @@ public class ScriptDPSevImpl extends AbstractDPSevImpl<ScriptModel, String>imple
 		}
 		// 3.脚本内容读取
 		for (final ScriptModel script : dataList) {
-			if (null != script.getContent()) {
-				script.setContent(IOKit.getContent(script.getContent()));
+			if (null == script.getContent()) {
+			    final String path = script.getName().replaceAll("\\.", "/");
+                script.setContent(IOKit.getContent("deploy/oob/" + path + ".js"));
 			} else {
-				final String path = script.getName().replaceAll("\\.", "/");
-				script.setContent(IOKit.getContent("deploy/oob/" + path + ".js"));
+                script.setContent(IOKit.getContent(script.getContent()));
 			}
 		}
 		// 4.批量创建

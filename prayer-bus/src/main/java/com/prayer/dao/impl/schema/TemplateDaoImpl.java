@@ -183,7 +183,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.计算偏移量
-        int start = (index - 1) * size;
+        final int start = (index - 1) * size;
         List<T> retList = null;
         try{
             // 3.获取Mapper

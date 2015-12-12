@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import com.prayer.AbstractTestTool;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.query.Restrictions;
 import com.prayer.model.type.IntType;
 import com.prayer.model.type.StringType;
 

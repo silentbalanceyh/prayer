@@ -1,7 +1,6 @@
 package com.prayer.util;
 
 import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -265,13 +264,8 @@ public final class Instance { // NOPMD
                 }
             }
         } else {
-            try {
-                final ConstructorAccess<?> access = ConstructorAccess.get(clazz);
-                ret = (T) access.newInstance();
-            } catch (Exception ex) {
-                info(LOGGER, "[ERR] Class Name = " + clazz.getName());
-                ex.printStackTrace();
-            }
+            final ConstructorAccess<?> access = ConstructorAccess.get(clazz);
+            ret = (T) access.newInstance();
         }
         return ret;
     }

@@ -77,7 +77,7 @@ public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String>impleme
                 item.setParent("/api");
             }
             // Default MIME
-            final List<String> mimes = new ArrayList<>();
+            final List<String> mimes = new ArrayList<>();    // NOPMD
             mimes.add("json");
             if (null == item.getConsumerMimes()){
                 item.setConsumerMimes(mimes);

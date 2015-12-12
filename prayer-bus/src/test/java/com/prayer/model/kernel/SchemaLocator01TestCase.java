@@ -11,8 +11,6 @@ import com.prayer.AbstractRDaoTestTool;
 import com.prayer.Assistant;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericSchema;
-import com.prayer.model.kernel.SchemaLocator;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import net.sf.oval.exception.ConstraintsViolatedException;

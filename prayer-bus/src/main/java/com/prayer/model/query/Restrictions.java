@@ -229,9 +229,8 @@ public final class Restrictions implements SqlSegment { // NOPMD
      * @return
      */
     @NotNull
-    public static Expression or(@NotNull @InstanceOf(Expression.class) final Expression left,
-            @NotNull @InstanceOf(Expression.class) final Expression right) // NOPMD
-                    throws AbstractDatabaseException {
+    public static Expression or(@NotNull @InstanceOf(Expression.class) final Expression left, // NOPMD
+            @NotNull @InstanceOf(Expression.class) final Expression right) throws AbstractDatabaseException {
         verifyExpr(left, right);
         return ProjectionExpression.or(left, right);
     }

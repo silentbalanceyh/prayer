@@ -1,4 +1,4 @@
-package com.prayer.model.kernel;
+package com.prayer.model.kernel; // NOPMD
 
 import static com.prayer.util.Calculator.index;
 import static com.prayer.util.Error.debug;
@@ -46,7 +46,7 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
-public class MetaRecord implements Record {
+public class MetaRecord implements Record { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaRecord.class);
@@ -54,16 +54,17 @@ public class MetaRecord implements Record {
     private static final String PRE_CONNECTOR_CON = "_this._connector != null";
     /** 数据前置条件 **/
     private static final String PRE_DATA_CON = "_this.data != null";
-
+    /** **/
+    private static final String RULE_ID = "_identifier";
     // ~ Instance Fields =====================================
     /** 全局标识符 **/
     @NotNull
     @NotBlank
     @NotEmpty
-    private transient final String _identifier;
+    private transient final String _identifier; // NOPMD
     /** Metadata 连接器 **/
     @NotNull
-    private transient MetaConnector _connector;
+    private transient MetaConnector _connector; // NOPMD
     /** 当前Record中的数据 **/
     private transient final ConcurrentMap<String, Value<?>> data;
 
@@ -75,15 +76,13 @@ public class MetaRecord implements Record {
      * @param identifier
      */
     @PostValidateThis
-    public MetaRecord(@AssertFieldConstraints("_identifier") final String identifier) {
+    public MetaRecord(@AssertFieldConstraints(RULE_ID) final String identifier) {
         // 1.连接操作
         try {
             this._connector = MetaConnector.connect(identifier);
         } catch (AbstractSystemException ex) {
             this._connector = null; // NOPMD
             debug(LOGGER, getClass(), "D20006", ex, identifier);
-            // TODO: Debug
-            ex.printStackTrace();
         }
         // 连接成功
         this._identifier = this._connector.identifier();
@@ -112,11 +111,11 @@ public class MetaRecord implements Record {
         final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
         for (final FieldModel field : this.idschema()) {
             try {
-                if (null != this.column(field.getColumnName())) {
-                    retMap.put(field.getColumnName(), this.column(field.getColumnName()));
-                } else {
+                if (null == this.column(field.getColumnName())) {
                     // 默认String为主键替换Null的默认ID
-                    retMap.put(field.getColumnName(), new StringType(Constants.EMPTY_STR));
+                    retMap.put(field.getColumnName(), new StringType(Constants.EMPTY_STR)); // NOPMD
+                } else {
+                    retMap.put(field.getColumnName(), this.column(field.getColumnName()));
                 }
             } catch (AbstractDatabaseException ex) {
                 info(LOGGER, ex.getErrorMessage());
@@ -138,7 +137,7 @@ public class MetaRecord implements Record {
     @Override
     @InstanceOf(Value.class)
     @Pre(expr = PRE_DATA_CON + " && " + PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
-    public Value<?> column(String column) throws AbstractDatabaseException {
+    public Value<?> column(final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
         final String field = this.toField(column);
         return this.get(field);
@@ -175,8 +174,8 @@ public class MetaRecord implements Record {
     /** **/
     @Override
     @Pre(expr = PRE_DATA_CON, lang = Constants.LANG_GROOVY)
-    public void set(@AssertFieldConstraints("_identifier") final String name,
-            @InstanceOf(Value.class) final Value<?> value) throws AbstractDatabaseException {
+    public void set(@AssertFieldConstraints(RULE_ID) final String name, @InstanceOf(Value.class) final Value<?> value)
+            throws AbstractDatabaseException {
         this.verifyField(name);
         this.data.put(name, value);
     }
@@ -184,7 +183,7 @@ public class MetaRecord implements Record {
     /** **/
     @Override
     @Pre(expr = PRE_DATA_CON, lang = Constants.LANG_GROOVY)
-    public void set(@AssertFieldConstraints("_identifier") final String name, final String value)
+    public void set(@AssertFieldConstraints(RULE_ID) final String name, final String value)
             throws AbstractDatabaseException {
         this.verifyField(name);
         final DataType type = this.connector().fields().get(name);
@@ -196,7 +195,7 @@ public class MetaRecord implements Record {
     @Override
     @InstanceOf(Value.class)
     @Pre(expr = PRE_DATA_CON, lang = Constants.LANG_GROOVY)
-    public Value<?> get(@AssertFieldConstraints("_identifier") final String name) throws AbstractDatabaseException {
+    public Value<?> get(@AssertFieldConstraints(RULE_ID) final String name) throws AbstractDatabaseException {
         this.verifyField(name);
         return this.data.get(name);
     }
@@ -211,10 +210,11 @@ public class MetaRecord implements Record {
         return this.connector().identifier();
     }
 
+    /** **/
     @Override
     @NotNull
     @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
-    public String toField(String column) throws AbstractDatabaseException {
+    public String toField(final String column) throws AbstractDatabaseException {
         // 1.检查Column是否存在
         this.verifyColumn(column);
         // 2.获取Field
@@ -222,10 +222,11 @@ public class MetaRecord implements Record {
         return -1 == idx ? Constants.EMPTY_STR : this.connector().getFieldList().get(idx);
     }
 
+    /** **/
     @Override
     @NotNull
     @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
-    public String toColumn(String field) throws AbstractDatabaseException {
+    public String toColumn(final String field) throws AbstractDatabaseException {
         // 1.检查Field是否存在
         this.verifyField(field);
         // 2.获取Column
@@ -261,6 +262,7 @@ public class MetaRecord implements Record {
             throw new ColumnInvalidException(getClass(), column, this.table());
         }
     }
+
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
     /** 调试用方法 **/
@@ -279,9 +281,10 @@ public class MetaRecord implements Record {
         return retStr.toString();
     }
 
-	@Override
-	public String seqname() {
-		// TODO Auto-generated method stub
-		return this.connector().seqname();
-	}
+    /** **/
+    @Override
+    public String seqname() {
+        // TODO Auto-generated method stub
+        return this.connector().seqname();
+    }
 }

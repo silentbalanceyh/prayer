@@ -23,7 +23,7 @@ public class ServiceResult<T> implements Serializable { // NOPMD
 	/** 如果有自定义异常，则为自定义异常信息 **/
 	private transient String errorMessage;
 	/** 内部Error **/
-	private transient AbstractException error;
+	private transient AbstractException error;     // NOPMD
 	/** 从业务层返回的相应的代码 **/
 	private transient ResponseCode responseCode;
 	/** 返回的对象信息 **/
@@ -44,9 +44,9 @@ public class ServiceResult<T> implements Serializable { // NOPMD
 	/** 返回SUCCESS **/
 	public ServiceResult<T> success(final T result) {
 		// Error
-		this.error = null;
+		// this.error = null;
 		this.errorCode = Constants.RC_SUCCESS;
-		this.errorMessage = null;
+		// this.errorMessage; 
 		// Data
 		this.result = result;
 		// Flat
@@ -55,13 +55,13 @@ public class ServiceResult<T> implements Serializable { // NOPMD
 	}
 
 	/** 返回Error **/
-	public ServiceResult<T> error(AbstractException error) {
+	public ServiceResult<T> error(final AbstractException error) {
 		this.setError(ResponseCode.ERROR, error);
 		return this;
 	}
 
 	/** 返回Failure **/
-	public ServiceResult<T> failure(AbstractException failure) {
+	public ServiceResult<T> failure(final AbstractException failure) {
 		this.setError(ResponseCode.FAILURE, failure);
 		return this;
 	}
@@ -70,7 +70,7 @@ public class ServiceResult<T> implements Serializable { // NOPMD
 		this.error = error;
 		this.errorCode = error.getErrorCode();
 		this.errorMessage = error.getErrorMessage();
-		this.result = null;
+		this.result = null;   // NOPMD
 		this.responseCode = responseCode;
 	}
 

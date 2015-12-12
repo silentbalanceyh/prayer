@@ -89,13 +89,14 @@ public final class ClauseInjector {
                 orderArr = new JsonArray(data.getString(Constants.PARAM.ORDERS));
             }
         }
-        return null == orderArr || null == record ? null : OrderBy.create(orderArr, record);
+        return null == orderArr || null == record ? null : OrderBy.create(orderArr, record);    // NOPMD
     }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    private ClauseInjector(){}
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

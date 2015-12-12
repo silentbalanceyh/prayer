@@ -37,6 +37,7 @@ final class ScriptMDaoImpl extends AbstractMDaoImpl<ScriptModel, String> {
     /** **/
     @PostValidateThis
     public ScriptMDaoImpl() {
+        super();
         this.dao = singleton(ScriptDaoImpl.class);
     }
 

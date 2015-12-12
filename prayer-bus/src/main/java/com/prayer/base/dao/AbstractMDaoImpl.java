@@ -1,4 +1,4 @@
-package com.prayer.base.dao;
+package com.prayer.base.dao; // NOPMD
 
 import static com.prayer.util.Error.info;
 import static com.prayer.util.Generator.uuid;
@@ -57,12 +57,12 @@ import net.sf.oval.guard.PostValidateThis;
  */
 @Guarded
 @SuppressWarnings("unchecked")
-public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Serializable> implements RecordDao {
+public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Serializable> implements RecordDao { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient final RecordSerializer serializer;
+    private transient final RecordSerializer serializer; // NOPMD
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -188,6 +188,7 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
                     throws AbstractDatabaseException {
         return this.queryByFilter(record, columns, params, filters, null);
     }
+
     /** **/
     @Override
     @NotNull
@@ -219,7 +220,7 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
         // 3.返回Sql Count
         final Long count = jdbc.count(countSql);
         // 4.生成Page语句
-        final String pageSql = this.prepSelectPageSQL(record, columns, params, filters, orders, pager);
+        final String pageSql = this.prepSelectPageSQL(record, columns, filters, orders, pager);
         // 5.列信息
         final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
         // 6.结果
@@ -245,7 +246,7 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
         final JsonObject data = this.serializer.extractRecord(record);
         final JsonEntity entity = ret.fromJson(data);
         if (null == entity) {
-            ret = null;
+            ret = null; // NOPMD
         } else {
             ret = (T) entity;
         }
@@ -264,10 +265,10 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
     }
     // ~ Private Methods =====================================
 
-    private String prepSelectPageSQL(final Record record, final String[] columns, final List<Value<?>> params,
-            final Expression filters, final OrderBy orders, final Pager pager) throws AbstractDatabaseException {
+    private String prepSelectPageSQL(final Record record, final String[] columns, final Expression filters,
+            final OrderBy orders, final Pager pager) throws AbstractDatabaseException {
         // 1.构Page的SQL语句
-        final StringBuilder retSql = new StringBuilder();
+        final StringBuilder retSql = new StringBuilder(Constants.BUFFER_SIZE);
         // 2.Select部分
         retSql.append("SELECT").append(Symbol.SPACE);
         if (Constants.ZERO < columns.length) {
@@ -278,7 +279,7 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
                 }
             }
         } else {
-            retSql.append("*");
+            retSql.append('*');
         }
         retSql.append(Symbol.SPACE).append("FROM").append(Symbol.SPACE).append(record.table());
         // 3.Where子句

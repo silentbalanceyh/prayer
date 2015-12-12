@@ -131,14 +131,14 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                             // Rule Sub Files for field
                             final String ruleFile = paramFolder + "/" + paramFile;
                             ret = this.manager.getRuleService().importRules(ruleFile, model);
-                            if (ResponseCode.SUCCESS != ret.getResponseCode()) {
-                                error(LOGGER, BusinessLogger.E_PROCESS_ERR,
-                                        model.getUri() + " Rule Deploy : file = " + ruleFile, ret.getErrorMessage());
-                            } else {
+                            if (ResponseCode.SUCCESS == ret.getResponseCode()) {
                                 info(LOGGER,
                                         " ---> 4.EVX_RULE ( Rule deployed successfully ) " + "Method = "
                                                 + model.getMethod().toString() + ", URL = " + model.getUri()
                                                 + ", Rule = " + ruleFile);
+                            } else {
+                                error(LOGGER, BusinessLogger.E_PROCESS_ERR,
+                                        model.getUri() + " Rule Deploy : file = " + ruleFile, ret.getErrorMessage());
                             }
                         }
                     }

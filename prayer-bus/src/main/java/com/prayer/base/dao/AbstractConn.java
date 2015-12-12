@@ -22,6 +22,7 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.MemoryPool;
+import com.prayer.util.cv.Resources;
 import com.prayer.util.db.Input;
 import com.prayer.util.db.Output;
 
@@ -45,7 +46,7 @@ public abstract class AbstractConn implements JdbcContext {
     /** **/
     @NotNull
     @InstanceOfAny(AbstractDbPool.class)
-    private transient final AbstractDbPool dbPool;
+    private transient final AbstractDbPool dbPool; // NOPMD
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -134,8 +135,8 @@ public abstract class AbstractConn implements JdbcContext {
         int ret = Constants.RC_FAILURE;
         try (final Connection conn = this.getPool().getJdbc().getDataSource().getConnection()) {
             final ScriptRunner runner = new ScriptRunner(conn);
-            final ByteArrayInputStream is = new ByteArrayInputStream(sql.getBytes("UTF-8"));
-            final Reader sqlReader = new InputStreamReader(is);
+            final ByteArrayInputStream istream = new ByteArrayInputStream(sql.getBytes(Resources.SYS_ENCODING.name()));
+            final Reader sqlReader = new InputStreamReader(istream);
             // set to false, runs script line by line
             runner.setSendFullScript(false);
             runner.runScript(sqlReader);

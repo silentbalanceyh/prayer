@@ -1,11 +1,8 @@
 package com.prayer.model.type;
 
-import java.util.Date;
-
-import com.prayer.model.type.DataType;
-import com.prayer.model.type.DateType;
-
 import static org.junit.Assert.assertEquals;
+
+import java.util.Date;
 
 //import static org.junit.Assert.assertEquals;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.prayer.model.kernel;
+package com.prayer.model.kernel;    // NOPMD
 
 import static com.prayer.util.Calculator.index;
 import static com.prayer.util.Error.info;
@@ -45,7 +45,7 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
-public class MetaConnector {
+public class MetaConnector {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaConnector.class);
@@ -127,13 +127,14 @@ public class MetaConnector {
     @Pre(expr = "_this.columnList != null && !_this.columnList.isEmpty() && _this.typeList != null && !_this.typeList.isEmpty()", lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, DataType> columns() {
         final ConcurrentMap<String, DataType> fields = new ConcurrentHashMap<>();
-        int size = this.columnList.size();
+        final int size = this.columnList.size();
         for (int idx = 0; idx < size; idx++) {
             fields.put(this.columnList.get(idx), this.typeList.get(idx));
         }
         return fields;
     }
 
+    /** **/
     @NotNull
     @MinSize(1)
     public List<FieldModel> idschema() {
@@ -175,7 +176,7 @@ public class MetaConnector {
     @Pre(expr = "_this.nameList != null && !_this.nameList.isEmpty() && _this.typeList != null && !_this.typeList.isEmpty()", lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, DataType> fields() {
         final ConcurrentMap<String, DataType> fields = new ConcurrentHashMap<>();
-        int size = this.nameList.size();
+        final int size = this.nameList.size();
         for (int idx = 0; idx < size; idx++) {
             fields.put(this.nameList.get(idx), this.typeList.get(idx));
         }
@@ -206,12 +207,12 @@ public class MetaConnector {
 
     // ~ Private Methods =====================================
 
-    private FieldModel getPrimaryKey(final String id) {
+    private FieldModel getPrimaryKey(final String uniqueId) {
         final FieldModel pKeySchema = new FieldModel();
         // 1.Field Name
-        pKeySchema.setName(id);
+        pKeySchema.setName(uniqueId);
         // 2.Basic Information
-        final int idx = index(this.nameList, id);
+        final int idx = index(this.nameList, uniqueId);
         pKeySchema.setColumnName(this.columnList.get(idx));
         pKeySchema.setColumnType(this.colTypeList.get(idx));
         pKeySchema.setType(this.typeList.get(idx));
@@ -224,7 +225,7 @@ public class MetaConnector {
         return pKeySchema;
     }
 
-    private void initDefinitions() throws AbstractSystemException {
+    private void initDefinitions() throws AbstractSystemException { // NOPMD
         // 1.Field Definitions
         if (null != this.nameList && this.nameList.isEmpty()) {
             this.nameList.addAll(Arrays.asList(LOADER.getArray(this.identifier() + ".field.names")));
@@ -282,7 +283,7 @@ public class MetaConnector {
             }
         }
         // 5.Final Checking for Size
-        int size = this.nameList.size();
+        final int size = this.nameList.size();
         if (size != this.typeList.size()) {
             throw new MetaCounterException(getClass(), size, "Field Type", this.typeList.size());
         }

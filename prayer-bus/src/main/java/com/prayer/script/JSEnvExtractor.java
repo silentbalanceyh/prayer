@@ -33,7 +33,7 @@ public final class JSEnvExtractor {
     /** Config Service 接口 **/
     @NotNull
     @InstanceOf(ConfigService.class)
-    private transient final ConfigService configSev;
+    private transient final ConfigService configSev;    // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================

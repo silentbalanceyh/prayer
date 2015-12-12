@@ -79,7 +79,7 @@ public class MetaDaoImpl implements RecordDao {
         this.initLazyDao(record);
         return this.dao.selectById(record, uniqueIds);
     }
-
+    /** **/
     @Override
     public boolean delete(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
             throws AbstractDatabaseException {

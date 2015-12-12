@@ -66,6 +66,8 @@ public final class Interrupter {
             }
             return Constants.ZERO == retList.size() ? null : retList.get(Constants.ZERO);
         }
+        
+        private Response(){}
     }
 
     /**
@@ -121,9 +123,11 @@ public final class Interrupter {
                 }
             }
         }
+        
+        private PrimaryKey(){}
     }
 
-    public static class Api {
+    public static class Api {   // NOPMD
         /**
          * Api本身相关异常
          * @param clazz
@@ -135,6 +139,8 @@ public final class Interrupter {
                 throws AbstractDatabaseException {
             throw new OperationNotSupportException(clazz, method);
         }
+        
+        private Api(){}
     }
 
     /**
@@ -177,10 +183,12 @@ public final class Interrupter {
          */
         public static void interrupt(final Class<?> clazz, final MetaPolicy expected, final MetaPolicy actual)
                 throws AbstractDatabaseException {
-            if (expected != actual) {
+            if (!expected.equals(actual)) {
                 throw new PolicyNotSupportException(clazz, actual);
             }
         }
+        
+        private Policy(){}
     }
 
     // ~ Static Methods ======================================

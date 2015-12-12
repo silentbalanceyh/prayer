@@ -6,12 +6,11 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Properties;
 
-import net.sf.oval.exception.ConstraintsViolatedException;
-
 import org.junit.Test;
 
 import com.prayer.AbstractTestCase;
-import com.prayer.util.PropertyKit;
+
+import net.sf.oval.exception.ConstraintsViolatedException;
 
 /**
  * 测试com.lyra.util.prop.PropLoader

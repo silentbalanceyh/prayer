@@ -133,7 +133,7 @@ public final class IOKit {
         final URL url = getURL(folder);
         final List<String> retList = new ArrayList<>();
         if (null != url) {
-            File file = new File(url.getFile());
+            final File file = new File(url.getFile());
             if (file.isDirectory() && file.exists()) {
                 retList.addAll(Arrays.asList(file.list()));
             }

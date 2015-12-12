@@ -1,13 +1,10 @@
 package com.prayer.model.type;
 
+import static org.junit.Assert.assertEquals;
+
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import com.prayer.model.type.DataType;
-import com.prayer.model.type.DecimalType;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * 
