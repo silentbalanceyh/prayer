@@ -103,6 +103,7 @@ public class VerticleDeployer {
                 // 2.发布这个Verticle
                 this.vertxRef.deployVerticle(name, DATA_SYNC.get(name));
             }
+            info(LOGGER, WebLogger.I_COMMON_INFO, "(Sync) All Verticles have been deployed successfully!");
         }
     }
 

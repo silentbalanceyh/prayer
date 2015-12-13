@@ -1,0 +1,11 @@
+[
+    {
+        "name":"page",
+        "type":"JsonType",
+        "order":1,
+        "componentType":"VALIDATOR",
+        "componentClass":"com.prayer.uca.validator.PagerValidator",
+        "config":{}
+        "errorMessage":"CUSTOM";
+    }
+]

@@ -42,25 +42,31 @@
         "order":-4000
     },
     {
-        "path":"/sec/account",
-        "method":"PUT",
-        "order":-8800,
-        "requestHandler":"com.prayer.handler.standard.ValidationHandler"
-    },
-    {
-        "path":"/sec/account",
-        "method":"PUT",
-        "order":-8500,
-        "requestHandler":"com.prayer.handler.standard.ConversionHandler"
-    },
-    {
-        "path":"/sec/account",
-        "method":"PUT",
+        "path":"/sec/page/account",
+        "method":"POST",
+        "requestHandler":"com.prayer.handler.standard.ValidationHandler",
         "order":-8000
     },
     {
         "path":"/sec/page/account",
         "method":"POST",
-        "order":-8800
+        "order":-6000
+    },
+    {
+        "path":"/sec/account",
+        "method":"PUT",
+        "order":-8000,
+        "requestHandler":"com.prayer.handler.standard.ValidationHandler"
+    },
+    {
+        "path":"/sec/account",
+        "method":"PUT",
+        "order":-6000,
+        "requestHandler":"com.prayer.handler.standard.ConversionHandler"
+    },
+    {
+        "path":"/sec/account",
+        "method":"PUT",
+        "order":-4000
     }
 ]
