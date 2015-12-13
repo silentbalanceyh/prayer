@@ -1,9 +1,7 @@
-package com.prayer.rest.basic.del;
+package com.prayer.rest.basic.get;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * @author Lang
  *
  */
-public class AccountTestCase extends AbstractDeleteTestCase{
+public class AccountTestCase extends AbstractGetTestCase {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountTestCase.class);
@@ -30,21 +28,9 @@ public class AccountTestCase extends AbstractDeleteTestCase{
     }
     /** **/
     @Override
-    public String getPath(){
-        return "/sec/account";
-    }
-    /** **/
-    @Override
-    public ConcurrentMap<String,String> getRequiredRules(){
-        final ConcurrentMap<String,String> requiredRules = new ConcurrentHashMap<>();
-        requiredRules.put("delete/account/missing-params-001.json", "name = id");
-        return requiredRules;
-    }
-    /** **/
-    @Override
     public List<String> getValidateRules(){
         final List<String> validateRules = new ArrayList<>();
-        validateRules.add("delete/account/not-existing-params-001.json");
+        validateRules.add("get/account/not-existing-params-001.json");
         return validateRules;
     }
     // ~ Methods =============================================

@@ -51,6 +51,8 @@ public abstract class AbstractRBTestCase {
             resp = this.client().requestPost(this.client().getApi(path), headers, params);
         }else if(HttpMethod.DELETE == method){
             resp = this.client().requestDelete(this.client().getApi(path), headers, params);
+        }else if(HttpMethod.GET == method){
+            resp = this.client().requestGet(this.client().getApi(path), headers);
         }
         return resp;
     }
