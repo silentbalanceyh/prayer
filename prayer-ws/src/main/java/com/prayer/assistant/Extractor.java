@@ -30,13 +30,12 @@ public final class Extractor {
     /** **/
     public static Integer getNumber(@NotNull final JsonObject config, @NotNull @NotBlank @NotEmpty final String key) {
         Integer integer = Integer.valueOf(Constants.RANGE);
-        try {
-            // 过滤null值
-            if (config.containsKey(key)) {
+        final Object value = config.getValue(key);
+        if (null != value) {
+            final Class<?> type = value.getClass();
+            if (Integer.class == type) {
                 integer = config.getInteger(key);
             }
-        } catch (ClassCastException ex) {
-            integer = null; // NOPMD
         }
         return integer;
     }
@@ -49,12 +48,12 @@ public final class Extractor {
      */
     public static String getString(@NotNull final JsonObject config, @NotNull @NotBlank @NotEmpty final String key) {
         String str = Constants.EMPTY_STR;
-        try {
-            if (config.containsKey(key)) {
+        final Object value = config.getValue(key);
+        if (null != value) {
+            final Class<?> type = value.getClass();
+            if (String.class == type) {
                 str = config.getString(key);
             }
-        } catch (ClassCastException ex) {
-            str = null; // NOPMD
         }
         return str;
     }

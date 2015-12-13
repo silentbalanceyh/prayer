@@ -96,7 +96,6 @@ public class RestClient {
             }
             final String token = Base64.getEncoder()
                     .encodeToString((username + Symbol.COLON + password).getBytes(Resources.SYS_ENCODING));
-            info(LOGGER, "[SEC] Token : " + token);
             retMap.put("Authorization", "Basic " + token);
         }
         return retMap;

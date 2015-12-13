@@ -1,35 +1,40 @@
-package com.prayer.uca.validator;
+package com.prayer.exception.web;
 
 import com.prayer.base.exception.AbstractWebException;
-import com.prayer.facade.kernel.Value;
-import com.prayer.uca.WebValidator;
-
-import io.vertx.core.json.JsonObject;
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
+import com.prayer.model.type.DataType;
 
 /**
  * 
  * @author Lang
  *
  */
-@Guarded
-public class PagerValidator implements WebValidator {
+public class SpecialDataTypeException extends AbstractWebException {
     // ~ Static Fields =======================================
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8488944115046139528L;
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param type
+     * @param value
+     */
+    public SpecialDataTypeException(final Class<?> clazz, final DataType type, final String value) {
+        super(clazz, -30018, type.toString(), value);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public boolean validate(@NotNull @NotBlank @NotEmpty final String name, @NotNull final Value<?> value,
-            @NotNull final JsonObject config) throws AbstractWebException {
-        System.out.println(value.literal());
-        return false;
+    public int getErrorCode() {
+        return -30018;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

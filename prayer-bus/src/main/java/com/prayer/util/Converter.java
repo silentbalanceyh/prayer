@@ -17,6 +17,8 @@ import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.Symbol;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -37,6 +39,31 @@ public final class Converter {
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    /**
+     * 
+     * @param instance
+     * @param name
+     * @return
+     */
+    public static String toStr(@NotNull final JsonObject instance, @NotNull @NotEmpty @NotBlank final String field) {
+        String ret = null;
+        final Class<?> type = instance.getValue(field).getClass();
+        if (JsonObject.class == type) {
+            final JsonObject obj = instance.getJsonObject(field);
+            if (null != obj) {
+                ret = obj.encode();
+            }
+        } else if (JsonArray.class == type) {
+            final JsonArray arr = instance.getJsonArray(field);
+            if (null != arr) {
+                ret = arr.encode();
+            }
+        } else {
+            ret = instance.getString(field);
+        }
+        return ret;
+    }
+
     /**
      * 
      * @param sets
@@ -78,7 +105,7 @@ public final class Converter {
         final byte[] data = new byte[Constants.BYTE_BUF_SIZE];
         int count = Constants.RANGE;
         String ret = null;
-        while (Constants.RANGE != (count = istream.read(data, Constants.ZERO, Constants.BYTE_BUF_SIZE))) {  // NOPMD
+        while (Constants.RANGE != (count = istream.read(data, Constants.ZERO, Constants.BYTE_BUF_SIZE))) { // NOPMD
             out.write(data, Constants.ZERO, count);
         }
         if (Constants.ZERO < out.size()) {

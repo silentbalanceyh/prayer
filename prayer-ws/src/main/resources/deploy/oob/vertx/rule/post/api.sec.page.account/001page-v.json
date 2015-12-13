@@ -5,7 +5,7 @@
         "order":1,
         "componentType":"VALIDATOR",
         "componentClass":"com.prayer.uca.validator.PagerValidator",
-        "config":{}
-        "errorMessage":"CUSTOM";
+        "config":{},
+        "errorMessage":"Pager对象构造失败，page参数格式或值不合法！"
     }
 ]

@@ -1,0 +1,23 @@
+{
+	"identifier": "sec.account",
+	"filters": 
+	[
+		
+	],
+
+	"method": "POST",
+	"data": 
+	{
+		"orders": 
+		[
+		],
+
+		"page": 
+		{
+			"size": 20,
+			"index": 1
+		}
+	},
+
+	"script": "js.api.post.sec.page.account"
+}

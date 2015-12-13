@@ -1,6 +1,7 @@
 package com.prayer.handler.standard;
 
 import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Converter.toStr;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
@@ -14,14 +15,20 @@ import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Future;
 import com.prayer.assistant.Interruptor;
 import com.prayer.assistant.WebLogger;
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
+import com.prayer.exception.web.SpecialDataTypeException;
 import com.prayer.exception.web.ValidationFailureException;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vertx.RuleModel;
 import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.type.DataType;
+import com.prayer.model.type.JsonType;
+import com.prayer.model.type.ScriptType;
+import com.prayer.model.type.XmlType;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.uca.WebValidator;
@@ -72,20 +79,26 @@ public class ValidationHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_CFG_HANDLER, getClass().getName(), context.request().path());
+        try {
+            info(LOGGER, WebLogger.I_CFG_HANDLER, getClass().getName(), context.request().path());
 
-        // 1.从Context中提取参数信息
-        final Requestor requestor = Extractor.requestor(context);
-        final UriModel uri = Extractor.uri(context);
+            // 1.从Context中提取参数信息
+            final Requestor requestor = Extractor.requestor(context);
+            final UriModel uri = Extractor.uri(context);
 
-        // 2.获取当前路径下的Validator的数据
-        final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
-                .findValidators(uri.getUniqueId());
-        // 3.Dispatcher
-        if (this.requestDispatch(result, context, requestor)) {
-            // SUCCESS -->
-            context.put(Constants.KEY.CTX_REQUESTOR, requestor);
-            context.next();
+            // 2.获取当前路径下的Validator的数据
+            final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
+                    .findValidators(uri.getUniqueId());
+            // 3.Dispatcher
+            if (this.requestDispatch(result, context, requestor)) {
+                // SUCCESS -->
+                context.put(Constants.KEY.CTX_REQUESTOR, requestor);
+                context.next();
+            }
+        }
+        // TODO:
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -100,7 +113,7 @@ public class ValidationHandler implements Handler<RoutingContext> {
             boolean ret = true;
             // 遍历每个字段
             for (final String field : params.fieldNames()) {
-                final String value = params.getString(field);
+                final String value = toStr(params, field);
                 final List<RuleModel> validators = dataMap.get(field);
                 // 验证当前字段信息
                 error = this.validateField(field, value, validators);
@@ -142,8 +155,28 @@ public class ValidationHandler implements Handler<RoutingContext> {
             Interruptor.interruptClass(getClass(), validatorCls, "Validator");
             Interruptor.interruptImplements(getClass(), validatorCls, WebValidator.class);
             // 2.从value中提取值信息
-            final String typeCls = ruleModel.getType().getClassName();
-            final Value<?> value = instance(typeCls, paramValue);
+            Value<?> value = null;
+            if (DataType.JSON == ruleModel.getType() || DataType.XML == ruleModel.getType()
+                    || DataType.SCRIPT == ruleModel.getType()) {
+                // 抛出AbstractDatabaseException
+                switch (ruleModel.getType()) {
+                case JSON:
+                    value = new JsonType(paramValue);
+                    break;
+                case XML:
+                    value = new XmlType(paramValue);
+                    break;
+                case SCRIPT:
+                    value = new ScriptType(paramValue);
+                    break;
+                default:
+                    value = null;
+                    break;
+                }
+            } else {
+                final String typeCls = ruleModel.getType().getClassName();
+                value = instance(typeCls, paramValue);
+            }
             // 3.提取配置信息
             final JsonObject config = ruleModel.getConfig();
             // 4.验证结果
@@ -155,6 +188,13 @@ public class ValidationHandler implements Handler<RoutingContext> {
             }
         } catch (AbstractWebException ex) {
             error = ex;
+            // TODO:
+            ex.printStackTrace();
+        } catch (AbstractDatabaseException ex) {
+            // 三种复杂基础类型的数据格式问题
+            error = new SpecialDataTypeException(getClass(), ruleModel.getType(), paramValue);
+            // TODO:
+            ex.printStackTrace();
         }
         // TODO:
         catch (Exception ex) {

@@ -84,8 +84,12 @@ public final class Dispatcher { // NOPMD
             return false;
         }
     }
-
-    // 参数规范的处理流程
+    /**
+     * 参数规范的处理流程
+     * @param uri
+     * @param context
+     * @return
+     */
     public static String getErrorParam(final UriModel uri, final RoutingContext context) { // NOPMD
         String retParam = null;
         final List<String> paramList = uri.getRequiredParam();
@@ -118,7 +122,7 @@ public final class Dispatcher { // NOPMD
                         for (final String param : paramList) {
                             if (params.containsKey(param)) {
                                 if (StringUtil.equals(param, Constants.PARAM.PAGE.NAME)) {
-                                    // Special for pager parameters
+                                    // Special for page parameters
                                     final JsonObject page = params.getJsonObject(Constants.PARAM.PAGE.NAME);
                                     if (null == page) {
                                         retParam = param;
