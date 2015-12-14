@@ -51,7 +51,7 @@ public abstract class AbstractDeleteTestCase extends AbstractRBTestCase {
                 boolean ret = ErrorChecker.check30001(resp);
                 if (ret) {
                     final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                    info(getLogger(), "(DELETE) Display Error: " + display + "\n");
+                    info(getLogger(), "(DELETE) Display Error: " + display);
                     ret = 0 <= display.indexOf(retStr);
                     assertTrue("[TST] ( 400 : Required -> " + retStr + ") Unsuccessful !", ret);
                 } else {
@@ -71,7 +71,7 @@ public abstract class AbstractDeleteTestCase extends AbstractRBTestCase {
                 boolean ret = ErrorChecker.check30007(resp);
                 if (ret) {
                     final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                    info(getLogger(), "(DELETE) Display Error: " + display + "\n");
+                    info(getLogger(), "(DELETE) Display Error: " + display);
                     assertTrue("[TST] ( 400 : Validation Failure ) Unsuccessful !", ret);
                 } else {
                     fail("[ERR] Basic Information Checking Failure !");

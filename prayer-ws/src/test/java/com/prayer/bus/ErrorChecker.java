@@ -25,6 +25,11 @@ public final class ErrorChecker {
     public static boolean check30014(final JsonObject resp) {
         return checkError(resp, -30014, StatusCode.UNAUTHORIZED);
     }
+    
+    /** **/
+    public static boolean check30019(final JsonObject resp){
+        return checkError(resp, -30019, StatusCode.BAD_REQUEST);
+    }
 
     /** **/
     public static boolean check30007(final JsonObject resp) {

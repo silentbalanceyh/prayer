@@ -45,7 +45,7 @@ public abstract class AbstractGetTestCase extends AbstractRBTestCase {
                 boolean ret = ErrorChecker.check30007(resp);
                 if (ret) {
                     final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                    info(getLogger(), "(GET) Display Error: " + display + "\n");
+                    info(getLogger(), "(GET) Display Error: " + display);
                     assertTrue("[TST] ( 400 : Validation Failure ) Unsuccessful !", ret);
                 } else {
                     fail("[ERR] Basic Information Checking Failure !");

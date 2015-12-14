@@ -5,11 +5,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Test;
 
-import com.prayer.bus.AbstractRBTestCase;
 import com.prayer.bus.ErrorChecker;
 
 import io.vertx.core.http.HttpMethod;
@@ -21,7 +19,7 @@ import jodd.util.StringUtil;
  * @author Lang
  *
  */
-public abstract class AbstractPostTestCase extends AbstractRBTestCase {
+public abstract class AbstractPageTestCase extends AbstractPostTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -29,31 +27,26 @@ public abstract class AbstractPostTestCase extends AbstractRBTestCase {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     /** **/
-    public abstract String getPath();
+    public abstract List<String> getValidate30010();
 
     /** **/
-    public abstract ConcurrentMap<String, String> getRequiredRules();
-
-    /** **/
-    public abstract List<String> getValidateRules();
+    public abstract List<String> getValidate30019();
 
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    // ~ JUnit Test Case =====================================
     /** **/
     @Test
-    public void testPostRequired() {
-        for (final String key : this.getRequiredRules().keySet()) {
-            final String retStr = this.getRequiredRules().get(key);
-            final JsonObject params = this.client().getParameter(key);
+    public void test30010Error() {
+        for (final String file : this.getValidate30010()) {
+            final JsonObject params = this.client().getParameter(file);
             final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.POST);
             if (!StringUtil.equals("SKIP", resp.getString("status"))) {
-                boolean ret = ErrorChecker.check30001(resp);
+                boolean ret = ErrorChecker.check30010(resp);
                 if (ret) {
                     final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
                     info(getLogger(), "(POST) Display Error: " + display);
-                    ret = 0 <= display.indexOf(retStr);
-                    assertTrue("[TST] ( 400 : -30001 ) Required -> " + retStr + " Unsuccessful !", ret);
+                    ret = 0 <= display.indexOf("decoding met error");
+                    assertTrue("[TST] ( 400 : Required -> decoding met error) Unsuccessful !", ret);
                 } else {
                     fail("[ERR] Basic Information Checking Failure !");
                 }
@@ -63,29 +56,22 @@ public abstract class AbstractPostTestCase extends AbstractRBTestCase {
 
     /** **/
     @Test
-    public void testPostValidation() {
-        for (final String key : this.getValidateRules()) {
-            final JsonObject params = this.client().getParameter(key);
+    public void test30019Error() {
+        for (final String file : this.getValidate30019()) {
+            final JsonObject params = this.client().getParameter(file);
             final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.POST);
-            final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
             if (!StringUtil.equals("SKIP", resp.getString("status"))) {
-                boolean ret = ErrorChecker.check30007(resp);
+                boolean ret = ErrorChecker.check30019(resp);
                 if (ret) {
+                    final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
                     info(getLogger(), "(POST) Display Error: " + display);
-                    assertTrue("[TST] ( 400 : -30007 ): Validation Failure/Unsuccessful !", ret);
+                    assertTrue("[TST] ( 400 : Required -> OrderBy Error ) Unsuccessful !", ret);
                 } else {
-                    ret = ErrorChecker.check30004(resp);
-                    if (ret) {
-                        info(getLogger(), "(POST) Display Error: " + display);
-                        assertTrue("[TST] ( 400 : -30004 ): Validation Failure/Unsuccessful !", ret);
-                    } else {
-                        fail("[ERR] Basic Information Checking Failure !");
-                    }
+                    fail("[ERR] Basic Information Checking Failure !");
                 }
             }
         }
     }
-    // ~ Template Testing ====================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

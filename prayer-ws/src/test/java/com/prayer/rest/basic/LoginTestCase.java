@@ -108,7 +108,7 @@ public class LoginTestCase extends AbstractRBTestCase {
             boolean ret = ErrorChecker.check30014(resp);
             if (ret) {
                 final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                info(LOGGER, "[INFO] Display Error: " + display + "\n");
+                info(LOGGER, "[INFO] Display Error: " + display);
                 ret = 0 <= display.indexOf(retStr);
                 assertTrue("[TST] ( 401 :" + retStr + " ) Unsuccessful !", ret);
             } else {
