@@ -130,7 +130,7 @@ public class RestClient {
         if (null != content) {
             ret = new JsonObject(content);
         }
-        info(LOGGER, "[INPUT] Request Body = " + ret.encode());
+        info(LOGGER, "---------------> /rest/input/" + jsonFile + " , Data ------> [INPUT] Request Body = " + ret.encode());
         return ret;
     }
 

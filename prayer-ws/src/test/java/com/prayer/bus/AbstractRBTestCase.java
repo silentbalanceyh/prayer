@@ -3,7 +3,6 @@ package com.prayer.bus;
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.singleton;
 
-import java.util.Locale;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
@@ -57,38 +56,6 @@ public abstract class AbstractRBTestCase {
         return resp;
     }
 
-    /** **/
-    protected boolean check30007Resp(final JsonObject resp) {
-        final JsonObject data = resp.getJsonObject("data");
-        // Error Code
-        boolean ret = this.checkErrorCode(data.getJsonObject("error"), -30007);
-        // Http Status
-        ret = ret && this.checkHttpStatus(resp, StatusCode.BAD_REQUEST.status());
-        // Return Code
-        ret = ret && this.checkReturnCode(data, ResponseCode.FAILURE);
-        // Status Information
-        ret = ret && this.checkStatus(data.getJsonObject("status"), StatusCode.BAD_REQUEST);
-        // Passed
-        ret = ret && StringUtil.equals("PASSED", resp.getString("status"));
-        return ret;
-    }
-
-    /** **/
-    protected boolean check30001Resp(final JsonObject resp) {
-        final JsonObject data = resp.getJsonObject("data");
-        // Error Code
-        boolean ret = this.checkErrorCode(data.getJsonObject("error"), -30001);
-        // Http Status
-        ret = ret && this.checkHttpStatus(resp, StatusCode.BAD_REQUEST.status());
-        // Return Code
-        ret = ret && this.checkReturnCode(data, ResponseCode.FAILURE);
-        // Status Information
-        ret = ret && this.checkStatus(data.getJsonObject("status"), StatusCode.BAD_REQUEST);
-        // Passed
-        ret = ret && StringUtil.equals("PASSED", resp.getString("status"));
-        return ret;
-    }
-
     // ~ Response Check ======================================
     /** **/
     protected boolean checkSuccess(final JsonObject resp) {
@@ -109,36 +76,6 @@ public abstract class AbstractRBTestCase {
         }
         data = data.getJsonObject("data");
         if (data.isEmpty()) {
-            ret = false;
-        }
-        return ret;
-    }
-
-    /** **/
-    protected boolean checkErrorCode(final JsonObject error, final int code) {
-        final int errorCode = error.getInteger("code");
-        return errorCode == code;
-    }
-
-    /** **/
-    protected boolean checkHttpStatus(final JsonObject resp, final int code) {
-        final int statusCode = resp.getInteger("code");
-        return statusCode == code;
-    }
-
-    /** **/
-    protected boolean checkReturnCode(final JsonObject data, final ResponseCode retCode) {
-        final ResponseCode code = fromStr(ResponseCode.class, data.getString("returnCode"));
-        return code == retCode;
-    }
-
-    /** **/
-    protected boolean checkStatus(final JsonObject status, final StatusCode statusCode) {
-        boolean ret = true;
-        if (status.getInteger("code") != statusCode.status()) {
-            ret = false;
-        }
-        if (!StringUtil.equals(status.getString("literal"), statusCode.name().toUpperCase(Locale.getDefault()))) {
             ret = false;
         }
         return ret;

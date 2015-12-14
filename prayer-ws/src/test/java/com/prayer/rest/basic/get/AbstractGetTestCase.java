@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.prayer.bus.AbstractRBTestCase;
+import com.prayer.bus.ErrorChecker;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
@@ -41,10 +42,10 @@ public abstract class AbstractGetTestCase extends AbstractRBTestCase {
             final String url = params.getString("url");
             final JsonObject resp = this.sendRequest(url, params, HttpMethod.GET);
             if (!StringUtil.equals("SKIP", resp.getString("status"))) {
-                boolean ret = check30007Resp(resp);
+                boolean ret = ErrorChecker.check30007(resp);
                 if (ret) {
                     final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                    info(getLogger(), "(GET) Display Error: " + display);
+                    info(getLogger(), "(GET) Display Error: " + display + "\n");
                     assertTrue("[TST] ( 400 : Validation Failure ) Unsuccessful !", ret);
                 } else {
                     fail("[ERR] Basic Information Checking Failure !");

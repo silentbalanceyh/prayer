@@ -11,9 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.AbstractRBTestCase;
+import com.prayer.bus.ErrorChecker;
 import com.prayer.bus.RestClient;
-import com.prayer.model.web.StatusCode;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import io.vertx.core.json.JsonObject;
 import jodd.util.StringUtil;
@@ -106,31 +105,16 @@ public class LoginTestCase extends AbstractRBTestCase {
     private void testFailure(final ConcurrentMap<String, String> headers, final String retStr) {
         final JsonObject resp = this.client().requestGet(this.client().getApi("/sec/login"), headers);
         if (!StringUtil.equals("SKIP", resp.getString("status"))) {
-            boolean ret = checkResp(resp);
+            boolean ret = ErrorChecker.check30014(resp);
             if (ret) {
                 final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                info(LOGGER, "[INFO] Display Error: " + display);
+                info(LOGGER, "[INFO] Display Error: " + display + "\n");
                 ret = 0 <= display.indexOf(retStr);
                 assertTrue("[TST] ( 401 :" + retStr + " ) Unsuccessful !", ret);
             } else {
                 fail("[ERR] Basic Information Checking Failure !");
             }
         }
-    }
-
-    private boolean checkResp(final JsonObject resp) {
-        final JsonObject data = resp.getJsonObject("data");
-        // Error Code
-        boolean ret = this.checkErrorCode(data.getJsonObject("error"), -30014);
-        // Http Status
-        ret = ret && this.checkHttpStatus(resp, StatusCode.UNAUTHORIZED.status());
-        // Return Code
-        ret = ret && this.checkReturnCode(data, ResponseCode.FAILURE);
-        // Status Information
-        ret = ret && this.checkStatus(data.getJsonObject("status"), StatusCode.UNAUTHORIZED);
-        // Passed
-        ret = ret && StringUtil.equals("PASSED", resp.getString("status"));
-        return ret;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

@@ -188,17 +188,9 @@ public class ValidationHandler implements Handler<RoutingContext> {
             }
         } catch (AbstractWebException ex) {
             error = ex;
-            // TODO:
-            ex.printStackTrace();
         } catch (AbstractDatabaseException ex) {
             // 三种复杂基础类型的数据格式问题
             error = new SpecialDataTypeException(getClass(), ruleModel.getType(), paramValue);
-            // TODO:
-            ex.printStackTrace();
-        }
-        // TODO:
-        catch (Exception ex) {
-            ex.printStackTrace();
         }
         return error;
     }
