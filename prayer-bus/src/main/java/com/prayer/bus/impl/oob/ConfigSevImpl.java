@@ -137,6 +137,23 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
+    public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findDependants(
+            @NotNull @NotBlank @NotEmpty final String uriId) {
+        // 1.构造响应数据
+        final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
+        // 2.调用读取方法
+        List<RuleModel> ret = this.manager.getRuleDao().getByUri(uriId);
+        // 3.设置响应结果
+        ret = ret.stream().filter(item -> ComponentType.DEPENDANT == item.getComponentType())
+                .collect(Collectors.toList());
+        final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
+        return result.success(listRet);
+    }
+
+    /** **/
+    @Override
+    @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
     public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors(
             @NotNull @NotBlank @NotEmpty final String uriId) {
         // 1.构造响应数据

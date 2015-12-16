@@ -1,6 +1,7 @@
 package com.prayer.handler.standard;
 
 import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Converter.toStr;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
@@ -51,11 +52,6 @@ public class ConversionHandler implements Handler<RoutingContext> {
     private transient final ConfigService service;
 
     // ~ Static Block ========================================
-    /** 创建方法 **/
-    public static ConversionHandler create() {
-        return new ConversionHandler();
-    }
-
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
@@ -98,7 +94,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
             try {
                 final JsonObject updatedParams = new JsonObject();
                 for (final String field : params.fieldNames()) {
-                    final String value = params.getString(field);
+                    final String value = toStr(params, field); // params.getString(field);
                     updatedParams.put(field, value);
                     final List<RuleModel> convertors = dataMap.get(field);
                     // Convertor不可以有多个

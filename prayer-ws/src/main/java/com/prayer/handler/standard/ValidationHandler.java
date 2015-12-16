@@ -61,11 +61,6 @@ public class ValidationHandler implements Handler<RoutingContext> {
     private transient final ConfigService service;
 
     // ~ Static Block ========================================
-    /** 创建方法 **/
-    public static ValidationHandler create() {
-        return new ValidationHandler();
-    }
-
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/

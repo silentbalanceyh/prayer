@@ -72,7 +72,12 @@ public interface ConfigService {
      * @return
      */
     ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors(String uriId);
-
+    /**
+     * 
+     * @param uriId
+     * @return
+     */
+    ServiceResult<ConcurrentMap<String, List<RuleModel>>> findDependants(String uriId);
     /**
      * 
      * @param workClass
