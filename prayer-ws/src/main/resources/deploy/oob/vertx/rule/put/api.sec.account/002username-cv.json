@@ -17,12 +17,12 @@
         "componentType":"DEPENDANT",
         "componentClass":"com.prayer.uca.dependant.UPEValidateDependant",
         "config":{
-            "rule":"VALIDATE"
+            "rule":"VALIDATE",
             "parameter":["id"],
-            "query":"SELECT S_USERNAME FROM SEC_ACCOUNT WHERE PK_ID=''{0}''",
+            "query":"PK_ID <> ''{0}''",
             "table":"SEC_ACCOUNT",
             "column":"S_USERNAME"
         },
-        "errorMessage":"用户名转换过程出错，请联系管理员。"
+        "errorMessage":"该用户名在数据库中已经存在，请输入不重复的用户名。"
     }
 ]

@@ -6,6 +6,7 @@ import static com.prayer.util.Converter.toStr;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,8 +21,10 @@ import com.prayer.base.exception.AbstractWebException;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.exception.web.DependParameterInvalidException;
 import com.prayer.exception.web.DependParamsMissingException;
+import com.prayer.exception.web.DependQueryInvalidException;
 import com.prayer.exception.web.DependRuleInvalidException;
 import com.prayer.exception.web.DependantMultiException;
+import com.prayer.exception.web.ValidationFailureException;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
@@ -30,6 +33,7 @@ import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.uca.WebDependant;
+import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.DependRule;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
@@ -91,7 +95,7 @@ public class DependantHandler implements Handler<RoutingContext> {
 
     private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
             final RoutingContext context, final Requestor requestor) {
-        final JsonObject params = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
+        final JsonObject inParams = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
         if (ResponseCode.SUCCESS == result.getResponseCode()) {
             AbstractWebException error = null;
             boolean ret = true;
@@ -99,24 +103,25 @@ public class DependantHandler implements Handler<RoutingContext> {
             // 遍历每一个字段
             try {
                 // Convertor中需要使用的更新后的参数
-                final JsonObject updatedParams = new JsonObject();
-                for (final String field : params.fieldNames()) {
-                    final String value = toStr(params, field);
-                    updatedParams.put(field, value);
-                    // Extract Component
+                final JsonObject outParams = new JsonObject();
+                for (final String field : inParams.fieldNames()) {
+                    // 1.在outParams中填充值
+                    final String value = toStr(inParams, field);
+                    outParams.put(field, value);
+                    // 2.读取所有的dependant组件
                     final List<RuleModel> dependants = dataMap.get(field);
-                    // Dependants对一个字段而言不可以有多个，这个规则和Convertor转换器一样
+                    // 3.Dependants对一个字段而言不可以有多个，这个规则和Convertor转换器一样
                     if (null != dependants) {
                         if (Constants.ONE < dependants.size()) {
                             error = new DependantMultiException(getClass(), field); // NOPMD
                         } else if (Constants.ONE == dependants.size()) {
                             final RuleModel dependant = dependants.get(Constants.ZERO);
-                            this.dependField(field, value, dependant, updatedParams);
+                            this.dependField(field, value, dependant, inParams, outParams);
                         }
                     }
                 }
                 // 更新参数节点
-                requestor.getRequest().put(JsonKey.REQUEST.PARAMS, updatedParams);
+                requestor.getRequest().put(JsonKey.REQUEST.PARAMS, outParams);
             } catch (AbstractWebException ex) {
                 error = ex;
             }
@@ -144,7 +149,7 @@ public class DependantHandler implements Handler<RoutingContext> {
      * @throws AbstractWebException
      */
     private void dependField(final String paramName, final String paramValue, final RuleModel ruleModel,
-            final JsonObject updatedParams) throws AbstractWebException {
+            final JsonObject inParam, final JsonObject outParam) throws AbstractWebException {
         // 1.验证Dependant是否合法
         final String componentCls = ruleModel.getComponentClass();
         Interruptor.interruptClass(getClass(), componentCls, "Dependant");
@@ -154,6 +159,35 @@ public class DependantHandler implements Handler<RoutingContext> {
         final Value<?> value = instance(typeCls, paramValue);
         // 3.验证config的三个特殊参数以及数据类型
         this.verifyConfig(ruleModel);
+        // 4.构造sqlQuery，Depend组件的必备参数
+        final JsonObject config = ruleModel.getConfig();
+        if (null != config) {
+            final String sqlQuery = this.buildSql(config.getString("query"), inParam, config.getJsonArray("parameter"));
+            // 5.获取Dependant
+            final WebDependant dependant = instance(componentCls);
+            final JsonObject retJson = dependant.process(paramName, value, config, sqlQuery);
+            // 6.获取当前Config的Rule
+            final DependRule rule = fromStr(DependRule.class,config.getString("rule"));
+            if(DependRule.VALIDATE == rule){
+                final Boolean ret = retJson.getBoolean(WebDependant.VAL_RET);
+                if(!ret){
+                    throw new ValidationFailureException(ruleModel.getErrorMessage());
+                }
+            }else if(DependRule.CONVERT == rule){
+                // 返回Convert的值信息
+                final String retVal = retJson.getString(WebDependant.CVT_RET);
+                outParam.put(paramName, retVal);
+            }
+        }
+    }
+
+    private String buildSql(final String query, final JsonObject inParam, final JsonArray params) {
+        final int size = params.size();
+        final Object[] arguments = new Object[size];
+        for (int idx = 0; idx < size; idx++) {
+            arguments[idx] = params.getValue(idx);
+        }
+        return MessageFormat.format(query, arguments);
     }
 
     /**
@@ -169,28 +203,38 @@ public class DependantHandler implements Handler<RoutingContext> {
                     throw new DependParamsMissingException(getClass(), required, ruleModel.getName());
                 }
             }
-            // 4.rule格式
+            // 4.rule的设置
             final String ruleStr = config.getString(REQ_PARAM[Constants.ZERO]);
             DependRule rule = null;
-            if(null != ruleStr){
-                rule = fromStr(DependRule.class,ruleStr);
+            if (null != ruleStr) {
+                rule = fromStr(DependRule.class, ruleStr);
             }
-            if(null == rule){
-                throw new DependRuleInvalidException(getClass(),ruleStr);
+            if (null == rule) {
+                throw new DependRuleInvalidException(getClass(), ruleStr);
             }
             // 5.parameter格式验证
             final Object paramObj = config.getValue(REQ_PARAM[Constants.ONE]);
-            if(null != paramObj && JsonArray.class != paramObj.getClass()){
-                throw new DependParameterInvalidException(getClass(),paramObj.getClass());
+            if (null != paramObj && JsonArray.class != paramObj.getClass()) {
+                throw new DependParameterInvalidException(getClass(), paramObj.getClass());
             }
             // 6.query格式验证
             final Object queryStr = config.getValue(REQ_PARAM[Constants.TWO]);
-            if(null != queryStr && String.class == queryStr.getClass()){
-                
+            if (queryStr == null) {
+                // query为null
+                throw new DependQueryInvalidException(getClass(), null);
+            } else {
+                if (String.class != queryStr.getClass()) {
+                    // query为非String的情况直接抛错
+                    throw new DependQueryInvalidException(getClass(), queryStr.getClass().getName());
+                } else {
+                    // query的字符串的值为空字符串
+                    if (StringKit.isNil(queryStr.toString())) {
+                        throw new DependQueryInvalidException(getClass(), queryStr.toString());
+                    }
+                }
             }
         }
     }
-
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

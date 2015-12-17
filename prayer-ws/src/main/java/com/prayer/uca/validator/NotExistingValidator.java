@@ -1,17 +1,14 @@
 package com.prayer.uca.validator;
 
-import static com.prayer.util.Instance.singleton;
-
 import java.text.MessageFormat;
 
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Interruptor;
 import com.prayer.base.exception.AbstractWebException;
-import com.prayer.dao.impl.jdbc.JdbcConnImpl;
-import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.uca.WebValidator;
+import com.prayer.uca.jdbc.AbstractJdbcSwitcher;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SqlSegment;
 import com.prayer.util.cv.Symbol;
@@ -21,7 +18,6 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -29,7 +25,7 @@ import net.sf.oval.guard.PostValidateThis;
  * 
  */
 @Guarded
-public class NotExistingValidator implements WebValidator {        // NOPMD
+public class NotExistingValidator extends AbstractJdbcSwitcher implements WebValidator { // NOPMD
     // ~ Static Fields =======================================
     /** 数据库表名 **/
     private final static String TABLE = "table";
@@ -37,19 +33,10 @@ public class NotExistingValidator implements WebValidator {        // NOPMD
     private final static String UK_COLUMN = "column";
 
     // ~ Instance Fields =====================================
-    /** **/
-    @NotNull
-    private transient final JdbcContext context;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    @PostValidateThis
-    public NotExistingValidator() {
-        this.context = singleton(JdbcConnImpl.class);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**
@@ -63,29 +50,32 @@ public class NotExistingValidator implements WebValidator {        // NOPMD
         Interruptor.interruptRequired(getClass(), name, config, UK_COLUMN);
         Interruptor.interruptStringConfig(getClass(), name, config, TABLE);
         Interruptor.interruptStringConfig(getClass(), name, config, UK_COLUMN);
-        // 2.检查值
-        final String table = Extractor.getString(config, TABLE);
-        final String column = Extractor.getString(config, UK_COLUMN);
-        // 3.数据库访问查询
-        return this.verifyUnique(table, column, value);
+        // 2.内置逻辑
+        return this.verifyUnique(config, value);
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    
-    private boolean verifyUnique(final String table, final String column, final Value<?> value) {    // NOPMD
+
+    private boolean verifyUnique(final JsonObject config, final Value<?> value) throws AbstractWebException { // NOPMD
+        final String table = Extractor.getString(config, TABLE);
+        final String column = Extractor.getString(config, UK_COLUMN);
         final StringBuilder sql = new StringBuilder(Constants.BUFFER_SIZE);
-        sql.append(MessageFormat.format(SqlSegment.TB_COUNT, table)).append(Symbol.SPACE).append(SqlSegment.WHERE)
-                .append(Symbol.SPACE).append(column).append(Symbol.SPACE).append(Symbol.EQUAL).append(Symbol.SPACE);
+        // 获取value部分
+        String whereVal = null;
         if (value.getDataType() == DataType.STRING || value.getDataType() == DataType.DATE
                 || value.getDataType() == DataType.XML || value.getDataType() == DataType.JSON
                 || value.getDataType() == DataType.SCRIPT) {
-            sql.append(Symbol.S_QUOTES).append(value.literal()).append(Symbol.S_QUOTES);
+            whereVal = Symbol.S_QUOTES + value.literal() + Symbol.S_QUOTES;
         } else if (value.getDataType() == DataType.INT || value.getDataType() == DataType.LONG
                 || value.getDataType() == DataType.BOOLEAN || value.getDataType() == DataType.DECIMAL) {
-            sql.append(value.literal());
+            whereVal = value.literal();
         }
-        final Long ret = this.context.count(sql.toString());
+        // 构造Sql
+        sql.append(MessageFormat.format(SqlSegment.TB_COUNT, table)).append(Symbol.SPACE).append(SqlSegment.WHERE)
+                .append(Symbol.SPACE).append(column).append(Symbol.SPACE).append(Symbol.EQUAL).append(Symbol.SPACE)
+                .append(whereVal);
+        final Long ret = this.getContext(config).count(sql.toString());
         return ret == Constants.ZERO;
     }
     // ~ Get/Set =============================================

@@ -7,12 +7,12 @@ import com.prayer.base.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class DependRuleInvalidException extends AbstractWebException {
+public class DependQueryInvalidException extends AbstractWebException {
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = 2752930385216672214L;
+    private static final long serialVersionUID = 4872740806754646479L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -20,17 +20,17 @@ public class DependRuleInvalidException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param value
+     * @param query
      */
-    public DependRuleInvalidException(final Class<?> clazz, final String value){
-        super(clazz, -30022, value);
+    public DependQueryInvalidException(final Class<?> clazz, final String query){
+        super(clazz, -30024, query);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
     public int getErrorCode(){
-        return -30022;
+        return -30024;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

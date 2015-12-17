@@ -1,9 +1,5 @@
 package com.prayer.rest.basic.del;
 
-import static com.prayer.util.Error.info;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
@@ -11,6 +7,7 @@ import org.junit.Test;
 
 import com.prayer.bus.AbstractRBTestCase;
 import com.prayer.bus.ErrorChecker;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
@@ -49,14 +46,8 @@ public abstract class AbstractDeleteTestCase extends AbstractRBTestCase {
             final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.DELETE);
             if (!StringUtil.equals("SKIP", resp.getString("status"))) {
                 boolean ret = ErrorChecker.check30001(resp);
-                if (ret) {
-                    final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                    info(getLogger(), "(DELETE) Display Error: " + display);
-                    ret = 0 <= display.indexOf(retStr);
-                    assertTrue("[TST] ( 400 : Required -> " + retStr + ") Unsuccessful !", ret);
-                } else {
-                    fail("[ERR] Basic Information Checking Failure !");
-                }
+                // Failure Output
+                failure(getLogger(), StatusCode.BAD_REQUEST, -30001, resp, ret, HttpMethod.DELETE, retStr);
             }
         }
     }
@@ -69,13 +60,8 @@ public abstract class AbstractDeleteTestCase extends AbstractRBTestCase {
             final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.DELETE);
             if (!StringUtil.equals("SKIP", resp.getString("status"))) {
                 boolean ret = ErrorChecker.check30007(resp);
-                if (ret) {
-                    final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                    info(getLogger(), "(DELETE) Display Error: " + display);
-                    assertTrue("[TST] ( 400 : Validation Failure ) Unsuccessful !", ret);
-                } else {
-                    fail("[ERR] Basic Information Checking Failure !");
-                }
+                // Failure Output
+                failure(getLogger(), StatusCode.BAD_REQUEST, -30007, resp, ret, HttpMethod.DELETE, null);
             }
         }
     }

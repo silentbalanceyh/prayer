@@ -1,15 +1,12 @@
 package com.prayer.rest.basic.get;
 
-import static com.prayer.util.Error.info;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.List;
 
 import org.junit.Test;
 
 import com.prayer.bus.AbstractRBTestCase;
 import com.prayer.bus.ErrorChecker;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
@@ -43,13 +40,8 @@ public abstract class AbstractGetTestCase extends AbstractRBTestCase {
             final JsonObject resp = this.sendRequest(url, params, HttpMethod.GET);
             if (!StringUtil.equals("SKIP", resp.getString("status"))) {
                 boolean ret = ErrorChecker.check30007(resp);
-                if (ret) {
-                    final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                    info(getLogger(), "(GET) Display Error: " + display);
-                    assertTrue("[TST] ( 400 : Validation Failure ) Unsuccessful !", ret);
-                } else {
-                    fail("[ERR] Basic Information Checking Failure !");
-                }
+                // Failure Output
+                failure(getLogger(), StatusCode.BAD_REQUEST, -30007, resp, ret, HttpMethod.GET, null);
             }
         }
     }

@@ -94,15 +94,18 @@ public class ConversionHandler implements Handler<RoutingContext> {
             try {
                 final JsonObject updatedParams = new JsonObject();
                 for (final String field : params.fieldNames()) {
+                    // 1.在外围填充updatedParams的值，这里有替换过程
                     final String value = toStr(params, field); // params.getString(field);
                     updatedParams.put(field, value);
+                    // 2.读取这个字段拥有的Convertor的信息
                     final List<RuleModel> convertors = dataMap.get(field);
-                    // Convertor不可以有多个
                     if (null != convertors) {
+                        // 3.读取这个字段上所有的Convertors
                         if (Constants.ONE < convertors.size()) {
                             error = new ConvertorMultiException(getClass(), field); // NOPMD
                             break;
                         } else if (Constants.ONE == convertors.size()) {
+                            // 直接通过Convertor处理
                             final RuleModel convertor = convertors.get(Constants.ZERO);
                             final String cvRet = this.convertField(field, value, convertor);
                             updatedParams.put(field, cvRet);

@@ -1,9 +1,5 @@
 package com.prayer.rest.basic;
 
-import static com.prayer.util.Error.info;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Test;
@@ -13,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import com.prayer.bus.AbstractRBTestCase;
 import com.prayer.bus.ErrorChecker;
 import com.prayer.bus.RestClient;
+import com.prayer.model.web.StatusCode;
 
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import jodd.util.StringUtil;
 
@@ -95,9 +93,8 @@ public class LoginTestCase extends AbstractRBTestCase {
         final JsonObject resp = this.client().requestGet(this.client().getApi("/sec/login"), headers);
         if (!StringUtil.equals("SKIP", resp.getString("status"))) {
             boolean ret = this.checkSuccess(resp);
-            assertTrue(
-                    "[TST] ( 200 : " + resp.getJsonObject("data").getJsonObject("data").encode() + " ) Unsuccessful !",
-                    ret);
+            // Success Output
+            success(ret, resp);
         }
     }
     // ~ Private Methods =====================================
@@ -106,14 +103,8 @@ public class LoginTestCase extends AbstractRBTestCase {
         final JsonObject resp = this.client().requestGet(this.client().getApi("/sec/login"), headers);
         if (!StringUtil.equals("SKIP", resp.getString("status"))) {
             boolean ret = ErrorChecker.check30014(resp);
-            if (ret) {
-                final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
-                info(LOGGER, "[INFO] Display Error: " + display);
-                ret = 0 <= display.indexOf(retStr);
-                assertTrue("[TST] ( 401 :" + retStr + " ) Unsuccessful !", ret);
-            } else {
-                fail("[ERR] Basic Information Checking Failure !");
-            }
+            // Failure Output
+            failure(LOGGER, StatusCode.UNAUTHORIZED, -30014, resp, ret, HttpMethod.GET, retStr);
         }
     }
     // ~ Get/Set =============================================

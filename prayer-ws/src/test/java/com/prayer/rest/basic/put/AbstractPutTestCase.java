@@ -1,4 +1,4 @@
-package com.prayer.rest.basic.post;
+package com.prayer.rest.basic.put;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -18,7 +18,7 @@ import jodd.util.StringUtil;
  * @author Lang
  *
  */
-public abstract class AbstractPostTestCase extends AbstractRBTestCase {
+public abstract class AbstractPutTestCase extends AbstractRBTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -35,43 +35,21 @@ public abstract class AbstractPostTestCase extends AbstractRBTestCase {
     public abstract List<String> getValidateRules();
 
     // ~ Override Methods ====================================
-    // ~ Methods =============================================
-    // ~ JUnit Test Case =====================================
     /** **/
     @Test
-    public void testPostRequired() {
+    public void testPutRequired() {
         for (final String key : this.getRequiredRules().keySet()) {
             final String retStr = this.getRequiredRules().get(key);
             final JsonObject params = this.client().getParameter(key);
-            final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.POST);
+            final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.PUT);
             if (!StringUtil.equals("SKIP", resp.getString("status"))) {
                 boolean ret = ErrorChecker.check30001(resp);
                 // Failure Output
-                failure(getLogger(), StatusCode.BAD_REQUEST, -30001, resp, ret, HttpMethod.POST, retStr);
+                failure(getLogger(), StatusCode.BAD_REQUEST, -30001, resp, ret, HttpMethod.PUT, retStr);
             }
         }
     }
-
-    /** **/
-    @Test
-    public void testPostValidation() {
-        for (final String key : this.getValidateRules()) {
-            final JsonObject params = this.client().getParameter(key);
-            final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.POST);
-            if (!StringUtil.equals("SKIP", resp.getString("status"))) {
-                boolean ret = ErrorChecker.check30007(resp);
-                // 30007 Failure Output
-                if (ret) {
-                    failure(getLogger(), StatusCode.BAD_REQUEST, -30007, resp, ret, HttpMethod.POST, null);
-                } else {
-                    ret = ErrorChecker.check30004(resp);
-                    // 30004 Failure Output
-                    failure(getLogger(), StatusCode.BAD_REQUEST, -30004, resp, ret, HttpMethod.POST, null);
-                }
-            }
-        }
-    }
-    // ~ Template Testing ====================================
+    // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

@@ -108,14 +108,18 @@ public class ValidationHandler implements Handler<RoutingContext> {
             boolean ret = true;
             // 遍历每个字段
             for (final String field : params.fieldNames()) {
-                final String value = toStr(params, field);
+                // 1.从系统里读取validators
                 final List<RuleModel> validators = dataMap.get(field);
-                // 验证当前字段信息
-                error = this.validateField(field, value, validators);
-                if (null != error) {
-                    ret = false;
-                    Future.error400(getClass(), context, error);
-                    break;
+                // 2.该字段存在validators的时候就执行
+                if (!validators.isEmpty()) {
+                    // 3.能够读取到字段对应的Validator
+                    final String value = toStr(params, field);
+                    error = this.validateField(field, value, validators);
+                    if (null != error) {
+                        ret = false;
+                        Future.error400(getClass(), context, error);
+                        break;
+                    }
                 }
             }
             return ret;

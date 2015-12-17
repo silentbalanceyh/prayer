@@ -1,17 +1,102 @@
 package com.prayer.uca.dependant;
+
+import static com.prayer.util.Converter.fromStr;
+import static com.prayer.assistant.WebLogger.info;
+
+import java.text.MessageFormat;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.prayer.assistant.Extractor;
+import com.prayer.assistant.Interruptor;
+import com.prayer.assistant.WebLogger;
+import com.prayer.base.exception.AbstractWebException;
+import com.prayer.exception.web.DependRuleConflictException;
+import com.prayer.facade.kernel.Value;
+import com.prayer.model.type.DataType;
+import com.prayer.uca.WebDependant;
+import com.prayer.uca.jdbc.AbstractJdbcSwitcher;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.SqlSegment;
+import com.prayer.util.cv.Symbol;
+import com.prayer.util.cv.SystemEnum.DependRule;
+
+import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+
 /**
  * 
  * @author Lang
  *
  */
-public class UPEValidateDependant {
+public class UPEValidateDependant extends AbstractJdbcSwitcher implements WebDependant {
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(UPEValidateDependant.class);
+    /** 数据库表名 **/
+    private final static String TABLE = "table";
+    /** 数据库列名 **/
+    private final static String COLUMN = "column";
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /**
+     * Depend的处理流程，sqlQuery作为子查询
+     */
+    @Override
+    public JsonObject process(@NotNull @NotBlank @NotEmpty final String name, @NotNull final Value<?> value,
+            @NotNull final JsonObject config, @NotNull @NotBlank @NotEmpty final String sqlQuery)
+                    throws AbstractWebException {
+        // 1.检查Dependant的扩展配置信息
+        Interruptor.interruptRequired(getClass(), name, config, TABLE);
+        Interruptor.interruptRequired(getClass(), name, config, COLUMN);
+        Interruptor.interruptStringConfig(getClass(), name, config, TABLE);
+        Interruptor.interruptStringConfig(getClass(), name, config, COLUMN);
+
+        // 2.结果设置
+        final JsonObject retJson = new JsonObject();
+        final DependRule rule = fromStr(DependRule.class, config.getString("rule"));
+        if (DependRule.CONVERT == rule) {
+            throw new DependRuleConflictException(getClass(), DependRule.VALIDATE, rule);
+        } else {
+            // 3.设置结果
+            final Boolean ret = this.verifyUpExisting(config, value, sqlQuery);
+            retJson.put(VAL_RET, ret);
+        }
+        return retJson;
+    }
+
+    private boolean verifyUpExisting(final JsonObject config, final Value<?> value, final String sqlQuery)
+            throws AbstractWebException {
+        final String table = Extractor.getString(config, TABLE);
+        final String column = Extractor.getString(config, COLUMN);
+        final StringBuilder sql = new StringBuilder(Constants.BUFFER_SIZE);
+        // 获取value部分
+        String whereVal = null;
+        if (value.getDataType() == DataType.STRING || value.getDataType() == DataType.DATE
+                || value.getDataType() == DataType.XML || value.getDataType() == DataType.JSON
+                || value.getDataType() == DataType.SCRIPT) {
+            whereVal = Symbol.S_QUOTES + value.literal() + Symbol.S_QUOTES;
+        } else if (value.getDataType() == DataType.INT || value.getDataType() == DataType.LONG
+                || value.getDataType() == DataType.BOOLEAN || value.getDataType() == DataType.DECIMAL) {
+            whereVal = value.literal();
+        }
+        // 构造Sql
+        sql.append(MessageFormat.format(SqlSegment.TB_COUNT, table)).append(Symbol.SPACE).append(SqlSegment.WHERE)
+                .append(Symbol.SPACE).append(column).append(Symbol.SPACE).append(Symbol.EQUAL).append(Symbol.SPACE)
+                .append(whereVal).append(Symbol.SPACE).append(SqlSegment.AND).append(Symbol.SPACE).append(sqlQuery);
+        // 设置结果
+        info(LOGGER, WebLogger.I_COMMON_INFO, sql.toString());
+        final Long ret = this.getContext(config).count(sql.toString());
+        return ret == Constants.ZERO;
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

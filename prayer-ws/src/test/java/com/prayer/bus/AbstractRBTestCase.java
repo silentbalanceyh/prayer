@@ -1,7 +1,10 @@
 package com.prayer.bus;
 
 import static com.prayer.util.Converter.fromStr;
+import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -48,12 +51,53 @@ public abstract class AbstractRBTestCase {
         JsonObject resp = null;
         if (HttpMethod.POST == method) {
             resp = this.client().requestPost(this.client().getApi(path), headers, params);
-        }else if(HttpMethod.DELETE == method){
+        } else if (HttpMethod.DELETE == method) {
             resp = this.client().requestDelete(this.client().getApi(path), headers, params);
-        }else if(HttpMethod.GET == method){
+        } else if (HttpMethod.GET == method) {
             resp = this.client().requestGet(this.client().getApi(path), headers);
+        } else if (HttpMethod.PUT == method) {
+            resp = this.client().requestPut(this.client().getApi(path), headers, params);
         }
         return resp;
+    }
+
+    /**
+     * 简化代码的综合统一输出信息的方法
+     * 
+     * @param logger
+     * @param code
+     * @param errorCode
+     * @param resp
+     * @param checkRet
+     * @param subStr
+     */
+    protected void failure(final Logger logger, final StatusCode code, final int errorCode, final JsonObject resp,
+            Boolean checkRet, final HttpMethod method, final String subStr) {
+        if (checkRet) {
+            final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
+            info(logger, "[ERR" + errorCode + "] <" + method.name() + "> Display Error : " + display);
+            // 只有subStr不为null的时候执行这种检查
+            if (null != subStr) {
+                checkRet = 0 <= display.indexOf(subStr);
+                assertTrue("[TST] ( " + code.status() + " : " + code.toString() + " ) Unsuccessful ! ", checkRet);
+            } else {
+                assertTrue("[TST] ( " + code.status() + " : " + code.toString() + " ) Unsuccessful ! ", checkRet);
+            }
+        } else {
+            fail("[ERR" + errorCode + "] <" + method.name() + "> ( " + code.status() + " : " + code.toString()
+                    + " ) Basic Information Checking Failure !");
+        }
+    }
+
+    /**
+     * 简化代码的统一综合输出信息的方法
+     * 
+     * @param checkRet
+     * @param resp
+     */
+    protected void success(final Boolean checkRet, final JsonObject resp) {
+        assertTrue("[TST] ( 200 : " + resp.getJsonObject("data").getJsonObject("data").encode() + " ) Unsuccessful !",
+                checkRet);
     }
 
     // ~ Response Check ======================================

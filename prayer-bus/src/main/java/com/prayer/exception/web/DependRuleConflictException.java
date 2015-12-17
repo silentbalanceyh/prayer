@@ -1,18 +1,20 @@
 package com.prayer.exception.web;
 
 import com.prayer.base.exception.AbstractWebException;
+import com.prayer.util.cv.SystemEnum.DependRule;
 
 /**
  * 
  * @author Lang
  *
  */
-public class DependRuleInvalidException extends AbstractWebException {
+public class DependRuleConflictException extends AbstractWebException {
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = 2752930385216672214L;
+    private static final long serialVersionUID = -722010831877869699L;
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -20,17 +22,19 @@ public class DependRuleInvalidException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param value
+     * @param expected
+     * @param actual
      */
-    public DependRuleInvalidException(final Class<?> clazz, final String value){
-        super(clazz, -30022, value);
+    public DependRuleConflictException(final Class<?> clazz, final DependRule expected, final DependRule actual) {
+        super(clazz, -30025, expected.toString(), actual.toString());
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public int getErrorCode(){
-        return -30022;
+    public int getErrorCode() {
+        return -30025;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

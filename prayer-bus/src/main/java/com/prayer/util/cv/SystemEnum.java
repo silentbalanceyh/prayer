@@ -72,6 +72,11 @@ public final class SystemEnum { // NOPMD
         REJECT, // Validate失败的时候被Reject请求
         CONTINUE // Validate成功以及Convert过后继续请求
     }
+    /** 组件中访问的Database数据库的类型 **/
+    public static enum UACSource{
+        DATA,   // 基本Database的数据库
+        META    // H2元数据库Database
+    }
 
     /** 认证模式 **/
     public static enum SecurityMode {
