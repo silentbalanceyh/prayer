@@ -117,8 +117,18 @@ public abstract class AbstractRBTestCase {
         if (ResponseCode.SUCCESS != code) {
             ret = false;
         }
-        if (StatusCode.OK.status() != data.getInteger("status")) {
-            ret = false;
+        final Object statusVal = data.getValue("status");
+        if (Integer.class == statusVal.getClass()) {
+            // Security Web Service Interface
+            if (StatusCode.OK.status() != data.getInteger("status")) {
+                ret = false;
+            }
+        }else if(JsonObject.class == statusVal.getClass()){
+            // Business Web Service Interface
+            final JsonObject status = data.getJsonObject("status");
+            if (StatusCode.OK.status() != status.getInteger("code")){
+                ret = false;
+            }
         }
         data = data.getJsonObject("data");
         if (data.isEmpty()) {

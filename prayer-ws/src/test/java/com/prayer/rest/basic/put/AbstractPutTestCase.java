@@ -111,15 +111,27 @@ public abstract class AbstractPutTestCase extends AbstractRBTestCase {
         }
     }
     // ~ Methods =============================================
-    // ~ Private Methods =====================================
-
-    private void deleteRecord(final JsonObject params) {
+    /** **/
+    protected void deleteRecord(final JsonObject params) {
         if (params.containsKey(ID)) {
             final JsonObject ids = new JsonObject();
             ids.put(ID, params.getString(ID));
             this.sendRequest(this.getPath(), ids, HttpMethod.DELETE);
         }
     }
+    /** **/
+    protected JsonObject createdParams(final String key) {
+        final JsonObject params = this.client().getParameter(key);
+        final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.POST);
+        // 获取创建Record对应的返回的JsonObject
+        final JsonObject data = resp.getJsonObject(DATA).getJsonObject(DATA);
+        if (data.containsKey(UK_ID)) {
+            params.put(ID, data.getString(UK_ID));
+        }
+        return params;
+    }
+    // ~ Private Methods =====================================
+
 
     private JsonObject prepareParams(final String key) {
         JsonObject params = null;
@@ -132,17 +144,6 @@ public abstract class AbstractPutTestCase extends AbstractRBTestCase {
             params = this.client().getParameter(key + "/data.json");
         }
         info(getLogger(), WebLogger.I_COMMON_INFO, "Final Param Data : " + params.encode());
-        return params;
-    }
-
-    private JsonObject createdParams(final String key) {
-        final JsonObject params = this.client().getParameter(key);
-        final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.POST);
-        // 获取创建Record对应的返回的JsonObject
-        final JsonObject data = resp.getJsonObject(DATA).getJsonObject(DATA);
-        if (data.containsKey(UK_ID)) {
-            params.put(ID, data.getString(UK_ID));
-        }
         return params;
     }
     // ~ Get/Set =============================================
