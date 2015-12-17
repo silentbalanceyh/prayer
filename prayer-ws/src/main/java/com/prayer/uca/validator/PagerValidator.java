@@ -1,5 +1,6 @@
 package com.prayer.uca.validator;
 
+import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Interruptor;
 import com.prayer.assistant.Validator;
 import com.prayer.base.exception.AbstractWebException;
@@ -45,8 +46,8 @@ public class PagerValidator implements WebValidator {
         Interruptor.interruptNumberConfig(getClass(), name, page, KEY_PG_IDX);
         Interruptor.interruptNumberConfig(getClass(), name, page, KEY_PG_SIZE);
         // 3.范围检查
-        ret = Validator.verifyRange(page.getInteger(KEY_PG_IDX), Constants.ONE, Constants.RANGE);
-        ret = ret && Validator.verifyRange(page.getInteger(KEY_PG_SIZE), Constants.ONE, Constants.RANGE);
+        ret = Validator.verifyRange(Extractor.getNumber(page, KEY_PG_IDX), Constants.ONE, Constants.RANGE);
+        ret = ret && Validator.verifyRange(Extractor.getNumber(page, KEY_PG_SIZE), Constants.ONE, Constants.RANGE);
         return ret;
     }
     // ~ Methods =============================================

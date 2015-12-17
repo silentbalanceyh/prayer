@@ -25,6 +25,7 @@ public class LengthValidator implements WebValidator {
     private final static String MIN_LENGTH_KEY = "minLength";
     /** 最大值 **/
     private final static String MAX_LENGTH_KEY = "maxLength";
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -39,8 +40,8 @@ public class LengthValidator implements WebValidator {
         Interruptor.interruptNumberConfig(getClass(), name, config, MIN_LENGTH_KEY);
         Interruptor.interruptNumberConfig(getClass(), name, config, MAX_LENGTH_KEY);
         // 2.检查值
-        final Integer minLength = Extractor.getNumber(config,MIN_LENGTH_KEY);
-        final Integer maxLength = Extractor.getNumber(config,MAX_LENGTH_KEY);
+        final Integer minLength = Extractor.getNumber(config, MIN_LENGTH_KEY);
+        final Integer maxLength = Extractor.getNumber(config, MAX_LENGTH_KEY);
         return Validator.verifyLength(value.literal(), minLength, maxLength);
     }
     // ~ Methods =============================================

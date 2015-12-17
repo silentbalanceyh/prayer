@@ -1,19 +1,19 @@
 [
     {
-        "name":"username",
+        "name":"mobile",
         "type":"StringType",
-        "order":2,
+        "order":5,
         "componentType":"VALIDATOR",
         "componentClass":"com.prayer.uca.validator.RegexValidator",
         "config":{
-            "regex":"^[A-Za-z0-9._-]{6,16}$"
+            "regex":"^1[3|4|5|7|8]\\d{9}$"
         },
-        "errorMessage":"用户名中只可以包含字母、数字、下划线(_)、点(.)、中划线(-)，且长度在6 ~ 16字符。"
+        "errorMessage":"用户的手机号格式不合法，请输入合法的手机格式。"
     },
     {
-        "name":"username",
+        "name":"mobile",
         "type":"StringType",
-        "order":1,
+        "order":3,
         "componentType":"DEPENDANT",
         "componentClass":"com.prayer.uca.dependant.UPEValidateDependant",
         "config":{
@@ -21,8 +21,8 @@
             "parameter":["id"],
             "query":"PK_ID <> ''{0}''",
             "table":"SEC_ACCOUNT",
-            "column":"S_USERNAME"
+            "column":"S_MOBILE"
         },
-        "errorMessage":"该用户名在数据库中已经存在，请输入不重复的用户名。"
+        "errorMessage":"该手机号在数据库中已经存在，请输入不重复的手机号。"
     }
 ]

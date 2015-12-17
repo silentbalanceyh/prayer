@@ -61,6 +61,12 @@
     {
         "path":"/sec/account",
         "method":"PUT",
+        "order":-7000,
+        "requestHandler":"com.prayer.handler.standard.DependantHandler"
+    },
+    {
+        "path":"/sec/account",
+        "method":"PUT",
         "order":-6000,
         "requestHandler":"com.prayer.handler.standard.ConversionHandler"
     },

@@ -29,7 +29,7 @@ public final class Extractor {
     // ~ Static Block ========================================
     /** **/
     public static Integer getNumber(@NotNull final JsonObject config, @NotNull @NotBlank @NotEmpty final String key) {
-        Integer integer = null;
+        Integer integer = Constants.RANGE;
         final Object value = config.getValue(key);
         if (null != value) {
             final Class<?> type = value.getClass();

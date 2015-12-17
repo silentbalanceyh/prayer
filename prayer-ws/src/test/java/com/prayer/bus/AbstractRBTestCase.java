@@ -71,7 +71,7 @@ public abstract class AbstractRBTestCase {
      * @param checkRet
      * @param subStr
      */
-    protected void failure(final Logger logger, final StatusCode code, final int errorCode, final JsonObject resp,
+    protected boolean failure(final Logger logger, final StatusCode code, final int errorCode, final JsonObject resp,
             Boolean checkRet, final HttpMethod method, final String subStr) {
         if (checkRet) {
             final String display = resp.getJsonObject("data").getJsonObject("error").getString("display");
@@ -87,6 +87,8 @@ public abstract class AbstractRBTestCase {
             fail("[ERR" + errorCode + "] <" + method.name() + "> ( " + code.status() + " : " + code.toString()
                     + " ) Basic Information Checking Failure !");
         }
+        // 特殊的结果返回使用
+        return checkRet;
     }
 
     /**
