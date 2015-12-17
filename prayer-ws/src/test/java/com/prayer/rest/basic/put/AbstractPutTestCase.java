@@ -84,6 +84,32 @@ public abstract class AbstractPutTestCase extends AbstractRBTestCase {
             }
         }
     }
+
+    /** **/
+    @Test
+    public void testPutDependent() {
+        for (final String key : this.getDependRules()) {
+            // 1.创建第一条记录
+            final JsonObject firstParam = this.createdParams(key + "/first.json");
+            // 2.创建第二条记录
+            final JsonObject secondParam = this.createdParams(key + "/second.json");
+            // 3.读取更新过后的信息
+            final JsonObject updatedData = this.client().getParameter(key + "/data.json");
+            // 4.将updatedData中参数合并到secondParam中
+            secondParam.mergeIn(updatedData);
+            final JsonObject resp = this.sendRequest(this.getPath(), secondParam, HttpMethod.PUT);
+            if (!StringUtil.equals("SKIP", resp.getString("status"))) {
+                boolean ret = ErrorChecker.check30007(resp);
+                // 30007 Failure Output
+                if (ret) {
+                    failure(getLogger(), StatusCode.BAD_REQUEST, -30007, resp, ret, HttpMethod.PUT, null);
+                }
+                // 验证成功，删除添加好的数据信息
+                this.deleteRecord(firstParam);
+                this.deleteRecord(secondParam);
+            }
+        }
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
@@ -98,22 +124,25 @@ public abstract class AbstractPutTestCase extends AbstractRBTestCase {
     private JsonObject prepareParams(final String key) {
         JsonObject params = null;
         if (0 <= key.indexOf("format-params")) {
-            params = this.client().getParameter(key + "/before.json");
-            final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.POST);
-            // 获取创建Record对应的返回的JsonObject
-            final JsonObject data = resp.getJsonObject(DATA).getJsonObject(DATA);
+            params = this.createdParams(key + "/before.json");
             // 读取新的json文件
             final JsonObject updatedData = this.client().getParameter(key + "/data.json");
-            data.mergeIn(updatedData);
-            params.mergeIn(data);
-            if (params.containsKey(UK_ID)) {
-                params.put(ID, params.getString(UK_ID));
-                params.remove(UK_ID);
-            }
+            params.mergeIn(updatedData);
         } else {
             params = this.client().getParameter(key + "/data.json");
         }
         info(getLogger(), WebLogger.I_COMMON_INFO, "Final Param Data : " + params.encode());
+        return params;
+    }
+
+    private JsonObject createdParams(final String key) {
+        final JsonObject params = this.client().getParameter(key);
+        final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.POST);
+        // 获取创建Record对应的返回的JsonObject
+        final JsonObject data = resp.getJsonObject(DATA).getJsonObject(DATA);
+        if (data.containsKey(UK_ID)) {
+            params.put(ID, data.getString(UK_ID));
+        }
         return params;
     }
     // ~ Get/Set =============================================

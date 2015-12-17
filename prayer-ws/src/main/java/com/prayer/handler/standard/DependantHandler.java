@@ -167,13 +167,13 @@ public class DependantHandler implements Handler<RoutingContext> {
             final WebDependant dependant = instance(componentCls);
             final JsonObject retJson = dependant.process(paramName, value, config, sqlQuery);
             // 6.获取当前Config的Rule
-            final DependRule rule = fromStr(DependRule.class,config.getString("rule"));
-            if(DependRule.VALIDATE == rule){
+            final DependRule rule = fromStr(DependRule.class, config.getString("rule"));
+            if (DependRule.VALIDATE == rule) {
                 final Boolean ret = retJson.getBoolean(WebDependant.VAL_RET);
-                if(!ret){
+                if (!ret) {
                     throw new ValidationFailureException(ruleModel.getErrorMessage());
                 }
-            }else if(DependRule.CONVERT == rule){
+            } else if (DependRule.CONVERT == rule) {
                 // 返回Convert的值信息
                 final String retVal = retJson.getString(WebDependant.CVT_RET);
                 outParam.put(paramName, retVal);
@@ -185,7 +185,10 @@ public class DependantHandler implements Handler<RoutingContext> {
         final int size = params.size();
         final Object[] arguments = new Object[size];
         for (int idx = 0; idx < size; idx++) {
-            arguments[idx] = params.getValue(idx);
+            final Object key = params.getValue(idx);
+            if (null != key) {
+                arguments[idx] = inParam.getValue(key.toString());
+            }
         }
         return MessageFormat.format(query, arguments);
     }

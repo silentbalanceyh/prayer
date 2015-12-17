@@ -55,7 +55,9 @@ public class AccountTestCase extends AbstractPutTestCase{
     @Override
     public List<String> getDependRules(){
         final List<String> dependRules = new ArrayList<>();
-        
+        dependRules.add("put/account/dependant-params-001");
+        dependRules.add("put/account/dependant-params-002");
+        dependRules.add("put/account/dependant-params-003");
         return dependRules;
     }
     // ~ Methods =============================================
