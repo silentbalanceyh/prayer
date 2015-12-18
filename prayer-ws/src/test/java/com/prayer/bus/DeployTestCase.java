@@ -50,7 +50,7 @@ public class DeployTestCase {
      */
     @Test
     public void testDeploy() throws Exception {
-        final ServiceResult<Boolean> ret = this.service.deployPrayerData();
+        final ServiceResult<Boolean> ret = this.service.deployPrayerData(Resources.META_OD_FOLDER);
         assertTrue("[TD] Deploying failure ! ", ret.getResult());
         /*// 添加默认账号信息的测试用例
         final Record record = new GenericRecord("sec.account");

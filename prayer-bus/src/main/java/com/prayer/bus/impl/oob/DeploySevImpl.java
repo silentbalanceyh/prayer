@@ -81,12 +81,13 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
      */
     @Override
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<Boolean> deployPrayerData() { // NOPMD
+    public ServiceResult<Boolean> deployPrayerData(@NotNull @NotBlank @NotEmpty final String rootFolder) { // NOPMD
         final ServiceResult<Boolean> result = new ServiceResult<>();
         // 1.EVX_VERTICLE
         ServiceResult<?> ret = this.manager.getVerticleService().purgeData();
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            ret = this.manager.getVerticleService().importVerticles(VX_VERTICLE);
+            final String verticleFile = rootFolder + VX_VERTICLE;
+            ret = this.manager.getVerticleService().importVerticles(verticleFile);
             info(LOGGER, " 1.EVX_VERTICLE ( Verticle deployed successfully ).");
         } else {
             error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Verticle Deploy", ret.getErrorMessage());
@@ -97,10 +98,11 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             ret = this.manager.getRouteService().purgeData();
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            final List<String> files = IOKit.listFiles(VX_ROUTES);
+            final String routeFolder = rootFolder + VX_ROUTES;
+            final List<String> files = IOKit.listFiles(routeFolder);
             for (final String file : files) {
-                ret = this.manager.getRouteService().importToList(VX_ROUTES + file);
-                info(LOGGER, " 2.EVX_ROUTE ( Route deployed successfully ). PATH = " + VX_ROUTES + file);
+                ret = this.manager.getRouteService().importToList(routeFolder + file);
+                info(LOGGER, " 2.EVX_ROUTE ( Route deployed successfully ). PATH = " + routeFolder + file);
             }
         } else {
             error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Route Deploy", ret.getErrorMessage());
@@ -113,16 +115,18 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             ret = this.manager.getUriService().purgeData();
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            final List<String> files = IOKit.listFiles(VX_URI);
+            final String uriFolder = rootFolder + VX_URI;
+            final List<String> files = IOKit.listFiles(uriFolder);
             for (final String file : files) {
-                ret = this.manager.getUriService().importToList(VX_URI + file);
-                info(LOGGER, " 3.EVX_URI ( URI deployed successfully ). PATH = " + VX_URI + file);
+                ret = this.manager.getUriService().importToList(uriFolder + file);
+                info(LOGGER, " 3.EVX_URI ( URI deployed successfully ). PATH = " + uriFolder + file);
                 if (ResponseCode.SUCCESS == ret.getResponseCode()) {
                     // URI中的Param参数List
                     final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
                     for (final UriModel model : uriModels) {
                         // 4.EVX_RULE
-                        final String paramFolder = VX_URI_PARAM
+                        final String ruleFolder = rootFolder + VX_URI_PARAM;
+                        final String paramFolder = ruleFolder
                                 + model.getMethod().toString().toLowerCase(Locale.getDefault()) + "/"
                                 + model.getUri().substring(1, model.getUri().length()).replaceAll("/", ".")
                                         .replaceAll(":", "\\$");
@@ -152,7 +156,8 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             ret = this.manager.getAddressService().purgeData();
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            ret = this.manager.getAddressService().importToList(VX_ADDRESS);
+            final String addressFile = rootFolder + VX_ADDRESS;
+            ret = this.manager.getAddressService().importToList(addressFile);
             info(LOGGER, " 5.EVX_ADDRESS ( Message Address deployed successfully ).");
         } else {
             error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Address Deploy", ret.getErrorMessage());
@@ -162,9 +167,10 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             ret = this.manager.getScriptService().purgeData();
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            final List<String> files = IOKit.listFiles(VX_SCRIPT);
+            final String scriptFolder = rootFolder + VX_SCRIPT;
+            final List<String> files = IOKit.listFiles(scriptFolder);
             for (final String file : files) {
-                ret = this.manager.getScriptService().importToList(VX_SCRIPT + "/" + file);
+                ret = this.manager.getScriptService().importToList(scriptFolder + "/" + file);
                 if (ResponseCode.SUCCESS == ret.getResponseCode()) {
                     info(LOGGER, " ---> 6.EVX_SCRIPT ( Script deployed successfully : " + file + " )");
                 } else {
@@ -178,10 +184,11 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
         }
         // 2.导入OOB中的Schema定义
         {
-            final List<String> jsonPathList = this.getSchemaFiles();
+            final String schemaFolder = rootFolder + SCHEMA_FOLDER;
+            final List<String> jsonPathList = this.getSchemaFiles(schemaFolder);
             jsonPathList.forEach(jsonPath -> {
                 ServiceResult<GenericSchema> syncRet = this.manager.getSchemaService()
-                        .syncSchema(SCHEMA_FOLDER + jsonPath);
+                        .syncSchema(schemaFolder + jsonPath);
                 syncRet = this.manager.getSchemaService().syncMetadata(syncRet.getResult());
             });
             info(LOGGER, " 7.Metadata H2 importing successfully!");
@@ -203,8 +210,8 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private List<String> getSchemaFiles() {
-        final URL uri = IOKit.getURL(SCHEMA_FOLDER);
+    private List<String> getSchemaFiles(final String schemaFolder) {
+        final URL uri = IOKit.getURL(schemaFolder);
         final List<String> retList = new ArrayList<>();
         if (null != uri) {
             final File folder = new File(uri.getPath());

@@ -149,7 +149,7 @@ public class H2DatabaseServer {
         boolean flag = false;
         ServiceResult<Boolean> ret = this.service.initH2Database(Resources.DB_SQL_DIR + MetadataConn.H2_SQL);
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            ret = this.service.deployPrayerData();
+            ret = this.service.deployPrayerData(Resources.META_OD_FOLDER);
             if (ResponseCode.SUCCESS == ret.getResponseCode()) { // NOPMD
                 flag = ret.getResult();
             }

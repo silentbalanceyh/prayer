@@ -6,17 +6,17 @@ package com.prayer.bus.impl.oob;
  */
 interface OOBPaths {    // NOPMD
     /** Verticle配置文件路径 **/
-    String VX_VERTICLE = "deploy/oob/vertx/verticle.json";
+    String VX_VERTICLE = "/vertx/verticle.json";
     /** Route配置文件路径 **/
-    String VX_ROUTES = "deploy/oob/vertx/route/";
+    String VX_ROUTES = "/vertx/route/";
     /** URI配置文件路径 **/
-    String VX_URI = "deploy/oob/vertx/uri/";
+    String VX_URI = "/vertx/uri/";
     /** Address配置文件路径 **/
-    String VX_ADDRESS = "deploy/oob/vertx/address.json";
+    String VX_ADDRESS = "/vertx/address.json";
     /** Schema Folder，用于读取Schema的配置信息 **/
-    String SCHEMA_FOLDER = "deploy/oob/schema/";
+    String SCHEMA_FOLDER = "/schema/";
     /** URI参数配置文件 **/
-    String VX_URI_PARAM = "deploy/oob/vertx/rule/";
+    String VX_URI_PARAM = "/vertx/rule/";
     /** **/
-    String VX_SCRIPT = "deploy/oob/vertx/script/";
+    String VX_SCRIPT = "/vertx/script/";
 }

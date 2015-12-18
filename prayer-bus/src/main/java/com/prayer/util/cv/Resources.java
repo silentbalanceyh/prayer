@@ -69,6 +69,8 @@ public final class Resources { // NOPMD
     public static final String SEV_CFG_FILE;
     /** Meta Data的配置文件路径 **/
     public static final String META_CFG_FILE;
+    /** Meta Data的OOB数据默认路径 **/
+    public static final String META_OD_FOLDER;
 
     /**
      * Private singleton resource LOADER. *
@@ -158,6 +160,11 @@ public final class Resources { // NOPMD
         META_CFG_FILE = LOADER.getString("meta.config.file");
         if (null == META_CFG_FILE){
             debug(LOGGER, ERR_SYS_NULL, "META_CFG_FILE", META_CFG_FILE);
+        }
+        // Meta
+        META_OD_FOLDER = LOADER.getString("meta.oob.data.folder");
+        if (null == META_OD_FOLDER){
+            debug(LOGGER, ERR_SYS_NULL, "META_OD_FOLDER", META_OD_FOLDER);
         }
     }
 

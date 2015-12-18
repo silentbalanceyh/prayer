@@ -110,6 +110,7 @@ public abstract class AbstractPutTestCase extends AbstractRBTestCase {
             }
         }
     }
+
     // ~ Methods =============================================
     /** **/
     protected void deleteRecord(final JsonObject params) {
@@ -119,19 +120,21 @@ public abstract class AbstractPutTestCase extends AbstractRBTestCase {
             this.sendRequest(this.getPath(), ids, HttpMethod.DELETE);
         }
     }
+
     /** **/
     protected JsonObject createdParams(final String key) {
         final JsonObject params = this.client().getParameter(key);
         final JsonObject resp = this.sendRequest(this.getPath(), params, HttpMethod.POST);
         // 获取创建Record对应的返回的JsonObject
-        final JsonObject data = resp.getJsonObject(DATA).getJsonObject(DATA);
-        if (data.containsKey(UK_ID)) {
-            params.put(ID, data.getString(UK_ID));
+        if(!StringUtil.equals("SKIP", resp.getString("status"))){
+            final JsonObject data = resp.getJsonObject(DATA).getJsonObject(DATA);
+            if (data.containsKey(UK_ID)) {
+                params.put(ID, data.getString(UK_ID));
+            }
         }
         return params;
     }
     // ~ Private Methods =====================================
-
 
     private JsonObject prepareParams(final String key) {
         JsonObject params = null;

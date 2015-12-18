@@ -12,7 +12,7 @@ public interface DeployService {
     /**
      * 用于初始化OOB数据的Deploy Service
      */
-    ServiceResult<Boolean> deployPrayerData();
+    ServiceResult<Boolean> deployPrayerData(String rootFolder);
     /**
      * 初始化H2 Database中的元数据
      * @return
