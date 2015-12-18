@@ -18,22 +18,5 @@
     {
         "name":"js.api.post.sec.page.account",
         "namespace":"engine.script.sec.account"
-    },
-    {
-        "name":"js.api.get.sec.login",
-        "namespace":"engine.script.sec.basic"
-    },
-    {
-        "name":"js.api.post.sec.page.meta.script",
-        "namespace":"engine.script.meta.script"
-    },
-    {
-        "name":"js.api.get.sec.util.unique",
-        "namespace":"engine.script.util"
-    },
-    {
-        "name":"js.global.util",
-        "namespace":"engine.script.global",
-        "content":"deploy/oob/js/engine.js"
     }
 ]

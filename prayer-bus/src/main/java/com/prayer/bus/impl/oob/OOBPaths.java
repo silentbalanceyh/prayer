@@ -18,5 +18,5 @@ interface OOBPaths {    // NOPMD
     /** URI参数配置文件 **/
     String VX_URI_PARAM = "deploy/oob/vertx/rule/";
     /** **/
-    String VX_SCRIPT = "deploy/oob/vertx/script.json";
+    String VX_SCRIPT = "deploy/oob/vertx/script/";
 }

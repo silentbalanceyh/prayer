@@ -149,10 +149,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>commons-net</groupId>
-		    <artifactId>commons-net</artifactId>
-		    <version>${telnet.version}</version>
-		    <scope>test</scope>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>${telnet.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<!-- Spring Test -->
 		<dependency>

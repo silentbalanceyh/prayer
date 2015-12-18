@@ -162,8 +162,17 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             ret = this.manager.getScriptService().purgeData();
         }
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            ret = this.manager.getScriptService().importToList(VX_SCRIPT);
-            info(LOGGER, " 6.EVX_SCRIPT ( Script deployed successfully ).");
+            final List<String> files = IOKit.listFiles(VX_SCRIPT);
+            for (final String file : files) {
+                ret = this.manager.getScriptService().importToList(VX_SCRIPT + "/" + file);
+                if (ResponseCode.SUCCESS == ret.getResponseCode()) {
+                    info(LOGGER, " ---> 6.EVX_SCRIPT ( Script deployed successfully : " + file + " )");
+                } else {
+                    error(LOGGER, BusinessLogger.E_PROCESS_ERR,
+                            "Script file = " + file + ", it met errors when deploying.", ret.getErrorMessage());
+                }
+            }
+            info(LOGGER, " 6.EVX_SCRIPT ( All Scripts deployed successfully ).");
         } else {
             error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Script Deploy", ret.getErrorMessage());
         }
