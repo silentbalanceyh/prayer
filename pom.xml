@@ -29,7 +29,7 @@
 		<http.component.version>4.5.1</http.component.version>
 		<telnet.version>3.4</telnet.version>
 		<!-- 【Latest】Vert.X库的版本 -->
-		<vertx.version>3.1.0</vertx.version>
+		<vertx.version>3.2.0</vertx.version>
 		<!-- 【Latest】Vert.X的单元测试库的版本 -->
 		<!-- <vertx.testtools.version>2.0.3-final</vertx.testtools.version> -->
 		<!-- 【Latest】JUnit的版本号 -->
