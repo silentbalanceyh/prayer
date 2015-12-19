@@ -94,7 +94,9 @@ public class H2DatabaseServer {
                 final Server single = this.clusters.get(key);
                 info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", key, String.valueOf(single.getPort()));
                 try {
-                    single.start();
+                    if(!single.isRunning(false)){
+                        single.start();
+                    }
                     info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, key, String.valueOf(single.getPort()));
                 } catch (SQLException ex) {
                     info(LOGGER, WebLogger.E_H2_DB_ERROR, key + ":" + ex.toString());
@@ -189,7 +191,9 @@ public class H2DatabaseServer {
             // 2.Web Console Start
             this.webServer = configurator.getH2WebConsole();
             info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", WEB_CONSOLE, String.valueOf(webServer.getPort()));
-            this.webServer.start();
+            if(!this.webServer.isRunning(false)){
+                this.webServer.start();
+            }
             info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, WEB_CONSOLE, String.valueOf(webServer.getPort()));
         } catch (SQLException ex) {
             info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
@@ -205,7 +209,9 @@ public class H2DatabaseServer {
             // 1.Database Start
             this.dbServer = configurator.getH2Database();
             info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", DATABASE, String.valueOf(dbServer.getPort()));
-            this.dbServer.start();
+            if(!this.dbServer.isRunning(false)){
+                this.dbServer.start();
+            }
             info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, DATABASE, String.valueOf(dbServer.getPort()));
         } catch (SQLException ex) {
             info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
