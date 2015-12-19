@@ -244,7 +244,7 @@ public class MetaConnector {    // NOPMD
                 for (final String literal : typeLiteral) {
                     if (StringKit.isNonNil(literal)) {
                         final DataType type = DataType.fromString(literal);
-                        if (null == type) {
+                        if (null == type) { // NOPMD
                             throw new MetaTypeWrongException(getClass(), literal, Resources.META_CFG_FILE,
                                     this.identifier() + ".field.types");
                         }

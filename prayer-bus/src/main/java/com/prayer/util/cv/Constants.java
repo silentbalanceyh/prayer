@@ -168,7 +168,7 @@ public interface Constants { // NOPMD
         /** Convertor Handler Order **/
         // int CONVERTOR = -2000;
         /** Parameters Wrapper **/
-        int WRAPPER = -1000;
+        // int WRAPPER = -1000;
         /** Service Handler Order **/
         int SERVICE = 19000;
 

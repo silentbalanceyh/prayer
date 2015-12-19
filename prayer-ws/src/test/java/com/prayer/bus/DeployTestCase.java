@@ -52,15 +52,14 @@ public class DeployTestCase {
     public void testDeploy() throws Exception {
         final ServiceResult<Boolean> ret = this.service.deployPrayerData(Resources.META_OD_FOLDER);
         assertTrue("[TD] Deploying failure ! ", ret.getResult());
-        /*// 添加默认账号信息的测试用例
-        final Record record = new GenericRecord("sec.account");
-        record.set("username", "lang.yu1");
-        record.set("email", "silentbalanceyh1@126.com");
-        record.set("mobile", "15900000001");
-        record.set("password", Encryptor.encryptMD5("pl,okm123"));
-        this.recordDao.insert(record);
-        */
-        
+        /*
+         * // 添加默认账号信息的测试用例 final Record record = new
+         * GenericRecord("sec.account"); record.set("username", "lang.yu1");
+         * record.set("email", "silentbalanceyh1@126.com"); record.set("mobile",
+         * "15900000001"); record.set("password",
+         * Encryptor.encryptMD5("pl,okm123")); this.recordDao.insert(record);
+         */
+
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
