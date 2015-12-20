@@ -25,9 +25,9 @@ public final class ErrorChecker {
     public static boolean check30014(final JsonObject resp) {
         return checkError(resp, -30014, StatusCode.UNAUTHORIZED);
     }
-    
+
     /** **/
-    public static boolean check30019(final JsonObject resp){
+    public static boolean check30019(final JsonObject resp) {
         return checkError(resp, -30019, StatusCode.BAD_REQUEST);
     }
 
@@ -95,13 +95,18 @@ public final class ErrorChecker {
     private static boolean checkError(final JsonObject resp, final int errorCode, final StatusCode statusCode) {
         final JsonObject data = resp.getJsonObject("data");
         // Error Code
-        boolean ret = checkErrorCode(data.getJsonObject("error"), errorCode);
+        boolean ret = false;
+        if (null != data && null != data.getJsonObject("error")) {
+            ret = checkErrorCode(data.getJsonObject("error"), errorCode);
+        }
         // Http Status
         ret = ret && checkHttpStatus(resp, statusCode.status());
-        // Return Code
-        ret = ret && checkReturnCode(data, ResponseCode.FAILURE);
-        // Status Information
-        ret = ret && checkStatus(data.getJsonObject("status"), statusCode);
+        if (null != data && null != data.getJsonObject("status")) {
+            // Return Code
+            ret = ret && checkReturnCode(data, ResponseCode.FAILURE);
+            // Status Information
+            ret = ret && checkStatus(data.getJsonObject("status"), statusCode);
+        }
         // Passed
         ret = ret && StringUtil.equals("PASSED", resp.getString("status"));
         return ret;
