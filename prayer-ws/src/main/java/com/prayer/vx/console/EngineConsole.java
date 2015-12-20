@@ -1,27 +1,31 @@
-package com.prayer.vx.engine;
+package com.prayer.vx.console;
+
+import com.prayer.base.exception.AbstractException;
 
 /**
  * 
  * @author Lang
  *
  */
-public final class DebugH2Database {
+public class EngineConsole {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /** **/
-    public static void main(final String... args) throws Exception {
-
-    }
-
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    // ~ Private Methods =====================================
-    private DebugH2Database() {
+    /**
+     * 
+     * @param args
+     * @throws AbstractException
+     */
+    public void runTool(final String... args) throws AbstractException{
+        
     }
+    // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

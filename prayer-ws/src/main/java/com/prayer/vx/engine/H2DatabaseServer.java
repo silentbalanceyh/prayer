@@ -1,11 +1,10 @@
 package com.prayer.vx.engine;
 
-import static com.prayer.assistant.WebLogger.error;
 import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentMap;
 
@@ -43,8 +42,6 @@ public class H2DatabaseServer {
     private static final String DATABASE = "Source Database";
     /** **/
     private static final String WEB_CONSOLE = "Web Console";
-    /** **/
-    private static final String LOCK_FILE = "PRAYER.lock";
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
@@ -94,10 +91,12 @@ public class H2DatabaseServer {
                 final Server single = this.clusters.get(key);
                 info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", key, String.valueOf(single.getPort()));
                 try {
-                    if(!single.isRunning(false)){
+                    if (!isRunning(single)) {
                         single.start();
+                        info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, key, String.valueOf(single.getPort()));
+                    } else {
+                        info(LOGGER, WebLogger.I_COMMON_INFO, key + " is already started on " + single.getPort());
                     }
-                    info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, key, String.valueOf(single.getPort()));
                 } catch (SQLException ex) {
                     info(LOGGER, WebLogger.E_H2_DB_ERROR, key + ":" + ex.toString());
                 }
@@ -108,7 +107,7 @@ public class H2DatabaseServer {
                 final String[] params = this.configurator.getClusterParams();
                 cluster.runTool(params);
                 started = true;
-                info(LOGGER, WebLogger.I_H2_DB_CLS_STD,Converter.toStr(params));
+                info(LOGGER, WebLogger.I_H2_DB_CLS_STD, Converter.toStr(params));
             } catch (SQLException ex) {
                 info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
                 // TODO: Debug
@@ -159,30 +158,6 @@ public class H2DatabaseServer {
         return flag;
     }
 
-    /** 创建锁文件 **/
-    public boolean createLocks() {
-        boolean flag = false;
-        final File file = new File(LOCK_FILE);
-        if (!file.exists()) {
-            try {
-                flag = file.createNewFile();
-            } catch (IOException ex) {
-                error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
-            }
-        }
-        return flag;
-    }
-
-    /** 检查锁文件 **/
-    public boolean checkLocks() {
-        boolean flag = false;
-        final File file = new File(LOCK_FILE);
-        if (file.exists() && file.isFile()) {
-            flag = true;
-        }
-        return flag;
-    }
-
     // ~ Private Methods =====================================
     /** 启动Web Console **/
     private boolean startConsole() {
@@ -191,10 +166,13 @@ public class H2DatabaseServer {
             // 2.Web Console Start
             this.webServer = configurator.getH2WebConsole();
             info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", WEB_CONSOLE, String.valueOf(webServer.getPort()));
-            if(!this.webServer.isRunning(false)){
+            if (!isRunning(this.webServer)) {
                 this.webServer.start();
+                info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, WEB_CONSOLE, String.valueOf(webServer.getPort()));
+            } else {
+                info(LOGGER, WebLogger.I_COMMON_INFO,
+                        " H2 WebConsole (Standalone) is already started on " + this.webServer.getPort());
             }
-            info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, WEB_CONSOLE, String.valueOf(webServer.getPort()));
         } catch (SQLException ex) {
             info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
             ret = false;
@@ -209,13 +187,30 @@ public class H2DatabaseServer {
             // 1.Database Start
             this.dbServer = configurator.getH2Database();
             info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", DATABASE, String.valueOf(dbServer.getPort()));
-            if(!this.dbServer.isRunning(false)){
+            if (!isRunning(this.dbServer)) {
                 this.dbServer.start();
+                info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, DATABASE, String.valueOf(dbServer.getPort()));
+            } else {
+                info(LOGGER, WebLogger.I_COMMON_INFO,
+                        " H2 Database (Standalone) is already started on " + this.dbServer.getPort());
             }
-            info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, DATABASE, String.valueOf(dbServer.getPort()));
+            // 2.构造JDBC URL
         } catch (SQLException ex) {
             info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
             ret = false;
+        }
+        return ret;
+    }
+
+    /** 检查端口是否占用 **/
+    private boolean isRunning(final Server server) {
+        boolean ret = false;
+        try {
+            final ServerSocket socket = new ServerSocket(server.getPort());
+            ret = false;
+            socket.close();
+        } catch (IOException ex) {
+            ret = true;
         }
         return ret;
     }

@@ -1,27 +1,26 @@
-package com.prayer.vx.engine;
+package com.prayer.demo;
 
-/**
- * 
- * @author Lang
- *
- */
-public final class DebugH2Database {
+import java.util.Map;
+
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
+
+public class SimpleMapExample {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /** **/
-    public static void main(final String... args) throws Exception {
-
+    public static void main(String args[]){
+        HazelcastInstance hz = Hazelcast.newHazelcastInstance();
+        Map<String,String> capitals = hz.getMap("capitals");
+        capitals.put("GB", "London");
     }
-
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private DebugH2Database() {
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

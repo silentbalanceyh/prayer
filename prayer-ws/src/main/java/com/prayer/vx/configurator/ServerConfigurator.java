@@ -95,6 +95,35 @@ public class ServerConfigurator { // NOPMD
      * 
      * @return
      */
+    public String getJdbcUrl() throws SQLException {
+        final StringBuilder url = new StringBuilder(Constants.BUFFER_SIZE);
+        if (this.enabledH2Cluster()) {
+            // 1.获取数据库名
+            final String database = H2ConnImpl.getH2DatabaseName();
+            // 2.获取数据库用户名和密码
+            final String host = this.LOADER.getString("h2.database.cluster.host");
+            // 3.JDBC URL的获取信息
+            final ConcurrentMap<String, Server> servers = this.getH2CDatabases();
+            // 4.构建Cluster的URL
+            final List<String> dst = Arrays.asList(this.LOADER.getArray("h2.database.cluster.target"));
+            final List<String> dstParams = new ArrayList<>();
+            for (final String target : dst) {
+                dstParams.add(this.readH2Url(host, servers.get(target).getPort()));
+            }
+            url.append("jdbc:h2:tcp://").append(StringUtil.join(dstParams.toArray(new String[] {}), Symbol.COMMA))
+                    .append("/META/").append(database).append(";PASSWORD_HASH=TRUE");
+        } else {
+            final int port = this.LOADER.getInt("h2.database.tcp.port");
+            url.append("jdbc:h2:tcp://localhost:").append(port).append("/~/META/")
+                    .append(H2ConnImpl.getH2DatabaseName()).append(";PASSWORD_HASH=TRUE");
+        }
+        return url.toString();
+    }
+
+    /**
+     * 
+     * @return
+     */
     public String[] getClusterParams() throws SQLException {
         final List<String> params = new ArrayList<>();
         // 1.获取数据库名
@@ -148,7 +177,7 @@ public class ServerConfigurator { // NOPMD
     }
 
     // ~ H2 Standalong =======================================
-    /** H2 Database 创建 **/
+    /** H2 Database Standalong 创建 **/
     public Server getH2Database() throws SQLException {
         Server server = null;
         if (null == this.LOADER) {
@@ -162,12 +191,13 @@ public class ServerConfigurator { // NOPMD
             if (allowOthers) {
                 params.add("-tcpAllowOthers");
             }
+            params.add("-tcpDaemon");
             server = Server.createTcpServer(params.toArray(new String[] {}));
         }
         return server;
     }
 
-    /** H2 Web Console **/
+    /** H2 Web Console Standalong **/
     public Server getH2WebConsole() throws SQLException {
         Server server = null;
         if (null == this.LOADER) {
@@ -181,6 +211,7 @@ public class ServerConfigurator { // NOPMD
             if (allowOthers) {
                 params.add("-webAllowOthers");
             }
+            params.add("-webDaemon");
             server = Server.createWebServer(params.toArray(new String[] {}));
         }
         return server;
@@ -211,6 +242,7 @@ public class ServerConfigurator { // NOPMD
             if (allowOthers) {
                 params.add("-tcpAllowOthers");
             }
+            params.add("-tcpDaemon");
             server = Server.createTcpServer(params.toArray(new String[] {}));
         }
         return server;

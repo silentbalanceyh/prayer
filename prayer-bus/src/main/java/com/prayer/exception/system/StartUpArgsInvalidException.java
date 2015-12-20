@@ -1,27 +1,40 @@
-package com.prayer.vx.engine;
+package com.prayer.exception.system;
+
+import com.prayer.base.exception.AbstractSystemException;
 
 /**
  * 
  * @author Lang
  *
  */
-public final class DebugH2Database {
+public class StartUpArgsInvalidException extends AbstractSystemException{
     // ~ Static Fields =======================================
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 673879780028753528L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /** **/
-    public static void main(final String... args) throws Exception {
-
-    }
-
     // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param arg
+     */
+    public StartUpArgsInvalidException(final Class<?> clazz, final String arg){
+        super(clazz,-20012, arg);
+    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public int getErrorCode(){
+        return -20012;
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private DebugH2Database() {
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }
