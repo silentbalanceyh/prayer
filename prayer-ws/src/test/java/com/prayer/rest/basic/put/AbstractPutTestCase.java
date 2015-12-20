@@ -128,7 +128,7 @@ public abstract class AbstractPutTestCase extends AbstractRBTestCase {
         // 获取创建Record对应的返回的JsonObject
         if(!StringUtil.equals("SKIP", resp.getString("status"))){
             final JsonObject data = resp.getJsonObject(DATA).getJsonObject(DATA);
-            if (data.containsKey(UK_ID)) {
+            if (null != data && data.containsKey(UK_ID)) {
                 params.put(ID, data.getString(UK_ID));
             }
         }
