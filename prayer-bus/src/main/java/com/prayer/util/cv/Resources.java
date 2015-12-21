@@ -71,6 +71,8 @@ public final class Resources { // NOPMD
     public static final String META_CFG_FILE;
     /** Meta Data的OOB数据默认路径 **/
     public static final String META_OD_FOLDER;
+    /** 日志配置文件存储的根目录 **/
+    public static final String LOG_CFG_FOLDER;
 
     /**
      * Private singleton resource LOADER. *
@@ -165,6 +167,11 @@ public final class Resources { // NOPMD
         META_OD_FOLDER = LOADER.getString("meta.oob.data.folder");
         if (null == META_OD_FOLDER){
             debug(LOGGER, ERR_SYS_NULL, "META_OD_FOLDER", META_OD_FOLDER);
+        }
+        // Log Folder
+        LOG_CFG_FOLDER = LOADER.getString("system.log.folder");
+        if (null == LOG_CFG_FOLDER){
+        	debug(LOGGER, ERR_SYS_NULL, "LOG_CFG_FOLDER",LOG_CFG_FOLDER);
         }
     }
 
