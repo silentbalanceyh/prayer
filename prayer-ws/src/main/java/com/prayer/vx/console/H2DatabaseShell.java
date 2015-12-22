@@ -1,7 +1,7 @@
 package com.prayer.vx.console;
 
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.jvmError;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import org.h2.tools.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.WebLogger;
 import com.prayer.dao.impl.jdbc.H2ConnImpl;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;
@@ -55,7 +54,7 @@ public class H2DatabaseShell {
                 shell.runTool(params.toArray(Constants.T_STR_ARR));
             }
         } catch (SQLException ex) {
-            info(LOGGER, WebLogger.I_COMMON_INFO, ex.getMessage());
+            jvmError(LOGGER, ex);
         }
     }
     // ~ Methods =============================================

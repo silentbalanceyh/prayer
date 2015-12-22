@@ -1,13 +1,11 @@
 package com.prayer.handler.web;
 
-import static com.prayer.assistant.WebLogger.error;
-import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Log.jvmError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Future;
-import com.prayer.assistant.WebLogger;
 import com.prayer.model.web.Responsor;
 import com.prayer.util.cv.Constants;
 
@@ -46,19 +44,17 @@ public class FailureHandler implements ErrorHandler {
      */
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.FAILURE),
-                context.request().path());
-        // 1.包装响应信息
-        final HttpServerResponse response = context.response();
-        // 2.获取RestfulResult
-        final Responsor responser = (Responsor) context.get(Constants.KEY.CTX_RESPONSOR);
-        if (null == responser) {
-            info(LOGGER, WebLogger.I_COMMON_INFO, " Responser = " + responser);
-        } else {
-            error(LOGGER, WebLogger.E_COMMON_EXP, responser.getError());
+        try {
+            // 1.包装响应信息
+            final HttpServerResponse response = context.response();
+            // 2.获取RestfulResult
+            final Responsor responser = (Responsor) context.get(Constants.KEY.CTX_RESPONSOR);
+
+            Future.failure(response, responser.getResult().toString(), responser.getStatus().status(),
+                    responser.getStatus().name());
+        } catch (Exception ex) {
+            jvmError(LOGGER, ex);
         }
-        Future.failure(response, responser.getResult().toString(), responser.getStatus().status(),
-                responser.getStatus().name());
     }
 
     // ~ Methods =============================================

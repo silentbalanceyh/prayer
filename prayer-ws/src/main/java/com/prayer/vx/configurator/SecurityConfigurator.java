@@ -1,8 +1,8 @@
 package com.prayer.vx.configurator;
 
-import static com.prayer.assistant.WebLogger.error;
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Log.peError;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Interruptor;
-import com.prayer.assistant.WebLogger;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.security.provider.AuthConstants;
 import com.prayer.util.PropertyKit;
@@ -73,15 +72,16 @@ public class SecurityConfigurator {
             Interruptor.interruptImplements(getClass(), providerCls, AuthProvider.class);
             provider = instance(providerCls);
         } catch (AbstractWebException ex) {
-            error(LOGGER, WebLogger.E_COMMON_EXP, ex.getErrorMessage());
+            peError(LOGGER, ex);
         }
         return provider;
     }
+
     /**
      * 
      * @return
      */
-    public CorsHandler getCorsHandler(){
+    public CorsHandler getCorsHandler() {
         final CorsHandler handler = CorsHandler.create(this.LOADER.getString("server.security.cors.origin"));
         handler.allowCredentials(this.LOADER.getBoolean("server.security.cors.credentials"));
         // Headers
@@ -91,12 +91,13 @@ public class SecurityConfigurator {
         // Methods
         final Set<HttpMethod> methodSet = new HashSet<>();
         final String[] methods = this.LOADER.getArray("server.security.cors.methods");
-        for(final String method: methods){
-            methodSet.add(fromStr(HttpMethod.class,method));
+        for (final String method : methods) {
+            methodSet.add(fromStr(HttpMethod.class, method));
         }
         handler.allowedMethods(methodSet);
         return handler;
     }
+
     /**
      * Security Mode
      * 
@@ -138,14 +139,19 @@ public class SecurityConfigurator {
         // 固定属性
         options.put(PROVIDER, this.LOADER.getString(prefix + Symbol.DOT + PROVIDER));
         options.put(AuthConstants.BASIC.REALM, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.REALM));
-        options.put(AuthConstants.BASIC.SCRIPT_NAME, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.SCRIPT_NAME));
-        options.put(AuthConstants.BASIC.ACCOUNT_ID, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.ACCOUNT_ID));
+        options.put(AuthConstants.BASIC.SCRIPT_NAME,
+                this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.SCRIPT_NAME));
+        options.put(AuthConstants.BASIC.ACCOUNT_ID,
+                this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.ACCOUNT_ID));
         options.put(AuthConstants.BASIC.EMAIL, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.EMAIL));
-        options.put(AuthConstants.BASIC.MOBILE, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.MOBILE));
+        options.put(AuthConstants.BASIC.MOBILE,
+                this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.MOBILE));
         options.put(AuthConstants.BASIC.PWD, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.PWD));
         // 可定义的动态属性
-        options.put(AuthConstants.BASIC.SCHEMA_ID, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.SCHEMA_ID));
-        options.put(AuthConstants.BASIC.LOGIN_URL, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.LOGIN_URL));
+        options.put(AuthConstants.BASIC.SCHEMA_ID,
+                this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.SCHEMA_ID));
+        options.put(AuthConstants.BASIC.LOGIN_URL,
+                this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.LOGIN_URL));
         return options;
     }
 

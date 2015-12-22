@@ -1,8 +1,8 @@
-package com.prayer.model.kernel;    // NOPMD
+package com.prayer.model.kernel; // NOPMD
 
 import static com.prayer.util.Calculator.index;
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.Log.info;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +29,7 @@ import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.MemoryPool;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
+import com.prayer.util.cv.log.InfoKey;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
@@ -45,7 +46,7 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
-public class MetaConnector {    // NOPMD
+public class MetaConnector { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaConnector.class);
@@ -139,7 +140,8 @@ public class MetaConnector {    // NOPMD
     @MinSize(1)
     public List<FieldModel> idschema() {
         final List<String> ids = Arrays.asList(LOADER.getArray(this.identifier() + ".ids"));
-        // final List<String> ids = fromStr(LOADER.getString(this.identifier() + ".ids"), ",");
+        // final List<String> ids = fromStr(LOADER.getString(this.identifier() +
+        // ".ids"), ",");
         final List<FieldModel> ret = new ArrayList<>();
         for (final String id : ids) {
             ret.add(this.getPrimaryKey(id));
@@ -156,7 +158,7 @@ public class MetaConnector {    // NOPMD
     public String table() {
         return LOADER.getString(this._identifier + ".meta.table");
     }
-    
+
     /**
      * 
      * @return
@@ -296,7 +298,7 @@ public class MetaConnector {    // NOPMD
     }
 
     private void initIdentifier(final String identifier) throws SchemaNotFoundException {
-        info(LOGGER, "[I] Checking virtual schema from Property files : identifier = " + identifier);
+        info(LOGGER, InfoKey.INF_PH_LKP_VMETA, identifier);
         if (null != ID_SET && ID_SET.isEmpty()) {
             ID_SET.addAll(Arrays.asList(LOADER.getArray("h2.meta.ids")));
         }

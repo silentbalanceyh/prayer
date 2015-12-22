@@ -1,6 +1,6 @@
-package com.prayer.schema.workflow;    // NOPMD
+package com.prayer.schema.workflow; // NOPMD
 
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.peError;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -63,14 +63,14 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
         try {
             importer.readSchema();
         } catch (AbstractSystemException ex) {
-            info(getLogger(),"1.Error when reading json schema file.",ex);
+            peError(getLogger(), ex);
             failure(ex.toString());
         }
         // 2.Validate Schema File
         try {
             importer.ensureSchema();
         } catch (AbstractSchemaException ex) {
-            info(getLogger(),"2.Error when verifying json schema.",ex);
+            peError(getLogger(), ex);
             failure(ex.toString());
         }
         // 3.Extract Raw Data
@@ -86,10 +86,9 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
             final JsonNode metaNode = this.rootNode.path("__meta__");
             try {
                 final MetaModel meta = this.serializer.readMeta(metaNode);
-                info(getLogger(), "Json Data : \"__meta__\" = " + metaNode.toString() + ", Model Data : " + meta);
                 assertNotNull("[T-ERROR] Serialization result should not be null !", meta);
             } catch (SerializationException ex) {
-                info(getLogger(), "Serialization Exception, \"__meta__\" = " + metaNode.toString(), ex);
+                peError(getLogger(), ex);
                 failure("[T-ERROR] Serialization Exception, \"__meta__\" = " + metaNode.toString());
             }
         }
@@ -110,12 +109,10 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
                     for (final KeyModel key : keys) {
                         builder.append(key).append(" | ");
                     }
-                    info(getLogger(), "Json Data: \"__keys__\" = " + keysNode.toString() + ", Keys List Data : "
-                            + builder.toString());
                 }
                 assertEquals("[T-ERROR] Serialization result size should be the same.", 3, keys.size());
             } catch (SerializationException ex) {
-                info(getLogger(), "Serialization Exception, \"__keys__\" = " + keysNode.toString(), ex);
+                peError(getLogger(), ex);
                 failure("[T-ERROR] Serialization Exception, \"__keys__\" = " + keysNode.toString());
             }
         }
@@ -136,12 +133,10 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
                     for (final FieldModel field : fields) {
                         builder.append(field).append(" | ");
                     }
-                    info(getLogger(), "Json Data: \"__fields__\" = " + fieldsNode.toString() + ", Fields List Data : "
-                            + builder.toString());
                 }
                 assertEquals("[T-ERROR] Serialization result size should not be the same.", 5, fields.size());
             } catch (SerializationException ex) {
-                info(getLogger(), "Serialization Exception, \"__fields__\" = " + fieldsNode.toString(), ex);
+                peError(getLogger(), ex);
                 failure("[T-ERROR] Serialization Exception, \"__fields__\" = " + fieldsNode.toString());
             }
         }
@@ -156,7 +151,7 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
         try {
             schema = this.importer.transformSchema();
         } catch (SerializationException ex) {
-            info(getLogger(), "Serialization Exception. ", ex);
+            peError(getLogger(), ex);
             failure("[T-ERROR] Searialization Exception. ");
         }
         assertNotNull("[T-ERROR] Deserialization result must not be null.", schema);
@@ -172,16 +167,16 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
         try {
             schema = this.importer.transformSchema();
             final GenericSchema prepSchema = this.service.getById("sys.sec.role");
-            if(null == prepSchema){
+            if (null == prepSchema) {
                 result = this.importer.syncSchema(schema);
-            }else{
+            } else {
                 // Skip Test Case
                 result = true;
             }
         } catch (SerializationException ex) {
-            info(getLogger(), "Serialization Exception. ", ex);
+            peError(getLogger(), ex);
         } catch (AbstractTransactionException ex) {
-            info(getLogger(), "Data Loading Exception. Loading Data...", ex);
+            peError(getLogger(), ex);
             failure("[T-ERROR] Data Loading Exception. Loading Data...");
         }
         assertTrue("[T-ERROR] Data loading result must be \"true\".", result);

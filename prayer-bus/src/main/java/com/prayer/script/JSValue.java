@@ -1,6 +1,6 @@
 package com.prayer.script;
 
-import static com.prayer.util.bus.BusinessLogger.error;
+import static com.prayer.util.Log.peError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,6 @@ import com.prayer.model.type.LongType;
 import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.StringType;
 import com.prayer.model.type.XmlType;
-import com.prayer.util.bus.BusinessLogger;
 
 /**
  * 
@@ -97,7 +96,7 @@ public final class JSValue {
         try {
             ret = new ScriptType(value);
         } catch (AbstractDatabaseException ex) {
-            error(LOGGER, BusinessLogger.E_AT_ERROR, ex.toString());
+            peError(LOGGER,ex);
         }
         return ret;
     }
@@ -112,7 +111,7 @@ public final class JSValue {
         try {
             ret = new XmlType(value);
         } catch (AbstractDatabaseException ex) {
-            error(LOGGER, BusinessLogger.E_AT_ERROR, ex.toString());
+            peError(LOGGER,ex);
         }
         return ret;
     }
@@ -127,7 +126,7 @@ public final class JSValue {
         try {
             ret = new JsonType(value);
         } catch (AbstractDatabaseException ex) {
-            error(LOGGER, BusinessLogger.E_AT_ERROR, ex.toString());
+            peError(LOGGER,ex);
         }
         return ret;
     }

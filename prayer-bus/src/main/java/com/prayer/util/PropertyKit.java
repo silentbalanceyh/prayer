@@ -1,7 +1,7 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.Log.jvmError;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,12 +35,15 @@ public final class PropertyKit {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertyKit.class);
+
+    // ~ Error Key Constants =================================
     // ~ Instance Fields =====================================
     /**
      * 当前实例加载的资源文件信息
      */
     @NotNull
     private transient final Properties prop;
+    // ~ Debug Information ===================================
 
     // ~ Constructors ========================================
     /**
@@ -57,12 +60,9 @@ public final class PropertyKit {
                 this.prop.load(inStream);
             }
         } catch (IOException ex) {
-            debug(LOGGER, "JVM.IO", ex, resource);
+            jvmError(LOGGER, ex);
         }
-        // debug(LOGGER, "SYS.KIT.PROP", prop, null == prop ? 0 :
-        // prop.hashCode());
         MemoryPool.POOL_PROP.put(resource, this.prop);
-        // Monitor Pool if debug
     }
 
     /**

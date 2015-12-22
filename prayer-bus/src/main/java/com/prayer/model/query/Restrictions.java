@@ -1,6 +1,6 @@
 package com.prayer.model.query;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.peError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -249,7 +249,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
             exp = new ProjectionInvalidException(Restrictions.class, LEFT, ValueLeafNode.class.getName());
         }
         if (null != exp) {
-            info(LOGGER, exp.getErrorMessage());
+            peError(LOGGER, exp);
             throw exp;
         }
         if (right instanceof ColumnLeafNode) {
@@ -258,7 +258,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
             exp = new ProjectionInvalidException(Restrictions.class, RIGHT, ValueLeafNode.class.getName());
         }
         if (null != exp) {
-            info(LOGGER, exp.getErrorMessage());
+            peError(LOGGER, exp);
             throw exp;
         }
     }

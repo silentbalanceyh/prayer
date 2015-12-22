@@ -1,6 +1,6 @@
-package com.prayer.dao.impl.builder;    // NOPMD
+package com.prayer.dao.impl.builder; // NOPMD
 
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.debug;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -24,8 +24,8 @@ import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SqlSegment;
 import com.prayer.util.cv.SystemEnum.KeyCategory;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
 import com.prayer.util.cv.SystemEnum.StatusFlag;
+import com.prayer.util.cv.log.DebugKey;
 import com.prayer.util.dao.SqlDdlStatement;
 
 import net.sf.oval.constraint.InstanceOfAny;
@@ -96,15 +96,11 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     public boolean createTable() {
         final boolean exist = this.existTable();
         if (exist) {
-            info(LOGGER, "[I] Location: createTable(), Table existing : " + this.getTable());
             return false;
         } else {
             final String sql = genCreateSql();
-            info(LOGGER, "[I] Sql: " + sql);
+            debug(LOGGER, DebugKey.INF_SQL_STMT, sql);
             final int respCode = this.getContext().execute(sql, null);
-            final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
-                    : ResponseCode.FAILURE.toString());
-            info(LOGGER, "[I] Location: createTable(), Result : " + respStr);
             // EXIST：新表创建成功过后添加缓存
             final boolean ret = Constants.RC_SUCCESS == respCode;
             if (ret) {
@@ -144,15 +140,10 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         final boolean exist = this.existTable();
         if (exist) {
             final String sql = this.genUpdateSql(schema);
-            info(LOGGER, "[I] Sql: " + sql);
+            debug(LOGGER, DebugKey.INF_SQL_STMT, sql);
             final int respCode = this.getContext().execute(sql, null);
-            final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
-                    : ResponseCode.FAILURE.toString());
-            info(LOGGER, "[I] Location: syncTable(GenericSchema), Result : " + respStr);
             return Constants.RC_SUCCESS == respCode;
         } else {
-            info(LOGGER,
-                    "[I] Location: syncTable(GenericSchema), Table does not exist : " + schema.getMeta().getTable());
             return false;
         }
     }
@@ -164,10 +155,8 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         final boolean exist = this.existTable();
         if (exist) {
             final String sql = MessageFormat.format(TB_DROP, this.getTable());
+            debug(LOGGER, DebugKey.INF_SQL_STMT, sql);
             final int respCode = this.getContext().execute(sql, null);
-            final String respStr = (Constants.RC_SUCCESS == respCode ? ResponseCode.SUCCESS.toString()
-                    : ResponseCode.FAILURE.toString());
-            info(LOGGER, "[I] Location: purgeTable(), Result : " + respStr);
             // EXIST：删除成功过后移除缓存
             final boolean ret = Constants.RC_SUCCESS == respCode;
             if (ret && TB_COUNT_MAP.containsKey(this.getTable())) {
@@ -175,7 +164,6 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
             }
             return Constants.RC_SUCCESS == respCode;
         } else {
-            info(LOGGER, "[I] Location: purgeTable(), Table does not exist : " + this.getTable());
             return false;
         }
     }

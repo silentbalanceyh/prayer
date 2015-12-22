@@ -1,7 +1,8 @@
 package com.prayer.base.dao;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peError;
 
 import java.sql.SQLException;
 
@@ -50,20 +51,23 @@ public abstract class AbstractDaoImpl { // NOPMD
         try {
             transaction.commit();
         } catch (SQLException ex) {
+            jvmError(getLogger(),ex);
             throwExp = instance(clazz, getClass(), "Commit");
-            debug(getLogger(), getClass(), errKey(throwExp.getErrorCode()), throwExp, "Commit");
+            peError(getLogger(),throwExp);
             try {
                 transaction.rollback();
             } catch (SQLException exp) {
+                jvmError(getLogger(),exp);
                 throwExp = instance(clazz, getClass(), "Rollback");
-                debug(getLogger(), getClass(), errKey(throwExp.getErrorCode()), throwExp, "Rollback");
+                peError(getLogger(),throwExp);
             }
         } finally {
             try {
                 transaction.close();
             } catch (SQLException ex) {
+                jvmError(getLogger(),ex);
                 throwExp = instance(clazz, getClass(), "Close");
-                debug(getLogger(), getClass(), errKey(throwExp.getErrorCode()), throwExp, "Rollback");
+                peError(getLogger(),throwExp);
             }
         }
         if (null != throwExp) {
@@ -71,11 +75,6 @@ public abstract class AbstractDaoImpl { // NOPMD
         }
     }
     // ~ Private Methods =====================================
-
-    private String errKey(final int errorCode) {
-        final int errCode = Math.abs(errorCode);
-        return "E" + errCode;
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 }

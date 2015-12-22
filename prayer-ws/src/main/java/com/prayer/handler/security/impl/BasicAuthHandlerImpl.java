@@ -1,7 +1,8 @@
 package com.prayer.handler.security.impl; // NOPMD
 
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.debug;
+import static com.prayer.util.Log.jvmError;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -13,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import com.prayer.assistant.Dispatcher;
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Future;
-import com.prayer.assistant.WebLogger;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
@@ -25,6 +25,7 @@ import com.prayer.security.provider.AuthConstants.BASIC;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.security.provider.impl.BasicUser;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.log.DebugKey;
 import com.prayer.vx.configurator.SecurityConfigurator;
 
 import io.vertx.core.AsyncResult;
@@ -83,7 +84,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.AUTH, context.request().path());
+        debug(LOGGER, DebugKey.WEB_STG_HANDLER, getClass().getName(), Constants.ORDER.AUTH, context.request().path());
         /**
          * 1.根据Error设置相应，唯一特殊的情况是Basic认证是Body的参数方式，
          * 但其参数信息是在processAuth的过程填充到系统里的， 一旦出现了com.prayer.exception.web.
@@ -100,9 +101,8 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                     authorise(user, context);
                 }
             }
-            // TODO: DEBUG
         } catch (Exception ex) {
-            ex.printStackTrace();
+            jvmError(LOGGER, ex);
         }
     }
 
@@ -113,7 +113,6 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
         boolean ret = true;
         final String endpoint = this.configurator.getSecurityOptions().getString(BASIC.LOGIN_URL);
         if (StringUtil.equals(context.request().path(), endpoint)) {
-            info(LOGGER, " Request Uri = " + context.request().path() + ", Endpoint = " + endpoint);
             final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service
                     .findUri(context.request().path());
             ret = Dispatcher.requestDispatch(getClass(), result, context);

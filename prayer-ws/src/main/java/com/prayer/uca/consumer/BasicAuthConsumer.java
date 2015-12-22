@@ -2,13 +2,12 @@ package com.prayer.uca.consumer;
 
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Log.debug;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Extractor;
-import com.prayer.assistant.WebLogger;
 import com.prayer.bus.impl.std.BasicAuthSevImpl;
 import com.prayer.exception.web.MethodNotAllowedException;
 import com.prayer.facade.bus.BasicAuthService;
@@ -16,6 +15,7 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.web.Responsor;
 import com.prayer.model.web.StatusCode;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
@@ -56,7 +56,7 @@ public final class BasicAuthConsumer implements Handler<Message<Object>> {
     @Override
     @PreValidateThis
     public void handle(@NotNull final Message<Object> event) {
-        info(LOGGER, WebLogger.I_COMMON_INFO, "Consumer --> " + getClass().toString());
+        debug(LOGGER, DebugKey.WEB_UCA, "Consumer --> " + getClass().toString());
         // 1.从EventBus中接受数据
         final JsonObject params = (JsonObject) event.body();
         // 2.获取方法信息

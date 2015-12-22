@@ -1,6 +1,6 @@
 package com.prayer.model.bus;
 
-import static com.prayer.util.Error.debug;
+import static com.prayer.util.Log.jvmError;
 
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -56,7 +56,7 @@ public class Metadata { // NOPMD
             this.databaseCategory = category;
             this.initSqlFile();
         } catch (SQLException ex) {
-            debug(LOGGER, "JVM.SQL", "public Metadata(DatabaseMetaData,String)", ex);
+            jvmError(LOGGER,ex);
         }
     }
 

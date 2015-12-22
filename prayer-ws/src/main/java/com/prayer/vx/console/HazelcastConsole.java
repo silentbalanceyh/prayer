@@ -1,6 +1,7 @@
 package com.prayer.vx.console;
 
-import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Log.jvmError;
+
 import java.io.FileNotFoundException;
 
 import org.slf4j.Logger;
@@ -11,7 +12,6 @@ import com.hazelcast.config.ExecutorConfig;
 import com.hazelcast.config.FileSystemXmlConfig;
 import com.hazelcast.console.ConsoleApp;
 import com.hazelcast.core.Hazelcast;
-import com.prayer.assistant.WebLogger;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class HazelcastConsole {
         try {
             consoleApp.start(args);
         } catch (Exception ex) {
-            info(LOGGER, WebLogger.I_COMMON_INFO, ex.getMessage());
+            jvmError(LOGGER, ex);
         }
     }
     // ~ Private Methods =====================================

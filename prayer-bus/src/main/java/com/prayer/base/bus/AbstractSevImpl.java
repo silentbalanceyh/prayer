@@ -2,8 +2,10 @@ package com.prayer.base.bus;
 
 import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.bus.BusinessLogger.error;
-import static com.prayer.util.bus.BusinessLogger.info;
+import static com.prayer.util.Log.debug;
+import static com.prayer.util.Log.info;
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peError;
 
 import javax.script.ScriptException;
 
@@ -14,9 +16,10 @@ import com.prayer.bus.impl.std.ServiceHelper;
 import com.prayer.exception.web.JSScriptEngineException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.util.bus.BusinessLogger;
 import com.prayer.util.bus.Interruptor;
 import com.prayer.util.cv.MemoryPool;
+import com.prayer.util.cv.log.DebugKey;
+import com.prayer.util.cv.log.InfoKey;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -69,16 +72,18 @@ public abstract class AbstractSevImpl {
     // ~ Private Methods =====================================
     private ServiceResult<JsonObject> executeSave(final JsonObject jsonObject) {
         ServiceResult<JsonObject> ret = new ServiceResult<>();
-        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
         if (null == error) {
             try {
                 ret = this.helper.sharedSave(jsonObject);
-                info(getLogger(), BusinessLogger.I_RESULT_DB, ret.getResult().encode());
+                info(getLogger(), InfoKey.INF_SEV_RET, ret.getResult().encode());
             } catch (ScriptException ex) {
-                error(getLogger(), BusinessLogger.E_JS_ERROR, ex.toString());
-                ret.error(new JSScriptEngineException(getClass(), ex.toString()));
+                jvmError(getLogger(),ex);
+                error = new JSScriptEngineException(getClass(), ex.toString());
+                peError(getLogger(),error);
+                ret.error(error);
             } catch (AbstractException ex) {
-                error(getLogger(), BusinessLogger.E_AT_ERROR, ex.toString());
+                peError(getLogger(),ex);
                 ret.error(ex);
             }
         } else {
@@ -96,25 +101,27 @@ public abstract class AbstractSevImpl {
      */
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<JsonObject> save(@NotNull final JsonObject jsonObject) {
-        info(getLogger(), BusinessLogger.I_PARAM_INFO, "POST", jsonObject.encode());
+        debug(getLogger(), DebugKey.INFO_SEV_PARAM, "POST", jsonObject.encode());
         return this.executeSave(jsonObject);
     }
 
     /** **/
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<JsonObject> remove(@NotNull final JsonObject jsonObject) {
-        info(getLogger(), BusinessLogger.I_PARAM_INFO, "DELETE", jsonObject.encode());
+        debug(getLogger(), DebugKey.INFO_SEV_PARAM, "DELETE", jsonObject.encode());
         ServiceResult<JsonObject> ret = new ServiceResult<>();
-        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
         if (null == error) {
             try {
                 ret = this.helper.sharedDelete(jsonObject);
-                info(getLogger(), BusinessLogger.I_RESULT_DB, ret.getResult().encode());
+                info(getLogger(), InfoKey.INF_SEV_RET, ret.getResult().encode());
             } catch (ScriptException ex) {
-                error(getLogger(), BusinessLogger.E_JS_ERROR, ex.toString());
-                ret.error(new JSScriptEngineException(getClass(), ex.toString()));
+                jvmError(getLogger(),ex);
+                error = new JSScriptEngineException(getClass(), ex.toString());
+                peError(getLogger(),error);
+                ret.error(error);
             } catch (AbstractException ex) {
-                error(getLogger(), BusinessLogger.E_AT_ERROR, ex.toString());
+                peError(getLogger(),ex);
                 ret.error(ex);
             }
         } else {
@@ -126,25 +133,27 @@ public abstract class AbstractSevImpl {
     /** **/
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<JsonObject> modify(@NotNull final JsonObject jsonObject) {
-        info(getLogger(), BusinessLogger.I_PARAM_INFO, "PUT", jsonObject.encode());
+        debug(getLogger(), DebugKey.INFO_SEV_PARAM, "PUT", jsonObject.encode());
         return this.executeSave(jsonObject);
     }
 
     /** **/
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
-        info(getLogger(), BusinessLogger.I_PARAM_INFO, "GET", jsonObject.encode());
+        debug(getLogger(), DebugKey.INFO_SEV_PARAM, "DELETE", jsonObject.encode());
         ServiceResult<JsonArray> ret = new ServiceResult<>();
-        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
         if (null == error) {
             try {
                 ret = this.helper.sharedFind(jsonObject);
-                info(getLogger(), BusinessLogger.I_RESULT_DB, ret.getResult().encode());
+                info(getLogger(), InfoKey.INF_SEV_RET, ret.getResult().encode());
             } catch (ScriptException ex) {
-                error(getLogger(), BusinessLogger.E_JS_ERROR, ex.toString());
-                ret.error(new JSScriptEngineException(getClass(), ex.toString()));
+                jvmError(getLogger(),ex);
+                error = new JSScriptEngineException(getClass(), ex.toString());
+                peError(getLogger(),error);
+                ret.error(error);
             } catch (AbstractException ex) {
-                error(getLogger(), BusinessLogger.E_AT_ERROR, ex.toString());
+                peError(getLogger(),ex);
                 ret.error(ex);
             }
         } else {
@@ -156,7 +165,7 @@ public abstract class AbstractSevImpl {
     /** **/
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<JsonObject> page(@NotNull final JsonObject jsonObject) {
-        info(getLogger(), BusinessLogger.I_PARAM_INFO, "POST - Query", jsonObject.encode());
+        debug(getLogger(), DebugKey.INFO_SEV_PARAM, "POST - Query", jsonObject.encode());
         ServiceResult<JsonObject> ret = new ServiceResult<>();
         AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
         if (null == error) {
@@ -165,12 +174,14 @@ public abstract class AbstractSevImpl {
             if (null == error) {
                 try {
                     ret = this.helper.sharedPage(jsonObject);
-                    info(getLogger(), BusinessLogger.I_RESULT_DB, ret.getResult().encode());
+                    info(getLogger(), InfoKey.INF_SEV_RET, ret.getResult().encode());
                 } catch (ScriptException ex) {
-                    error(getLogger(), BusinessLogger.E_JS_ERROR, ex.toString());
-                    ret.error(new JSScriptEngineException(getClass(), ex.toString()));
+                    jvmError(getLogger(),ex);
+                    error = new JSScriptEngineException(getClass(), ex.toString());
+                    peError(getLogger(),error);
+                    ret.error(error);
                 } catch (AbstractException ex) {
-                    error(getLogger(), BusinessLogger.E_AT_ERROR, ex.toString());
+                    peError(getLogger(),ex);
                     ret.error(ex);
                 }
             } else {

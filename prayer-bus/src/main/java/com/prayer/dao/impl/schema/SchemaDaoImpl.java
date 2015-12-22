@@ -1,7 +1,7 @@
 package com.prayer.dao.impl.schema;
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Generator.uuid;
+import static com.prayer.util.Log.debug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,7 @@ import com.prayer.model.h2.schema.MetaModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.SchemaExpander;
 import com.prayer.util.StringKit;
+import com.prayer.util.cv.log.DebugKey;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -200,7 +201,7 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
         // oobFile不执行更新
         // using不执行更新
         if (null == original || null == original.getMeta() || null == schema || null == schema.getMeta()) {
-            info(LOGGER, "[I] The meta data object does not exist in H2 : Global Id = " + schema.getIdentifier());
+            debug(LOGGER, DebugKey.INFO_H2_ID, schema.getIdentifier());
         } else {
             original.getMeta().setCategory(schema.getMeta().getCategory());
             original.getMeta().setGlobalId(schema.getMeta().getGlobalId());

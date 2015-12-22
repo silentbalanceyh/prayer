@@ -1,13 +1,12 @@
 package com.prayer.rest.basic.put;
 
-import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Log.info;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Test;
 
-import com.prayer.assistant.WebLogger;
 import com.prayer.bus.AbstractRBTestCase;
 import com.prayer.bus.ErrorChecker;
 import com.prayer.model.web.StatusCode;
@@ -146,7 +145,7 @@ public abstract class AbstractPutTestCase extends AbstractRBTestCase {
         } else {
             params = this.client().getParameter(key + "/data.json");
         }
-        info(getLogger(), WebLogger.I_COMMON_INFO, "Final Param Data : " + params.encode());
+        info(getLogger(),"Final Param Data : " + params.encode());
         return params;
     }
     // ~ Get/Set =============================================

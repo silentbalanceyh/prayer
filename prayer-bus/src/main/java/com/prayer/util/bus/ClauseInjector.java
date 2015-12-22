@@ -1,6 +1,6 @@
 package com.prayer.util.bus;
 
-import static com.prayer.util.bus.BusinessLogger.info;
+import static com.prayer.util.Log.jvmError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public final class ClauseInjector {
             try {
                 pager = data.getJsonObject(Constants.PARAM.PAGE.NAME);
             } catch (ClassCastException ex) {
-                info(LOGGER, " Convert to String paring: " + ex.toString());
+                jvmError(LOGGER,ex);
                 pager = new JsonObject(data.getString(Constants.PARAM.PAGE.NAME));
             }
         }
@@ -64,7 +64,7 @@ public final class ClauseInjector {
             try {
                 orderArr = data.getJsonArray(Constants.PARAM.ORDERS);
             } catch (ClassCastException ex) {
-                info(LOGGER, " Convert to String parsing : " + ex.toString());
+                jvmError(LOGGER,ex);
                 orderArr = new JsonArray(data.getString(Constants.PARAM.ORDERS));
             }
         }
@@ -85,7 +85,7 @@ public final class ClauseInjector {
             try {
                 orderArr = data.getJsonArray(Constants.PARAM.ORDERS);
             } catch (ClassCastException ex) {
-                info(LOGGER, " Convert to String parsing : " + ex.toString());
+                jvmError(LOGGER,ex);
                 orderArr = new JsonArray(data.getString(Constants.PARAM.ORDERS));
             }
         }

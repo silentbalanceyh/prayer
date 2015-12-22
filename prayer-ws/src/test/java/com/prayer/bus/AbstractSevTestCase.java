@@ -1,7 +1,7 @@
 package com.prayer.bus;
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.info;
 
 import org.slf4j.Logger;
 
@@ -52,19 +52,19 @@ public abstract class AbstractSevTestCase {
      * @param result
      */
     protected <T> boolean console(final ServiceResult<T> result) {
-        if (null == result){
+        if (null == result) {
             info(getLogger(), "[E] Service Result is null.");
             return false;
         }
         final T ret = result.getResult();
-        if(null == ret){
+        if (null == ret) {
             info(getLogger(), "[E] Data of ServiceResult is null.");
             return false;
-        }else{
-            if(ret instanceof JsonArray){
-                info(getLogger(), "[I] Return data is : " + ((JsonArray)ret).encode());
-            }else if(ret instanceof JsonObject){
-                info(getLogger(), "[I] Return data is : " + ((JsonObject)ret).encode());
+        } else {
+            if (ret instanceof JsonArray) {
+                info(getLogger(), "[I] Return data is : " + ((JsonArray) ret).encode());
+            } else if (ret instanceof JsonObject) {
+                info(getLogger(), "[I] Return data is : " + ((JsonObject) ret).encode());
             }
             return true;
         }

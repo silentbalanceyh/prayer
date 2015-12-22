@@ -9,7 +9,7 @@
 	<modules>
 		<module>prayer-bus</module>
 		<module>prayer-ws</module>
-		<module>prayer-client</module>
+		<!--  <module>prayer-client</module> -->
 	</modules>
 	<properties>
 		<!-- 项目默认使用的编码方式 -->

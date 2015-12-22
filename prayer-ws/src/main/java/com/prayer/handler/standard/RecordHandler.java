@@ -1,11 +1,11 @@
 package com.prayer.handler.standard;
 
-import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Log.debug;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.WebLogger;
+import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
@@ -33,7 +33,7 @@ public class RecordHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_RECORD_HANDLER, getClass().getName());
+        debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
         // 1.获取请求Request和相应Response引用
         context.next();
     }

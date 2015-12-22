@@ -1,8 +1,9 @@
 package com.prayer.bus;
 
 import static com.prayer.util.Converter.toStr;
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.info;
+import static com.prayer.util.Log.jvmError;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,8 +72,8 @@ public class RestClient {
             running = true;
             info(LOGGER, "Remote Api is running on : " + CONFIGURATOR.getEndPoint());
         } catch (IOException ex) {
+            jvmError(LOGGER,ex);
             running = false;
-            info(LOGGER, "Remote Api is not running. Error: " + ex.getMessage());
         }
     }
 
@@ -211,7 +212,7 @@ public class RestClient {
                 // 请求发送
                 this.sendRequest(request, ret);
             } catch (UnsupportedEncodingException ex) {
-                info(LOGGER, "[ERR] Encoding error: ", ex);
+                jvmError(LOGGER,ex);
             }
         }
         return ret;
@@ -233,13 +234,13 @@ public class RestClient {
                 resp.close();
             }
         } catch (IOException ex) {
-            info(LOGGER, "[ERR] Network issue: ", ex);
+            jvmError(LOGGER,ex);
             injectRef.put("status", "ERROR");
         } finally {
             try {
                 client.close();
             } catch (IOException ex) {
-                info(LOGGER, "[ERR] Close Http Client issue : ", ex);
+                jvmError(LOGGER,ex);
                 injectRef.put("status", "ERROR");
             }
         }

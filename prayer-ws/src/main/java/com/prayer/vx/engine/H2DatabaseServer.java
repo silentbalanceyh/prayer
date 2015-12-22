@@ -1,7 +1,8 @@
 package com.prayer.vx.engine;
 
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.info;
+import static com.prayer.util.Log.jvmError;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,7 +14,6 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.WebLogger;
 import com.prayer.bus.impl.oob.DeploySevImpl;
 import com.prayer.facade.bus.DeployService;
 import com.prayer.facade.dao.jdbc.MetadataConn;
@@ -42,6 +42,19 @@ public class H2DatabaseServer {
     private static final String DATABASE = "Source Database";
     /** **/
     private static final String WEB_CONSOLE = "Web Console";
+
+    /** **/
+    private static final String I_H2_DB_BEFORE = "{0} H2 {1} on {2}...";
+    /** **/
+    private static final String I_H2_DB_AFTER_ST = "H2 {0} started: RUNNING on {1} !";
+    /** **/
+    private static final String I_H2_DB_AFTER_SP = "H2 {0} stopped.";
+    /** **/
+    private static final String I_H2_DB_CLS_INIT_S = "H2 Database Cluster initialized successfully! Name List : {0}";
+    /** **/
+    private static final String I_H2_DB_CLS_STD = "H2 Database Cluster has been started successfully with parameters: {0}";
+    /** **/
+    private static final String I_H2_DB_CLS_DIS = "H2 Database Cluster has been disabled!";
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
@@ -67,12 +80,12 @@ public class H2DatabaseServer {
         if (this.configurator.enabledH2Cluster()) {
             try {
                 this.clusters = this.configurator.getH2CDatabases();
-                info(LOGGER, WebLogger.I_H2_DB_CLS_INIT_S, Converter.toStr(this.clusters.keySet()));
+                info(LOGGER, I_H2_DB_CLS_INIT_S, Converter.toStr(this.clusters.keySet()));
             } catch (SQLException ex) {
-                info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
+                jvmError(LOGGER, ex);
             }
         } else {
-            info(LOGGER, WebLogger.I_H2_DB_CLS_DIS);
+            info(LOGGER, I_H2_DB_CLS_DIS);
         }
     }
 
@@ -89,16 +102,16 @@ public class H2DatabaseServer {
             // 2.启动Clusters的每一个独立数据库
             for (final String key : this.clusters.keySet()) {
                 final Server single = this.clusters.get(key);
-                info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", key, String.valueOf(single.getPort()));
+                info(LOGGER, I_H2_DB_BEFORE, "Starting", key, String.valueOf(single.getPort()));
                 try {
                     if (!isRunning(single)) {
                         single.start();
-                        info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, key, String.valueOf(single.getPort()));
+                        info(LOGGER, I_H2_DB_AFTER_ST, key, String.valueOf(single.getPort()));
                     } else {
-                        info(LOGGER, WebLogger.I_COMMON_INFO, key + " is already started on " + single.getPort());
+                        info(LOGGER, key + " is already started on " + single.getPort());
                     }
                 } catch (SQLException ex) {
-                    info(LOGGER, WebLogger.E_H2_DB_ERROR, key + ":" + ex.toString());
+                    jvmError(LOGGER, ex);
                 }
             }
             // 3.创建一个Cluster
@@ -107,11 +120,9 @@ public class H2DatabaseServer {
                 final String[] params = this.configurator.getClusterParams();
                 cluster.runTool(params);
                 started = true;
-                info(LOGGER, WebLogger.I_H2_DB_CLS_STD, Converter.toStr(params));
+                info(LOGGER, I_H2_DB_CLS_STD, Converter.toStr(params));
             } catch (SQLException ex) {
-                info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
-                // TODO: Debug
-                ex.printStackTrace();
+                jvmError(LOGGER, ex);
                 started = false;
             }
         } else {
@@ -124,12 +135,12 @@ public class H2DatabaseServer {
     /** 停止Database **/
     public void stop() {
         if (this.configurator.enabledH2Cluster()) {
-            // TODO: Debug
+            // TODO: 停止H2 Cluster的代码
         } else {
             if (null != this.dbServer) {
-                info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Stopping", DATABASE, String.valueOf(dbServer.getPort()));
+                info(LOGGER, I_H2_DB_BEFORE, "Stopping", DATABASE, String.valueOf(dbServer.getPort()));
                 this.dbServer.stop();
-                info(LOGGER, WebLogger.I_H2_DB_AFTER_SP, DATABASE);
+                info(LOGGER, I_H2_DB_AFTER_SP, DATABASE);
             }
         }
     }
@@ -137,9 +148,9 @@ public class H2DatabaseServer {
     /** 停止Console **/
     public void stopConsole() {
         if (null != this.webServer) {
-            info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Stopping", WEB_CONSOLE, String.valueOf(webServer.getPort()));
+            info(LOGGER, I_H2_DB_BEFORE, "Stopping", WEB_CONSOLE, String.valueOf(webServer.getPort()));
             this.webServer.stop();
-            info(LOGGER, WebLogger.I_H2_DB_AFTER_SP, WEB_CONSOLE);
+            info(LOGGER, I_H2_DB_AFTER_SP, WEB_CONSOLE);
         }
     }
     // ~ H2 Cluster ==========================================
@@ -165,16 +176,15 @@ public class H2DatabaseServer {
         try {
             // 2.Web Console Start
             this.webServer = configurator.getH2WebConsole();
-            info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", WEB_CONSOLE, String.valueOf(webServer.getPort()));
+            info(LOGGER, I_H2_DB_BEFORE, "Starting", WEB_CONSOLE, String.valueOf(webServer.getPort()));
             if (!isRunning(this.webServer)) {
                 this.webServer.start();
-                info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, WEB_CONSOLE, String.valueOf(webServer.getPort()));
+                info(LOGGER, I_H2_DB_AFTER_ST, WEB_CONSOLE, String.valueOf(webServer.getPort()));
             } else {
-                info(LOGGER, WebLogger.I_COMMON_INFO,
-                        " H2 WebConsole (Standalone) is already started on " + this.webServer.getPort());
+                info(LOGGER, " H2 WebConsole (Standalone) is already started on " + this.webServer.getPort());
             }
         } catch (SQLException ex) {
-            info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
+            jvmError(LOGGER, ex);
             ret = false;
         }
         return ret;
@@ -186,17 +196,16 @@ public class H2DatabaseServer {
         try {
             // 1.Database Start
             this.dbServer = configurator.getH2Database();
-            info(LOGGER, WebLogger.I_H2_DB_BEFORE, "Starting", DATABASE, String.valueOf(dbServer.getPort()));
+            info(LOGGER, I_H2_DB_BEFORE, "Starting", DATABASE, String.valueOf(dbServer.getPort()));
             if (!isRunning(this.dbServer)) {
                 this.dbServer.start();
-                info(LOGGER, WebLogger.I_H2_DB_AFTER_ST, DATABASE, String.valueOf(dbServer.getPort()));
+                info(LOGGER, I_H2_DB_AFTER_ST, DATABASE, String.valueOf(dbServer.getPort()));
             } else {
-                info(LOGGER, WebLogger.I_COMMON_INFO,
-                        " H2 Database (Standalone) is already started on " + this.dbServer.getPort());
+                info(LOGGER, " H2 Database (Standalone) is already started on " + this.dbServer.getPort());
             }
             // 2.构造JDBC URL
         } catch (SQLException ex) {
-            info(LOGGER, WebLogger.E_H2_DB_ERROR, ex.toString());
+            jvmError(LOGGER, ex);
             ret = false;
         }
         return ret;

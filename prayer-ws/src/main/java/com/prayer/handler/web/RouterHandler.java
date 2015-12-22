@@ -1,7 +1,8 @@
 package com.prayer.handler.web; // NOPMD
 
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.info;
+import static com.prayer.util.Log.jvmError;
 import static com.prayer.util.StringKit.decodeURL;
 
 import java.util.Iterator;
@@ -13,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Dispatcher;
 import com.prayer.assistant.Extractor;
-import com.prayer.assistant.WebLogger;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
@@ -74,7 +74,6 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
     @Override
     public void handle(@NotNull final RoutingContext context) {
         final String path = Extractor.path(context);
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.ROUTER), path);
         // 1.获取请求Request和相应Response引用
         final Requestor requestor = Extractor.requestor(context);
 
@@ -127,8 +126,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
             }
             info(LOGGER, "Param Data : " + retJson.encode());
         } catch (Exception ex) {
-            // TODO:
-            ex.printStackTrace();
+            jvmError(LOGGER, ex);
         }
         return retJson;
     }

@@ -1,6 +1,7 @@
 package com.prayer.schema.db;
 
 import static com.prayer.util.Generator.uuid;
+import static com.prayer.util.Log.jvmError;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -10,6 +11,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.guard.Guarded;
@@ -22,6 +26,8 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 final class Generator { // NOPMD
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(Generator.class);
     /**
      * 针对对象中的信息随机设置
      * 
@@ -45,7 +51,7 @@ final class Generator { // NOPMD
                 }
             }
         } catch (Exception ex) { // NOPMD
-            ex.printStackTrace(); // NOPMD
+            jvmError(LOGGER,ex);
         }
     }
 

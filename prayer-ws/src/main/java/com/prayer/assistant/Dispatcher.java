@@ -1,6 +1,6 @@
 package com.prayer.assistant;
 
-import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.util.Log.jvmError;
 import static com.prayer.util.StringKit.decodeURL;
 
 import java.util.List;
@@ -156,10 +156,10 @@ public final class Dispatcher { // NOPMD
                         }
                     } catch (DecodeException ex) {
                         retParam = "DECODE";
-                        error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+                        jvmError(LOGGER,ex);
                     } catch (ClassCastException ex) {
                         retParam = "DECODE";
-                        error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+                        jvmError(LOGGER,ex);
                     }
                 } else {
                     // Body 不填充任何值的时候

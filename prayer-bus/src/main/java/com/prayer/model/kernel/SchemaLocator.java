@@ -1,7 +1,7 @@
 package com.prayer.model.kernel;
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +12,7 @@ import com.prayer.facade.bus.SchemaService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.cv.MemoryPool;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
+import com.prayer.util.cv.log.InfoKey;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -46,7 +47,7 @@ final class SchemaLocator {
             throws SchemaNotFoundException {
         GenericSchema schema = MemoryPool.POOL_SCHEMA.get(identifier);
         if (null == schema) {
-            info(LOGGER, "[I] Look up schema from H2 Database : identifier = " + identifier);
+            info(LOGGER, InfoKey.INF_PM_LKP_META,identifier);
             // 如果schema没有存在于MAP中则直接从H2的数据库中读取对应的Schema
             final SchemaService service = singleton(SchemaSevImpl.class);
             final ServiceResult<GenericSchema> result = service.findSchema(identifier);

@@ -1,6 +1,7 @@
 package com.prayer.plugin.validator;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peError;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -53,8 +54,11 @@ final class ScriptValidator implements Validator { // NOPMD
                 ENGINE.eval(value.literal());
                 ret = true;
             } catch (ScriptException ex) {
-                info(LOGGER, "[E] Script error! Output = " + value, ex);
-                throw new ContentErrorException(getClass(), "JavaScript", value.literal()); // NOPMD
+                jvmError(LOGGER, ex);
+                final AbstractDatabaseException error = new ContentErrorException(getClass(), "JavaScript",
+                        value.literal());// NOPMD
+                peError(LOGGER, error);
+                throw error;
             }
         }
         return ret;

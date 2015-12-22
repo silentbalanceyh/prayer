@@ -1,15 +1,15 @@
 package com.prayer.console.handler;
 
-import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Log.debug;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.WebLogger;
 import com.prayer.security.provider.BasicAuth;
 import com.prayer.security.provider.impl.BasicUser;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
@@ -50,7 +50,7 @@ public final class SharedLoginHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.SHARED);
+        debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
         // 1.处理Request看是否要填充user
         final HttpServerRequest request = context.request();
         final String userId = request.getParam(BasicAuth.KEY_USER_ID);

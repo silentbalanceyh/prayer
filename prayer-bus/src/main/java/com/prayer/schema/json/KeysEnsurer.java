@@ -1,9 +1,9 @@
 package com.prayer.schema.json;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Error.message;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Log.peError;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -211,7 +211,6 @@ final class KeysEnsurer implements InternalEnsurer {
     private boolean validateKeysNameSpec() {
         // 30.验证Keys的命名规范
         final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
-        int idx = 0;
         while (nodeIt.hasNext()) {
             final JsonNode node = nodeIt.next();
             final KeyCategory category = fromStr(KeyCategory.class, node.path(Attributes.K_CATEGORY).asText());
@@ -233,10 +232,9 @@ final class KeysEnsurer implements InternalEnsurer {
                 // name, category.toString());
             }
             if (null != this.error) {
-                debug(LOGGER, getClass(), "D10019", this.error, name, category, idx);
+                peError(LOGGER, this.error);
                 break;
             }
-            idx++;
         }
         return null == this.error;
     }
@@ -274,7 +272,6 @@ final class KeysEnsurer implements InternalEnsurer {
     private boolean validateMulti() {
         // 29.根据Multi验证columns的length
         final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
-        int idx = 0;
         while (nodeIt.hasNext()) {
             final JsonNode node = nodeIt.next();
             final ArrayNode columns = JsonKit.fromJObject(node.path(Attributes.K_COLUMNS));
@@ -293,11 +290,9 @@ final class KeysEnsurer implements InternalEnsurer {
                 // Attributes.K_COLUMNS, "Size: " + columns.size(),MF_MSG);
             }
             if (null != this.error) {
-                debug(LOGGER, getClass(), "D10003.IDX", this.error, "__keys__ -> columns", Attributes.K_NAME,
-                        node.path(Attributes.K_NAME).asText(), "Must match \"multi\"", idx);
+                peError(LOGGER, this.error);
                 break;
             }
-            idx++;
         }
         return null == this.error;
     }
@@ -309,7 +304,6 @@ final class KeysEnsurer implements InternalEnsurer {
     private boolean validateMultiForFK() {
         // 29.3.multi = true
         final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
-        int idx = 0;
         while (nodeIt.hasNext()) {
             final JsonNode node = nodeIt.next();
             final Boolean isMulti = node.path(Attributes.K_MULTI).asBoolean();
@@ -319,11 +313,10 @@ final class KeysEnsurer implements InternalEnsurer {
                     final String name = node.path(Attributes.K_NAME).asText();
                     this.error = instance(MultiForFKPolicyException.class.getName(), getClass(), name);
                     // new MultiForFKPolicyException(getClass(), name);
-                    debug(LOGGER, getClass(), "D10019", this.error, name, isMulti, category, idx);
+                    peError(LOGGER, this.error);
                     break;
                 }
             }
-            idx++;
         }
         return null == this.error;
     }

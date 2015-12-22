@@ -1,6 +1,6 @@
 package com.prayer.model.web;
 
-import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.util.Log.jvmError;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +9,6 @@ import java.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.WebLogger;
 import com.prayer.util.Encryptor;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;
@@ -202,11 +201,11 @@ public final class Requestor implements Serializable, ClusterSerializable {
                     this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {
-                error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+                jvmError(LOGGER,ex);
                 this.response.put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.FAILURE);
                 this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
             } catch (IllegalArgumentException ex) {
-                error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+                jvmError(LOGGER,ex);
                 this.response.put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.FAILURE);
                 this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
             }

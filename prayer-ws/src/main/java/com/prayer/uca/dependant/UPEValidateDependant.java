@@ -1,16 +1,11 @@
 package com.prayer.uca.dependant;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.assistant.WebLogger.info;
 
 import java.text.MessageFormat;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Interruptor;
-import com.prayer.assistant.WebLogger;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.exception.web.DependRuleConflictException;
 import com.prayer.facade.kernel.Value;
@@ -34,8 +29,6 @@ import net.sf.oval.constraint.NotNull;
  */
 public class UPEValidateDependant extends AbstractJdbcSwitcher implements WebDependant {
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(UPEValidateDependant.class);
     /** 数据库表名 **/
     private final static String TABLE = "table";
     /** 数据库列名 **/
@@ -93,7 +86,6 @@ public class UPEValidateDependant extends AbstractJdbcSwitcher implements WebDep
                 .append(Symbol.SPACE).append(column).append(Symbol.SPACE).append(Symbol.EQUAL).append(Symbol.SPACE)
                 .append(whereVal).append(Symbol.SPACE).append(SqlSegment.AND).append(Symbol.SPACE).append(sqlQuery);
         // 设置结果
-        info(LOGGER, WebLogger.I_COMMON_INFO, sql.toString());
         final Long ret = this.getContext(config).count(sql.toString());
         return ret == Constants.ZERO;
     }

@@ -1,6 +1,6 @@
 package com.prayer.bus.impl.deploy;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.peError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,7 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
         try {
             dataList = this.readJson(jsonPath);
         } catch (AbstractSystemException ex) {
-            info(getLogger(), "SYS.KIT.SER", ex);
+            peError(getLogger(),ex);
             result.error(ex);
         }
         try {
@@ -92,7 +92,7 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
                 this.getDao().insert(dataList.toArray(new RuleModel[] {}));
             }
         } catch (AbstractTransactionException ex) {
-            info(getLogger(), "SYS.KIT.DP", ex);
+            peError(getLogger(),ex);
             result.error(ex);
         }
         // 4.返回最终的Result信息

@@ -1,6 +1,12 @@
 package com.prayer.util.bus;
 
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peError;
+
 import java.util.concurrent.ConcurrentMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.web.PrimaryKeyMissingException;
@@ -20,6 +26,8 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class Interruptor {    // NOPMD
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(Interruptor.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     /**
@@ -51,6 +59,7 @@ public final class Interruptor {    // NOPMD
                 error = new ServiceParamMissingException(clazz, Constants.PARAM.PAGE.NAME);
             }
         } catch (ClassCastException ex) {
+            jvmError(LOGGER,ex);
             error = new ServiceParamInvalidException(clazz, ex.toString());
         }
         return error;
@@ -113,8 +122,7 @@ public final class Interruptor {    // NOPMD
                 }
             }
         } catch (AbstractException ex) {
-            // TODO:
-            ex.printStackTrace();// NOPMD
+            peError(LOGGER,ex);
         }
         return isUpdate;
     }
@@ -135,6 +143,7 @@ public final class Interruptor {    // NOPMD
                 }
             }
         } catch (AbstractException ex) {
+            peError(LOGGER,ex);
             error = ex;
         }
         return error;

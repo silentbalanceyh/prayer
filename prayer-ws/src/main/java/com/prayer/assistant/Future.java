@@ -1,6 +1,6 @@
 package com.prayer.assistant;
 
-import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Log.peError;
 
 import javax.net.ssl.SSLEngineResult.Status;
 
@@ -50,10 +50,8 @@ public final class Future {
     public static void error400(@NotNull final Class<?> clazz, @NotNull final RoutingContext context,
             @NotNull final AbstractWebException error) {
         final Responsor responsor = Responsor.failure(StatusCode.BAD_REQUEST, error);
-        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
-                error.getErrorMessage());
+        peError(LOGGER,error);
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 400  ->  " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -74,10 +72,8 @@ public final class Future {
                     params[2].toString());
         }
         final Responsor responsor = Responsor.failure(StatusCode.BAD_REQUEST, error);
-        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.BAD_REQUEST.status(), StatusCode.BAD_REQUEST.toString(),
-                error.getErrorMessage());
+        peError(LOGGER,error);
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 400  ->  " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -91,10 +87,8 @@ public final class Future {
             @NotNull @NotBlank @NotEmpty final String path) {
         final AbstractWebException error = new UriSpecificationMissingException(clazz, path);
         final Responsor responsor = Responsor.failure(StatusCode.NOT_FOUND, error);
-        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.NOT_FOUND.status(), StatusCode.NOT_FOUND.toString(),
-                error.getErrorMessage());
+        peError(LOGGER,error);
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 404  ->  " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -108,10 +102,8 @@ public final class Future {
             @NotNull final HttpMethod method) {
         final AbstractWebException error = new MethodNotAllowedException(clazz, method.toString());
         final Responsor responsor = Responsor.failure(StatusCode.METHOD_NOT_ALLOWED, error);
-        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.METHOD_NOT_ALLOWED.status(),
-                StatusCode.METHOD_NOT_ALLOWED.toString(), error.getErrorMessage());
+        peError(LOGGER,error);
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 405  ->  " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -123,10 +115,8 @@ public final class Future {
     public static void error500(@NotNull final Class<?> clazz, @NotNull final RoutingContext context) {
         final AbstractWebException error = new InternalServerErrorException(clazz);
         final Responsor responsor = Responsor.error(error);
-        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.INTERNAL_SERVER_ERROR.status(),
-                StatusCode.INTERNAL_SERVER_ERROR.toString(), error.getErrorMessage());
+        peError(LOGGER,error);
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 500  ->  " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -138,10 +128,8 @@ public final class Future {
     public static void error401(@NotNull final Class<?> clazz, @NotNull final RoutingContext context) {
         final AbstractWebException error = new NotAuthorizationException(clazz, context.request().path());
         final Responsor responsor = Responsor.failure(StatusCode.UNAUTHORIZED, error);
-        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.UNAUTHORIZED.status(), StatusCode.UNAUTHORIZED.toString(),
-                error.getErrorMessage());
+        peError(LOGGER,error);
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 401  ->  " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 
@@ -155,10 +143,8 @@ public final class Future {
             @NotNull final String message) {
         final AbstractWebException error = new NotAuthorizationException(clazz, context.request().path());
         final Responsor responsor = Responsor.failure(StatusCode.UNAUTHORIZED, error, message);
-        info(LOGGER, WebLogger.E_ERROR_HTTP, StatusCode.UNAUTHORIZED.status(), StatusCode.UNAUTHORIZED.toString(),
-                error.getErrorMessage());
+        peError(LOGGER,error);
         context.put(Constants.KEY.CTX_RESPONSOR, responsor);
-        info(LOGGER, " >>>>>>>> 401  ->  " + responsor.getResult().encode());
         context.fail(responsor.getStatus().status());
     }
 

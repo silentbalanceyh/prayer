@@ -1,7 +1,7 @@
 package com.prayer.schema.workflow;
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.peError;
 
 import org.slf4j.Logger;
 
@@ -65,7 +65,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
             importer.readSchema();
             importer.ensureSchema();
         } catch (AbstractSystemException ex) {
-            info(getLogger(),errMsg + " Error : " + ex.getErrorMessage());
+            peError(getLogger(),ex);
         }
         failure("[T-ERROR] " + errMsg);
     }
@@ -89,15 +89,14 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
             if(null == dbSchema){
                 this.importer.syncSchema(schema);
             }
-            info(getLogger(),"[T] =======================> Prepare Data Finished! ");
         } catch (AbstractTransactionException ex) {
-            info(getLogger(), "4.Data Loading Exception. Loading Data... Error : " + ex.getErrorMessage());
+            peError(getLogger(),ex);
         } catch (SerializationException ex) {
-            info(getLogger(), "3.Serialization Exception. Error : " + ex.getErrorMessage());
+            peError(getLogger(),ex);
         } catch (AbstractSystemException ex) {
-            info(getLogger(), "1.Reading json schema file. Error : " + ex.getErrorMessage());
+            peError(getLogger(),ex);
         } catch (AbstractSchemaException ex) {
-            info(getLogger(), "2.Error when verifying json schema. Error : " + ex.getErrorMessage());
+            peError(getLogger(),ex);
         }
     }
     // ~ Private Methods =====================================

@@ -1,14 +1,10 @@
 package com.prayer.dao.impl.jdbc;
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.reservoir;
 
 import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 import com.prayer.base.dao.AbstractDbPool;
@@ -30,8 +26,6 @@ import net.sf.oval.guard.Pre;
 @Guarded
 public class BoneCPPool extends AbstractDbPool {
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(BoneCPPool.class);
     // ~ Instance Fields =====================================
     /**
      * SQL数据源实例，维持一个实例：OVal不支持静态变量field的约束
@@ -54,7 +48,6 @@ public class BoneCPPool extends AbstractDbPool {
      */
     public BoneCPPool(@NotNull @NotEmpty @NotBlank final String category) {
         super(category);
-        info(LOGGER, "[D] Initialized category is: " + category);
     }
 
     // ~ Override Methods ====================================

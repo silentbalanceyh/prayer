@@ -1,8 +1,8 @@
 package com.prayer.bus.impl.oob; // NOPMD
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.bus.BusinessLogger.error;
-import static com.prayer.util.bus.BusinessLogger.info;
+import static com.prayer.util.Log.info;
+import static com.prayer.util.Log.peError;
 
 import java.io.File;
 import java.net.URL;
@@ -23,7 +23,6 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.IOKit;
-import com.prayer.util.bus.BusinessLogger;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import net.sf.oval.constraint.InstanceOfAny;
@@ -89,8 +88,6 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             final String verticleFile = rootFolder + VX_VERTICLE;
             ret = this.manager.getVerticleService().importVerticles(verticleFile);
             info(LOGGER, " 1.EVX_VERTICLE ( Verticle deployed successfully ).");
-        } else {
-            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Verticle Deploy", ret.getErrorMessage());
         }
 
         // 2.EVX_ROUTE
@@ -104,8 +101,6 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                 ret = this.manager.getRouteService().importToList(routeFolder + file);
                 info(LOGGER, " 2.EVX_ROUTE ( Route deployed successfully ). PATH = " + routeFolder + file);
             }
-        } else {
-            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Route Deploy", ret.getErrorMessage());
         }
 
         // 3.EVX_URI
@@ -140,14 +135,9 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                                         " ---> 4.EVX_RULE ( Rule deployed successfully ) " + "Method = "
                                                 + model.getMethod().toString() + ", URL = " + model.getUri()
                                                 + ", Rule = " + ruleFile);
-                            } else {
-                                error(LOGGER, BusinessLogger.E_PROCESS_ERR,
-                                        model.getUri() + " Rule Deploy : file = " + ruleFile, ret.getErrorMessage());
                             }
                         }
                     }
-                } else {
-                    error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Uri Deploy", ret.getErrorMessage());
                 }
             }
         }
@@ -159,8 +149,6 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             final String addressFile = rootFolder + VX_ADDRESS;
             ret = this.manager.getAddressService().importToList(addressFile);
             info(LOGGER, " 5.EVX_ADDRESS ( Message Address deployed successfully ).");
-        } else {
-            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Address Deploy", ret.getErrorMessage());
         }
         // 6.ENG_SCRIPT
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
@@ -173,14 +161,9 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                 ret = this.manager.getScriptService().importToList(scriptFolder + "/" + file);
                 if (ResponseCode.SUCCESS == ret.getResponseCode()) {
                     info(LOGGER, " ---> 6.EVX_SCRIPT ( Script deployed successfully : " + file + " )");
-                } else {
-                    error(LOGGER, BusinessLogger.E_PROCESS_ERR,
-                            "Script file = " + file + ", it met errors when deploying.", ret.getErrorMessage());
                 }
             }
             info(LOGGER, " 6.EVX_SCRIPT ( All Scripts deployed successfully ).");
-        } else {
-            error(LOGGER, BusinessLogger.E_PROCESS_ERR, "Script Deploy", ret.getErrorMessage());
         }
         // 2.导入OOB中的Schema定义
         {
@@ -198,12 +181,12 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
             result.success(Boolean.TRUE);
         } else {
             final AbstractException exp = new DeploymentException(getClass());
+            peError(LOGGER,exp);
             if (ResponseCode.ERROR == ret.getResponseCode()) {
                 result.error(exp);
             } else {
                 result.failure(exp);
             }
-            error(LOGGER, BusinessLogger.E_DPDATA_ERR);
         }
         return result;
     }

@@ -1,13 +1,8 @@
 package com.prayer.plugin.validator;
 
-import static com.prayer.util.Error.info;
-
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.exception.database.ValidatorConflictException;
@@ -28,8 +23,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 final class PatternValidator implements Validator { // NOPMD
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(PatternValidator.class);
     /** 符合该验证器的属性 **/
     private static final DataType[] T_REQUIRED = new DataType[] { DataType.STRING, DataType.XML, DataType.JSON,
             DataType.SCRIPT };
@@ -50,9 +43,7 @@ final class PatternValidator implements Validator { // NOPMD
         }
         boolean ret = false;
         // 检查Pattern是否符合
-        if (null == params[0]) {
-            info(LOGGER, "[E] Param[0] is null and execution error !");
-        } else {
+        if (null != params[0]) {
             final Pattern pattern = Pattern.compile(params[0].toString());
             final Matcher matcher = pattern.matcher(value.literal());
             ret = matcher.matches();

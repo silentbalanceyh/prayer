@@ -1,6 +1,6 @@
 package com.prayer.util.db;
 
-import static com.prayer.util.Error.debug;
+import static com.prayer.util.Log.debug;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 
 import com.prayer.facade.dao.JdbcTransducer.T;
 import com.prayer.facade.kernel.Value;
+import com.prayer.util.cv.log.DebugKey;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
@@ -58,7 +59,7 @@ public final class Input {
                 final int size = values.size();
                 for (int idx = 1; idx <= size; idx++) {
                     // 以数据库的Index为主，数据库从1开始索引，数组本身从0开始索引
-                    debug(LOGGER, "[DB-INPUT] (Insert) Index = " + idx + ", Value = " + values.get(idx - 1));
+                    debug(LOGGER, DebugKey.INFO_JDBC_PARAM, idx, values.get(idx - 1));
                     T.get().injectArgs(stmt, idx, values.get(idx - 1));
                 }
                 return stmt;
@@ -83,7 +84,7 @@ public final class Input {
                 final int size = values.size();
                 for (int idx = 1; idx <= size; idx++) {
                     // 以数据库的Index为主，数据库从1开始索引，数组本身从0开始索引
-                    debug(LOGGER, "[DB-INPUT] Index = " + idx + ", Value = " + values.get(idx - 1));
+                    debug(LOGGER, DebugKey.INFO_JDBC_PARAM, idx, values.get(idx - 1));
                     T.get().injectArgs(stmt, idx, values.get(idx - 1));
                 }
                 return stmt;

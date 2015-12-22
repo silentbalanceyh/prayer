@@ -1,7 +1,8 @@
 package com.prayer.bus.impl.std;
 
-import static com.prayer.util.bus.BusinessLogger.error;
-import static com.prayer.util.bus.BusinessLogger.info;
+import static com.prayer.util.Log.debug;
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peError;
 
 import javax.script.ScriptException;
 
@@ -15,8 +16,8 @@ import com.prayer.exception.web.JSScriptEngineException;
 import com.prayer.facade.bus.BasicAuthService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.kernel.GenericRecord;
-import com.prayer.util.bus.BusinessLogger;
 import com.prayer.util.bus.Interruptor;
+import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -56,18 +57,20 @@ public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthServic
     @Override
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
-        info(getLogger(), BusinessLogger.I_PARAM_INFO, "GET", jsonObject.encode());
+        debug(getLogger(), DebugKey.INFO_SEV_PARAM, "GET", jsonObject.encode());
         ServiceResult<JsonArray> ret = new ServiceResult<>();
-        final AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
         if (null == error) {
             try {
                 ret = this.getHelper().sharedFind(jsonObject);
-            } catch (ScriptException ex) {
-                error(getLogger(), BusinessLogger.E_JS_ERROR, ex.toString());
-                ret.error(new JSScriptEngineException(getClass(), ex.toString()));
             } catch (AbstractException ex) {
-                error(getLogger(), BusinessLogger.E_AT_ERROR, ex.toString());
+                peError(getLogger(), ex);
                 ret.failure(ex);
+            } catch (ScriptException ex) {
+                jvmError(getLogger(), ex);
+                error = new JSScriptEngineException(getClass(), ex.toString());
+                peError(getLogger(), error);
+                ret.error(error);
             }
         } else {
             ret.failure(error);

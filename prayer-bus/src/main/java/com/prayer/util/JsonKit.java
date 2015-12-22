@@ -1,7 +1,7 @@
-package com.prayer.util;    // NOPMD
+package com.prayer.util; // NOPMD
 
-import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peError;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,8 +43,6 @@ public final class JsonKit { // NOPMD
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonKit.class);
     /** **/
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    /** **/
-    private static final String ERR_20004 = "E20004";
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -62,12 +60,15 @@ public final class JsonKit { // NOPMD
             final InputStream inStream = IOKit.getFile(file, JsonKit.class);
             ret = MAPPER.readValue(inStream, reference);
         } catch (JsonParseException ex) {
-            info(LOGGER, "E20003", ex, ex.toString());
-            throw new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
+            jvmError(LOGGER, ex);
+            final AbstractSystemException error = new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
+            peError(LOGGER, error);
+            throw error;
         } catch (IOException ex) {
-            // DEBUG: ex.printStackTrace();
-            info(LOGGER, "E20002", ex, file);
-            throw new ResourceIOException(JsonKit.class, file); // NOPMD
+            jvmError(LOGGER, ex);
+            final AbstractSystemException error = new ResourceIOException(JsonKit.class, file); // NOPMD
+            peError(LOGGER, error);
+            throw error;
         }
         return ret;
     }
@@ -84,9 +85,9 @@ public final class JsonKit { // NOPMD
         try {
             retObj = MAPPER.readValue(content, reference);
         } catch (JsonParseException ex) {
-            debug(LOGGER, ERR_20004, ex, content);
+            jvmError(LOGGER, ex);
         } catch (IOException ex) {
-            debug(LOGGER, ERR_20004, ex, content);
+            jvmError(LOGGER, ex);
         }
         return retObj;
     }
@@ -102,9 +103,9 @@ public final class JsonKit { // NOPMD
         try {
             retObj = MAPPER.readValue(content, reference);
         } catch (JsonParseException ex) {
-            debug(LOGGER, ERR_20004, ex, content);
+            jvmError(LOGGER, ex);
         } catch (IOException ex) {
-            debug(LOGGER, ERR_20004, ex, content);
+            jvmError(LOGGER, ex);
         }
         return retObj;
     }
@@ -119,7 +120,7 @@ public final class JsonKit { // NOPMD
         try {
             retStr = MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException ex) {
-            debug(LOGGER, ERR_20004, ex, retStr);
+            jvmError(LOGGER, ex);
         }
         return retStr;
     }
@@ -137,11 +138,15 @@ public final class JsonKit { // NOPMD
             retNode = MAPPER.readValue(inStream, new TypeReference<JsonNode>() {
             });
         } catch (JsonParseException ex) {
-            debug(LOGGER, "E20003", ex, ex.toString());
-            throw new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
+            jvmError(LOGGER, ex);
+            final AbstractSystemException error = new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
+            peError(LOGGER, error);
+            throw error;
         } catch (IOException ex) {
-            debug(LOGGER, "E20002", ex, filePath);
-            throw new ResourceIOException(JsonKit.class, filePath); // NOPMD
+            jvmError(LOGGER, ex);
+            final AbstractSystemException error = new ResourceIOException(JsonKit.class, filePath); // NOPMD
+            peError(LOGGER, error);
+            throw error;
         }
         return retNode;
     }
@@ -159,9 +164,9 @@ public final class JsonKit { // NOPMD
             arrNode = MAPPER.readValue(content, new TypeReference<ArrayNode>() {
             });
         } catch (JsonParseException ex) {
-            debug(LOGGER, "E20003", ex, content);
+            jvmError(LOGGER, ex);
         } catch (IOException ex) {
-            debug(LOGGER, "E20002", ex, "jsonNode");
+            jvmError(LOGGER, ex);
         }
         return arrNode;
     }

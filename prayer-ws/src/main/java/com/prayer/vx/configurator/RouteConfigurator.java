@@ -1,9 +1,9 @@
 package com.prayer.vx.configurator;
 
-import static com.prayer.assistant.WebLogger.error;
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.info;
+import static com.prayer.util.Log.peError;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Interruptor;
-import com.prayer.assistant.WebLogger;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.facade.bus.ConfigService;
@@ -104,9 +103,8 @@ public class RouteConfigurator {
                 route = route.consumes(mime);
             }
         }
-        /* 
-         * Producer会影响Match的流程
-         * if (null != metadata.getProducerMimes() &&
+        /*
+         * Producer会影响Match的流程 if (null != metadata.getProducerMimes() &&
          * !metadata.getProducerMimes().isEmpty()) { for (final String mime :
          * metadata.getProducerMimes()) { info(LOGGER, "[I-WEB] Produce -> " +
          * mime + " : " + route); route = route.produces(mime); } }
@@ -156,7 +154,7 @@ public class RouteConfigurator {
                 route.failureHandler(instance(metadata.getFailureHandler()));
             }
         } catch (AbstractWebException ex) {
-            error(LOGGER, WebLogger.E_HANDLER_ERROR, ex.getErrorMessage());
+            peError(LOGGER, ex);
         }
     }
 

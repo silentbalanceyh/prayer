@@ -1,6 +1,6 @@
 package com.prayer.util.dao;
 
-import static com.prayer.util.Error.debug;
+import static com.prayer.util.Log.debug;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,6 +22,7 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
+import com.prayer.util.cv.log.DebugKey;
 
 /**
  * 
@@ -165,11 +166,11 @@ public final class Interrupter {
         public static void interrupt(final Class<?> clazz, final MetaPolicy policy, final boolean isMulti)
                 throws AbstractDatabaseException {
             if (isMulti && MetaPolicy.COLLECTION != policy) {
-                debug(LOGGER, "Multi = true, policy must be COLLECTION");
+                debug(LOGGER, DebugKey.INFO_RV_POLICY,"true","must");
                 throw new PolicyConflictCallException(clazz, policy.toString());
             }
             if (!isMulti && MetaPolicy.COLLECTION == policy) {
-                debug(LOGGER, "Multi = false, policy must not be COLLECTION");
+                debug(LOGGER, DebugKey.INFO_RV_POLICY,"false","mustn't");
                 throw new PolicyConflictCallException(clazz, policy.toString());
             }
         }

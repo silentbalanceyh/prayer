@@ -1,6 +1,6 @@
 package com.prayer.console.handler;
 
-import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Log.debug;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.WebLogger;
 import com.prayer.util.PropertyKit;
 import com.prayer.util.cv.Resources;
+import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpMethod;
@@ -57,7 +57,7 @@ public final class OptionsHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_CFG_HANDLER, getClass().getName());
+        debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
         final HttpServerRequest request = context.request();
         final String path = request.path();
         if (path.contains("/options/h2")) {

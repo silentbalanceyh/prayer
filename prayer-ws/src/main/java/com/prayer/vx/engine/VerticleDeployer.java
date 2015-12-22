@@ -1,8 +1,8 @@
 package com.prayer.vx.engine;
 
-import static com.prayer.assistant.WebLogger.error;
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.error;
+import static com.prayer.util.Log.info;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Interruptor;
-import com.prayer.assistant.WebLogger;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.handler.deploy.VerticleAsyncHandler;
 import com.prayer.vx.configurator.VerticleConfigurator;
@@ -42,7 +41,10 @@ public class VerticleDeployer {
     private static final ConcurrentMap<String, DeploymentOptions> DATA_SYNC = new ConcurrentHashMap<>();
     /** 异步队列 **/
     private static final ConcurrentMap<String, DeploymentOptions> DATA_ASYNC = new ConcurrentHashMap<>();
-
+    /** **/
+    private static final String E_VERTICLE_COUNT = "({0}) Vertx reference = {1}, Queue Size = {2}";
+    /** **/
+    private static final String I_VERTICLE_COUNT = "({0}) Verticle count number = {1}";
     // ~ Instance Fields =====================================
 
     /** Vertx的唯一全局引用 **/
@@ -93,9 +95,9 @@ public class VerticleDeployer {
      */
     private void deploySyncVerticles() throws AbstractWebException {
         if (DATA_SYNC.isEmpty() || null == this.vertxRef) {
-            error(LOGGER, WebLogger.E_VERTICLE_COUNT, SYNC, this.vertxRef, DATA_SYNC.size());
+            error(LOGGER, E_VERTICLE_COUNT, SYNC, this.vertxRef, DATA_SYNC.size());
         } else {
-            info(LOGGER, WebLogger.I_VERTICLE_COUNT, SYNC, DATA_SYNC.size());
+            info(LOGGER, I_VERTICLE_COUNT, SYNC, DATA_SYNC.size());
             for (final String name : DATA_SYNC.keySet()) {
                 // 1.检查当前配置
                 Interruptor.interruptClass(getClass(), name, "Verticle");
@@ -103,7 +105,7 @@ public class VerticleDeployer {
                 // 2.发布这个Verticle
                 this.vertxRef.deployVerticle(name, DATA_SYNC.get(name));
             }
-            info(LOGGER, WebLogger.I_COMMON_INFO, "(Sync) All Verticles have been deployed successfully!");
+            info(LOGGER, "(Sync) All Verticles have been deployed successfully!");
         }
     }
 
@@ -114,9 +116,9 @@ public class VerticleDeployer {
      */
     private void deployAsyncVerticles() throws AbstractWebException {
         if (DATA_SYNC.isEmpty() || null == this.vertxRef) {
-            error(LOGGER, WebLogger.E_VERTICLE_COUNT, ASYNC, this.vertxRef, DATA_ASYNC.size());
+            error(LOGGER, E_VERTICLE_COUNT, ASYNC, this.vertxRef, DATA_ASYNC.size());
         } else {
-            info(LOGGER, WebLogger.I_VERTICLE_COUNT, ASYNC, DATA_ASYNC.size());
+            info(LOGGER, I_VERTICLE_COUNT, ASYNC, DATA_ASYNC.size());
             for (final String name : DATA_ASYNC.keySet()) {
                 // 1.检查当前配置
                 Interruptor.interruptClass(getClass(), name, "Verticle");

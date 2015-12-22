@@ -1,8 +1,8 @@
 package com.prayer.handler.web;
 
-import static com.prayer.assistant.WebLogger.error;
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Log.debug;
+import static com.prayer.util.Log.peError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +10,12 @@ import org.slf4j.LoggerFactory;
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Future;
 import com.prayer.assistant.Interruptor;
-import com.prayer.assistant.WebLogger;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -51,11 +51,11 @@ public class ServiceHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.SERVICE),context.request().path());
-        
+        debug(LOGGER, DebugKey.WEB_STG_HANDLER, getClass().getName(), String.valueOf(Constants.ORDER.SERVICE),
+                context.request().path());
+
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
-        info(LOGGER, " >>>>>>>> Before Service ==========> " + requestor.getData().encode());
         final UriModel uri = Extractor.uri(context);
         // 2.Service获取参数信息
         if (null == uri) {
@@ -67,7 +67,8 @@ public class ServiceHandler implements Handler<RoutingContext> {
             requestor.getParams().put(JsonKey.PARAMS.SCRIPT, uri.getScript());
             requestor.getParams().put(JsonKey.PARAMS.METHOD, uri.getMethod());
             requestor.getParams().put(JsonKey.PARAMS.FILTERS, uri.getReturnFilters());
-            requestor.getParams().put(JsonKey.PARAMS.DATA, requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS));
+            requestor.getParams().put(JsonKey.PARAMS.DATA,
+                    requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS));
             // 设置VertX信息
             final Vertx vertx = context.vertx();
             final EventBus bus = vertx.eventBus();
@@ -81,7 +82,7 @@ public class ServiceHandler implements Handler<RoutingContext> {
                 // 通过Sender发送Message
                 bus.send(uri.getAddress(), requestor.getParams(), sender);
             } catch (AbstractWebException ex) {
-                error(LOGGER, WebLogger.E_COMMON_EXP, ex.toString());
+                peError(LOGGER, ex);
                 Future.error500(getClass(), context);
             }
         }

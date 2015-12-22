@@ -215,6 +215,7 @@ public class OracleDao06TestCase extends AbstractRDaoTestTool { // NOPMD
             order.add("T_ID","ASC");
             final Pager page = new Pager(2,3);
             
+            @SuppressWarnings("unused")
             final ConcurrentMap<Long, List<Record>> selectRlist = this.getRecordDao().queryByPage(before, cols, null, null ,order, page);
         }
     }

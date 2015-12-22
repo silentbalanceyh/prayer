@@ -1,16 +1,16 @@
 package com.prayer.uca.sender;
 
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Converter.fromStr;
+import static com.prayer.util.Log.debug;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Future;
-import com.prayer.assistant.WebLogger;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.StatusCode;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
+import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -53,7 +53,7 @@ public final class JsonRecordSender implements Handler<AsyncResult<Message<Objec
     @Override
     @PreValidateThis
     public void handle(@NotNull final AsyncResult<Message<Object>> event) {
-        info(LOGGER, WebLogger.I_COMMON_INFO, "Sender --> " + getClass().toString());
+        debug(LOGGER, DebugKey.WEB_UCA, "Sender --> " + getClass().toString());
         if (event.succeeded()) {
             final JsonObject retData = (JsonObject) event.result().body();
 

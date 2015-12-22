@@ -1,8 +1,8 @@
 package com.prayer.base.dao; // NOPMD
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.peError;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -80,7 +80,7 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
     /** Entity **/
     public abstract T newT();
 
-    /** Logger Reference **/
+    /** Log Reference **/
     public abstract Logger getLogger();
 
     // ~ Override Methods ====================================
@@ -103,8 +103,7 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
         try {
             retList = this.getDao().insert(entity);
         } catch (AbstractTransactionException ex) {
-            info(getLogger(),
-                    "[E] H2 Database (Insert) Error, (AbstractTransactionException) ex = " + ex.getErrorMessage());
+            peError(getLogger(),ex);
             Response.interrupt(getClass(), false);
         }
         // 6.处理返回值
@@ -162,8 +161,7 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
         try {
             retT = this.getDao().update(entity);
         } catch (AbstractTransactionException ex) {
-            info(getLogger(),
-                    "[E] H2 Database (Update) Error, (AbstractTransactionException) ex = " + ex.getErrorMessage());
+            peError(getLogger(),ex);
             Response.interrupt(getClass(), false);
         }
         return this.fromEntity(record.identifier(), retT);

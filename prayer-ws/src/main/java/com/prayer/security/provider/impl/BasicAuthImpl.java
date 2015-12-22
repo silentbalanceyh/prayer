@@ -1,13 +1,12 @@
 package com.prayer.security.provider.impl;
 
-import static com.prayer.assistant.WebLogger.error;
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.error;
+import static com.prayer.util.Log.jvmError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.WebLogger;
 import com.prayer.bus.impl.std.BasicAuthSevImpl;
 import com.prayer.facade.bus.BasicAuthService;
 import com.prayer.model.bus.ServiceResult;
@@ -41,6 +40,15 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthImpl.class);
+    
+    /** **/
+    private static final String AUE_USERNAME = "Passed parameter 'authInfo' must contain username in 'username' field";
+    /** **/
+    private static final String AUE_PASSWORD = "Passed parameter 'authInfo' must contain password in 'password' field";
+    /** **/
+    private static final String AUE_USER_INVALID = "User does not exist in database, please provide valid user.";
+    /** **/
+    private static final String AUE_AUTH_FAILURE = "Authentication failure, the password does not match.";
     // ~ Instance Fields =====================================
     /** 配置程序 **/
     @NotNull
@@ -85,7 +93,6 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
                 if (StringUtil.equals(inputPWD, storedPWD)) {
                     final String username = retObj
                             .getString(this.configurator.getSecurityOptions().getString(BASIC.ACCOUNT_ID));
-                    info(LOGGER, WebLogger.I_COMMON_INFO, retObj.encode());
                     data.getJsonObject(JsonKey.RESPONSE.NAME).put(Constants.PARAM.DATA, retObj);
                     data.getJsonObject(JsonKey.REQUEST.NAME).put(JsonKey.REQUEST.LOGIN_URL,
                             this.configurator.getSecurityOptions().getString(BASIC.LOGIN_URL));
@@ -96,19 +103,18 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
                     // 构建用户信息
                     handler.handle(Future.succeededFuture(this.buildUserData(this, data)));
                 } else {
-                    error(LOGGER, WebLogger.AUE_AUTH_FAILURE);
+                    error(LOGGER, AUE_AUTH_FAILURE);
                     errorHandler(data, handler, RET_I_USER_PWD);
                     return; // NOPMD
                 }
             } else {
-                error(LOGGER, WebLogger.AUE_USER_INVALID);
+                error(LOGGER, AUE_USER_INVALID);
                 errorHandler(data, handler, RET_M_INVALID);
                 return;
             }
         }
-        // TODO
         catch (Exception ex) { // NOPMD
-            ex.printStackTrace(); // NOPMD
+            jvmError(LOGGER,ex);
         }
     }
 
@@ -125,7 +131,7 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
     private boolean interruptParam(final JsonObject data, final Handler<AsyncResult<User>> handler) {
         final String username = data.getJsonObject(JsonKey.TOKEN.NAME).getString(JsonKey.TOKEN.USERNAME);
         if (StringKit.isNil(username)) {
-            error(LOGGER, WebLogger.AUE_USERNAME);
+            error(LOGGER, AUE_USERNAME);
             errorHandler(data, handler, RET_M_USER);
             // errorHandler(data, resultHandler, WebLogger.AUE_USERNAME,
             // RET_M_USER);
@@ -133,7 +139,7 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
         }
         final String password = data.getJsonObject(JsonKey.TOKEN.NAME).getString(JsonKey.TOKEN.PASSWORD);
         if (StringKit.isNil(password)) {
-            error(LOGGER, WebLogger.AUE_PASSWORD);
+            error(LOGGER, AUE_PASSWORD);
             errorHandler(data, handler, RET_M_PWD);
             // errorHandler(data, resultHandler, WebLogger.AUE_PASSWORD,
             // RET_M_PWD);

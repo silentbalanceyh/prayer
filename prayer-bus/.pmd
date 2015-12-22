@@ -108,6 +108,10 @@
             <ruleset>Basic</ruleset>
         </rule>
         <rule>
+            <name>AssignmentInOperand</name>
+            <ruleset>Basic Ecmascript</ruleset>
+        </rule>
+        <rule>
             <name>AvoidTrailingComma</name>
             <ruleset>Basic Ecmascript</ruleset>
         </rule>
@@ -326,10 +330,6 @@
         <rule>
             <name>CommentRequired</name>
             <ruleset>Comments</ruleset>
-        </rule>
-        <rule>
-            <name>AssignmentInOperand</name>
-            <ruleset>Controversial</ruleset>
         </rule>
         <rule>
             <name>AvoidAccessibilityAlteration</name>

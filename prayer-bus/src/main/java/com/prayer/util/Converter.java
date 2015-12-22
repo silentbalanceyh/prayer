@@ -1,6 +1,6 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.debug;
+import static com.prayer.util.Log.jvmError;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -130,9 +130,9 @@ public final class Converter {
             reader.close();
             retStr = new String(charArr);
         } catch (SQLException ex) {
-            debug(LOGGER, "JVM.SQL", ex, "Converter.toStr");
+            jvmError(LOGGER,ex);
         } catch (IOException ex) {
-            debug(LOGGER, "JVM.IO", ex, "Clob");
+            jvmError(LOGGER,ex);
         }
         return retStr;
     }
@@ -149,7 +149,7 @@ public final class Converter {
         try {
             retEnum = Enum.valueOf(clazz, inputStr);
         } catch (IllegalArgumentException ex) {
-            debug(LOGGER, "JVM.ENUM", ex, inputStr);
+            jvmError(LOGGER,ex);
         }
         return retEnum;
     }

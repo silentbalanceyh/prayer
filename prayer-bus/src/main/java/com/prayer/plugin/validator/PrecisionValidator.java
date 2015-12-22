@@ -1,11 +1,6 @@
 package com.prayer.plugin.validator;
 
-import static com.prayer.util.Error.info;
-
 import java.math.BigDecimal;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.exception.database.ValidatorConflictException;
@@ -27,9 +22,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 final class PrecisionValidator implements Validator { // NOPMD
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(PrecisionValidator.class);
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -45,9 +37,7 @@ final class PrecisionValidator implements Validator { // NOPMD
             throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "precision");
         }
         boolean ret = false;
-        if (null == params[0] || null == params[1]) {
-            info(LOGGER, "[E] Param[0] or Param[1] is null and execution error!");
-        } else {
+        if (null != params[0] && null != params[1]) {
             final BigDecimal currentValue = (BigDecimal) value.getValue();
             if (currentValue.scale() == Integer.parseInt(params[0].toString())
                     && currentValue.precision() <= Integer.parseInt(params[1].toString())) {

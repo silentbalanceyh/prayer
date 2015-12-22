@@ -1,12 +1,13 @@
 package com.prayer.console.handler;
 
-import static com.prayer.assistant.WebLogger.info;
+import static com.prayer.util.Log.debug;
+import static com.prayer.util.Log.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.WebLogger;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.auth.User;
@@ -39,10 +40,10 @@ public class UserLoggedHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext routingContext) {
-        info(LOGGER, WebLogger.I_STD_HANDLER, getClass().getName(), Constants.ORDER.OD_PROFILE);
+        debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
         final User user = routingContext.user();
         if (null != user) {
-            info(LOGGER, " Logged user : " + user.principal().encode());
+            info(LOGGER, "Logged user : " + user.principal().encode());
             routingContext.put(Constants.WEB.SESSION_USER, user.principal().encode());
         }
         routingContext.next();

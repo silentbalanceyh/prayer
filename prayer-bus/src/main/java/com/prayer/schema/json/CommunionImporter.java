@@ -1,7 +1,8 @@
 package com.prayer.schema.json; // NOPMD
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.debug;
+import static com.prayer.util.Log.peError;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.prayer.base.exception.AbstractException;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
@@ -27,6 +29,7 @@ import com.prayer.model.kernel.SchemaExpander;
 import com.prayer.schema.CommunionSerializer;
 import com.prayer.util.JsonKit;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.log.DebugKey;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.NotBlank;
@@ -52,7 +55,7 @@ public class CommunionImporter implements Importer {
     @NotNull
     @NotEmpty
     @NotBlank
-    private transient String filePath;  // NOPMD
+    private transient String filePath; // NOPMD
     /** **/
     @NotNull
     private transient ExternalEnsurer ensurer;
@@ -78,8 +81,9 @@ public class CommunionImporter implements Importer {
     public CommunionImporter(@AssertFieldConstraints("filePath") final String filePath) {
         this.initialize(filePath);
         if (null == this.filePath) {
-            info(LOGGER, "[E] File path initializing met error!",
-                    new TypeInitException(getClass(), "Constructor: CommunionImporter(String)", this.filePath));
+            final AbstractException error = new TypeInitException(getClass(), "Constructor: CommunionImporter(String)",
+                    this.filePath);
+            peError(LOGGER, error);
         }
     }
 
@@ -126,8 +130,9 @@ public class CommunionImporter implements Importer {
     public void refreshSchema(@AssertFieldConstraints("filePath") final String filePath) {
         this.initialize(filePath);
         if (null == this.filePath) {
-            info(LOGGER, "[E] File path initializing met error!",
-                    new TypeInitException(getClass(), "void refreshSchema(String)", this.filePath));
+            final AbstractException error = new TypeInitException(getClass(), "void refreshSchema(String)",
+                    this.filePath);
+            peError(LOGGER, error);
         }
     }
 
@@ -144,7 +149,7 @@ public class CommunionImporter implements Importer {
             this.schema.setKeys(this.readKeys());
             this.schema.setFields(this.readFields());
         } catch (SerializationException ex) {
-            info(LOGGER, "Serialization Exception Happen! Data = " + this.rawData.toString(), ex);
+            peError(LOGGER, ex);
             this.schema = null; // NOPMD
         }
         return schema;
@@ -154,15 +159,14 @@ public class CommunionImporter implements Importer {
      * 
      */
     @Override
-    @Pre(expr = "_this.schemaDao != null",lang = Constants.LANG_GROOVY)
+    @Pre(expr = "_this.schemaDao != null", lang = Constants.LANG_GROOVY)
     public boolean syncSchema(@NotNull final GenericSchema schema) throws AbstractTransactionException {
         GenericSchema retSchema = null;
-        info(LOGGER, "[I] UniqueId = " + schema.getMeta().getUniqueId());
         if (null == this.schemaDao.getById(schema.getIdentifier())) {
-            info(LOGGER, "[I] Going to Build Model: Create Process! Input Meta: " + schema.getMeta());
+            debug(LOGGER, DebugKey.INFO_SMA_SYNC, "New Build", "Creating", schema.getMeta());
             retSchema = schemaDao.create(schema);
         } else {
-            info(LOGGER, "[I] Going to Sync Model: Update Process! Input Meta: " + schema.getMeta());
+            debug(LOGGER, DebugKey.INFO_SMA_SYNC, "Sync", "Updating", schema.getMeta());
             retSchema = schemaDao.synchronize(schema);
         }
         boolean result = false;
@@ -183,7 +187,7 @@ public class CommunionImporter implements Importer {
      * 
      */
     @Override
-    @Pre(expr = "_this.ensurer != null",lang = Constants.LANG_GROOVY)
+    @Pre(expr = "_this.ensurer != null", lang = Constants.LANG_GROOVY)
     public ExternalEnsurer getEnsurer() {
         return this.ensurer;
     }

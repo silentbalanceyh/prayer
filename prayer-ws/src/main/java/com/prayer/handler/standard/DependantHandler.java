@@ -1,10 +1,10 @@
 package com.prayer.handler.standard;
 
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Converter.toStr;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.debug;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Future;
 import com.prayer.assistant.Interruptor;
-import com.prayer.assistant.WebLogger;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.exception.web.DependParameterInvalidException;
@@ -37,6 +36,7 @@ import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.DependRule;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
+import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
@@ -77,7 +77,7 @@ public class DependantHandler implements Handler<RoutingContext> {
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        info(LOGGER, WebLogger.I_CFG_HANDLER, getClass().getName(), context.request().path());
+        debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
         final UriModel uri = Extractor.uri(context);

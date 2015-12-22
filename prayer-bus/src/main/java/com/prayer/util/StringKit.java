@@ -1,7 +1,6 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.jvmError;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -41,10 +40,9 @@ public final class StringKit {
         try {
             ret = URLDecoder.decode(inputValue, Resources.SYS_ENCODING.name());
         } catch (UnsupportedEncodingException ex) {
-            debug(LOGGER, "JVM.ENCODING", ex, Resources.SYS_ENCODING.name());
+            jvmError(LOGGER,ex);
         } catch (IllegalArgumentException ex) {
-            // Decoding Error and pick up old value;
-            info(LOGGER, "Not Needed : " + ex.getMessage());
+            jvmError(LOGGER,ex);
         }
         return ret;
     }

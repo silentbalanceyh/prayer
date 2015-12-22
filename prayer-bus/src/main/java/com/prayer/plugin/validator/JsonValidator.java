@@ -1,6 +1,7 @@
 package com.prayer.plugin.validator;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,8 +53,10 @@ final class JsonValidator implements Validator { // NOPMD
                 PARSER.parse(value.literal());
                 ret = true;
             } catch (JsonException ex) {
-                info(LOGGER, "[E] Json Format Error! Output = " + value.literal(), ex);
-                throw new ContentErrorException(getClass(), "Json", value.literal()); // NOPMD
+                jvmError(LOGGER,ex);
+                final AbstractDatabaseException error = new ContentErrorException(getClass(), "Json", value.literal());
+                peError(LOGGER,error);
+                throw error;
             }
 
         }

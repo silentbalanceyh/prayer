@@ -1,6 +1,6 @@
 package com.prayer.bus.impl.deploy;
 
-import static com.prayer.util.Error.debug;
+import static com.prayer.util.Log.peError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +83,7 @@ public class ScriptDPSevImpl extends AbstractDPSevImpl<ScriptModel, String>imple
 		try {
 			dataList = this.readJson(jsonPath);
 		} catch (AbstractSystemException ex) {
-			debug(getLogger(), "SYS.KIT.SER", ex, jsonPath);
+		    peError(getLogger(),ex);
 			result.error(ex);
 		}
 		// 3.脚本内容读取
@@ -99,7 +99,7 @@ public class ScriptDPSevImpl extends AbstractDPSevImpl<ScriptModel, String>imple
 		try {
 			this.getDao().insert(dataList.toArray(getArrayType()));
 		} catch (AbstractTransactionException ex) {
-			debug(getLogger(), "SYS.KIT.DP", ex);
+		    peError(getLogger(),ex);
 			result.error(ex);
 		}
 		if (ResponseCode.SUCCESS == result.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {

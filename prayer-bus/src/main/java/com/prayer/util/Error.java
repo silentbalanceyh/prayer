@@ -2,12 +2,8 @@ package com.prayer.util;
 
 import java.text.MessageFormat;
 
-import org.slf4j.Logger;
-
-import com.prayer.base.exception.AbstractException;
 import com.prayer.util.cv.Resources;
 
-import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.Max;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -58,113 +54,6 @@ public final class Error { // NOPMD
     public static String error(@NotNull final Class<?> clazz, @Max(-10000) final int errorCode,
             final Object... params) {
         return format(clazz, errorKey('E', errorCode), params);
-    }
-
-    /**
-     * 
-     * @param logger
-     * @param clazz
-     * @param errKey
-     * @param exp
-     * @param params
-     */
-    public static void debug(@NotNull final Logger logger, @NotNull final Class<?> clazz, final String errKey,
-            @InstanceOfAny(AbstractException.class) final AbstractException exp,
-            final Object... params) {
-        final StringBuilder errMsg = new StringBuilder("[D] ==> ");
-        if (logger.isDebugEnabled()) {
-            if (StringKit.isNil(errKey)) {
-                errMsg.append(format(clazz, errorKey('D', exp.getErrorCode()), params));
-                logger.debug(errMsg.toString(), exp);
-            } else {
-                errMsg.append(format(clazz, errKey, exp.getErrorCode(), params));
-                logger.debug(errMsg.toString(), exp);
-            }
-        }
-    }
-
-    /**
-     * 直接输出信息
-     * 
-     * @param logger
-     * @param errKey
-     * @param params
-     */
-    public static void debug(@NotNull final Logger logger, @NotNull final String errKey, final Object... params) {
-        debug(logger, errKey, null, params);
-    }
-
-    /**
-     * 
-     * @param logger
-     * @param errKey
-     * @param exp
-     * @param params
-     */
-    public static void debug(@NotNull final Logger logger, @NotNull final String errKey, final Throwable exp,
-            final Object... params) {
-        if (logger.isDebugEnabled()) {
-            if (null == exp) {
-                logger.debug(message(errKey, params), params);
-            } else {
-                logger.debug(message(errKey, params), params, exp);
-            }
-        }
-    }
-
-    /**
-     * 
-     * @param logger
-     * @param message
-     */
-    public static void debug(@NotNull final Logger logger, @NotNull @NotBlank @NotEmpty final String message) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(message);
-        }
-    }
-
-    /**
-     * 
-     * @param logger
-     * @param errKey
-     * @param exp
-     * @param params
-     */
-    public static void info(@NotNull final Logger logger, @NotNull final String errKey, final Throwable exp,
-            final Object... params) {
-        if (logger.isInfoEnabled()) {
-            if (null == exp) {
-                logger.info(message(errKey, params), params);
-            } else {
-                logger.info(message(errKey, params), params, exp);
-            }
-        }
-    }
-
-    /**
-     * 
-     * @param logger
-     * @param message
-     */
-    public static void info(@NotNull final Logger logger, @NotNull @NotBlank @NotEmpty final String message) {
-        info(logger, message, null);
-    }
-
-    /**
-     * 
-     * @param logger
-     * @param message
-     * @param exp
-     */
-    public static void info(@NotNull final Logger logger, @NotNull @NotBlank @NotEmpty final String message,
-            final Throwable exp) {
-        if (logger.isInfoEnabled()) {
-            if (null == exp) {
-                logger.info(message);
-            } else {
-                logger.info(message, exp);
-            }
-        }
     }
 
     /**

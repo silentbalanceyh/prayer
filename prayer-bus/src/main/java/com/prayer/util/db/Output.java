@@ -1,7 +1,7 @@
 package com.prayer.util.db; // NOPMD
 
-import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.debug;
+import static com.prayer.util.Log.peError;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,6 +25,7 @@ import com.prayer.model.type.IntType;
 import com.prayer.model.type.LongType;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.log.DebugKey;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinLength;
@@ -59,7 +60,7 @@ public final class Output { // NOPMD
             public Integer doInPreparedStatement(final PreparedStatement stmt)
                     throws SQLException, DataAccessException {
                 final int rows = stmt.executeUpdate();
-                debug(LOGGER, "[Output] ==> Rows : " + rows);
+                debug(LOGGER, DebugKey.INFO_JDBC_AROWS, rows);
                 return rows;
             }
         };
@@ -117,7 +118,7 @@ public final class Output { // NOPMD
                             final Value<?> value = T.get().getValue(retSet, columnTypes.get(column), column);
                             record.put(column, value);
                         } catch (AbstractDatabaseException ex) {
-                            info(LOGGER, "[DB-OUT] Exception: " + ex.getErrorMessage(), ex);
+                            peError(LOGGER, ex);
                         }
                     }
                     retList.add(record);
@@ -142,7 +143,7 @@ public final class Output { // NOPMD
                 while (retSet.next()) {
                     String value = retSet.getString(column);
                     if (StringKit.isNil(value)) {
-                        value = "";
+                        value = Constants.EMPTY_STR;
                     }
                     retList.add(value);
                 }

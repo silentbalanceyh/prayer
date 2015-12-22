@@ -1,7 +1,8 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.error;
+import static com.prayer.util.Log.info;
+import static com.prayer.util.Log.jvmError;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,6 +23,8 @@ import org.slf4j.LoggerFactory;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.Symbol;
+import com.prayer.util.cv.log.ErrorKey;
+import com.prayer.util.cv.log.InfoKey;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -71,14 +74,14 @@ public final class IOKit {
             content = builder.toString();
             reader.close();
         } catch (UnsupportedEncodingException ex) {
-            debug(LOGGER, "JVM.ENCODING", ex, Resources.SYS_ENCODING);
+            jvmError(LOGGER, ex);
         } catch (IOException ex) {
-            debug(LOGGER, "JVM.IO", ex, fileName);
+            jvmError(LOGGER, ex);
         } finally {
             try {
                 inStream.close();
             } catch (IOException ex) {
-                debug(LOGGER, "JVM.IO", ex, fileName);
+                jvmError(LOGGER, ex);
             }
         }
         return content;
@@ -149,14 +152,12 @@ public final class IOKit {
 
     private static InputStream readStream(final String fileName, final Class<?> clazz) { // NOPMD
         final InputStream retStream = clazz.getResourceAsStream(fileName);
-        debug(LOGGER, "SYS.KIT.IO.CP", fileName, retStream);
         return retStream;
     }
 
     private static InputStream readStream(final String fileName) { // NOPMD
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         final InputStream retStream = loader.getResourceAsStream(fileName);
-        debug(LOGGER, "SYS.KIT.IO.LOADER", fileName, retStream);
         return retStream;
     }
 
@@ -165,16 +166,13 @@ public final class IOKit {
         if (null != file && file.exists() && file.isFile()) {
             try {
                 retStream = new FileInputStream(file);
-                info(LOGGER, "SYS.KIT.IO.FILE", null, file.getAbsoluteFile(), retStream);
+                info(LOGGER, InfoKey.INF_PU_READ_FILE, file.getAbsolutePath());
             } catch (FileNotFoundException ex) {
-                debug(LOGGER, "SYS.KIT.IO.FILE", ex, file.getAbsolutePath(), retStream);
+                jvmError(LOGGER, ex);
             }
         } else {
-            if (null == file) {
-                debug(LOGGER, "SYS.KIT.IO.ERR.FILE", file);
-            } else {
-                debug(LOGGER, "SYS.KIT.IO.ERR.FILE", file.getAbsolutePath());
-            }
+            final String errorMsg = (null == file) ? "null" : file.getAbsolutePath();
+            error(LOGGER, ErrorKey.ERR_PU_READ_FILE, errorMsg);
         }
         return retStream;
     }

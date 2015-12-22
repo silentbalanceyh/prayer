@@ -1,6 +1,7 @@
 package com.prayer.util;
 
-import static com.prayer.util.Error.debug;
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.ovalError;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -124,8 +125,7 @@ public final class Instance { // NOPMD
         try {
             ret = Class.forName(className);
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace(); // NOPMD
-            debug(LOGGER, "JVM.CLASS", ex, className);
+            jvmError(LOGGER,ex);
         }
         return ret;
     }
@@ -188,8 +188,7 @@ public final class Instance { // NOPMD
             }
             ret = (T) field.get(instance);
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex) {
-            ex.printStackTrace(); // NOPMD
-            debug(LOGGER, "SYS.KIT.REFLECT.FIELD", ex, clazz.getName(), name);
+            jvmError(LOGGER,ex);
         }
         return ret;
     }
@@ -212,8 +211,7 @@ public final class Instance { // NOPMD
             }
             field.set(instance, value);
         } catch (IllegalAccessException | NoSuchFieldException | SecurityException ex) {
-            ex.printStackTrace(); // NOPMD
-            debug(LOGGER, "SYS.KIT.REFLECT.FIELD", ex, clazz.getName(), name);
+            jvmError(LOGGER,ex);
         }
     }
 
@@ -241,10 +239,10 @@ public final class Instance { // NOPMD
                 ret = construct(clazz, params);
             }
         } catch (ConstraintsViolatedException ex) { // NOPMD
+            ovalError(LOGGER, ex);
             throw ex;
         } catch (SecurityException ex) {
-            ex.printStackTrace(); // NOPMD
-            debug(LOGGER, "JVM.SEC", ex);
+            jvmError(LOGGER,ex);
         }
         return ret;
     }
@@ -279,12 +277,14 @@ public final class Instance { // NOPMD
             ret = (T) (constructor.newInstance(params));
         } catch (InvocationTargetException ex) {
             if (ex.getTargetException() instanceof ConstraintsViolatedException) {
-                throw (ConstraintsViolatedException) ex.getTargetException();
+                final ConstraintsViolatedException error = (ConstraintsViolatedException) ex.getTargetException();
+                ovalError(LOGGER, error);
+                throw error;
             }
         } catch (IllegalArgumentException ex) {
-            debug(LOGGER, "JVM.ARGS", ex);
+            jvmError(LOGGER,ex);
         } catch (InstantiationException | IllegalAccessException ex) {
-            debug(LOGGER, "JVM.SEC", ex);
+            jvmError(LOGGER,ex);
         }
         return ret;
     }

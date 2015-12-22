@@ -1,7 +1,8 @@
 package com.prayer.base.dao;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.Log.debug;
+import static com.prayer.util.Log.jvmError;
 import static com.prayer.util.cv.Accessors.pool;
 
 import java.io.ByteArrayInputStream;
@@ -23,6 +24,7 @@ import com.prayer.model.type.DataType;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.MemoryPool;
 import com.prayer.util.cv.Resources;
+import com.prayer.util.cv.log.DebugKey;
 import com.prayer.util.db.Input;
 import com.prayer.util.db.Output;
 
@@ -73,7 +75,7 @@ public abstract class AbstractConn implements JdbcContext {
     @Override
     public int execute(@NotNull @NotBlank @NotEmpty final String sql, final List<Value<?>> params) {
         final JdbcTemplate jdbc = this.getPool().getJdbc();
-        debug(getLogger(), "[DB] (int execute(String,List<Value<?>>)) SQL : " + sql);
+        debug(getLogger(), DebugKey.INF_SQL_STMT, sql);
         int ret = Constants.RC_FAILURE;
         if (null == params) {
             jdbc.execute(sql);
@@ -91,7 +93,7 @@ public abstract class AbstractConn implements JdbcContext {
     @Override
     public Long count(@NotNull @NotBlank @NotEmpty final String sql) {
         final JdbcTemplate jdbc = this.getPool().getJdbc();
-        debug(getLogger(), "[DB] (Long count(String)) SQL : " + sql);
+        debug(getLogger(), DebugKey.INF_SQL_STMT, sql);
         return jdbc.queryForObject(sql, Long.class);
     }
 
@@ -101,8 +103,7 @@ public abstract class AbstractConn implements JdbcContext {
             final List<Value<?>> params, @MinSize(1) final ConcurrentMap<String, DataType> columnMap,
             @MinSize(0) final String... columns) {
         final JdbcTemplate jdbc = this.getPool().getJdbc();
-        debug(getLogger(),
-                "[DB] (List<ConcurrentMap<String,String>> select(String,List<Value<?>>,String...)) SQL : " + sql);
+        debug(getLogger(), DebugKey.INF_SQL_STMT, sql);
         if (null == params) {
             return jdbc.query(sql, Output.extractDataList(columnMap, columns));
         } else {
@@ -114,7 +115,7 @@ public abstract class AbstractConn implements JdbcContext {
     @Override
     public List<String> select(@NotNull @NotBlank @NotEmpty final String sql,
             @NotNull @NotBlank @NotEmpty final String column) {
-        debug(getLogger(), "[DB] (List<String> select(String,String)) SQL : " + sql);
+        debug(getLogger(), DebugKey.INF_SQL_STMT, sql);
         final JdbcTemplate jdbc = this.getPool().getJdbc();
         return jdbc.query(sql, Output.extractColumnList(column));
     }
@@ -124,14 +125,14 @@ public abstract class AbstractConn implements JdbcContext {
     public Value<?> insert(@NotNull @NotBlank @NotEmpty final String sql,
             @NotNull @MinSize(1) final List<Value<?>> values, final boolean isRetKey, final DataType retType) {
         final JdbcTemplate jdbc = this.getPool().getJdbc();
-        debug(getLogger(), "[DB] (Value<?> insert(String,List<Value<?>>,boolean,DataType)) SQL : " + sql);
+        debug(getLogger(), DebugKey.INF_SQL_STMT, sql);
         return jdbc.execute(Input.prepStmt(sql, values, isRetKey), Output.extractIncrement(isRetKey, retType));
     }
 
     /** for oracle **/
     @Override
     public int executeBatch(@NotNull @NotBlank @NotEmpty final String sql) {
-        debug(getLogger(), "[DB] (int executeBatch(String) SQL : " + sql);
+        debug(getLogger(), DebugKey.INF_SQL_STMT, sql);
         int ret = Constants.RC_FAILURE;
         try (final Connection conn = this.getPool().getJdbc().getDataSource().getConnection()) {
             final ScriptRunner runner = new ScriptRunner(conn);
@@ -145,7 +146,7 @@ public abstract class AbstractConn implements JdbcContext {
             // conn.close();
             ret = Constants.RC_SUCCESS;
         } catch (SQLException | UnsupportedEncodingException ex) {
-            debug(getLogger(), "JVM.SQL", "public boolean executeBatch(InputStream)", ex);
+            jvmError(getLogger(),ex);
         }
         return ret;
     }

@@ -1,8 +1,8 @@
 package com.prayer.schema.json;    // NOPMD
 
 import static com.prayer.util.Converter.toStr;
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Log.peError;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -89,7 +89,7 @@ final class JObjectValidator {
             if (0 == occurs) {
                 retExp = instance(RequiredAttrMissingException.class.getName(), getClass(), attr);
                 // retExp = new RequiredAttrMissingException(getClass(), attr);
-                debug(LOGGER, getClass(), "D10001", retExp, this.name, attr);
+                peError(LOGGER, retExp);
             }
         }
         return retExp;
@@ -110,8 +110,7 @@ final class JObjectValidator {
         AbstractSchemaException retExp = null;
         if (StringUtil.equals(leftNode.asText(), rightNode.asText())) {
             retExp = new DuplicatedTablesException(getClass(), attrLeft, attrRight);
-            debug(LOGGER, getClass(), "D10020", retExp, this.name, attrLeft, leftNode.asText(), attrRight,
-                    rightNode.asText());
+            peError(LOGGER, retExp);
         }
         return retExp;
     }
@@ -129,7 +128,7 @@ final class JObjectValidator {
         AbstractSchemaException retExp = null;
         if (!attrNode.isArray() && attrNode.isContainerNode()) {
             retExp = new JsonTypeConfusedException(getClass(), attr);
-            debug(LOGGER, getClass(), "D10002.ARR", retExp, this.name, attr);
+            peError(LOGGER, retExp);
         }
         return retExp;
     }
@@ -147,7 +146,7 @@ final class JObjectValidator {
         AbstractSchemaException retExp = null;
         if (attrNode.isArray()) {
             retExp = new JsonTypeConfusedException(getClass(), attr);
-            debug(LOGGER, getClass(), "D10002.OBJ", retExp, this.name, attr);
+            peError(LOGGER, retExp);
         }
         return retExp;
     }
@@ -173,7 +172,7 @@ final class JObjectValidator {
         AbstractSchemaException retExp = null;
         if (!unsupportedSet.isEmpty()) {
             retExp = new UnsupportAttrException(getClass(), unsupportedSet);
-            debug(LOGGER, getClass(), "D10017", retExp, this.name, toStr(unsupportedSet));
+            peError(LOGGER, retExp);
         }
         return retExp;
     }
@@ -196,7 +195,7 @@ final class JObjectValidator {
         AbstractSchemaException retExp = null;
         if (!matcher.matches()) {
             retExp = new PatternNotMatchException(getClass(), attr, value, regexStr);
-            debug(LOGGER, getClass(), "D10003", retExp, this.name, attr, value, regexStr);
+            peError(LOGGER, retExp);
         }
         return retExp;
     }
@@ -216,7 +215,7 @@ final class JObjectValidator {
                 retExp = instance(OptionalAttrMorEException.class.getName(), getClass(), attr, "Missing");
                 // retExp = new OptionalAttrMorEException(getClass(), attr,
                 // "Missing");
-                debug(LOGGER, getClass(), "D10004.MIS", retExp, this.name, this.name, attr);
+                peError(LOGGER, retExp);
                 break;
             }
         }
@@ -237,7 +236,7 @@ final class JObjectValidator {
             if (0 < occurs) {
                 retExp = instance(OptionalAttrMorEException.class.getName(), getClass(), attr, "Existing");
                 // new OptionalAttrMorEException(getClass(), attr, "Existing");
-                debug(LOGGER, getClass(), "D10004.EXT", retExp, this.name, this.name, attr);
+                peError(LOGGER, retExp);
                 break;
             }
         }
@@ -256,7 +255,7 @@ final class JObjectValidator {
         if (!JsonKit.isAttrIn(this.verifiedNode, attr, values)) {
             retExp = new InvalidValueException(getClass(), attr, toStr(values), this.verifiedNode.path(attr).asText(),
                     "");
-            debug(LOGGER, getClass(), "D10005.IN", retExp, this.name, this.name, attr, toStr(values));
+            peError(LOGGER, retExp);
         }
         return retExp;
     }
@@ -275,7 +274,7 @@ final class JObjectValidator {
         if (JsonKit.isAttrIn(this.verifiedNode, attr, values)) {
             retExp = new InvalidValueException(getClass(), attr, toStr(values), this.verifiedNode.path(attr).asText(),
                     "n't");
-            debug(LOGGER, getClass(), "D10005.NIN", retExp, this.name, this.name, attr, toStr(values));
+            peError(LOGGER, retExp);
         }
         return retExp;
     }

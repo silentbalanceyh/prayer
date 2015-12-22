@@ -1,7 +1,7 @@
 package com.prayer.schema.workflow; // NOPMD
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.info;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;

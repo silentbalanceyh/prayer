@@ -2,7 +2,7 @@ package com.prayer.bus.impl.std; // NOPMD
 
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.bus.BusinessLogger.info;
+import static com.prayer.util.Log.debug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,11 +92,11 @@ public final class ServiceHelper {
         // 3. 执行Java脚本插入数据
         JsonObject retJson = null;
         if (Interruptor.isUpdate(record)) {
-            info(LOGGER, " Updating mode : Input => " + record.toString());
+            debug(LOGGER, " Updating mode : Input => " + record.toString());
             final Record updated = this.executeUpdate(record);
             retJson = serializer.extractRecord(updated);
         } else {
-            info(LOGGER, " Inserting mode : " + record.toString());
+            debug(LOGGER, " Inserting mode : " + record.toString());
             final Record inserted = this.dao.insert(record);
             retJson = this.serializer.extractRecord(inserted);
         }
@@ -210,7 +210,7 @@ public final class ServiceHelper {
                 final Value<?> value = record.idKV().values().iterator().next();
                 queried = this.dao.selectById(record, value);
             }
-            info(LOGGER, " Updating mode : Queried => " + queried.toString());
+            debug(LOGGER, " Updating mode : Queried => " + queried.toString());
             for (final String field : record.fields().keySet()) {
                 final Value<?> value = record.get(field);
                 // 标记为NU的则不更新
@@ -218,7 +218,7 @@ public final class ServiceHelper {
                     queried.set(field, record.get(field));
                 }
             }
-            info(LOGGER, " Updating mode : Updated => " + queried.toString());
+            debug(LOGGER, " Updating mode : Updated => " + queried.toString());
             return this.dao.update(queried);
         } else {
             throw error;

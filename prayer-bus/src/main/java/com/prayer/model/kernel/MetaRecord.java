@@ -1,8 +1,7 @@
 package com.prayer.model.kernel; // NOPMD
 
 import static com.prayer.util.Calculator.index;
-import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.peError;
 
 import java.util.List;
 import java.util.Set;
@@ -82,7 +81,7 @@ public class MetaRecord implements Record { // NOPMD
             this._connector = MetaConnector.connect(identifier);
         } catch (AbstractSystemException ex) {
             this._connector = null; // NOPMD
-            debug(LOGGER, getClass(), "D20006", ex, identifier);
+            peError(LOGGER,ex);
         }
         // 连接成功
         this._identifier = this._connector.identifier();
@@ -118,7 +117,7 @@ public class MetaRecord implements Record { // NOPMD
                     retMap.put(field.getColumnName(), this.column(field.getColumnName()));
                 }
             } catch (AbstractDatabaseException ex) {
-                info(LOGGER, ex.getErrorMessage());
+                peError(LOGGER,ex);
             }
         }
         return retMap;
@@ -275,7 +274,7 @@ public class MetaRecord implements Record { // NOPMD
                 final String value = null == this.column(col) ? "" : this.column(col).toString();
                 retStr.append(col).append(" : ").append(value).append(Symbol.COMMA);
             } catch (AbstractDatabaseException ex) {
-                info(LOGGER, ex.getErrorMessage());
+                peError(LOGGER,ex);
             }
         }
         return retStr.toString();
@@ -284,7 +283,6 @@ public class MetaRecord implements Record { // NOPMD
     /** **/
     @Override
     public String seqname() {
-        // TODO Auto-generated method stub
         return this.connector().seqname();
     }
 }

@@ -1,11 +1,6 @@
 package com.prayer.plugin.validator;
 
-import static com.prayer.util.Error.info;
-
 import java.util.Arrays;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.exception.database.ValidatorConflictException;
@@ -26,8 +21,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 final class MinValidator implements Validator { // NOPMD
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(MinValidator.class);
     /** 符合该验证器的属性 **/
     private static final DataType[] T_REQUIRED = new DataType[] { DataType.INT, DataType.LONG };
 
@@ -46,9 +39,7 @@ final class MinValidator implements Validator { // NOPMD
             throw new ValidatorConflictException(getClass(), value.getDataType().toString(), "min");
         }
         boolean ret = false;
-        if (null == params[0]) {
-            info(LOGGER, "[E] Param[0] is null and execution error!");
-        } else {
+        if (null != params[0]) {
             final Long minValue = Long.parseLong(params[0].toString());
             final Long range = Long.parseLong(value.getValue().toString());
             if (range < minValue) {

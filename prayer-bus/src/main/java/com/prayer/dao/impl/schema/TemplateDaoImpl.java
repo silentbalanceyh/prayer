@@ -1,9 +1,9 @@
 package com.prayer.dao.impl.schema;
 
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.Instance.field;
 import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.Log.peError;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -151,7 +151,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
             // 4.关闭Session返回结构
             session.close();
         } catch (AbstractTransactionException ex) {
-            info(getLogger(), "[H2] (T getById(ID)) Exception occurs !", ex);
+            peError(LOGGER,ex);
         }
         return ret;
     }
@@ -170,7 +170,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
             // 4.关闭Session返回最终结果
             session.close();
         } catch (AbstractTransactionException ex) {
-            info(getLogger(), "[H2] (List<T> getAll()) Exception occurs !", ex);
+            peError(LOGGER,ex);
         }
         return retList;
     }
@@ -193,7 +193,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
             // 5.关闭Session返回最终结果
             session.close();
         }catch(AbstractTransactionException ex){
-            info(getLogger(),"[H2] (List<T> getByPage(int,int,String)) Exception occurs !",ex);
+            peError(LOGGER,ex);
         }
         return retList;
     }

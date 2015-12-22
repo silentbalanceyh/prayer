@@ -1,9 +1,11 @@
 package com.prayer.handler.standard;
 
-import static com.prayer.assistant.WebLogger.info;
 import static com.prayer.util.Converter.toStr;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.debug;
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peError;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -14,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Future;
 import com.prayer.assistant.Interruptor;
-import com.prayer.assistant.WebLogger;
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
@@ -34,6 +35,7 @@ import com.prayer.model.web.Requestor;
 import com.prayer.uca.WebValidator;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
+import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -75,8 +77,7 @@ public class ValidationHandler implements Handler<RoutingContext> {
     @Override
     public void handle(@NotNull final RoutingContext context) {
         try {
-            info(LOGGER, WebLogger.I_CFG_HANDLER, getClass().getName(), context.request().path());
-
+            debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
             // 1.从Context中提取参数信息
             final Requestor requestor = Extractor.requestor(context);
             final UriModel uri = Extractor.uri(context);
@@ -90,10 +91,8 @@ public class ValidationHandler implements Handler<RoutingContext> {
                 context.put(Constants.KEY.CTX_REQUESTOR, requestor);
                 context.next();
             }
-        }
-        // TODO:
-        catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            jvmError(LOGGER, ex);
         }
     }
 
@@ -186,8 +185,10 @@ public class ValidationHandler implements Handler<RoutingContext> {
                 error = new ValidationFailureException(ruleModel.getErrorMessage());
             }
         } catch (AbstractWebException ex) {
+            peError(LOGGER,ex);
             error = ex;
         } catch (AbstractDatabaseException ex) {
+            peError(LOGGER,ex);
             // 三种复杂基础类型的数据格式问题
             error = new SpecialDataTypeException(getClass(), ruleModel.getType(), paramValue);
         }

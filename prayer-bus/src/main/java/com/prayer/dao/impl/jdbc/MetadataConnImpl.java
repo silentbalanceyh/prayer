@@ -1,7 +1,7 @@
 package com.prayer.dao.impl.jdbc;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.jvmError;
 import static com.prayer.util.cv.Accessors.pool;
 
 import java.io.InputStream;
@@ -70,7 +70,7 @@ public class MetadataConnImpl implements MetadataConn {
             metadata = new Metadata(sqlMeta, dbPool.getCategory());
             conn.close();
         } catch (SQLException ex) {
-            debug(LOGGER, "JVM.SQL", "public MetadataConnImpl()", ex);
+            jvmError(LOGGER, ex);
         }
         // H2 元数据
         h2Pool = new BoneCPPool("H2");
@@ -91,7 +91,7 @@ public class MetadataConnImpl implements MetadataConn {
      * 加载SQL文件
      */
     @Override
-    @Pre(expr = "_this.dbPool != null",lang = Constants.LANG_GROOVY)
+    @Pre(expr = "_this.dbPool != null", lang = Constants.LANG_GROOVY)
     public boolean loadSqlFile(@NotNull final InputStream sqlFile) {
         boolean ret = false;
         try (final Connection conn = this.dbPool.getJdbc().getDataSource().getConnection()) {
@@ -100,7 +100,7 @@ public class MetadataConnImpl implements MetadataConn {
             conn.close();
             ret = true;
         } catch (SQLException ex) {
-            debug(LOGGER, "JVM.SQL", "public boolean loadSqlFile(InputStream)", ex);
+            jvmError(LOGGER, ex);
             ret = false;
         }
         return ret;
@@ -110,7 +110,7 @@ public class MetadataConnImpl implements MetadataConn {
      * 初始化元数据
      */
     @Override
-    @Pre(expr = "_this.h2Pool != null",lang = Constants.LANG_GROOVY)
+    @Pre(expr = "_this.h2Pool != null", lang = Constants.LANG_GROOVY)
     public boolean initMeta(@NotNull final InputStream sqlFile) {
         boolean ret = false;
         try (final Connection conn = this.h2Pool.getJdbc().getDataSource().getConnection()) {
@@ -118,7 +118,7 @@ public class MetadataConnImpl implements MetadataConn {
             conn.close();
             ret = true;
         } catch (SQLException ex) {
-            debug(LOGGER, "JVM.SQL", "public boolean initMeta(InputStream)", ex);
+            jvmError(LOGGER, ex);
             ret = false;
         }
         return ret;

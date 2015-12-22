@@ -1,9 +1,9 @@
 package com.prayer.util.dao;
 
 import static com.prayer.util.Calculator.diff;
-import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Log.debug;
+import static com.prayer.util.Log.peError;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +20,7 @@ import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.query.Restrictions;
+import com.prayer.util.cv.log.DebugKey;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
@@ -58,7 +59,7 @@ public final class SqlHelper {
                 try {
                     ret = Restrictions.and(ret, Restrictions.eq(column));
                 } catch (AbstractDatabaseException ex) {
-                    info(LOGGER, ex.getErrorMessage());
+                    peError(LOGGER, ex);
                 }
             }
         }
@@ -83,10 +84,10 @@ public final class SqlHelper {
             for (final String column : item.keySet()) {
                 try {
                     final String field = record.toField(column);
-                    debug(LOGGER, "[Record] set: name=" + field + ",value=" + item.get(column));
+                    debug(LOGGER, DebugKey.INFO_R_EXTRACT, field, item.get(column));
                     ret.set(field, item.get(column));
                 } catch (AbstractDatabaseException ex) {
-                    debug(LOGGER, ex.getErrorMessage());
+                    peError(LOGGER, ex);
                 }
             }
             retList.add(ret);

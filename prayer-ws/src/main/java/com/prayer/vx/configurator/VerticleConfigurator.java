@@ -1,7 +1,7 @@
 package com.prayer.vx.configurator;
 
-import static com.prayer.assistant.WebLogger.error;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.error;
 
 import java.util.LinkedHashMap;
 import java.util.List;

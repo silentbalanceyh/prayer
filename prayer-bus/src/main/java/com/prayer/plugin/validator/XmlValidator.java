@@ -1,6 +1,7 @@
 package com.prayer.plugin.validator;
 
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peError;
 
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -44,8 +45,10 @@ final class XmlValidator implements Validator { // NOPMD
             DocumentHelper.parseText(value.literal());
             ret = true;
         } catch (DocumentException ex) {
-            info(LOGGER, "[E] Xml Data Format Error! Output = " + value, ex);
-            throw new ContentErrorException(getClass(), "Xml", value.literal()); // NOPMD
+            jvmError(LOGGER,ex);
+            final AbstractDatabaseException error = new ContentErrorException(getClass(), "Xml", value.literal()); // NOPMD
+            peError(LOGGER,error);
+            throw error;
         }
         return ret;
     }

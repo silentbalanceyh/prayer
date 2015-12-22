@@ -1,7 +1,7 @@
 package com.prayer.base.bus;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.peError;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 		try {
 			dataList = this.readJson(jsonPath);
 		} catch (AbstractSystemException ex) {
-			debug(getLogger(), "SYS.KIT.SER", ex, jsonPath);
+			peError(getLogger(),ex);
 			result.error(ex);
 		}
 		// 3.批量创建
@@ -85,8 +85,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 				this.dao.insert(dataList.toArray(getArrayType()));
 			}
 		} catch (AbstractTransactionException ex) {
-			debug(getLogger(), "SYS.KIT.DP", ex);
-			ex.printStackTrace();// NOPMD
+		    peError(getLogger(),ex);
 			result.error(ex);
 		}
 		if (ResponseCode.SUCCESS == result.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {
@@ -141,7 +140,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 			this.dao.clear();
 			result.success(Boolean.TRUE);
 		} catch (AbstractTransactionException ex) {
-			debug(getLogger(), "SYS.KIT.DPD", ex);
+		    peError(getLogger(),ex);
 			result.error(ex);
 		}
 		return result;

@@ -1,6 +1,7 @@
 package com.prayer.schema;
 
-import static com.prayer.util.Error.debug;
+import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peError;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,9 +38,7 @@ public class CommunionSerializer implements Serializer {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(CommunionSerializer.class);
-    /** **/
-    private static final String ERR_20004 = "E20004";
-    
+
     // ~ Instance Fields =====================================
     /**
      * JackSon Mapper
@@ -72,11 +71,15 @@ public class CommunionSerializer implements Serializer {
             meta = this.mapper.readValue(metaStr, new TypeReference<MetaModel>() {
             });
         } catch (JsonParseException ex) {
-            debug(LOGGER, ERR_20004, ex, metaStr);
-            throw new SerializationException(getClass(), "__meta__ ( Parsing )"); // NOPMD
+            jvmError(LOGGER, ex);
+            final SerializationException error = new SerializationException(getClass(), "__meta__ ( Parsing )"); // NOPMD
+            peError(LOGGER, error);
+            throw error;
         } catch (IOException ex) {
-            debug(LOGGER, ERR_20004, ex, metaStr);
-            throw new SerializationException(getClass(), "__meta__ ( I/O )"); // NOPMD
+            jvmError(LOGGER, ex);
+            final SerializationException error = new SerializationException(getClass(), "__meta__ ( I/O )"); // NOPMD
+            peError(LOGGER, error);
+            throw error;
         }
         return meta;
     }
@@ -93,11 +96,15 @@ public class CommunionSerializer implements Serializer {
             keys = this.mapper.readValue(keysStr, new TypeReference<List<KeyModel>>() {
             });
         } catch (JsonParseException ex) {
-            debug(LOGGER, ERR_20004, ex, keysStr);
-            throw new SerializationException(getClass(), "__keys__ ( Parsing )"); // NOPMD
+            jvmError(LOGGER, ex);
+            final SerializationException error = new SerializationException(getClass(), "__keys__ ( Parsing )"); // NOPMD
+            peError(LOGGER, error);
+            throw error;
         } catch (IOException ex) {
-            debug(LOGGER, ERR_20004, ex, keysStr);
-            throw new SerializationException(getClass(), "__keys__ ( I/O )"); // NOPMD
+            jvmError(LOGGER, ex);
+            final SerializationException error = new SerializationException(getClass(), "__keys__ ( I/O )"); // NOPMD
+            peError(LOGGER, error);
+            throw error;
         }
         return keys;
     }
@@ -114,11 +121,15 @@ public class CommunionSerializer implements Serializer {
             fields = this.mapper.readValue(fieldsStr, new TypeReference<List<FieldModel>>() {
             });
         } catch (JsonParseException ex) {
-            debug(LOGGER, ERR_20004, ex, fieldsStr);
-            throw new SerializationException(getClass(), "__fields__ ( Parsing )"); // NOPMD
+            jvmError(LOGGER, ex);
+            final SerializationException error = new SerializationException(getClass(), "__fields__ ( Parsing )"); // NOPMD
+            peError(LOGGER, error);
+            throw error;
         } catch (IOException ex) {
-            debug(LOGGER, ERR_20004, ex, fieldsStr);
-            throw new SerializationException(getClass(), "__fields__ ( I/O )"); // NOPMD
+            jvmError(LOGGER, ex);
+            final SerializationException error = new SerializationException(getClass(), "__fields__ ( I/O )"); // NOPMD
+            peError(LOGGER, error);
+            throw error;
         }
         return fields;
     }

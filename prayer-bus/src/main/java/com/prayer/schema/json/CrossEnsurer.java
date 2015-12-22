@@ -1,8 +1,8 @@
 package com.prayer.schema.json;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Log.peError;
 
 import java.util.Iterator;
 
@@ -34,7 +34,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-final class CrossEnsurer implements InternalEnsurer {    // NOPMD
+final class CrossEnsurer implements InternalEnsurer { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(CrossEnsurer.class);
@@ -160,7 +160,7 @@ final class CrossEnsurer implements InternalEnsurer {    // NOPMD
         if (occurs != columns.size()) {
             this.error = instance(WrongTimeAttrException.class.getName(), getClass(), attr, value.toString(),
                     String.valueOf(columns.size()), String.valueOf(occurs), category.toString());
-            debug(LOGGER, getClass(), "D10024", this.error, attr, value, category, columns.size(), occurs);
+            peError(LOGGER, this.error);
         }
     }
 
@@ -191,7 +191,6 @@ final class CrossEnsurer implements InternalEnsurer {    // NOPMD
     private boolean validateColumnMissing() {
         // 34.验证columns中出现过的列是否是__fields__中定义的合法列
         final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
-        int idx = 0;
         outer: while (nodeIt.hasNext()) {
             final JsonNode node = nodeIt.next();
             final ArrayNode columns = JsonKit.fromJObject(node.path(Attributes.K_COLUMNS));
@@ -204,11 +203,10 @@ final class CrossEnsurer implements InternalEnsurer {    // NOPMD
                     this.error = instance(ColumnsMissingException.class.getName(), getClass(), colName, keyName);
                     // new ColumnsMissingException(getClass(), colName,
                     // keyName);
-                    debug(LOGGER, getClass(), "D10023", this.error, keyName, colName, occurs, idx);
+                    peError(LOGGER, this.error);
                     break outer;
                 }
             }
-            idx++;
         }
         return null == this.error;
     }
@@ -222,7 +220,7 @@ final class CrossEnsurer implements InternalEnsurer {    // NOPMD
         final int occurs = JsonKit.occursAttr(this.keysNode, Attributes.K_CATEGORY, KeyCategory.PrimaryKey, true);
         if (Constants.ONE != occurs) {
             this.error = new PKNotOnlyOneException(getClass());
-            debug(LOGGER, getClass(), "D10009", this.error, KeyCategory.PrimaryKey, occurs);
+            peError(LOGGER, this.error);
         }
         return null == this.error;
     }
@@ -236,7 +234,7 @@ final class CrossEnsurer implements InternalEnsurer {    // NOPMD
         final int occurs = JsonKit.occursAttr(this.keysNode, Attributes.K_CATEGORY, KeyCategory.ForeignKey, true);
         if (Constants.ONE < occurs) {
             this.error = new FKNotOnlyOneException(getClass());
-            debug(LOGGER, getClass(), "D10016", this.error, KeyCategory.ForeignKey, occurs);
+            peError(LOGGER, this.error);
         }
         return null == this.error;
     }
@@ -245,15 +243,13 @@ final class CrossEnsurer implements InternalEnsurer {    // NOPMD
      * 
      * @return
      */
-    private boolean validateMetaPKPolicy() {    // NOPMD
+    private boolean validateMetaPKPolicy() { // NOPMD
         // 31.验证Keys中的PrimaryKey对应的Policy
         final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
-        int idx = 0;
         while (nodeIt.hasNext()) {
             final JsonNode node = nodeIt.next();
             final KeyCategory category = fromStr(KeyCategory.class, node.path(Attributes.K_CATEGORY).asText());
             if (KeyCategory.PrimaryKey != category) {
-                idx++;
                 continue;
             }
             final Boolean isMulti = node.path(Attributes.K_MULTI).asBoolean();
@@ -268,7 +264,7 @@ final class CrossEnsurer implements InternalEnsurer {    // NOPMD
                         isMulti.toString());
             }
             if (null != this.error) {
-                debug(LOGGER, getClass(), "D10022", this.error, this.pkPolicy, isMulti, idx);
+                peError(LOGGER, this.error);
                 break;
             }
         }

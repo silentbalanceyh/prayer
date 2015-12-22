@@ -1,7 +1,7 @@
 package com.prayer.schema.json;
 
-import static com.prayer.util.Error.debug;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Log.peError;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -135,7 +135,6 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {    // NOPMD
     private boolean validatePKNullableConflict() {
         // 18.4.主键的nullable一旦出现必须为false
         final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
-        int idx = 0;
         while (nodeIt.hasNext()) {
             final JsonNode node = nodeIt.next();
             final Boolean isPKey = node.path(Attributes.F_PK).asBoolean();
@@ -146,11 +145,10 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {    // NOPMD
                             node.path(Attributes.F_NAME).asText());
                     // this.error = new PKNullableConflictException(getClass(),
                     // node.path(Attributes.F_NAME).asText());
-                    debug(LOGGER, getClass(), "D10026", this.error, node.path(Attributes.F_NAME).asText(), isNull, idx);
+                    peError(LOGGER, this.error);
                     break;
                 }
             }
-            idx++;
         }
         return null == this.error;
     }
@@ -166,7 +164,6 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {    // NOPMD
             return true;
         }
         final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
-        int idx = 0;
         while (nodeIt.hasNext()) {
             final JsonNode node = nodeIt.next();
             final Boolean isPkey = node.path(Attributes.F_PK).asBoolean();
@@ -177,12 +174,10 @@ final class PrimaryKeyEnsurer implements InternalEnsurer {    // NOPMD
                             node.path(Attributes.F_NAME).asText());
                     // this.error = new PKUniqueConflictException(getClass(),
                     // node.path(Attributes.F_NAME).asText());
-                    debug(LOGGER, getClass(), "D10025", this.error, node.path(Attributes.F_NAME).asText(), isUnique,
-                            idx);
+                    peError(LOGGER, this.error);
                     break;
                 }
             }
-            idx++;
         }
         return null == this.error;
     }

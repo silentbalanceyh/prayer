@@ -1,11 +1,10 @@
 package com.prayer.handler.deploy;
 
-import static com.prayer.assistant.WebLogger.error;
+import static com.prayer.util.Log.peError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.WebLogger;
 import com.prayer.base.exception.AbstractException;
 import com.prayer.vx.engine.VerticleDeployer;
 
@@ -46,7 +45,7 @@ public class VertxClusterHandler implements Handler<AsyncResult<Vertx>> {
             try {
                 deployer.deployVerticles();
             } catch (AbstractException ex) {
-                error(LOGGER, WebLogger.E_CLUSTER_ERROR, ex.getErrorMessage());
+                peError(LOGGER,ex);
             }
         }
     }

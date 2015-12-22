@@ -1,8 +1,6 @@
 package com.prayer.assistant;
 
-import static com.prayer.assistant.WebLogger.info;
-import static com.prayer.util.Error.debug;
-import static com.prayer.util.Error.info;
+import static com.prayer.util.Log.peError;
 
 import java.util.List;
 
@@ -51,7 +49,7 @@ public final class Interruptor {
                     throws AbstractWebException {
         if (!config.containsKey(key)) {
             final AbstractWebException error = new UCAConfigMissingException(clazz, name, clazz.getName(), key);
-            info(LOGGER, WebLogger.E_UCA_CFG_ERROR,error.getErrorMessage());
+            peError(LOGGER, error);
             throw error;
         }
     }
@@ -72,7 +70,7 @@ public final class Interruptor {
         if (null == retStr) {
             final AbstractWebException error = new UCAConfigErrorException(clazz, name, clazz.getName(),
                     key + " = " + config.getString(key));
-            info(LOGGER, WebLogger.E_UCA_CFG_ERROR,error.getErrorMessage());
+            peError(LOGGER, error);
             throw error;
         }
     }
@@ -93,7 +91,7 @@ public final class Interruptor {
         if (null == retNum) {
             final AbstractWebException error = new UCAConfigErrorException(clazz, name, clazz.getName(),
                     key + " = " + config.getString(key));
-            info(LOGGER, WebLogger.E_UCA_CFG_ERROR,error.getErrorMessage());
+            peError(LOGGER, error);
             throw error;
         }
     }
@@ -112,7 +110,7 @@ public final class Interruptor {
         final Class<?> targetClass = Instance.clazz(className);
         if (null == targetClass) {
             final AbstractWebException error = new UCANotFoundException(clazz, className);
-            debug(LOGGER, "SYS.VX.CLASS", error, component, className);
+            peError(LOGGER, error);
             throw error;
         }
     }
@@ -139,13 +137,12 @@ public final class Interruptor {
         }
         if (!flag) {
             AbstractWebException error = null;
-            debug(LOGGER, "SYS.VX.INVALID", null, componentCls.getName(), className);
             // 需要检查接口
             if (null != interfaceCls) {
                 try {
                     interruptImplements(clazz, className, interfaceCls);
                 } catch (AbstractWebException ex) {
-                    debug(LOGGER, "SYS.VX.INVALID", null, interfaceCls.getName(), className);
+                    peError(LOGGER, error);
                     error = ex;
                 }
             }
@@ -176,7 +173,7 @@ public final class Interruptor {
         }
         if (!flag) {
             final AbstractWebException error = new UCAInvalidException(clazz, className, componentCls.getName());
-            info(LOGGER, "SYS.VX.INVALID", null, componentCls.getName(), className);
+            peError(LOGGER, error);
             throw error;
         }
     }

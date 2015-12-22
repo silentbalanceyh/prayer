@@ -1,28 +1,18 @@
-package com.prayer.handler.standard;
+package com.prayer.util;
 
-import static com.prayer.util.Log.debug;
-
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.prayer.util.cv.log.DebugKey;
-
-import io.vertx.core.Handler;
-import io.vertx.ext.web.RoutingContext;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
-@Guarded
-public class BasicAuthenticateHandler implements Handler<RoutingContext> {
+public class LoggerTestCase {
     // ~ Static Fields =======================================
-
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthenticateHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoggerTestCase.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -30,14 +20,15 @@ public class BasicAuthenticateHandler implements Handler<RoutingContext> {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public void handle(@NotNull final RoutingContext routingContext) {
-        debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
-        routingContext.next();
-    }
     // ~ Methods =============================================
+    @Test
+    public void testLogger() {
+        Log.debug(LOGGER, "DEBUG");
+        Log.info(LOGGER, "INFO");
+        Log.error(LOGGER, "ERROR");
+    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }
