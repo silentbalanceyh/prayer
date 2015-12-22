@@ -68,7 +68,7 @@ public final class Log { // NOPMD
      */
     public static void peError(@NotNull final org.slf4j.Logger logger, @NotNull final AbstractException exp) {
         error(logger, ErrorKey.ERR_ENGINE, exp, exp.getErrorMessage());
-        if(logger.isTraceEnabled()){
+        if (logger.isTraceEnabled()) {
             exp.printStackTrace();// NOPMD
         }
     }
@@ -162,11 +162,7 @@ public final class Log { // NOPMD
                 message = MessageFormat.format(message(Level.DEBUG, key), params);
             }
             // Output
-            if (null == exp) {
-                logger.debug(message);
-            } else {
-                logger.debug(message, exp);
-            }
+            logger.debug(message);
         }
         if (logger.isTraceEnabled() && null != exp) {
             exp.printStackTrace(); // NOPMD

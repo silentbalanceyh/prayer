@@ -23,9 +23,11 @@ public interface DebugKey {
     /** **/
     String INFO_H2_ID = "info.h2.id.invalid";
     /** SQL语句信息 **/
-    String INF_SQL_STMT = "p.sql.stmt";
+    String INFO_SQL_STMT = "info.sql.stmt";
     /** 参数信息 **/
     String INFO_SEV_PARAM = "info.service.param";
+    /** 输入输出错误 **/
+    String INFO_IO_ERROR = "info.read.file.err";
     
     /** **/
     String WEB_HANDLER = "web.handler";

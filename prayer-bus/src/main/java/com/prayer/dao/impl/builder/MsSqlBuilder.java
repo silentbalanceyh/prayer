@@ -99,7 +99,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
             return false;
         } else {
             final String sql = genCreateSql();
-            debug(LOGGER, DebugKey.INF_SQL_STMT, sql);
+            debug(LOGGER, DebugKey.INFO_SQL_STMT, sql);
             final int respCode = this.getContext().execute(sql, null);
             // EXIST：新表创建成功过后添加缓存
             final boolean ret = Constants.RC_SUCCESS == respCode;
@@ -140,7 +140,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         final boolean exist = this.existTable();
         if (exist) {
             final String sql = this.genUpdateSql(schema);
-            debug(LOGGER, DebugKey.INF_SQL_STMT, sql);
+            debug(LOGGER, DebugKey.INFO_SQL_STMT, sql);
             final int respCode = this.getContext().execute(sql, null);
             return Constants.RC_SUCCESS == respCode;
         } else {
@@ -155,7 +155,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         final boolean exist = this.existTable();
         if (exist) {
             final String sql = MessageFormat.format(TB_DROP, this.getTable());
-            debug(LOGGER, DebugKey.INF_SQL_STMT, sql);
+            debug(LOGGER, DebugKey.INFO_SQL_STMT, sql);
             final int respCode = this.getContext().execute(sql, null);
             // EXIST：删除成功过后移除缓存
             final boolean ret = Constants.RC_SUCCESS == respCode;
