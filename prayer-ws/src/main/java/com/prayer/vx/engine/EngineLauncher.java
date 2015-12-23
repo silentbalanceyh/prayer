@@ -25,11 +25,27 @@ public final class EngineLauncher {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
+     * 创建启动器
+     * @return
+     */
+    public static EngineLauncher create(){
+        return new EngineLauncher();
+    }
+    /**
      * 
      * @param args
      */
     public static void main(final String... args) throws AbstractException {
-        // 1.H2数据库集成，并且发布H2的Metadata数据
+        final EngineLauncher launcher = new EngineLauncher();
+        launcher.runTool(args);
+    }
+
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    public void runTool(final String... args) throws AbstractException{
+     // 1.H2数据库集成，并且发布H2的Metadata数据
         final H2DatabaseServer server = singleton(H2DatabaseServer.class);
         if (server.start()) {
             boolean ret = server.initMetadata();
@@ -52,11 +68,6 @@ public final class EngineLauncher {
             }
         }
     }
-
-    // ~ Constructors ========================================
-    // ~ Abstract Methods ====================================
-    // ~ Override Methods ====================================
-    // ~ Methods =============================================
     // ~ Private Methods =====================================
     private EngineLauncher() {
     }
