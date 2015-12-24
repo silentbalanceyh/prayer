@@ -156,13 +156,18 @@ public class H2DatabaseServer {
     // ~ H2 Cluster ==========================================
 
     // ~ H2 Metadata Init ====================================
-    /** 初始化元数据 **/
+    /** 初始化OOB元数据 **/
     public boolean initMetadata() {
+        return this.initMetadata(Resources.META_OD_FOLDER);
+    }
+
+    /** 按照目录初始化元数据 **/
+    public boolean initMetadata(final String dataFolder) {
         boolean flag = false;
         ServiceResult<Boolean> ret = this.service.initH2Database(Resources.DB_SQL_DIR + MetadataConn.H2_SQL);
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            ret = this.service.deployPrayerData(Resources.META_OD_FOLDER);
-            if (ResponseCode.SUCCESS == ret.getResponseCode()) { // NOPMD
+            ret = this.service.deployPrayerData(dataFolder);
+            if (ResponseCode.SUCCESS == ret.getResponseCode()) {
                 flag = ret.getResult();
             }
         }
