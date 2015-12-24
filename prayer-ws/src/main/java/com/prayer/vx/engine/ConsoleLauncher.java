@@ -29,12 +29,19 @@ public final class ConsoleLauncher extends AbstractConsole {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
+     * 创建启动器
+     * @return
+     */
+    public static ConsoleLauncher create(){
+        return new ConsoleLauncher();
+    }
+    /**
      * 
      * @param args
      * @throws AbstractException
      */
     public static void main(final String... args) throws AbstractException {
-        final ConsoleLauncher console = new ConsoleLauncher();
+        final ConsoleLauncher console = ConsoleLauncher.create();
         console.runTool(args);
     }
 

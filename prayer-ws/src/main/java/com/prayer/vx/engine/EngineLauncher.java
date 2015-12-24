@@ -42,7 +42,7 @@ public final class EngineLauncher {
      * @param args
      */
     public static void main(final String... args) throws AbstractException {
-        final EngineLauncher launcher = new EngineLauncher();
+        final EngineLauncher launcher = EngineLauncher.create();
         launcher.runTool(args);
     }
 
