@@ -1,0 +1,16 @@
+[
+    {
+        "single":"c",
+        "name":"command",
+        "args":["name"],
+        "description":"Display help information of input command",
+        "required":false
+    },
+    {
+        "single":"h",
+        "name":"help",
+        "args":[],
+        "description":"Display command help information",
+        "required":false
+    }
+]

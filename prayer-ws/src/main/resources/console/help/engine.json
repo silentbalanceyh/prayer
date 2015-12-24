@@ -1,0 +1,6 @@
+{
+    "-pshell":"Start H2 Metadata Database Shell",
+    "-phazelcast":"Start Hazelcast Background Console",
+    "-pconsole":"Start Prayer Engine Console",
+    "-help":"Display Help Information"
+}

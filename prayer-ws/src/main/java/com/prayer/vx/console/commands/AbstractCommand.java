@@ -1,0 +1,116 @@
+package com.prayer.vx.console.commands;
+
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Option.Builder;
+import org.apache.commons.cli.Options;
+
+import com.prayer.util.IOKit;
+import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.Symbol;
+
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+
+/**
+ * 
+ * @author Lang
+ *
+ */
+@Guarded
+public abstract class AbstractCommand {
+    // ~ Static Fields =======================================
+    /** **/
+    private static final JsonObject COMMANDS;
+
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    /** **/
+    static {
+        final String content = IOKit.getContent("/console/help/usage.json");
+        COMMANDS = new JsonObject(content);
+    }
+
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    /**
+     * 获取Command的Options
+     * 
+     * @return
+     */
+    public Options getOpts(@NotNull @NotBlank @NotEmpty final String command) {
+        final String content = IOKit.getContent("/console/" + command + ".json");
+        final JsonArray optionJson = new JsonArray(content);
+        final Options retOpts = new Options();
+        for (int idx = 0; idx < optionJson.size(); idx++) {
+            final JsonObject item = optionJson.getJsonObject(idx);
+            final JsonArray args = item.getJsonArray("args");
+            Option opt = null;
+            if (Constants.ZERO < args.size()) {
+                // 带参数
+                final Builder builder = Option.builder(item.getString("single"));
+                builder.argName(item.getString(args.getString(Constants.ZERO)));
+                builder.desc(item.getString("description"));
+                builder.hasArg();
+                builder.longOpt(item.getString("name"));
+                opt = builder.build();
+            } else {
+                // 不带参数
+                opt = new Option(item.getString("single"), item.getString("name"), false,
+                        item.getString("description"));
+            }
+            opt.setRequired(item.getBoolean("required"));
+            retOpts.addOption(opt);
+        }
+        return retOpts;
+    }
+
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    /**
+     * 显示Help信息
+     */
+    protected void help(@NotNull @NotBlank @NotEmpty final String command) {
+        if (this.verifyCommand(command)) {
+            final HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp(COMMANDS.getString(command), this.getOpts(command));
+            System.out.println();
+        } else {
+            System.out.println("[ERROR] Command name " + command + " is unavailable!");
+            final StringBuilder builder = new StringBuilder();
+            for (final String cmd : COMMANDS.fieldNames()) {
+                builder.append(cmd).append(Symbol.COMMA);
+            }
+            builder.delete(builder.length() - 1, builder.length());
+            System.out.println("Available Commands:\n\t" + builder.toString());
+        }
+    }
+
+    protected void noOptions() {
+        System.out.println("[WARNING] No Option provided.");
+    }
+
+    /**
+     * 语法错误
+     */
+    protected void syntaxError() {
+        System.out.println("[ERROR] Syntax Error when execute command.");
+    }
+
+    // ~ Private Methods =====================================
+    private boolean verifyCommand(final String command) {
+        boolean ret = false;
+        if (COMMANDS.containsKey(command)) {
+            ret = true;
+        }
+        return ret;
+    }
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
+
+}

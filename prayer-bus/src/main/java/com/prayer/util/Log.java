@@ -67,7 +67,7 @@ public final class Log { // NOPMD
      * @param exp
      */
     public static void peError(@NotNull final org.slf4j.Logger logger, @NotNull final AbstractException exp) {
-        error(logger, ErrorKey.ERR_ENGINE, exp, exp.getErrorMessage());
+        error(logger, ErrorKey.ERR_ENGINE, exp, exp.getClass().getName(), exp.getErrorMessage());
         if (logger.isTraceEnabled()) {
             exp.printStackTrace();// NOPMD
         }

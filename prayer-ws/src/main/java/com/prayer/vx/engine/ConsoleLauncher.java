@@ -4,39 +4,29 @@ import static com.prayer.util.Instance.singleton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import com.prayer.base.exception.AbstractException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.exception.system.StartUpArgsInvalidException;
+import com.prayer.util.IOKit;
 import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.Symbol;
+import com.prayer.vx.console.AbstractConsole;
 import com.prayer.vx.console.EngineConsole;
 import com.prayer.vx.console.H2DatabaseShell;
 import com.prayer.vx.console.HazelcastConsole;
+
+import io.vertx.core.json.JsonObject;
 
 /**
  * 
  * @author Lang
  *
  */
-public final class ConsoleLauncher {
+public final class ConsoleLauncher extends AbstractConsole {
     // ~ Static Fields =======================================
-    /** **/
-    private static final Map<String, String> ARGS_MAP = new TreeMap<>();
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
-    /** **/
-    static {
-        ARGS_MAP.putIfAbsent("-pshell", "Start H2 Metadata Database Shell");
-        ARGS_MAP.putIfAbsent("-phazelcast", "Start Hazelcast Console");
-        ARGS_MAP.putIfAbsent("-pconsole", "Start Prayer Engine Console");
-        ARGS_MAP.putIfAbsent("-help", "Display help information");
-    }
-
     // ~ Static Methods ======================================
     /**
      * 
@@ -51,6 +41,15 @@ public final class ConsoleLauncher {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /**
+     * Help Map Information
+     */
+    @Override
+    public JsonObject getHelp() {
+        final String content = IOKit.getContent("/console/help/engine.json");
+        return new JsonObject(content);
+    }
+
     // ~ Methods =============================================
     /**
      * 
@@ -91,30 +90,13 @@ public final class ConsoleLauncher {
     // ~ Private Methods =====================================
 
     private void verifyArgs(final String... args) throws AbstractSystemException {
-        final Set<String> argsSet = ARGS_MAP.keySet();
+        final Set<String> argsSet = this.getHelp().fieldNames();
         final String startArg = args[Constants.ZERO];
         if (0 <= startArg.indexOf('-') && !argsSet.contains(startArg)) {
             throw new StartUpArgsInvalidException(EngineLauncher.class, startArg);
         }
     }
 
-    private void populateHelp() {
-        System.out.println("Commands are case insensitive, please refer following comments: ");
-        for (final String arg : ARGS_MAP.keySet()) {
-            System.out.println(generateArgLine(arg, ARGS_MAP.get(arg)));
-        }
-    }
-
-    private String generateArgLine(final String arg, final String comments) {
-        final int wide = 24 - arg.length();
-        final StringBuilder argsLine = new StringBuilder();
-        argsLine.append(arg);
-        for (int idx = 0; idx < wide; idx++) {
-            argsLine.append(Symbol.SPACE);
-        }
-        argsLine.append(comments);
-        return argsLine.toString();
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

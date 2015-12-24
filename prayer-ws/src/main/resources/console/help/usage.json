@@ -1,0 +1,4 @@
+{
+    "exit":"exit <NO OPTIONS>",
+    "help":"help [-c/--command][-h/--help]"
+}
