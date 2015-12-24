@@ -90,7 +90,7 @@ public class ServerConfigurator { // NOPMD
         enabled = LOADER.getBoolean("h2.database.cluster.enabled");
         return enabled;
     }
-
+    
     /**
      * 
      * @return

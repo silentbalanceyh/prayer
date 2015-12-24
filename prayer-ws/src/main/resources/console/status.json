@@ -1,0 +1,56 @@
+[
+    {
+        "single":"h",
+        "name":"help",
+        "args":[
+            
+        ],
+        "description":"Display help information",
+        "required":false
+    },
+    {
+        "single":"m",
+        "name":"meta",
+        "args":[
+            
+        ],
+        "description":"Check the status of H2 Metadata Database",
+        "required":false
+    },
+    {
+        "single":"d",
+        "name":"database",
+        "args":[
+            
+        ],
+        "description":"Check the status of Business Database",
+        "required":false
+    },
+    {
+        "single":"v",
+        "name":"vertx",
+        "args":[
+            
+        ],
+        "description":"Check the status of Prayer Engine ( Vert.X )",
+        "required":false
+    },
+    {
+        "single":"u",
+        "name":"username",
+        "args":[
+            "username"
+        ],
+        "description":"Provide username to Environment: -v, -d, -m",
+        "required":false
+    },
+    {
+        "single":"p",
+        "name":"password",
+        "args":[
+            "password"
+        ],
+        "description":"Provide password to Environment: -v, -d, -m",
+        "required":false
+    }
+]

@@ -32,6 +32,7 @@ public class EngineConsole extends AbstractConsole {
     static {
         OPS.putIfAbsent("exit", CommandSender::exit);
         OPS.putIfAbsent("help", CommandSender::help);
+        OPS.putIfAbsent("status", CommandSender::status);
     }
 
     // ~ Static Methods ======================================

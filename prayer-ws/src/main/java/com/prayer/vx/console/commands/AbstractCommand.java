@@ -1,9 +1,13 @@
 package com.prayer.vx.console.commands;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Option.Builder;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 import com.prayer.util.IOKit;
 import com.prayer.util.cv.Constants;
@@ -28,6 +32,9 @@ public abstract class AbstractCommand {
     private static final JsonObject COMMANDS;
 
     // ~ Instance Fields =====================================
+    /** **/
+    private transient CommandLineParser parser = new DefaultParser();
+
     // ~ Static Block ========================================
     /** **/
     static {
@@ -39,11 +46,27 @@ public abstract class AbstractCommand {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     /**
+     * 
+     * @return
+     */
+    public abstract String command();
+
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    /**
+     * 
+     * @return
+     */
+    protected CommandLineParser getParser() {
+        return this.parser;
+    }
+
+    /**
      * 获取Command的Options
      * 
      * @return
      */
-    public Options getOpts(@NotNull @NotBlank @NotEmpty final String command) {
+    protected Options getOpts(@NotNull @NotBlank @NotEmpty final String command) {
         final String content = IOKit.getContent("/console/" + command + ".json");
         final JsonArray optionJson = new JsonArray(content);
         final Options retOpts = new Options();
@@ -54,7 +77,7 @@ public abstract class AbstractCommand {
             if (Constants.ZERO < args.size()) {
                 // 带参数
                 final Builder builder = Option.builder(item.getString("single"));
-                builder.argName(item.getString(args.getString(Constants.ZERO)));
+                builder.argName(args.getString(Constants.ZERO));
                 builder.desc(item.getString("description"));
                 builder.hasArg();
                 builder.longOpt(item.getString("name"));
@@ -70,8 +93,37 @@ public abstract class AbstractCommand {
         return retOpts;
     }
 
-    // ~ Override Methods ====================================
-    // ~ Methods =============================================
+    /**
+     * 
+     * @param args
+     * @return
+     */
+    protected CommandLine parse(final String... args) {
+        final Options options = this.getOpts(command());
+        CommandLine cl = null;
+        try {
+            cl = this.getParser().parse(options, args);
+        } catch (ParseException ex) {
+            this.help(command());
+        }
+        if (null == cl) {
+            // 解析异常打印语法错
+            this.syntaxError();
+        } else {
+            if (Constants.ZERO == cl.getOptions().length) {
+                // 如果没有任何Options则直接报错，不支持无Args的输入
+                this.noOptions();
+                this.help(command());
+            } else {
+                // 解析共享参数-h，打印当前Command的Help信息
+                if (cl.hasOption('h')) {
+                    this.help(command());
+                }
+            }
+        }
+        return cl;
+    }
+
     /**
      * 显示Help信息
      */
@@ -91,14 +143,14 @@ public abstract class AbstractCommand {
         }
     }
 
-    protected void noOptions() {
+    private void noOptions() {
         System.out.println("[WARNING] No Option provided.");
     }
 
     /**
      * 语法错误
      */
-    protected void syntaxError() {
+    private void syntaxError() {
         System.out.println("[ERROR] Syntax Error when execute command.");
     }
 

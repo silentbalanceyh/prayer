@@ -24,7 +24,7 @@ public class VerticleAsyncHandler implements Handler<AsyncResult<String>> {
      */
     @Override
     public void handle(@NotNull final AsyncResult<String> event) {
-        // TODO: Async Deploy Handler
+        // TODO: Verticle异步Deploy的Handler逻辑
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

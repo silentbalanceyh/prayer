@@ -4,6 +4,7 @@ import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.Log.info;
 import static com.prayer.util.Log.jvmError;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.sql.SQLException;
@@ -156,6 +157,19 @@ public class H2DatabaseServer {
     // ~ H2 Cluster ==========================================
 
     // ~ H2 Metadata Init ====================================
+    /**
+     * 
+     * @return
+     */
+    public boolean isDeployed(){
+        final File file = new File("DEPLOYED.lock");
+        boolean exist = false;
+        if(file.exists()){
+            exist = true;
+        }
+        return exist;
+    }
+    
     /** 初始化OOB元数据 **/
     public boolean initMetadata() {
         return this.initMetadata(Resources.META_OD_FOLDER);
@@ -168,6 +182,9 @@ public class H2DatabaseServer {
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             ret = this.service.deployPrayerData(dataFolder);
             if (ResponseCode.SUCCESS == ret.getResponseCode()) {
+                // 创建锁文件
+                this.createLock();
+                // 获取返回值
                 flag = ret.getResult();
             }
         }
@@ -175,6 +192,21 @@ public class H2DatabaseServer {
     }
 
     // ~ Private Methods =====================================
+    
+    private boolean createLock(){
+        final File file = new File("DEPLOYED.lock");
+        boolean ret = true;
+        if(!file.exists()){
+            try{
+                ret = file.createNewFile();
+            }catch(IOException ex){
+                ret = false;
+                jvmError(LOGGER,ex);
+            }
+        }
+        return ret;
+    }
+    
     /** 启动Web Console **/
     private boolean startConsole() {
         boolean ret = true;

@@ -1,4 +1,5 @@
 {
     "exit":"exit <NO OPTIONS>",
-    "help":"help [-c/--command][-h/--help]"
+    "help":"help [-c] [-h]",
+    "status":"status [-m] [-d] [-v] [-u] [-p] [-h]"
 }

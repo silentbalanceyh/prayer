@@ -110,8 +110,12 @@ public final class EngineLauncher {
      */
     public void runTool(final String... args) throws AbstractException {
         if (startDatabase(args)) {
-            // OOB 数据的Deploy过程
-            boolean ret = this.deployData(null);
+            // 数据的Deploy过程
+            boolean ret = true;
+            if(!this.server.isDeployed()){
+                ret = this.deployData(null);
+            }
+            // 启动Engine
             if (ret) {
                 this.startEngine(args);
             }

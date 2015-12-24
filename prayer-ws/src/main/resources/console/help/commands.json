@@ -1,4 +1,5 @@
 {
     "help":"Display help information of commands",
+    "status":"Check the status of every components ( Engine Status )",
     "exit":"Exit Prayer Engine Console"
 }
