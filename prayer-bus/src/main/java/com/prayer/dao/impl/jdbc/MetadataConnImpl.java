@@ -68,7 +68,6 @@ public class MetadataConnImpl implements MetadataConn {
              * 因为metadata和runner在try块中，所以不能设置成final修饰，否则编译会无法通过
              */
             metadata = new Metadata(sqlMeta, dbPool.getCategory());
-            conn.close();
         } catch (SQLException ex) {
             jvmError(LOGGER, ex);
         }

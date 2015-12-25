@@ -214,6 +214,23 @@ public interface Constants { // NOPMD
                       * String SESSION_USER = "user"; }
                       */
 
+    /**
+     * 
+     * @author Lang
+     *
+     */
+    interface CMD { // NOPMD
+        /** status Command **/
+        interface STATUS { // NOPMD
+            /** **/
+            String JDBC_URL = "url";
+            /** **/
+            String USERNAME = "username";
+            /** **/
+            String PASSWORD = "password";
+        }
+    }
+
     /** **/
     interface PARAM { // NOPMD
         /** **/

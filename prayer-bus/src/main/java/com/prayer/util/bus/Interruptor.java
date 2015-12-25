@@ -24,10 +24,11 @@ import net.sf.oval.guard.Guarded;
 
 /** **/
 @Guarded
-public final class Interruptor {    // NOPMD
+public final class Interruptor { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(Interruptor.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     /**
@@ -59,8 +60,39 @@ public final class Interruptor {    // NOPMD
                 error = new ServiceParamMissingException(clazz, Constants.PARAM.PAGE.NAME);
             }
         } catch (ClassCastException ex) {
-            jvmError(LOGGER,ex);
+            jvmError(LOGGER, ex);
             error = new ServiceParamInvalidException(clazz, ex.toString());
+        }
+        return error;
+    }
+
+    /**
+     * 
+     * @param clazz
+     * @param jsonObject
+     * @return
+     */
+    public static AbstractException interruptJdbcParams(@NotNull final Class<?> clazz, // NOPMD
+            @NotNull final JsonObject jsonObject) {
+        AbstractException error = null;
+        try {
+            if (!(jsonObject.containsKey(Constants.CMD.STATUS.JDBC_URL)
+                    && jsonObject.containsKey(Constants.CMD.STATUS.USERNAME)
+                    && jsonObject.containsKey(Constants.CMD.STATUS.PASSWORD))) {
+                if (!jsonObject.containsKey(Constants.CMD.STATUS.JDBC_URL)) { // NOPMD
+                    error = new ServiceParamMissingException(clazz, Constants.CMD.STATUS.JDBC_URL);
+                } else if (!jsonObject.containsKey(Constants.CMD.STATUS.USERNAME)) { // NOPMD
+                    error = new ServiceParamMissingException(clazz, Constants.CMD.STATUS.USERNAME);
+                } else if (!jsonObject.containsKey(Constants.CMD.STATUS.PASSWORD)) { // NOPMD
+                    error = new ServiceParamMissingException(clazz, Constants.CMD.STATUS.PASSWORD);
+                }
+            }
+            // Exception
+            jsonObject.getString(Constants.CMD.STATUS.JDBC_URL);
+            jsonObject.getString(Constants.CMD.STATUS.USERNAME);
+            jsonObject.getString(Constants.CMD.STATUS.PASSWORD);
+        } catch (ClassCastException ex) {
+            error = new ServiceParamInvalidException(clazz, ex.getMessage());
         }
         return error;
     }
@@ -70,7 +102,7 @@ public final class Interruptor {    // NOPMD
      * @param jsonObject
      * @return
      */
-    public static AbstractException interruptParams(@NotNull final Class<?> clazz,  // NOPMD
+    public static AbstractException interruptRecordParams(@NotNull final Class<?> clazz, // NOPMD
             @NotNull final JsonObject jsonObject) {
         AbstractException error = null;
         try {
@@ -101,7 +133,7 @@ public final class Interruptor {    // NOPMD
             jsonObject.getJsonObject(Constants.PARAM.DATA);
             jsonObject.getString(Constants.PARAM.SCRIPT);
         } catch (ClassCastException ex) {
-            error = new ServiceParamInvalidException(clazz, ex.toString());
+            error = new ServiceParamInvalidException(clazz, ex.getMessage());
         }
         return error;
     }
@@ -122,7 +154,7 @@ public final class Interruptor {    // NOPMD
                 }
             }
         } catch (AbstractException ex) {
-            peError(LOGGER,ex);
+            peError(LOGGER, ex);
         }
         return isUpdate;
     }
@@ -139,11 +171,11 @@ public final class Interruptor {    // NOPMD
             for (final String id : idKV.keySet()) {
                 final Value<?> value = idKV.get(id);
                 if (StringKit.isNil(value.literal())) {
-                    error = new PrimaryKeyMissingException(Interruptor.class, id);  // NOPMD
+                    error = new PrimaryKeyMissingException(Interruptor.class, id); // NOPMD
                 }
             }
         } catch (AbstractException ex) {
-            peError(LOGGER,ex);
+            peError(LOGGER, ex);
             error = ex;
         }
         return error;

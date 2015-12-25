@@ -59,7 +59,7 @@ public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthServic
     public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
         debug(getLogger(), DebugKey.INFO_SEV_PARAM, "GET", jsonObject.encode());
         ServiceResult<JsonArray> ret = new ServiceResult<>();
-        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        AbstractException error = Interruptor.interruptRecordParams(getClass(), jsonObject);
         if (null == error) {
             try {
                 ret = this.getHelper().sharedFind(jsonObject);

@@ -72,7 +72,7 @@ public abstract class AbstractSevImpl {
     // ~ Private Methods =====================================
     private ServiceResult<JsonObject> executeSave(final JsonObject jsonObject) {
         ServiceResult<JsonObject> ret = new ServiceResult<>();
-        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        AbstractException error = Interruptor.interruptRecordParams(getClass(), jsonObject);
         if (null == error) {
             try {
                 ret = this.helper.sharedSave(jsonObject);
@@ -110,7 +110,7 @@ public abstract class AbstractSevImpl {
     public ServiceResult<JsonObject> remove(@NotNull final JsonObject jsonObject) {
         debug(getLogger(), DebugKey.INFO_SEV_PARAM, "DELETE", jsonObject.encode());
         ServiceResult<JsonObject> ret = new ServiceResult<>();
-        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        AbstractException error = Interruptor.interruptRecordParams(getClass(), jsonObject);
         if (null == error) {
             try {
                 ret = this.helper.sharedDelete(jsonObject);
@@ -142,7 +142,7 @@ public abstract class AbstractSevImpl {
     public ServiceResult<JsonArray> find(@NotNull final JsonObject jsonObject) {
         debug(getLogger(), DebugKey.INFO_SEV_PARAM, "DELETE", jsonObject.encode());
         ServiceResult<JsonArray> ret = new ServiceResult<>();
-        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        AbstractException error = Interruptor.interruptRecordParams(getClass(), jsonObject);
         if (null == error) {
             try {
                 ret = this.helper.sharedFind(jsonObject);
@@ -167,7 +167,7 @@ public abstract class AbstractSevImpl {
     public ServiceResult<JsonObject> page(@NotNull final JsonObject jsonObject) {
         debug(getLogger(), DebugKey.INFO_SEV_PARAM, "POST - Query", jsonObject.encode());
         ServiceResult<JsonObject> ret = new ServiceResult<>();
-        AbstractException error = Interruptor.interruptParams(getClass(), jsonObject);
+        AbstractException error = Interruptor.interruptRecordParams(getClass(), jsonObject);
         if (null == error) {
             // Page特殊参数
             error = Interruptor.interruptPageParams(getClass(), jsonObject);
