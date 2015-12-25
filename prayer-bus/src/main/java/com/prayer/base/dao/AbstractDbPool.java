@@ -39,7 +39,7 @@ public abstract class AbstractDbPool {
      */
     @NotNull
     @InstanceOfAny(PropertyKit.class)
-    protected transient final PropertyKit LOADER = new PropertyKit(getClass(), Resources.DB_CFG_FILE);  // NOPMD
+    protected transient final PropertyKit LOADER = new PropertyKit(getClass(), Resources.DB_CFG_FILE); // NOPMD
 
     // ~ Constructors ========================================
     /**

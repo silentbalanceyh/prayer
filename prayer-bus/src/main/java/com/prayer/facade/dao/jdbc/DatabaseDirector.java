@@ -1,5 +1,6 @@
 package com.prayer.facade.dao.jdbc;
 
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.model.bus.Metadata;
 
 /**
@@ -16,5 +17,5 @@ public interface DatabaseDirector {
      * @param password
      * @return
      */
-    Metadata getMetadata(final String url, final String username, final String password);
+    Metadata getMetadata(final String url, final String username, final String password) throws AbstractDatabaseException;
 }

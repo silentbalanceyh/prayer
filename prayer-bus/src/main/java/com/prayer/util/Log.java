@@ -72,6 +72,18 @@ public final class Log { // NOPMD
             exp.printStackTrace();// NOPMD
         }
     }
+    /**
+     * AbstractException异常信息
+     * 
+     * @param logger
+     * @param exp
+     */
+    public static void peDebug(@NotNull final org.slf4j.Logger logger, @NotNull final AbstractException exp) {
+        debug(logger, ErrorKey.ERR_ENGINE, exp, exp.getClass().getName(), exp.getErrorMessage());
+        if (logger.isTraceEnabled()) {
+            exp.printStackTrace();// NOPMD
+        }
+    }
     // ~ Static Block ========================================
 
     /**

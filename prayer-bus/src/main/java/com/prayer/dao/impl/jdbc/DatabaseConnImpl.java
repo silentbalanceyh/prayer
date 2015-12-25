@@ -1,6 +1,6 @@
 package com.prayer.dao.impl.jdbc;
 
-import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.Log.peDebug;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -10,8 +10,15 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.exception.database.DatabaseInvalidTokenException;
+import com.prayer.exception.database.DatabaseStoppedException;
 import com.prayer.facade.dao.jdbc.DatabaseDirector;
 import com.prayer.model.bus.Metadata;
+import com.prayer.util.Instance;
+import com.prayer.util.PropertyKit;
+import com.prayer.util.StringKit;
+import com.prayer.util.cv.Resources;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -29,6 +36,8 @@ public final class DatabaseConnImpl implements DatabaseDirector {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseConnImpl.class);
+    /** **/
+    private static final PropertyKit LOADER = new PropertyKit(DatabaseConnImpl.class, Resources.DB_SQL_ERROR);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -40,7 +49,8 @@ public final class DatabaseConnImpl implements DatabaseDirector {
     /** **/
     @Override
     public Metadata getMetadata(@NotBlank @NotEmpty @NotNull final String url,
-            @NotBlank @NotEmpty @NotNull final String username, @NotBlank @NotEmpty @NotNull final String password) {
+            @NotBlank @NotEmpty @NotNull final String username, @NotBlank @NotEmpty @NotNull final String password)
+                    throws AbstractDatabaseException {
         Metadata metadata = null;
         try (final Connection conn = DriverManager.getConnection(url, username, password)) {
             final DatabaseMetaData sqlMeta = conn.getMetaData();
@@ -49,11 +59,30 @@ public final class DatabaseConnImpl implements DatabaseDirector {
              */
             metadata = new Metadata(sqlMeta, null);
         } catch (SQLException ex) {
-            jvmError(LOGGER, ex);
+            final AbstractDatabaseException error = extractError(ex, url, username, password);
+            // 特殊的Console使用，暂时不 peError(LOGGER, error);
+            peDebug(LOGGER, error);
+            throw error;
         }
         return metadata;
     }
     // ~ Private Methods =====================================
+
+    private AbstractDatabaseException extractError(final SQLException ex, final String url, final String username,
+            final String password) {
+        AbstractDatabaseException error = null;
+        // 1.根据Error Code获取Class
+        final String clsName = LOADER.getString(String.valueOf(ex.getErrorCode()));
+        if (StringKit.isNonNil(clsName)) {
+            final Class<?> errorCls = Instance.clazz(clsName);
+            if (DatabaseStoppedException.class == errorCls) {
+                error = new DatabaseStoppedException(getClass(), url);
+            } else if (DatabaseInvalidTokenException.class == errorCls) {
+                error = new DatabaseInvalidTokenException(getClass(), url, username, password);
+            }
+        }
+        return error;
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

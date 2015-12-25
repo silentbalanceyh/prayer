@@ -52,6 +52,8 @@ public final class Resources { // NOPMD
     // Metadata SQL File Configuration =======================
     /** 保存的SQL文件地址 **/
     public static final String DB_SQL_DIR;
+    /** SQL Error的Mapping映射文件 **/
+    public static final String DB_SQL_ERROR;
 
     // File Configuration ====================================
     /** Vertx的配置文件路径 **/
@@ -108,6 +110,9 @@ public final class Resources { // NOPMD
 
         // Metadata
         DB_SQL_DIR = LOADER.getString("database.sql.directory");
+        
+        // Metadata
+        DB_SQL_ERROR = LOADER.getString("database.sql.errors");
 
         // Vertx
         VX_CFG_FILE = LOADER.getString("vertx.config.file");
