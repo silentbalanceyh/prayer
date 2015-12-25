@@ -1,5 +1,9 @@
 {
     "exit":"exit <NO OPTIONS>",
     "help":"help [-c] [-h]",
-    "status":"status [-m] [-d] [-v] [-u] [-p] [-h]"
+    "status":"status [-m] [-d] [-v] [-u] [-p] [-h]",
+    "mserver":"mserver [-h] [-d] [-s] [-t] [-r]",
+    "engine":"engine [-h] [-s] [-t] [-r] [-v]",
+    "schema":"schema [-h] [-l] [-u] [-f] [-d]",
+    "api":"api [-h] [-a]"
 }

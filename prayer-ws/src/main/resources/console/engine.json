@@ -1,0 +1,47 @@
+[
+    {
+        "single":"h",
+        "name":"help",
+        "args":[
+            
+        ],
+        "description":"Display help information of 'engine'",
+        "required":false
+    },
+    {
+        "single":"s",
+        "name":"start",
+        "args":[
+            
+        ],
+        "description":"Start Prayer Engine ( Vert.X )",
+        "required":false
+    },
+    {
+        "single":"t",
+        "name":"halt",
+        "args":[
+            
+        ],
+        "description":"Halt Prayer Engine ( Vert.X )",
+        "required":false
+    },
+    {
+        "single":"r",
+        "name":"restart",
+        "args":[
+            
+        ],
+        "description":"Restart Prayer Engine ( Vert.X )",
+        "required":false
+    },
+    {
+        "single":"v",
+        "name":"verify",
+        "args":[
+            
+        ],
+        "description":"Check Prayer Engine Restful Web Service Status",
+        "required":false
+    }
+]

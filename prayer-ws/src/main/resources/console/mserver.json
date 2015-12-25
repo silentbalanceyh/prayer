@@ -1,0 +1,47 @@
+[
+    {
+        "single":"h",
+        "name":"help",
+        "args":[
+            
+        ],
+        "description":"Display help information of 'mserver'",
+        "required":false
+    },
+    {
+        "single":"d",
+        "name":"deploy",
+        "args":[
+            "folder"
+        ],
+        "description":"Deploy all metadata into H2 database under <folder>",
+        "required":false
+    },
+    {
+        "single":"s",
+        "name":"start",
+        "args":[
+            
+        ],
+        "description":"Start H2 Database Metadata Server",
+        "required":false
+    },
+    {
+        "single":"t",
+        "name":"halt",
+        "args":[
+            
+        ],
+        "description":"Halt H2 Database Metadata Server",
+        "required":false
+    },
+    {
+        "single":"r",
+        "name":"restart",
+        "args":[
+            
+        ],
+        "description":"Restart H2 Database Metadata Server",
+        "required":false
+    }
+]

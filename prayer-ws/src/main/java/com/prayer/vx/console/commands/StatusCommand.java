@@ -26,7 +26,7 @@ public class StatusCommand extends AbstractCommand {
     /** **/
     public JsonObject execute(final String... args){
         final CommandLine cl = this.parse(args);
-        // TODO: 命令status的-d,-m,-v,-p,-u参数逻辑
+        // TODO: 命令status的开发
         return null;
     }
     // ~ Private Methods =====================================

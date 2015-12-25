@@ -1,0 +1,47 @@
+[
+    {
+        "single":"h",
+        "name":"help",
+        "args":[
+            
+        ],
+        "description":"Display help information of 'schema'",
+        "required":false
+    },
+    {
+        "single":"l",
+        "name":"list",
+        "args":[
+            
+        ],
+        "description":"List all schema file under deployed folder",
+        "required":false
+    },
+    {
+        "single":"u",
+        "name":"upload",
+        "args":[
+            "file"
+        ],
+        "description":"Upload data of schema file to H2 Metadata Database",
+        "required":false
+    },
+    {
+        "single":"f",
+        "name":"find",
+        "args":[
+            "pattern"
+        ],
+        "description":"Find schema file by pattern matching for File Name",
+        "required":false
+    },
+    {
+        "single":"d",
+        "name":"delete",
+        "args":[
+            "identifier"
+        ],
+        "description":"Delete metadata by 'identifier' from H2 Database ( Not Business Database )",
+        "required":false
+    }
+]

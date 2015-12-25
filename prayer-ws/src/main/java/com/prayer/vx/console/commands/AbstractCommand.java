@@ -26,7 +26,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public abstract class AbstractCommand {
+public abstract class AbstractCommand implements Command{
     // ~ Static Fields =======================================
     /** **/
     private static final JsonObject COMMANDS;

@@ -33,6 +33,10 @@ public class EngineConsole extends AbstractConsole {
         OPS.putIfAbsent("exit", CommandSender::exit);
         OPS.putIfAbsent("help", CommandSender::help);
         OPS.putIfAbsent("status", CommandSender::status);
+        OPS.putIfAbsent("mserver", CommandSender::mserver);
+        OPS.putIfAbsent("engine", CommandSender::engine);
+        OPS.putIfAbsent("schema", CommandSender::schema);
+        OPS.putIfAbsent("api", CommandSender::api);
     }
 
     // ~ Static Methods ======================================
@@ -70,10 +74,16 @@ public class EngineConsole extends AbstractConsole {
                 final String command = arguments[Constants.ZERO];
                 // 存在命令的情况
                 if (StringKit.isNonNil(command)) {
-                    final JsonObject report = OPS.get(command).execute(commandArgs);
-                    if (null != report) {
-                        // 4.打印最终执行结果
-                        System.out.println(report.encodePrettily());
+                    if (this.verifyCommand(command)) {
+                        final JsonObject report = OPS.get(command).execute(commandArgs);
+                        if (null != report) {
+                            // 4.打印最终执行结果
+                            System.out.println(report.encodePrettily());
+                        }
+                    }else{
+                        // 打印帮助，并且显示错误的命令
+                        System.out.println("[ERROR] Command does not exist : " + command);
+                        this.populateHelp();
                     }
                 }
             }
@@ -81,6 +91,20 @@ public class EngineConsole extends AbstractConsole {
     }
 
     // ~ Private Methods =====================================
+    /**
+     * 验证命令对不对
+     * 
+     * @param command
+     * @return
+     */
+    private boolean verifyCommand(final String command) {
+        boolean ret = false;
+        if (OPS.keySet().contains(command)) {
+            ret = true;
+        }
+        return ret;
+    }
+
     /**
      * 除开第一个参数，直接提取剩余部分的Options信息，这些信息用于Common CLI的Parsing
      * 

@@ -9,7 +9,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public final class HelpCommand extends AbstractCommand {
+public class EngineCommand extends AbstractCommand {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -19,22 +19,18 @@ public final class HelpCommand extends AbstractCommand {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public String command() {
-        return "help";
+    public String command(){
+        return "engine";
     }
-
     // ~ Methods =============================================
     /** **/
-    public JsonObject execute(final String... args) {
+    public JsonObject execute(final String... args){
         final CommandLine cl = this.parse(args);
-        // 如果包含有-c
-        if (cl.hasOption('c')) {
-            final String command = cl.getOptionValue('c');
-            this.help(command);
-        }
+        // TODO: 命令engine的开发
         return null;
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

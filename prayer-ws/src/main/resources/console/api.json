@@ -1,0 +1,20 @@
+[
+    {
+        "single":"h",
+        "name":"help",
+        "args":[
+            
+        ],
+        "description":"Display help information of 'api'",
+        "required":false
+    },
+    {
+        "single":"a",
+        "name":"add",
+        "args":[
+            "file"
+        ],
+        "description":"Add/Merge api into H2 Metadata Database",
+        "required":false
+    }
+]

@@ -5,7 +5,7 @@
         "args":[
             
         ],
-        "description":"Display help information",
+        "description":"Display help information of 'status'",
         "required":false
     },
     {
