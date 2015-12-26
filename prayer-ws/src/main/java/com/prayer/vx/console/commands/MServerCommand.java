@@ -13,6 +13,7 @@ import com.prayer.util.IOKit;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -29,6 +30,7 @@ public class MServerCommand extends AbstractCommand {
     private transient final DeployService service;
 
     /** **/
+    @NotNull
     private transient final JdbcHelper helper;
 
     // ~ Static Block ========================================
@@ -37,6 +39,7 @@ public class MServerCommand extends AbstractCommand {
     /**
      * 
      */
+    @PostValidateThis
     public MServerCommand() {
         this.service = singleton(DeploySevImpl.class);
         this.helper = singleton(JdbcHelper.class);
@@ -76,7 +79,7 @@ public class MServerCommand extends AbstractCommand {
         final URL url = IOKit.getURL(folder);
         JsonObject ret = new JsonObject();
         if (null == url) {
-            System.out.println("[ERROR] The folder does not exist in classpath.");
+            System.out.println("[ERROR] The folder : " + folder + " does not exist in classpath.");
         } else {
             final JsonObject checkConn = this.helper.getMetadata("H2");
             if (checkConn.containsKey("error")) {

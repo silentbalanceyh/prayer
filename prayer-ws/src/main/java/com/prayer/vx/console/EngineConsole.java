@@ -76,7 +76,7 @@ public class EngineConsole extends AbstractConsole {
                 if (StringKit.isNonNil(command)) {
                     if (this.verifyCommand(command)) {
                         final JsonObject report = OPS.get(command).execute(commandArgs);
-                        if (null != report) {
+                        if (null != report && Constants.ZERO < report.fieldNames().size()) {
                             System.out.println("----------------------- Result -----------------------");
                             // 4.打印最终执行结果
                             System.out.println(report.encodePrettily());

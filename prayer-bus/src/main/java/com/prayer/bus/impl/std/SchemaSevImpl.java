@@ -2,6 +2,7 @@ package com.prayer.bus.impl.std;
 
 import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.Log.info;
 import static com.prayer.util.Log.peError;
 
 import org.slf4j.Logger;
@@ -77,6 +78,7 @@ public class SchemaSevImpl implements SchemaService {
             importer.syncSchema(schema);
             // 5.成功代码
             result.success(schema);
+            info(LOGGER, "Schema ( file = " + filePath + " ) has been deployed successfully");
         } catch (AbstractTransactionException ex) {
             peError(LOGGER, ex);
             result.error(ex);
