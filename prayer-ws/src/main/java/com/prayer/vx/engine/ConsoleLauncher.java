@@ -11,6 +11,7 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.exception.system.StartUpArgsInvalidException;
 import com.prayer.util.IOKit;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.Resources;
 import com.prayer.vx.console.AbstractConsole;
 import com.prayer.vx.console.EngineConsole;
 import com.prayer.vx.console.H2DatabaseShell;
@@ -33,6 +34,8 @@ public final class ConsoleLauncher extends AbstractConsole {
      * @return
      */
     public static ConsoleLauncher create(){
+        // 开启Console模式
+        Resources.IS_CONSOLE = true;
         return new ConsoleLauncher();
     }
     /**

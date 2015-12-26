@@ -66,6 +66,9 @@ public final class Resources { // NOPMD
     public static final String META_OD_FOLDER;
     /** 日志配置文件存储的根目录 **/
     public static final String LOG_CFG_FOLDER;
+    
+    /** 默认不是从CONSOLE启动 **/
+    public static boolean IS_CONSOLE = false;
 
     /**
      * Private singleton resource LOADER. *

@@ -67,11 +67,16 @@ public final class Log { // NOPMD
      * @param exp
      */
     public static void peError(@NotNull final org.slf4j.Logger logger, @NotNull final AbstractException exp) {
-        error(logger, ErrorKey.ERR_ENGINE, exp, exp.getClass().getName(), exp.getErrorMessage());
-        if (logger.isTraceEnabled()) {
-            exp.printStackTrace();// NOPMD
+        if (Resources.IS_CONSOLE) {
+            peDebug(logger, exp);
+        } else {
+            error(logger, ErrorKey.ERR_ENGINE, exp, exp.getClass().getName(), exp.getErrorMessage());
+            if (logger.isTraceEnabled()) {
+                exp.printStackTrace();// NOPMD
+            }
         }
     }
+
     /**
      * AbstractException异常信息
      * 
@@ -94,7 +99,7 @@ public final class Log { // NOPMD
      * @param params
      */
     public static void info(@NotNull final org.slf4j.Logger logger, @NotNull final String key, final Object... params) {
-        if (logger.isInfoEnabled()) {
+        if (logger.isInfoEnabled() && !Resources.IS_CONSOLE) {
             String message = null;
             if (Constants.ZERO == params.length) {
                 message = message(Level.INFO, key);

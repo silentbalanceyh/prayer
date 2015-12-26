@@ -28,9 +28,11 @@ public final class HelpCommand extends AbstractCommand {
     public JsonObject execute(final String... args) {
         final CommandLine cl = this.parse(args);
         // 如果包含有-c
-        if (cl.hasOption('c')) {
-            final String command = cl.getOptionValue('c');
-            this.help(command);
+        if (null != cl) {
+            if (cl.hasOption('c')) {
+                final String command = cl.getOptionValue('c');
+                this.help(command);
+            }
         }
         return null;
     }

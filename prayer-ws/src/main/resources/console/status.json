@@ -34,23 +34,5 @@
         ],
         "description":"Check the status of Prayer Engine ( Vert.X )",
         "required":false
-    },
-    {
-        "single":"u",
-        "name":"username",
-        "args":[
-            "username"
-        ],
-        "description":"Provide username to Environment: -v, -d, -m",
-        "required":false
-    },
-    {
-        "single":"p",
-        "name":"password",
-        "args":[
-            "password"
-        ],
-        "description":"Provide password to Environment: -v, -d, -m",
-        "required":false
     }
 ]

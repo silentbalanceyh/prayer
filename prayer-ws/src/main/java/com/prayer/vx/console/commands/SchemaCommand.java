@@ -31,6 +31,9 @@ public class SchemaCommand extends AbstractCommand{
     public JsonObject execute(final String... args){
         final CommandLine cl = this.parse(args);
         // TODO：命令schema的开发
+        if(null != cl){
+            
+        }
         return null;
     }
     // ~ Private Methods =====================================

@@ -1,6 +1,6 @@
 package com.prayer.dao.impl.jdbc;
 
-import static com.prayer.util.Log.peDebug;
+import static com.prayer.util.Log.peError;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -61,7 +61,7 @@ public final class DatabaseConnImpl implements DatabaseDirector {
         } catch (SQLException ex) {
             final AbstractDatabaseException error = extractError(ex, url, username, password);
             // 特殊的Console使用，暂时不 peError(LOGGER, error);
-            peDebug(LOGGER, error);
+            peError(LOGGER, error);
             throw error;
         }
         return metadata;

@@ -1,7 +1,7 @@
 package com.prayer.base.bus;
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.peDebug;
+import static com.prayer.util.Log.peError;
 
 import org.slf4j.Logger;
 
@@ -65,7 +65,7 @@ public abstract class AbstractMSevImpl {
                 final Metadata meta = this.director.getMetadata(url, username, password);
                 ret.success(ConsoleExtractor.extractMetadata(meta));
             } catch (AbstractDatabaseException ex) {
-                peDebug(getLogger(), ex);
+                peError(getLogger(), ex);
                 ret.failure(ex);
             }
         } else {

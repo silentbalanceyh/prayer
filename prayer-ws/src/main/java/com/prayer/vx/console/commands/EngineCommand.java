@@ -27,6 +27,9 @@ public class EngineCommand extends AbstractCommand {
     public JsonObject execute(final String... args){
         final CommandLine cl = this.parse(args);
         // TODO: 命令engine的开发
+        if (null != cl) {
+            
+        }
         return null;
     }
     // ~ Private Methods =====================================
