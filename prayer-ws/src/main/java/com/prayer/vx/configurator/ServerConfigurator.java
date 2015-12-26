@@ -90,7 +90,7 @@ public class ServerConfigurator { // NOPMD
         enabled = LOADER.getBoolean("h2.database.cluster.enabled");
         return enabled;
     }
-    
+
     /**
      * 
      * @return
@@ -191,7 +191,7 @@ public class ServerConfigurator { // NOPMD
             if (allowOthers) {
                 params.add("-tcpAllowOthers");
             }
-            params.add("-tcpDaemon");
+            // params.add("-tcpDaemon");
             server = Server.createTcpServer(params.toArray(new String[] {}));
         }
         return server;
@@ -211,7 +211,7 @@ public class ServerConfigurator { // NOPMD
             if (allowOthers) {
                 params.add("-webAllowOthers");
             }
-            params.add("-webDaemon");
+            // params.add("-webDaemon");
             server = Server.createWebServer(params.toArray(new String[] {}));
         }
         return server;
@@ -242,7 +242,7 @@ public class ServerConfigurator { // NOPMD
             if (allowOthers) {
                 params.add("-tcpAllowOthers");
             }
-            params.add("-tcpDaemon");
+            // params.add("-tcpDaemon");
             server = Server.createTcpServer(params.toArray(new String[] {}));
         }
         return server;

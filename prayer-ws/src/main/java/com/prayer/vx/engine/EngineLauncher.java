@@ -6,7 +6,6 @@ import com.hazelcast.config.Config;
 import com.prayer.base.exception.AbstractException;
 import com.prayer.handler.deploy.VertxClusterHandler;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Resources;
 import com.prayer.vx.configurator.VertxConfigurator;
 
 import io.vertx.core.Vertx;
@@ -35,7 +34,6 @@ public final class EngineLauncher {
      * @return
      */
     public static EngineLauncher create() {
-        Resources.IS_CONSOLE = false;
         return new EngineLauncher();
     }
 

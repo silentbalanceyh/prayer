@@ -1,5 +1,6 @@
 package com.prayer.vx.engine;
 
+import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.Log.error;
 import static com.prayer.util.Log.info;
@@ -123,8 +124,8 @@ public class VerticleDeployer {
                 // 1.检查当前配置
                 Interruptor.interruptClass(getClass(), name, "Verticle");
                 Interruptor.interruptExtends(getClass(), name, AbstractVerticle.class, Verticle.class);
-                // 2.发布这个Verticle
-                this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), singleton(VerticleAsyncHandler.class));
+                // 2.发布这个Verticle, 这里不要使用singleton
+                this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), instance(VerticleAsyncHandler.class.getName()));
             }
         }
     }

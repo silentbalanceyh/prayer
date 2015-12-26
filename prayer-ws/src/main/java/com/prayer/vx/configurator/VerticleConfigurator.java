@@ -70,10 +70,10 @@ public class VerticleConfigurator {
         // 1.加载缓存
         this.initDataMap();
         // 2.读取结果
-        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>();    // NOPMD
-        DATA_MAP.values().forEach(item -> {
+        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
+        for (final VerticleChain item : DATA_MAP.values()) {
             retMap.putAll(this.getConfig(item.getSyncList()));
-        });
+        }
         return retMap;
     }
 
@@ -87,7 +87,7 @@ public class VerticleConfigurator {
         // 1.加载缓存
         this.initDataMap();
         // 2.读取结果
-        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>();    // NOPMD
+        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
         for (final String key : DATA_MAP.keySet()) {
             retMap.putAll(this.getConfig(DATA_MAP.get(key).getAsyncList()));
         }
@@ -102,7 +102,7 @@ public class VerticleConfigurator {
         // 1.加载缓存
         this.initDataMap();
         // 2.读取结果
-        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>();    // NOPMD
+        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
         retMap.putAll(this.getConfig(DATA_MAP.get(group).getSyncList()));
         return retMap;
     }
@@ -115,7 +115,7 @@ public class VerticleConfigurator {
         // 1.加载缓存
         this.initDataMap();
         // 2.读取结果
-        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>();    // NOPMD
+        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
         retMap.putAll(this.getConfig(DATA_MAP.get(group).getAsyncList()));
         return retMap;
     }
@@ -133,10 +133,10 @@ public class VerticleConfigurator {
     }
 
     private Map<String, DeploymentOptions> getConfig(final List<VerticleModel> rawList) {
-        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>();    // NOPMD
-        rawList.forEach(item -> {
+        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
+        for (final VerticleModel item : rawList) {
             retMap.put(item.getName(), this.getOptions(item));
-        });
+        }
         return retMap;
     }
 

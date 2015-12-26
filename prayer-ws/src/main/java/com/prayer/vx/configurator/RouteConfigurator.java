@@ -76,13 +76,14 @@ public class RouteConfigurator {
         final Router retRouter = Router.router(this.vertxRef);
         if (ResponseCode.SUCCESS == result.getResponseCode()) {
             // 3.Sub Router
-            result.getResult().values().forEach(routeList -> {
+            final ConcurrentMap<String, List<RouteModel>> retMap = result.getResult();
+            for (final List<RouteModel> routeList : retMap.values()) {
                 // 4.Sub Router调用
-                routeList.forEach(item -> {
+                for (final RouteModel item : routeList) {
                     final Route route = this.configRouter(retRouter, item);
                     retRouter.getRoutes().add(route);
-                });
-            });
+                }
+            }
         } else {
             info(LOGGER, "[E-VX] No route has been found in H2 database !");
         }
@@ -103,12 +104,6 @@ public class RouteConfigurator {
                 route = route.consumes(mime);
             }
         }
-        /*
-         * Producer会影响Match的流程 if (null != metadata.getProducerMimes() &&
-         * !metadata.getProducerMimes().isEmpty()) { for (final String mime :
-         * metadata.getProducerMimes()) { info(LOGGER, "[I-WEB] Produce -> " +
-         * mime + " : " + route); route = route.produces(mime); } }
-         */
         // 5.设置Handler
         this.registerHandler(route, metadata);
         return route;
