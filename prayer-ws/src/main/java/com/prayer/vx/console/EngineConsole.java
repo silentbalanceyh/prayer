@@ -77,6 +77,7 @@ public class EngineConsole extends AbstractConsole {
                     if (this.verifyCommand(command)) {
                         final JsonObject report = OPS.get(command).execute(commandArgs);
                         if (null != report) {
+                            System.out.println("----------------------- Result -----------------------");
                             // 4.打印最终执行结果
                             System.out.println(report.encodePrettily());
                         }

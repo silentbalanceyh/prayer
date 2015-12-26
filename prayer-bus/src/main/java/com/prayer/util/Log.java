@@ -99,15 +99,20 @@ public final class Log { // NOPMD
      * @param params
      */
     public static void info(@NotNull final org.slf4j.Logger logger, @NotNull final String key, final Object... params) {
-        if (logger.isInfoEnabled() && !Resources.IS_CONSOLE) {
-            String message = null;
-            if (Constants.ZERO == params.length) {
-                message = message(Level.INFO, key);
-            } else {
-                message = MessageFormat.format(message(Level.INFO, key), params);
+        String message = null;
+        if (Constants.ZERO == params.length) {
+            message = message(Level.INFO, key);
+        } else {
+            message = MessageFormat.format(message(Level.INFO, key), params);
+        }
+        if (Resources.IS_CONSOLE) {
+            // 在Console中打印信息
+            System.out.println(message);
+        } else {
+            if (logger.isInfoEnabled()) {
+                // Output
+                logger.info(message);
             }
-            // Output
-            logger.info(message);
         }
     }
 

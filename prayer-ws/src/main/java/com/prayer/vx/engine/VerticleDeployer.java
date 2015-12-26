@@ -5,6 +5,7 @@ import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.Log.error;
 import static com.prayer.util.Log.info;
 
+import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -46,6 +47,8 @@ public class VerticleDeployer {
     private static final String E_VERTICLE_COUNT = "({0}) Vertx reference = {1}, Queue Size = {2}";
     /** **/
     private static final String I_VERTICLE_COUNT = "({0}) Verticle count number = {1}";
+    /** **/
+    private static final String DP_VERTICLE = "(Sync) Verticle : {0} has been deployed {1} instances successfully";
     // ~ Instance Fields =====================================
 
     /** Vertx的唯一全局引用 **/
@@ -104,9 +107,10 @@ public class VerticleDeployer {
                 Interruptor.interruptClass(getClass(), name, "Verticle");
                 Interruptor.interruptExtends(getClass(), name, AbstractVerticle.class, Verticle.class);
                 // 2.发布这个Verticle
-                this.vertxRef.deployVerticle(name, DATA_SYNC.get(name));
+                final DeploymentOptions option = DATA_SYNC.get(name);
+                this.vertxRef.deployVerticle(name, option);
+                info(LOGGER, MessageFormat.format(DP_VERTICLE, name, option.getInstances()));
             }
-            info(LOGGER, "(Sync) All Verticles have been deployed successfully!");
         }
     }
 
@@ -125,7 +129,9 @@ public class VerticleDeployer {
                 Interruptor.interruptClass(getClass(), name, "Verticle");
                 Interruptor.interruptExtends(getClass(), name, AbstractVerticle.class, Verticle.class);
                 // 2.发布这个Verticle, 这里不要使用singleton
-                this.vertxRef.deployVerticle(name, DATA_ASYNC.get(name), instance(VerticleAsyncHandler.class.getName()));
+                final DeploymentOptions option = DATA_ASYNC.get(name);
+                this.vertxRef.deployVerticle(name, option,
+                        instance(VerticleAsyncHandler.class.getName(), name, option));
             }
         }
     }
