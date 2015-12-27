@@ -101,7 +101,7 @@ public class H2DatabaseServer {
         boolean started = this.startConsole();
         if (this.configurator.enabledH2Cluster()) {
             // 2.启动Clusters的每一个独立数据库
-            for (final String key : this.clusters.keySet()) {
+            this.clusters.keySet().parallelStream().forEach(key -> {
                 final Server single = this.clusters.get(key);
                 info(LOGGER, I_H2_DB_BEFORE, "Starting", key, String.valueOf(single.getPort()));
                 try {
@@ -114,7 +114,7 @@ public class H2DatabaseServer {
                 } catch (SQLException ex) {
                     jvmError(LOGGER, ex);
                 }
-            }
+            });
             // 3.创建一个Cluster
             try {
                 final CreateCluster cluster = new CreateCluster();
