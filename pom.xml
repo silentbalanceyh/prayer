@@ -154,7 +154,6 @@
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
 			<version>${telnet.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<!-- Spring Test -->
 		<dependency>
