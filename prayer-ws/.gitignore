@@ -3,6 +3,8 @@
 /*.classpath
 /*.project
 /.settings/
+
 /PRAYER.lock
-.vertx
-/DEPLOYED.lock
+
+/.vertx
+/
