@@ -68,11 +68,11 @@ public final class DatabaseConnImpl implements DatabaseDirector {
     }
     // ~ Private Methods =====================================
 
-    private AbstractDatabaseException extractError(final SQLException ex, final String url, final String username,
+    private AbstractDatabaseException extractError(final SQLException exp, final String url, final String username,
             final String password) {
         AbstractDatabaseException error = null;
         // 1.根据Error Code获取Class
-        final String clsName = LOADER.getString(String.valueOf(ex.getErrorCode()));
+        final String clsName = LOADER.getString(String.valueOf(exp.getErrorCode()));
         if (StringKit.isNonNil(clsName)) {
             final Class<?> errorCls = Instance.clazz(clsName);
             if (DatabaseStoppedException.class == errorCls) {

@@ -35,7 +35,7 @@ public class VerticleAsyncHandler implements Handler<AsyncResult<String>> {
     @NotNull
     @NotEmpty
     @NotBlank
-    private transient final String name;
+    private transient final String name;    // NOPMD
     /** **/
     @NotNull
     private transient final DeploymentOptions option;

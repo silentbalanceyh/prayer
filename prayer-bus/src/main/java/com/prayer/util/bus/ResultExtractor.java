@@ -35,10 +35,12 @@ public final class ResultExtractor {
         // 1.构造结果
         final ConcurrentMap<String, T> retMap = new ConcurrentHashMap<>();
         // 2.遍历结果集
-        dataList.stream().filter(item -> StringKit.isNonNil(Instance.field(item, field).toString())).forEach(item -> {
-            // 3.将DataList转换成一个Map
-            retMap.put(Instance.field(item, field).toString(), item);
-        });
+        for (final T item : dataList) {
+            if (StringKit.isNonNil(Instance.field(item, field).toString())) {
+                // 3.将DataList转换成一个Map
+                retMap.put(Instance.field(item, field).toString(), item);
+            }
+        }
         return retMap;
     }
 
@@ -49,20 +51,22 @@ public final class ResultExtractor {
         // 1.构造结果
         final ConcurrentMap<String, List<T>> retMap = new ConcurrentHashMap<>();
         // 2.遍历结果集
-        dataList.stream().filter(item -> StringKit.isNonNil(Instance.field(item, field).toString())).forEach(item -> {
-            // 3.1.获取Key
-            final String key = Instance.field(item, field).toString();
-            // 3.2.从Map中读取
-            List<T> list = retMap.get(key);
-            // 3.3.判断获取结果
-            if (null == list) {
-                list = new ArrayList<>(); // NOPMD
+        for (final T item : dataList) {
+            if (StringKit.isNonNil(Instance.field(item, field).toString())) {
+                // 3.1.获取Key
+                final String key = Instance.field(item, field).toString();
+                // 3.2.从Map中读取
+                List<T> list = retMap.get(key);
+                // 3.3.判断获取结果
+                if (null == list) {
+                    list = new ArrayList<>(); // NOPMD
+                }
+                // 3.4.添加对象到List中
+                list.add(item);
+                // 3.5.填充Map
+                retMap.put(key, list);
             }
-            // 3.4.添加对象到List中
-            list.add(item);
-            // 3.5.填充Map
-            retMap.put(key, list);
-        });
+        }
         return retMap;
     }
 
@@ -72,10 +76,10 @@ public final class ResultExtractor {
         // 1.构造结果
         final ConcurrentMap<HttpMethod, UriModel> retMap = new ConcurrentHashMap<>();
         // 2.遍历结果集
-        dataList.stream().forEach(item -> {
+        for (final UriModel item : dataList) {
             // 3.5.填充Map
             retMap.put(item.getMethod(), item);
-        });
+        }
         return retMap;
     }
 
@@ -89,18 +93,20 @@ public final class ResultExtractor {
         // 1.构造结果
         final ConcurrentMap<String, VerticleChain> retMap = new ConcurrentHashMap<>();
         // 2.遍历结果集
-        dataList.stream().filter(item -> StringKit.isNonNil(item.getGroup())).forEach(item -> {
-            // 3.1.获取某个Group的VerticleChain
-            VerticleChain chain = retMap.get(item.getGroup());
-            // 3.2.判断是否获取到，没获取到就重新获取
-            if (null == chain) {
-                chain = new VerticleChain(item.getGroup()); // NOPMD
+        for (final VerticleModel item : dataList) {
+            if (StringKit.isNonNil(item.getGroup())) {
+                // 3.1.获取某个Group的VerticleChain
+                VerticleChain chain = retMap.get(item.getGroup());
+                // 3.2.判断是否获取到，没获取到就重新获取
+                if (null == chain) {
+                    chain = new VerticleChain(item.getGroup()); // NOPMD
+                }
+                // 3.3.修改chain引用
+                chain.addVerticle(item);
+                // 3.4.完成过后添加到Map中
+                retMap.put(item.getGroup(), chain);
             }
-            // 3.3.修改chain引用
-            chain.addVerticle(item);
-            // 3.4.完成过后添加到Map中
-            retMap.put(item.getGroup(), chain);
-        });
+        }
         // 4.返回最终过滤结果
         return retMap;
     }

@@ -1,37 +1,26 @@
-package com.prayer.vx.console.commands;
+package com.prayer.demo.jdk;
 
-import org.apache.commons.cli.CommandLine;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
-import io.vertx.core.json.JsonObject;
-
-/**
- * 
- * @author Lang
- *
- */
-public class EngineCommand extends AbstractCommand {
+public class StreamBuilders {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    public static void main(String args[]){
+        List<Integer> list = new ArrayList<Integer>();
+        for(int i = 1; i< 10000000; i++){
+            list.add(i);
+        }
+        Stream<Integer> stream = list.parallelStream();
+        stream.forEach(p -> System.out.println(p));
+    }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public String command(){
-        return "engine";
-    }
     // ~ Methods =============================================
-    /** **/
-    public JsonObject execute(final String... args){
-        final CommandLine cmdLine = this.parse(args);
-        // TODO: 命令engine的开发
-        if (null != cmdLine) {
-            
-        }
-        return null;
-    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

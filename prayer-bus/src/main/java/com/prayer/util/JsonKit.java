@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
+import com.prayer.util.cv.Constants;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.Min;
@@ -63,12 +64,12 @@ public final class JsonKit { // NOPMD
             jvmError(LOGGER, ex);
             final AbstractSystemException error = new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
             peError(LOGGER, error);
-            throw error;
+            throw error; // NOPMD
         } catch (IOException ex) {
             jvmError(LOGGER, ex);
             final AbstractSystemException error = new ResourceIOException(JsonKit.class, file); // NOPMD
             peError(LOGGER, error);
-            throw error;
+            throw error;// NOPMD
         }
         return ret;
     }
@@ -141,12 +142,12 @@ public final class JsonKit { // NOPMD
             jvmError(LOGGER, ex);
             final AbstractSystemException error = new JsonParserException(JsonKit.class, ex.toString()); // NOPMD
             peError(LOGGER, error);
-            throw error;
+            throw error;// NOPMD
         } catch (IOException ex) {
             jvmError(LOGGER, ex);
             final AbstractSystemException error = new ResourceIOException(JsonKit.class, filePath); // NOPMD
             peError(LOGGER, error);
-            throw error;
+            throw error;// NOPMD
         }
         return retNode;
     }
@@ -339,7 +340,7 @@ public final class JsonKit { // NOPMD
             // filter中没有任何内容，直接返回匹配
             for (final String key : filter.keySet()) {
                 final int occurs = occursAttr(jsonNode, key, filter.get(key), true);
-                if (occurs <= 0) {
+                if (occurs <= Constants.ZERO) {
                     ret = false;
                     break;
                 }

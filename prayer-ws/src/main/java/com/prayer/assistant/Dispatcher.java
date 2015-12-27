@@ -34,6 +34,8 @@ public final class Dispatcher { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(Dispatcher.class);
+    /** **/
+    private static final String DECODE = "DECODE";
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -49,43 +51,43 @@ public final class Dispatcher { // NOPMD
     public static boolean requestDispatch(final Class<?> clazz,
             final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result, final RoutingContext context) {
         final HttpServerRequest request = context.request();
-        if (ResponseCode.SUCCESS == result.getResponseCode()) {
-            final ConcurrentMap<HttpMethod, UriModel> uriMap = result.getResult();
-            if (uriMap.isEmpty()) {
-                // 404 Resources Not Found
-                Future.error404(clazz, context, request.path());
-                return false;
-            } else {
-                final UriModel uriSpec = uriMap.get(request.method());
-                if (null == uriSpec) {
-                    // 405 Method Not Allowed
-                    Future.error405(clazz, context, request.method());
-                    return false;
-                } else {
-                    final String param = getErrorParam(uriSpec, context);
-                    if (StringKit.isNonNil(param)) {
-                        if ("DECODE".equals(param)) {
-                            // 401需要Skip这种情况
-                            Future.error400(clazz, context, -30010, request.path());
-                            return false;
-                        } else {
-                            Future.error400(clazz, context, -30001, request.path(), uriSpec.getParamType().toString(),
-                                    param);
-                            return false;
-                        }
-                    } else {
-                        return true;
-                    }
-                }
-            }
-        } else {
+        // 1.内部500Error
+        if (ResponseCode.SUCCESS != result.getResponseCode()) {
             // 500 Internal Error
             Future.error500(clazz, context);
-            return false;
+            return false; // NOPMD
         }
+        // 2.URI的获取
+        final ConcurrentMap<HttpMethod, UriModel> uriMap = result.getResult();
+        if (uriMap.isEmpty()) {
+            // 404 Resources Not Found
+            Future.error404(clazz, context, request.path());
+            return false; // NOPMD
+        }
+        // 3.405 Method Not Allowed
+        final UriModel uriSpec = uriMap.get(request.method());
+        if (null == uriSpec) {
+            // 405 Method Not Allowed
+            Future.error405(clazz, context, request.method());
+            return false; // NOPMD
+        }
+        // 4.特殊的参数信息
+        final String param = getErrorParam(uriSpec, context);
+        if (StringKit.isNonNil(param)) {
+            if (DECODE.equals(param)) {
+                // 401需要Skip这种情况
+                Future.error400(clazz, context, -30010, request.path());
+            } else {
+                Future.error400(clazz, context, -30001, request.path(), uriSpec.getParamType().toString(), param);
+            }
+            return false; // NOPMD
+        }
+        return true;
     }
+
     /**
      * 参数规范的处理流程
+     * 
      * @param uri
      * @param context
      * @return
@@ -128,7 +130,7 @@ public final class Dispatcher { // NOPMD
                                         retParam = param;
                                         break;
                                     } else {
-                                        if (!page.containsKey(Constants.PARAM.PAGE.PAGE_INDEX)) {
+                                        if (!page.containsKey(Constants.PARAM.PAGE.PAGE_INDEX)) { // NOPMD
                                             retParam = param + "->" + Constants.PARAM.PAGE.PAGE_INDEX;
                                             break;
                                         } else if (!page.containsKey(Constants.PARAM.PAGE.PAGE_SIZE)) {
@@ -155,15 +157,15 @@ public final class Dispatcher { // NOPMD
                             }
                         }
                     } catch (DecodeException ex) {
-                        retParam = "DECODE";
-                        jvmError(LOGGER,ex);
+                        retParam = DECODE;
+                        jvmError(LOGGER, ex);
                     } catch (ClassCastException ex) {
-                        retParam = "DECODE";
-                        jvmError(LOGGER,ex);
+                        retParam = DECODE;
+                        jvmError(LOGGER, ex);
                     }
                 } else {
                     // Body 不填充任何值的时候
-                    retParam = "DECODE";
+                    retParam = DECODE;
                 }
             }
         }

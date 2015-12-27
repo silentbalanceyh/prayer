@@ -91,8 +91,7 @@ public final class EngineLauncher {
         final VertxFactory factory = configurator.getFactory();
         // 2.判断是普通环境还是Cluster环境
         if (options.isClustered()) {
-            final Config config = singleton(Config.class);
-            final ClusterManager mgr = singleton(HazelcastClusterManager.class, config);
+            final ClusterManager mgr = new HazelcastClusterManager(new Config());
             options.setClusterManager(mgr);
             factory.clusteredVertx(options, singleton(VertxClusterHandler.class));
         } else {
@@ -112,7 +111,7 @@ public final class EngineLauncher {
         if (startDatabase(args)) {
             // 数据的Deploy过程
             boolean ret = true;
-            if(!this.server.isDeployed()){
+            if (!this.server.isDeployed()) {
                 ret = this.deployData(null);
             }
             // 启动Engine

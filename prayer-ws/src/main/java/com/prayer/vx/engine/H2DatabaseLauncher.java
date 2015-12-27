@@ -26,7 +26,7 @@ public final class H2DatabaseLauncher {
     }
     
     /** **/
-    public static void main(final String... args) throws Exception {
+    public static void main(final String... args) throws AbstractException {
         final H2DatabaseLauncher launcher = H2DatabaseLauncher.create();
         launcher.runTool(args);
     }
@@ -35,7 +35,11 @@ public final class H2DatabaseLauncher {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    
+    /**
+     * 
+     * @param args
+     * @throws AbstractException
+     */
     public void runTool(final String... args) throws AbstractException{
         this.server.start();
     }

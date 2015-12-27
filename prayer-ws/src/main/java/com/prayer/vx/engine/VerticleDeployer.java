@@ -124,6 +124,7 @@ public class VerticleDeployer {
             error(LOGGER, E_VERTICLE_COUNT, ASYNC, this.vertxRef, DATA_ASYNC.size());
         } else {
             info(LOGGER, I_VERTICLE_COUNT, ASYNC, DATA_ASYNC.size());
+            
             for (final String name : DATA_ASYNC.keySet()) {
                 // 1.检查当前配置
                 Interruptor.interruptClass(getClass(), name, "Verticle");

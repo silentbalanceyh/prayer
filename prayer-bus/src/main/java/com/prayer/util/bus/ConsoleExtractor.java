@@ -36,6 +36,7 @@ public final class ConsoleExtractor {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    private ConsoleExtractor(){}
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

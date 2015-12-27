@@ -2,28 +2,20 @@ package com.prayer.base.dao;
 
 import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Log.debug;
-import static com.prayer.util.Log.jvmError;
 import static com.prayer.util.cv.Accessors.pool;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
+import com.prayer.util.SqlKit;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.MemoryPool;
-import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.log.DebugKey;
 import com.prayer.util.db.Input;
 import com.prayer.util.db.Output;
@@ -133,22 +125,7 @@ public abstract class AbstractConn implements JdbcContext {
     @Override
     public int executeBatch(@NotNull @NotBlank @NotEmpty final String sql) {
         debug(getLogger(), DebugKey.INFO_SQL_STMT, sql);
-        int ret = Constants.RC_FAILURE;
-        try (final Connection conn = this.getPool().getJdbc().getDataSource().getConnection()) {
-            final ScriptRunner runner = new ScriptRunner(conn);
-            final ByteArrayInputStream istream = new ByteArrayInputStream(sql.getBytes(Resources.SYS_ENCODING.name()));
-            final Reader sqlReader = new InputStreamReader(istream);
-            // set to false, runs script line by line
-            runner.setSendFullScript(false);
-            runner.runScript(sqlReader);
-            runner.closeConnection();
-            // 默认日志级别输出SQL语句是DEBUG级别，只要不是级别则不会输出
-            // conn.close();
-            ret = Constants.RC_SUCCESS;
-        } catch (SQLException | UnsupportedEncodingException ex) {
-            jvmError(getLogger(),ex);
-        }
-        return ret;
+        return SqlKit.execute(this.getPool().getJdbc(),sql);
     }
 
     // ~ Methods =============================================

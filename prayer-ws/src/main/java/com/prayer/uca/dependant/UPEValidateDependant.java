@@ -11,7 +11,7 @@ import com.prayer.exception.web.DependRuleConflictException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.uca.WebDependant;
-import com.prayer.uca.jdbc.AbstractJdbcSwitcher;
+import com.prayer.uca.jdbc.JdbcSwitcher;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SqlSegment;
 import com.prayer.util.cv.Symbol;
@@ -27,7 +27,7 @@ import net.sf.oval.constraint.NotNull;
  * @author Lang
  *
  */
-public class UPEValidateDependant extends AbstractJdbcSwitcher implements WebDependant {
+public class UPEValidateDependant extends JdbcSwitcher implements WebDependant {    // NOPMD
     // ~ Static Fields =======================================
     /** 数据库表名 **/
     private final static String TABLE = "table";
@@ -66,7 +66,7 @@ public class UPEValidateDependant extends AbstractJdbcSwitcher implements WebDep
         return retJson;
     }
 
-    private boolean verifyUpExisting(final JsonObject config, final Value<?> value, final String sqlQuery)
+    private boolean verifyUpExisting(final JsonObject config, final Value<?> value, final String sqlQuery)  // NOPMD
             throws AbstractWebException {
         final String table = Extractor.getString(config, TABLE);
         final String column = Extractor.getString(config, COLUMN);

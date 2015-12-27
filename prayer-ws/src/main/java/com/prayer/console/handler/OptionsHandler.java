@@ -36,7 +36,7 @@ public final class OptionsHandler implements Handler<RoutingContext> {
     /** **/
     private transient final PropertyKit VX_LOADER;
     /** **/
-    private transient final String VX_PREFIX = "vertx.";
+    private static final String VX_PREFIX = "vertx.";
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

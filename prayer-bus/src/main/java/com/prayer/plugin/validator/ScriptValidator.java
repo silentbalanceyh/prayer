@@ -58,7 +58,7 @@ final class ScriptValidator implements Validator { // NOPMD
                 final AbstractDatabaseException error = new ContentErrorException(getClass(), "JavaScript",
                         value.literal());// NOPMD
                 peError(LOGGER, error);
-                throw error;
+                throw error;    // NOPMD
             }
         }
         return ret;

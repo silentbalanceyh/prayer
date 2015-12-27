@@ -29,6 +29,7 @@ public class StatusCommand extends AbstractCommand {
      * 
      */
     public StatusCommand() {
+        super();
         this.helper = singleton(JdbcHelper.class);
     }
 
@@ -43,13 +44,13 @@ public class StatusCommand extends AbstractCommand {
     // ~ Methods =============================================
     /** **/
     public JsonObject execute(final String... args) {
-        final CommandLine cl = this.parse(args);
+        final CommandLine cmdLine = this.parse(args);
         JsonObject retJson = null;
         // TODO: 命令status的开发
-        if (null != cl) {
-            if (cl.hasOption('m')) {
+        if (null != cmdLine) {
+            if (cmdLine.hasOption('m')) {
                 retJson = helper.getMetadata("H2");
-            } else if (cl.hasOption('d')) {
+            } else if (cmdLine.hasOption('d')) {
                 retJson = helper.getMetadata(Resources.DB_CATEGORY);
             }
         }

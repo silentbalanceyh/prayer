@@ -55,8 +55,8 @@ public abstract class AbstractMSevImpl {
      */
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<JsonObject> getMetadata(@NotNull final JsonObject params) {
-        ServiceResult<JsonObject> ret = new ServiceResult<>();
-        AbstractException error = Interruptor.interruptJdbcParams(getClass(), params);
+        final ServiceResult<JsonObject> ret = new ServiceResult<>();
+        final AbstractException error = Interruptor.interruptJdbcParams(getClass(), params);
         if (null == error) {
             try {
                 final String url = params.getString(Constants.CMD.STATUS.JDBC_URL);

@@ -4,7 +4,6 @@ import static com.prayer.util.Instance.singleton;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
@@ -125,10 +124,8 @@ public class ConfigSevImpl implements ConfigService {
         // 1.构造响应数据
         final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
         // 2.调用读取方法
-        List<RuleModel> ret = this.manager.getRuleDao().getByUri(uriId);
-        // 3.设置响应结果
-        ret = ret.stream().filter(item -> ComponentType.VALIDATOR == item.getComponentType())
-                .collect(Collectors.toList());
+        final List<RuleModel> ret = this.manager.getRuleDao().getByUriAndCom(uriId, ComponentType.VALIDATOR);
+        // 3.抽取结果
         final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
         return result.success(listRet);
     }
@@ -142,10 +139,8 @@ public class ConfigSevImpl implements ConfigService {
         // 1.构造响应数据
         final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
         // 2.调用读取方法
-        List<RuleModel> ret = this.manager.getRuleDao().getByUri(uriId);
+        final List<RuleModel> ret = this.manager.getRuleDao().getByUriAndCom(uriId, ComponentType.DEPENDANT);
         // 3.设置响应结果
-        ret = ret.stream().filter(item -> ComponentType.DEPENDANT == item.getComponentType())
-                .collect(Collectors.toList());
         final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
         return result.success(listRet);
     }
@@ -159,10 +154,8 @@ public class ConfigSevImpl implements ConfigService {
         // 1.构造响应数据
         final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
         // 2.调用读取方法
-        List<RuleModel> ret = this.manager.getRuleDao().getByUri(uriId);
+        final List<RuleModel> ret = this.manager.getRuleDao().getByUriAndCom(uriId, ComponentType.CONVERTOR);
         // 3.设置响应结果
-        ret = ret.stream().filter(item -> ComponentType.CONVERTOR == item.getComponentType())
-                .collect(Collectors.toList());
         final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
         return result.success(listRet);
     }

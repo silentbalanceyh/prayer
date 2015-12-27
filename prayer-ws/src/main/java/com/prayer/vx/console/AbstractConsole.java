@@ -32,17 +32,21 @@ public abstract class AbstractConsole {
      * 
      */
     protected void populateHelp() {
-        System.out.println("Commands are case insensitive, please refer following comments: ");
+        System.out.println("Commands are case insensitive, please refer following comments: "); // NOPMD
         for (final String arg : getHelp().fieldNames()) {
-            System.out.println(generateArgLine(arg, getHelp().getString(arg)));
+            System.out.println(generateArgLine(arg, getHelp().getString(arg))); // NOPMD
         }
-        System.out.println();
+        System.out.println(); // NOPMD
     }
-    
+    /**
+     * 
+     * @param prefix
+     * @return
+     */
     @SuppressWarnings("resource")
     protected String[] prompt(final String prefix) {
         final Scanner scanner = new Scanner(System.in);
-        System.out.print(prefix);
+        System.out.print(prefix); // NOPMD
         final String line = scanner.nextLine().trim();
         return StringUtil.split(line, Symbol.SPACE);
     }

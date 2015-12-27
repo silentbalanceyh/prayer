@@ -35,7 +35,7 @@ public final class ConsoleLauncher extends AbstractConsole {
      */
     public static ConsoleLauncher create(){
         // 开启Console模式
-        Resources.IS_CONSOLE = true;
+        Resources.useConsole = true;
         return new ConsoleLauncher();
     }
     /**
@@ -68,7 +68,7 @@ public final class ConsoleLauncher extends AbstractConsole {
      */
     public void runTool(final String... args) throws AbstractException {
         if (args.length <= Constants.ZERO) {
-            System.out.println("Arguments required: -(pshell|phazelcast|pconsole|help) ");
+            System.out.println("Arguments required: -(pshell|phazelcast|pconsole|help) "); // NOPMD
             this.populateHelp();
         } else {
             // 1.Verify

@@ -33,7 +33,7 @@ public abstract class AbstractCommand implements Command{
 
     // ~ Instance Fields =====================================
     /** **/
-    private transient CommandLineParser parser = new DefaultParser();
+    private transient final CommandLineParser parser = new DefaultParser();
 
     // ~ Static Block ========================================
     /** **/
@@ -75,7 +75,7 @@ public abstract class AbstractCommand implements Command{
             final JsonArray args = item.getJsonArray("args");
             Option opt = null;
             if (Constants.ZERO < args.size()) {
-                // 带参数
+                // 带参�?
                 final Builder builder = Option.builder(item.getString("single"));
                 builder.argName(args.getString(Constants.ZERO));
                 builder.desc(item.getString("description"));
@@ -84,7 +84,7 @@ public abstract class AbstractCommand implements Command{
                 opt = builder.build();
             } else {
                 // 不带参数
-                opt = new Option(item.getString("single"), item.getString("name"), false,
+                opt = new Option(item.getString("single"), item.getString("name"), false,      // NOPMD
                         item.getString("description"));
             }
             opt.setRequired(item.getBoolean("required"));
@@ -100,28 +100,28 @@ public abstract class AbstractCommand implements Command{
      */
     protected CommandLine parse(final String... args) {
         final Options options = this.getOpts(command());
-        CommandLine cl = null;
+        CommandLine cmdLine = null;
         try {
-            cl = this.getParser().parse(options, args);
+            cmdLine = this.getParser().parse(options, args);
         } catch (ParseException ex) {
             this.help(command());
         }
-        if (null == cl) {
-            // 解析异常打印语法错
+        if (null == cmdLine) {
+            // 解析异常打印语法�?
             this.syntaxError();
         } else {
-            if (Constants.ZERO == cl.getOptions().length) {
-                // 如果没有任何Options则直接报错，不支持无Args的输入
+            if (Constants.ZERO == cmdLine.getOptions().length) {
+                // 如果没有任何Options则直接报错，不支持无Args的输�?
                 this.noOptions();
                 this.help(command());
             } else {
                 // 解析共享参数-h，打印当前Command的Help信息
-                if (cl.hasOption('h')) {
+                if (cmdLine.hasOption('h')) {
                     this.help(command());
                 }
             }
         }
-        return cl;
+        return cmdLine;
     }
 
     /**
@@ -131,27 +131,27 @@ public abstract class AbstractCommand implements Command{
         if (this.verifyCommand(command)) {
             final HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp(COMMANDS.getString(command), this.getOpts(command));
-            System.out.println();
+            System.out.println();      // NOPMD
         } else {
-            System.out.println("[ERROR] Command name " + command + " is unavailable!");
+            System.out.println("[ERROR] Command name " + command + " is unavailable!");      // NOPMD
             final StringBuilder builder = new StringBuilder();
             for (final String cmd : COMMANDS.fieldNames()) {
                 builder.append(cmd).append(Symbol.COMMA);
             }
             builder.delete(builder.length() - 1, builder.length());
-            System.out.println("Available Commands:\n\t" + builder.toString());
+            System.out.println("Available Commands:\n\t" + builder.toString());      // NOPMD
         }
     }
 
     private void noOptions() {
-        System.out.println("[WARNING] No Option provided.");
+        System.out.println("[WARNING] No Option provided.");   // NOPMD
     }
 
     /**
      * 语法错误
      */
     private void syntaxError() {
-        System.out.println("[ERROR] Syntax Error when execute command.");
+        System.out.println("[ERROR] Syntax Error when execute command.");   // NOPMD
     }
 
     // ~ Private Methods =====================================

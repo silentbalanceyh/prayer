@@ -1,7 +1,6 @@
-package com.prayer.handler.standard;
+package com.prayer.handler.standard;    // NOPMD
 
 import static com.prayer.util.Converter.toStr;
-import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.Log.debug;
 
@@ -13,18 +12,16 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Future;
-import com.prayer.assistant.Interruptor;
+import com.prayer.assistant.uca.UCAConvertor;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.exception.web.ConvertorMultiException;
 import com.prayer.facade.bus.ConfigService;
-import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vertx.RuleModel;
 import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
-import com.prayer.uca.WebConvertor;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 import com.prayer.util.cv.log.DebugKey;
@@ -86,65 +83,47 @@ public class ConversionHandler implements Handler<RoutingContext> {
     private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
             final RoutingContext context, final Requestor requestor) {
         final JsonObject params = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
-        if (ResponseCode.SUCCESS == result.getResponseCode()) {
-            AbstractWebException error = null;
-            boolean ret = true;
-            final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
-            // 遍历每一个字段
-            try {
-                final JsonObject updatedParams = new JsonObject();
-                for (final String field : params.fieldNames()) {
-                    // 1.在外围填充updatedParams的值，这里有替换过程
-                    final String value = toStr(params, field); // params.getString(field);
-                    updatedParams.put(field, value);
-                    // 2.读取这个字段拥有的Convertor的信息
-                    final List<RuleModel> convertors = dataMap.get(field);
-                    if (null != convertors) {
-                        // 3.读取这个字段上所有的Convertors
-                        if (Constants.ONE < convertors.size()) {
-                            error = new ConvertorMultiException(getClass(), field); // NOPMD
-                            break;
-                        } else if (Constants.ONE == convertors.size()) {
-                            // 直接通过Convertor处理
-                            final RuleModel convertor = convertors.get(Constants.ZERO);
-                            final String cvRet = this.convertField(field, value, convertor);
-                            updatedParams.put(field, cvRet);
-                        }
-                    }
-                }
-                // 更新参数节点
-                requestor.getRequest().put(JsonKey.REQUEST.PARAMS, updatedParams);
-            } catch (AbstractWebException ex) {
-                error = ex;
-            }
-            if (null != error) {
-                Future.error400(getClass(), context, error);
-                ret = false;
-            }
-            return ret;
-        } else {
+        if(ResponseCode.SUCCESS != result.getResponseCode()){
             // 500 Internal Error
             Future.error500(getClass(), context);
             return false;
         }
-    }
-
-    private String convertField(final String paramName, final String paramValue, final RuleModel ruleModel)
-            throws AbstractWebException {
-        // 1.验证Convertor是否合法
-        final String convertorCls = ruleModel.getComponentClass();
-        Interruptor.interruptClass(getClass(), convertorCls, "Convertor");
-        Interruptor.interruptImplements(getClass(), convertorCls, WebConvertor.class);
-        // 2.提取Convertor中的
-        final String typeCls = ruleModel.getType().getClassName();
-        final Value<?> value = instance(typeCls, paramValue);
-        // 3.提取配置信息
-        final JsonObject config = ruleModel.getConfig();
-        // 4.执行转换
-        final WebConvertor convertor = instance(convertorCls);
-        final Value<?> ret = convertor.convert(paramName, value, config);
-        // 5.最终返回literal，转换失败的时候使用原值
-        return null == ret ? paramValue : ret.literal();
+        
+        AbstractWebException error = null;
+        final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
+        boolean ret = true;
+        // 遍历每一个字段
+        try {
+            final JsonObject updatedParams = new JsonObject();
+            for (final String field : params.fieldNames()) {
+                // 1.在外围填充updatedParams的值，这里有替换过程
+                final String value = toStr(params, field); // params.getString(field);
+                updatedParams.put(field, value);
+                // 2.读取这个字段拥有的Convertor的信息
+                final List<RuleModel> convertors = dataMap.get(field);
+                if (null != convertors) {
+                    // 3.读取这个字段上所有的Convertors
+                    if (Constants.ONE < convertors.size()) {
+                        error = new ConvertorMultiException(getClass(), field); // NOPMD
+                        break;
+                    } else if (Constants.ONE == convertors.size()) {
+                        // 直接通过Convertor处理
+                        final RuleModel convertor = convertors.get(Constants.ZERO);
+                        final String cvRet = UCAConvertor.convertField(field, value, convertor);
+                        updatedParams.put(field, cvRet);
+                    }
+                }
+            }
+            // 更新参数节点
+            requestor.getRequest().put(JsonKey.REQUEST.PARAMS, updatedParams);
+        } catch (AbstractWebException ex) {
+            error = ex;
+        }
+        if (null != error) {
+            Future.error400(getClass(), context, error);
+            ret = false;
+        }
+        return ret;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

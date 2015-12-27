@@ -27,9 +27,9 @@ public class ApiCommand extends AbstractCommand {
      * 
      */
     public JsonObject execute(final String... args){
-        final CommandLine cl = this.parse(args);
+        final CommandLine cmdLine = this.parse(args);
         // TODO: 命令api的开发
-        if (null != cl) {
+        if (null != cmdLine) {
             
         }
         return null;

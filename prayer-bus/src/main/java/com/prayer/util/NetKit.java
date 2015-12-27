@@ -54,6 +54,7 @@ public final class NetKit {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    private NetKit(){}
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

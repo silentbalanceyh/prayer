@@ -74,12 +74,12 @@ public class CommunionSerializer implements Serializer {
             jvmError(LOGGER, ex);
             final SerializationException error = new SerializationException(getClass(), "__meta__ ( Parsing )"); // NOPMD
             peError(LOGGER, error);
-            throw error;
+            throw error;// NOPMD
         } catch (IOException ex) {
             jvmError(LOGGER, ex);
             final SerializationException error = new SerializationException(getClass(), "__meta__ ( I/O )"); // NOPMD
             peError(LOGGER, error);
-            throw error;
+            throw error;// NOPMD
         }
         return meta;
     }
@@ -99,12 +99,12 @@ public class CommunionSerializer implements Serializer {
             jvmError(LOGGER, ex);
             final SerializationException error = new SerializationException(getClass(), "__keys__ ( Parsing )"); // NOPMD
             peError(LOGGER, error);
-            throw error;
+            throw error;// NOPMD
         } catch (IOException ex) {
             jvmError(LOGGER, ex);
             final SerializationException error = new SerializationException(getClass(), "__keys__ ( I/O )"); // NOPMD
             peError(LOGGER, error);
-            throw error;
+            throw error;// NOPMD
         }
         return keys;
     }
@@ -124,12 +124,12 @@ public class CommunionSerializer implements Serializer {
             jvmError(LOGGER, ex);
             final SerializationException error = new SerializationException(getClass(), "__fields__ ( Parsing )"); // NOPMD
             peError(LOGGER, error);
-            throw error;
+            throw error;// NOPMD
         } catch (IOException ex) {
             jvmError(LOGGER, ex);
             final SerializationException error = new SerializationException(getClass(), "__fields__ ( I/O )"); // NOPMD
             peError(LOGGER, error);
-            throw error;
+            throw error;// NOPMD
         }
         return fields;
     }

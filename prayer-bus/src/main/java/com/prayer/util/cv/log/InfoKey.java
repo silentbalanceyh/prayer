@@ -4,7 +4,7 @@ package com.prayer.util.cv.log;
  * @author Lang
  *
  */
-public interface InfoKey {
+public interface InfoKey {// NOPMD
     /** 读取文件路径 **/
     String INF_PU_READ_FILE = "p.read.file";
     /** 从系统中读取元数据文件 H2 **/

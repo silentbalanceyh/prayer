@@ -45,12 +45,12 @@ public class HazelcastConsole {
         }
 
         for (int k = 1; k <= 16; k++) {
-            config.addExecutorConfig(new ExecutorConfig("Prayer Executor " + k).setPoolSize(k));
+            config.addExecutorConfig(new ExecutorConfig("Prayer Executor " + k).setPoolSize(k));    // NOPMD
         }
         final ConsoleApp consoleApp = new ConsoleApp(Hazelcast.newHazelcastInstance(config));
         try {
             consoleApp.start(args);
-        } catch (Exception ex) {
+        } catch (Exception ex) {        // NOPMD
             jvmError(LOGGER, ex);
         }
     }

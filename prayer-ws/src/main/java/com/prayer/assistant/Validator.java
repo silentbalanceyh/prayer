@@ -19,6 +19,7 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class Validator { // NOPMD
     // ~ Static Fields =======================================
+
     /**
      * 比较数值的长度范围
      * @param value
@@ -26,7 +27,7 @@ public final class Validator { // NOPMD
      * @param max
      * @return
      */
-    public static boolean verifyRange(@NotNull final Number value, @NotNull final Number min,
+    public static boolean verifyRange(@NotNull final Number value, @NotNull final Number min, // NOPMD
             @NotNull final Number max) {
         boolean flag = false;
         final double range = Constants.RANGE;
@@ -49,10 +50,6 @@ public final class Validator { // NOPMD
             flag = true;
         }
         return flag;
-    }
-
-    public static void main(String args[]) {
-        System.out.println(Validator.verifyRange(12, 3, -1));
     }
 
     /**
@@ -99,14 +96,7 @@ public final class Validator { // NOPMD
         return matcher.matches();
     }
 
-    // ~ Instance Fields =====================================
-    // ~ Static Block ========================================
-    // ~ Static Methods ======================================
-    // ~ Constructors ========================================
-    // ~ Abstract Methods ====================================
-    // ~ Override Methods ====================================
-    // ~ Methods =============================================
-    // ~ Private Methods =====================================
+    
     private Validator() {
     }
     // ~ Get/Set =============================================

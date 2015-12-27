@@ -23,7 +23,9 @@ import net.sf.oval.guard.PostValidateThis;
 public class MServerCommand extends AbstractCommand {
     // ~ Static Fields =======================================
     /** **/
-    private transient final String DEPLOYED = "DEPLOYED";
+    private static final String DEPLOYED = "DEPLOYED";
+    /** **/
+    private static final String ERROR = "error";
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
@@ -41,6 +43,7 @@ public class MServerCommand extends AbstractCommand {
      */
     @PostValidateThis
     public MServerCommand() {
+        super();
         this.service = singleton(DeploySevImpl.class);
         this.helper = singleton(JdbcHelper.class);
     }
@@ -60,30 +63,30 @@ public class MServerCommand extends AbstractCommand {
      * @return
      */
     public JsonObject execute(final String... args) {
-        final CommandLine cl = this.parse(args);
+        final CommandLine cmdLine = this.parse(args);
         // TODO: 命令mserver的开发
         JsonObject ret = null;
-        if (null != cl) {
-            if (cl.hasOption('s')) {
-            } else if (cl.hasOption('h')) {
-            } else if (cl.hasOption('d')) {
-                ret = this.deployData(cl);
+        if (null != cmdLine) {
+            if (cmdLine.hasOption('s')) {
+            } else if (cmdLine.hasOption('h')) {
+            } else if (cmdLine.hasOption('d')) {
+                ret = this.deployData(cmdLine);
             }
         }
         return ret;
     }
     // ~ Private Methods =====================================
 
-    private JsonObject deployData(final CommandLine cl) {
-        final String folder = cl.getOptionValue('d');
+    private JsonObject deployData(final CommandLine cmdLine) {
+        final String folder = cmdLine.getOptionValue('d');
         final URL url = IOKit.getURL(folder);
         JsonObject ret = new JsonObject();
         if (null == url) {
-            System.out.println("[ERROR] The folder : " + folder + " does not exist in classpath.");
+            System.out.println("[ERROR] The folder : " + folder + " does not exist in classpath."); // NOPMD
         } else {
             final JsonObject checkConn = this.helper.getMetadata("H2");
-            if (checkConn.containsKey("error")) {
-                ret.put("error", checkConn.getString("error"));
+            if (checkConn.containsKey(ERROR)) {
+                ret.put(ERROR, checkConn.getString(ERROR));
             } else {
                 ret = this.deployData(folder);
                 if (ret.getBoolean(DEPLOYED)) {
@@ -102,7 +105,7 @@ public class MServerCommand extends AbstractCommand {
             retJson.put(DEPLOYED, Boolean.TRUE);
         } else {
             retJson.put(DEPLOYED, Boolean.FALSE);
-            retJson.put("error", ret.getErrorMessage());
+            retJson.put(ERROR, ret.getErrorMessage());
         }
         return retJson;
     }

@@ -4,7 +4,7 @@ package com.prayer.util.cv.log;
  * @author Lang
  *
  */
-public interface DebugKey {
+public interface DebugKey { // NOPMD
     /** Exception：JVM异常信息 **/
     String EXP_JVM = "exception.jvm";
     /** Exception: OVal异常信息 **/

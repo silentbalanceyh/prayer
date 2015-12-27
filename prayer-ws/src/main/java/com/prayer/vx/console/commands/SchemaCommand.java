@@ -26,7 +26,9 @@ import net.sf.oval.guard.PostValidateThis;
 public class SchemaCommand extends AbstractCommand {
     // ~ Static Fields =======================================
     /** **/
-    private transient final String SYNCED = "SYNCED";
+    private static final String SYNCED = "SYNCED";
+    /** **/
+    private static final String ERROR = "error";
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
@@ -43,6 +45,7 @@ public class SchemaCommand extends AbstractCommand {
      */
     @PostValidateThis
     public SchemaCommand() {
+        super();
         this.service = singleton(SchemaSevImpl.class);
         this.helper = singleton(JdbcHelper.class);
     }
@@ -62,29 +65,29 @@ public class SchemaCommand extends AbstractCommand {
      * @return
      */
     public JsonObject execute(final String... args) {
-        final CommandLine cl = this.parse(args);
+        final CommandLine cmdLine = this.parse(args);
         // TODO：命令schema的开发
         JsonObject ret = null;
-        if (null != cl) {
-            if (cl.hasOption('u')) {
-                ret = this.syncSchema(cl);
+        if (null != cmdLine) {
+            if (cmdLine.hasOption('u')) {
+                ret = this.syncSchema(cmdLine);
             }
         }
         return ret;
     }
     // ~ Private Methods =====================================
 
-    private JsonObject syncSchema(final CommandLine cl) {
-        final String file = cl.getOptionValue('u');
+    private JsonObject syncSchema(final CommandLine cmdLine) {
+        final String file = cmdLine.getOptionValue('u');
         final String schemaFile = Resources.META_OD_FOLDER + "/schema/" + file;
         final URL url = IOKit.getURL(schemaFile);
         JsonObject ret = new JsonObject();
         if (null == url) {
-            System.out.println("[ERROR] The schema file does not exist in classpath : " + schemaFile);
+            System.out.println("[ERROR] The schema file does not exist in classpath : " + schemaFile);  // NOPMD
         } else {
             final JsonObject checkConn = this.helper.getMetadata("H2");
-            if (checkConn.containsKey("error")) {
-                ret.put("error", checkConn.getString("error"));
+            if (checkConn.containsKey(ERROR)) {
+                ret.put(ERROR, checkConn.getString(ERROR));
             } else {
                 ret = this.syncSchema(schemaFile);
                 if (ret.getBoolean(SYNCED)) {
@@ -104,7 +107,7 @@ public class SchemaCommand extends AbstractCommand {
             retJson.put(SYNCED, Boolean.TRUE);
         } else {
             retJson.put(SYNCED, Boolean.FALSE);
-            retJson.put("error", ret.getErrorMessage());
+            retJson.put(ERROR, ret.getErrorMessage());
         }
         return retJson;
     }

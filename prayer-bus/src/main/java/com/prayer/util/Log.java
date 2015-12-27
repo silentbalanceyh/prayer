@@ -67,7 +67,7 @@ public final class Log { // NOPMD
      * @param exp
      */
     public static void peError(@NotNull final org.slf4j.Logger logger, @NotNull final AbstractException exp) {
-        if (Resources.IS_CONSOLE) {
+        if (Resources.useConsole) {
             peDebug(logger, exp);
         } else {
             error(logger, ErrorKey.ERR_ENGINE, exp, exp.getClass().getName(), exp.getErrorMessage());
@@ -105,9 +105,9 @@ public final class Log { // NOPMD
         } else {
             message = MessageFormat.format(message(Level.INFO, key), params);
         }
-        if (Resources.IS_CONSOLE) {
+        if (Resources.useConsole) {
             // 在Console中打印信息
-            System.out.println(message);
+            System.out.println(message);    // NOPMD
         } else {
             if (logger.isInfoEnabled()) {
                 // Output

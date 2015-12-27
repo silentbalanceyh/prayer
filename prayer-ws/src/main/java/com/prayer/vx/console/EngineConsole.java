@@ -65,7 +65,7 @@ public class EngineConsole extends AbstractConsole {
         this.populateHelp();
         // 3.进入交互式界面
         while (true) {
-            String arguments[] = this.prompt(vertxCfg.getActiveName() + " > ");
+            final String arguments[] = this.prompt(vertxCfg.getActiveName() + " > ");
             /** 什么内容都没有的时候直接进入下一次循环 **/
             if (arguments.length == Constants.ZERO) {
                 continue;
@@ -77,13 +77,13 @@ public class EngineConsole extends AbstractConsole {
                     if (this.verifyCommand(command)) {
                         final JsonObject report = OPS.get(command).execute(commandArgs);
                         if (null != report && Constants.ZERO < report.fieldNames().size()) {
-                            System.out.println("----------------------- Result -----------------------");
+                            System.out.println("----------------------- Result -----------------------"); // NOPMD
                             // 4.打印最终执行结果
-                            System.out.println(report.encodePrettily());
+                            System.out.println(report.encodePrettily()); // NOPMD
                         }
                     }else{
                         // 打印帮助，并且显示错误的命令
-                        System.out.println("[ERROR] Command does not exist : " + command);
+                        System.out.println("[ERROR] Command does not exist : " + command); // NOPMD
                         this.populateHelp();
                     }
                 }
@@ -114,15 +114,13 @@ public class EngineConsole extends AbstractConsole {
      */
     private String[] extractArgs(final String... args) {
         final String[] retArgs = new String[args.length - 1];
-        for (int idx = 1; idx < args.length; idx++) {
-            retArgs[idx - 1] = args[idx];
-        }
+        System.arraycopy(args, Constants.ONE, retArgs, Constants.ZERO, args.length - 1);
         return retArgs;
     }
 
     private void promptHeader() {
-        System.out.println("Welcome to Prayer Engine Console ( Version : 0.1.0-SNAPSHOT ) ");
-        System.out.println("Exit with Ctrl + C");
+        System.out.println("Welcome to Prayer Engine Console ( Version : 0.1.0-SNAPSHOT ) "); // NOPMD
+        System.out.println("Exit with Ctrl + C"); // NOPMD
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

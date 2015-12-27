@@ -2,7 +2,6 @@ package com.prayer.handler.web; // NOPMD
 
 import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.Log.info;
-import static com.prayer.util.Log.jvmError;
 import static com.prayer.util.StringKit.decodeURL;
 
 import java.util.Iterator;
@@ -100,34 +99,30 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
     // ~ Private Methods =====================================
     private JsonObject extractParams(final RoutingContext context, final UriModel uri) {
         JsonObject retJson = new JsonObject();
-        try {
-            final HttpServerRequest request = context.request();
-            if (ParamType.QUERY == uri.getParamType()) {
-                retJson.clear();
-                final MultiMap params = request.params();
-                final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
-                while (kvPair.hasNext()) {
-                    final Map.Entry<String, String> entity = kvPair.next();
-                    retJson.put(decodeURL(entity.getKey()), decodeURL(entity.getValue()));
-                }
-            } else if (ParamType.FORM == uri.getParamType()) {
-                retJson.clear();
-                final MultiMap params = request.formAttributes();
-                final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
-                while (kvPair.hasNext()) {
-                    final Map.Entry<String, String> entity = kvPair.next();
-                    retJson.put(decodeURL(entity.getKey()), decodeURL(entity.getValue()));
-                }
-            } else {
-                final String body = context.getBodyAsString();
-                if (StringKit.isNonNil(body)) {
-                    retJson = new JsonObject(decodeURL(body));
-                }
+        final HttpServerRequest request = context.request();
+        if (ParamType.QUERY == uri.getParamType()) {
+            retJson.clear();
+            final MultiMap params = request.params();
+            final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
+            while (kvPair.hasNext()) {
+                final Map.Entry<String, String> entity = kvPair.next();
+                retJson.put(decodeURL(entity.getKey()), decodeURL(entity.getValue()));
             }
-            info(LOGGER, "Param Data : " + retJson.encode());
-        } catch (Exception ex) {
-            jvmError(LOGGER, ex);
+        } else if (ParamType.FORM == uri.getParamType()) {
+            retJson.clear();
+            final MultiMap params = request.formAttributes();
+            final Iterator<Map.Entry<String, String>> kvPair = params.iterator();
+            while (kvPair.hasNext()) {
+                final Map.Entry<String, String> entity = kvPair.next();
+                retJson.put(decodeURL(entity.getKey()), decodeURL(entity.getValue()));
+            }
+        } else {
+            final String body = context.getBodyAsString();
+            if (StringKit.isNonNil(body)) {
+                retJson = new JsonObject(decodeURL(body));
+            }
         }
+        info(LOGGER, "Param Data : " + retJson.encode());
         return retJson;
     }
     // ~ Get/Set =============================================

@@ -51,7 +51,7 @@ public class H2DatabaseServer {
     /** **/
     private static final String I_H2_DB_AFTER_SP = "H2 {0} stopped.";
     /** **/
-    private static final String I_H2_DB_CLS_INIT_S = "H2 Database Cluster initialized successfully! Name List : {0}";
+    private static final String I_H2_DB_CLS_INIT = "H2 Database Cluster initialized successfully! Name List : {0}";
     /** **/
     private static final String I_H2_DB_CLS_STD = "H2 Database Cluster has been started successfully with parameters: {0}";
     /** **/
@@ -81,7 +81,7 @@ public class H2DatabaseServer {
         if (this.configurator.enabledH2Cluster()) {
             try {
                 this.clusters = this.configurator.getH2CDatabases();
-                info(LOGGER, I_H2_DB_CLS_INIT_S, Converter.toStr(this.clusters.keySet()));
+                info(LOGGER, I_H2_DB_CLS_INIT, Converter.toStr(this.clusters.keySet()));
             } catch (SQLException ex) {
                 jvmError(LOGGER, ex);
             }
@@ -105,11 +105,11 @@ public class H2DatabaseServer {
                 final Server single = this.clusters.get(key);
                 info(LOGGER, I_H2_DB_BEFORE, "Starting", key, String.valueOf(single.getPort()));
                 try {
-                    if (!isRunning(single)) {
+                    if (isRunning(single)) {
+                        info(LOGGER, key + " is already started on " + single.getPort());
+                    } else {
                         single.start();
                         info(LOGGER, I_H2_DB_AFTER_ST, key, String.valueOf(single.getPort()));
-                    } else {
-                        info(LOGGER, key + " is already started on " + single.getPort());
                     }
                 } catch (SQLException ex) {
                     jvmError(LOGGER, ex);
@@ -214,11 +214,11 @@ public class H2DatabaseServer {
             // 2.Web Console Start
             this.webServer = configurator.getH2WebConsole();
             info(LOGGER, I_H2_DB_BEFORE, "Starting", WEB_CONSOLE, String.valueOf(webServer.getPort()));
-            if (!isRunning(this.webServer)) {
+            if (isRunning(this.webServer)) {
+                info(LOGGER, " H2 WebConsole (Standalone) is already started on " + this.webServer.getPort());
+            } else {
                 this.webServer.start();
                 info(LOGGER, I_H2_DB_AFTER_ST, WEB_CONSOLE, String.valueOf(webServer.getPort()));
-            } else {
-                info(LOGGER, " H2 WebConsole (Standalone) is already started on " + this.webServer.getPort());
             }
         } catch (SQLException ex) {
             jvmError(LOGGER, ex);
@@ -234,11 +234,11 @@ public class H2DatabaseServer {
             // 1.Database Start
             this.dbServer = configurator.getH2Database();
             info(LOGGER, I_H2_DB_BEFORE, "Starting", DATABASE, String.valueOf(dbServer.getPort()));
-            if (!isRunning(this.dbServer)) {
+            if (isRunning(this.dbServer)) {
+                info(LOGGER, " H2 Database (Standalone) is already started on " + this.dbServer.getPort());
+            } else {
                 this.dbServer.start();
                 info(LOGGER, I_H2_DB_AFTER_ST, DATABASE, String.valueOf(dbServer.getPort()));
-            } else {
-                info(LOGGER, " H2 Database (Standalone) is already started on " + this.dbServer.getPort());
             }
             // 2.构造JDBC URL
         } catch (SQLException ex) {

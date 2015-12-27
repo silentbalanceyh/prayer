@@ -44,9 +44,9 @@ public class PatternHandler implements Handler<RoutingContext> {
         final HttpServerRequest request = context.request();
         // Process URI
         final StringBuilder path = new StringBuilder(request.path());
-        final Iterator<Entry<String, String>> it = request.params().entries().iterator();
-        while (it.hasNext()) {
-            final Entry<String, String> item = it.next();
+        final Iterator<Entry<String, String>> entryIt = request.params().entries().iterator();
+        while (entryIt.hasNext()) {
+            final Entry<String, String> item = entryIt.next();
             final int start = path.indexOf(item.getValue());
             if (0 <= start) {
                 final int end = start + item.getValue().length();

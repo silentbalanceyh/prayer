@@ -151,14 +151,12 @@ public final class IOKit {
     // ~ Private Methods =====================================
 
     private static InputStream readStream(final String fileName, final Class<?> clazz) { // NOPMD
-        final InputStream retStream = clazz.getResourceAsStream(fileName);
-        return retStream;
+        return clazz.getResourceAsStream(fileName);
     }
 
     private static InputStream readStream(final String fileName) { // NOPMD
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        final InputStream retStream = loader.getResourceAsStream(fileName);
-        return retStream;
+        return loader.getResourceAsStream(fileName);
     }
 
     private static InputStream readStream(final File file) {

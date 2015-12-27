@@ -68,7 +68,7 @@ public final class Resources { // NOPMD
     public static final String LOG_CFG_FOLDER;
     
     /** 默认不是从CONSOLE启动 **/
-    public static boolean IS_CONSOLE = false;
+    public static boolean useConsole = Boolean.FALSE;
 
     /**
      * Private singleton resource LOADER. *

@@ -2,7 +2,6 @@ package com.prayer.handler.security.impl; // NOPMD
 
 import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.Log.debug;
-import static com.prayer.util.Log.jvmError;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -90,19 +89,15 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
          * 但其参数信息是在processAuth的过程填充到系统里的， 一旦出现了com.prayer.exception.web.
          * BodyParamDecodingException异常信息则依然可让其执行认证
          */
-        try {
-            if (this.requestDispatch(context)) {
-                final User user = context.user();
-                if (null == user) {
-                    // 5.认证执行代码
-                    this.processAuth(context);
-                } else {
-                    // 5.不需要认证的情况
-                    authorise(user, context);
-                }
+        if (this.requestDispatch(context)) {
+            final User user = context.user();
+            if (null == user) {
+                // 5.认证执行代码
+                this.processAuth(context);
+            } else {
+                // 5.不需要认证的情况
+                authorise(user, context);
             }
-        } catch (Exception ex) {
-            jvmError(LOGGER, ex);
         }
     }
 
@@ -172,13 +167,18 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
             });
         }
     }
-
+    /**
+     * 
+     * @param user
+     * @param context
+     * @param data
+     */
     protected void authorise(final User user, final RoutingContext context, final JsonObject data) {
-        int requiredcount = authorities.size();
+        final int requiredcount = authorities.size();
         if (requiredcount > 0) {
-            AtomicInteger count = new AtomicInteger();
-            AtomicBoolean sentFailure = new AtomicBoolean();
-            Handler<AsyncResult<Boolean>> authHandler = res -> {
+            final AtomicInteger count = new AtomicInteger();
+            final AtomicBoolean sentFailure = new AtomicBoolean();
+            final Handler<AsyncResult<Boolean>> authHandler = res -> {
                 if (res.succeeded()) {
                     if (res.result()) {
                         if (count.incrementAndGet() == requiredcount) {
@@ -193,7 +193,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                     context.fail(res.cause());
                 }
             };
-            for (String authority : authorities) {
+            for (final String authority : authorities) {
                 user.isAuthorised(authority, authHandler);
             }
         } else {

@@ -48,7 +48,7 @@ final class XmlValidator implements Validator { // NOPMD
             jvmError(LOGGER,ex);
             final AbstractDatabaseException error = new ContentErrorException(getClass(), "Xml", value.literal()); // NOPMD
             peError(LOGGER,error);
-            throw error;
+            throw error;// NOPMD
         }
         return ret;
     }

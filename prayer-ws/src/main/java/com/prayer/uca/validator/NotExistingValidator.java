@@ -8,7 +8,7 @@ import com.prayer.base.exception.AbstractWebException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.uca.WebValidator;
-import com.prayer.uca.jdbc.AbstractJdbcSwitcher;
+import com.prayer.uca.jdbc.JdbcSwitcher;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SqlSegment;
 import com.prayer.util.cv.Symbol;
@@ -25,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  * 
  */
 @Guarded
-public class NotExistingValidator extends AbstractJdbcSwitcher implements WebValidator { // NOPMD
+public class NotExistingValidator extends JdbcSwitcher implements WebValidator { // NOPMD
     // ~ Static Fields =======================================
     /** 数据库表名 **/
     private final static String TABLE = "table";

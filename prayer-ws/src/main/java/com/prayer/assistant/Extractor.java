@@ -130,8 +130,7 @@ public final class Extractor {
      * @return
      */
     public static UriModel uri(@NotNull final RoutingContext context) {
-        final UriModel ret = context.get(Constants.KEY.CTX_URI);
-        return ret;
+        return context.get(Constants.KEY.CTX_URI);
     }
 
     /**

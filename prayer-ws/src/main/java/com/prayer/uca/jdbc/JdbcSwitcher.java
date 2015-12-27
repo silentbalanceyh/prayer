@@ -21,7 +21,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public abstract class AbstractJdbcSwitcher {
+public class JdbcSwitcher {
     // ~ Static Fields =======================================
     /** 数据库的切换信息 **/
     private static final String SOURCE = "$$SOURCE";
@@ -34,7 +34,7 @@ public abstract class AbstractJdbcSwitcher {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public AbstractJdbcSwitcher(){
+    public JdbcSwitcher(){
         this.dataContext = singleton(JdbcConnImpl.class);
         this.h2Context = singleton(H2ConnImpl.class);
     }

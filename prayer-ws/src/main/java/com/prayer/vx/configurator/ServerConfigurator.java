@@ -37,7 +37,8 @@ public class ServerConfigurator { // NOPMD
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerConfigurator.class);
     /** Server Config File **/
     private transient final PropertyKit LOADER = new PropertyKit(ServerConfigurator.class, Resources.SEV_CFG_FILE);
-
+    /** Whether Use Hash **/
+    private static final String USE_HASH = ";PASSWORD_HASH=TRUE";
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -111,11 +112,11 @@ public class ServerConfigurator { // NOPMD
                 dstParams.add(this.readH2Url(host, servers.get(target).getPort()));
             }
             url.append("jdbc:h2:tcp://").append(StringUtil.join(dstParams.toArray(new String[] {}), Symbol.COMMA))
-                    .append("/META/").append(database).append(";PASSWORD_HASH=TRUE");
+                    .append("/META/").append(database).append(USE_HASH);
         } else {
             final int port = this.LOADER.getInt("h2.database.tcp.port");
             url.append("jdbc:h2:tcp://localhost:").append(port).append("/~/META/")
-                    .append(H2ConnImpl.getH2DatabaseName()).append(";PASSWORD_HASH=TRUE");
+                    .append(H2ConnImpl.getH2DatabaseName()).append(USE_HASH);
         }
         return url.toString();
     }
@@ -148,7 +149,7 @@ public class ServerConfigurator { // NOPMD
             params.add("-urlSource");
             final StringBuilder url = new StringBuilder(Constants.BUFFER_SIZE);
             url.append("jdbc:h2:tcp://").append(StringUtil.join(srcParams.toArray(new String[] {}), Symbol.COMMA))
-                    .append("/META/").append(database).append(";PASSWORD_HASH=TRUE");
+                    .append("/META/").append(database).append(USE_HASH);
             params.add(url.toString());
         }
         {
@@ -161,7 +162,7 @@ public class ServerConfigurator { // NOPMD
             params.add("-urlTarget");
             final StringBuilder url = new StringBuilder(Constants.BUFFER_SIZE);
             url.append("jdbc:h2:tcp://").append(StringUtil.join(dstParams.toArray(new String[] {}), Symbol.COMMA))
-                    .append("/META/").append(database).append(";PASSWORD_HASH=TRUE");
+                    .append("/META/").append(database).append(USE_HASH);
             params.add(url.toString());
         }
         {

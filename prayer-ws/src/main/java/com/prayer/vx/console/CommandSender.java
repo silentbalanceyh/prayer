@@ -29,8 +29,8 @@ public final class CommandSender {
      * @return
      */
     public static JsonObject exit(final String... args) {
-        System.out.println("Exit Prayer Engine Console successfully !");
-        System.exit(Constants.ZERO);
+        System.out.println("Exit Prayer Engine Console successfully !"); // NOPMD
+        System.exit(Constants.ZERO); // NOPMD
         return null; // NOPMD
     }
 
