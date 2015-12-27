@@ -3,3 +3,4 @@
 /*.project
 /*.lock
 .externalToolBuilders
+*.lock
