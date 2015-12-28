@@ -52,20 +52,27 @@ public class RouterVerticle extends AbstractVerticle {
         // 1.根据Options创建Server相关信息
         final HttpServer server = vertx.createHttpServer(this.configurator.getApiOptions());
         // 因为有Block Thread的问题，这里直接使用Blocking代码
-        vertx.executeBlocking(future -> {
+        vertx.<Router> executeBlocking(future -> {
             // 2.先初始化Router
             final RouteConfigurator routeConfigurator = instance(RouteConfigurator.class.getName(), vertx);
             final Router router = routeConfigurator.getRouter();
-            // 3.根路径Router
-            RouterInjector.injectWebDefault(router);
-            // 4.AuthProvider创建
-            RouterInjector.injectSecurity(router);
+            // 3.complete
+            future.complete(router);
 
-            // 5.最前端的URL处理
-            injectStandard(router);
-            // 6.监听端口
-            server.requestHandler(router::accept).listen();
-        } , null);
+        } , result -> {
+            if (result.succeeded()) {
+                final Router router = result.result();
+                // 4.根路径Router
+                RouterInjector.injectWebDefault(router);
+                // 5.AuthProvider创建
+                RouterInjector.injectSecurity(router);
+
+                // 6.最前端的URL处理
+                injectStandard(router);
+                // 7.监听端口
+                server.requestHandler(router::accept).listen();
+            }
+        });
     }
 
     // ~ Methods =============================================
