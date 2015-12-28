@@ -138,21 +138,20 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
                     if (requestor.getRequest().containsKey(JsonKey.REQUEST.LOGIN_URL)) {
                         if (StringUtil.equals(requestor.getRequest().getString(JsonKey.REQUEST.LOGIN_URL),
                                 context.request().path())) {
+                            /**
+                             * 如果包含了LOGIN_URL的时候用户名密码对了就不执行权限检查了
+                             * 这个地方LOGIN_URL是登录入口BASIC.login.url=/api/sec/login
+                             * 而且为了防止context调用next方法，这里需要直接返回响应结果
+                             */
                             requestor.getResponse().getJsonObject(JsonKey.RESPONSE.DATA).remove(JsonKey.TOKEN.PASSWORD);
                             authorise(authenticated, context, requestor.getResponse());
                         } else {
-                            // Next -> 需要填充Requestor
-                            requestor.getResponse().clear();
-                            requestor.getParams().clear();
-                            context.put(Constants.KEY.CTX_REQUESTOR, requestor);
-                            authorise(authenticated, context);
+                            // 过权限认证入口
+                            authorization(authenticated, context, requestor);
                         }
                     } else {
-                        // Next -> 需要填充Requestor
-                        requestor.getResponse().clear();
-                        requestor.getParams().clear();
-                        context.put(Constants.KEY.CTX_REQUESTOR, requestor);
-                        authorise(authenticated, context);
+                        // 过权限认证入口
+                        authorization(authenticated, context, requestor);
                     }
                 } else {
                     if (StatusCode.UNAUTHORIZED.status() == requestor.getResponse()
@@ -167,6 +166,15 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl {
             });
         }
     }
+
+    protected void authorization(final User authenticated, final RoutingContext context, final Requestor requestor) {
+        // Next -> 需要填充Requestor
+        requestor.getResponse().clear();
+        requestor.getParams().clear();
+        context.put(Constants.KEY.CTX_REQUESTOR, requestor);
+        authorise(authenticated, context);
+    }
+
     /**
      * 
      * @param user

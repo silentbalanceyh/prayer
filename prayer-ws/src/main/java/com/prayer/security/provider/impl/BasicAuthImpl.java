@@ -40,7 +40,7 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicAuthImpl.class);
-    
+
     /** **/
     private static final String AUE_USERNAME = "Passed parameter 'authInfo' must contain username in 'username' field";
     /** **/
@@ -86,20 +86,22 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
             // 4.判断响应信息
             if (ResponseCode.SUCCESS == ret.getResponseCode() && null != ret.getResult()
                     && Constants.ONE == ret.getResult().size()) {
-                final JsonObject retObj = ret.getResult().getJsonObject(0);
+                // 5.从结果中拿到User数据
+                final JsonObject retObj = ret.getResult().getJsonObject(Constants.ZERO);
+                final JsonObject basicOpts = this.configurator.getSecurityOptions();
                 final String inputPWD = data.getJsonObject(JsonKey.TOKEN.NAME).getString(JsonKey.TOKEN.PASSWORD);
-                final String storedPWD = retObj.getString(this.configurator.getSecurityOptions().getString(BASIC.PWD));
-                // 5.密码比对
+                final String storedPWD = retObj.getString(basicOpts.getString(BASIC.PWD));
+                // 6.密码比对
                 if (StringUtil.equals(inputPWD, storedPWD)) {
-                    final String username = retObj
-                            .getString(this.configurator.getSecurityOptions().getString(BASIC.ACCOUNT_ID));
+                    final String username = retObj.getString(basicOpts.getString(BASIC.ACCOUNT_ID));
+                    final String roles = retObj.getString(basicOpts.getString(BASIC.ROLE_USER_CODE));
                     data.getJsonObject(JsonKey.RESPONSE.NAME).put(Constants.PARAM.DATA, retObj);
                     data.getJsonObject(JsonKey.REQUEST.NAME).put(JsonKey.REQUEST.LOGIN_URL,
-                            this.configurator.getSecurityOptions().getString(BASIC.LOGIN_URL));
+                            basicOpts.getString(BASIC.LOGIN_URL));
                     // 用户ID注入到Token
                     data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.USERNAME, username);
-                    data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ID, retObj.getString("uniqueId"));
-                    data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ROLE, "role");
+                    data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ID, retObj.getString(Constants.PID));
+                    data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ROLE, roles);
                     // 构建用户信息
                     handler.handle(Future.succeededFuture(this.buildUserData(this, data)));
                 } else {
@@ -112,9 +114,8 @@ public class BasicAuthImpl implements AuthProvider, BasicAuth {
                 errorHandler(data, handler, RET_M_INVALID);
                 return;
             }
-        }
-        catch (Exception ex) { // NOPMD
-            jvmError(LOGGER,ex);
+        } catch (Exception ex) { // NOPMD
+            jvmError(LOGGER, ex);
         }
     }
 

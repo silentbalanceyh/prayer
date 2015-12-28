@@ -46,8 +46,6 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(TemplateDaoImpl.class);
-    /** **/
-    private static final String UK_ID = "uniqueId";
     /** Exception Class **/
     protected static final String EXP_CLASS = "com.prayer.exception.vertx.DataAccessException";
 
@@ -82,8 +80,8 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
             if (Constants.ONE == entities.length) {
                 final T entity = entities[0];
                 // 3.1.1.单挑记录ID设置
-                if (null == field(entity, UK_ID)) {
-                    field(entity, UK_ID, uuid());
+                if (null == field(entity, Constants.PID)) {
+                    field(entity, Constants.PID, uuid());
                 }
                 // 3.1.2.数据库插入
                 mapper.insert(entity);
@@ -91,8 +89,8 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
             } else {
                 // 3.2.1.批量插入
                 for (final T item : entities) {
-                    if (null == field(item, UK_ID)) {
-                        field(item, UK_ID, uuid());
+                    if (null == field(item, Constants.PID)) {
+                        field(item, Constants.PID, uuid());
                     }
                 }
                 // 3.2.2.批量处理插入

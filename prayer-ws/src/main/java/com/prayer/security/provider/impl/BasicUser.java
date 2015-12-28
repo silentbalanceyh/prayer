@@ -57,8 +57,8 @@ public class BasicUser extends AbstractUser {
     @Override
     public JsonObject principal() {
         if (null == principal) {
-            principal = new JsonObject().put("id", this.userId).put("username", this.username).put(BasicAuth.KEY_TOKEN,
-                    this.token);
+            principal = new JsonObject().put("id", this.userId).put("username", this.username)
+                    .put(BasicAuth.KEY_TOKEN, this.token).put("role", this.role);
         }
         return principal;
     }
@@ -76,7 +76,7 @@ public class BasicUser extends AbstractUser {
     /** 权限检查 **/
     @Override
     public void doIsPermitted(final String permission, final Handler<AsyncResult<Boolean>> resultHandler) {
-        // TODO: 等待权限系统设计完成
+        
     }
 
     /** 将数据写入到Buffer中 **/

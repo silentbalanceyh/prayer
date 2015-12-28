@@ -12,6 +12,8 @@ import java.util.Set;
  */
 public interface Constants { // NOPMD
     // ~ Static Fields =======================================
+    /** 全局统一属性ID信息 **/
+    String PID = "uniqueId";
     /** 数据库SQL模式 **/
     String DB_MODE_SQL = "SQL";
     /** 数据库NOSQL模式 **/
@@ -185,34 +187,6 @@ public interface Constants { // NOPMD
         /** Param Data **/
         String DATA = PARAM.DATA;
     }
-
-    /*    *//** **/
-    /*
-     * interface RET { // NOPMD
-     *//** Status Code: 404,501 etc. **/
-    /*
-     * String STATUS_CODE = "statusCode";
-     *//** Status Code Error: NOT_FOUND, INTERNAL_ERROR etc. **/
-    /*
-     * String ERROR = "error";
-     *//** System Error Code **/
-    /*
-     * String ERROR_CODE = "errorCode";
-     *//** Error Message: Exception description **/
-    /*
-     * String ERROR_MSG = "errorMessage";
-     *//** SUCCESS/FAILURE/ERROR **/
-    /*
-     * String RESPONSE = "response";
-     *//** 返回的错误信息Key值 **/
-    /*
-     * String AUTH_ERROR = "authenticateError";
-     *//** data节点 **/
-    /*
-     * String DATA = PARAM.DATA;
-     *//** 保存的用户信息 **//*
-                      * String SESSION_USER = "user"; }
-                      */
 
     /**
      * 

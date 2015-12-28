@@ -25,5 +25,8 @@ public interface AuthConstants {    // NOPMD
         
         /** 登录入口 **/
         String LOGIN_URL = "login.url";
+        
+        /** 用户表中存储角色Code的信息 **/
+        String ROLE_USER_CODE="user.roles";
     }
 }

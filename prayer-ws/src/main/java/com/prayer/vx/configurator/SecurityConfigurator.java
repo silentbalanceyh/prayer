@@ -152,6 +152,9 @@ public class SecurityConfigurator {
                 this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.SCHEMA_ID));
         options.put(AuthConstants.BASIC.LOGIN_URL,
                 this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.LOGIN_URL));
+        // 角色相关属性
+        options.put(AuthConstants.BASIC.ROLE_USER_CODE,
+                this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.ROLE_USER_CODE));
         return options;
     }
 

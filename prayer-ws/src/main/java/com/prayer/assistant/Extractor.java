@@ -1,13 +1,18 @@
 package com.prayer.assistant;
 
+import static com.prayer.util.Instance.singleton;
+
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.security.BasicRequestor;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.model.web.Responsor;
 import com.prayer.model.web.StatusCode;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
+import com.prayer.util.cv.SystemEnum.SecurityMode;
+import com.prayer.vx.configurator.SecurityConfigurator;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -25,6 +30,9 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class Extractor {
     // ~ Static Fields =======================================
+    /** **/
+    private static final SecurityConfigurator SECURITOR = singleton(SecurityConfigurator.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     /** **/
@@ -112,14 +120,16 @@ public final class Extractor {
     }
 
     /**
-     * 
+     * 注意创建部分，Requestor属于接口
      * @param context
      * @return
      */
     public static Requestor requestor(@NotNull final RoutingContext context) {
         Requestor requestor = context.get(Constants.KEY.CTX_REQUESTOR);
         if (null == requestor) {
-            requestor = Requestor.create(context);
+            if (SecurityMode.BASIC == SECURITOR.getMode()) {
+                requestor = BasicRequestor.create(context);
+            }
         }
         return requestor;
     }
