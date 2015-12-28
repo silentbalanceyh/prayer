@@ -1,0 +1,74 @@
+[
+    {
+        "single":"h",
+        "name":"help",
+        "args":[
+            
+        ],
+        "description":"Display help information of 'mserver'",
+        "required":false
+    },
+    {
+        "single":"n",
+        "name":"navigate",
+        "args":[
+            
+        ],
+        "description":"Check input (Route Configuration) files under ROOT_FOLDER + /vertx/route/",
+        "required":false
+    },
+    {
+        "single":"u",
+        "name":"uri",
+        "args":[
+            
+        ],
+        "description":"Check input (URI Configuration) files under ROOT_FOLDER + /vertx/uri/",
+        "required":false
+    },
+    {
+        "single":"r",
+        "name":"rule",
+        "args":[
+            
+        ],
+        "description":"Check input (Rule Configuration) files under ROOT_FOLDER + /vertx/rule/",
+        "required":false
+    },
+    {
+        "single":"s",
+        "name":"script",
+        "args":[
+            
+        ],
+        "description":"Check input (Script Configuration) files under ROOT_FOLDER + /vertx/script/",
+        "required":false
+    },
+    {
+        "single":"f",
+        "name":"file",
+        "args":[
+            "path"
+        ],
+        "description":"Check file content of input file",
+        "required":false
+    },
+    {
+        "single":"a",
+        "name":"address",
+        "args":[
+            
+        ],
+        "description":"Check input (Address Configuration) file ROOT_FOLDER + /vertx/address.json",
+        "required":false
+    },
+    {
+        "single":"v",
+        "name":"verticle",
+        "args":[
+            
+        ],
+        "description":"Check input (Verticle Configuration) file ROOT_FOLDER + /vertx/verticle.json",
+        "required":false
+    }
+]

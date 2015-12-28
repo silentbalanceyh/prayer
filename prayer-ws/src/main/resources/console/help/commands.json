@@ -1,9 +1,12 @@
 {
     "help":"Display help information of commands",
     "status":"Check the status of every components ( Engine Status )",
-    "mserver":"Operations on H2 Database to process metadata server",
+    "bdata":"Operations on Business Database to process business data",
+    "mserver":"Operations on Database ( Default: H2 ) to process metadata server",
     "engine":"Operations on Vert.X ( Prayer Engine )",
     "schema":"Manage schema information from console",
+    "input":"Check input data files under ROOT_FOLDER for every components",
     "api":"Operations for API ( Restful Web Service )",
+    "tool":"Basic tools for some assistant for developer",
     "exit":"Exit Prayer Engine Console"
 }

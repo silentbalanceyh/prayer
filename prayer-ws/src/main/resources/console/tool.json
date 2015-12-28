@@ -1,0 +1,38 @@
+[
+    {
+        "single":"h",
+        "name":"help",
+        "args":[
+            
+        ],
+        "description":"Display help information of 'mserver'",
+        "required":false
+    },
+    {
+        "single":"m",
+        "name":"md5",
+        "args":[
+            "input"
+        ],
+        "description":"Process input string with MD5",
+        "required":false
+    },
+    {
+        "single":"t",
+        "name":"telnet",
+        "args":[
+            "host:port"
+        ],
+        "description":"Telnet to check host and port stauts",
+        "required":false
+    },
+    {
+        "single":"j",
+        "name":"jdbc",
+        "args":[
+            "url"
+        ],
+        "description":"Check JDBC url status with tools",
+        "required":false
+    }
+]

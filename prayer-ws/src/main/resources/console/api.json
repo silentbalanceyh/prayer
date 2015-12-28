@@ -9,12 +9,30 @@
         "required":false
     },
     {
-        "single":"a",
-        "name":"add",
+        "single":"d",
+        "name":"deploy",
         "args":[
-            "file"
+            "api"
         ],
         "description":"Add/Merge api into H2 Metadata Database",
+        "required":false
+    },
+    {
+        "single":"c",
+        "name":"call",
+        "args":[
+            "url"
+        ],
+        "description":"Call api by command 'call', 'url' must be start with '/api'",
+        "required":false
+    },
+    {
+        "single":"i",
+        "name":"input",
+        "args":[
+            "paramFile"
+        ],
+        "description":"Parameter files location, it must be used with '-c' and JSON format.",
         "required":false
     }
 ]

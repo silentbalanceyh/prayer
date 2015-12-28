@@ -33,10 +33,13 @@ public class EngineConsole extends AbstractConsole {
         OPS.putIfAbsent("exit", CommandSender::exit);
         OPS.putIfAbsent("help", CommandSender::help);
         OPS.putIfAbsent("status", CommandSender::status);
+        OPS.putIfAbsent("bdata", CommandSender::bdata);
         OPS.putIfAbsent("mserver", CommandSender::mserver);
         OPS.putIfAbsent("engine", CommandSender::engine);
         OPS.putIfAbsent("schema", CommandSender::schema);
+        OPS.putIfAbsent("input", CommandSender::input);
         OPS.putIfAbsent("api", CommandSender::api);
+        OPS.putIfAbsent("tool", CommandSender::tool);
     }
 
     // ~ Static Methods ======================================
@@ -68,6 +71,7 @@ public class EngineConsole extends AbstractConsole {
             final String arguments[] = this.prompt(vertxCfg.getActiveName() + " > ");
             /** 什么内容都没有的时候直接进入下一次循环 **/
             if (arguments.length == Constants.ZERO) {
+                this.populateHelp();
                 continue;
             } else {
                 final String commandArgs[] = this.extractArgs(arguments);
@@ -81,7 +85,7 @@ public class EngineConsole extends AbstractConsole {
                             // 4.打印最终执行结果
                             System.out.println(report.encodePrettily()); // NOPMD
                         }
-                    }else{
+                    } else {
                         // 打印帮助，并且显示错误的命令
                         System.out.println("[ERROR] Command does not exist : " + command); // NOPMD
                         this.populateHelp();

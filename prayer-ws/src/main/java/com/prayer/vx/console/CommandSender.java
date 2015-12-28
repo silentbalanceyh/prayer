@@ -4,12 +4,15 @@ import static com.prayer.util.Instance.singleton;
 
 import com.prayer.util.cv.Constants;
 import com.prayer.vx.console.commands.ApiCommand;
+import com.prayer.vx.console.commands.BDataCommand;
 import com.prayer.vx.console.commands.Command;
 import com.prayer.vx.console.commands.EngineCommand;
 import com.prayer.vx.console.commands.HelpCommand;
+import com.prayer.vx.console.commands.InputCommand;
 import com.prayer.vx.console.commands.MServerCommand;
 import com.prayer.vx.console.commands.SchemaCommand;
 import com.prayer.vx.console.commands.StatusCommand;
+import com.prayer.vx.console.commands.ToolCommand;
 
 import io.vertx.core.json.JsonObject;
 
@@ -86,6 +89,33 @@ public final class CommandSender {
      */
     public static JsonObject api(final String... args) {
         return execute(ApiCommand.class, args);
+    }
+
+    /**
+     * 
+     * @param args
+     * @return
+     */
+    public static JsonObject input(final String... args) {
+        return execute(InputCommand.class, args);
+    }
+
+    /**
+     * 
+     * @param args
+     * @return
+     */
+    public static JsonObject tool(final String... args) {
+        return execute(ToolCommand.class, args);
+    }
+
+    /**
+     * 
+     * @param args
+     * @return
+     */
+    public static JsonObject bdata(final String... args) {
+        return execute(BDataCommand.class, args);
     }
 
     // ~ Constructors ========================================

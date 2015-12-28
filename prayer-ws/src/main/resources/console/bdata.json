@@ -1,0 +1,29 @@
+[
+    {
+        "single":"h",
+        "name":"help",
+        "args":[
+            
+        ],
+        "description":"Display help information of 'engine'",
+        "required":false
+    },
+    {
+        "single":"p",
+        "name":"purge",
+        "args":[
+            "identifier"
+        ],
+        "description":"Purge data from Business Database by 'identifier'",
+        "required":false
+    },
+    {
+        "single":"d",
+        "name":"deploy",
+        "args":[
+            "identifier"
+        ],
+        "description":"Deploy data into Business Database by 'identifier'",
+        "required":false
+    }
+]

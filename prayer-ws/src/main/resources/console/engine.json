@@ -36,6 +36,15 @@
         "required":false
     },
     {
+        "single":"d",
+        "name":"deploy",
+        "args":[
+            "folder"
+        ],
+        "description":"Deploy All data into Business Database",
+        "required":false
+    },
+    {
         "single":"v",
         "name":"verify",
         "args":[

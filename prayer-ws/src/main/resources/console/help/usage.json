@@ -1,9 +1,12 @@
 {
     "exit":"exit <NO OPTIONS>",
-    "help":"help [-c] [-h]",
-    "status":"status [-m] [-d] [-v] [-h]",
+    "help":"help [-h] [-c]",
+    "status":"status [-h] [-m] [-d] [-v]",
+    "bdata":"bdata [-h] [-p] [-d]",
     "mserver":"mserver [-h] [-d] [-s] [-t] [-r]",
-    "engine":"engine [-h] [-s] [-t] [-r] [-v]",
+    "engine":"engine [-h] [-s] [-t] [-r] [-d] [-v]",
     "schema":"schema [-h] [-l] [-u] [-f] [-d]",
-    "api":"api [-h] [-a]"
+    "input":"input [-h] [-n] [-u] [-r] [-s] [-f] [-a] [-v]",
+    "api":"api [-h] [-d] [-c] [-i]",
+    "tool":"tool [-h] [-m] [-t] [-j]"
 }
