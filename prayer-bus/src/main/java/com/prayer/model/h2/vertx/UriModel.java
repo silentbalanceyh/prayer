@@ -66,6 +66,10 @@ public class UriModel implements Serializable { // NOPMD
     /** S_SENDER **/
     @JsonProperty("sender")
     private String sender;
+    
+    /** S_ROLES **/
+    @JsonProperty("roles")
+    private List<String> roles = new ArrayList<>();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -226,13 +230,27 @@ public class UriModel implements Serializable { // NOPMD
         this.sender = sender;
     }
 
+    /**
+     * @return the roles
+     */
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    /**
+     * @param roles the roles to set
+     */
+    public void setRoles(final List<String> roles) {
+        this.roles = roles;
+    }
+
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override
     public String toString() {
         return "UriModel [uniqueId=" + uniqueId + ", uri=" + uri + ", method=" + method + ", paramType=" + paramType
                 + ", requiredParam=" + requiredParam + ", globalId=" + globalId + ", address=" + address + ", script="
-                + script + ", returnFilters=" + returnFilters + ", sender=" + sender + "]";
+                + script + ", returnFilters=" + returnFilters + ", sender=" + sender + ", roles=" + roles + "]";
     }
 
     /**

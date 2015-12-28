@@ -262,4 +262,16 @@ public interface Constants { // NOPMD
             String RET_LIST = "list";
         }
     }
+
+    /** **/
+    interface CACHE { // NOPMD
+        /** **/
+        String CAC_ADDRESS = "CAC_ADDRESS";
+    }
+
+    /** **/
+    interface LOCK { // NOPMD
+        /** **/
+        String LOK_ADDRESS = "LOCK_ADDRESS";
+    }
 }

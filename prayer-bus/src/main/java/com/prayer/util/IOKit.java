@@ -1,6 +1,5 @@
 package com.prayer.util;
 
-import static com.prayer.util.Log.debug;
 import static com.prayer.util.Log.info;
 import static com.prayer.util.Log.jvmError;
 
@@ -23,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.Symbol;
-import com.prayer.util.cv.log.DebugKey;
 import com.prayer.util.cv.log.InfoKey;
 
 import net.sf.oval.constraint.NotBlank;
@@ -168,9 +166,6 @@ public final class IOKit {
             } catch (FileNotFoundException ex) {
                 jvmError(LOGGER, ex);
             }
-        } else {
-            final String errorMsg = (null == file) ? "null" : file.getAbsolutePath();
-            debug(LOGGER, DebugKey.INFO_IO_ERROR, errorMsg);
         }
         return retStream;
     }

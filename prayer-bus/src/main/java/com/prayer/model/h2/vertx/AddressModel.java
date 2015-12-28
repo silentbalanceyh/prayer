@@ -6,7 +6,12 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.prayer.util.JsonKit;
 import com.prayer.util.cv.Constants;
+
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.shareddata.impl.ClusterSerializable;
 
 /**
  * 对应表EVX_ADDRESS
@@ -15,7 +20,7 @@ import com.prayer.util.cv.Constants;
  *
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
-public class AddressModel implements Serializable { // NOPMD
+public class AddressModel implements Serializable, ClusterSerializable { // NOPMD
 
     // ~ Static Fields =======================================
     /**
@@ -35,11 +40,28 @@ public class AddressModel implements Serializable { // NOPMD
     /** S_CONSUMER_HANDLER **/
     @JsonProperty("consumerHandler")
     private String consumerHandler;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public void writeToBuffer(final Buffer buffer) {
+        final String jsonStr = JsonKit.toStr(this);
+        final JsonObject jsonObj = new JsonObject(jsonStr);
+        jsonObj.put("uniqueId", this.uniqueId);
+        jsonObj.writeToBuffer(buffer);
+    }
+
+    /** **/
+    @Override
+    public int readFromBuffer(final int pos, final Buffer buffer) {
+        final JsonObject jsonObj = new JsonObject();
+        return jsonObj.readFromBuffer(pos, buffer);
+    }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
@@ -87,7 +109,7 @@ public class AddressModel implements Serializable { // NOPMD
     public void setConsumerAddr(final String consumerAddr) {
         this.consumerAddr = consumerAddr;
     }
-    
+
     /**
      * @return the consumerHandler
      */
@@ -96,7 +118,8 @@ public class AddressModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param consumerHandler the consumerHandler to set
+     * @param consumerHandler
+     *            the consumerHandler to set
      */
     public void setConsumerHandler(final String consumerHandler) {
         this.consumerHandler = consumerHandler;
@@ -150,5 +173,4 @@ public class AddressModel implements Serializable { // NOPMD
         }
         return true;
     }
-
 }

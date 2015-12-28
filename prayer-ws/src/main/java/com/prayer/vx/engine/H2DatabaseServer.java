@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.impl.oob.DeploySevImpl;
 import com.prayer.facade.bus.DeployService;
-import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.Converter;
 import com.prayer.util.cv.Resources;
@@ -178,7 +177,7 @@ public class H2DatabaseServer {
     /** 按照目录初始化元数据 **/
     public boolean initMetadata(final String dataFolder) {
         boolean flag = false;
-        ServiceResult<Boolean> ret = this.service.initH2Database(Resources.DB_SQL_DIR + MetadataConn.H2_SQL);
+        ServiceResult<Boolean> ret = this.service.initH2Database(Resources.META_INIT_SQL);
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             ret = this.service.deployPrayerData(dataFolder);
             if (ResponseCode.SUCCESS == ret.getResponseCode()) {

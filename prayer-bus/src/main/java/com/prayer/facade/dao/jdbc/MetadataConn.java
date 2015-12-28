@@ -11,11 +11,6 @@ import com.prayer.model.bus.Metadata;
  */
 public interface MetadataConn {
     // ~ Constants =======================================
-    /**
-     * H2 初始化SQL语句
-     */
-    String H2_SQL = "metadata/H2-INIT.sql";
-
     // ~ Method ==========================================
     // region Metadata: Database Information
     /**

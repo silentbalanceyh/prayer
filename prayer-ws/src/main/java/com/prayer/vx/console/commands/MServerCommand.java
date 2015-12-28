@@ -10,6 +10,7 @@ import com.prayer.bus.impl.oob.DeploySevImpl;
 import com.prayer.facade.bus.DeployService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.IOKit;
+import com.prayer.util.cv.Resources;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
@@ -84,7 +85,7 @@ public class MServerCommand extends AbstractCommand {
         if (null == url) {
             System.out.println("[ERROR] The folder : " + folder + " does not exist in classpath."); // NOPMD
         } else {
-            final JsonObject checkConn = this.helper.getMetadata("H2");
+            final JsonObject checkConn = this.helper.getMetadata(Resources.META_CATEGORY);
             if (checkConn.containsKey(ERROR)) {
                 ret.put(ERROR, checkConn.getString(ERROR));
             } else {

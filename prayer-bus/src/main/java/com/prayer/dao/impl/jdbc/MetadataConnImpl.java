@@ -19,6 +19,7 @@ import com.prayer.base.dao.AbstractDbPool;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.model.bus.Metadata;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.Resources;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -72,7 +73,7 @@ public class MetadataConnImpl implements MetadataConn {
             jvmError(LOGGER, ex);
         }
         // H2 元数据
-        h2Pool = new BoneCPPool("H2");
+        h2Pool = new BoneCPPool(Resources.META_CATEGORY);
     }
 
     // ~ Abstract Methods ====================================

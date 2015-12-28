@@ -32,7 +32,7 @@ public class KeyMapperTestCase extends AbstractMapperCase<KeyModel, String> { //
     public static void setUp(){
         /** **/
         final MetadataConn metaConn = singleton(MetadataConnImpl.class);
-        final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
+        final String scriptFile = Resources.META_INIT_SQL;
         metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
     }
     // ~ Constructors ========================================

@@ -23,6 +23,8 @@ import com.prayer.model.kernel.GenericSchema;
 import com.prayer.schema.json.CommunionImporter;
 import com.prayer.util.cv.Accessors;
 import com.prayer.util.cv.MemoryPool;
+import com.prayer.util.cv.Resources;
+import com.prayer.util.cv.log.InfoKey;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
@@ -78,7 +80,7 @@ public class SchemaSevImpl implements SchemaService {
             importer.syncSchema(schema);
             // 5.成功代码
             result.success(schema);
-            info(LOGGER, "Schema ( file = " + filePath + " ) has been deployed successfully");
+            info(LOGGER, InfoKey.INF_DP_STEP1, filePath, Resources.META_CATEGORY);
         } catch (AbstractTransactionException ex) {
             peError(LOGGER, ex);
             result.error(ex);
@@ -110,6 +112,7 @@ public class SchemaSevImpl implements SchemaService {
         // 如果有错误则getError()就不是null值则会导致Build异常
         final ServiceResult<GenericSchema> result = new ServiceResult<>();
         if (null == builder.getError()) {
+            info(LOGGER, InfoKey.INF_DP_STEP2, schema.getIdentifier(), Resources.META_CATEGORY, Resources.DB_CATEGORY);
             result.success(schema);
         } else {
             result.failure(builder.getError());

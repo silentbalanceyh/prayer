@@ -27,6 +27,10 @@ public class SchemaCommand extends AbstractCommand {
     // ~ Static Fields =======================================
     /** **/
     private static final String SYNCED = "SYNCED";
+    /** Json -> H2 Database **/
+    private static final String STEP1 = "[STEP1]";
+    /** H2 Database -> SQL Server **/
+    private static final String STEP2 = "[STEP2]";
     /** **/
     private static final String ERROR = "error";
     // ~ Instance Fields =====================================
@@ -85,7 +89,7 @@ public class SchemaCommand extends AbstractCommand {
         if (null == url) {
             System.out.println("[ERROR] The schema file does not exist in classpath : " + schemaFile);  // NOPMD
         } else {
-            final JsonObject checkConn = this.helper.getMetadata("H2");
+            final JsonObject checkConn = this.helper.getMetadata(Resources.META_CATEGORY);
             if (checkConn.containsKey(ERROR)) {
                 ret.put(ERROR, checkConn.getString(ERROR));
             } else {
@@ -101,10 +105,24 @@ public class SchemaCommand extends AbstractCommand {
     }
 
     private JsonObject syncSchema(final String file) {
-        final ServiceResult<GenericSchema> ret = this.service.syncSchema(file);
+        // Schema Json File --> H2 Database
+        ServiceResult<GenericSchema> ret = this.service.syncSchema(file);
         final JsonObject retJson = new JsonObject();
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            retJson.put(SYNCED, Boolean.TRUE);
+            // H2 Database --> SQL Server
+            GenericSchema schema = ret.getResult();
+            if(null != schema){
+                ret = this.service.syncMetadata(schema);
+                if(ResponseCode.SUCCESS == ret.getResponseCode()){
+                    retJson.put(SYNCED, Boolean.TRUE);
+                }else{
+                    retJson.put(SYNCED, Boolean.FALSE);
+                    retJson.put(ERROR, STEP2 + " H2 ( Meta ) -> Database, Error : " + ret.getErrorMessage());
+                }
+            }else{
+                retJson.put(SYNCED, Boolean.FALSE);
+                retJson.put(ERROR, STEP1 + " Json -> H2 ( Meta ), Error : " + ret.getErrorMessage());
+            }
         } else {
             retJson.put(SYNCED, Boolean.FALSE);
             retJson.put(ERROR, ret.getErrorMessage());

@@ -200,10 +200,6 @@
             <ruleset>Basic Velocity</ruleset>
         </rule>
         <rule>
-            <name>EmptyIfStmt</name>
-            <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
             <name>ExcessiveTemplateLength</name>
             <ruleset>Basic Velocity</ruleset>
         </rule>
@@ -641,6 +637,10 @@
         </rule>
         <rule>
             <name>EmptyFinallyBlock</name>
+            <ruleset>Empty Code</ruleset>
+        </rule>
+        <rule>
+            <name>EmptyIfStmt</name>
             <ruleset>Empty Code</ruleset>
         </rule>
         <rule>

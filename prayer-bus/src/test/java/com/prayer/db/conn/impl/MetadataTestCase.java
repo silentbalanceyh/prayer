@@ -88,7 +88,7 @@ public class MetadataTestCase {     // NOPMD
      */
     @Test
     public void testH2Init(){
-        final String scriptFile = Resources.DB_SQL_DIR + MetadataConn.H2_SQL;
+        final String scriptFile = Resources.META_INIT_SQL;
         final boolean ret = this.metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
         assertTrue("[T] Executed meta init failure.",ret);
     }

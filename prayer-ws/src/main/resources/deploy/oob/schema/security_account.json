@@ -16,7 +16,6 @@
             "columns":[
                 "PK_ID"
             ]
-            
         },
         {
             "name":"UK_SEC_ACCOUNT_USERNAME",
@@ -41,8 +40,15 @@
             "columns":[
                 "S_MOBILE"
             ]
+        },
+        {
+            "name":"UK_SEC_ACCOUNT_R_ROLE",
+            "category":"UniqueKey",
+            "multi":false,
+            "columns":[
+                "R_ROLE"
+            ]
         }
-        
     ],
     "__fields__":[
         {
@@ -76,13 +82,22 @@
             "columnType":"STRING1",
             "unique":true,
             "length":256
-        },{
+        },
+        {
             "name":"mobile",
             "type":"StringType",
             "columnName":"S_MOBILE",
             "columnType":"STRING1",
             "unique":true,
             "length":256
+        },
+        {
+            "name":"roles",
+            "type":"StringType",
+            "columnName":"R_ROLE",
+            "columnType":"STRING2",
+            "unique":true,
+            "length":2048
         }
     ]
 }

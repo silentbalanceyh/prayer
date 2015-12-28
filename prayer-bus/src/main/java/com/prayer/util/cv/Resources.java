@@ -54,16 +54,23 @@ public final class Resources { // NOPMD
     public static final String DB_SQL_DIR;
     /** SQL Error的Mapping映射文件 **/
     public static final String DB_SQL_ERROR;
-
+    
+    // Metadata Configuration ================================
+    
+    /** Meta Data的配置文件路径 **/
+    public static final String META_CFG_FILE;
+    /** Meta Data的OOB数据默认路径 **/
+    public static final String META_OD_FOLDER;
+    /** Meta Data的数据库类型 **/
+    public static final String META_CATEGORY;
+    /** Meta Data的初始化SQL脚本位置 **/
+    public static final String META_INIT_SQL;
+    
     // File Configuration ====================================
     /** Vertx的配置文件路径 **/
     public static final String VX_CFG_FILE;
     /** Server的配置文件路径 **/
     public static final String SEV_CFG_FILE;
-    /** Meta Data的配置文件路径 **/
-    public static final String META_CFG_FILE;
-    /** Meta Data的OOB数据默认路径 **/
-    public static final String META_OD_FOLDER;
     /** 日志配置文件存储的根目录 **/
     public static final String LOG_CFG_FOLDER;
     
@@ -123,14 +130,20 @@ public final class Resources { // NOPMD
         // Server
         SEV_CFG_FILE = LOADER.getString("server.config.file");
 
+        // Log Folder
+        LOG_CFG_FOLDER = LOADER.getString("system.log.folder");
+
         // Meta
         META_CFG_FILE = LOADER.getString("meta.config.file");
 
         // Meta
         META_OD_FOLDER = LOADER.getString("meta.oob.data.folder");
-
-        // Log Folder
-        LOG_CFG_FOLDER = LOADER.getString("system.log.folder");
+        
+        // Meta
+        META_CATEGORY = LOADER.getString("meta.category");
+        
+        // Meta
+        META_INIT_SQL = DB_SQL_DIR + LOADER.getString("meta.init.sql.file");
     }
 
     // ~ Constructors ========================================

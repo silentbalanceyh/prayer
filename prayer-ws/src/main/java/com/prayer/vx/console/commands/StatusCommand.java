@@ -49,7 +49,7 @@ public class StatusCommand extends AbstractCommand {
         // TODO: 命令status的开发
         if (null != cmdLine) {
             if (cmdLine.hasOption('m')) {
-                retJson = helper.getMetadata("H2");
+                retJson = helper.getMetadata(Resources.META_CATEGORY);
             } else if (cmdLine.hasOption('d')) {
                 retJson = helper.getMetadata(Resources.DB_CATEGORY);
             }
