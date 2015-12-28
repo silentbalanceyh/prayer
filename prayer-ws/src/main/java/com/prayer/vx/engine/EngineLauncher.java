@@ -37,15 +37,6 @@ public final class EngineLauncher {
         return new EngineLauncher();
     }
 
-    /**
-     * 
-     * @param args
-     */
-    public static void main(final String... args) throws AbstractException {
-        final EngineLauncher launcher = EngineLauncher.create();
-        launcher.runTool(args);
-    }
-
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

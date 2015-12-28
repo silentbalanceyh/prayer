@@ -1,51 +1,33 @@
-package com.prayer.vx.engine;
-
-import static com.prayer.util.Instance.singleton;
+package com.prayer.vx.starter;
 
 import com.prayer.base.exception.AbstractException;
+import com.prayer.vx.engine.ConsoleLauncher;
 
 /**
  * 
  * @author Lang
  *
  */
-public final class H2DatabaseLauncher {
+public class ConsoleStarter {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    /** **/
-    private transient final H2DatabaseServer server = singleton(H2DatabaseServer.class);
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /**
-     * 创建启动器
-     * 
-     * @return
-     */
-    public static H2DatabaseLauncher create() {
-        return new H2DatabaseLauncher();
-    }
-    
-    /** **/
-    public static void main(final String... args) throws AbstractException {
-        final H2DatabaseLauncher launcher = H2DatabaseLauncher.create();
-        launcher.runTool(args);
-    }
-
-    // ~ Constructors ========================================
-    // ~ Abstract Methods ====================================
-    // ~ Override Methods ====================================
-    // ~ Methods =============================================
     /**
      * 
      * @param args
      * @throws AbstractException
      */
-    public void runTool(final String... args) throws AbstractException{
-        this.server.start();
+    public static void main(final String... args) throws AbstractException {
+        final ConsoleLauncher console = ConsoleLauncher.create();
+        console.runTool(new String[]{"-pconsole"});
     }
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private H2DatabaseLauncher() {
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

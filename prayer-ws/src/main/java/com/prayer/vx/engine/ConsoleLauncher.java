@@ -38,15 +38,6 @@ public final class ConsoleLauncher extends AbstractConsole {
         Resources.useConsole = true;
         return new ConsoleLauncher();
     }
-    /**
-     * 
-     * @param args
-     * @throws AbstractException
-     */
-    public static void main(final String... args) throws AbstractException {
-        final ConsoleLauncher console = ConsoleLauncher.create();
-        console.runTool(args);
-    }
 
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
