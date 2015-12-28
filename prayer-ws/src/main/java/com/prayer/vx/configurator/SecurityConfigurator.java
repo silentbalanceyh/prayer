@@ -41,7 +41,7 @@ public class SecurityConfigurator {
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfigurator.class);
     /** Server Config File **/
-    private transient final PropertyKit LOADER = new PropertyKit(SecurityConfigurator.class, Resources.SEV_CFG_FILE);
+    private transient final PropertyKit LOADER = new PropertyKit(SecurityConfigurator.class, Resources.SEC_CFG_FILE);
     /** **/
     @NotNull
     private transient final SecurityMode mode;

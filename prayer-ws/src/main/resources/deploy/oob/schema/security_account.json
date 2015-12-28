@@ -40,14 +40,6 @@
             "columns":[
                 "S_MOBILE"
             ]
-        },
-        {
-            "name":"UK_SEC_ACCOUNT_R_ROLE",
-            "category":"UniqueKey",
-            "multi":false,
-            "columns":[
-                "R_ROLE"
-            ]
         }
     ],
     "__fields__":[
@@ -96,7 +88,6 @@
             "type":"StringType",
             "columnName":"R_ROLE",
             "columnType":"STRING2",
-            "unique":true,
             "length":2048
         }
     ]

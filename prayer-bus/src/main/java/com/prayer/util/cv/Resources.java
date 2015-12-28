@@ -73,6 +73,8 @@ public final class Resources { // NOPMD
     public static final String SEV_CFG_FILE;
     /** 日志配置文件存储的根目录 **/
     public static final String LOG_CFG_FOLDER;
+    /** 安全配置文件路径 **/
+    public static final String SEC_CFG_FILE;
     
     /** 默认不是从CONSOLE启动 **/
     public static boolean useConsole = Boolean.FALSE;
@@ -129,6 +131,9 @@ public final class Resources { // NOPMD
 
         // Server
         SEV_CFG_FILE = LOADER.getString("server.config.file");
+        
+        // Security
+        SEC_CFG_FILE = LOADER.getString("security.config.file");
 
         // Log Folder
         LOG_CFG_FOLDER = LOADER.getString("system.log.folder");
