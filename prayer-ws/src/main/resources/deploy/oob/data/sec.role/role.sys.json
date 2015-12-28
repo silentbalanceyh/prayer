@@ -1,0 +1,15 @@
+[
+    {
+        "name":"系统管理员",
+        "code":"ROLE_SYSTEM",
+        "super":true
+    },{
+        "name":"后台管理员",
+        "code":"ROLE_ADMIN",
+        "super":false
+    },{
+        "name":"基本用户",
+        "code":"ROLE_USER",
+        "super":false
+    }
+]

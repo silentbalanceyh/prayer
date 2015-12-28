@@ -19,4 +19,6 @@ interface OOBPaths {    // NOPMD
     String VX_URI_PARAM = "/vertx/rule/";
     /** **/
     String VX_SCRIPT = "/vertx/script/";
+    /** **/
+    String VX_DATA = "/data/";
 }

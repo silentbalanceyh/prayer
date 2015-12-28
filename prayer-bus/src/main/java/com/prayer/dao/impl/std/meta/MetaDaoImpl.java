@@ -86,6 +86,13 @@ public class MetaDaoImpl implements RecordDao {
         this.initLazyDao(record);
         return this.dao.delete(record);
     }
+    /** **/
+    @Override
+    public boolean purge(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
+            throws AbstractDatabaseException{
+        this.initLazyDao(record);
+        return this.dao.purge(record);
+    }
 
     /** **/
     @Override

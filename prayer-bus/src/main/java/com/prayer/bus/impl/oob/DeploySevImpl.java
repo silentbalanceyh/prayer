@@ -66,7 +66,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
      */
     @Override
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<Boolean> initH2Database(@NotNull @NotBlank @NotEmpty final String scriptPath) {
+    public ServiceResult<Boolean> initMetadata(@NotNull @NotBlank @NotEmpty final String scriptPath) {
         // 1.执行Script脚本
         final boolean executedRet = this.metaConn.initMeta(IOKit.getFile(scriptPath));
         // 2.设置相应信息
@@ -80,7 +80,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
      */
     @Override
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<Boolean> deployPrayerData(@NotNull @NotBlank @NotEmpty final String rootFolder) { // NOPMD
+    public ServiceResult<Boolean> deployMetadata(@NotNull @NotBlank @NotEmpty final String rootFolder) { // NOPMD
         final ServiceResult<Boolean> result = new ServiceResult<>();
         // 1.EVX_VERTICLE
         ServiceResult<?> ret = this.manager.getVerticleService().purgeData();

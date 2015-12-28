@@ -85,6 +85,9 @@ public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String> implements
             if (null == item.getRequiredParam()) {
                 item.setRequiredParam(emptyArr);
             }
+            if (null == item.getRoles()){
+                item.setRoles(emptyArr);
+            }
             if (null == item.getSender()) {
                 item.setSender("com.prayer.uca.sender.JsonRecordSender");
             }

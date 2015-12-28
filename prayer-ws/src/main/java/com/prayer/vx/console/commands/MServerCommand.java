@@ -100,7 +100,7 @@ public class MServerCommand extends AbstractCommand {
     }
 
     private JsonObject deployData(final String folder) {
-        final ServiceResult<Boolean> ret = this.service.deployPrayerData(folder);
+        final ServiceResult<Boolean> ret = this.service.deployMetadata(folder);
         final JsonObject retJson = new JsonObject();
         if (ret.getResult()) {
             retJson.put(DEPLOYED, Boolean.TRUE);

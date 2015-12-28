@@ -1,10 +1,12 @@
 package com.prayer.util;
 
+import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.Log.info;
 import static com.prayer.util.Log.jvmError;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,7 +15,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.Symbol;
 import com.prayer.util.cv.log.InfoKey;
+import com.prayer.util.file.filter.OnlyDirectoryFilter;
+import com.prayer.util.file.filter.OnlyFileFilter;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -130,15 +133,17 @@ public final class IOKit {
      */
     @NotNull
     public static List<String> listFiles(@NotNull @NotEmpty @NotBlank final String folder) {
-        final URL url = getURL(folder);
-        final List<String> retList = new ArrayList<>();
-        if (null != url) {
-            final File file = new File(url.getFile());
-            if (file.isDirectory() && file.exists()) {
-                retList.addAll(Arrays.asList(file.list()));
-            }
-        }
-        return retList;
+        return list(folder, false);
+    }
+
+    /**
+     * 
+     * @param folder
+     * @return
+     */
+    @NotNull
+    public static List<String> listDirectories(@NotNull @NotEmpty @NotBlank final String folder) {
+        return list(folder, true);
     }
 
     // ~ Constructors ========================================
@@ -147,6 +152,31 @@ public final class IOKit {
     // ~ Get/Set =============================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private static List<String> list(final String folder, final boolean isDirectory) {
+        final URL url = getURL(folder);
+        final List<String> retList = new ArrayList<>();
+        if (null != url) {
+            final File file = new File(url.getFile());
+            if (file.isDirectory() && file.exists()) {
+                // 设置Filter信息
+                FileFilter filter = null;
+                if (isDirectory) {
+                    filter = singleton(OnlyDirectoryFilter.class);
+                } else {
+                    filter = singleton(OnlyFileFilter.class);
+                }
+                // Filter不可为空
+                if (null != filter) {
+                    final File[] files = file.listFiles(filter);
+                    for (final File item : files) {
+                        retList.add(item.getName());
+                    }
+                }
+            }
+        }
+        return retList;
+    }
 
     private static InputStream readStream(final String fileName, final Class<?> clazz) { // NOPMD
         return clazz.getResourceAsStream(fileName);

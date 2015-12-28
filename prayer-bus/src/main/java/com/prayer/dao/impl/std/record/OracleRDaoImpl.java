@@ -118,6 +118,16 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 		Response.interrupt(getClass(), ret);
 		return ret;
 	}
+	
+    /** **/
+    @Override
+    public boolean purge(final Record record) throws AbstractDatabaseException{
+        // 1.调用父类函数
+        final boolean ret = super.sharedPurge(record);
+        // 2.后期执行检查
+        Response.interrupt(getClass(), ret);
+        return ret;
+    }
 
 	/** **/
 	@Override

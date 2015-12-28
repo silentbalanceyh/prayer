@@ -72,8 +72,8 @@ public abstract class AbstractConn implements JdbcContext {
             ret = Constants.RC_SUCCESS;
         } else {
             ret = jdbc.execute(Input.prepStmt(sql, params), Output.extractExecuteResult());
-            // 在不抛异常的情况下，如果ret > 0则表示执行成功，返回影响行数，否则返回false
-            ret = Constants.ZERO < ret ? ret : Constants.RC_FAILURE;
+            // 在不抛异常的情况下，如果ret >= 0则表示执行成功，返回影响行数，否则返回false
+            ret = Constants.ZERO <= ret ? ret : Constants.RC_FAILURE;
         }
         return ret;
     }

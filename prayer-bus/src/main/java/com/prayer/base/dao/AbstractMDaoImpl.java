@@ -143,6 +143,13 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
         // 2.执行删除操作
         return this.getDao().deleteById(recordId);
     }
+    /** **/
+    @Override
+    public boolean purge(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
+            throws AbstractDatabaseException{
+        // 1.直接删除，底层的Dao拥有了clear()方法
+        return this.getDao().clear();
+    }
 
     /** **/
     @Override

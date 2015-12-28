@@ -9,22 +9,15 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.bus.impl.oob.DataSevImpl;
 import com.prayer.bus.impl.oob.DeploySevImpl;
-import com.prayer.bus.impl.std.RecordSevImpl;
-import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
+import com.prayer.facade.bus.DataService;
 import com.prayer.facade.bus.DeployService;
-import com.prayer.facade.bus.RecordService;
-import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.util.Encryptor;
-import com.prayer.util.IOKit;
-import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.log.InfoKey;
-
-import io.vertx.core.json.JsonObject;
 
 /**
  * 
@@ -40,12 +33,9 @@ public class DeployTestCase {
     /** **/
     private transient final DeployService service = singleton(DeploySevImpl.class);
     /** **/
-    private transient final RecordService recordSev = singleton(RecordSevImpl.class);
-
+    private transient final DataService dataSev = singleton(DataSevImpl.class);
     /** **/
     private transient final MetadataConn metaConn = singleton(MetadataConnImpl.class);
-    /** **/
-    private transient final JdbcContext dataContext = singleton(JdbcConnImpl.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -66,20 +56,14 @@ public class DeployTestCase {
      */
     @Test
     public void testDeploy() throws Exception {
-        final ServiceResult<Boolean> ret = this.service.deployPrayerData(Resources.META_OD_FOLDER);
+        ServiceResult<Boolean> ret = this.service.deployMetadata(Resources.OOB_FOLDER);
         assertTrue("[TD] Deploying failure ! ", ret.getResult());
-
         // 添加默认账号信息的测试用例
-        this.dataContext.executeBatch("DELETE FROM SEC_ACCOUNT;");
-        final Long count = this.dataContext.count("SELECT COUNT(*) FROM SEC_ACCOUNT WHERE S_USERNAME='lang.yu'");
-        if (Constants.ZERO == count) {
-            final String content = IOKit.getContent("/deploy/oob/data/account.json");
-            final JsonObject params = new JsonObject(content);
-            final String password = Encryptor.encryptMD5(params.getJsonObject("data").getString("password"));
-            params.getJsonObject("data").put("password", password);
-            info(LOGGER, params.encode());
-            recordSev.save(params);
-        }
+        ret = this.dataSev.purgeData("sec.account");
+        ret = this.dataSev.deployData(Resources.OOB_FOLDER, "sec.account");
+        // 添加默认角色信息
+        ret = this.dataSev.purgeData("sec.role");
+        ret = this.dataSev.deployData(Resources.OOB_FOLDER, "sec.role");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

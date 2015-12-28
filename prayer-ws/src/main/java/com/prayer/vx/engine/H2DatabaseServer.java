@@ -171,15 +171,15 @@ public class H2DatabaseServer {
     
     /** 初始化OOB元数据 **/
     public boolean initMetadata() {
-        return this.initMetadata(Resources.META_OD_FOLDER);
+        return this.initMetadata(Resources.OOB_FOLDER);
     }
 
     /** 按照目录初始化元数据 **/
     public boolean initMetadata(final String dataFolder) {
         boolean flag = false;
-        ServiceResult<Boolean> ret = this.service.initH2Database(Resources.META_INIT_SQL);
+        ServiceResult<Boolean> ret = this.service.initMetadata(Resources.META_INIT_SQL);
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            ret = this.service.deployPrayerData(dataFolder);
+            ret = this.service.deployMetadata(dataFolder);
             if (ResponseCode.SUCCESS == ret.getResponseCode()) {
                 // 创建锁文件
                 this.createLock();

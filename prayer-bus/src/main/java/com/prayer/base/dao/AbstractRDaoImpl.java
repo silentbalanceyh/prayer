@@ -185,16 +185,6 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
             @NotNull final String[] columns, final List<Value<?>> params, final Expression filters)
                     throws AbstractDatabaseException {
         return sharedSelect(record, columns, params, filters, null);
-        /*
-         * // 1.获取JDBC访问器 final JdbcContext jdbc =
-         * this.getContext(record.identifier()); // 2.生成SQL语句 final String sql =
-         * SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns),
-         * filters, null); // 3.根据参数表生成查询结果集 final String[] cols =
-         * columns.length > 0 ? columns :
-         * record.columns().toArray(Constants.T_STR_ARR); return
-         * SqlHelper.extractData(record, jdbc.select(sql, params,
-         * record.columnTypes(), cols));
-         */
     }
 
     /**
@@ -247,6 +237,23 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         // 5.执行
         final int ret = jdbc.execute(sql, paramValues);
         return ret > Constants.RC_SUCCESS;
+    }
+
+    /**
+     * 
+     * @param record
+     * @return
+     */
+    protected boolean sharedPurge(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+            throws AbstractDatabaseException {
+        // 1.获取JDBC访问器
+        final JdbcContext jdbc = this.getContext(record.identifier());
+        // 2.生成SQL语句
+        final String sql = SqlDmlStatement.prepDeleteSQL(record.table(), null);
+        // 3.执行，因为是Purge
+        final int ret = jdbc.execute(sql, null);
+        // 4.无数据的时候是0，有数据的时候是行数，和其他操作不同，因为Purge确实存在没有数据的情况
+        return ret >= Constants.RC_SUCCESS;
     }
 
     // ~ Assistant Methods ===================================

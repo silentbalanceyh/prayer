@@ -56,6 +56,13 @@ public interface RecordDao {
      * @return
      */
     boolean delete(Record record) throws AbstractDatabaseException;
+    /**
+     * 
+     * @param record
+     * @return
+     * @throws AbstractDatabaseException
+     */
+    boolean purge(Record record) throws AbstractDatabaseException;
 
     /**
      * 

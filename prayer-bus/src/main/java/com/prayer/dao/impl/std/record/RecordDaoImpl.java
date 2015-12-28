@@ -107,6 +107,18 @@ public class RecordDaoImpl implements RecordDao {
             throws AbstractDatabaseException {
         return this.dao.delete(record);
     }
+    /**
+     * 
+     * @param record
+     * @return
+     * @throws AbstractDatabaseException
+     */
+    @Override
+    @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
+    public boolean purge(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+            throws AbstractDatabaseException{
+        return this.dao.purge(record);
+    }
 
     /**
      * 
