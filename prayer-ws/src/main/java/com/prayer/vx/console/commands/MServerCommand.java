@@ -25,8 +25,6 @@ public class MServerCommand extends AbstractCommand {
     // ~ Static Fields =======================================
     /** **/
     private static final String DEPLOYED = "DEPLOYED";
-    /** **/
-    private static final String ERROR = "error";
     // ~ Instance Fields =====================================
     /** **/
     @NotNull

@@ -31,6 +31,8 @@ public abstract class AbstractCommand implements Command{
     /** **/
     private static final JsonObject COMMANDS;
 
+    /** **/
+    protected static final String ERROR = "error";
     // ~ Instance Fields =====================================
     /** **/
     private transient final CommandLineParser parser = new DefaultParser();
@@ -118,6 +120,8 @@ public abstract class AbstractCommand implements Command{
                 // 解析共享参数-h，打印当前Command的Help信息
                 if (cmdLine.hasOption('h')) {
                     this.help(command());
+                    // 直接跳出
+                    cmdLine = null;
                 }
             }
         }

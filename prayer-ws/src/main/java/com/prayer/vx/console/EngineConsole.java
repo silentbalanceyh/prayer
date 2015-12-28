@@ -71,7 +71,6 @@ public class EngineConsole extends AbstractConsole {
             final String arguments[] = this.prompt(vertxCfg.getActiveName() + " > ");
             /** 什么内容都没有的时候直接进入下一次循环 **/
             if (arguments.length == Constants.ZERO) {
-                this.populateHelp();
                 continue;
             } else {
                 final String commandArgs[] = this.extractArgs(arguments);
@@ -90,6 +89,8 @@ public class EngineConsole extends AbstractConsole {
                         System.out.println("[ERROR] Command does not exist : " + command); // NOPMD
                         this.populateHelp();
                     }
+                }else{
+                    this.populateHelp();
                 }
             }
         }
