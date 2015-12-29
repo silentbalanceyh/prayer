@@ -30,6 +30,8 @@ import com.prayer.util.cv.SystemEnum.StatusFlag;
 import com.prayer.util.cv.log.DebugKey;
 
 import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -166,6 +168,16 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NO
 	protected Long nullRows(final String column) {
 		return this.getContext().count(OracleHelper.getSqlNull(this.getTable(), column));
 	}
+	
+    /**
+     * 
+     * @return
+     */
+    @Override
+    protected Long uniqueRows(@NotNull @NotBlank @NotEmpty final String column){
+        // TODO: Oracle中的Unique校验
+        return -1L;
+    }
 	
 	@Override
 	protected String genAlterColumns(@NotNull final FieldModel field) {

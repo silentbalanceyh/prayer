@@ -40,6 +40,8 @@ final class MsSqlHelper {
     private final static String SQL_TBFK_CONSTRAINT = "SELECT COUNT(*) FROM (INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE AS CC JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS TC ON CC.CONSTRAINT_NAME = TC.CONSTRAINT_NAME) WHERE CC.TABLE_CATALOG=''{0}'' AND CC.TABLE_NAME=''{1}'' AND (TC.CONSTRAINT_TYPE = ''PRIMARY KEY'' OR TC.CONSTRAINT_TYPE=''UNIQUE'') AND CC.COLUMN_NAME=''{2}''";
     /** 列空值检测 **/
     private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
+    /** **/
+    private final static String SQL_TB_UNIQUE = "SELECT COUNT({1}) FROM {0} WHERE {1} IN (SELECT {1} FROM {0} GROUP BY {1} HAVING COUNT({1}) > 1)";
     /** 数据库配置资源加载器 **/
     private static final PropertyKit LOADER = new PropertyKit(MsSqlHelper.class, Resources.DB_CFG_FILE);
 
@@ -128,6 +130,17 @@ final class MsSqlHelper {
     public static String getSqlNull(@NotNull @NotBlank @NotEmpty final String tableName,
             @NotNull @NotBlank @NotEmpty final String colName) {
         return MessageFormat.format(SQL_TB_NULL, tableName, colName);
+    }
+    /**
+     * 检查表中某个字段是否有重复数据
+     * @param tableName
+     * @param colName
+     * @return
+     */
+    @NotNull
+    public static String getSqlUnique(@NotNull @NotBlank @NotEmpty final String tableName,
+            @NotNull @NotBlank @NotEmpty final String colName){
+        return MessageFormat.format(SQL_TB_UNIQUE, tableName, colName);
     }
 
     // ~ Constructors ========================================

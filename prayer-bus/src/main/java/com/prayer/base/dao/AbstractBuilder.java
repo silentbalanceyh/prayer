@@ -93,7 +93,12 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return
      */
     protected abstract Long nullRows(String column);
-
+    /**
+     * 获取值为Unique的执行列的数量
+     * @param column
+     * @return
+     */
+    protected abstract Long uniqueRows(String column);
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /**
