@@ -10,6 +10,7 @@ import com.prayer.base.dao.AbstractDbPool;
 import com.prayer.bus.impl.std.ServiceHelper;
 import com.prayer.facade.dao.builder.Builder;
 import com.prayer.facade.dao.jdbc.JdbcContext;
+import com.prayer.facade.schema.DataValidator;
 import com.prayer.facade.schema.Importer;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.MetaConnector;
@@ -29,6 +30,8 @@ public interface MemoryPool {    // NOPMD
     ConcurrentMap<String, AbstractDbPool> POOL_CONPOOL = new ConcurrentHashMap<>();
     /** JDBC的Context的延迟池化技术 **/
     ConcurrentMap<String, JdbcContext> POOL_JDBC = new ConcurrentHashMap<>();
+    /** 和Business Database联合验证 **/
+    ConcurrentMap<String, DataValidator> POOL_VALIDATOR = new ConcurrentHashMap<>();
     /** 数据源的Pool **/
     ConcurrentMap<String, DataSource> POOL_DATA_SOURCE = new ConcurrentHashMap<>();
     /** Schema的缓存信息 **/

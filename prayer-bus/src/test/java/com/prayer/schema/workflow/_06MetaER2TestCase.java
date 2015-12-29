@@ -4,10 +4,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.schema.OptionalAttrMorEException;
-import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.DuplicatedTablesException;
+import com.prayer.exception.schema.OptionalAttrMorEException;
+import com.prayer.exception.schema.PatternNotMatchException;
 
 /**
  * 
@@ -34,6 +34,8 @@ public class _06MetaER2TestCase extends AbstractSchemaTestCase { // NOPMD
     }
 
     // ~ Methods =============================================
+
+
     /**
      * 
      * @throws AbstractSchemaException
@@ -113,47 +115,9 @@ public class _06MetaER2TestCase extends AbstractSchemaTestCase { // NOPMD
      * @throws AbstractSchemaException
      */
     @Test(expected = DuplicatedTablesException.class)
-    public void testP00742Meta10020ECombinatedValue4() throws AbstractSchemaException {
+    public void testP00743Meta10020ECombinatedValue4() throws AbstractSchemaException {
         testImport("P00743meta-mappingE-COMBINATED10020-1.json",
-                "[E10020] Meta -> category (ENTITY), mapping (COMBINATED) ==> Optional {subtable} Attribute must be not the same as {table}!");
-    }
-
-    /**
-     * 
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = OptionalAttrMorEException.class)
-    public void testP010Meta10004PolicyIncrement1() throws AbstractSchemaException {
-        testImport("P010meta-policyINCREMENT10004-1.json",
-                "[E10004] Meta -> policy (INCREMENT) ==> Optional {seqinit,seqstep} Attribute Error!");
-    }
-
-    /**
-     * 
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = OptionalAttrMorEException.class)
-    public void testP010Meta10004PolicyIncrement2() throws AbstractSchemaException {
-        testImport("P010meta-policyINCREMENT10004-2.json",
-                "[E10004] Meta -> policy (INCREMENT) ==> Optional {seqinit,seqstep} Attribute Error!");
-    }
-
-    /**
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = PatternNotMatchException.class)
-    public void testP011Meta10005PolicyIncrement1() throws AbstractSchemaException {
-        testImport("P011meta-policyINCREMENT10003-1.json",
-                "[E10003] Meta -> policy (INCREMENT) ==> Optional {seqinit, seqstep} Attribute must be matching!");
-    }
-
-    /**
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = PatternNotMatchException.class)
-    public void testP011Meta10005PolicyIncrement2() throws AbstractSchemaException {
-        testImport("P011meta-policyINCREMENT10003-2.json",
-                "[E10003] Meta -> policy (INCREMENT) ==> Optional {seqinit, seqstep} Attribute must be matching!");
+                "[E10020] Meta -> category (ENTITY), mapping (COMBINATED) ==> Optional {subtable} Attribute mustn't be the same as {table}!");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

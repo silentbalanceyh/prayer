@@ -41,6 +41,8 @@ public class _12TypePattern1TestCase extends AbstractSchemaTestCase {    // NOPM
         testImport("types/P023field-Type1STRING-Pattern10003-1.json",
                 "[E10003] Fields ==> (Failure) There is unexpected exception!");
     }
+    
+
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

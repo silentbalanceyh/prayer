@@ -166,9 +166,7 @@ final class MetaEnsurer implements InternalEnsurer {
             return true;
         }
         // 9.如果是MSSQL以及MYSQL，直接返回true
-        if (!StringUtil.equals(Resources.DB_CATEGORY,"MSSQL")
-                && !StringUtil.equals(Resources.DB_CATEGORY,"MYSQL")) {
-            // TODO: 默认使用了MSSQL，所以针对Oracle以及PostgreSQL才会有这个流程验证seqname
+        if (!StringUtil.equals(Resources.DB_CATEGORY, "MSSQL") && !StringUtil.equals(Resources.DB_CATEGORY, "MYSQL")) {
             // 9.2.1.使用了Sequence的情况，必须要验证seqname是否丢失
             this.error = validator.verifyMissing(Attributes.M_SEQ_NAME);
             if (null != this.error) {
@@ -242,7 +240,21 @@ final class MetaEnsurer implements InternalEnsurer {
         if (null != this.error) {
             return false;
         }
-        // TODO: __subkey__ 的验证保留，根据子表策略完成，目前不支持子表关联验证
+        // 7.4.4 __subtable__ 这张表是否存在的验证
+        this.error = validator.verifyTableExisting(Attributes.M_SUB_TABLE);
+        if (null != this.error) {
+            return false;
+        }
+        // 7.4.5 __subtable__ & __subkey__ 验证字段是否存在
+        this.error = validator.verifyColumnExisting(Attributes.M_SUB_TABLE, Attributes.M_SUB_KEY);
+        if (null != this.error) {
+            return false;
+        }
+        // 7.4.6.__subtable__ & __subkey__ 验证字段的约束是否OK？
+        this.error = validator.verifyInvalidConstraints(Attributes.M_SUB_TABLE, Attributes.M_SUB_KEY);
+        if (null != this.error) {
+            return false;
+        }
         return null == this.error;
     }
 

@@ -12,20 +12,19 @@ import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.BFKConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTableNotExistingException;
-import com.prayer.exception.schema.RequiredAttrMissingException;
+import com.prayer.exception.schema.OptionalAttrMorEException;
+import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.facade.schema.DataValidator;
 import com.prayer.util.cv.Constants;
-
 /**
  * 
  * @author Lang
  *
  */
-public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
+public class _06MetaER3TestCase extends AbstractSchemaTestCase{
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(_11TypeRequired1TestCase.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(_06MetaER3TestCase.class);
     // ~ Instance Fields =====================================
     /** **/
     private transient final DataValidator verifier;
@@ -36,10 +35,9 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
     /**
      * 
      */
-    public _11TypeRequired1TestCase() {
+    public _06MetaER3TestCase() {
         this.verifier = singleton(validator());
     }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**
@@ -49,7 +47,6 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
     public Logger getLogger() {
         return LOGGER;
     }
-
     // ~ Methods =============================================
     /**
      * 
@@ -71,9 +68,9 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
      * @throws AbstractSchemaException
      */
     @Test(expected = BTableNotExistingException.class)
-    public void testP23FKey1Target10027() throws AbstractSchemaException {
-        testImport("rels/P0213field-FkCType10027-1.json",
-                "[E10027] Target table does not exist, please verify the result!");
+    public void testP00744Meta10027ECombinatedTargetTable() throws AbstractSchemaException {
+        testImport("P00744meta-mappingE-COMBINATED10027-1.json",
+                "[E10027] Meta -> category (ENTITY), mapping (COMBINATED) ==> Optional {subtable} Attribute Error: Table Does Not Exist!");
     }
 
     /**
@@ -81,15 +78,15 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
      * @throws AbstractSchemaException
      */
     @Test(expected = BTColumnNotExistingException.class)
-    public void testP23FKey1Target10028() throws AbstractSchemaException {
+    public void testP00745Meta10028ECombinatedTargetColumn() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027
         if (null != verifier.verifyTable("SEC_SUB_ROLE")) {
-            ret = this.context.executeBatch("CREATE TABLE SEC_SUB_ROLE( K_ID VARCHAR(236) );");
+            ret = this.context.executeBatch("CREATE TABLE SEC_SUB_ROLE( R_ID VARCHAR(236) );");
         }
         if (Constants.RC_SUCCESS == ret) {
-            testImport("rels/P0213field-FkCType10028-1.json",
-                    "[E10028] Target column does not exist, please verify the result!");
+            testImport("P00745meta-mappingE-COMBINATED10028-1.json",
+                    "[E10028] Meta -> category (ENTITY), mapping (COMBINATED) ==> Optional {subtable} Attribute Error: Column Does Not Exist!");
         }
     }
     /**
@@ -97,45 +94,54 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
      * @throws AbstractSchemaException
      */
     @Test(expected = BFKConstraintInvalidException.class)
-    public void testP23FKey1Target10029() throws AbstractSchemaException {
+    public void testP00746Meta10029ECombinatedConstraints() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027
         if (null != verifier.verifyTable("SEC_SUB_ROLE1")) {
-            ret = this.context.executeBatch("CREATE TABLE SEC_SUB_ROLE1( R_ID VARCHAR(236) );");
+            ret = this.context.executeBatch("CREATE TABLE SEC_SUB_ROLE1( K_ID VARCHAR(236) );");
         }
         if (Constants.RC_SUCCESS == ret) {
-            testImport("rels/P0213field-FkCType10029-1.json",
-                    "[E10029] Target column constraint is invalid please verify the result!");
+            testImport("P00746meta-mappingE-COMBINATED10029-1.json",
+                    "[E10029] Meta -> category (ENTITY), mapping (COMBINATED) ==> Optional {subtable} Attribute Error: Constraint Invalid!");
         }
     }
+
     /**
      * 
      * @throws AbstractSchemaException
      */
-    @Test(expected = RequiredAttrMissingException.class)
-    public void testP22Fields1String10001() throws AbstractSchemaException {
-        testImport("types/P022field-Type1STRING-length10001.json",
-                "[E10001] Fields ==> (Failure) There is unexpected exception!");
+    @Test(expected = OptionalAttrMorEException.class)
+    public void testP010Meta10004PolicyIncrement1() throws AbstractSchemaException {
+        testImport("P010meta-policyINCREMENT10004-1.json",
+                "[E10004] Meta -> policy (INCREMENT) ==> Optional {seqinit,seqstep} Attribute Error!");
     }
 
     /**
      * 
      * @throws AbstractSchemaException
      */
-    @Test(expected = RequiredAttrMissingException.class)
-    public void testP22Fields2Xml10001() throws AbstractSchemaException {
-        testImport("types/P022field-Type2XML-length10001.json",
-                "[E10001] Fields ==> (Failure) There is unexpected exception!");
+    @Test(expected = OptionalAttrMorEException.class)
+    public void testP010Meta10004PolicyIncrement2() throws AbstractSchemaException {
+        testImport("P010meta-policyINCREMENT10004-2.json",
+                "[E10004] Meta -> policy (INCREMENT) ==> Optional {seqinit,seqstep} Attribute Error!");
     }
 
     /**
-     * 
      * @throws AbstractSchemaException
      */
-    @Test(expected = RequiredAttrMissingException.class)
-    public void testP22Fields3Json10001() throws AbstractSchemaException {
-        testImport("types/P022field-Type3JSON-length10001.json",
-                "[E10001] Fields ==> (Failure) There is unexpected exception!");
+    @Test(expected = PatternNotMatchException.class)
+    public void testP011Meta10005PolicyIncrement1() throws AbstractSchemaException {
+        testImport("P011meta-policyINCREMENT10003-1.json",
+                "[E10003] Meta -> policy (INCREMENT) ==> Optional {seqinit, seqstep} Attribute must be matching!");
+    }
+
+    /**
+     * @throws AbstractSchemaException
+     */
+    @Test(expected = PatternNotMatchException.class)
+    public void testP011Meta10005PolicyIncrement2() throws AbstractSchemaException {
+        testImport("P011meta-policyINCREMENT10003-2.json",
+                "[E10003] Meta -> policy (INCREMENT) ==> Optional {seqinit, seqstep} Attribute must be matching!");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

@@ -1,8 +1,10 @@
-package com.prayer.schema.json;    // NOPMD
+package com.prayer.schema.json; // NOPMD
 
 import static com.prayer.util.Converter.toStr;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Log.peError;
+import static com.prayer.util.cv.Accessors.validator;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -23,8 +25,11 @@ import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.exception.schema.UnsupportAttrException;
+import com.prayer.facade.schema.DataValidator;
 import com.prayer.util.JsonKit;
 import com.prayer.util.cv.Constants;
+import com.prayer.util.cv.MemoryPool;
+import com.prayer.util.cv.Resources;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.AssertFieldConstraints;
@@ -48,6 +53,8 @@ final class JObjectValidator {
     private static final Logger LOGGER = LoggerFactory.getLogger(JObjectValidator.class);
     /** **/
     private static final String EXP_PRE_CON = "_this.verifiedNode != null";
+    /** **/
+    private static final String EXP_PRE_CPXCON = "_this.verifiedNode != null && _this.verifier != null";
     // ~ Instance Fields =====================================
     /** **/
     @NotBlank
@@ -56,6 +63,10 @@ final class JObjectValidator {
     /** **/
     @NotNull
     private transient final JsonNode verifiedNode;
+
+    /** **/
+    @NotNull
+    private transient final DataValidator verifier;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -70,6 +81,7 @@ final class JObjectValidator {
         } else {
             this.name = name;
         }
+        this.verifier = reservoir(MemoryPool.POOL_VALIDATOR, Resources.DB_CATEGORY, validator());
     }
 
     // ~ Abstract Methods ====================================
@@ -175,6 +187,48 @@ final class JObjectValidator {
             peError(LOGGER, retExp);
         }
         return retExp;
+    }
+
+    /**
+     * Error-10027
+     * 
+     * @param table
+     * @return
+     */
+    @Pre(expr = EXP_PRE_CPXCON, lang = Constants.LANG_GROOVY)
+    public AbstractSchemaException verifyTableExisting(@NotNull @NotEmpty @NotBlank final String table) {
+        final JsonNode tableNode = this.verifiedNode.path(table);
+        return this.verifier.verifyTable(tableNode.asText());
+    }
+
+    /**
+     * Error-10028
+     * 
+     * @param table
+     * @param column
+     * @return
+     */
+    @Pre(expr = EXP_PRE_CPXCON, lang = Constants.LANG_GROOVY)
+    public AbstractSchemaException verifyColumnExisting(@NotNull @NotEmpty @NotBlank final String table,
+            @NotNull @NotEmpty @NotBlank final String column) {
+        final JsonNode tableNode = this.verifiedNode.path(table);
+        final JsonNode columnNode = this.verifiedNode.path(column);
+        return this.verifier.verifyColumn(tableNode.asText(), columnNode.asText());
+    }
+
+    /**
+     * Error-10029
+     * 
+     * @param table
+     * @param column
+     * @return
+     */
+    @Pre(expr = EXP_PRE_CPXCON, lang = Constants.LANG_GROOVY)
+    public AbstractSchemaException verifyInvalidConstraints(@NotNull @NotEmpty @NotBlank final String table,
+            @NotNull @NotEmpty @NotBlank final String column) {
+        final JsonNode tableNode = this.verifiedNode.path(table);
+        final JsonNode columnNode = this.verifiedNode.path(column);
+        return this.verifier.verifyFKConstraint(tableNode.asText(), columnNode.asText());
     }
 
     /**

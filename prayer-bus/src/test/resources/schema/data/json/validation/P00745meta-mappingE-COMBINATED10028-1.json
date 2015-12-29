@@ -1,0 +1,17 @@
+{
+    "__meta__":{
+        "name":"Role",
+        "namespace":"com.prayer.mod.sec",
+        "category":"ENTITY",
+        "table":"SEC_ROLE",
+        "identifier":"sys.sec.role",
+        "mapping":"COMBINATED",
+        "policy":"GUID",
+        "subtable":"SEC_SUB_ROLE",
+        "subkey":"K_ID"
+    },
+    "__keys__":[
+    ],
+    "__fields__":[
+    ]
+}

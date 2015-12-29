@@ -13,17 +13,28 @@ import net.sf.oval.guard.Guarded;
 public final class Accessors {
     // ~ Static Fields =======================================
     /** 默认值 **/
-    private static final String DFT_DB_POOL = "com.prayer.db.pool.BoneCPPool";
+    private static final String DFT_DB_POOL = "com.prayer.dao.impl.jdbc.BoneCPPool";
     /** Builder 默认值 **/
-    private static final String DFT_DB_BUILDER = "com.prayer.facade.kernel.builder.MsSqlBuilder";
+    private static final String DFT_DB_BUILDER = "com.prayer.dao.impl.builder.MsSqlBuilder";
+    /** Validator 默认值 **/
+    private static final String DFT_DB_VALIDATOR = "com.prayer.dao.impl.builder.MsSqlValidator";
     /** Dao 默认值 **/
-    private static final String DFT_DB_DAO = "com.prayer.facade.dao.impl.MsSqlRDaoImpl";
+    private static final String DFT_DB_DAO = "com.prayer.dao.impl.std.record.MsSqlRDaoImpl";
     /** Transverter默认值 **/
-    private static final String DFT_DB_TRANS = "com.prayer.util.db.MsSqlTransducer";
+    private static final String DFT_DB_TRANS = "com.prayer.dao.impl.std.record.MsSqlTransducer";
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
 
     // ~ Static Methods ======================================
+    /**
+     * 验证器相关信息
+     * 
+     * @return
+     */
+    public static String validator() {
+        return null == Resources.DB_VALIDATOR ? DFT_DB_VALIDATOR : Resources.DB_VALIDATOR;
+    }
+
     /**
      * 获取连接池实现方式
      * 

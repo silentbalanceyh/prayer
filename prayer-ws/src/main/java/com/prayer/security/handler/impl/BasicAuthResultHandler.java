@@ -120,6 +120,7 @@ public class BasicAuthResultHandler implements Handler<AsyncResult<User>> {
         if (requestor.getToken().containsKey(JsonKey.TOKEN.ID) && user instanceof BasicUser) {
             final String uID = requestor.getToken().getString(JsonKey.TOKEN.ID);
             final BasicUser stored = (BasicUser) user;
+            // 根据不同的模式实现
             final SharedData shared = routingContext.vertx().sharedData();
             final LocalMap<String, Buffer> sharedMap = shared.getLocalMap(BasicProvider.KEY_POOL_USER);
             final Buffer buffer = Buffer.buffer();

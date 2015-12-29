@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
-import net.sf.oval.guard.PreValidateThis;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.model.type.DataType;
+
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
+import net.sf.oval.guard.PreValidateThis;
 
 /**
  * 
@@ -84,6 +84,9 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
         // 2.外键类型定义验证
         validateFKType();
         interrupt();
+        // 3.外键表是否存在
+        validateFKTargetTable();
+        interrupt();
         // TODO: 外键引用表和字段验证
     }
 
@@ -114,7 +117,41 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
         this.error = this.validator.verifyFkColumnType(Attributes.F_COL_TYPE, FK_FILTER, RGX_REFID_CTYPE);
         return null == this.error;
     }
-
+    /**
+     * 
+     * @return
+     */
+    private boolean validateFKTargetTable(){
+        // 因为foreignkey = true的节点一定存在，上层验证过
+        // 21.3.外键表属性验证
+        final List<JsonNode> fkNodes = findNodes(this.fieldsNode, FK_FILTER);
+        Iterator<JsonNode> fkNIt = fkNodes.iterator();
+        int idx = 0;
+        while (fkNIt.hasNext()) {
+            final JsonNode node = fkNIt.next();
+            final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
+                    message("D10000.FKIDX", idx, node.path(Attributes.F_NAME).asText()));
+            // 21.3.1.验证外键表是否存在
+            this.error = validator.verifyTableExisting(Attributes.F_REF_TABLE);
+            if(null != this.error){
+                break;
+            }
+            // 21.3.2.验证外键表对应字段是否存在
+            this.error = validator.verifyColumnExisting(Attributes.F_REF_TABLE, Attributes.F_REF_ID);
+            if(null != this.error){
+                break;
+            }
+            // 21.3.3.验证外键对应字段的约束是否OK
+            this.error = validator.verifyInvalidConstraints(Attributes.F_REF_TABLE, Attributes.F_REF_ID);
+            if(null != this.error){
+                break;
+            }
+        }
+        if(null != this.error){
+            return false;
+        }
+        return null == this.error;
+    }
     /**
      * 
      * @return
@@ -129,8 +166,6 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
             final JsonNode node = fkNIt.next();
             final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
                     message("D10000.FKIDX", idx, node.path(Attributes.F_NAME).asText()));
-            // new JObjectValidator(node,message("D10000.FKIDX", idx,
-            // node.path(Attributes.F_NAME).asText()));
             // 20.1.验证foreignkey = true的节点必须包含两个特殊可选属性
             this.error = validator.verifyMissing(Attributes.F_REF_ID, Attributes.F_REF_TABLE);
             if (null != this.error) {
@@ -148,8 +183,6 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
             final JsonNode node = fkNIt.next();
             final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
                     message("D10000.FKIDX", idx, node.path(Attributes.F_NAME).asText()));
-            // new JObjectValidator(node,message("D10000.FKIDX", idx,
-            // node.path(Attributes.F_NAME).asText()));
             // 20.2.验证foreignkey = true的节点中特殊可选属性
             for (final String attr : REGEX_MAP.keySet()) {
                 this.error = validator.verifyPattern(attr, REGEX_MAP.get(attr));

@@ -1,15 +1,19 @@
 package com.prayer.schema.workflow;
 
+import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.cv.Accessors.validator;
+
+import org.junit.After;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.schema.FKColumnTypeException;
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.exception.schema.FKAttrTypeException;
 import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.SubtableWrongException;
+import com.prayer.facade.schema.DataValidator;
+import com.prayer.util.cv.Constants;
 
 /**
  * 
@@ -22,11 +26,18 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { // NOPMD
     private static final Logger LOGGER = LoggerFactory.getLogger(_10FieldsRels1TestCase.class);
     /** **/
     private static final String FK_PATTERN = "[E10003] Fields -> ( foreignkey = true ) ==> (Failure) One of optional attributes 'refId,refTable' does not match the pattern! ";
+    /** **/
+    private transient final DataValidator verifier;
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    public _10FieldsRels1TestCase() {
+        super();
+        this.verifier = singleton(validator());
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**
@@ -40,12 +51,51 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { // NOPMD
     // ~ Methods =============================================
     /**
      * 
+     */
+    @After
+    public void setUp() {
+        // For testP019Subtable1Rel10013();
+        // 如果存在该表就删除
+        if (null == verifier.verifyTable("SEC_SUBROLE")) {
+            this.context.executeBatch("DROP TABLE SEC_SUBROLE;");
+        }
+        if (null == verifier.verifyTable("SEC_SUBROLE1")) {
+            this.context.executeBatch("DROP TABLE SEC_SUBROLE1;");
+        }
+    }
+
+    /**
+     * 
      * @throws AbstractSchemaException
      */
     @Test(expected = SubtableWrongException.class)
     public void testP019Subtable1Rel10013() throws AbstractSchemaException {
-        testImport("rels/P019field-Subtable10013-1.json",
-                "[E10013] Fields -> subtalbe ==> (Failure) Attribute 'subtalbe' must exist because mapping = COMBINATED! ");
+        int ret = Constants.RC_FAILURE;
+        // 创建子表，防止10027
+        if (null != verifier.verifyTable("SEC_SUBROLE")) {
+            ret = this.context.executeBatch("CREATE TABLE SEC_SUBROLE( R_ID VARCHAR(256) PRIMARY KEY );");
+        }
+        if (Constants.RC_SUCCESS == ret) {
+            testImport("rels/P019field-Subtable10013-1.json",
+                    "[E10013] Fields -> subtalbe ==> (Failure) Attribute 'subtalbe' must exist because mapping = COMBINATED! ");
+        }
+    }
+
+    /**
+     * 
+     * @throws AbstractSchemaException
+     */
+    @Test(expected = SubtableWrongException.class)
+    public void testP019Subtable2Rel10013() throws AbstractSchemaException {
+        int ret = Constants.RC_FAILURE;
+        // 创建子表，防止10027
+        if (null != verifier.verifyTable("SEC_SUBROLE1")) {
+            ret = this.context.executeBatch("CREATE TABLE SEC_SUBROLE1( R_ID VARCHAR(256) UNIQUE );");
+        }
+        if (Constants.RC_SUCCESS == ret) {
+            testImport("rels/P019field-Subtable10013-2.json",
+                    "[E10013] Fields -> subtalbe ==> (Failure) Attribute 'subtalbe' must exist because mapping = COMBINATED! ");
+        }
     }
 
     /**
@@ -84,64 +134,6 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { // NOPMD
     @Test(expected = PatternNotMatchException.class)
     public void testP0202FKey2Rel10003() throws AbstractSchemaException {
         testImport("rels/P0202field-FK10003-2.json", FK_PATTERN);
-    }
-
-    /**
-     * 
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = PatternNotMatchException.class)
-    public void testP0202FKey3Rel10003() throws AbstractSchemaException {
-        testImport("rels/P0202field-FK10003-3.json", FK_PATTERN);
-    }
-
-    /**
-     * 
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = PatternNotMatchException.class)
-    public void testP0202FKey4Rel10003() throws AbstractSchemaException {
-        testImport("rels/P0202field-FK10003-4.json", FK_PATTERN);
-    }
-
-    /**
-     * 
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = FKAttrTypeException.class)
-    public void testP0211FKey1Type10014() throws AbstractSchemaException {
-        testImport("rels/P0211field-FkType10014-1.json",
-                "[E10014] Fields -> ( foreignkey = true ) ==> (Failure) Attribute 'type' of FK is wrong! ");
-    }
-
-    /**
-     * 
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = FKAttrTypeException.class)
-    public void testP0211FKey2Type10014() throws AbstractSchemaException {
-        testImport("rels/P0211field-FkType10014-2.json",
-                "[E10014] Fields -> ( foreignkey = true ) ==> (Failure) Attribute 'type' of FK is wrong! ");
-    }
-
-    /**
-     * 
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = FKColumnTypeException.class)
-    public void testP0212FKey1Type10015() throws AbstractSchemaException {
-        testImport("rels/P0212field-FkCType10015-1.json",
-                "[E10015] Fields -> ( foreignkey = true ) ==> (Failure) Attribute 'columnType' of FK is wrong! ");
-    }
-
-    /**
-     * 
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = FKColumnTypeException.class)
-    public void testP0212FKey2Type10015() throws AbstractSchemaException {
-        testImport("rels/P0212field-FkCType10015-2.json",
-                "[E10015] Fields -> ( foreignkey = true ) ==> (Failure) Attribute 'columnType' of FK is wrong! ");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

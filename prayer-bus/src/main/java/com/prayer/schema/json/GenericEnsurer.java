@@ -221,7 +221,6 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
             if (this.containFK()) {
                 fKeyEnsurer = new ForeignKeyEnsurer(fieldsNode);
             }
-
             // 类型验证
             typeEnsurer = new TypeEnsurer(fieldsNode);
         }

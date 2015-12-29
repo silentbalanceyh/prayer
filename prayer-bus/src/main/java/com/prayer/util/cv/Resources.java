@@ -39,6 +39,8 @@ public final class Resources { // NOPMD
     public static final String DB_DAO;
     /** 数据类型转换器 **/
     public static final String DB_TRANSDUCER;
+    /** Builder过程的关于Target数据库的验证 **/
+    public static final String DB_VALIDATOR;
 
     // Database Type Mapping =================================
     /** 数据库类型映射文件地址 **/
@@ -110,6 +112,8 @@ public final class Resources { // NOPMD
         DB_TYPES_FILE = LOADER.getString("database.mapping");
 
         DB_BUILDER = LOADER.getString("database.meta.builder");
+        
+        DB_VALIDATOR = LOADER.getString("database.meta.validator");
 
         DB_DAO = LOADER.getString("database.dao");
 

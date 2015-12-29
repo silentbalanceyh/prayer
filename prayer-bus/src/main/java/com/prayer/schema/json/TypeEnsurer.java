@@ -177,8 +177,6 @@ final class TypeEnsurer implements InternalEnsurer {
             final DataType type = this.getType(node);
             final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
                     message("D10000.FTIDX", idx, node.path(Attributes.F_NAME).asText(), type));
-            // new JObjectValidator(node,message("D10000.FTIDX", idx,
-            // node.path(Attributes.F_NAME).asText(), type));
             final String[] requiredAttrs = T_REQUIRED.get(type);
             this.error = validator.verifyRequired(requiredAttrs);
             if (null != this.error) {
@@ -201,8 +199,6 @@ final class TypeEnsurer implements InternalEnsurer {
             final JsonNode node = fieldIt.next();
             final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
                     message("D10000.FIDX", idx, node.path(Attributes.F_NAME).asText()));
-            // new JObjectValidator(node,message("D10000.FIDX", idx,
-            // node.path(Attributes.F_NAME).asText()));
             for (final String attr : T_PATTERN.keySet()) {
                 final String attrValue = node.path(attr).asText();
                 if (StringKit.isNonNil(attrValue)) {
@@ -230,8 +226,6 @@ final class TypeEnsurer implements InternalEnsurer {
             final DataType type = this.getType(node);
             final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
                     message("D10000.FTIDX", idx, node.path(Attributes.F_NAME).asText(), type));
-            // new JObjectValidator(node,message("D10000.FTIDX", idx,
-            // node.path(Attributes.F_NAME).asText(), type));
             final String[] supportedAttrs = T_SUPPORT.get(type);
             this.error = validator.verifyUnsupported(supportedAttrs);
             if (null != this.error) {

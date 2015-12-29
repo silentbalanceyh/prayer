@@ -9,8 +9,10 @@ import com.prayer.AbstractTestCase;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
+import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.exception.system.SerializationException;
+import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Importer;
 import com.prayer.facade.schema.Serializer;
@@ -36,6 +38,8 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
     protected transient Serializer serializer;
     /** **/
     protected transient SchemaDao service;    // NOPMD
+    /** **/
+    protected transient JdbcContext context;    // NOPMD
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -45,6 +49,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
         super(CommunionImporter.class.getName());
         this.serializer = new CommunionSerializer();
         this.service = singleton(SchemaDaoImpl.class);
+        this.context = singleton(JdbcConnImpl.class);
     }
 
     // ~ Abstract Methods ====================================

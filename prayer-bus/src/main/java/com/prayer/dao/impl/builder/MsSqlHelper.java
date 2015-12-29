@@ -33,7 +33,11 @@ final class MsSqlHelper {
     /** **/
     private final static String SQL_TB_COLUMN = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG=''{0}'' AND TABLE_NAME=''{1}''";
     /** **/
+    private final static String SQL_TB_COL_EXIST = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG=''{0}'' AND TABLE_NAME=''{1}'' AND COLUMN_NAME=''{2}''";
+    /** **/
     private final static String SQL_TB_CONSTRAINT = "SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_CATALOG=''{0}'' AND TABLE_NAME=''{1}'' ORDER BY CONSTRAINT_NAME";
+    /** **/
+    private final static String SQL_TBFK_CONSTRAINT = "SELECT COUNT(*) FROM (INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE AS CC JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS TC ON CC.CONSTRAINT_NAME = TC.CONSTRAINT_NAME) WHERE CC.TABLE_CATALOG=''{0}'' AND CC.TABLE_NAME=''{1}'' AND (TC.CONSTRAINT_TYPE = ''PRIMARY KEY'' OR TC.CONSTRAINT_TYPE=''UNIQUE'') AND CC.COLUMN_NAME=''{2}''";
     /** 列空值检测 **/
     private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
     /** 数据库配置资源加载器 **/
@@ -41,10 +45,10 @@ final class MsSqlHelper {
 
     /** **/
     public final static String COL_TB_COLUMN = "COLUMN_NAME"; // new
-                                                                // String[]{"COLUMN_NAME"};
+                                                              // String[]{"COLUMN_NAME"};
     /** **/
     public final static String COL_TB_CONSTRAINT = "CONSTRAINT_NAME"; // new
-                                                                        // String[]{"CONSTRAINT_NAME"};
+                                                                      // String[]{"CONSTRAINT_NAME"};
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -59,6 +63,34 @@ final class MsSqlHelper {
     public static String getSqlTableExist(@NotNull @NotBlank @NotEmpty final String tableName) {
         final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
         return MessageFormat.format(SQL_TB_EXIST, database, tableName);
+    }
+
+    /**
+     * 检查表中字段是否存在
+     * 
+     * @param tableName
+     * @param column
+     * @return
+     */
+    @NotNull
+    public static String getSqlColumnExist(@NotNull @NotBlank @NotEmpty final String tableName,
+            @NotNull @NotBlank @NotEmpty final String column) {
+        final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+        return MessageFormat.format(SQL_TB_COL_EXIST, database, tableName, column);
+    }
+
+    /**
+     * 检查外键是否Unique或者Primary Key
+     * 
+     * @param tableName
+     * @param column
+     * @return
+     */
+    @NotNull
+    public static String getSqlUKPKConstraint(@NotNull @NotBlank @NotEmpty final String tableName,
+            @NotNull @NotBlank @NotEmpty final String column) {
+        final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+        return MessageFormat.format(SQL_TBFK_CONSTRAINT, database, tableName, column);
     }
 
     /**
