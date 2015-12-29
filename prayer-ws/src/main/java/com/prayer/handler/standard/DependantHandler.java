@@ -102,7 +102,7 @@ public class DependantHandler implements Handler<RoutingContext> {
                 // 3.Dependants对一个字段而言不可以有多个，这个规则和Convertor转换器一样
                 if (null != dependants) {
                     if (Constants.ONE < dependants.size()) {
-                        error = new DependantMultiException(getClass(), field); // NOPMD
+                        throw new DependantMultiException(getClass(), field); // NOPMD
                     } else if (Constants.ONE == dependants.size()) {
                         final RuleModel dependant = dependants.get(Constants.ZERO);
                         UCADependant.dependField(field, value, dependant, inParams, outParams);

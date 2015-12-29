@@ -105,7 +105,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
                     // 3.读取这个字段上所有的Convertors
                     if (Constants.ONE < convertors.size()) {
                         error = new ConvertorMultiException(getClass(), field); // NOPMD
-                        break;
+                        throw error;
                     } else if (Constants.ONE == convertors.size()) {
                         // 直接通过Convertor处理
                         final RuleModel convertor = convertors.get(Constants.ZERO);
