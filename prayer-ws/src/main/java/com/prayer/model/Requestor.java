@@ -1,4 +1,4 @@
-package com.prayer.model.web;
+package com.prayer.model;
 
 import io.vertx.core.json.JsonObject;
 

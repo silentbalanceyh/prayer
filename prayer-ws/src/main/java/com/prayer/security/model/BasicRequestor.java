@@ -9,9 +9,9 @@ import java.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.model.web.JsonKey;
-import com.prayer.model.web.Requestor;
-import com.prayer.model.web.StatusCode;
+import com.prayer.model.JsonKey;
+import com.prayer.model.Requestor;
+import com.prayer.model.StatusCode;
 import com.prayer.util.Encryptor;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.Constants;

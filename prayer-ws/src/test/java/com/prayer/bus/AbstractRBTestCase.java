@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
-import com.prayer.model.web.StatusCode;
+import com.prayer.model.StatusCode;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import io.vertx.core.http.HttpMethod;

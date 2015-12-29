@@ -1,7 +1,7 @@
 package com.prayer.handler.route;
 
 import com.prayer.assistant.Future;
-import com.prayer.model.web.Responsor;
+import com.prayer.model.Responsor;
 import com.prayer.util.cv.Constants;
 
 import io.vertx.core.http.HttpServerResponse;

@@ -15,8 +15,8 @@ import com.prayer.exception.web.MethodNotAllowedException;
 import com.prayer.exception.web.NotAuthorizationException;
 import com.prayer.exception.web.RequiredParamMissingException;
 import com.prayer.exception.web.UriSpecificationMissingException;
-import com.prayer.model.web.Responsor;
-import com.prayer.model.web.StatusCode;
+import com.prayer.model.Responsor;
+import com.prayer.model.StatusCode;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Resources;
 

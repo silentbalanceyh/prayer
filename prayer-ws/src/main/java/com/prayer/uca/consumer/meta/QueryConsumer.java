@@ -11,9 +11,9 @@ import com.prayer.assistant.Extractor;
 import com.prayer.bus.impl.std.MetaSevImpl;
 import com.prayer.exception.web.MethodNotAllowedException;
 import com.prayer.facade.bus.MetaService;
+import com.prayer.model.Responsor;
+import com.prayer.model.StatusCode;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.web.Responsor;
-import com.prayer.model.web.StatusCode;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.log.DebugKey;
 

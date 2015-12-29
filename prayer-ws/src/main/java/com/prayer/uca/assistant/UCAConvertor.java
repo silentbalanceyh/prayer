@@ -1,4 +1,4 @@
-package com.prayer.uac.assistant;
+package com.prayer.uca.assistant;
 
 import static com.prayer.util.Instance.instance;
 

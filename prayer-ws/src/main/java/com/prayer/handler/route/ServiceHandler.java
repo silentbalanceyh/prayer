@@ -11,9 +11,9 @@ import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Future;
 import com.prayer.assistant.Interruptor;
 import com.prayer.base.exception.AbstractWebException;
+import com.prayer.model.JsonKey;
+import com.prayer.model.Requestor;
 import com.prayer.model.h2.vertx.UriModel;
-import com.prayer.model.web.JsonKey;
-import com.prayer.model.web.Requestor;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.log.DebugKey;
 

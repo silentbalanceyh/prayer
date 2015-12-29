@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Future;
-import com.prayer.model.web.JsonKey;
-import com.prayer.model.web.StatusCode;
+import com.prayer.model.JsonKey;
+import com.prayer.model.StatusCode;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 import com.prayer.util.cv.log.DebugKey;
 

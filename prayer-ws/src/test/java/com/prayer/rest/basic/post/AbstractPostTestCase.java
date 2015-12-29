@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.prayer.bus.AbstractRBTestCase;
 import com.prayer.bus.ErrorChecker;
-import com.prayer.model.web.StatusCode;
+import com.prayer.model.StatusCode;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;

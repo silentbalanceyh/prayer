@@ -5,8 +5,8 @@ import static com.prayer.util.Log.error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.model.web.JsonKey;
-import com.prayer.model.web.StatusCode;
+import com.prayer.model.JsonKey;
+import com.prayer.model.StatusCode;
 import com.prayer.security.provider.BasicProvider;
 import com.prayer.util.StringKit;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
