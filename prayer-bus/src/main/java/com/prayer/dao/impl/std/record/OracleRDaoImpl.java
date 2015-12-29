@@ -40,6 +40,7 @@ import com.prayer.util.dao.Interrupter.Response;
  */
 final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 	// ~ Static Fields =======================================
+	/* get next seq value */
 	private final static String SQL_NEXT_SEQ = "SELECT {0}.NEXTVAL FROM DUAL";
 
 	// ~ Instance Fields =====================================
@@ -164,8 +165,8 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 	/** **/
 	@Override
 	public ConcurrentMap<Long, List<Record>> queryByPage(final Record record,
-			final String[] columns, List<Value<?>> params, Expression filters,
-			OrderBy orders, Pager pager) throws AbstractDatabaseException {
+			final String[] columns, final List<Value<?>> params, final Expression filters,
+			final OrderBy orders, final Pager pager) throws AbstractDatabaseException {
 		// 1.获取JDBC访问器
 		final JdbcContext jdbc = this.getContext(record.identifier());
 		// 2.生成SQL Count语句
@@ -205,10 +206,10 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 			final Expression filters, final OrderBy orders, final Pager pager)
 			throws AbstractDatabaseException {
 
-		final StringBuilder retSql = new StringBuilder();
-		final StringBuilder Sql1L = new StringBuilder();
-		final StringBuilder Sql2L = new StringBuilder();
-		final StringBuilder Sql3L = new StringBuilder();
+		final StringBuilder retSql = new StringBuilder(1000);
+		final StringBuilder Sql1L = new StringBuilder(1000);
+		final StringBuilder Sql2L = new StringBuilder(1000);
+		final StringBuilder Sql3L = new StringBuilder(1000);
 
 		// 0.0 oracle分页采用4层select的方法
 		// 1.0 第一层Select，根据条件选出所有候选记录
@@ -248,7 +249,7 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 				}
 			}
 		} else {
-			retSql.append("*");
+			retSql.append('*');
 		}
 		retSql.append(Symbol.SPACE).append("FROM").append(Symbol.SPACE)
 		.append(record.table()).append(Symbol.SPACE);

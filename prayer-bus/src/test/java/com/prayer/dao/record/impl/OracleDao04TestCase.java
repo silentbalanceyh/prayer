@@ -125,7 +125,7 @@ public class OracleDao04TestCase extends AbstractRDaoTestTool { // NOPMD
             // 调用select
             final Record selectR = this.getRecordDao().selectById(after, after.idKV());
             // 循环内equals检查
-            boolean ret = RecordKit.equal(after, selectR);
+            final boolean ret = RecordKit.equal(after, selectR);
             assertTrue(message(TST_TF, Boolean.TRUE), ret);
             // 检查完毕将新插入的数据删除掉
             this.getRecordDao().delete(selectR);
@@ -146,7 +146,7 @@ public class OracleDao04TestCase extends AbstractRDaoTestTool { // NOPMD
                 if (null != uniqueId) { // NOPMD
                     final Record selectR = this.getRecordDao().selectById(after, uniqueId);
                     // 循环内equals检查
-                    boolean ret = RecordKit.equal(after, selectR);
+                    final boolean ret = RecordKit.equal(after, selectR);
                     assertTrue(message(TST_TF, Boolean.TRUE), ret);
                     // 检查完毕
                     this.getRecordDao().delete(selectR);
@@ -175,7 +175,7 @@ public class OracleDao04TestCase extends AbstractRDaoTestTool { // NOPMD
             this.updateRecord(after);
             final Record updateR = this.getRecordDao().update(after);
             // 循环内equals检查
-            boolean ret = RecordKit.equal(after, updateR);
+            final boolean ret = RecordKit.equal(after, updateR);
             assertTrue(message(TST_TF, Boolean.TRUE), ret);
             // 检查完毕将新插入的数据删除掉
             this.getRecordDao().delete(updateR);

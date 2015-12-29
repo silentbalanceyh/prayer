@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.prayer.dao.impl.builder;    // NOPMD
 
 
@@ -32,17 +29,19 @@ import com.prayer.util.cv.SystemEnum.ResponseCode;
 import com.prayer.util.cv.SystemEnum.StatusFlag;
 import com.prayer.util.cv.log.DebugKey;
 
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 import net.sf.oval.guard.PreValidateThis;
 
 /**
+ * Oracle的元数据生成器
  * @author huar
  *
  */
 @Guarded
-public class OracleBuilder extends AbstractBuilder implements SqlSegment {
+public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NOPMD
 	// ~ Static Fields =======================================
 	/** **/
 	private static final Logger LOGGER = LoggerFactory.getLogger(OracleBuilder.class);
@@ -54,7 +53,7 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 	// ~ Constructors ========================================
 	/** **/
 	@PostValidateThis
-	public OracleBuilder(GenericSchema schema) {
+	public OracleBuilder(@NotNull @InstanceOfAny(GenericSchema.class) final GenericSchema schema) {
 		super(schema);
 	}
 	// ~ Abstract Methods ====================================
@@ -164,7 +163,7 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment {
 	 * @see com.prayer.facade.kernel.builder.AbstractBuilder#nullRows(java.lang.String)
 	 */
 	@Override
-	protected Long nullRows(String column) {
+	protected Long nullRows(final String column) {
 		return this.getContext().count(OracleHelper.getSqlNull(this.getTable(), column));
 	}
 	

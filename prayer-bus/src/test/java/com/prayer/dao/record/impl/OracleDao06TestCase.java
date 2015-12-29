@@ -205,6 +205,7 @@ public class OracleDao06TestCase extends AbstractRDaoTestTool { // NOPMD
         }
     }
     
+    /** **/
     //@Test
     public void testTqueryByPage() throws AbstractDatabaseException {
         if (this.isValidDB()) {
