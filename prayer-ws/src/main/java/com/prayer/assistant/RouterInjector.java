@@ -2,10 +2,10 @@ package com.prayer.assistant;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.handler.security.BasicAuthHandler;
+import com.prayer.configurator.SecurityConfigurator;
+import com.prayer.security.handler.BasicAuthHandler;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.SecurityMode;
-import com.prayer.vx.configurator.SecurityConfigurator;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.auth.AuthProvider;

@@ -1,6 +1,6 @@
 package com.prayer.security.provider.impl;
 
-import com.prayer.security.provider.BasicAuth;
+import com.prayer.security.provider.BasicProvider;
 import com.prayer.util.cv.Resources;
 
 import io.vertx.core.AsyncResult;
@@ -45,7 +45,7 @@ public class BasicUser extends AbstractUser {
         super();
         this.userId = data.getString("id");
         this.username = data.getString("username");
-        this.token = data.getString(BasicAuth.KEY_TOKEN);
+        this.token = data.getString(BasicProvider.KEY_TOKEN);
         this.provider = provider;
         this.role = role;
     }
@@ -58,7 +58,7 @@ public class BasicUser extends AbstractUser {
     public JsonObject principal() {
         if (null == principal) {
             principal = new JsonObject().put("id", this.userId).put("username", this.username)
-                    .put(BasicAuth.KEY_TOKEN, this.token).put("role", this.role);
+                    .put(BasicProvider.KEY_TOKEN, this.token).put("role", this.role);
         }
         return principal;
     }
@@ -66,10 +66,10 @@ public class BasicUser extends AbstractUser {
     /** 设置Provider信息 **/
     @Override
     public void setAuthProvider(final AuthProvider authProvider) {
-        if (this.provider instanceof BasicAuthImpl) {
-            this.provider = (BasicAuthImpl) provider;
+        if (this.provider instanceof BasicProviderImpl) {
+            this.provider = (BasicProviderImpl) provider;
         } else {
-            throw new IllegalArgumentException("Not a BasicAuthImpl");
+            throw new IllegalArgumentException("Not a BasicProviderImpl");
         }
     }
 

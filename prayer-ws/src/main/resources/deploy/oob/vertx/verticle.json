@@ -1,18 +1,18 @@
 [
     {
-        "name":"com.prayer.vx.verticle.RouterVerticle",
+        "name":"com.prayer.verticle.standard.RouterVerticle",
         "instances":32,
         "ha":true,
         "deployOrder":1
     },
     {
-        "name":"com.prayer.console.verticle.WebVerticle",
+        "name":"com.prayer.verticle.standard.WebVerticle",
         "instances":32,
         "ha":true,
         "deployOrder":2
     },
     {
-        "name":"com.prayer.vx.verticle.RecordWorker",
+        "name":"com.prayer.verticle.worker.RecordWorker",
         "instances":128,
         "ha":true,
         "worker":true,
@@ -20,7 +20,7 @@
         "deployAsync":true
     },
     {
-        "name":"com.prayer.vx.verticle.PagerWorker",
+        "name":"com.prayer.verticle.worker.PagerWorker",
         "instances":128,
         "ha":true,
         "worker":true,
@@ -28,7 +28,7 @@
         "deployAsync":true
     },
     {
-        "name":"com.prayer.vx.verticle.SecurityWorker",
+        "name":"com.prayer.verticle.worker.SecurityWorker",
         "instances":128,
         "ha":true,
         "worker":true,
@@ -36,7 +36,7 @@
         "deployAsync":true
     },
     {
-        "name":"com.prayer.vx.verticle.H2PagerWorker",
+        "name":"com.prayer.verticle.worker.H2PagerWorker",
         "instances":128,
         "ha":true,
         "worker":true,

@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.assistant.Extractor;
 import com.prayer.assistant.Future;
-import com.prayer.assistant.uca.UCADependant;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.exception.web.DependantMultiException;
@@ -22,6 +21,7 @@ import com.prayer.model.h2.vertx.RuleModel;
 import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
+import com.prayer.uac.assistant.UCADependant;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.ResponseCode;
 import com.prayer.util.cv.log.DebugKey;

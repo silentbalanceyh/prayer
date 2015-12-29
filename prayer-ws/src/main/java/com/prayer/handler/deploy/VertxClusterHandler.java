@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractException;
-import com.prayer.vx.engine.VerticleDeployer;
+import com.prayer.engine.VerticleDeployer;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

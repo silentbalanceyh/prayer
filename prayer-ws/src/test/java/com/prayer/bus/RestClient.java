@@ -27,14 +27,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.configurator.SecurityConfigurator;
+import com.prayer.configurator.ServerConfigurator;
 import com.prayer.util.IOKit;
 import com.prayer.util.PropertyKit;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.Resources;
 import com.prayer.util.cv.Symbol;
 import com.prayer.util.cv.SystemEnum.SecurityMode;
-import com.prayer.vx.configurator.SecurityConfigurator;
-import com.prayer.vx.configurator.ServerConfigurator;
 
 import io.vertx.core.json.JsonObject;
 

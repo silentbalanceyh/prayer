@@ -1,6 +1,6 @@
 {
     "__meta__":{
-        "namespace":"com.prayer.model.security",
+        "namespace":"com.prayer.security.model",
         "name":"Role",
         "category":"ENTITY",
         "table":"SEC_ROLE",
