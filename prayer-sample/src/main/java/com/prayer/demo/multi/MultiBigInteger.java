@@ -27,8 +27,7 @@ import net.sf.oval.guard.Guarded;
 // Welcome to Big/Little Fly Samples:
 // Topic --> Large Integer Multiplication
 // > 123456789 98521478536541257896
-// [SUCCESS] Result is : 123,456,789 x 98,521,478,536,541,257,896 =
-// 12,163,145,387,653,802,865,861,055,944
+// [SUCCESS] Result is : 123,456,789 x 98,521,478,536,541,257,896 = 12,163,145,387,653,802,865,861,055,944
 @Guarded
 public class MultiBigInteger implements Topic {
     // ~ Static Fields =======================================

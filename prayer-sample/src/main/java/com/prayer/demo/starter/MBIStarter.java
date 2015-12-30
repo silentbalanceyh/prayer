@@ -8,7 +8,7 @@ import com.prayer.demo.multi.MultiBigInteger;
  * @author Lang
  *
  */
-public class MultiBigIntegerStarter {
+public class MBIStarter {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
