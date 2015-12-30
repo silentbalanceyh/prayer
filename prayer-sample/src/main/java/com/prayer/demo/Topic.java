@@ -20,4 +20,9 @@ public interface Topic {
      * @return
      */
     String title();
+    /**
+     * 运行参数
+     * @param args
+     */
+    void runTool(final String... args);
 }

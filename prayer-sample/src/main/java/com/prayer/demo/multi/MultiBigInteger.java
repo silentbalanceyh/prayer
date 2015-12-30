@@ -31,16 +31,6 @@ import net.sf.oval.guard.Guarded;
 // 12,163,145,387,653,802,865,861,055,944
 @Guarded
 public class MultiBigInteger implements Topic {
-    // ~ Main Function =======================================
-    /**
-     * 
-     * @param args
-     */
-    public static void main(final String args[]) {
-        // 入口函数
-        runTool(args);
-    }
-
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -52,38 +42,33 @@ public class MultiBigInteger implements Topic {
      * 
      * @param args
      */
-    private static void runTool(final String... args) {
-
+    public void runTool(final String... args) {
         /**
-         * 1. 构造一个Topic的信息
+         * 1. 打印Console的头部信息
          */
-        final Topic topic = new MultiBigInteger();
+        Console.start(this.title());
         /**
-         * 2. 打印Console的头部信息
-         */
-        Console.start(topic.title());
-        /**
-         * 3. 解析输入的参数信息
+         * 2. 解析输入的参数信息
          */
         String[] inputArgs = Input.commandArgs(Console.prompt());
         while (true) {
             try {
                 /**
-                 * 4. 验证输入参数信息
+                 * 3. 验证输入参数信息
                  */
-                if (topic.verifyInput(inputArgs)) {
+                if (this.verifyInput(inputArgs)) {
                     /**
-                     * 5.3.执行主逻辑，得到结果
+                     * 4.3.执行主逻辑，得到结果
                      */
-                    final String result = topic.process(inputArgs);
+                    final String result = this.process(inputArgs);
                     /**
-                     * 5.4.打印结果集，程序执行完成
+                     * 4.4.打印结果集，程序执行完成
                      */
                     System.out.println("[SUCCESS] Result is : " + result);
                     System.exit(0);
                 } else {
                     /**
-                     * 5.2.参数验证没通过，参数必须是数值格式
+                     * 4.2.参数验证没通过，参数必须是数值格式
                      */
                     System.out.println(
                             "[ERROR] Arguments must be format of Large Integer. Args = " + Console.toStr(inputArgs));
@@ -92,7 +77,7 @@ public class MultiBigInteger implements Topic {
                 }
             } catch (ConstraintsViolatedException ex) {
                 /**
-                 * 5.1.参数长度验证没通过，长度必须是2
+                 * 4.1.参数长度验证没通过，长度必须是2
                  */
                 System.out.println("[ERROR] The Length of arguments must be 2 !");
                 inputArgs = Input.commandArgs(Console.prompt());
