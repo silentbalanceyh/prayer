@@ -59,14 +59,14 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
     public void setUp() {
         // For testP019Subtable1Rel10013();
         // 如果存在该表就删除
-        if (null == verifier.verifyTable("SEC_SUB_ROLE")) {
-            this.context.executeBatch("DROP TABLE SEC_SUB_ROLE;");
+        if (null == verifier.verifyTable("TST_SUB_ROLE")) {
+            this.context.executeBatch("DROP TABLE TST_SUB_ROLE;");
         }
-        if (null == verifier.verifyTable("SEC_SUB_ROLE1")) {
-            this.context.executeBatch("DROP TABLE SEC_SUB_ROLE1;");
+        if (null == verifier.verifyTable("TST_SUB_ROLE1")) {
+            this.context.executeBatch("DROP TABLE TST_SUB_ROLE1;");
         }
-        if (null == verifier.verifyTable("SEC_SUB_ROLE2")){
-            this.context.executeBatch("DROP TABLE SEC_SUB_ROLE2;");
+        if (null == verifier.verifyTable("TST_SUB_ROLE2")){
+            this.context.executeBatch("DROP TABLE TST_SUB_ROLE2;");
         }
     }
 
@@ -88,8 +88,8 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
     public void testP23FKey1Target10028() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027
-        if (null != verifier.verifyTable("SEC_SUB_ROLE")) {
-            ret = this.context.executeBatch("CREATE TABLE SEC_SUB_ROLE( K_ID VARCHAR(236) );");
+        if (null != verifier.verifyTable("TST_SUB_ROLE")) {
+            ret = this.context.executeBatch("CREATE TABLE TST_SUB_ROLE( K_ID VARCHAR(236) );");
         }
         if (Constants.RC_SUCCESS == ret) {
             testImport("rels/P0213field-FkCType10028-1.json",
@@ -104,8 +104,8 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
     public void testP23FKey1Target10029() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027
-        if (null != verifier.verifyTable("SEC_SUB_ROLE1")) {
-            ret = this.context.executeBatch("CREATE TABLE SEC_SUB_ROLE1( R_ID VARCHAR(236) );");
+        if (null != verifier.verifyTable("TST_SUB_ROLE1")) {
+            ret = this.context.executeBatch("CREATE TABLE TST_SUB_ROLE1( R_ID VARCHAR(236) );");
         }
         if (Constants.RC_SUCCESS == ret) {
             testImport("rels/P0213field-FkCType10029-1.json",
@@ -121,8 +121,8 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
     public void testP23FKey1Target10030() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027
-        if (null != verifier.verifyTable("SEC_SUB_ROLE2")) {
-            ret = this.context.executeBatch("CREATE TABLE SEC_SUB_ROLE2( R_ID BIGINT PRIMARY KEY );");
+        if (null != verifier.verifyTable("TST_SUB_ROLE2")) {
+            ret = this.context.executeBatch("CREATE TABLE TST_SUB_ROLE2( R_ID BIGINT PRIMARY KEY );");
         }
         if (Constants.RC_SUCCESS == ret) {
             testImport("rels/P0213field-FkCType10030-1.json",

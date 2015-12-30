@@ -10,7 +10,7 @@
         "policy": "INCREMENT",
         "seqinit": 1,
         "seqstep": 1,
-        "subtable": "SEC_SUBROLE",
+        "subtable": "TST_SUBROLE",
         "subkey": "R_ID"
     },
 

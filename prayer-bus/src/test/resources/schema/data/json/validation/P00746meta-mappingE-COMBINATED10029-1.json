@@ -7,7 +7,7 @@
         "identifier":"sys.sec.role",
         "mapping":"COMBINATED",
         "policy":"GUID",
-        "subtable":"SEC_SUB_ROLE1",
+        "subtable":"TST_SUB_ROLE1",
         "subkey":"K_ID"
     },
     "__keys__":[

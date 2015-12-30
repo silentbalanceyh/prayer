@@ -234,7 +234,8 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
             final String policyStr = this.rootNode.path(Attributes.R_META).path(Attributes.M_POLICY).asText();
             if (StringKit.isNonNil(policyStr)) {
                 final MetaPolicy policy = fromStr(MetaPolicy.class, policyStr);
-                crossEnsurer = new CrossEnsurer(keysNode, fieldsNode, null == policy ? MetaPolicy.ASSIGNED : policy);
+                crossEnsurer = new CrossEnsurer(this.rootNode.path(Attributes.R_META), keysNode, fieldsNode,
+                        null == policy ? MetaPolicy.ASSIGNED : policy);
             }
         }
     }

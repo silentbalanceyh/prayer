@@ -56,11 +56,11 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { // NOPMD
     public void setUp() {
         // For testP019Subtable1Rel10013();
         // 如果存在该表就删除
-        if (null == verifier.verifyTable("SEC_SUBROLE")) {
-            this.context.executeBatch("DROP TABLE SEC_SUBROLE;");
+        if (null == verifier.verifyTable("TST_SUBROLE")) {
+            this.context.executeBatch("DROP TABLE TST_SUBROLE;");
         }
-        if (null == verifier.verifyTable("SEC_SUBROLE1")) {
-            this.context.executeBatch("DROP TABLE SEC_SUBROLE1;");
+        if (null == verifier.verifyTable("TST_SUBROLE1")) {
+            this.context.executeBatch("DROP TABLE TST_SUBROLE1;");
         }
     }
 
@@ -72,8 +72,8 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { // NOPMD
     public void testP019Subtable1Rel10013() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027
-        if (null != verifier.verifyTable("SEC_SUBROLE")) {
-            ret = this.context.executeBatch("CREATE TABLE SEC_SUBROLE( R_ID VARCHAR(256) PRIMARY KEY );");
+        if (null != verifier.verifyTable("TST_SUBROLE")) {
+            ret = this.context.executeBatch("CREATE TABLE TST_SUBROLE( R_ID VARCHAR(256) PRIMARY KEY );");
         }
         if (Constants.RC_SUCCESS == ret) {
             testImport("rels/P019field-Subtable10013-1.json",
@@ -89,8 +89,8 @@ public class _10FieldsRels1TestCase extends AbstractSchemaTestCase { // NOPMD
     public void testP019Subtable2Rel10013() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027
-        if (null != verifier.verifyTable("SEC_SUBROLE1")) {
-            ret = this.context.executeBatch("CREATE TABLE SEC_SUBROLE1( R_ID VARCHAR(256) UNIQUE );");
+        if (null != verifier.verifyTable("TST_SUBROLE1")) {
+            ret = this.context.executeBatch("CREATE TABLE TST_SUBROLE1( R_ID VARCHAR(256) UNIQUE );");
         }
         if (Constants.RC_SUCCESS == ret) {
             testImport("rels/P019field-Subtable10013-2.json",

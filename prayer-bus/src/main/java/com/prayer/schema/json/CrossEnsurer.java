@@ -2,6 +2,7 @@ package com.prayer.schema.json;
 
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.Log.peError;
 
 import java.util.Iterator;
@@ -17,9 +18,13 @@ import com.prayer.exception.schema.FKNotOnlyOneException;
 import com.prayer.exception.schema.MultiForPKPolicyException;
 import com.prayer.exception.schema.PKNotOnlyOneException;
 import com.prayer.exception.schema.WrongTimeAttrException;
+import com.prayer.facade.schema.DataValidator;
 import com.prayer.util.JsonKit;
+import com.prayer.util.cv.Accessors;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.KeyCategory;
+import com.prayer.util.cv.SystemEnum.MetaCategory;
+import com.prayer.util.cv.SystemEnum.MetaMapping;
 import com.prayer.util.cv.SystemEnum.MetaPolicy;
 
 import jodd.util.StringUtil;
@@ -50,6 +55,11 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
     /** **/
     @NotNull
     private transient final MetaPolicy pkPolicy;
+    /** **/
+    @NotNull
+    private transient final JsonNode metaNode;
+    /** **/
+    private transient final DataValidator validator;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -60,11 +70,13 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
      * @param fieldsNode
      */
     @PostValidateThis
-    public CrossEnsurer(@NotNull final ArrayNode keysNode, @NotNull final ArrayNode fieldsNode,
-            @NotNull final MetaPolicy policy) {
+    public CrossEnsurer(@NotNull final JsonNode metaNode, @NotNull final ArrayNode keysNode,
+            @NotNull final ArrayNode fieldsNode, @NotNull final MetaPolicy policy) {
         this.keysNode = keysNode;
         this.fieldsNode = fieldsNode;
         this.pkPolicy = policy;
+        this.metaNode = metaNode;
+        this.validator = singleton(Accessors.validator());
     }
 
     // ~ Abstract Methods ====================================
@@ -91,6 +103,9 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
         // 5.检查columns中的定义和__fields__中定义相同
         validateAttrConflict();
         interrupt();
+        // 6.检查主键和Target的表中的__subtable__以及__subkey__定义是否相同
+        validateSubTColumnType();
+        interrupt();
     }
 
     /**
@@ -107,6 +122,24 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private boolean validateSubTColumnType() {
+        // 36.验证最终的subtable子表以中的subkey是否和主键冲突
+        final MetaCategory category = fromStr(MetaCategory.class,
+                this.metaNode.path(Attributes.M_CATEGORY).textValue());
+        final MetaMapping mapping = fromStr(MetaMapping.class, this.metaNode.path(Attributes.M_MAPPING).textValue());
+        // 特殊的category和mapping才会做这个验证
+        if (MetaCategory.ENTITY == category && MetaMapping.COMBINATED == mapping) {
+            final JsonNode pkNode = this.findPKNode();
+            final String type = pkNode.path(Attributes.F_COL_TYPE).asText();
+            // SubTable, SubKey
+            final JsonNode subTable = this.metaNode.path(Attributes.M_SUB_TABLE);
+            final JsonNode subKey = this.metaNode.path(Attributes.M_SUB_KEY);
+            this.error = this.validator.verifyColumnType(subTable.asText(), subKey.asText(), type);
+        }
+        return null == this.error;
+    }
+
     /**
      * 
      * @return
@@ -162,6 +195,25 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
                     String.valueOf(columns.size()), String.valueOf(occurs), category.toString());
             peError(LOGGER, this.error);
         }
+    }
+
+    /**
+     * 查找当前内容中第一个primarykey=true的主键节点
+     * 
+     * @return
+     */
+    private JsonNode findPKNode() {
+        final Iterator<JsonNode> nodeIt = this.fieldsNode.iterator();
+        JsonNode retNode = null;
+        while (nodeIt.hasNext()) {
+            final JsonNode field = nodeIt.next();
+            final boolean isPK = field.path(Attributes.F_PK).asBoolean();
+            if (isPK) {
+                retNode = field;
+                break;
+            }
+        }
+        return retNode;
     }
 
     /**

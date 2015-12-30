@@ -49,7 +49,7 @@
             "columnType": "STRING1",
             "foreignkey": true,
             "refId":"R_ID",
-            "refTable":"SEC_SUB_ROLE2"
+            "refTable":"TST_SUB_ROLE2"
         }
     ]
 }

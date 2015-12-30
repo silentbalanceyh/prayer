@@ -55,11 +55,11 @@ public class _06MetaER3TestCase extends AbstractSchemaTestCase{
     public void setUp() {
         // For testP019Subtable1Rel10013();
         // 如果存在该表就删除
-        if (null == verifier.verifyTable("SEC_SUB_ROLE")) {
-            this.context.executeBatch("DROP TABLE SEC_SUB_ROLE;");
+        if (null == verifier.verifyTable("TST_SUB_ROLE")) {
+            this.context.executeBatch("DROP TABLE TST_SUB_ROLE;");
         }
-        if (null == verifier.verifyTable("SEC_SUB_ROLE1")) {
-            this.context.executeBatch("DROP TABLE SEC_SUB_ROLE1;");
+        if (null == verifier.verifyTable("TST_SUB_ROLE1")) {
+            this.context.executeBatch("DROP TABLE TST_SUB_ROLE1;");
         }
     }
 
@@ -81,8 +81,8 @@ public class _06MetaER3TestCase extends AbstractSchemaTestCase{
     public void testP00745Meta10028ECombinatedTargetColumn() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027
-        if (null != verifier.verifyTable("SEC_SUB_ROLE")) {
-            ret = this.context.executeBatch("CREATE TABLE SEC_SUB_ROLE( R_ID VARCHAR(236) );");
+        if (null != verifier.verifyTable("TST_SUB_ROLE")) {
+            ret = this.context.executeBatch("CREATE TABLE TST_SUB_ROLE( R_ID VARCHAR(236) );");
         }
         if (Constants.RC_SUCCESS == ret) {
             testImport("P00745meta-mappingE-COMBINATED10028-1.json",
@@ -97,8 +97,8 @@ public class _06MetaER3TestCase extends AbstractSchemaTestCase{
     public void testP00746Meta10029ECombinatedConstraints() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027
-        if (null != verifier.verifyTable("SEC_SUB_ROLE1")) {
-            ret = this.context.executeBatch("CREATE TABLE SEC_SUB_ROLE1( K_ID VARCHAR(236) );");
+        if (null != verifier.verifyTable("TST_SUB_ROLE1")) {
+            ret = this.context.executeBatch("CREATE TABLE TST_SUB_ROLE1( K_ID VARCHAR(236) );");
         }
         if (Constants.RC_SUCCESS == ret) {
             testImport("P00746meta-mappingE-COMBINATED10029-1.json",
