@@ -79,10 +79,8 @@ public class RouterVerticle extends AbstractVerticle {
     // ~ Private Methods =====================================
 
     private void injectStandard(final Router router) {
-        router.route(Constants.ROUTE.API).order(Constants.ORDER.ROUTER).handler(RouterHandler.create());
-        // router.route(Constants.ROUTE.API).order(Constants.ORDER.VALIDATION).handler(ValidationHandler.create());
-        // router.route(Constants.ROUTE.API).order(Constants.ORDER.CONVERTOR).handler(ConversionHandler.create());
-        router.route(Constants.ROUTE.API).order(Constants.ORDER.SERVICE).handler(ServiceHandler.create());
+        router.route(Constants.ROUTE.API).order(Constants.ORDER.ENG.ROUTER).handler(RouterHandler.create());
+        router.route(Constants.ROUTE.API).order(Constants.ORDER.ENG.SERVICE).handler(ServiceHandler.create());
         // 7.Failure处理器设置
         router.route(Constants.ROUTE.API).order(Constants.ORDER.FAILURE).failureHandler(FailureHandler.create());
     }

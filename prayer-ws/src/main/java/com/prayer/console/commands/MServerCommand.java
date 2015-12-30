@@ -71,11 +71,25 @@ public class MServerCommand extends AbstractCommand {
             } else if (cmdLine.hasOption('h')) {
             } else if (cmdLine.hasOption('d')) {
                 ret = this.deployData(cmdLine);
+            } else if (cmdLine.hasOption('i')) {
+                ret = this.initMetadata(cmdLine);
             }
         }
         return ret;
     }
     // ~ Private Methods =====================================
+
+    private JsonObject initMetadata(final CommandLine cmdLine) {
+        final String sqlFile = Resources.META_INIT_SQL;
+        final ServiceResult<Boolean> ret = this.service.initMetadata(sqlFile);
+        final JsonObject retJson = new JsonObject();
+        if (ret.getResult()) {
+            retJson.put("info", "[INFO] H2 Database tables have been initilized successfully!");
+        } else {
+            retJson.put(ERROR, ret.getErrorMessage());
+        }
+        return retJson;
+    }
 
     private JsonObject deployData(final CommandLine cmdLine) {
         final String folder = cmdLine.getOptionValue('d');

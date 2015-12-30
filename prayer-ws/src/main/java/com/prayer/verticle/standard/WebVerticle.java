@@ -74,10 +74,10 @@ public class WebVerticle extends AbstractVerticle {
     // ~ Private Methods =====================================
 
     private void injectLogged(final Router router) {
-        router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.SHARED).handler(SharedLoginHandler.create());
-        router.route(Constants.ACTION.LOGOUT).order(Constants.ORDER.LOGOUT).handler(SharedLogoutHandler.create());
+        router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.WEB.SHARED).handler(SharedLoginHandler.create());
+        router.route(Constants.ACTION.LOGOUT).order(Constants.ORDER.WEB.LOGOUT).handler(SharedLogoutHandler.create());
         // router.route(Constants.WEB.DYNAMIC_OPTIONS).order(Constants.ORDER.OD_OPTIONS).handler(OptionsHandler.create());
-        router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.OD_PROFILE).handler(UserLoggedHandler.create());
+        router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.WEB.OD_PROFILE).handler(UserLoggedHandler.create());
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

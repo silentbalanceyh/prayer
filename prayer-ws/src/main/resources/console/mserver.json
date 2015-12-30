@@ -7,6 +7,14 @@
         ],
         "description":"Display help information of 'mserver'",
         "required":false
+    },{
+        "single":"i",
+        "name":"init",
+        "args":[
+            
+        ],
+        "description":"Initilize database tables in Metadata Server ( Default:H2 )",
+        "required":false
     },
     {
         "single":"d",
@@ -14,7 +22,7 @@
         "args":[
             "folder"
         ],
-        "description":"Deploy all metadata into H2 database under <folder>",
+        "description":"Deploy all metadata into Metadata Server ( Default:H2 ) under <folder>",
         "required":false
     },
     {
@@ -23,7 +31,7 @@
         "args":[
             
         ],
-        "description":"Start H2 Database Metadata Server",
+        "description":"Start Database Metadata Server ( Default:H2 )",
         "required":false
     },
     {
@@ -32,7 +40,7 @@
         "args":[
             
         ],
-        "description":"Halt H2 Database Metadata Server",
+        "description":"Halt Database Metadata Server ( Default:H2 )",
         "required":false
     },
     {
@@ -41,7 +49,7 @@
         "args":[
             
         ],
-        "description":"Restart H2 Database Metadata Server",
+        "description":"Restart Database Metadata Server ( Default:H2 )",
         "required":false
     }
 ]

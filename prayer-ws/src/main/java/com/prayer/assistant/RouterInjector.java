@@ -51,10 +51,10 @@ public final class RouterInjector {
         } else {
             handler = SessionHandler.create(LocalSessionStore.create(vertx));
         }
-        router.route().order(Constants.ORDER.SESSION).handler(handler);
+        router.route().order(Constants.ORDER.WEB.SESSION).handler(handler);
         final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
         final AuthProvider authProvider = securitor.getProvider();
-        router.route().order(Constants.ORDER.USER_SESSION).handler(UserSessionHandler.create(authProvider));
+        router.route().order(Constants.ORDER.WEB.USER_SESSION).handler(UserSessionHandler.create(authProvider));
     }
 
     /**
@@ -63,9 +63,9 @@ public final class RouterInjector {
      */
     public static void injectWebDefault(@NotNull final Router router) {
         final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
-        router.route().order(Constants.ORDER.COOKIE).handler(CookieHandler.create());
-        router.route().order(Constants.ORDER.BODY).handler(BodyHandler.create());
-        router.route().order(Constants.ORDER.CORS).handler(securitor.getCorsHandler());
+        router.route().order(Constants.ORDER.SHD.COOKIE).handler(CookieHandler.create());
+        router.route().order(Constants.ORDER.SHD.BODY).handler(BodyHandler.create());
+        router.route().order(Constants.ORDER.SHD.CORS).handler(securitor.getCorsHandler());
     }
 
     /**
@@ -76,7 +76,7 @@ public final class RouterInjector {
         final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
         final AuthProvider authProvider = securitor.getProvider();
         if (SecurityMode.BASIC == securitor.getMode()) {
-            router.route(Constants.ROUTE.SECURE_API).order(Constants.ORDER.AUTH)
+            router.route(Constants.ROUTE.SECURE_API).order(Constants.ORDER.SEC.AUTH)
                     .handler(BasicAuthHandler.create(authProvider));
         }
     }
@@ -87,22 +87,22 @@ public final class RouterInjector {
      */
     public static void injectStatic(@NotNull final Router router, @NotNull @NotBlank @NotEmpty final String apiUrl) {
         final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
-        router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.STATIC)
+        router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.WEB.STATIC)
                 .handler(StaticHandler.create().setCachingEnabled(false));
         // 引入jade模板引擎
         final TemplateHandler handler = TemplateHandler.create(JadeTemplateEngine.create());
-        router.route(Constants.WEB.DYNAMIC_ROUTE).order(Constants.ORDER.DYNAMIC).handler(context -> {
+        router.route(Constants.WEB.DYNAMIC_ROUTE).order(Constants.ORDER.WEB.DYNAMIC).handler(context -> {
             context.put(Constants.KEY.API_URL, apiUrl);
             context.next();
         });
-        router.route(Constants.WEB.DYNAMIC_ROUTE).order(Constants.ORDER.CONTEXT).handler(handler);
-        router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.STATIC).failureHandler(ErrorHandler.create());
-        router.route(Constants.WEB.FAVICON_ICO).order(Constants.ORDER.DYNAMIC)
+        router.route(Constants.WEB.DYNAMIC_ROUTE).order(Constants.ORDER.WEB.CONTEXT).handler(handler);
+        router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.WEB.STATIC).failureHandler(ErrorHandler.create());
+        router.route(Constants.WEB.FAVICON_ICO).order(Constants.ORDER.WEB.DYNAMIC)
                 .handler(FaviconHandler.create(Constants.WEB.FAVICON_PATH));
         // Redirect问题的设置
         final AuthProvider authProvider = securitor.getProvider();
         final AuthHandler redirectHandler = RedirectAuthHandler.create(authProvider, Constants.ACTION.LOGIN_PAGE);
-        router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.ADMIN).handler(redirectHandler);
+        router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.WEB.ADMIN).handler(redirectHandler);
     }
 
     // ~ Constructors ========================================
