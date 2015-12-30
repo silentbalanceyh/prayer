@@ -30,6 +30,7 @@ import com.prayer.util.JsonKit;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.MemoryPool;
 import com.prayer.util.cv.Resources;
+import com.prayer.util.dao.SqlDdlStatement;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.AssertFieldConstraints;
@@ -228,7 +229,25 @@ final class JObjectValidator {
             @NotNull @NotEmpty @NotBlank final String column) {
         final JsonNode tableNode = this.verifiedNode.path(table);
         final JsonNode columnNode = this.verifiedNode.path(column);
-        return this.verifier.verifyFKConstraint(tableNode.asText(), columnNode.asText());
+        return this.verifier.verifyConstraint(tableNode.asText(), columnNode.asText());
+    }
+
+    /**
+     * Error-10030
+     * 
+     * @param table
+     * @param column
+     * @param colType
+     * @return
+     */
+    @Pre(expr = EXP_PRE_CPXCON, lang = Constants.LANG_GROOVY)
+    public AbstractSchemaException verifyInvalidType(@NotNull @NotEmpty @NotBlank final String table,
+            @NotNull @NotEmpty @NotBlank final String column, @NotNull @NotEmpty @NotBlank final String colType) {
+        final JsonNode tableNode = this.verifiedNode.path(table);
+        final JsonNode columnNode = this.verifiedNode.path(column);
+        final JsonNode colTypeNode = this.verifiedNode.path(colType);
+        final String type = SqlDdlStatement.DB_TYPES.get(colTypeNode.asText());
+        return this.verifier.verifyColumnType(tableNode.asText(), columnNode.asText(), type);
     }
 
     /**

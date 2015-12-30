@@ -33,5 +33,13 @@ public interface DataValidator {
      * @param column
      * @return
      */
-    AbstractSchemaException verifyFKConstraint(String table, String column);
+    AbstractSchemaException verifyConstraint(String table, String column);
+    /**
+     * 验证数据库中的某一列的数据类型是否匹配
+     * @param table
+     * @param column
+     * @param expectedType
+     * @return
+     */
+    AbstractSchemaException verifyColumnType(String table, String column, String expectedType);
 }

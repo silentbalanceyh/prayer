@@ -30,14 +30,16 @@ final class MsSqlHelper {
      * dbo.SYSOBJECTS WHERE ID = OBJECT_ID(N''{0}'')
      */
     private final static String SQL_TB_EXIST = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE=''BASE TABLE'' AND TABLE_CATALOG = ''{0}'' AND TABLE_NAME = ''{1}''";
-    /** **/
+    /** 读取某个表中的所有列名 **/
     private final static String SQL_TB_COLUMN = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG=''{0}'' AND TABLE_NAME=''{1}''";
-    /** **/
+    /** 检查某个表中某个列是否存在 **/
     private final static String SQL_TB_COL_EXIST = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG=''{0}'' AND TABLE_NAME=''{1}'' AND COLUMN_NAME=''{2}''";
-    /** **/
+    /** 获取所有约束名称 **/
     private final static String SQL_TB_CONSTRAINT = "SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_CATALOG=''{0}'' AND TABLE_NAME=''{1}'' ORDER BY CONSTRAINT_NAME";
-    /** **/
-    private final static String SQL_TBFK_CONSTRAINT = "SELECT COUNT(*) FROM (INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE AS CC JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS TC ON CC.CONSTRAINT_NAME = TC.CONSTRAINT_NAME) WHERE CC.TABLE_CATALOG=''{0}'' AND CC.TABLE_NAME=''{1}'' AND (TC.CONSTRAINT_TYPE = ''PRIMARY KEY'' OR TC.CONSTRAINT_TYPE=''UNIQUE'') AND CC.COLUMN_NAME=''{2}''";
+    /** 检查对应列的约束是否匹配，必须UniqueKey或PrimaryKey **/
+    private final static String SQL_TBK_DST_CONS = "SELECT COUNT(*) FROM (INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE AS CC JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS TC ON CC.CONSTRAINT_NAME = TC.CONSTRAINT_NAME) WHERE CC.TABLE_CATALOG=''{0}'' AND CC.TABLE_NAME=''{1}'' AND (TC.CONSTRAINT_TYPE = ''PRIMARY KEY'' OR TC.CONSTRAINT_TYPE=''UNIQUE'') AND CC.COLUMN_NAME=''{2}''";
+    /** 检查对应列的类型是否匹配 **/
+    private final static String SQL_TBK_DST_TYPE = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG=''{0}'' AND TABLE_NAME=''{1}'' AND COLUMN_NAME=''{2}'' AND DATA_TYPE=''{3}''";
     /** 列空值检测 **/
     private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
     /** **/
@@ -54,6 +56,19 @@ final class MsSqlHelper {
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    /**
+     * 统计系统中的列类型是否匹配
+     * @param tableName
+     * @param column
+     * @param type
+     * @return
+     */
+    @NotNull
+    public static String getSqlColumnType(@NotNull @NotBlank @NotEmpty final String tableName,
+            @NotNull @NotBlank @NotEmpty final String column, @NotNull @NotBlank @NotEmpty final String type) {
+        final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+        return MessageFormat.format(SQL_TBK_DST_TYPE, database, tableName, column, type);
+    }
 
     /**
      * 统计系统中的表的SQL
@@ -92,7 +107,7 @@ final class MsSqlHelper {
     public static String getSqlUKPKConstraint(@NotNull @NotBlank @NotEmpty final String tableName,
             @NotNull @NotBlank @NotEmpty final String column) {
         final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
-        return MessageFormat.format(SQL_TBFK_CONSTRAINT, database, tableName, column);
+        return MessageFormat.format(SQL_TBK_DST_CONS, database, tableName, column);
     }
 
     /**
@@ -131,15 +146,17 @@ final class MsSqlHelper {
             @NotNull @NotBlank @NotEmpty final String colName) {
         return MessageFormat.format(SQL_TB_NULL, tableName, colName);
     }
+
     /**
      * 检查表中某个字段是否有重复数据
+     * 
      * @param tableName
      * @param colName
      * @return
      */
     @NotNull
     public static String getSqlUnique(@NotNull @NotBlank @NotEmpty final String tableName,
-            @NotNull @NotBlank @NotEmpty final String colName){
+            @NotNull @NotBlank @NotEmpty final String colName) {
         return MessageFormat.format(SQL_TB_UNIQUE, tableName, colName);
     }
 

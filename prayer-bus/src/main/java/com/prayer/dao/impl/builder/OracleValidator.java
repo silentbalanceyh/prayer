@@ -79,7 +79,7 @@ public final class OracleValidator implements DataValidator {
      * <code>Foreign Key关联的Table也必须满足</code>
      */
     @Override
-    public AbstractSchemaException verifyFKConstraint(@NotNull @NotEmpty @NotBlank final String table,
+    public AbstractSchemaException verifyConstraint(@NotNull @NotEmpty @NotBlank final String table,
             @NotNull @NotEmpty @NotBlank final String column) {
         final String sql = OracleHelper.getSqlUKPKConstraint(table, column);
         final Long counter = this.context.count(sql);
@@ -88,6 +88,16 @@ public final class OracleValidator implements DataValidator {
             error = new BFKConstraintInvalidException(getClass(), table, column);
         }
         return error;
+    }
+    
+    /**
+     * 验证Target字段类型是否和当前类型一致
+     */
+    @Override
+    public AbstractSchemaException verifyColumnType(@NotNull @NotEmpty @NotBlank final String table,
+            @NotNull @NotEmpty @NotBlank final String column,@NotNull @NotEmpty @NotBlank final String expectedType){
+        // TODO：验证类型问题
+        return null;
     }
 
     // ~ Abstract Methods ====================================

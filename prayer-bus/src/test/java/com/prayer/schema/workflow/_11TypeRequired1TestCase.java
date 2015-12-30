@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.BFKConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
+import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.facade.schema.DataValidator;
@@ -64,6 +65,9 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
         if (null == verifier.verifyTable("SEC_SUB_ROLE1")) {
             this.context.executeBatch("DROP TABLE SEC_SUB_ROLE1;");
         }
+        if (null == verifier.verifyTable("SEC_SUB_ROLE2")){
+            this.context.executeBatch("DROP TABLE SEC_SUB_ROLE2;");
+        }
     }
 
     /**
@@ -106,6 +110,23 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
         if (Constants.RC_SUCCESS == ret) {
             testImport("rels/P0213field-FkCType10029-1.json",
                     "[E10029] Target column constraint is invalid please verify the result!");
+        }
+    }
+    
+    /**
+     * 
+     * @throws AbstractSchemaException
+     */
+    @Test(expected = BTColumnTypeInvalidException.class)
+    public void testP23FKey1Target10030() throws AbstractSchemaException {
+        int ret = Constants.RC_FAILURE;
+        // 创建子表，防止10027
+        if (null != verifier.verifyTable("SEC_SUB_ROLE2")) {
+            ret = this.context.executeBatch("CREATE TABLE SEC_SUB_ROLE2( R_ID BIGINT PRIMARY KEY );");
+        }
+        if (Constants.RC_SUCCESS == ret) {
+            testImport("rels/P0213field-FkCType10030-1.json",
+                    "[E10030] Target column data type is invalid please verify the result!");
         }
     }
     /**

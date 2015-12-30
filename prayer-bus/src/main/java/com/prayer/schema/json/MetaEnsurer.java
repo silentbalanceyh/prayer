@@ -255,6 +255,8 @@ final class MetaEnsurer implements InternalEnsurer {
         if (null != this.error) {
             return false;
         }
+        // 7.4.7.__subtable__ & __subkey__ 验证字段的类型是否OK？
+        
         return null == this.error;
     }
 

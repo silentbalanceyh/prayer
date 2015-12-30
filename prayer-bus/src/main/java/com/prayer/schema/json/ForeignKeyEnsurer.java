@@ -87,7 +87,6 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
         // 3.外键表是否存在
         validateFKTargetTable();
         interrupt();
-        // TODO: 外键引用表和字段验证
     }
 
     /**
@@ -117,11 +116,12 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
         this.error = this.validator.verifyFkColumnType(Attributes.F_COL_TYPE, FK_FILTER, RGX_REFID_CTYPE);
         return null == this.error;
     }
+
     /**
      * 
      * @return
      */
-    private boolean validateFKTargetTable(){
+    private boolean validateFKTargetTable() {
         // 因为foreignkey = true的节点一定存在，上层验证过
         // 21.3.外键表属性验证
         final List<JsonNode> fkNodes = findNodes(this.fieldsNode, FK_FILTER);
@@ -133,25 +133,32 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
                     message("D10000.FKIDX", idx, node.path(Attributes.F_NAME).asText()));
             // 21.3.1.验证外键表是否存在
             this.error = validator.verifyTableExisting(Attributes.F_REF_TABLE);
-            if(null != this.error){
+            if (null != this.error) {
                 break;
             }
             // 21.3.2.验证外键表对应字段是否存在
             this.error = validator.verifyColumnExisting(Attributes.F_REF_TABLE, Attributes.F_REF_ID);
-            if(null != this.error){
+            if (null != this.error) {
                 break;
             }
             // 21.3.3.验证外键对应字段的约束是否OK
             this.error = validator.verifyInvalidConstraints(Attributes.F_REF_TABLE, Attributes.F_REF_ID);
-            if(null != this.error){
+            if (null != this.error) {
+                break;
+            }
+            // 21.3.4.验证外键对应的字段的类型是否OK
+            this.error = validator.verifyInvalidType(Attributes.F_REF_TABLE, Attributes.F_REF_ID,
+                    Attributes.F_COL_TYPE);
+            if (null != this.error) {
                 break;
             }
         }
-        if(null != this.error){
+        if (null != this.error) {
             return false;
         }
         return null == this.error;
     }
+
     /**
      * 
      * @return

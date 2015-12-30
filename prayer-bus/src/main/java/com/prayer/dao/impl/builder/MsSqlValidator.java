@@ -2,13 +2,17 @@ package com.prayer.dao.impl.builder;
 
 import static com.prayer.util.Instance.reservoir;
 
+import java.util.Locale;
+
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.exception.schema.BFKConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
+import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.schema.DataValidator;
+import com.prayer.util.StringKit;
 import com.prayer.util.cv.MemoryPool;
 import com.prayer.util.cv.Resources;
 
@@ -79,13 +83,38 @@ public final class MsSqlValidator implements DataValidator {
      * <code>Foreign Key关联的Table也必须满足</code>
      */
     @Override
-    public AbstractSchemaException verifyFKConstraint(@NotNull @NotEmpty @NotBlank final String table,
+    public AbstractSchemaException verifyConstraint(@NotNull @NotEmpty @NotBlank final String table,
             @NotNull @NotEmpty @NotBlank final String column) {
         final String sql = MsSqlHelper.getSqlUKPKConstraint(table, column);
         final Long counter = this.context.count(sql);
         AbstractSchemaException error = null;
         if (counter <= 0) {
             error = new BFKConstraintInvalidException(getClass(), table, column);
+        }
+        return error;
+    }
+
+    /**
+     * 验证Target字段类型是否和当前类型一致
+     */
+    @Override
+    public AbstractSchemaException verifyColumnType(@NotNull @NotEmpty @NotBlank final String table,
+            @NotNull @NotEmpty @NotBlank final String column, @NotNull @NotEmpty @NotBlank final String expectedType) {
+        // 处理参数
+        String type = "";
+        if (0 < expectedType.indexOf('(')) {
+            type = expectedType.split("(")[0];
+            if (StringKit.isNonNil(type)) {
+                type = type.toLowerCase(Locale.getDefault());
+            }
+        }else{
+            type = expectedType;
+        }
+        final String sql = MsSqlHelper.getSqlColumnType(table, column, type);
+        final Long counter = this.context.count(sql);
+        AbstractSchemaException error = null;
+        if (counter <= 0) {
+            error = new BTColumnTypeInvalidException(getClass(), table, column, type);
         }
         return error;
     }
