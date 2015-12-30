@@ -4,3 +4,6 @@
 /*.lock
 .externalToolBuilders
 *.lock
+*.project
+*.classpath
+.settings
