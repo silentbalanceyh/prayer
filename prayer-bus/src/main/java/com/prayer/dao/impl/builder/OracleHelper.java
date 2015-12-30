@@ -32,6 +32,10 @@ public final class OracleHelper {
 	private final static String SQL_TB_COLUMN = "SELECT COLUMN_NAME,NULLABLE,DATA_TYPE,DATA_LENGTH FROM ALL_TAB_COLUMNS WHERE OWNER=''{0}'' AND TABLE_NAME=''{1}''";
 	/** 增加 distinct 出除重复的约束名**/
 	private final static String SQL_TB_CONSTRAINT = "SELECT DISTINCT T.CONSTRAINT_NAME,C.CONSTRAINT_TYPE FROM USER_CONSTRAINTS C,USER_CONS_COLUMNS T WHERE T.CONSTRAINT_NAME=C.CONSTRAINT_NAME AND T.OWNER=''{0}'' AND T.TABLE_NAME=''{1}'' ORDER BY T.CONSTRAINT_NAME";
+	/** **/
+    private final static String SQL_TB_COL_EXIST = "SELECT COUNT(*) FROM ALL_TAB_COLUMNS WHERE OWNER=''{0}'' AND TABLE_NAME=''{1}'' AND COLUMN_NAME=''{2}''";
+    /** **/
+    private final static String SQL_TBFK_CONSTRAINT = "SELECT COUNT(*) FROM (USER_CONS_COLUMNS CC JOIN USER_CONSTRAINTS TC ON CC.CONSTRAINT_NAME = TC.CONSTRAINT_NAME) WHERE CC.OWNER=''{0}'' AND CC.TABLE_NAME=''{1}'' AND (TC.CONSTRAINT_TYPE =''P'' OR TC.CONSTRAINT_TYPE=''U'') AND CC.COLUMN_NAME=''{2}''";
 	/** 列空值检测 **/
 	private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
 	/** **/
@@ -59,6 +63,34 @@ public final class OracleHelper {
 		final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
 		return MessageFormat.format(SQL_TB_EXIST, database, tableName);
 	}
+	
+    /**
+     * 检查表中字段是否存在
+     * 
+     * @param tableName
+     * @param column
+     * @return
+     */
+    @NotNull
+    public static String getSqlColumnExist(@NotNull @NotBlank @NotEmpty final String tableName,
+            @NotNull @NotBlank @NotEmpty final String column) {
+        final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+        return MessageFormat.format(SQL_TB_COL_EXIST, database, tableName, column);
+    }
+
+    /**
+     * 检查外键是否Unique或者Primary Key
+     * 
+     * @param tableName
+     * @param column
+     * @return
+     */
+    @NotNull
+    public static String getSqlUKPKConstraint(@NotNull @NotBlank @NotEmpty final String tableName,
+            @NotNull @NotBlank @NotEmpty final String column) {
+        final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+        return MessageFormat.format(SQL_TBFK_CONSTRAINT, database, tableName, column);
+    }
 	
 	/**
 	 * 获取系统中列集合的SQL

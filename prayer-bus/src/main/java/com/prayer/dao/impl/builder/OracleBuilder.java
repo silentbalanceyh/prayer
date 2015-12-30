@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.dao.AbstractBuilder;
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
-//import com.prayer.exception.database.UniqueAddException;
+import com.prayer.exception.database.UniqueAddException;
 import com.prayer.exception.database.UniqueAlterException;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
@@ -287,13 +287,13 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NO
                     this.setError(new NullableAddException(getClass(), field.getColumnName(), this.getTable())); // NOPMD
                     break;
                 }
-                /* oracle中无此限制，暂注释
+                
+                // oracle中无此限制，但按平台统一处理
                 // UNIQUE不可以针对数据行超过1行的
                 if (Constants.ONE < rows && field.isUnique()) {
                     this.setError(new UniqueAddException(getClass(), field.getColumnName(), this.getTable()));// NOPMD
                     break;
                 }
-                */
                 addSqlLine(this.genAddColumns(field));
             }
 		}
