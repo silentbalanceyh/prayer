@@ -61,7 +61,7 @@ public class _Oracle003TestFK1TestCase extends AbstractBCPTestCase {    // NOPMD
     }
 
     /** **/
-    @Test
+    //@Test
     public void test001UKCreate() {
     	if (this.isValidDB()){
         final boolean ret = this.createTable();
@@ -74,7 +74,7 @@ public class _Oracle003TestFK1TestCase extends AbstractBCPTestCase {    // NOPMD
     }
 
     /** **/
-    @Test
+    //@Test
     public void test001UKPurge() {
     	if (this.isValidDB()){
         final boolean ret = this.purgeTable();
