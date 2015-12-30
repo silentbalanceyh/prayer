@@ -91,6 +91,11 @@ public final class SystemEnum { // NOPMD
         ARRAY, // JsonArray
         ERROR, // JsonObject(Error)
     }
+    /** 使用的模板引擎的信息 **/
+    public static enum TemplateEngine{
+        JADE, // Jade模板引擎
+        HTML // 纯的HTML结构，Dynamic无用
+    }
 
     // ~ Constructors ========================================
     private SystemEnum() {

@@ -1,11 +1,13 @@
 package com.prayer.assistant;
 
+import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.singleton;
 
 import com.prayer.configurator.SecurityConfigurator;
 import com.prayer.security.handler.BasicAuthHandler;
 import com.prayer.util.cv.Constants;
 import com.prayer.util.cv.SystemEnum.SecurityMode;
+import com.prayer.util.cv.SystemEnum.TemplateEngine;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.auth.AuthProvider;
@@ -87,22 +89,26 @@ public final class RouterInjector {
      */
     public static void injectStatic(@NotNull final Router router, @NotNull @NotBlank @NotEmpty final String apiUrl) {
         final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
-        router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.WEB.STATIC)
+        // Static Route
+        router.route(WebResources.WEB_STC_ROUTE).order(Constants.ORDER.WEB.STATIC)
                 .handler(StaticHandler.create().setCachingEnabled(false));
-        // 引入jade模板引擎
-        final TemplateHandler handler = TemplateHandler.create(JadeTemplateEngine.create());
-        router.route(Constants.WEB.DYNAMIC_ROUTE).order(Constants.ORDER.WEB.DYNAMIC).handler(context -> {
+        // Dyanmic Route, Put Api Information
+        router.route(WebResources.WEB_DYC_ROUTE).order(Constants.ORDER.WEB.DYNAMIC).handler(context -> {
             context.put(Constants.KEY.API_URL, apiUrl);
             context.next();
         });
-        router.route(Constants.WEB.DYNAMIC_ROUTE).order(Constants.ORDER.WEB.CONTEXT).handler(handler);
-        router.route(Constants.WEB.STATIC_ROUTE).order(Constants.ORDER.WEB.STATIC).failureHandler(ErrorHandler.create());
-        router.route(Constants.WEB.FAVICON_ICO).order(Constants.ORDER.WEB.DYNAMIC)
-                .handler(FaviconHandler.create(Constants.WEB.FAVICON_PATH));
-        // Redirect问题的设置
+        // Template Engine
+        injectTemplate(router);
+        // Static Error Handler
+        router.route(WebResources.WEB_STC_ROUTE).order(Constants.ORDER.WEB.STATIC)
+                .failureHandler(ErrorHandler.create());
+        // Static Favicon
+        router.route(WebResources.WEB_STC_FAVICON).order(Constants.ORDER.WEB.DYNAMIC)
+                .handler(FaviconHandler.create(WebResources.WEB_STC_FAVICON));
+        // Redirect问题的设置，引入权限系统
         final AuthProvider authProvider = securitor.getProvider();
-        final AuthHandler redirectHandler = RedirectAuthHandler.create(authProvider, Constants.ACTION.LOGIN_PAGE);
-        router.route(Constants.WEB.DYNAMIC_ADMIN).order(Constants.ORDER.WEB.ADMIN).handler(redirectHandler);
+        final AuthHandler redirectHandler = RedirectAuthHandler.create(authProvider, WebResources.WEB_ACT_LOGIN_PAGE);
+        router.route(WebResources.WEB_DYC_ROUTE_ADMIN).order(Constants.ORDER.WEB.ADMIN).handler(redirectHandler);
     }
 
     // ~ Constructors ========================================
@@ -110,6 +116,16 @@ public final class RouterInjector {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private static void injectTemplate(final Router router) {
+        final TemplateEngine template = fromStr(TemplateEngine.class, WebResources.WEB_TMP_MODE);
+        if (TemplateEngine.JADE == template) {
+            // 引入jade模板引擎
+            final TemplateHandler handler = TemplateHandler.create(JadeTemplateEngine.create());
+            router.route(WebResources.WEB_DYC_ROUTE_ADMIN).order(Constants.ORDER.WEB.CONTEXT).handler(handler);
+        }
+    }
+
     private RouterInjector() {
     }
     // ~ Get/Set =============================================

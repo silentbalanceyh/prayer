@@ -77,6 +77,8 @@ public final class Resources { // NOPMD
     public static final String LOG_CFG_FOLDER;
     /** 安全配置文件路径 **/
     public static final String SEC_CFG_FILE;
+    /** Web Config配置文件路径 **/
+    public static final String WEB_CFG_FILE;
     
     /** 默认不是从CONSOLE启动 **/
     public static boolean useConsole = Boolean.FALSE;
@@ -138,6 +140,9 @@ public final class Resources { // NOPMD
         
         // Security
         SEC_CFG_FILE = LOADER.getString("security.config.file");
+        
+        // Web
+        WEB_CFG_FILE = LOADER.getString("web.config.file");
 
         // Log Folder
         LOG_CFG_FOLDER = LOADER.getString("system.log.folder");

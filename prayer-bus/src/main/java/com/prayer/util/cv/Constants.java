@@ -76,13 +76,6 @@ public interface Constants { // NOPMD
     /** Default Convertor，默认Convertor，什么都不做 **/
     String VX_CONVERTOR = VX_GROUP;
 
-    interface ACTION { // NOPMD
-        /** 登录系统的Action地址 **/
-        String LOGOUT = "/dynamic/logout";
-        /** 登录界面 **/
-        String LOGIN_PAGE = "/dynamic/index";
-    }
-
     interface KEY { // NOPMD
         /** Global Responsor **/
         String CTX_RESPONSOR = "CTX.RESPONSOR";
@@ -98,24 +91,6 @@ public interface Constants { // NOPMD
 
     /** **/
     interface WEB { // NOPMD
-        /** Static静态资源 **/
-        String STATIC_ROUTE = "/static/*";
-
-        /** Template需要使用的资源 **/
-        String DYNAMIC_ROUTE = "/dynamic/*";
-        /** 基础认证的Redirect **/
-        String DYNAMIC_ADMIN = "/dynamic/admin/*";
-
-        /** Options **/
-        String DYNAMIC_OPTIONS = "/dynamic/admin/options/*";
-
-        /** Profile **/
-        String DYNAMIC_PROFILE = "/dynamic/admin/profile";
-
-        /** favicon.ico默认路径 **/
-        String FAVICON_ICO = "/static/favicon.ico";
-        /** favicon.ico路径 **/
-        String FAVICON_PATH = "/static/favicon.ico";
         /** **/
         String SESSION_USER = "user";
     }
@@ -134,7 +109,7 @@ public interface Constants { // NOPMD
         int NOT_SET = -20000;
         /** Failure Handler **/
         int FAILURE = 20000;
-        
+
         /** 前后台共用 **/
         interface SHD { // NOPMD
             /** CORS Handler **/
