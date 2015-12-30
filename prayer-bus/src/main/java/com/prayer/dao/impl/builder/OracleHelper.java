@@ -34,6 +34,8 @@ public final class OracleHelper {
 	private final static String SQL_TB_CONSTRAINT = "SELECT DISTINCT T.CONSTRAINT_NAME,C.CONSTRAINT_TYPE FROM USER_CONSTRAINTS C,USER_CONS_COLUMNS T WHERE T.CONSTRAINT_NAME=C.CONSTRAINT_NAME AND T.OWNER=''{0}'' AND T.TABLE_NAME=''{1}'' ORDER BY T.CONSTRAINT_NAME";
 	/** 列空值检测 **/
 	private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
+	/** **/
+    private final static String SQL_TB_UNIQUE = "SELECT COUNT(DISTINCT {1}) FROM {0} WHERE {1} IN (SELECT {1} FROM {0} GROUP BY {1} HAVING COUNT({1}) > 1)";
 	/** SEQUENCE存在检测 **/
 	private final static String SQL_SEQ_EXIST = "SELECT COUNT(*) FROM ALL_SEQUENCES WHERE SEQUENCE_OWNER=''{0}'' AND SEQUENCE_NAME=''{1}''";
 	/** 数据库配置资源加载器 **/
@@ -94,6 +96,18 @@ public final class OracleHelper {
 			@NotNull @NotBlank @NotEmpty final String colName) {
 		return MessageFormat.format(SQL_TB_NULL, tableName, colName);
 	}
+	
+    /**
+     * 检查表中某个字段是否有重复数据
+     * @param tableName
+     * @param colName
+     * @return
+     */
+    @NotNull
+    public static String getSqlUnique(@NotNull @NotBlank @NotEmpty final String tableName,
+            @NotNull @NotBlank @NotEmpty final String colName){
+        return MessageFormat.format(SQL_TB_UNIQUE, tableName, colName);
+    }
 	
 	/**
 	 * 统计系统中的表的SQL

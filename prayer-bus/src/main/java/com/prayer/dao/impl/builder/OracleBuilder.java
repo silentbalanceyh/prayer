@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.dao.AbstractBuilder;
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
+//import com.prayer.exception.database.UniqueAddException;
+import com.prayer.exception.database.UniqueAlterException;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
 import com.prayer.model.kernel.GenericSchema;
@@ -175,8 +177,7 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NO
      */
     @Override
     protected Long uniqueRows(@NotNull @NotBlank @NotEmpty final String column){
-        // TODO: Oracle中的Unique校验
-        return -1L;
+    	return this.getContext().count(OracleHelper.getSqlUnique(this.getTable(), column));
     }
 	
 	@Override
@@ -255,19 +256,21 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NO
 			if (Constants.ZERO == rows) {
 				addSqlLine(this.genAlterColumns(field));
 			} else if (Constants.ZERO < rows) {
-				final Long nullRows = this.nullRows(column);
-				if (Constants.ZERO == nullRows) {
-					addSqlLine(this.genAlterColumns(field));
-				} else {
-					if (field.isNullable()) {
-						addSqlLine(this.genAlterColumns(field));
-					} else {
-						this.setError(new NullableAlterException(getClass(), field.getColumnName(), // NOPMD
-								this.getTable()));
-						break;
-					}
-				}
-			}
+                // NOT NULL在有数据信息的情况不可变更
+                final Long nullRows = this.nullRows(column);
+                if (Constants.ZERO < nullRows && !field.isNullable()) {
+                    this.setError(new NullableAlterException(getClass(), field.getColumnName(), // NOPMD
+                            this.getTable()));
+                    break;
+                }
+                // UNIQUE在有数据信息的时候如果本身出现了Duplicated的值（非Unique的，那么会抛出异常）
+                final Long uniqueRows = this.uniqueRows(column);
+                if (Constants.ZERO < uniqueRows && field.isUnique()) {
+                    this.setError(new UniqueAlterException(getClass(), field.getColumnName(), this.getTable()));
+                    break;
+                }
+                addSqlLine(this.genAlterColumns(field));
+            }
 		}
 	}
 
@@ -279,13 +282,20 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NO
 			if (Constants.ZERO == rows) {
 				addSqlLine(this.genAddColumns(field));
 			} else {
-				if (field.isNullable()) {
-					addSqlLine(this.genAddColumns(field));
-				} else {
-					this.setError(new NullableAddException(getClass(), field.getColumnName(), this.getTable())); // NOPMD
-					break;
-				}
-			}
+                // NOT NULL不可以针对有数据的，ORA-01758
+                if (!field.isNullable()) {
+                    this.setError(new NullableAddException(getClass(), field.getColumnName(), this.getTable())); // NOPMD
+                    break;
+                }
+                /* oracle中无此限制，暂注释
+                // UNIQUE不可以针对数据行超过1行的
+                if (Constants.ONE < rows && field.isUnique()) {
+                    this.setError(new UniqueAddException(getClass(), field.getColumnName(), this.getTable()));// NOPMD
+                    break;
+                }
+                */
+                addSqlLine(this.genAddColumns(field));
+            }
 		}
 	}
 
