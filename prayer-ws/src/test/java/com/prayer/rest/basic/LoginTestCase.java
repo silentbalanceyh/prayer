@@ -6,9 +6,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.AbstractRBTestCase;
-import com.prayer.bus.ErrorChecker;
-import com.prayer.bus.RestClient;
+import com.prayer.base.AbstractRBTestCase;
+import com.prayer.base.ErrorChecker;
+import com.prayer.base.RestClient;
 import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.http.HttpMethod;

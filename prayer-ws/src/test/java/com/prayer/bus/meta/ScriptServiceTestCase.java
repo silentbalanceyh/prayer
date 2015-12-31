@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.AbstractSevTestCase;
+import com.prayer.base.AbstractSDTestCase;
 import com.prayer.model.bus.ServiceResult;
 
 import io.vertx.core.json.JsonObject;
@@ -16,7 +16,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public class ScriptServiceTestCase extends AbstractSevTestCase{
+public class ScriptServiceTestCase extends AbstractSDTestCase{
     // ~ Static Fields =======================================
 
     /** 日志记录器 **/

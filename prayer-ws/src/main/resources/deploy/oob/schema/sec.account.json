@@ -40,14 +40,6 @@
             "columns":[
                 "S_MOBILE"
             ]
-        },
-        {
-            "name":"UK_SEC_ACCOUNT_EXTID",
-            "category":"UniqueKey",
-            "multi":false,
-            "columns":[
-                "S_EXTID"
-            ]
         }
     ],
     "__fields__":[
@@ -103,7 +95,6 @@
             "type":"StringType",
             "columnName":"S_EXTID",
             "columnType":"STRING1",
-            "unique":true,
             "length":256
         }
     ]

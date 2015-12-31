@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.prayer.bus.AbstractRBTestCase;
-import com.prayer.bus.ErrorChecker;
+import com.prayer.base.AbstractRBTestCase;
+import com.prayer.base.ErrorChecker;
 import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.http.HttpMethod;

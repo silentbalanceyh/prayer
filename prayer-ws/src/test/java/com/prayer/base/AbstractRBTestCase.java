@@ -1,4 +1,4 @@
-package com.prayer.bus;
+package com.prayer.base;
 
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.singleton;

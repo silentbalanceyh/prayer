@@ -1,4 +1,4 @@
-package com.prayer.bus;
+package com.prayer.base;
 
 import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.info;
@@ -20,7 +20,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public abstract class AbstractSevTestCase {
+public abstract class AbstractSDTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -38,12 +38,8 @@ public abstract class AbstractSevTestCase {
      * @return
      */
     protected JsonObject getParameter(final String jsonFile) {
-        final String content = IOKit.getContent("/service/input/sec/" + jsonFile);
-        JsonObject ret = new JsonObject();
-        if (null != content) {
-            ret = new JsonObject(content);
-        }
-        info(getLogger(), "[T] Params = " + ret.encode());
+        final JsonObject ret = this.getJsonData("/service/input/sec/" + jsonFile);
+        info(getLogger(), "[T] Service Params = " + ret.encode());
         return ret;
     }
 
@@ -69,7 +65,6 @@ public abstract class AbstractSevTestCase {
             return true;
         }
     }
-
     /**
      * Record Service
      * 
@@ -88,6 +83,15 @@ public abstract class AbstractSevTestCase {
         return singleton(MetaSevImpl.class);
     }
     // ~ Private Methods =====================================
+    
+    private JsonObject getJsonData(final String path){
+        final String content = IOKit.getContent(path);
+        JsonObject ret = new JsonObject();
+        if (null != content) {
+            ret = new JsonObject(content);
+        }
+        return ret;
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

@@ -1,4 +1,4 @@
-package com.prayer.bus;
+package com.prayer.base;
 
 import java.net.URI;
 

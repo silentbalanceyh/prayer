@@ -1,0 +1,13 @@
+{
+    "filters":[
+        
+    ],
+    "identifier":"sec.account",
+    "script":"js.api.post.sec.account",
+    "data":{
+        "username":"testdepend001",
+        "password":"testdepend",
+        "mobile":"15911000001",
+        "email":"test.depend001@hpe.com"
+    }
+}

@@ -199,6 +199,7 @@ public final class ServiceHelper {
     // ~ Private Methods =====================================
 
     private Record executeUpdate(final Record record) throws AbstractException {
+        System.out.println(record);
         // 更新过程才会有的问题
         final AbstractException error = Interruptor.interruptPK(record);
         if (null == error) {
@@ -210,16 +211,18 @@ public final class ServiceHelper {
                 final Value<?> value = record.idKV().values().iterator().next();
                 queried = this.dao.selectById(record, value);
             }
-            debug(LOGGER, " Updating mode : Queried => " + queried.toString());
-            for (final String field : record.fields().keySet()) {
-                final Value<?> value = record.get(field);
-                // 标记为NU的则不更新
-                if (null != value && !StringUtil.equals(value.literal(), "NU")) {
-                    queried.set(field, record.get(field));
+            debug(LOGGER, " Updating mode : Queried => " + ((null == queried) ? "null" : queried.toString()));
+            if (null != queried) {
+                for (final String field : record.fields().keySet()) {
+                    final Value<?> value = record.get(field);
+                    // 标记为NU的则不更新
+                    if (null != value && !StringUtil.equals(value.literal(), "NU")) {
+                        queried.set(field, record.get(field));
+                    }
                 }
             }
-            debug(LOGGER, " Updating mode : Updated => " + queried.toString());
-            return this.dao.update(queried);
+            debug(LOGGER, " Updating mode : Updated => " + ((null == queried) ? "null" : queried.toString()));
+            return (null == queried) ? null : this.dao.update(queried);
         } else {
             throw error;
         }

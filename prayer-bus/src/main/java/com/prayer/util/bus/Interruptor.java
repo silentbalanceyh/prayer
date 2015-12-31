@@ -149,8 +149,9 @@ public final class Interruptor { // NOPMD
             final ConcurrentMap<String, Value<?>> idKV = record.idKV();
             for (final String id : idKV.keySet()) {
                 final Value<?> value = idKV.get(id);
-                if (StringKit.isNil(value.literal())) {
+                if (null == value.getValue()) {
                     isUpdate = false;
+                    break;
                 }
             }
         } catch (AbstractException ex) {

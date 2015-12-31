@@ -76,7 +76,7 @@ public class GenericRecord implements Record { // NOPMD
             this._schema = SchemaLocator.getSchema(identifier.trim());
         } catch (AbstractSystemException ex) {
             this._schema = null; // NOPMD
-            peError(LOGGER,ex);
+            peError(LOGGER, ex);
         }
         this.data = new ConcurrentHashMap<>();
     }
@@ -98,9 +98,8 @@ public class GenericRecord implements Record { // NOPMD
     public void set(@AssertFieldConstraints(RULE_ID) final String name, final String value)
             throws AbstractDatabaseException {
         this.verifyField(name);
-        final DataType type = this._schema.getFields().get(name).getType();
-        final Value<?> wrapperValue = V.get().getValue(type, value);
-        this.set(name, wrapperValue);
+        // 为Filed赋值
+        this.set(name, this.createValue(name, value));
     }
 
     /** **/
@@ -108,6 +107,11 @@ public class GenericRecord implements Record { // NOPMD
     @InstanceOf(Value.class)
     public Value<?> get(@AssertFieldConstraints(RULE_ID) final String name) throws AbstractDatabaseException {
         this.verifyField(name);
+        // 如果得到了null值，则直接重新赋值，修复Value<?>为null的问题
+        Value<?> ret = this.data.get(name);
+        if (null == ret) {
+            this.data.put(name, this.createValue(name, null));
+        }
         return this.data.get(name);
     }
 
@@ -118,7 +122,7 @@ public class GenericRecord implements Record { // NOPMD
     public Value<?> column(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
         final FieldModel colInfo = this._schema.getColumn(column);
-        return this.data.get(colInfo.getName());
+        return this.get(colInfo.getName());
     }
 
     /** 获取全局标识符 **/
@@ -191,7 +195,7 @@ public class GenericRecord implements Record { // NOPMD
                     retMap.put(field.getColumnName(), this.column(field.getColumnName()));
                 }
             } catch (AbstractDatabaseException ex) {
-                peError(LOGGER,ex);
+                peError(LOGGER, ex);
             }
         }
         return retMap;
@@ -236,6 +240,11 @@ public class GenericRecord implements Record { // NOPMD
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
+    private Value<?> createValue(final String name, final String value) throws AbstractDatabaseException {
+        final DataType type = this._schema.getFields().get(name).getType();
+        return V.get().getValue(type, value);
+    }
+
     private void verifyField(final String name) throws AbstractDatabaseException {
         if (!this._schema.getFields().containsKey(name)) {
             throw new FieldInvalidException(getClass(), name, this._schema.getIdentifier());
@@ -260,11 +269,12 @@ public class GenericRecord implements Record { // NOPMD
                 final String value = null == this.column(col) ? "" : this.column(col).toString();
                 retStr.append(col).append(" : ").append(value).append(Symbol.COMMA);
             } catch (AbstractDatabaseException ex) {
-                peError(LOGGER,ex);
+                peError(LOGGER, ex);
             }
         }
         return retStr.toString();
     }
+
     /** **/
     @Override
     public String seqname() {

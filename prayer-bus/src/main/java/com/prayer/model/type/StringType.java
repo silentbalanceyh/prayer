@@ -81,7 +81,7 @@ public class StringType implements Value<String> {
      */
     @Override
     public String literal() {
-        return null == this.value ? "null" : this.value.toString();
+        return null == this.value ? "null": this.value.toString();
     }
 
     // ~ Methods =============================================
