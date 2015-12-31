@@ -1,15 +1,15 @@
 package com.prayer.handler.web;
 
-import static com.prayer.util.Log.debug;
+import static com.prayer.util.debug.Log.debug;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Constants;
+import com.prayer.constant.log.DebugKey;
 import com.prayer.security.provider.BasicProvider;
 import com.prayer.security.provider.impl.BasicUser;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.log.DebugKey;
 
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;

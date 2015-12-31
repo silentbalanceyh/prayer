@@ -1,7 +1,7 @@
 package com.prayer.schema.workflow;
 
+import static com.prayer.constant.Accessors.validator;
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.cv.Accessors.validator;
 
 import org.junit.After;
 import org.junit.Test;
@@ -9,13 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.Constants;
 import com.prayer.exception.schema.BFKConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.facade.schema.DataValidator;
-import com.prayer.util.cv.Constants;
 /**
  * 
  * @author Lang

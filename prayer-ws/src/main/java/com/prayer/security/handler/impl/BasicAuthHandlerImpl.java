@@ -1,7 +1,7 @@
 package com.prayer.security.handler.impl; // NOPMD
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.debug;
+import static com.prayer.util.debug.Log.debug;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,21 +10,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.Dispatcher;
-import com.prayer.assistant.Extractor;
-import com.prayer.assistant.Future;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.configurator.SecurityConfigurator;
+import com.prayer.constant.Constants;
+import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.bus.ConfigService;
-import com.prayer.model.JsonKey;
-import com.prayer.model.Requestor;
-import com.prayer.model.StatusCode;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.Requestor;
+import com.prayer.model.web.StatusCode;
 import com.prayer.security.AuthConstants.BASIC;
 import com.prayer.security.handler.BasicAuthHandler;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.log.DebugKey;
+import com.prayer.util.web.Dispatcher;
+import com.prayer.util.web.Extractor;
+import com.prayer.util.web.Future;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

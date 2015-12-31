@@ -1,6 +1,6 @@
 package com.prayer.util;
 
-import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.debug.Log.jvmError;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,9 +13,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.Resources;
-import com.prayer.util.cv.Symbol;
+import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
+import com.prayer.constant.Symbol;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

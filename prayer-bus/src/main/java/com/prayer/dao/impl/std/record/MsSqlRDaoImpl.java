@@ -11,6 +11,10 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.dao.AbstractRDaoImpl;
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SqlSegment;
+import com.prayer.constant.Symbol;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
@@ -18,12 +22,8 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
 import com.prayer.model.h2.schema.FieldModel;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SqlSegment;
-import com.prayer.util.cv.Symbol;
-import com.prayer.util.cv.SystemEnum.MetaPolicy;
 import com.prayer.util.dao.SqlDmlStatement;
-import com.prayer.util.dao.SqlHelper;
+import com.prayer.util.dao.QueryHelper;
 import com.prayer.util.dao.Interrupter.Policy;
 import com.prayer.util.dao.Interrupter.PrimaryKey;
 import com.prayer.util.dao.Interrupter.Response;
@@ -50,7 +50,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
     public Set<String> getPKFilters(final Record record) throws AbstractDatabaseException {
         final MetaPolicy policy = record.policy();
         if (MetaPolicy.INCREMENT == policy) {
-            return record.idKV().keySet();// SqlHelper.prepPKWhere(record).keySet();
+            return record.idKV().keySet();// QueryHelper.prepPKWhere(record).keySet();
         }
         return new HashSet<>();
     }
@@ -165,7 +165,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
         // 5.列信息
         final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
         // 6.结果
-        final List<Record> list = SqlHelper.extractData(record,
+        final List<Record> list = QueryHelper.extractData(record,
                 jdbc.select(pageSql, params, record.columnTypes(), cols));
         // 7 封装结果集
         final ConcurrentMap<Long, List<Record>> retMap = new ConcurrentHashMap<>();

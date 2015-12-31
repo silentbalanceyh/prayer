@@ -5,6 +5,7 @@ import static com.prayer.util.Instance.singleton;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
@@ -15,7 +16,6 @@ import com.prayer.model.h2.vertx.ScriptModel;
 import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.model.h2.vertx.VerticleModel;
 import com.prayer.util.bus.ResultExtractor;
-import com.prayer.util.cv.SystemEnum.ComponentType;
 
 import io.vertx.core.http.HttpMethod;
 import net.sf.oval.constraint.InstanceOfAny;

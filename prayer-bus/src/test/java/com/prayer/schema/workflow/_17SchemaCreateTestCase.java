@@ -1,6 +1,6 @@
 package com.prayer.schema.workflow; // NOPMD
 
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.peError;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -23,7 +23,7 @@ import com.prayer.model.h2.schema.KeyModel;
 import com.prayer.model.h2.schema.MetaModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.schema.json.CommunionImporter;
-import com.prayer.util.JsonKit;
+import com.prayer.util.io.JsonKit;
 
 /**
  * 

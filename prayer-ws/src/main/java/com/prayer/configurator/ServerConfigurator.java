@@ -1,6 +1,6 @@
 package com.prayer.configurator;
 
-import static com.prayer.util.Log.error;
+import static com.prayer.util.debug.Log.error;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,11 +15,11 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
+import com.prayer.constant.Symbol;
 import com.prayer.dao.impl.jdbc.H2ConnImpl;
-import com.prayer.util.PropertyKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.Resources;
-import com.prayer.util.cv.Symbol;
+import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.http.HttpServerOptions;
 import jodd.util.StringUtil;

@@ -1,6 +1,6 @@
 package com.prayer.security.handler;
 
-import com.prayer.model.Requestor;
+import com.prayer.model.web.Requestor;
 import com.prayer.security.handler.impl.BasicAuthHandlerImpl;
 
 import io.vertx.codegen.annotations.VertxGen;

@@ -6,8 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import com.prayer.util.IOKit;
-import com.prayer.util.cv.Resources;
+import com.prayer.constant.Resources;
+import com.prayer.util.io.IOKit;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

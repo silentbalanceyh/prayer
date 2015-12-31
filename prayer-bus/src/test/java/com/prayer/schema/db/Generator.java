@@ -1,7 +1,7 @@
 package com.prayer.schema.db;
 
 import static com.prayer.util.Generator.uuid;
-import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.debug.Log.jvmError;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

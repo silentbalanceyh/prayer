@@ -1,7 +1,7 @@
 package com.prayer.dao.impl.schema;
 
 import static com.prayer.util.Generator.uuid;
-import static com.prayer.util.Log.debug;
+import static com.prayer.util.debug.Log.debug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.dao.AbstractDaoImpl;
 import com.prayer.base.exception.AbstractTransactionException;
+import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.mapper.FieldMapper;
 import com.prayer.facade.mapper.KeyMapper;
@@ -24,7 +25,6 @@ import com.prayer.model.h2.schema.MetaModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.SchemaExpander;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.log.DebugKey;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

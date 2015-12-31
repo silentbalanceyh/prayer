@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.prayer.constant.Constants;
+import com.prayer.constant.SqlSegment;
+import com.prayer.constant.Symbol;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SqlSegment;
-import com.prayer.util.cv.Symbol;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;

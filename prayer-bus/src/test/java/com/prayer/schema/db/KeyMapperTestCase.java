@@ -6,11 +6,11 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Resources;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.facade.mapper.KeyMapper;
 import com.prayer.model.h2.schema.KeyModel;
-import com.prayer.util.cv.Resources;
 
 /**
  * 

@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.Accessors;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
-import com.prayer.util.cv.Accessors;
 
 /**
  * 

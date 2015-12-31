@@ -1,6 +1,6 @@
 package com.prayer.handler.deploy;
 
-import static com.prayer.util.Log.info;
+import static com.prayer.util.debug.Log.info;
 
 import java.text.MessageFormat;
 

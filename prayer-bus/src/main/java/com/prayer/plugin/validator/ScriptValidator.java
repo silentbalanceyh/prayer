@@ -1,7 +1,7 @@
 package com.prayer.plugin.validator;
 
-import static com.prayer.util.Log.jvmError;
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.debug.Log.peError;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -11,11 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.Constants;
 import com.prayer.exception.database.ContentErrorException;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.ScriptType;
-import com.prayer.util.cv.Constants;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;

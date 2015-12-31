@@ -1,7 +1,7 @@
 package com.prayer.configurator;
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.error;
+import static com.prayer.util.debug.Log.error;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -13,12 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.impl.oob.ConfigSevImpl;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vertx.VerticleModel;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.json.JsonObject;

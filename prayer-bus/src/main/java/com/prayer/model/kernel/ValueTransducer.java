@@ -3,6 +3,7 @@ package com.prayer.model.kernel;
 import java.math.BigDecimal;
 
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.Resources;
 import com.prayer.facade.kernel.Transducer;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.BinaryType;
@@ -16,7 +17,6 @@ import com.prayer.model.type.LongType;
 import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.StringType;
 import com.prayer.model.type.XmlType;
-import com.prayer.util.cv.Resources;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;

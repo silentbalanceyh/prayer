@@ -1,8 +1,8 @@
 package com.prayer.base.dao;
 
 import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Log.jvmError;
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.debug.Log.peError;
 
 import java.sql.SQLException;
 

@@ -1,6 +1,6 @@
 package com.prayer.handler.deploy;
 
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.peError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -5,15 +5,15 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
+import com.prayer.constant.SqlSegment;
+import com.prayer.constant.Symbol;
+import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
-import com.prayer.util.PropertyKit;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.Resources;
-import com.prayer.util.cv.SqlSegment;
-import com.prayer.util.cv.Symbol;
-import com.prayer.util.cv.SystemEnum.KeyCategory;
+import com.prayer.util.io.PropertyKit;
 
 import jodd.util.ArraysUtil;
 import jodd.util.StringUtil;

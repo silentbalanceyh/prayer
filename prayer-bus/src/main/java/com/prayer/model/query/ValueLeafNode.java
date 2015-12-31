@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.prayer.base.model.AbstractExpression;
+import com.prayer.constant.Symbol;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
-import com.prayer.util.cv.Symbol;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.guard.Guarded;

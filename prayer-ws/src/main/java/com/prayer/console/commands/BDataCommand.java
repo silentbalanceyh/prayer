@@ -5,10 +5,10 @@ import static com.prayer.util.Instance.singleton;
 import org.apache.commons.cli.CommandLine;
 
 import com.prayer.bus.impl.oob.DataSevImpl;
+import com.prayer.constant.Resources;
 import com.prayer.facade.bus.DataService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Resources;
 
 import io.vertx.core.json.JsonObject;
 

@@ -1,7 +1,7 @@
 package com.prayer.console;
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.debug.Log.jvmError;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.configurator.ServerConfigurator;
+import com.prayer.constant.Constants;
 import com.prayer.dao.impl.jdbc.H2ConnImpl;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
 
 /**
  * 开启H2 Database的Shell

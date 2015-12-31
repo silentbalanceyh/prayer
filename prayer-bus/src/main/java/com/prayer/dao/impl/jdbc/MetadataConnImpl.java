@@ -1,8 +1,8 @@
 package com.prayer.dao.impl.jdbc;
 
+import static com.prayer.constant.Accessors.pool;
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.jvmError;
-import static com.prayer.util.cv.Accessors.pool;
+import static com.prayer.util.debug.Log.jvmError;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,10 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.dao.AbstractDbPool;
+import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.model.bus.Metadata;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.Resources;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

@@ -1,7 +1,7 @@
 package com.prayer.plugin.validator;
 
-import static com.prayer.util.Log.jvmError;
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.debug.Log.peError;
 
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;

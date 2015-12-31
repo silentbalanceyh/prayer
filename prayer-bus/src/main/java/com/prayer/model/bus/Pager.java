@@ -2,7 +2,7 @@ package com.prayer.model.bus;
 
 import java.io.Serializable;
 
-import com.prayer.util.cv.Constants;
+import com.prayer.constant.Constants;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.Min;

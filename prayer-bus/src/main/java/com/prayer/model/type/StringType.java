@@ -3,9 +3,9 @@ package com.prayer.model.type;
 import java.lang.reflect.Type;
 
 import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.constant.Constants;
 import com.prayer.exception.system.TypeInitException;
 import com.prayer.facade.kernel.Value;
-import com.prayer.util.cv.Constants;
 
 /**
  * ee

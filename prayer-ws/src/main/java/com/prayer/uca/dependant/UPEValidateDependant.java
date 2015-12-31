@@ -4,18 +4,18 @@ import static com.prayer.util.Converter.fromStr;
 
 import java.text.MessageFormat;
 
-import com.prayer.assistant.Extractor;
-import com.prayer.assistant.Interruptor;
 import com.prayer.base.exception.AbstractWebException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SqlSegment;
+import com.prayer.constant.Symbol;
+import com.prayer.constant.SystemEnum.DependRule;
 import com.prayer.exception.web.DependRuleConflictException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.uca.WebDependant;
 import com.prayer.uca.jdbc.JdbcSwitcher;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SqlSegment;
-import com.prayer.util.cv.Symbol;
-import com.prayer.util.cv.SystemEnum.DependRule;
+import com.prayer.util.web.Extractor;
+import com.prayer.util.web.Interruptor;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;

@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SystemEnum.ParamType;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.ParamType;
 
 import io.vertx.core.http.HttpMethod;
 

@@ -2,11 +2,11 @@ package com.prayer.uca.assistant;
 
 import static com.prayer.util.Instance.instance;
 
-import com.prayer.assistant.Interruptor;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.h2.vertx.RuleModel;
 import com.prayer.uca.WebConvertor;
+import com.prayer.util.web.Interruptor;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;

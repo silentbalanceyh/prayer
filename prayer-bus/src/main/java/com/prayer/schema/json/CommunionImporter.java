@@ -1,8 +1,8 @@
 package com.prayer.schema.json; // NOPMD
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.debug;
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.debug;
+import static com.prayer.util.debug.Log.peError;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -14,6 +14,8 @@ import com.prayer.base.exception.AbstractException;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.log.DebugKey;
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.exception.system.TypeInitException;
@@ -27,9 +29,7 @@ import com.prayer.model.h2.schema.MetaModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.SchemaExpander;
 import com.prayer.schema.CommunionSerializer;
-import com.prayer.util.JsonKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.log.DebugKey;
+import com.prayer.util.io.JsonKit;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.NotBlank;

@@ -1,7 +1,7 @@
 package com.prayer.schema.json; // NOPMD
 
 import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.peError;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.schema.DuplicatedAttrException;
 import com.prayer.exception.schema.DuplicatedColumnException;
 import com.prayer.exception.schema.DuplicatedKeyException;
@@ -28,9 +30,7 @@ import com.prayer.exception.schema.PKMissingException;
 import com.prayer.exception.schema.PKPolicyConflictException;
 import com.prayer.exception.schema.SubtableWrongException;
 import com.prayer.exception.schema.ZeroLengthException;
-import com.prayer.util.JsonKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SystemEnum.MetaPolicy;
+import com.prayer.util.io.JsonKit;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.Min;

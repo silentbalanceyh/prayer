@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 import com.prayer.base.dao.AbstractDbPool;
-import com.prayer.util.cv.MemoryPool;
+import com.prayer.constant.MemoryPool;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;

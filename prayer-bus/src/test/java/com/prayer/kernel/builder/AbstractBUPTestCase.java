@@ -6,11 +6,11 @@ import org.slf4j.Logger;
 
 import com.prayer.AbstractTestCase;
 import com.prayer.bus.impl.std.SchemaSevImpl;
+import com.prayer.constant.Resources;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.SchemaService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.kernel.GenericSchema;
-import com.prayer.util.cv.Resources;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import jodd.util.StringUtil;
 

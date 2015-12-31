@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.prayer.util.JsonKit;
-import com.prayer.util.cv.Constants;
+import com.prayer.constant.Constants;
+import com.prayer.util.io.JsonKit;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;

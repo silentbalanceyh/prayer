@@ -1,7 +1,7 @@
 package com.prayer.schema.db;
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.info;
+import static com.prayer.util.debug.Log.info;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -13,11 +13,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Resources;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.facade.mapper.VerticleMapper;
 import com.prayer.model.h2.vertx.VerticleModel;
-import com.prayer.util.cv.Resources;
 
 /**
  * 

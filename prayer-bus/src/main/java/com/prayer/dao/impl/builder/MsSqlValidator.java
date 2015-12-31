@@ -5,6 +5,8 @@ import static com.prayer.util.Instance.reservoir;
 import java.util.Locale;
 
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.MemoryPool;
+import com.prayer.constant.Resources;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.exception.schema.BFKConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
@@ -13,8 +15,6 @@ import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.schema.DataValidator;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.MemoryPool;
-import com.prayer.util.cv.Resources;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;

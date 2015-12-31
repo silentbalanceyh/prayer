@@ -3,12 +3,12 @@ package com.prayer.console.commands;
 import static com.prayer.util.Instance.singleton;
 
 import com.prayer.bus.impl.console.StatusSevImpl;
+import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.console.StatusService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.util.PropertyKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.Resources;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
+import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.json.JsonObject;
 

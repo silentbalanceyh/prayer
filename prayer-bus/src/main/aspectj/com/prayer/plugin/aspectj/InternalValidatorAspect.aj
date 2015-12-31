@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.plugin.AbstractValidatorAspect;
+import com.prayer.constant.Constants;
 import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;
@@ -18,7 +19,6 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.type.DataType;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
 
 /**
  * 内部验证器，验证几个特殊的Record中字段属性的约束信息

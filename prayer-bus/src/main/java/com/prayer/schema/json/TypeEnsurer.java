@@ -1,7 +1,7 @@
 package com.prayer.schema.json;
 
-import static com.prayer.util.Error.message;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.debug.Error.message;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,9 +15,9 @@ import net.sf.oval.guard.PreValidateThis;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.Constants;
 import com.prayer.model.type.DataType;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
 
 /**
  * 

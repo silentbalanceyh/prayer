@@ -7,10 +7,10 @@ import java.net.URL;
 import org.apache.commons.cli.CommandLine;
 
 import com.prayer.bus.impl.oob.DeploySevImpl;
+import com.prayer.constant.Resources;
 import com.prayer.facade.bus.DeployService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.util.IOKit;
-import com.prayer.util.cv.Resources;
+import com.prayer.util.io.IOKit;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;

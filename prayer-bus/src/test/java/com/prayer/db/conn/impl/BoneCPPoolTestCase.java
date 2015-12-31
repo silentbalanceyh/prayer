@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import com.prayer.AbstractTestCase;
 import com.prayer.base.dao.AbstractDbPool;
+import com.prayer.constant.Resources;
 import com.prayer.dao.impl.jdbc.BoneCPPool;
-import com.prayer.util.cv.Resources;
 
 /**
  * 

@@ -8,13 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.model.type.DataType;
 import com.prayer.plugin.jackson.DataTypeDeserializer;
 import com.prayer.plugin.jackson.DataTypeSerializer;
 import com.prayer.plugin.jackson.JsonObjectDeserializer;
 import com.prayer.plugin.jackson.JsonObjectSerializer;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SystemEnum.ComponentType;
 
 import io.vertx.core.json.JsonObject;
 

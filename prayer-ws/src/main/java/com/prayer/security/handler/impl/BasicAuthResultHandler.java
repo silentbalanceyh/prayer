@@ -1,12 +1,12 @@
 package com.prayer.security.handler.impl;
 
-import com.prayer.assistant.Future;
-import com.prayer.model.JsonKey;
-import com.prayer.model.Requestor;
-import com.prayer.model.StatusCode;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.Requestor;
+import com.prayer.model.web.StatusCode;
 import com.prayer.security.handler.BasicAuthHandler;
 import com.prayer.security.provider.BasicProvider;
 import com.prayer.security.provider.impl.BasicUser;
+import com.prayer.util.web.Future;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

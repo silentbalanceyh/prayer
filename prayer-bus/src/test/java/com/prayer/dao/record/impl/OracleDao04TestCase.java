@@ -12,15 +12,15 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractRDaoTestTool;
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.type.StringType;
-import com.prayer.util.RecordKit;
-import com.prayer.util.cv.SystemEnum.MetaPolicy;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
+import com.prayer.util.bus.RecordKit;
 
 /**
  * 

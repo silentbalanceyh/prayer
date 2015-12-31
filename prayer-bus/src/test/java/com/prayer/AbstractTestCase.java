@@ -7,7 +7,7 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.util.PropertyKit;
+import com.prayer.util.io.PropertyKit;
 
 /**
  * @author Lang

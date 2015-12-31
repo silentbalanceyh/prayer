@@ -1,8 +1,8 @@
 package com.prayer.dao.impl.builder;    // NOPMD
 
 
-import static com.prayer.util.Log.debug;
-import static com.prayer.util.Log.info;
+import static com.prayer.util.debug.Log.debug;
+import static com.prayer.util.debug.Log.info;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -15,6 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.dao.AbstractBuilder;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SqlSegment;
+import com.prayer.constant.SystemEnum.KeyCategory;
+import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.constant.SystemEnum.StatusFlag;
+import com.prayer.constant.log.DebugKey;
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
 import com.prayer.exception.database.UniqueAddException;
@@ -23,13 +30,6 @@ import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SqlSegment;
-import com.prayer.util.cv.SystemEnum.KeyCategory;
-import com.prayer.util.cv.SystemEnum.MetaPolicy;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
-import com.prayer.util.cv.SystemEnum.StatusFlag;
-import com.prayer.util.cv.log.DebugKey;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;

@@ -9,6 +9,8 @@ import java.util.Set;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.bus.impl.std.SchemaSevImpl;
+import com.prayer.constant.Resources;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.dao.RecordDao;
@@ -17,8 +19,6 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.model.kernel.GenericSchema;
-import com.prayer.util.cv.Resources;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import jodd.util.StringUtil;
 

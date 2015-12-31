@@ -9,10 +9,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Resources;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.model.bus.Metadata;
-import com.prayer.util.DatabaseKit;
-import com.prayer.util.cv.Resources;
+import com.prayer.util.dao.DatabaseKit;
 
 import jodd.util.StringPool;
 

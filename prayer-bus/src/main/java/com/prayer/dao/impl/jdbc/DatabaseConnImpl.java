@@ -1,6 +1,6 @@
 package com.prayer.dao.impl.jdbc;
 
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.peError;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -11,14 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.Resources;
 import com.prayer.exception.database.DatabaseInvalidTokenException;
 import com.prayer.exception.database.DatabaseStoppedException;
 import com.prayer.facade.dao.jdbc.DatabaseDirector;
 import com.prayer.model.bus.Metadata;
 import com.prayer.util.Instance;
-import com.prayer.util.PropertyKit;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Resources;
+import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

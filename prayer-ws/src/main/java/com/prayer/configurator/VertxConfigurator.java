@@ -1,12 +1,12 @@
 package com.prayer.configurator;
 
-import static com.prayer.util.Log.error;
+import static com.prayer.util.debug.Log.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.util.PropertyKit;
-import com.prayer.util.cv.Resources;
+import com.prayer.constant.Resources;
+import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.VertxOptions;
 import io.vertx.core.impl.VertxFactoryImpl;

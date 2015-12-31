@@ -1,6 +1,6 @@
 package com.prayer.console;
 
-import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.debug.Log.jvmError;
 
 import java.io.FileNotFoundException;
 

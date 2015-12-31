@@ -1,16 +1,16 @@
 package com.prayer.uca.sender;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.Log.debug;
+import static com.prayer.util.debug.Log.debug;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.Future;
-import com.prayer.model.JsonKey;
-import com.prayer.model.StatusCode;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
-import com.prayer.util.cv.log.DebugKey;
+import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.constant.log.DebugKey;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.StatusCode;
+import com.prayer.util.web.Future;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

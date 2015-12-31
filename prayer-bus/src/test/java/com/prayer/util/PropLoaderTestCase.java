@@ -9,6 +9,7 @@ import java.util.Properties;
 import org.junit.Test;
 
 import com.prayer.AbstractTestCase;
+import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 

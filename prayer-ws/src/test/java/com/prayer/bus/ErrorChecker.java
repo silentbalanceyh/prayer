@@ -4,8 +4,8 @@ import static com.prayer.util.Converter.fromStr;
 
 import java.util.Locale;
 
-import com.prayer.model.StatusCode;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
+import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.json.JsonObject;
 import jodd.util.StringUtil;

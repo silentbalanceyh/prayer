@@ -1,6 +1,6 @@
 package com.prayer.model.kernel; // NOPMD
 
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.peError;
 
 import java.util.List;
 import java.util.Set;
@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.Symbol;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Record;
@@ -20,9 +23,6 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.StringType;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.Symbol;
-import com.prayer.util.cv.SystemEnum.MetaPolicy;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.InstanceOf;

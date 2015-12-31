@@ -5,8 +5,9 @@ import static com.prayer.util.Instance.instance;
 
 import java.text.MessageFormat;
 
-import com.prayer.assistant.Interruptor;
 import com.prayer.base.exception.AbstractWebException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.DependRule;
 import com.prayer.exception.web.DependParameterInvalidException;
 import com.prayer.exception.web.DependParamsMissingException;
 import com.prayer.exception.web.DependQueryInvalidException;
@@ -16,8 +17,7 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.h2.vertx.RuleModel;
 import com.prayer.uca.WebDependant;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SystemEnum.DependRule;
+import com.prayer.util.web.Interruptor;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

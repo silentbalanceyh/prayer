@@ -5,8 +5,8 @@ import java.lang.reflect.Type;
 import jodd.mutable.MutableLong;
 import jodd.typeconverter.Convert;
 
+import com.prayer.constant.Constants;
 import com.prayer.facade.kernel.Value;
-import com.prayer.util.cv.Constants;
 
 /**
  * 类型：长整类型

@@ -6,8 +6,8 @@ import jodd.mutable.MutableBoolean;
 import jodd.typeconverter.Convert;
 import jodd.util.StringUtil;
 
+import com.prayer.constant.Constants;
 import com.prayer.facade.kernel.Value;
-import com.prayer.util.cv.Constants;
 
 /**
  * 类型：布尔类型

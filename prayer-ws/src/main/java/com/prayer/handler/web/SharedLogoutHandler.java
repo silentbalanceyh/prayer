@@ -1,12 +1,12 @@
 package com.prayer.handler.web;
 
-import static com.prayer.util.Log.debug;
+import static com.prayer.util.debug.Log.debug;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.WebResources;
-import com.prayer.util.cv.log.DebugKey;
+import com.prayer.constant.log.DebugKey;
+import com.prayer.constant.web.WebConfig;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
@@ -44,7 +44,7 @@ public class SharedLogoutHandler implements Handler<RoutingContext> {
     public void handle(@NotNull final RoutingContext context) {
         debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
         context.clearUser();
-        context.response().putHeader("location", WebResources.WEB_ACT_LOGIN_PAGE).setStatusCode(302).end();
+        context.response().putHeader("location", WebConfig.WEB_ACT_LOGIN_PAGE).setStatusCode(302).end();
     }
     
     // ~ Methods =============================================

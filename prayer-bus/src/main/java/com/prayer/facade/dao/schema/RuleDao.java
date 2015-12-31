@@ -2,8 +2,8 @@ package com.prayer.facade.dao.schema;
 
 import java.util.List;
 
+import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.model.h2.vertx.RuleModel;
-import com.prayer.util.cv.SystemEnum.ComponentType;
 
 /**
  * 

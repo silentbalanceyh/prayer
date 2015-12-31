@@ -1,8 +1,8 @@
 package com.prayer.handler.route;
 
-import com.prayer.assistant.Future;
-import com.prayer.model.Responsor;
-import com.prayer.util.cv.Constants;
+import com.prayer.constant.Constants;
+import com.prayer.model.web.Responsor;
+import com.prayer.util.web.Future;
 
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;

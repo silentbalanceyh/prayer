@@ -1,7 +1,7 @@
 package com.prayer.schema.json;
 
-import static com.prayer.util.Error.message;
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.debug.Error.message;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;

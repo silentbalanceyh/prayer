@@ -4,8 +4,8 @@ import static com.prayer.util.Instance.singleton;
 
 import org.apache.commons.cli.CommandLine;
 
-import com.prayer.util.PropertyKit;
-import com.prayer.util.cv.Resources;
+import com.prayer.constant.Resources;
+import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.json.JsonObject;
 

@@ -4,9 +4,9 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.prayer.util.PropertyKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.Resources;
+import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
+import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.InstanceOfAny;

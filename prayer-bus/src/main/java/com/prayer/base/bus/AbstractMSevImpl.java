@@ -1,19 +1,19 @@
 package com.prayer.base.bus;
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.peError;
 
 import org.slf4j.Logger;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractException;
+import com.prayer.constant.Constants;
 import com.prayer.dao.impl.jdbc.DatabaseConnImpl;
 import com.prayer.facade.dao.jdbc.DatabaseDirector;
 import com.prayer.model.bus.Metadata;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.bus.Interruptor;
 import com.prayer.util.bus.ConsoleExtractor;
-import com.prayer.util.cv.Constants;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOfAny;

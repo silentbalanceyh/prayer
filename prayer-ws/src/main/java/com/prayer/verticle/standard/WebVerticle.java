@@ -2,13 +2,13 @@ package com.prayer.verticle.standard;
 
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.assistant.RouterInjector;
-import com.prayer.assistant.WebResources;
 import com.prayer.configurator.ServerConfigurator;
+import com.prayer.constant.Constants;
+import com.prayer.constant.web.WebConfig;
 import com.prayer.handler.web.SharedLoginHandler;
 import com.prayer.handler.web.SharedLogoutHandler;
 import com.prayer.handler.web.UserLoggedHandler;
-import com.prayer.util.cv.Constants;
+import com.prayer.util.web.RouterInjector;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
@@ -55,7 +55,7 @@ public class WebVerticle extends AbstractVerticle {
         final Router router = Router.router(vertx);
         // 3.首页跳转
         router.route("/").order(Constants.ORDER.NOT_SET).handler(context -> {
-            context.response().putHeader("location", WebResources.WEB_ACT_LOGIN_PAGE).setStatusCode(302).end();
+            context.response().putHeader("location", WebConfig.WEB_ACT_LOGIN_PAGE).setStatusCode(302).end();
         });
         RouterInjector.injectWebDefault(router);
 
@@ -75,12 +75,12 @@ public class WebVerticle extends AbstractVerticle {
     // ~ Private Methods =====================================
 
     private void injectLogged(final Router router) {
-        router.route(WebResources.WEB_DYC_ROUTE_ADMIN).order(Constants.ORDER.WEB.SHARED)
+        router.route(WebConfig.WEB_DYC_ROUTE_ADMIN).order(Constants.ORDER.WEB.SHARED)
                 .handler(SharedLoginHandler.create());
-        router.route(WebResources.WEB_ACT_LOGOUT).order(Constants.ORDER.WEB.LOGOUT)
+        router.route(WebConfig.WEB_ACT_LOGOUT).order(Constants.ORDER.WEB.LOGOUT)
                 .handler(SharedLogoutHandler.create());
         // router.route(Constants.WEB.DYNAMIC_OPTIONS).order(Constants.ORDER.OD_OPTIONS).handler(OptionsHandler.create());
-        router.route(WebResources.WEB_DYC_ROUTE_ADMIN).order(Constants.ORDER.WEB.OD_PROFILE)
+        router.route(WebConfig.WEB_DYC_ROUTE_ADMIN).order(Constants.ORDER.WEB.OD_PROFILE)
                 .handler(UserLoggedHandler.create());
     }
     // ~ Get/Set =============================================

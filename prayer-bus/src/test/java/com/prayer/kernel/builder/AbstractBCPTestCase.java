@@ -3,7 +3,7 @@ package com.prayer.kernel.builder;    // NOPMD
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.info;
+import static com.prayer.util.debug.Log.info;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -16,12 +16,13 @@ import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
+import com.prayer.constant.Resources;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.exception.system.SerializationException;
+import com.prayer.facade.dao.Builder;
 import com.prayer.facade.dao.RecordDao;
-import com.prayer.facade.dao.builder.Builder;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.kernel.Record;
@@ -29,7 +30,6 @@ import com.prayer.facade.schema.Importer;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.schema.json.CommunionImporter;
-import com.prayer.util.cv.Resources;
 
 import jodd.util.StringUtil;
 

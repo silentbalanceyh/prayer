@@ -1,6 +1,6 @@
 package com.prayer.model.bus;
 
-import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.debug.Log.jvmError;
 
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.util.DatabaseKit;
-import com.prayer.util.cv.Constants;
+import com.prayer.constant.Constants;
+import com.prayer.util.dao.DatabaseKit;
 
 /**
  * 数据库元数据

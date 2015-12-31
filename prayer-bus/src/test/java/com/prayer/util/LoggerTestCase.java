@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.util.debug.Log;
+
 /**
  * 
  * @author Lang

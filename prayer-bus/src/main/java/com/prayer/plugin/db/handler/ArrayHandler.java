@@ -10,7 +10,7 @@ import java.util.List;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import com.prayer.util.JsonKit;
+import com.prayer.util.io.JsonKit;
 
 /**
  * 

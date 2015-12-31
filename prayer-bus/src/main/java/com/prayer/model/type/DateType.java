@@ -5,8 +5,8 @@ import java.util.Date;
 
 import jodd.typeconverter.Convert;
 
+import com.prayer.constant.Constants;
 import com.prayer.facade.kernel.Value;
-import com.prayer.util.cv.Constants;
 
 /**
  * 类型：时间/日期类型

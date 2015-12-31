@@ -1,7 +1,7 @@
 package com.prayer.util;
 
-import static com.prayer.util.Log.jvmError;
-import static com.prayer.util.Log.ovalError;
+import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.debug.Log.ovalError;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.reflectasm.ConstructorAccess;
-import com.prayer.util.cv.MemoryPool;
+import com.prayer.constant.MemoryPool;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

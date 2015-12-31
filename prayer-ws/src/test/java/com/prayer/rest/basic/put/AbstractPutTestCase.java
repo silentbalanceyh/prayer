@@ -1,6 +1,6 @@
 package com.prayer.rest.basic.put;
 
-import static com.prayer.util.Log.info;
+import static com.prayer.util.debug.Log.info;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.prayer.bus.AbstractRBTestCase;
 import com.prayer.bus.ErrorChecker;
-import com.prayer.model.StatusCode;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;

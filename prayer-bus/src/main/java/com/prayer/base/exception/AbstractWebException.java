@@ -1,6 +1,6 @@
 package com.prayer.base.exception;
 
-import static com.prayer.util.Error.error;
+import static com.prayer.util.debug.Error.error;
 
 /**
  * 

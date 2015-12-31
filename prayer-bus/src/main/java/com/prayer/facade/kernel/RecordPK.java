@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.model.h2.schema.FieldModel;
-import com.prayer.util.cv.SystemEnum.MetaPolicy;
 /**
  * 
  * @author Lang

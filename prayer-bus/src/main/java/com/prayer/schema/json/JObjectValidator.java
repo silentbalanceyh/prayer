@@ -1,10 +1,10 @@
 package com.prayer.schema.json; // NOPMD
 
+import static com.prayer.constant.Accessors.validator;
 import static com.prayer.util.Converter.toStr;
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.reservoir;
-import static com.prayer.util.Log.peError;
-import static com.prayer.util.cv.Accessors.validator;
+import static com.prayer.util.debug.Log.peError;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -18,6 +18,9 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.MemoryPool;
+import com.prayer.constant.Resources;
 import com.prayer.exception.schema.DuplicatedTablesException;
 import com.prayer.exception.schema.InvalidValueException;
 import com.prayer.exception.schema.JsonTypeConfusedException;
@@ -26,11 +29,8 @@ import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.exception.schema.UnsupportAttrException;
 import com.prayer.facade.schema.DataValidator;
-import com.prayer.util.JsonKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.MemoryPool;
-import com.prayer.util.cv.Resources;
 import com.prayer.util.dao.SqlDdlStatement;
+import com.prayer.util.io.JsonKit;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.AssertFieldConstraints;

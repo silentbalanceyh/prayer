@@ -6,7 +6,7 @@ import java.text.MessageFormat;
 
 import org.slf4j.Logger;
 
-import com.prayer.util.PropertyKit;
+import com.prayer.util.io.PropertyKit;
 
 /**
  * Prayer测试框架基类，用于测试系统的基础

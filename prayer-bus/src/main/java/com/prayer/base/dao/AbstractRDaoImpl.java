@@ -13,6 +13,9 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.MemoryPool;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.dao.jdbc.JdbcContext;
@@ -22,11 +25,8 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.kernel.GenericRecord;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.MemoryPool;
-import com.prayer.util.cv.SystemEnum.MetaPolicy;
 import com.prayer.util.dao.SqlDmlStatement;
-import com.prayer.util.dao.SqlHelper;
+import com.prayer.util.dao.QueryHelper;
 import com.prayer.util.dao.Interrupter.PrimaryKey;
 
 import net.sf.oval.constraint.InstanceOf;
@@ -86,10 +86,10 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         final Set<String> pkCols = new TreeSet<>(record.idKV().keySet());
 
         // 3.准备Update语句的Where部分
-        final Expression whereExpr = SqlHelper.getAndExpr(pkCols);
+        final Expression whereExpr = QueryHelper.getAndExpr(pkCols);
         // 4.移除主键本身的更新
         final Collection<String> columns = diff(record.columns(), pkCols);
-        final List<Value<?>> updatedValues = SqlHelper.prepParam(record, pkCols.toArray(Constants.T_STR_ARR));
+        final List<Value<?>> updatedValues = QueryHelper.prepParam(record, pkCols.toArray(Constants.T_STR_ARR));
         // 5.SQL语句
         final String sql = SqlDmlStatement.prepUpdateSQL(record.table(), columns, whereExpr);
         // 6.最终参数表，先添加基本参数，再添加主键
@@ -125,8 +125,8 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
              */
             final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
             // 父类方法，过滤掉主键传参
-            final String sql = SqlHelper.prepInsertSQL(record, getPKFilters(record).toArray(Constants.T_STR_ARR));
-            final List<Value<?>> params = SqlHelper.prepParam(record,
+            final String sql = QueryHelper.prepInsertSQL(record, getPKFilters(record).toArray(Constants.T_STR_ARR));
+            final List<Value<?>> params = QueryHelper.prepParam(record,
                     getPKFilters(record).toArray(Constants.T_STR_ARR));
 
             final Value<?> ret = jdbc.insert(sql, params, true, pkSchema.getType());
@@ -140,8 +140,8 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
             }
 
             // 父类方法，不过滤任何传参流程
-            final String sql = SqlHelper.prepInsertSQL(record, Constants.T_STR_ARR);
-            final List<Value<?>> params = SqlHelper.prepParam(record, Constants.T_STR_ARR);
+            final String sql = QueryHelper.prepInsertSQL(record, Constants.T_STR_ARR);
+            final List<Value<?>> params = QueryHelper.prepParam(record, Constants.T_STR_ARR);
 
             jdbc.insert(sql, params, false, null);
         }
@@ -167,7 +167,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
             paramValues.add(record.column(column));
         }
         return sharedSelect(record, record.columns().toArray(Constants.T_STR_ARR), paramValues,
-                SqlHelper.getAndExpr(paramCols));
+                QueryHelper.getAndExpr(paramCols));
     }
 
     /**
@@ -209,7 +209,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters, orders);
         // 3.根据参数表生成查询结果集
         final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
-        return SqlHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), cols));
+        return QueryHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), cols));
     }
 
     /**
@@ -226,7 +226,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         final JdbcContext jdbc = this.getContext(record.identifier());
         // 2.生成Expression
         final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
-        final Expression whereExpr = SqlHelper.getAndExpr(paramCols);
+        final Expression whereExpr = QueryHelper.getAndExpr(paramCols);
         // 3.生成SQL语句
         final String sql = SqlDmlStatement.prepDeleteSQL(record.table(), whereExpr);
         // 4.生成参数表

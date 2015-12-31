@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.dao.AbstractConn;
-import com.prayer.util.PropertyKit;
-import com.prayer.util.cv.Resources;
+import com.prayer.constant.Resources;
+import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.guard.Guarded;
 

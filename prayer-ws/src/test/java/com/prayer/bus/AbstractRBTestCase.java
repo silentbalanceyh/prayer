@@ -2,7 +2,7 @@ package com.prayer.bus;
 
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.info;
+import static com.prayer.util.debug.Log.info;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -10,8 +10,8 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
-import com.prayer.model.StatusCode;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
+import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;

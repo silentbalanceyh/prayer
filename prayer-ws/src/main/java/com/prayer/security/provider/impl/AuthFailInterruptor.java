@@ -1,15 +1,15 @@
 package com.prayer.security.provider.impl;
 
-import static com.prayer.util.Log.error;
+import static com.prayer.util.debug.Log.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.model.JsonKey;
-import com.prayer.model.StatusCode;
+import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.StatusCode;
 import com.prayer.security.provider.BasicProvider;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.Resources;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
@@ -13,8 +14,7 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
 import com.prayer.model.kernel.MetaRecord;
-import com.prayer.util.PropertyKit;
-import com.prayer.util.cv.Resources;
+import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;

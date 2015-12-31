@@ -11,17 +11,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.MemoryPool;
+import com.prayer.constant.SystemEnum.KeyCategory;
+import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
-import com.prayer.facade.dao.builder.Builder;
+import com.prayer.facade.dao.Builder;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.MemoryPool;
-import com.prayer.util.cv.SystemEnum.KeyCategory;
-import com.prayer.util.cv.SystemEnum.StatusFlag;
 import com.prayer.util.dao.SqlDdlStatement;
 
 import net.sf.oval.constraint.AssertFieldConstraints;

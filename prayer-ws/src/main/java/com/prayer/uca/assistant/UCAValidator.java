@@ -1,15 +1,13 @@
 package com.prayer.uca.assistant;
 
 import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.peError;
 
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.Interruptor;
-import com.prayer.assistant.Validator;
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.exception.web.SpecialDataTypeException;
@@ -21,6 +19,8 @@ import com.prayer.model.type.JsonType;
 import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.XmlType;
 import com.prayer.uca.WebValidator;
+import com.prayer.util.web.Interruptor;
+import com.prayer.util.web.Validator;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.MinSize;

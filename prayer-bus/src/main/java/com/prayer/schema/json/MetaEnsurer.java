@@ -7,10 +7,10 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.util.cv.Resources;
-import com.prayer.util.cv.SystemEnum.MetaCategory;
-import com.prayer.util.cv.SystemEnum.MetaMapping;
-import com.prayer.util.cv.SystemEnum.MetaPolicy;
+import com.prayer.constant.Resources;
+import com.prayer.constant.SystemEnum.MetaCategory;
+import com.prayer.constant.SystemEnum.MetaMapping;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;

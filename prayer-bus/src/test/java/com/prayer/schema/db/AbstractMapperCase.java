@@ -2,7 +2,7 @@ package com.prayer.schema.db;
 
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.Instance.field;
-import static com.prayer.util.Log.info;
+import static com.prayer.util.debug.Log.info;
 import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;
@@ -16,9 +16,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import com.prayer.constant.Constants;
 import com.prayer.facade.mapper.H2TMapper;
 import com.prayer.facade.mapper.SessionManager;
-import com.prayer.util.cv.Constants;
 
 /**
  * 

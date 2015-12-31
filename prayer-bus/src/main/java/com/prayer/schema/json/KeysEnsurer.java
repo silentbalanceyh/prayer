@@ -1,9 +1,9 @@
 package com.prayer.schema.json;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.Error.message;
 import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Error.message;
+import static com.prayer.util.debug.Log.peError;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,11 +15,11 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.exception.schema.KeysNameSpecificationException;
 import com.prayer.exception.schema.MultiForFKPolicyException;
 import com.prayer.exception.schema.PatternNotMatchException;
-import com.prayer.util.JsonKit;
-import com.prayer.util.cv.SystemEnum.KeyCategory;
+import com.prayer.util.io.JsonKit;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

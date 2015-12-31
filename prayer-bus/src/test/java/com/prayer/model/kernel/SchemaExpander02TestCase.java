@@ -16,11 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractRDaoTestTool;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 /**
  * 

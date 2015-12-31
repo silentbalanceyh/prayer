@@ -1,11 +1,11 @@
 package com.prayer.handler.standard;
 
-import static com.prayer.util.Log.debug;
+import static com.prayer.util.debug.Log.debug;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.util.cv.log.DebugKey;
+import com.prayer.constant.log.DebugKey;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;

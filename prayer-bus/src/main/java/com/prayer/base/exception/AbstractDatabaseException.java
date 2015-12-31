@@ -1,6 +1,6 @@
 package com.prayer.base.exception;
 
-import static com.prayer.util.Error.error;
+import static com.prayer.util.debug.Error.error;
 
 /**
  * Builder处理元数据过程的抽象异常类，在生成数据库信息时候出现异常

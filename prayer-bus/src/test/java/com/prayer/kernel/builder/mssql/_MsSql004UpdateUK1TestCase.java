@@ -9,10 +9,10 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.kernel.builder.AbstractBUPTestCase;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.kernel.GenericSchema;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 /**
  * 

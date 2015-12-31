@@ -6,11 +6,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.dao.schema.RuleDao;
 import com.prayer.facade.mapper.RuleMapper;
 import com.prayer.facade.mapper.SessionManager;
 import com.prayer.model.h2.vertx.RuleModel;
-import com.prayer.util.cv.SystemEnum.ComponentType;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;

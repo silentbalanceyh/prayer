@@ -7,10 +7,10 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.SystemEnum.KeyCategory;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;

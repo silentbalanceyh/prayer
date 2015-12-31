@@ -1,11 +1,11 @@
 package com.prayer.uca.validator;
 
-import com.prayer.assistant.Extractor;
-import com.prayer.assistant.Interruptor;
-import com.prayer.assistant.Validator;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.uca.WebValidator;
+import com.prayer.util.web.Extractor;
+import com.prayer.util.web.Interruptor;
+import com.prayer.util.web.Validator;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;

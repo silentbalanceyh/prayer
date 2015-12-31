@@ -12,7 +12,7 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.dao.impl.schema.RouteDaoImpl;
 import com.prayer.facade.bus.deploy.RouteDPService;
 import com.prayer.model.h2.vertx.RouteModel;
-import com.prayer.util.JsonKit;
+import com.prayer.util.io.JsonKit;
 
 import io.vertx.core.http.HttpMethod;
 import net.sf.oval.constraint.NotBlank;

@@ -1,8 +1,8 @@
 package com.prayer.schema.json;
 
-import static com.prayer.util.Error.message;
 import static com.prayer.util.Instance.instance;
-import static com.prayer.util.JsonKit.findNodes;
+import static com.prayer.util.debug.Error.message;
+import static com.prayer.util.io.JsonKit.findNodes;
 
 import java.util.Iterator;
 import java.util.List;

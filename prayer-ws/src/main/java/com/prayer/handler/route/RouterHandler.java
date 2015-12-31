@@ -1,8 +1,8 @@
 package com.prayer.handler.route; // NOPMD
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.info;
 import static com.prayer.util.StringKit.decodeURL;
+import static com.prayer.util.debug.Log.info;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -11,17 +11,17 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.assistant.Dispatcher;
-import com.prayer.assistant.Extractor;
 import com.prayer.bus.impl.oob.ConfigSevImpl;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.facade.bus.ConfigService;
-import com.prayer.model.JsonKey;
-import com.prayer.model.Requestor;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.web.JsonKey;
+import com.prayer.model.web.Requestor;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SystemEnum.ParamType;
+import com.prayer.util.web.Dispatcher;
+import com.prayer.util.web.Extractor;
 
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;

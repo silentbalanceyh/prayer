@@ -1,7 +1,7 @@
 package com.prayer.bus;
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.info;
+import static com.prayer.util.debug.Log.info;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.impl.oob.DataSevImpl;
 import com.prayer.bus.impl.oob.DeploySevImpl;
+import com.prayer.constant.Resources;
+import com.prayer.constant.log.InfoKey;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.bus.DataService;
 import com.prayer.facade.bus.DeployService;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.util.cv.Resources;
-import com.prayer.util.cv.log.InfoKey;
 
 /**
  * 

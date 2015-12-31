@@ -1,7 +1,7 @@
 package com.prayer.schema;
 
-import static com.prayer.util.Log.jvmError;
-import static com.prayer.util.Log.peError;
+import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.debug.Log.peError;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,12 +15,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.prayer.constant.Constants;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.schema.Serializer;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
 import com.prayer.model.h2.schema.MetaModel;
-import com.prayer.util.cv.Constants;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

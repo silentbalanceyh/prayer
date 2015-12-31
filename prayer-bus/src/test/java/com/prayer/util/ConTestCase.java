@@ -6,8 +6,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.util.cv.Accessors;
-import com.prayer.util.cv.Resources;
+import com.prayer.constant.Accessors;
+import com.prayer.constant.Resources;
+import com.prayer.util.io.IOKit;
+import com.prayer.util.io.JsonKit;
 
 /**
  * 构造函数的生成

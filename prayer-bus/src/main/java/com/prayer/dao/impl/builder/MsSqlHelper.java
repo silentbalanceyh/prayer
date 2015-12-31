@@ -2,8 +2,8 @@ package com.prayer.dao.impl.builder;
 
 import java.text.MessageFormat;
 
-import com.prayer.util.PropertyKit;
-import com.prayer.util.cv.Resources;
+import com.prayer.constant.Resources;
+import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

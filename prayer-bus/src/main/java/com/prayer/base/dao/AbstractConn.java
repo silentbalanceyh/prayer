@@ -1,7 +1,7 @@
 package com.prayer.base.dao;
 
+import static com.prayer.constant.Accessors.pool;
 import static com.prayer.util.Instance.reservoir;
-import static com.prayer.util.cv.Accessors.pool;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -9,14 +9,14 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.prayer.constant.Constants;
+import com.prayer.constant.MemoryPool;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
-import com.prayer.util.SqlKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.MemoryPool;
-import com.prayer.util.db.Input;
-import com.prayer.util.db.Output;
+import com.prayer.util.dao.Input;
+import com.prayer.util.dao.Output;
+import com.prayer.util.dao.SqlKit;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinSize;

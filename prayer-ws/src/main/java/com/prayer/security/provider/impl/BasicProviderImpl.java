@@ -1,20 +1,20 @@
 package com.prayer.security.provider.impl;
 
 import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.Log.jvmError;
+import static com.prayer.util.debug.Log.jvmError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.impl.std.BasicAuthSevImpl;
 import com.prayer.configurator.SecurityConfigurator;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.BasicAuthService;
-import com.prayer.model.JsonKey;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.web.JsonKey;
 import com.prayer.security.AuthConstants.BASIC;
 import com.prayer.security.provider.BasicProvider;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SystemEnum.ResponseCode;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;

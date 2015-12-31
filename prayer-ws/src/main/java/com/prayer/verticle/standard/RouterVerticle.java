@@ -3,13 +3,14 @@ package com.prayer.verticle.standard; // NOPMD
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
 
-import com.prayer.assistant.RouterInjector;
 import com.prayer.configurator.RouteConfigurator;
 import com.prayer.configurator.ServerConfigurator;
+import com.prayer.constant.Constants;
+import com.prayer.constant.web.WebConfig;
 import com.prayer.handler.route.FailureHandler;
 import com.prayer.handler.route.RouterHandler;
 import com.prayer.handler.route.ServiceHandler;
-import com.prayer.util.cv.Constants;
+import com.prayer.util.web.RouterInjector;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
@@ -79,10 +80,10 @@ public class RouterVerticle extends AbstractVerticle {
     // ~ Private Methods =====================================
 
     private void injectStandard(final Router router) {
-        router.route(Constants.ROUTE.API).order(Constants.ORDER.ENG.ROUTER).handler(RouterHandler.create());
-        router.route(Constants.ROUTE.API).order(Constants.ORDER.ENG.SERVICE).handler(ServiceHandler.create());
+        router.route(WebConfig.WEB_API).order(Constants.ORDER.ENG.ROUTER).handler(RouterHandler.create());
+        router.route(WebConfig.WEB_API).order(Constants.ORDER.ENG.SERVICE).handler(ServiceHandler.create());
         // 7.Failure处理器设置
-        router.route(Constants.ROUTE.API).order(Constants.ORDER.FAILURE).failureHandler(FailureHandler.create());
+        router.route(WebConfig.WEB_API).order(Constants.ORDER.FAILURE).failureHandler(FailureHandler.create());
     }
 
     // ~ Get/Set =============================================

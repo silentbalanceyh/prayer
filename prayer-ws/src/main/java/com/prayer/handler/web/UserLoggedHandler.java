@@ -1,13 +1,13 @@
 package com.prayer.handler.web;
 
-import static com.prayer.util.Log.debug;
-import static com.prayer.util.Log.info;
+import static com.prayer.util.debug.Log.debug;
+import static com.prayer.util.debug.Log.info;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.log.DebugKey;
+import com.prayer.constant.Constants;
+import com.prayer.constant.log.DebugKey;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.auth.User;

@@ -1,17 +1,17 @@
 package com.prayer.schema.json;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.JsonKit.fromJObject;
-import static com.prayer.util.JsonKit.occursAttr;
+import static com.prayer.util.io.JsonKit.fromJObject;
+import static com.prayer.util.io.JsonKit.occursAttr;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.MetaMapping;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.schema.ExternalEnsurer;
 import com.prayer.util.StringKit;
-import com.prayer.util.cv.Constants;
-import com.prayer.util.cv.SystemEnum.MetaMapping;
-import com.prayer.util.cv.SystemEnum.MetaPolicy;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
