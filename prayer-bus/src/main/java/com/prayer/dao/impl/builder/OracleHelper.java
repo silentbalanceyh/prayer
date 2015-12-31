@@ -34,9 +34,11 @@ public final class OracleHelper {
 	private final static String SQL_TB_CONSTRAINT = "SELECT DISTINCT T.CONSTRAINT_NAME,C.CONSTRAINT_TYPE FROM USER_CONSTRAINTS C,USER_CONS_COLUMNS T WHERE T.CONSTRAINT_NAME=C.CONSTRAINT_NAME AND T.OWNER=''{0}'' AND T.TABLE_NAME=''{1}'' ORDER BY T.CONSTRAINT_NAME";
 	/** **/
     private final static String SQL_TB_COL_EXIST = "SELECT COUNT(*) FROM ALL_TAB_COLUMNS WHERE OWNER=''{0}'' AND TABLE_NAME=''{1}'' AND COLUMN_NAME=''{2}''";
-    /** **/
-    private final static String SQL_TBFK_CONSTRAINT = "SELECT COUNT(*) FROM (USER_CONS_COLUMNS CC JOIN USER_CONSTRAINTS TC ON CC.CONSTRAINT_NAME = TC.CONSTRAINT_NAME) WHERE CC.OWNER=''{0}'' AND CC.TABLE_NAME=''{1}'' AND (TC.CONSTRAINT_TYPE =''P'' OR TC.CONSTRAINT_TYPE=''U'') AND CC.COLUMN_NAME=''{2}''";
-	/** 列空值检测 **/
+    /** 检查对应列的约束是否匹配，必须UniqueKey或PrimaryKey **/
+    private final static String SQL_TBK_DST_CONS = "SELECT COUNT(*) FROM (USER_CONS_COLUMNS CC JOIN USER_CONSTRAINTS TC ON CC.CONSTRAINT_NAME = TC.CONSTRAINT_NAME) WHERE CC.OWNER=''{0}'' AND CC.TABLE_NAME=''{1}'' AND (TC.CONSTRAINT_TYPE =''P'' OR TC.CONSTRAINT_TYPE=''U'') AND CC.COLUMN_NAME=''{2}''";
+    /** 检查对应列的类型是否匹配 **/
+    private final static String SQL_TBK_DST_TYPE = "SELECT COUNT(*) FROM ALL_TAB_COLUMNS WHERE OWNER=''{0}'' AND TABLE_NAME=''{1}'' AND COLUMN_NAME=''{2}'' AND DATA_TYPE=''{3}''";
+    /** 列空值检测 **/
 	private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
 	/** **/
     private final static String SQL_TB_UNIQUE = "SELECT COUNT(DISTINCT {1}) FROM {0} WHERE {1} IN (SELECT {1} FROM {0} GROUP BY {1} HAVING COUNT({1}) > 1)";
@@ -52,6 +54,19 @@ public final class OracleHelper {
 	// ~ Instance Fields =====================================
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
+    /**
+     * 统计系统中的列类型是否匹配
+     * @param tableName
+     * @param column
+     * @param type
+     * @return
+     */
+    @NotNull
+    public static String getSqlColumnType(@NotNull @NotBlank @NotEmpty final String tableName,
+            @NotNull @NotBlank @NotEmpty final String column, @NotNull @NotBlank @NotEmpty final String type) {
+        final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+        return MessageFormat.format(SQL_TBK_DST_TYPE, database, tableName, column, type);
+    }
 	/**
 	 * 统计系统中的表的SQL
 	 * 
@@ -89,7 +104,7 @@ public final class OracleHelper {
     public static String getSqlUKPKConstraint(@NotNull @NotBlank @NotEmpty final String tableName,
             @NotNull @NotBlank @NotEmpty final String column) {
         final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
-        return MessageFormat.format(SQL_TBFK_CONSTRAINT, database, tableName, column);
+        return MessageFormat.format(SQL_TBK_DST_CONS, database, tableName, column);
     }
 	
 	/**
