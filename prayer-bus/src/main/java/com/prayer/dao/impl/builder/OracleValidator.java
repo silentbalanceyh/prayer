@@ -2,13 +2,17 @@ package com.prayer.dao.impl.builder;
 
 import static com.prayer.util.Instance.reservoir;
 
+import java.util.Locale;
+
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
 import com.prayer.exception.schema.BFKConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
+import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.schema.DataValidator;
+import com.prayer.util.StringKit;
 import com.prayer.util.cv.MemoryPool;
 import com.prayer.util.cv.Resources;
 
@@ -96,8 +100,23 @@ public final class OracleValidator implements DataValidator {
     @Override
     public AbstractSchemaException verifyColumnType(@NotNull @NotEmpty @NotBlank final String table,
             @NotNull @NotEmpty @NotBlank final String column,@NotNull @NotEmpty @NotBlank final String expectedType){
-        // TODO：验证类型问题
-        return null;
+        // 处理参数
+        String type = "";
+        if (0 < expectedType.indexOf('(')) {
+            type = expectedType.split("(")[0];
+            if (StringKit.isNonNil(type)) {
+                type = type.toLowerCase(Locale.getDefault());
+            }
+        }else{
+            type = expectedType;
+        }
+        final String sql = OracleHelper.getSqlColumnType(table, column, type);
+        final Long counter = this.context.count(sql);
+        AbstractSchemaException error = null;
+        if (counter <= 0) {
+            error = new BTColumnTypeInvalidException(getClass(), table, column, type);
+        }
+        return error;
     }
 
     // ~ Abstract Methods ====================================
