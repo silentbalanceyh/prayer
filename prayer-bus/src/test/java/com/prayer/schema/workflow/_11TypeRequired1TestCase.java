@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
-import com.prayer.exception.schema.BFKConstraintInvalidException;
+import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
@@ -100,7 +100,7 @@ public class _11TypeRequired1TestCase extends AbstractSchemaTestCase { // NOPMD
      * 
      * @throws AbstractSchemaException
      */
-    @Test(expected = BFKConstraintInvalidException.class)
+    @Test(expected = BKeyConstraintInvalidException.class)
     public void testP23FKey1Target10029() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027

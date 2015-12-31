@@ -12,8 +12,14 @@ import java.util.concurrent.ConcurrentMap;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.Constants;
+import com.prayer.exception.schema.JKeyConstraintInvalidException;
+import com.prayer.exception.schema.JTColumnNotExistingException;
+import com.prayer.exception.schema.JTColumnTypeInvalidException;
 import com.prayer.model.type.DataType;
+import com.prayer.util.io.JsonKit;
 
+import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -44,6 +50,9 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
     private transient final ArrayNode fieldsNode;
     /** **/
     @NotNull
+    private transient final JsonNode metaNode;
+    /** **/
+    @NotNull
     private transient final JArrayValidator validator;
     // ~ Static Block ========================================
 
@@ -63,7 +72,8 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
      * @param fieldsNode
      */
     @PostValidateThis
-    public ForeignKeyEnsurer(@NotNull final ArrayNode fieldsNode) {
+    public ForeignKeyEnsurer(@NotNull final JsonNode metaNode, @NotNull final ArrayNode fieldsNode) {
+        this.metaNode = metaNode;
         this.fieldsNode = fieldsNode;
         this.error = null; // NOPMD
         this.validator = new JArrayValidator(this.fieldsNode, Attributes.R_FIELDS);
@@ -131,32 +141,115 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
             final JsonNode node = fkNIt.next();
             final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
                     message("D10000.FKIDX", idx, node.path(Attributes.F_NAME).asText()));
-            // 21.3.1.验证外键表是否存在
-            this.error = validator.verifyTableExisting(Attributes.F_REF_TABLE);
-            if (null != this.error) {
-                break;
-            }
-            // 21.3.2.验证外键表对应字段是否存在
-            this.error = validator.verifyColumnExisting(Attributes.F_REF_TABLE, Attributes.F_REF_ID);
-            if (null != this.error) {
-                break;
-            }
-            // 21.3.3.验证外键对应字段的约束是否OK
-            this.error = validator.verifyInvalidConstraints(Attributes.F_REF_TABLE, Attributes.F_REF_ID);
-            if (null != this.error) {
-                break;
-            }
-            // 21.3.4.验证外键对应的字段的类型是否OK
-            this.error = validator.verifyInvalidType(Attributes.F_REF_TABLE, Attributes.F_REF_ID,
-                    Attributes.F_COL_TYPE);
-            if (null != this.error) {
-                break;
+            /**
+             * 如果外键关联的时候关联表和本表一致，那么这种情况不需要检查真实数据库中外键表是否存在
+             */
+            if (this.skipFKey(node)) {
+                // TODO: 外键表关联本表的时候并没检查字段
+                if (checkFKFromJson(node)) {
+                    break;
+                } else {
+                    continue;
+                }
+            } else {
+                if (this.checkFKFromDB(validator)) {
+                    break;
+                }
             }
         }
         if (null != this.error) {
             return false;
         }
         return null == this.error;
+    }
+
+    /**
+     * 从非数据库层面检查外键规范
+     * 
+     * @param validator
+     * @return
+     */
+    private boolean checkFKFromJson(final JsonNode node) {
+        // 21.3.2.1.验证外键表是否存在，因为已经是引用本表，所以不需要考虑这种情况
+        final String colName = node.path(Attributes.F_REF_ID).asText();
+        final String table = node.path(Attributes.F_REF_TABLE).asText();
+
+        // 21.3.2.2.验证外键表对应的字段是否存在，在Json中查找是否包含了R_REF_ID的字段
+        final ConcurrentMap<String, Object> filter = new ConcurrentHashMap<>();
+        filter.put(Attributes.F_COL_NAME, colName);
+        // 是否包含了列名操作
+        List<JsonNode> nodeList = JsonKit.findNodes(this.fieldsNode, filter);
+        if (nodeList.isEmpty()) {
+            this.error = new JTColumnNotExistingException(getClass(), table, colName);
+            return true;
+        } else {
+            // 21.3.2.3.验证外键字段的约束是否OK
+            filter.put(Attributes.F_PK, Boolean.TRUE);
+            nodeList = JsonKit.findNodes(this.fieldsNode, filter);
+            if (nodeList.isEmpty()) {
+                this.error = new JKeyConstraintInvalidException(getClass(), table, colName);
+                return true;
+            }
+            // 21.3.2.4.验证外键字段的类型是否OK
+            final String fkType = node.path(Attributes.F_TYPE).asText();
+            final String tgType = nodeList.get(Constants.ZERO).path(Attributes.F_TYPE).asText();
+            if (!StringUtil.equals(fkType, tgType)) {
+                this.error = new JTColumnTypeInvalidException(getClass(), table, colName, fkType);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 从数据库层面检查外键规范
+     * 
+     * @param validator
+     * @return
+     */
+    private boolean checkFKFromDB(final JObjectValidator validator) {
+        // 21.3.1.1.验证外键表是否存在
+        this.error = validator.verifyTableExisting(Attributes.F_REF_TABLE);
+        if (null != this.error) {
+            return true;
+        }
+        // 21.3.1.2.验证外键表对应字段是否存在
+        this.error = validator.verifyColumnExisting(Attributes.F_REF_TABLE, Attributes.F_REF_ID);
+        if (null != this.error) {
+            return true;
+        }
+        // 21.3.1.3.验证外键对应字段的约束是否OK
+        this.error = validator.verifyInvalidConstraints(Attributes.F_REF_TABLE, Attributes.F_REF_ID);
+        if (null != this.error) {
+            return true;
+        }
+        // 21.3.1.4.验证外键对应的字段的类型是否OK
+        this.error = validator.verifyInvalidType(Attributes.F_REF_TABLE, Attributes.F_REF_ID, Attributes.F_COL_TYPE);
+        if (null != this.error) {
+            return true;
+        }
+        /**
+         * 没有错误的时候则返回false
+         */
+        return false;
+    }
+
+    /**
+     * 如果外键引用的是本表则不需要检查是否存在，因为目前正在创建本表
+     * 
+     * @param current
+     * @param refNode
+     * @return
+     */
+    private boolean skipFKey(final JsonNode refNode) {
+        boolean ret = false;
+        final String table = this.metaNode.path(Attributes.M_TABLE).asText();
+        final String refTable = refNode.path(Attributes.F_REF_TABLE).asText();
+        if (StringUtil.equals(table.trim(), refTable.trim())) {
+            ret = true;
+        }
+        return ret;
     }
 
     /**

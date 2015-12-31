@@ -90,7 +90,7 @@
             "type": "LongType",
             "columnType": "LONG",
             "foreignkey": true,
-            "refTable": "TST_FK1",
+            "refTable": "TST_FKP003",
             "refId": "T_ID"
         }
     ]

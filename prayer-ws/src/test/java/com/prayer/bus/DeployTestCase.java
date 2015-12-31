@@ -11,12 +11,14 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.bus.impl.oob.DataSevImpl;
 import com.prayer.bus.impl.oob.DeploySevImpl;
+import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.bus.DataService;
 import com.prayer.facade.bus.DeployService;
 import com.prayer.facade.dao.jdbc.MetadataConn;
+import com.prayer.facade.schema.DataValidator;
 import com.prayer.model.bus.ServiceResult;
 
 /**
@@ -36,6 +38,8 @@ public class DeployTestCase {
     private transient final DataService dataSev = singleton(DataSevImpl.class);
     /** **/
     private transient final MetadataConn metaConn = singleton(MetadataConnImpl.class);
+    /** **/
+    private transient DataValidator verifier = singleton(Accessors.validator());
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -49,6 +53,8 @@ public class DeployTestCase {
         final String scriptFile = Resources.META_INIT_SQL;
         info(LOGGER, InfoKey.INF_META_INIT, scriptFile);
         this.metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
+        // 删除所有测试表，特殊方法
+        this.verifier.purgeTestData();
     }
 
     /**

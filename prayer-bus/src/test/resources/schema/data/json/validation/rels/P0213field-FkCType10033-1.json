@@ -1,0 +1,55 @@
+{
+    "__meta__": 
+    {
+        "name": "Role",
+        "namespace": "com.prayer.mod.sec",
+        "category": "ENTITY",
+        "table": "SEC_ROLE",
+        "identifier": "sys.sec.role",
+        "mapping": "DIRECT",
+        "policy": "INCREMENT",
+        "seqinit": 1,
+        "seqstep": 1
+    },
+
+    "__keys__": 
+    [
+        
+    ],
+
+    "__fields__": 
+    [
+        {
+            "name": "uniqueId",
+            "type": "LongType",
+            "columnName": "R_ID",
+            "columnType": "LONG",
+            "primarykey": true
+        },
+
+        {
+            "name": "name",
+            "type": "StringType",
+            "columnName": "R_NAME",
+            "columnType": "STRING1",
+            "primarykey": false
+        },
+
+        {
+            "name": "code",
+            "type": "StringType",
+            "columnName": "R_CODE",
+            "columnType": "STRING1"
+        },
+
+        {
+            "name": "roleId",
+            "type": "StringType",
+            "columnName": "R_ROLE_ID",
+            "columnType": "STRING1",
+            "foreignkey": true,
+            "refId":"R_ID",
+            "refTable":"SEC_ROLE"
+        }
+    ]
+}

@@ -1,14 +1,23 @@
 package com.prayer.dao.impl.builder;
 
 import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.debug.Log.debug;
 
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
+import com.prayer.constant.SqlSegment;
+import com.prayer.constant.Symbol;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
-import com.prayer.exception.schema.BFKConstraintInvalidException;
+import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
@@ -32,6 +41,8 @@ import net.sf.oval.guard.PostValidateThis;
 public final class MsSqlValidator implements DataValidator {
 
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlValidator.class);
     // ~ Instance Fields =====================================
     /** 数据库连接 **/
     @NotNull
@@ -89,7 +100,7 @@ public final class MsSqlValidator implements DataValidator {
         final Long counter = this.context.count(sql);
         AbstractSchemaException error = null;
         if (counter <= 0) {
-            error = new BFKConstraintInvalidException(getClass(), table, column);
+            error = new BKeyConstraintInvalidException(getClass(), table, column);
         }
         return error;
     }
@@ -107,7 +118,7 @@ public final class MsSqlValidator implements DataValidator {
             if (StringKit.isNonNil(type)) {
                 type = type.toLowerCase(Locale.getDefault());
             }
-        }else{
+        } else {
             type = expectedType;
         }
         final String sql = MsSqlHelper.getSqlColumnType(table, column, type);
@@ -117,6 +128,28 @@ public final class MsSqlValidator implements DataValidator {
             error = new BTColumnTypeInvalidException(getClass(), table, column, type);
         }
         return error;
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void purgeTestData() {
+        final String sql = MsSqlHelper.getSqlTestingTables();
+        List<String> tables = new ArrayList<>();
+        do {
+            // 1.从系统中读取表信息
+            tables = this.context.select(sql, "TABLE_NAME");
+            // 2.删除读取的表信息，递归操作，第一次删不掉的话直接第二次删除
+            for (final String table : tables) {
+                // 表存在的时候就删除
+                if (null == this.verifyTable(table)) {
+                    final String purgeSql = MessageFormat.format(SqlSegment.TB_DROP, table) + Symbol.SEMICOLON;
+                    this.context.executeBatch(purgeSql);
+                    debug(LOGGER, "[T] Table = " + table + " has been purged successfully !");
+                }
+            }
+        } while (!tables.isEmpty());
     }
 
     // ~ Abstract Methods ====================================

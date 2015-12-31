@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
-import com.prayer.exception.schema.BFKConstraintInvalidException;
+import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.exception.schema.OptionalAttrMorEException;
@@ -93,7 +93,7 @@ public class _06MetaER3TestCase extends AbstractSchemaTestCase{
      * 
      * @throws AbstractSchemaException
      */
-    @Test(expected = BFKConstraintInvalidException.class)
+    @Test(expected = BKeyConstraintInvalidException.class)
     public void testP00746Meta10029ECombinatedConstraints() throws AbstractSchemaException {
         int ret = Constants.RC_FAILURE;
         // 创建子表，防止10027

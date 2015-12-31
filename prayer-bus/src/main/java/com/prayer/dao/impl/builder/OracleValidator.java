@@ -8,7 +8,7 @@ import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.dao.impl.jdbc.JdbcConnImpl;
-import com.prayer.exception.schema.BFKConstraintInvalidException;
+import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
@@ -89,7 +89,7 @@ public final class OracleValidator implements DataValidator {
         final Long counter = this.context.count(sql);
         AbstractSchemaException error = null;
         if (counter <= 0) {
-            error = new BFKConstraintInvalidException(getClass(), table, column);
+            error = new BKeyConstraintInvalidException(getClass(), table, column);
         }
         return error;
     }
@@ -118,7 +118,13 @@ public final class OracleValidator implements DataValidator {
         }
         return error;
     }
-
+    /**
+     * 
+     */
+    @Override
+    public void purgeTestData(){
+        
+    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================

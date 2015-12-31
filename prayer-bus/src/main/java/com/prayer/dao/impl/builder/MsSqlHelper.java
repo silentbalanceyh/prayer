@@ -44,6 +44,8 @@ final class MsSqlHelper {
     private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
     /** **/
     private final static String SQL_TB_UNIQUE = "SELECT COUNT(DISTINCT {1}) FROM {0} WHERE {1} IN (SELECT {1} FROM {0} GROUP BY {1} HAVING COUNT({1}) > 1)";
+    /** 获取系统中的所有测试表 **/
+    private final static String SQL_TB_GETTEST = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE=''BASE TABLE'' AND TABLE_CATALOG = ''{0}'' AND TABLE_NAME LIKE ''TST%''";
     /** 数据库配置资源加载器 **/
     private static final PropertyKit LOADER = new PropertyKit(MsSqlHelper.class, Resources.DB_CFG_FILE);
 
@@ -56,6 +58,15 @@ final class MsSqlHelper {
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    /**
+     * 
+     * @return
+     */
+    @NotNull
+    public static String getSqlTestingTables(){
+        final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+        return MessageFormat.format(SQL_TB_GETTEST, database);
+    }
     /**
      * 统计系统中的列类型是否匹配
      * @param tableName

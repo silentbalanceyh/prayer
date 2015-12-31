@@ -7,7 +7,7 @@ import com.prayer.base.exception.AbstractSchemaException;
  * @author Lang
  *
  */
-public class BFKConstraintInvalidException extends AbstractSchemaException{
+public class BKeyConstraintInvalidException extends AbstractSchemaException{
     // ~ Static Fields =======================================
     /**
      * 
@@ -23,7 +23,7 @@ public class BFKConstraintInvalidException extends AbstractSchemaException{
      * @param table
      * @param column
      */
-    public BFKConstraintInvalidException(final Class<?> clazz, final String table, final String column){
+    public BKeyConstraintInvalidException(final Class<?> clazz, final String table, final String column){
         super(clazz, -10029, table, column);
     }
     // ~ Abstract Methods ====================================

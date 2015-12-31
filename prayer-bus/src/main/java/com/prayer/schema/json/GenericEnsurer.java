@@ -197,14 +197,15 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
      */
     private void initEnsurers() { // NOPMD
         // 顶层验证器
-        this.metaEnsurer = new MetaEnsurer(this.rootNode.path(Attributes.R_META));
+        final JsonNode metaNode = this.rootNode.path(Attributes.R_META);
+        this.metaEnsurer = new MetaEnsurer(metaNode);
         // 字段验证器
         final ArrayNode fieldsNode = fromJObject(this.rootNode.path(Attributes.R_FIELDS));
         if (null != fieldsNode) {
             this.fieldsEnsurer = new FieldsEnsurer(fieldsNode);
             // 主键验证器
-            final String table = this.rootNode.path(Attributes.R_META).path(Attributes.M_TABLE).asText();
-            final String policy = this.rootNode.path(Attributes.R_META).path(Attributes.M_POLICY).asText();
+            final String table = metaNode.path(Attributes.M_TABLE).asText();
+            final String policy = metaNode.path(Attributes.M_POLICY).asText();
             /**
              * 判断policy和table的情况，必须保证policy和table两个值，
              * 也就是__meta__中验证OK了过后才能执行PrimaryKey对应的验证
@@ -219,7 +220,7 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
             }
             // 外键验证器
             if (this.containFK()) {
-                fKeyEnsurer = new ForeignKeyEnsurer(fieldsNode);
+                fKeyEnsurer = new ForeignKeyEnsurer(metaNode, fieldsNode);
             }
             // 类型验证
             typeEnsurer = new TypeEnsurer(fieldsNode);
@@ -231,10 +232,10 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
         }
         // 特殊验证器
         if (null != keysNode && null != fieldsNode) {
-            final String policyStr = this.rootNode.path(Attributes.R_META).path(Attributes.M_POLICY).asText();
+            final String policyStr = metaNode.path(Attributes.M_POLICY).asText();
             if (StringKit.isNonNil(policyStr)) {
                 final MetaPolicy policy = fromStr(MetaPolicy.class, policyStr);
-                crossEnsurer = new CrossEnsurer(this.rootNode.path(Attributes.R_META), keysNode, fieldsNode,
+                crossEnsurer = new CrossEnsurer(metaNode, keysNode, fieldsNode,
                         null == policy ? MetaPolicy.ASSIGNED : policy);
             }
         }
