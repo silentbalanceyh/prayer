@@ -2,7 +2,6 @@ package com.prayer.model.kernel;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -66,7 +65,7 @@ public class SchemaExpander02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Before
     public void setUp() {
         if (null == this.schema) {
-            final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO2.json","tst.mod.dao2");
+            final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO2.json", "tst.mod.dao2");
             if (ResponseCode.FAILURE == ret.getResponseCode()) {
                 failure(TST_PREP, ret.getErrorMessage());
             } else {
@@ -83,6 +82,7 @@ public class SchemaExpander02TestCase extends AbstractRDaoTestTool { // NOPMD
                 .toKeysMap(Arrays.asList(this.schema.getKeys().values().toArray(new KeyModel[] {})));
         assertEquals(message(TST_EQUAL), 4, keys.size());
     }
+
     /** **/
     @Test
     public void testT05030MtoKeysMap() {
@@ -92,8 +92,9 @@ public class SchemaExpander02TestCase extends AbstractRDaoTestTool { // NOPMD
         final List<String> expectedArr = Arrays.asList(this.schema.getKeys().keySet().toArray(Constants.T_STR_ARR));
         Collections.sort(actualArr);
         Collections.sort(expectedArr);
-        assertArrayEquals(expectedArr.toArray(),actualArr.toArray());
+        assertArrayEquals(expectedArr.toArray(), actualArr.toArray());
     }
+
     /** **/
     @Test
     public void testT05031MtoFieldsMap() {
@@ -101,6 +102,7 @@ public class SchemaExpander02TestCase extends AbstractRDaoTestTool { // NOPMD
                 .toFieldsMap(Arrays.asList(this.schema.getFields().values().toArray(new FieldModel[] {})));
         assertEquals(message(TST_EQUAL), 5, fields.size());
     }
+
     /** **/
     @Test
     public void testT05032MtoFieldsMap() {
@@ -110,74 +112,90 @@ public class SchemaExpander02TestCase extends AbstractRDaoTestTool { // NOPMD
         final List<String> expectedArr = Arrays.asList(this.schema.getFields().keySet().toArray(Constants.T_STR_ARR));
         Collections.sort(actualArr);
         Collections.sort(expectedArr);
-        assertArrayEquals(expectedArr.toArray(),actualArr.toArray());
+        assertArrayEquals(expectedArr.toArray(), actualArr.toArray());
     }
+
     /** **/
     @Test
-    public void testT05033MgetColumns(){
+    public void testT05033MgetColumns() {
         final List<String> expectedArr = Arrays.asList(this.schema.getColumns().toArray(Constants.T_STR_ARR));
-        final List<String> actualArr = Arrays.asList(SchemaExpander.getColumns(this.schema.getFields()).toArray(Constants.T_STR_ARR));
+        final List<String> actualArr = Arrays
+                .asList(SchemaExpander.getColumns(this.schema.getFields()).toArray(Constants.T_STR_ARR));
         Collections.sort(actualArr);
         Collections.sort(expectedArr);
-        assertArrayEquals(expectedArr.toArray(),actualArr.toArray());
+        assertArrayEquals(expectedArr.toArray(), actualArr.toArray());
     }
+
     /** **/
     @Test
-    public void testT05034MgetColumn(){
+    public void testT05034MgetColumn() {
         final FieldModel expected = this.schema.getColumn("T_UK1");
         final FieldModel actual = SchemaExpander.getColumn(this.schema.getFields(), "T_UK1");
         final boolean ret = expected.equals(actual);
-        assertTrue(message(TST_TF,Boolean.TRUE),ret);
+        assertTrue(message(TST_TF, Boolean.TRUE), ret);
     }
+
     /** **/
     @Test
-    public void testT05035MgetPrimaryKeys(){
+    public void testT05035MgetPrimaryKeys() {
         final List<FieldModel> expectedArr = this.schema.getPrimaryKeys();
         final List<FieldModel> actualArr = SchemaExpander.getPrimaryKeys(this.schema.getFields());
-        assertEquals(message(TST_EQUAL),expectedArr.size(),actualArr.size());
+        assertEquals(message(TST_EQUAL), expectedArr.size(), actualArr.size());
     }
+
     /** **/
     @Test
-    public void testT05036MgetForeignKey(){
-        final KeyModel expected = this.schema.getForeignKey();
-        final KeyModel actual = SchemaExpander.getForeignKey(this.schema.getKeys());
-        final boolean ret = expected.equals(actual);
-        assertTrue(message(TST_TF,Boolean.TRUE),ret);
-    }
-    /** **/
-    @Test
-    public void testT05037MgetForeignKey(){
-        final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO1.json","tst.mod.dao1");
-        if(ResponseCode.SUCCESS == ret.getResponseCode()){
-            final GenericSchema schema = ret.getResult();
-            final KeyModel actual = SchemaExpander.getForeignKey(schema.getKeys());
-            assertNull(message(TST_NULL),actual);
-        }else{
-            info(getLogger(),"[T] ==> " + ret.getErrorMessage());
+    public void testT05036MgetForeignKey() {
+        final List<KeyModel> expecteds = this.schema.getForeignKey();
+        final List<KeyModel> actuals = SchemaExpander.getForeignKey(this.schema.getKeys());
+        for (int idx = 0; idx < expecteds.size(); idx++) {
+            final KeyModel expected = expecteds.get(idx);
+            final KeyModel actual = actuals.get(idx);
+            final boolean ret = expected.equals(actual);
+            assertTrue(message(TST_TF, Boolean.TRUE), ret);
         }
     }
+
     /** **/
     @Test
-    public void testT05038MgetForeignField(){
-        final FieldModel expected = this.schema.getForeignField();
-        final FieldModel actual = SchemaExpander.getForeignField(this.schema.getFields());
-        final boolean ret = expected.equals(actual);
-        assertTrue(message(TST_TF,Boolean.TRUE),ret);
-    }
-    /** **/
-    @Test
-    public void testT05039MgetForeignField(){
-        final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO1.json","tst.mod.dao1");
-        if(ResponseCode.SUCCESS == ret.getResponseCode()){
+    public void testT05037MgetForeignKey() {
+        final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO1.json", "tst.mod.dao1");
+        if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             final GenericSchema schema = ret.getResult();
-            final FieldModel actual = SchemaExpander.getForeignField(schema.getFields());
-            assertNull(message(TST_NULL),actual);
-        }else{
-            info(getLogger(),"[T] ==> " + ret.getErrorMessage());
+            final List<KeyModel> actual = SchemaExpander.getForeignKey(schema.getKeys());
+            assertEquals(message(TST_NULL), Constants.ZERO, actual.size());
+        } else {
+            info(getLogger(), "[T] ==> " + ret.getErrorMessage());
+        }
+    }
+
+    /** **/
+    @Test
+    public void testT05038MgetForeignField() {
+        final List<FieldModel> expecteds = this.schema.getForeignField();
+        final List<FieldModel> actuals = SchemaExpander.getForeignField(this.schema.getFields());
+        for (int idx = 0; idx < expecteds.size(); idx++) {
+            final FieldModel expected = expecteds.get(idx);
+            final FieldModel actual = actuals.get(idx);
+            final boolean ret = expected.equals(actual);
+            assertTrue(message(TST_TF, Boolean.TRUE), ret);
+        }
+    }
+
+    /** **/
+    @Test
+    public void testT05039MgetForeignField() {
+        final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO1.json", "tst.mod.dao1");
+        if (ResponseCode.SUCCESS == ret.getResponseCode()) {
+            final GenericSchema schema = ret.getResult();
+            final List<FieldModel> actual = SchemaExpander.getForeignField(schema.getFields());
+            assertEquals(message(TST_NULL), Constants.ZERO, actual.size());
+        } else {
+            info(getLogger(), "[T] ==> " + ret.getErrorMessage());
         }
     }
     // ~ Private Methods =====================================
-    
+
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

@@ -80,8 +80,7 @@ public class GenericSchema implements Serializable { // NOPMD
      * 
      * @return
      */
-    @InstanceOfAny(FieldModel.class)
-    public FieldModel getForeignField() {
+    public List<FieldModel> getForeignField() {
         return SchemaExpander.getForeignField(this.getFields());
     }
 
@@ -90,8 +89,7 @@ public class GenericSchema implements Serializable { // NOPMD
      * 
      * @return
      */
-    @InstanceOfAny(KeyModel.class)
-    public KeyModel getForeignKey() {
+    public List<KeyModel> getForeignKey() {
         return SchemaExpander.getForeignKey(this.getKeys());
     }
 

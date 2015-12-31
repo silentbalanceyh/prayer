@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.ColumnsMissingException;
-import com.prayer.exception.schema.FKNotOnlyOneException;
+import com.prayer.exception.schema.FKMoreThanTwoException;
 import com.prayer.exception.schema.KeysNameSpecificationException;
 import com.prayer.exception.schema.MultiForFKPolicyException;
 import com.prayer.exception.schema.MultiForPKPolicyException;
@@ -129,7 +129,7 @@ public class _15Cross1TestCase extends AbstractSchemaTestCase { // NOPMD
      * 
      * @throws AbstractSchemaException
      */
-    @Test(expected = FKNotOnlyOneException.class)
+    @Test(expected = FKMoreThanTwoException.class)
     public void testP33Cross1Spec10016() throws AbstractSchemaException {
         testImport("zkeys/P033cross-10016-1.json",
                 "[E10016] Cross ==> (Failure) Foreign Key must appears once in __keys__ definition!");

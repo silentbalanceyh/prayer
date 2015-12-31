@@ -40,6 +40,14 @@
             "columns":[
                 "S_MOBILE"
             ]
+        },
+        {
+            "name":"UK_SEC_ACCOUNT_EXTID",
+            "category":"UniqueKey",
+            "multi":false,
+            "columns":[
+                "S_EXTID"
+            ]
         }
     ],
     "__fields__":[
@@ -86,9 +94,17 @@
         {
             "name":"roles",
             "type":"StringType",
-            "columnName":"R_ROLE",
+            "columnName":"R_ROLES",
             "columnType":"STRING2",
             "length":2048
+        },
+        {
+            "name":"extId",
+            "type":"StringType",
+            "columnName":"S_EXTID",
+            "columnType":"STRING1",
+            "unique":true,
+            "length":256
         }
     ]
 }

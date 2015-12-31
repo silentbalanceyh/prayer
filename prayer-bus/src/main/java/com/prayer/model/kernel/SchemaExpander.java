@@ -117,15 +117,14 @@ public final class SchemaExpander {
      * @param keys
      * @return
      */
-    public static KeyModel getForeignKey(@NotNull final ConcurrentMap<String, KeyModel> keys) {
-        KeyModel foreignKey = null;
+    public static List<KeyModel> getForeignKey(@NotNull final ConcurrentMap<String, KeyModel> keys) {
+        List<KeyModel> foreignKeys = new ArrayList<>();
         for (final KeyModel key : keys.values()) {
             if (KeyCategory.ForeignKey == key.getCategory()) {
-                foreignKey = key;
-                break;
+                foreignKeys.add(key);
             }
         }
-        return foreignKey;
+        return foreignKeys;
     }
 
     /**
@@ -134,15 +133,14 @@ public final class SchemaExpander {
      * @param fields
      * @return
      */
-    public static FieldModel getForeignField(@NotNull final ConcurrentMap<String, FieldModel> fields) {
-        FieldModel foreignField = null;
+    public static List<FieldModel> getForeignField(@NotNull final ConcurrentMap<String, FieldModel> fields) {
+        final List<FieldModel> foreignFields = new ArrayList<>();
         for (final FieldModel field : fields.values()) {
             if (field.isForeignKey()) {
-                foreignField = field;
-                break;
+                foreignFields.add(field);
             }
         }
-        return foreignField;
+        return foreignFields;
     }
 
     // ~ Static Methods ======================================

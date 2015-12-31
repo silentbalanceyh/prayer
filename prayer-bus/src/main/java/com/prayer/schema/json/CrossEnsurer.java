@@ -20,7 +20,7 @@ import com.prayer.constant.SystemEnum.MetaCategory;
 import com.prayer.constant.SystemEnum.MetaMapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.schema.ColumnsMissingException;
-import com.prayer.exception.schema.FKNotOnlyOneException;
+import com.prayer.exception.schema.FKMoreThanTwoException;
 import com.prayer.exception.schema.MultiForPKPolicyException;
 import com.prayer.exception.schema.PKNotOnlyOneException;
 import com.prayer.exception.schema.WrongTimeAttrException;
@@ -282,10 +282,11 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
      * @return
      */
     private boolean validateFKOnlyOne() {
-        // 33.验证Keys中的ForeignKey如果存在只能有一个
+        // 33.验证Keys中的ForeignKey如果存在只能有两个
         final int occurs = JsonKit.occursAttr(this.keysNode, Attributes.K_CATEGORY, KeyCategory.ForeignKey, true);
-        if (Constants.ONE < occurs) {
-            this.error = new FKNotOnlyOneException(getClass());
+        // 外键只能有两个，并且两个引用不同的Table
+        if (Constants.TWO < occurs) {
+            this.error = new FKMoreThanTwoException(getClass());
             peError(LOGGER, this.error);
         }
         return null == this.error;

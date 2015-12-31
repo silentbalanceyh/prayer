@@ -318,7 +318,10 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         }
         // 4.添加Foreign Key约束
         {
-            addSqlLine(this.genForeignKey());
+            final List<String> fkeys = this.genForeignKeys();
+            for (final String fkeySql : fkeys) {
+                addSqlLine(fkeySql);
+            }
         }
         // 5.生成最终SQL语句
         return MessageFormat.format(TB_CREATE, this.getTable(), StringKit.join(this.getSqlLines(), COMMA));

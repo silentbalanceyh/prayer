@@ -4,8 +4,10 @@ import static com.prayer.util.Instance.instance;
 import static com.prayer.util.debug.Error.message;
 import static com.prayer.util.io.JsonKit.findNodes;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -13,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
+import com.prayer.exception.schema.FKReferenceSameException;
 import com.prayer.exception.schema.JKeyConstraintInvalidException;
 import com.prayer.exception.schema.JTColumnNotExistingException;
 import com.prayer.exception.schema.JTColumnTypeInvalidException;
@@ -137,10 +140,21 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
         final List<JsonNode> fkNodes = findNodes(this.fieldsNode, FK_FILTER);
         Iterator<JsonNode> fkNIt = fkNodes.iterator();
         int idx = 0;
+        // 21.4.Foreign Key问题
+        final Set<String> fkSet = new HashSet<>();
+
         while (fkNIt.hasNext()) {
             final JsonNode node = fkNIt.next();
             final JObjectValidator validator = instance(JObjectValidator.class.getName(), node,
                     message("D10000.FKIDX", idx, node.path(Attributes.F_NAME).asText()));
+
+            final String table = node.path(Attributes.F_REF_TABLE).asText();
+            if (fkSet.contains(table)) {
+                this.error = new FKReferenceSameException(getClass(), node.path(Attributes.F_REF_ID).asText(), table);
+            }else{
+                // 不包含就加进去
+                fkSet.add(table);
+            }
             /**
              * 如果外键关联的时候关联表和本表一致，那么这种情况不需要检查真实数据库中外键表是否存在
              */

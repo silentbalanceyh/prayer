@@ -5,11 +5,12 @@ import static com.prayer.util.Instance.singleton;
 import org.junit.Test;
 
 import com.prayer.bus.impl.std.BasicAuthSevImpl;
-import com.prayer.bus.impl.std.RecordSevImpl;
+import com.prayer.bus.impl.std.SchemaSevImpl;
+import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.BasicAuthService;
-import com.prayer.facade.bus.RecordService;
+import com.prayer.facade.bus.SchemaService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.util.Encryptor;
+import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.io.IOKit;
 
 import io.vertx.core.json.JsonArray;
@@ -46,12 +47,10 @@ public class DebuggerTestCase {
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
     public static void main(String args[]) throws Exception {
-        final RecordService recordSev = singleton(RecordSevImpl.class);
-        final String content = IOKit.getContent("deploy/oob/data/account.json");
-        System.out.println(content);
-        final JsonObject params = new JsonObject(content);
-        final String password = Encryptor.encryptMD5(params.getJsonObject("data").getString("password"));
-        params.getJsonObject("data").put("password",password);
-        recordSev.save(params);
+        final SchemaService service = singleton(SchemaSevImpl.class);
+        final ServiceResult<GenericSchema> result = service.syncSchema("deploy/oob/schema/rel.resource.permission.json");
+        if(ResponseCode.SUCCESS == result.getResponseCode()){
+            service.syncMetadata(result.getResult());
+        }
     }
 }

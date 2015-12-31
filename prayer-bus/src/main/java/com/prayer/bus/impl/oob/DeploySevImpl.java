@@ -1,6 +1,7 @@
 package com.prayer.bus.impl.oob; // NOPMD
 
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
 
@@ -10,11 +11,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractException;
+import com.prayer.constant.Constants;
+import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.exception.system.DeploymentException;
@@ -24,6 +29,7 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.io.IOKit;
+import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
@@ -168,20 +174,44 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
         // 2.导入OOB中的Schema定义
         {
             final String schemaFolder = rootFolder + SCHEMA_FOLDER;
-            final List<String> jsonPathList = this.getSchemaFiles(schemaFolder);
-            jsonPathList.forEach(jsonPath -> {
-                ServiceResult<GenericSchema> syncRet = this.manager.getSchemaService()
-                        .syncSchema(schemaFolder + jsonPath);
-                syncRet = this.manager.getSchemaService().syncMetadata(syncRet.getResult());
-            });
-            info(LOGGER, " 7.Metadata H2 importing successfully!");
+            final List<String> jsonFiles = this.getSchemaFiles(schemaFolder);
+            // 2.1.读取Order信息
+            final PropertyKit orderKit = new PropertyKit(getClass(), schemaFolder + "/order.properties");
+            // 2.2.设置Order信息
+            final Map<Integer, String> orderMap = new TreeMap<>();
+            for (final Object key : orderKit.getProp().keySet()) {
+                if (null != key) {
+                    final String keyStr = key.toString();
+                    orderMap.putIfAbsent(orderKit.getInt(keyStr), keyStr);
+                }
+            }
+            // 2.3.直接遍历TreeMap
+            for (final Integer key : orderMap.keySet()) {
+                final String fileName = orderMap.get(key) + Symbol.DOT + Constants.EXTENSION.JSON;
+                if (jsonFiles.contains(fileName)) {
+                    // 导入数据到H2的元数据数据库中
+                    ServiceResult<GenericSchema> syncRet = this.manager.getSchemaService()
+                            .syncSchema(schemaFolder + "/" + fileName);
+                    if (ResponseCode.SUCCESS == syncRet.getResponseCode()) {
+                        info(LOGGER, "7.Metadata Server (order = " + key + ",filename = " + fileName
+                                + ") importing successfully !");
+                        // 从元数据数据Server导入到Business Database中
+                        syncRet = this.manager.getSchemaService().syncMetadata(syncRet.getResult());
+                        info(LOGGER, "7.Sync from Metadata Server to Business Database successfully ! table = "
+                                + syncRet.getResult().getMeta().getTable());
+                    } else {
+                        debug(LOGGER, "7.Error = " + syncRet.getErrorMessage());
+                    }
+                }
+            }
+
         }
         // 最终结果
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             result.success(Boolean.TRUE);
         } else {
             final AbstractException exp = new DeploymentException(getClass());
-            peError(LOGGER,exp);
+            peError(LOGGER, exp);
             if (ResponseCode.ERROR == ret.getResponseCode()) {
                 result.error(exp);
             } else {

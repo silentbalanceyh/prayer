@@ -1,4 +1,4 @@
-package com.prayer.base.dao;    // NOPMD
+package com.prayer.base.dao; // NOPMD
 
 import static com.prayer.util.Calculator.diff;
 import static com.prayer.util.Calculator.intersect;
@@ -46,14 +46,14 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
     /** 数据库连接 **/
     @NotNull
     @InstanceOf(JdbcContext.class)
-    private transient final JdbcContext context;    // NOPMD
+    private transient final JdbcContext context; // NOPMD
     /** 创建表的Sql语句 **/
     @NotNull
     private transient final List<String> sqlLines;
     /** Metadata对象 **/
     @NotNull
     @InstanceOfAny(GenericSchema.class)
-    private transient final GenericSchema schema;   // NOPMD
+    private transient final GenericSchema schema; // NOPMD
     /** 构建过程中的Error信息 **/
     private transient AbstractDatabaseException error;
 
@@ -93,12 +93,15 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return
      */
     protected abstract Long nullRows(String column);
+
     /**
      * 获取值为Unique的执行列的数量
+     * 
      * @param column
      * @return
      */
     protected abstract Long uniqueRows(String column);
+
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /**
@@ -148,8 +151,14 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @param foreignField
      * @return
      */
-    protected String genForeignKey() {
-        return SqlDdlStatement.newFKSql(this.schema.getForeignKey(), this.schema.getForeignField());
+    protected List<String> genForeignKeys() {
+        final List<KeyModel> fkeys = this.schema.getForeignKey();
+        final List<FieldModel> ffields = this.schema.getForeignField();
+        final List<String> fkeyLines = new ArrayList<>();
+        for (int idx = 0; idx < fkeys.size(); idx++) {
+            fkeyLines.add(SqlDdlStatement.newFKSql(fkeys.get(idx), ffields.get(idx)));
+        }
+        return fkeyLines;
     }
 
     /**
@@ -204,7 +213,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
     protected String getColType(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
         return SqlDdlStatement.getColType(field);
     }
-    
+
     /**
      * 统计表中有多少数据
      * 

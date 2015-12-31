@@ -6,7 +6,7 @@
         "table":"SEC_ROLE",
         "identifier":"sys.sec.role",
         "mapping":"DIRECT",
-        "policy":"COLLECTION"
+        "policy":"ASSIGNED"
     },
     "__keys__":[
     ],

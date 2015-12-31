@@ -67,6 +67,8 @@ public final class Resources { // NOPMD
     public static final String META_CATEGORY;
     /** Meta Data的初始化SQL脚本位置 **/
     public static final String META_INIT_SQL;
+    /** OOB Data的PurgeSQL脚本 **/
+    public static final String DB_PURGE_SQL;
     
     // File Configuration ====================================
     /** Vertx的配置文件路径 **/
@@ -158,6 +160,9 @@ public final class Resources { // NOPMD
         
         // Meta
         META_INIT_SQL = DB_SQL_DIR + LOADER.getString("meta.init.sql.file");
+        
+        // Data Purge Sql
+        DB_PURGE_SQL = LOADER.getString("oob.purge.sql");
     }
 
     // ~ Constructors ========================================

@@ -23,6 +23,13 @@ public interface Constants { // NOPMD
     String LANG_GROOVY = "groovy";
     /** Script Engine 名称 **/
     String SCRIPT_ENGINE = "nashorn";
+    /** **/
+    interface EXTENSION{  // NOPMD
+        /** SQL 后缀名 **/
+        String SQL = "sql";
+        /** JSON 后缀名 **/
+        String JSON = "json";
+    }
     // ~ System ==============================================
     /** System value 2 **/
     int TWO = 2;

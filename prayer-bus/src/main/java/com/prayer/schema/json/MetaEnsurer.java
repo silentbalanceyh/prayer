@@ -256,7 +256,7 @@ final class MetaEnsurer implements InternalEnsurer {
             return false;
         }
         // 7.4.7.__subtable__ & __subkey__ 验证字段的类型是否OK？
-        
+
         return null == this.error;
     }
 
@@ -306,8 +306,7 @@ final class MetaEnsurer implements InternalEnsurer {
             return false;
         }
         // 7.1.3.policy not COLLECTION | ASSIGNED
-        this.error = validator.verifyNotIn(Attributes.M_POLICY, MetaPolicy.COLLECTION.toString(),
-                MetaPolicy.ASSIGNED.toString());
+        this.error = validator.verifyNotIn(Attributes.M_POLICY, MetaPolicy.ASSIGNED.toString());
         return null == this.error;
     }
     // ~ Get/Set =============================================

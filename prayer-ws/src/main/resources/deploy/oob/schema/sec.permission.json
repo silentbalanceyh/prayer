@@ -1,30 +1,32 @@
 {
     "__meta__":{
         "namespace":"com.prayer.security.model",
-        "name":"Role",
+        "name":"Permission",
         "category":"ENTITY",
-        "table":"SEC_ROLE",
-        "identifier":"sec.role",
+        "table":"SEC_PERM",
+        "identifier":"sec.permission",
         "mapping":"DIRECT",
         "policy":"GUID"
     },
     "__keys__":[
         {
-            "name":"PK_SEC_ROLE_ID",
+            "name":"PK_SEC_PERM_ID",
             "category":"PrimaryKey",
             "multi":false,
             "columns":[
                 "PK_ID"
             ]
-        },{
-            "name":"UK_SEC_ROLE_NAME",
+        },
+        {
+            "name":"UK_SEC_PERM_NAME",
             "category":"UniqueKey",
             "multi":false,
             "columns":[
                 "S_NAME"
             ]
-        },{
-            "name":"UK_SEC_ROLE_CODE",
+        },
+        {
+            "name":"UK_SEC_PERM_CODE",
             "category":"UniqueKey",
             "multi":false,
             "columns":[
@@ -38,36 +40,33 @@
             "type":"StringType",
             "columnName":"PK_ID",
             "columnType":"STRING1",
-            "primarykey":true,
-            "length":192
-        },{
+            "length":192,
+            "primarykey":true
+        },
+        {
             "name":"name",
             "type":"StringType",
             "columnName":"S_NAME",
             "columnType":"STRING1",
+            "length":256,
             "unique":true,
-            "nullable":false,
-            "length":256
-        },{
+            "nullable":false
+        },
+        {
             "name":"code",
             "type":"StringType",
             "columnName":"S_CODE",
             "columnType":"STRING1",
+            "length":256,
             "unique":true,
-            "nullable":false,
-            "length":256
-        },{
-            "name":"comment",
+            "nullable":false
+        },
+        {
+            "name":"sequence",
             "type":"StringType",
-            "columnName":"S_COMMENT",
-            "columnType":"STRING2",
-            "unique":true,
-            "length":2048
-        },{
-            "name":"super",
-            "type":"BooleanType",
-            "columnName":"IS_SUPER",
-            "columnType":"BOOLEAN"
+            "columnName":"S_SEQUENCE",
+            "columnType":"STRING1",
+            "length":64
         }
     ]
 }

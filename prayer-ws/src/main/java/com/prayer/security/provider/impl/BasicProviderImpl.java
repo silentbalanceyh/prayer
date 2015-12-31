@@ -82,14 +82,14 @@ public class BasicProviderImpl implements AuthProvider, BasicProvider {
                 // 6.输入密码和存储密码对比，成功的时候执行该操作
                 if (StringUtil.equals(inputPWD, storedPWD)) {
                     final String username = retObj.getString(basicOpts.getString(BASIC.ACCOUNT_ID));
-                    final String roles = retObj.getString(basicOpts.getString(BASIC.ROLE_USER_CODE));
                     data.getJsonObject(JsonKey.RESPONSE.NAME).put(Constants.PARAM.DATA, retObj);
                     data.getJsonObject(JsonKey.REQUEST.NAME).put(JsonKey.REQUEST.LOGIN_URL,
                             basicOpts.getString(BASIC.LOGIN_URL));
                     // 用户ID注入到Token
                     data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.USERNAME, username);
                     data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ID, retObj.getString(Constants.PID));
-                    data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ROLE, roles);
+                    // TODO: Roles Null Pointer
+                    data.getJsonObject(JsonKey.TOKEN.NAME).put(JsonKey.TOKEN.ROLE, "Roles");
                     // 构建用户信息
                     handler.handle(Future.succeededFuture(this.buildUserData(this, data)));
                 } else {

@@ -53,6 +53,8 @@ public class DeployTestCase {
         final String scriptFile = Resources.META_INIT_SQL;
         info(LOGGER, InfoKey.INF_META_INIT, scriptFile);
         this.metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
+        // Purge
+        this.metaConn.loadSqlFile(Resources.class.getResourceAsStream(Resources.DB_PURGE_SQL));
         // 删除所有测试表，特殊方法
         this.verifier.purgeTestData();
     }
@@ -64,6 +66,7 @@ public class DeployTestCase {
     public void testDeploy() throws Exception {
         ServiceResult<Boolean> ret = this.service.deployMetadata(Resources.OOB_FOLDER);
         assertTrue("[TD] Deploying failure ! ", ret.getResult());
+
         // 添加默认账号信息的测试用例
         ret = this.dataSev.purgeData("sec.account");
         ret = this.dataSev.deployData(Resources.OOB_FOLDER, "sec.account");
