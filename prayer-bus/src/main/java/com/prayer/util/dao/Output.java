@@ -152,6 +152,36 @@ public final class Output { // NOPMD
         };
     }
 
+    /**
+     * 提取多列数据集
+     * 
+     * @param column
+     * @return
+     */
+    public static ResultSetExtractor<List<ConcurrentMap<String, String>>> extractColumnList(
+            @NotNull @MinSize(2) final String[] columns) {
+        return new ResultSetExtractor<List<ConcurrentMap<String, String>>>() {
+            /** **/
+            @Override
+            public List<ConcurrentMap<String, String>> extractData(final ResultSet retSet)
+                    throws SQLException, DataAccessException {
+                final List<ConcurrentMap<String, String>> retList = new ArrayList<>();
+                while (retSet.next()) {
+                    final ConcurrentMap<String, String> row = new ConcurrentHashMap<>();
+                    for (final String column : columns) {
+                        String value = retSet.getString(column);
+                        if (StringKit.isNil(value)) {
+                            value = Constants.EMPTY_STR;
+                        }
+                        row.put(column, value);
+                    }
+                    retList.add(row);
+                }
+                return retList;
+            }
+        };
+    }
+
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

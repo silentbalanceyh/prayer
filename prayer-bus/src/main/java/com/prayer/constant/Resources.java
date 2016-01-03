@@ -33,6 +33,7 @@ public final class Resources { // NOPMD
     public static final String DB_CATEGORY;
     /** JDBC配置文件路径 **/
     public static final String DB_CFG_FILE;
+    
     /** 数据库的Builder **/
     public static final String DB_BUILDER;
     /** 数据库访问Record的Dao实现 **/

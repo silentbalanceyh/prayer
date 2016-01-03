@@ -46,6 +46,8 @@ final class MsSqlHelper {
     private final static String SQL_TB_UNIQUE = "SELECT COUNT(DISTINCT {1}) FROM {0} WHERE {1} IN (SELECT {1} FROM {0} GROUP BY {1} HAVING COUNT({1}) > 1)";
     /** 获取系统中的所有测试表 **/
     private final static String SQL_TB_GETTEST = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE=''BASE TABLE'' AND TABLE_CATALOG = ''{0}'' AND TABLE_NAME LIKE ''TST%''";
+    /** 查询当前表的字段被引用的Referencers列表 **/
+    private final static String SQL_TB_REFS = "SELECT B.CONSTRAINT_NAME,F.TABLE_NAME,F.COLUMN_NAME FROM (INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS B JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE AS F ON B.CONSTRAINT_NAME=F.CONSTRAINT_NAME JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE AS T ON T.CONSTRAINT_NAME=B.UNIQUE_CONSTRAINT_NAME) WHERE B.CONSTRAINT_CATALOG=''{0}'' AND T.TABLE_NAME=''{1}'' AND T.COLUMN_NAME=''{2}''";
     /** 数据库配置资源加载器 **/
     private static final PropertyKit LOADER = new PropertyKit(MsSqlHelper.class, Resources.DB_CFG_FILE);
 
@@ -58,117 +60,134 @@ final class MsSqlHelper {
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+
     /**
      * 
      * @return
      */
     @NotNull
-    public static String getSqlTestingTables(){
+    public static String getSqlTestingTables() {
         final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
         return MessageFormat.format(SQL_TB_GETTEST, database);
     }
+
     /**
      * 统计系统中的列类型是否匹配
-     * @param tableName
+     * 
+     * @param table
      * @param column
      * @param type
      * @return
      */
     @NotNull
-    public static String getSqlColumnType(@NotNull @NotBlank @NotEmpty final String tableName,
+    public static String getSqlColumnType(@NotNull @NotBlank @NotEmpty final String table,
             @NotNull @NotBlank @NotEmpty final String column, @NotNull @NotBlank @NotEmpty final String type) {
         final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
-        return MessageFormat.format(SQL_TBK_DST_TYPE, database, tableName, column, type);
+        return MessageFormat.format(SQL_TBK_DST_TYPE, database, table, column, type);
     }
 
     /**
      * 统计系统中的表的SQL
      * 
-     * @param tableName
+     * @param table
      * @return
      */
     @NotNull
-    public static String getSqlTableExist(@NotNull @NotBlank @NotEmpty final String tableName) {
+    public static String getSqlTableExist(@NotNull @NotBlank @NotEmpty final String table) {
         final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
-        return MessageFormat.format(SQL_TB_EXIST, database, tableName);
+        return MessageFormat.format(SQL_TB_EXIST, database, table);
     }
 
     /**
      * 检查表中字段是否存在
      * 
-     * @param tableName
+     * @param table
      * @param column
      * @return
      */
     @NotNull
-    public static String getSqlColumnExist(@NotNull @NotBlank @NotEmpty final String tableName,
+    public static String getSqlColumnExist(@NotNull @NotBlank @NotEmpty final String table,
             @NotNull @NotBlank @NotEmpty final String column) {
         final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
-        return MessageFormat.format(SQL_TB_COL_EXIST, database, tableName, column);
+        return MessageFormat.format(SQL_TB_COL_EXIST, database, table, column);
     }
 
     /**
      * 检查外键是否Unique或者Primary Key
      * 
-     * @param tableName
+     * @param table
      * @param column
      * @return
      */
     @NotNull
-    public static String getSqlUKPKConstraint(@NotNull @NotBlank @NotEmpty final String tableName,
+    public static String getSqlUKPKConstraint(@NotNull @NotBlank @NotEmpty final String table,
             @NotNull @NotBlank @NotEmpty final String column) {
         final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
-        return MessageFormat.format(SQL_TBK_DST_CONS, database, tableName, column);
+        return MessageFormat.format(SQL_TBK_DST_CONS, database, table, column);
     }
 
     /**
      * 获取系统中列集合的SQL
      * 
-     * @param tableName
+     * @param table
      * @return
      */
     @NotNull
-    public static String getSqlColumns(@NotNull @NotBlank @NotEmpty final String tableName) {
+    public static String getSqlColumns(@NotNull @NotBlank @NotEmpty final String table) {
         final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
-        return MessageFormat.format(SQL_TB_COLUMN, database, tableName);
+        return MessageFormat.format(SQL_TB_COLUMN, database, table);
+    }
+
+    /**
+     * 获取数据库References的全部信息
+     * 
+     * @param table
+     * @param column
+     * @return
+     */
+    @NotNull
+    public static String getSqlReferences(@NotNull @NotBlank @NotEmpty final String table,
+            @NotNull @NotBlank @NotEmpty final String column) {
+        final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+        return MessageFormat.format(SQL_TB_REFS, database, table, column);
     }
 
     /**
      * 获取系统中的约束的SQL
      * 
-     * @param tableName
+     * @param table
      * @return
      */
     @NotNull
-    public static String getSqlConstraints(@NotNull @NotBlank @NotEmpty final String tableName) {
+    public static String getSqlConstraints(@NotNull @NotBlank @NotEmpty final String table) {
         final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
-        return MessageFormat.format(SQL_TB_CONSTRAINT, database, tableName);
+        return MessageFormat.format(SQL_TB_CONSTRAINT, database, table);
     }
 
     /**
      * 检查表中指定列是否有空数据的SQL语句
      * 
-     * @param tableName
-     * @param colName
+     * @param table
+     * @param column
      * @return
      */
     @NotNull
-    public static String getSqlNull(@NotNull @NotBlank @NotEmpty final String tableName,
-            @NotNull @NotBlank @NotEmpty final String colName) {
-        return MessageFormat.format(SQL_TB_NULL, tableName, colName);
+    public static String getSqlNull(@NotNull @NotBlank @NotEmpty final String table,
+            @NotNull @NotBlank @NotEmpty final String column) {
+        return MessageFormat.format(SQL_TB_NULL, table, column);
     }
 
     /**
      * 检查表中某个字段是否有重复数据
      * 
-     * @param tableName
-     * @param colName
+     * @param table
+     * @param column
      * @return
      */
     @NotNull
-    public static String getSqlUnique(@NotNull @NotBlank @NotEmpty final String tableName,
-            @NotNull @NotBlank @NotEmpty final String colName) {
-        return MessageFormat.format(SQL_TB_UNIQUE, tableName, colName);
+    public static String getSqlUnique(@NotNull @NotBlank @NotEmpty final String table,
+            @NotNull @NotBlank @NotEmpty final String column) {
+        return MessageFormat.format(SQL_TB_UNIQUE, table, column);
     }
 
     // ~ Constructors ========================================

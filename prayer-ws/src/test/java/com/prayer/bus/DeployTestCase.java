@@ -53,8 +53,10 @@ public class DeployTestCase {
         final String scriptFile = Resources.META_INIT_SQL;
         info(LOGGER, InfoKey.INF_META_INIT, scriptFile);
         this.metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
-        // Purge
-        this.metaConn.loadSqlFile(Resources.class.getResourceAsStream(Resources.DB_PURGE_SQL));
+        /**
+         * 去掉了外键约束的生成语句，所以不需要删除掉对应的表信息
+         */
+        // this.metaConn.loadSqlFile(Resources.class.getResourceAsStream(Resources.DB_PURGE_SQL));
         // 删除所有测试表，特殊方法
         this.verifier.purgeTestData();
     }

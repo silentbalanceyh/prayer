@@ -1,6 +1,7 @@
 package com.prayer.util.dao;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -18,6 +19,7 @@ import com.prayer.util.io.PropertyKit;
 import jodd.util.ArraysUtil;
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -63,6 +65,28 @@ public final class SqlDdlStatement implements SqlSegment, Symbol {
      * @return
      */
     @NotNull
+    public static String newFKSql(@NotNull @NotBlank @NotEmpty final String fKeyName,
+            @NotNull @MinSize(1) final List<String> columns, @NotNull @NotBlank @NotEmpty final String toTable,
+            @NotNull @NotBlank @NotEmpty final String toColumn) {
+        // 1.初始化缓冲区
+        final StringBuilder sql = new StringBuilder();
+        // 2.添加外键约束
+        sql.append(CONSTRAINT).append(SPACE).append(fKeyName).append(SPACE).append(FOREIGN).append(SPACE).append(KEY)
+                .append(SPACE).append(BRACKET_SL).append(StringKit.join(columns, COMMA)).append(BRACKET_SR)
+                .append(SPACE).append(REFERENCES).append(SPACE).append(toTable).append(BRACKET_SL).append(toColumn)
+                .append(BRACKET_SR).append(SPACE);
+        return sql.toString();
+    }
+
+    /**
+     * 生成外键约束的SQL语句： CONSTRAINT FK_NAME FOREIGN KEY (COLUMN) REFERENCES
+     * REF_TABLE(REF_ID)
+     * 
+     * @param foreignKey
+     * @param foreignField
+     * @return
+     */
+    @NotNull
     public static String newFKSql(@InstanceOfAny(KeyModel.class) final KeyModel foreignKey,
             @InstanceOfAny(FieldModel.class) final FieldModel foreignField) {
         // 1.初始化缓冲区
@@ -70,11 +94,14 @@ public final class SqlDdlStatement implements SqlSegment, Symbol {
         // 2.添加外键约束
         if (null != foreignKey && null != foreignField && KeyCategory.ForeignKey == foreignKey.getCategory()
                 && foreignField.isForeignKey()) {
-            sql.append(CONSTRAINT).append(SPACE).append(foreignKey.getName()).append(SPACE).append(FOREIGN)
-                    .append(SPACE).append(KEY).append(SPACE).append(BRACKET_SL)
-                    .append(StringKit.join(foreignKey.getColumns(), COMMA)).append(BRACKET_SR).append(SPACE)
-                    .append(REFERENCES).append(SPACE).append(foreignField.getRefTable()).append(BRACKET_SL)
-                    .append(foreignField.getRefId()).append(BRACKET_SR);
+            sql.append(newFKSql(foreignKey.getName(), foreignKey.getColumns(), foreignField.getRefTable(),
+                    foreignField.getRefId()));
+            // sql.append(CONSTRAINT).append(SPACE).append(foreignKey.getName()).append(SPACE).append(FOREIGN)
+            // .append(SPACE).append(KEY).append(SPACE).append(BRACKET_SL)
+            // .append(StringKit.join(foreignKey.getColumns(),
+            // COMMA)).append(BRACKET_SR).append(SPACE)
+            // .append(REFERENCES).append(SPACE).append(foreignField.getRefTable()).append(BRACKET_SL)
+            // .append(foreignField.getRefId()).append(BRACKET_SR).append(SPACE);
         }
         return sql.toString();
     }
@@ -148,7 +175,7 @@ public final class SqlDdlStatement implements SqlSegment, Symbol {
         }
         return sql.toString();
     }
-    
+
     /**
      * getColType
      * 

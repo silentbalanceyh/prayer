@@ -20,7 +20,6 @@ import com.prayer.constant.SystemEnum.MetaCategory;
 import com.prayer.constant.SystemEnum.MetaMapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.schema.ColumnsMissingException;
-import com.prayer.exception.schema.FKMoreThanTwoException;
 import com.prayer.exception.schema.MultiForPKPolicyException;
 import com.prayer.exception.schema.PKNotOnlyOneException;
 import com.prayer.exception.schema.WrongTimeAttrException;
@@ -94,16 +93,16 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
         // 2.主键必须在__keys__中唯一定义异常
         validatePKOnlyOne();
         interrupt();
-        // 3.外键如果存在则在__keys__中只能出现0次或者1次
-        validateFKOnlyOne();
-        interrupt();
-        // 4.检查columns中的列是否在__fields__中定义过
+        // // 3.外键如果存在则在__keys__中只能出现0次或者1次
+        // validateFKOnlyOne();
+        // interrupt();
+        // 3.检查columns中的列是否在__fields__中定义过
         validateColumnMissing();
         interrupt();
-        // 5.检查columns中的定义和__fields__中定义相同
+        // 4.检查columns中的定义和__fields__中定义相同
         validateAttrConflict();
         interrupt();
-        // 6.检查主键和Target的表中的__subtable__以及__subkey__定义是否相同
+        // 5.检查主键和Target的表中的__subtable__以及__subkey__定义是否相同
         validateSubTColumnType();
         interrupt();
     }
@@ -281,21 +280,6 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
      * 
      * @return
      */
-    private boolean validateFKOnlyOne() {
-        // 33.验证Keys中的ForeignKey如果存在只能有两个
-        final int occurs = JsonKit.occursAttr(this.keysNode, Attributes.K_CATEGORY, KeyCategory.ForeignKey, true);
-        // 外键只能有两个，并且两个引用不同的Table
-        if (Constants.TWO < occurs) {
-            this.error = new FKMoreThanTwoException(getClass());
-            peError(LOGGER, this.error);
-        }
-        return null == this.error;
-    }
-
-    /**
-     * 
-     * @return
-     */
     private boolean validateMetaPKPolicy() { // NOPMD
         // 31.验证Keys中的PrimaryKey对应的Policy
         final Iterator<JsonNode> nodeIt = this.keysNode.iterator();
@@ -325,5 +309,20 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
+    // ~ Old Code ============================================
+    // /**
+    // *
+    // * @return
+    // */
+    // private boolean validateFKOnlyOne() {
+    // // 33.验证Keys中的ForeignKey如果存在只能有两个
+    // final int occurs = JsonKit.occursAttr(this.keysNode,
+    // Attributes.K_CATEGORY, KeyCategory.ForeignKey, true);
+    // // 外键只能有两个，并且两个引用不同的Table
+    // if (Constants.TWO < occurs) {
+    // this.error = new PKReferenceByOtherException(getClass());
+    // peError(LOGGER, this.error);
+    // }
+    // return null == this.error;
+    // }
 }

@@ -108,6 +108,14 @@ public abstract class AbstractConn implements JdbcContext {
 
     /** **/
     @Override
+    public List<ConcurrentMap<String, String>> select(@NotNull @NotBlank @NotEmpty final String sql,
+            @NotNull @MinSize(2) final String[] columns) {
+        final JdbcTemplate jdbc = this.getPool().getJdbc();
+        return jdbc.query(sql, Output.extractColumnList(columns));
+    }
+
+    /** **/
+    @Override
     public Value<?> insert(@NotNull @NotBlank @NotEmpty final String sql,
             @NotNull @MinSize(1) final List<Value<?>> values, final boolean isRetKey, final DataType retType) {
         final JdbcTemplate jdbc = this.getPool().getJdbc();
@@ -117,7 +125,7 @@ public abstract class AbstractConn implements JdbcContext {
     /** for oracle **/
     @Override
     public int executeBatch(@NotNull @NotBlank @NotEmpty final String sql) {
-        return SqlKit.execute(this.getPool().getJdbc(),sql);
+        return SqlKit.execute(this.getPool().getJdbc(), sql);
     }
 
     // ~ Methods =============================================

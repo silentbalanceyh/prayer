@@ -8,7 +8,7 @@ import com.prayer.base.exception.AbstractSchemaException;
  * @author Lang
  * @see
  */
-public class FKMoreThanTwoException extends AbstractSchemaException {
+public class PKReferenceByOtherException extends AbstractSchemaException {
 
     // ~ Static Fields =======================================
 
@@ -25,7 +25,7 @@ public class FKMoreThanTwoException extends AbstractSchemaException {
      * 
      * @param clazz
      */
-    public FKMoreThanTwoException(final Class<?> clazz) {
+    public PKReferenceByOtherException(final Class<?> clazz) {
         super(clazz, -10016);
     }
 

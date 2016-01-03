@@ -159,7 +159,6 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
              * 如果外键关联的时候关联表和本表一致，那么这种情况不需要检查真实数据库中外键表是否存在
              */
             if (this.skipFKey(node)) {
-                // TODO: 外键表关联本表的时候并没检查字段
                 if (checkFKFromJson(node)) {
                     break;
                 } else {

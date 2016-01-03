@@ -3,9 +3,12 @@ package com.prayer.dao.impl.builder; // NOPMD
 import static com.prayer.util.debug.Log.debug;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -23,10 +26,13 @@ import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
 import com.prayer.exception.database.UniqueAddException;
 import com.prayer.exception.database.UniqueAlterException;
+import com.prayer.facade.schema.Referencer;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
 import com.prayer.model.h2.schema.MetaModel;
+import com.prayer.model.kernel.FKReferencer;
 import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.type.DataType;
 import com.prayer.util.StringKit;
 import com.prayer.util.dao.SqlDdlStatement;
 
@@ -51,8 +57,10 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlBuilder.class);
     /** 针对整个系统的表统计管理 **/
     private static final ConcurrentMap<String, Boolean> TB_COUNT_MAP = new ConcurrentHashMap<>();
-
     // ~ Instance Fields =====================================
+    /** **/
+    private transient Referencer referencer;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -60,10 +68,33 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     @PostValidateThis
     public MsSqlBuilder(@NotNull @InstanceOfAny(GenericSchema.class) final GenericSchema schema) {
         super(schema);
+        /**
+         * 固定类型引用，调用了父类构造函数过后，Referencer就可以直接被初始化了
+         */
+        this.referencer = new MsSqlReferencer(this.getContext());
     }
 
     // ~ Abstract Methods ====================================
+
+    // ~ Database Unsupport ==================================
+    /**
+     * 生成修改列的语句：ALTER TABLE TABLE_NAME ALTER COLUMN [COLUMN LINE]
+     * 
+     * @param field
+     * @return
+     */
+    // Fix: com.microsoft.sqlserver.jdbc.SQLServerException: Cannot alter column
+    // '<COLUMN NAME>' to be data type timestamp.
+    @Override
+    public String genAlterColumns(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
+        String ret = Constants.EMPTY_STR;
+        if (DataType.DATE != field.getType()) {
+            ret = SqlDdlStatement.alterColSql(this.getTable(), this.genColumnLine(field));
+        }
+        return ret;
+    }
     // ~ Override Methods ====================================
+
     /**
      * 
      */
@@ -189,7 +220,23 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         if (this.existTable()) {
             rows = this.getRows();
         }
-        // 2.清除约束
+        // 2.1.清除约束
+        final List<FKReferencer> refs = new ArrayList<>();
+        {
+            final Set<String> columns = schema.getColumns();
+            for (final String column : columns) {
+                // 2.1.1.第一次加载约束信息
+                refs.addAll(this.referencer.getReferences(this.getTable(), column));
+                // 2.1.2.生成References的DROP语句
+                if (!refs.isEmpty()) {
+                    final List<String> dropSqls = this.referencer.prepDropSql(refs);
+                    for (final String dropSql : dropSqls) {
+                        addSqlLine(dropSql);
+                    }
+                }
+            }
+        }
+        // 2.2.清除约束之前先清除当前约束对应的引用
         {
             final Collection<String> csSet = this.getCSNames();
             for (final String name : csSet) {
@@ -217,11 +264,26 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
             final Collection<KeyModel> keys = schema.getKeys().values();
             for (final KeyModel key : keys) {
                 if (KeyCategory.ForeignKey == key.getCategory()) {
-                    final String column = key.getColumns().get(Constants.ZERO);
-                    final FieldModel field = schema.getColumn(column);
-                    addSqlLine(this.genAddCsLine(key, field));
+                    final Iterator<String> columns = key.getColumns().iterator();
+                    /**
+                     * 多个外键操作
+                     */
+                    while (columns.hasNext()) {
+                        final String column = columns.next();
+                        final FieldModel field = schema.getColumn(column);
+                        addSqlLine(this.genAddCsLine(key, field));
+                    }
                 } else {
                     addSqlLine(this.genAddCsLine(key, null));
+                }
+            }
+        }
+        // 7.恢复（Recovery）引用语句
+        {
+            if (!refs.isEmpty()) {
+                final List<String> recoverySqls = this.referencer.prepRecoverySql(refs);
+                for (final String recoverySql : recoverySqls) {
+                    addSqlLine(recoverySql);
                 }
             }
         }
@@ -311,7 +373,9 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         {
             final Collection<KeyModel> keys = this.getSchema().getKeys().values();
             for (final KeyModel key : keys) {
-                // INCREMENT已经在前边生成过主键行了，不需要重新生成
+                /**
+                 * INCREMENT已经在前边生成过主键行了，不需要重新生成
+                 */
                 addSqlLine(this.genKeyLine(key));
                 // this.getSqlLines().add(this.genKeyLine(key));
             }

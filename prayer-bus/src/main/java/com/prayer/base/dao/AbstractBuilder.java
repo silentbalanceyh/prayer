@@ -145,7 +145,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
 
     /**
      * 生成Foreign Key的行，类似：{ CONSTRAINT FK_NAME FOREIGN KEY (COLUMN) REFERENCES
-     * REF_TABLE(REF_ID) }
+     * REF_TABLE(REF_ID) ON DELETE SET NULL ON UPDATE SET NULL}
      * 
      * @param foreignKey
      * @param foreignField
