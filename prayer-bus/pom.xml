@@ -17,119 +17,99 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>${h2db.version}</version>
         </dependency>
         <!-- Vert.X Core -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
-            <version>${vertx.version}</version>
         </dependency>
         <!-- ScriptRunner -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>${mybatis.version}</version>
         </dependency>
         <!-- Object Pool -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
-            <version>${pool2.version}</version>
         </dependency>
         <!-- ReflectASM -->
         <dependency>
             <groupId>com.esotericsoftware</groupId>
             <artifactId>reflectasm</artifactId>
-            <version>${reflect.asm.version}</version>
         </dependency>
         <!-- JODD -->
         <!-- 基础工具类 -->
         <dependency>
             <groupId>org.jodd</groupId>
             <artifactId>jodd-core</artifactId>
-            <version>${jodd.version}</version>
         </dependency>
         <!-- JODD: 类型转换 -->
         <dependency>
             <groupId>org.jodd</groupId>
             <artifactId>jodd-bean</artifactId>
-            <version>${jodd.version}</version>
         </dependency>
         <!-- XML/HTML解析器 -->
         <dependency>
             <groupId>org.jodd</groupId>
             <artifactId>jodd-lagarto</artifactId>
-            <version>${jodd.version}</version>
         </dependency>
         <!-- JSON解析器 -->
         <dependency>
             <groupId>org.jodd</groupId>
             <artifactId>jodd-json</artifactId>
-            <version>${jodd.version}</version>
         </dependency>
         <!-- Dom4j XML解析 -->
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>${dom4j.version}</version>
         </dependency>
         <!-- Connection -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
         </dependency>
         <dependency>
             <groupId>com.jolbox</groupId>
             <artifactId>bonecp</artifactId>
-            <version>${bonecp.version}</version>
         </dependency>
         <!-- Spring Framework -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         <!-- JDBC Oracle -->
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc7</artifactId>
-            <version>${jdbc.oracle.version}</version>
         </dependency>
         <!-- JDBC PgSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${jdbc.pgsql.version}</version>
         </dependency>
         <!-- JDBC SQL Server -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>sqljdbc41</artifactId>
-            <version>${jdbc.mssql.version}</version>
         </dependency>
         <!-- JDBC MySQL -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${jdbc.mysql.version}</version>
         </dependency>
         <!-- Jackson Serialization -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
     <build>

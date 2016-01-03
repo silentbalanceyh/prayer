@@ -1,340 +1,572 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.prayer</groupId>
-	<artifactId>prayer</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>Prayer Framework</name>
-	<modules>
-		<module>prayer-bus</module>
-		<module>prayer-ws</module>
-		<!--  <module>prayer-client</module> -->
-    <module>prayer-sample</module>
-  </modules>
-	<properties>
-		<!-- 项目默认使用的编码方式 -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.prayer</groupId>
+    <artifactId>prayer</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Prayer Framework</name>
+    <modules>
+        <module>prayer-bus</module>
+        <module>prayer-ws</module>
+        <!-- <module>prayer-client</module> -->
+        <module>prayer-sample</module>
+    </modules>
+    <properties>
+        <!-- 项目默认使用的编码方式 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<!-- 是否启用pullInDeps选项，如果该值的选项为true则在mod.json的includes以及deploys中包含的Module会在打包的时候自动发布到当前Module的依赖模块中 
-			也就是说不需要在运行时再执行依赖的Module的安装和下载，会直接将这些依赖的库打包到当前的Module中直接运行 <vertx.pullInDeps>false</vertx.pullInDeps> 
-			这个值设置成true过后，则可以创建能执行的Fat jar的包，这个包可以通过java -jar <jarname>的命令执行 <vertx.createFatJar>false</vertx.createFatJar> 
-			Vertx 模块的标准标识，其标识符必须符合Identifier的规范<Owner>~<Name>~<Version> <module.name>${project.groupId}~${project.artifactId}~${project.version}</module.name> 
-			配置的这个目录将会包含assembled嵌入式的Mod信息，这个配置也会在命令中北-Dmods.directory=<mydir>的参数覆盖掉 <mods.directory>target/mods</mods.directory> -->
-		<!-- Module相关信息 -->
-		<module.name>${project.groupId}~${project.artifactId}~${project.version}</module.name>
-		<mods.directory>target/mods</mods.directory>
+        <!-- 是否启用pullInDeps选项，如果该值的选项为true则在mod.json的includes以及deploys中包含的Module会在打包的时候自动发布到当前Module的依赖模块中 
+            也就是说不需要在运行时再执行依赖的Module的安装和下载，会直接将这些依赖的库打包到当前的Module中直接运行 <vertx.pullInDeps>false</vertx.pullInDeps> 
+            这个值设置成true过后，则可以创建能执行的Fat jar的包，这个包可以通过java -jar <jarname>的命令执行 <vertx.createFatJar>false</vertx.createFatJar> 
+            Vertx 模块的标准标识，其标识符必须符合Identifier的规范<Owner>~<Name>~<Version> <module.name>${project.groupId}~${project.artifactId}~${project.version}</module.name> 
+            配置的这个目录将会包含assembled嵌入式的Mod信息，这个配置也会在命令中北-Dmods.directory=<mydir>的参数覆盖掉 <mods.directory>target/mods</mods.directory> -->
+        <!-- Module相关信息 -->
+        <module.name>${project.groupId}~${project.artifactId}~${project.version}</module.name>
+        <mods.directory>target/mods</mods.directory>
 
-		<!-- 依赖的库的版本号 -->
-		<http.component.version>4.5.1</http.component.version>
-		<telnet.version>3.4</telnet.version>
-		<!-- 【Latest】Vert.X库的版本 -->
-		<vertx.version>3.2.0</vertx.version>
-		<hazelcast.version>3.5.4</hazelcast.version>
-		<common.cli.version>1.3.1</common.cli.version>
-		<javassist.version>3.20.0-GA</javassist.version>
-		<!-- 【Latest】Vert.X的单元测试库的版本 -->
-		<!-- <vertx.testtools.version>2.0.3-final</vertx.testtools.version> -->
-		<!-- 【Latest】JUnit的版本号 -->
-		<junit.version>4.12</junit.version>
-		<!-- 【Latest】JDK的编译和运行版本号：Vert.X要求最低版本是1.7 -->
-		<jdk.version>1.8</jdk.version>
-		<ajc.version>1.8</ajc.version>
-		<!-- 【Latest】Jackson序列化系统，用于处理Json建模文件 -->
-		<jackson.version>2.6.4</jackson.version>
-		<!-- 【Latest】BoneCP连接池版本 -->
-		<bonecp.version>0.8.0.RELEASE</bonecp.version>
-		<druid.version>1.0.16</druid.version>
-		<!-- 【Latest】Spring的版本 -->
-		<spring.version>4.2.2.RELEASE</spring.version>
-		<!-- Slf4j日志器版本 -->
-		<slf4j.version>1.7.12</slf4j.version>
-		<log4j.version>1.2.17</log4j.version>
-		<dom4j.version>1.6.1</dom4j.version>
-		<!-- DBF JDBC Driver -->
-		<jdbc.oracle.version>12.1.0.2</jdbc.oracle.version><!-- 12.1.0s -->
-		<jdbc.pgsql.version>9.3-1102-jdbc41</jdbc.pgsql.version>
-		<jdbc.mssql.version>4.1</jdbc.mssql.version>
-		<jdbc.mysql.version>5.1.9</jdbc.mysql.version>
-		<!-- English Town -->
-		<mockito.version>1.9.5</mockito.version>
-		<asm.version>3.3.1</asm.version>
-		<!-- Object validation -->
-		<oval.version>1.84</oval.version>
-		<oval.groovy>2.1.6</oval.groovy>
-		<!-- JODD版本 -->
-		<jodd.version>3.6.7</jodd.version>
-		<!-- Pool池化管理 -->
-		<pool2.version>2.3</pool2.version>
-		<!-- ReflectASM -->
-		<reflect.asm.version>1.10.0</reflect.asm.version>
-		<!-- Mybatis -->
-		<mybatis.version>3.2.8</mybatis.version>
-		<!-- H2 Database -->
-		<h2db.version>1.4.190</h2db.version>
-		<!-- AspectJ Version -->
-		<aspectj.version>1.8.7</aspectj.version>
-		<aopalliance.version>1.0</aopalliance.version>
-		<aspectj.compile.file>aopaj.properties</aspectj.compile.file>
-		<aspectj.test.file>aopaj-test.properties</aspectj.test.file>
-		<!-- Jade4J -->
-		<jade4j.version>0.4.3</jade4j.version>
+        <!-- 依赖的库的版本号 -->
+        <http.component.version>4.5.1</http.component.version>
+        <telnet.version>3.4</telnet.version>
+        <!-- 【Latest】Vert.X库的版本 -->
+        <vertx.version>3.2.0</vertx.version>
+        <hazelcast.version>3.5.4</hazelcast.version>
+        <common.cli.version>1.3.1</common.cli.version>
+        <javassist.version>3.20.0-GA</javassist.version>
+        <!-- 【Latest】Vert.X的单元测试库的版本 -->
+        <!-- <vertx.testtools.version>2.0.3-final</vertx.testtools.version> -->
+        <!-- 【Latest】JUnit的版本号 -->
+        <junit.version>4.12</junit.version>
+        <!-- 【Latest】JDK的编译和运行版本号：Vert.X要求最低版本是1.7 -->
+        <jdk.version>1.8</jdk.version>
+        <ajc.version>1.8</ajc.version>
+        <!-- 【Latest】Jackson序列化系统，用于处理Json建模文件 -->
+        <jackson.version>2.6.4</jackson.version>
+        <!-- 【Latest】BoneCP连接池版本 -->
+        <bonecp.version>0.8.0.RELEASE</bonecp.version>
+        <druid.version>1.0.16</druid.version>
+        <!-- 【Latest】Spring的版本 -->
+        <spring.version>4.2.2.RELEASE</spring.version>
+        <!-- Slf4j日志器版本 -->
+        <slf4j.version>1.7.12</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+        <dom4j.version>1.6.1</dom4j.version>
+        <!-- DBF JDBC Driver -->
+        <jdbc.oracle.version>12.1.0.2</jdbc.oracle.version><!-- 12.1.0s -->
+        <jdbc.pgsql.version>9.3-1102-jdbc41</jdbc.pgsql.version>
+        <jdbc.mssql.version>4.1</jdbc.mssql.version>
+        <jdbc.mysql.version>5.1.9</jdbc.mysql.version>
+        <!-- English Town -->
+        <mockito.version>1.9.5</mockito.version>
+        <asm.version>3.3.1</asm.version>
+        <!-- Object validation -->
+        <oval.version>1.84</oval.version>
+        <oval.groovy>2.1.6</oval.groovy>
+        <!-- JODD版本 -->
+        <jodd.version>3.6.7</jodd.version>
+        <!-- Pool池化管理 -->
+        <pool2.version>2.3</pool2.version>
+        <!-- ReflectASM -->
+        <reflect.asm.version>1.10.0</reflect.asm.version>
+        <!-- Mybatis -->
+        <mybatis.version>3.2.8</mybatis.version>
+        <!-- H2 Database -->
+        <h2db.version>1.4.190</h2db.version>
+        <!-- AspectJ Version -->
+        <aspectj.version>1.8.7</aspectj.version>
+        <aopalliance.version>1.0</aopalliance.version>
+        <aspectj.compile.file>aopaj.properties</aspectj.compile.file>
+        <aspectj.test.file>aopaj-test.properties</aspectj.test.file>
+        <!-- Jade4J -->
+        <jade4j.version>0.4.3</jade4j.version>
 
-		<!--Plugin versions -->
-		<!-- 【Latest】Maven代码编译插件版本 -->
-		<maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
-		<!-- 【Latest】Maven的资源编译插件的版本 -->
-		<maven.resources.plugin.version>2.7</maven.resources.plugin.version>
-		<!-- 【Latest】Maven处理Dependency的库的插件版本 -->
-		<maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
-		<!-- 【Latest】AspectJ Compiler -->
-		<maven.mojo.aspectj.version>1.7</maven.mojo.aspectj.version>
+        <!--Plugin versions -->
+        <!-- 【Latest】Maven代码编译插件版本 -->
+        <maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
+        <!-- 【Latest】Maven的资源编译插件的版本 -->
+        <maven.resources.plugin.version>2.7</maven.resources.plugin.version>
+        <!-- 【Latest】Maven处理Dependency的库的插件版本 -->
+        <maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
+        <!-- 【Latest】AspectJ Compiler -->
+        <maven.mojo.aspectj.version>1.7</maven.mojo.aspectj.version>
 
-		<maven.shade.plugin.version>2.3</maven.shade.plugin.version>
-		<!-- 【Latest】Maven的JXR插件使用的版本 <maven.jxr.plugin.version>2.4</maven.jxr.plugin.version> 
-			【Latest】Maven处理Clean Up插件的版本 <maven.clean.plugin.version>2.5</maven.clean.plugin.version> 
-			【Latest】Surefire的插件版本 <maven.surefire.plugin.version>2.14</maven.surefire.plugin.version> 
-			【Latest】Failsafe的插件版本 <maven.failsafe.plugin.version>2.14</maven.failsafe.plugin.version> 
-			【Latest】Surefire Report的插件版本 <maven.surefire.report.plugin.version>2.14</maven.surefire.report.plugin.version> 
-			【Latest】Java Documentation的插件版本 <maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version> 
-			【1.7.7】Maven中的Avro插件 <maven.avro.plugin.version>1.7.4</maven.avro.plugin.version> -->
-	</properties>
-	<!-- 特殊的Repository配置，因为VertX比较新，所以使用这个库可以使得依赖的jar的包可以顺利从Repository中直接获取 -->
-	<!-- <repositories> <repository> <id>sonatype-nexus-snapshots</id> <url>https://oss.sonatype.org/content/repositories/snapshots</url> 
-		</repository> </repositories> -->
-	<dependencies>
-		<!-- Object Validation -->
-		<dependency>
-			<groupId>net.sf.oval</groupId>
-			<artifactId>oval</artifactId>
-			<version>${oval.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
-			<version>${oval.groovy}</version>
-		</dependency>
-		<!-- AspectJ Runtime -->
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjtools</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>aopalliance</groupId>
-			<artifactId>aopalliance</artifactId>
-			<version>${aopalliance.version}</version>
-		</dependency>
-		<!--Test Dependencies -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>${http.component.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-net</groupId>
-			<artifactId>commons-net</artifactId>
-			<version>${telnet.version}</version>
-		</dependency>
-		<!-- Spring Test -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- Slf4j -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-	</dependencies>
-	<dependencyManagement>
-		<dependencies>
-			<!-- AspectJ Runtime -->
-			<dependency>
-				<groupId>org.aspectj</groupId>
-				<artifactId>aspectjrt</artifactId>
-				<version>${aspectj.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.aspectj</groupId>
-				<artifactId>aspectjtools</artifactId>
-				<version>${aspectj.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.aspectj</groupId>
-				<artifactId>aspectjweaver</artifactId>
-				<version>${aspectj.version}</version>
-			</dependency>
-			<!-- Hazelcast Platform -->
-			<dependency>
-			    <groupId>com.hazelcast</groupId>
-			    <artifactId>hazelcast</artifactId>
-			    <version>${hazelcast.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	<build>
-		<plugins>
-			<!-- Other plugins required by the build -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.compiler.plugin.version}</version>
-				<configuration>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
-				</configuration>
-			</plugin>
-			<!-- Maven Resource Plugin -->
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven.resources.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>copy-mod-to-target</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<overwrite>true</overwrite>
-							<outputDirectory>${mods.directory}/${module.name}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>target/classes</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- Maven Dependency Plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${maven.dependency.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>copy-mod-dependencies-to-target</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${mods.directory}/${module.name}/lib</outputDirectory>
-							<includeScope>runtime</includeScope>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-mod-dependencies-to-target-dependencies</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>target/dependencies</outputDirectory>
-							<includeScope>runtime</includeScope>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- <plugin> -->
-			<!-- <groupId>org.apache.maven.plugins</groupId> -->
-			<!-- <artifactId>maven-shade-plugin</artifactId> -->
-			<!-- <version>${maven.shade.plugin.version}</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <phase>package</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>shade</goal> -->
-			<!-- </goals> -->
-			<!-- <configuration> -->
-			<!-- <transformers> -->
-			<!-- <transformer -->
-			<!-- implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> -->
-			<!-- <manifestEntries> -->
-			<!-- <Main-Class>${main.class}</Main-Class> -->
-			<!-- </manifestEntries> -->
-			<!-- </transformer> -->
-			<!-- <transformer -->
-			<!-- implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> -->
-			<!-- <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource> -->
-			<!-- </transformer> -->
-			<!-- </transformers> -->
-			<!-- <artifactSet> -->
-			<!-- </artifactSet> -->
-			<!-- <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile> -->
-			<!-- </configuration> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.apache.maven.plugins
-										</groupId>
-										<artifactId>
-											maven-dependency-plugin
-										</artifactId>
-										<versionRange>
-											[2.8,)
-										</versionRange>
-										<goals>
-											<goal>
-												copy-dependencies
-											</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore/>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+        <maven.shade.plugin.version>2.3</maven.shade.plugin.version>
+        <!-- 【Latest】Maven的JXR插件使用的版本 <maven.jxr.plugin.version>2.4</maven.jxr.plugin.version> 
+            【Latest】Maven处理Clean Up插件的版本 <maven.clean.plugin.version>2.5</maven.clean.plugin.version> 
+            【Latest】Surefire的插件版本 <maven.surefire.plugin.version>2.14</maven.surefire.plugin.version> 
+            【Latest】Failsafe的插件版本 <maven.failsafe.plugin.version>2.14</maven.failsafe.plugin.version> 
+            【Latest】Surefire Report的插件版本 <maven.surefire.report.plugin.version>2.14</maven.surefire.report.plugin.version> 
+            【Latest】Java Documentation的插件版本 <maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version> 
+            【1.7.7】Maven中的Avro插件 <maven.avro.plugin.version>1.7.4</maven.avro.plugin.version> -->
+    </properties>
+    <!-- 特殊的Repository配置，因为VertX比较新，所以使用这个库可以使得依赖的jar的包可以顺利从Repository中直接获取 -->
+    <!-- <repositories> <repository> <id>sonatype-nexus-snapshots</id> <url>https://oss.sonatype.org/content/repositories/snapshots</url> 
+        </repository> </repositories> -->
+    <dependencies>
+        <!-- Object Validation -->
+        <dependency>
+            <groupId>net.sf.oval</groupId>
+            <artifactId>oval</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+        </dependency>
+        <!-- AspectJ Runtime -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>aopalliance</groupId>
+            <artifactId>aopalliance</artifactId>
+        </dependency>
+        <!-- Slf4j Version -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <!--Test Dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Spring Test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Prayer Framework -->
+            <dependency>
+                <groupId>com.prayer</groupId>
+                <artifactId>prayer-bus</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <!-- ==================================================== -->
+            <!-- Jade4j -->
+            <dependency>
+                <groupId>de.neuland-bfi</groupId>
+                <artifactId>jade4j</artifactId>
+                <version>${jade4j.version}</version>
+            </dependency>
+            <!-- Vertx Web -->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web-templ-jade</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!-- Vert.X Core -->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-core</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!-- Vertx Hazelcast -->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-hazelcast</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!-- Vertx CodeGen -->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-codegen</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!-- Vertx Security -->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-common</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-jdbc</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!-- Java Assist -->
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist.version}</version>
+            </dependency>
+            <!-- Common CLI -->
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>${common.cli.version}</version>
+            </dependency>
+            <!-- Object Validation -->
+            <dependency>
+                <groupId>net.sf.oval</groupId>
+                <artifactId>oval</artifactId>
+                <version>${oval.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>${oval.groovy}</version>
+            </dependency>
+            <!-- H2 Database -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2db.version}</version>
+            </dependency>
+            <!-- ScriptRunner -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <!-- Object Pool -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${pool2.version}</version>
+            </dependency>
+            <!-- ReflectASM -->
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>reflectasm</artifactId>
+                <version>${reflect.asm.version}</version>
+            </dependency>
+            <!-- JODD -->
+            <!-- 基础工具类 -->
+            <dependency>
+                <groupId>org.jodd</groupId>
+                <artifactId>jodd-core</artifactId>
+                <version>${jodd.version}</version>
+            </dependency>
+            <!-- JODD: 类型转换 -->
+            <dependency>
+                <groupId>org.jodd</groupId>
+                <artifactId>jodd-bean</artifactId>
+                <version>${jodd.version}</version>
+            </dependency>
+            <!-- XML/HTML解析器 -->
+            <dependency>
+                <groupId>org.jodd</groupId>
+                <artifactId>jodd-lagarto</artifactId>
+                <version>${jodd.version}</version>
+            </dependency>
+            <!-- JSON解析器 -->
+            <dependency>
+                <groupId>org.jodd</groupId>
+                <artifactId>jodd-json</artifactId>
+                <version>${jodd.version}</version>
+            </dependency>
+            <!-- Dom4j XML解析 -->
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>${dom4j.version}</version>
+            </dependency>
+            <!-- Connection -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jolbox</groupId>
+                <artifactId>bonecp</artifactId>
+                <version>${bonecp.version}</version>
+            </dependency>
+            <!-- JDBC Oracle -->
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc7</artifactId>
+                <version>${jdbc.oracle.version}</version>
+            </dependency>
+            <!-- JDBC PgSQL -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${jdbc.pgsql.version}</version>
+            </dependency>
+            <!-- JDBC SQL Server -->
+            <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>sqljdbc41</artifactId>
+                <version>${jdbc.mssql.version}</version>
+            </dependency>
+            <!-- JDBC MySQL -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${jdbc.mysql.version}</version>
+            </dependency>
+            <!-- Jackson Serialization -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- Spring Version -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <!-- Slf4j Version -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <!-- AspectJ Runtime -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjtools</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun</groupId>
+                <artifactId>tools</artifactId>
+                <version>${jdk.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!-- Hazelcast Platform -->
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast</artifactId>
+                <version>${hazelcast.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${telnet.version}</version>
+            </dependency>
+            <!-- ============================================ -->
+            <dependency>
+                <groupId>aopalliance</groupId>
+                <artifactId>aopalliance</artifactId>
+                <version>${aopalliance.version}</version>
+            </dependency>
+            <!--Test Dependencies -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${http.component.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <plugins>
+            <!-- Other plugins required by the build -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+            <!-- Maven Resource Plugin -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-mod-to-target</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <overwrite>true</overwrite>
+                            <outputDirectory>${mods.directory}/${module.name}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>target/classes</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Maven Dependency Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven.dependency.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-mod-dependencies-to-target</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${mods.directory}/${module.name}/lib</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-mod-dependencies-to-target-dependencies</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/dependencies</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- <plugin> -->
+            <!-- <groupId>org.apache.maven.plugins</groupId> -->
+            <!-- <artifactId>maven-shade-plugin</artifactId> -->
+            <!-- <version>${maven.shade.plugin.version}</version> -->
+            <!-- <executions> -->
+            <!-- <execution> -->
+            <!-- <phase>package</phase> -->
+            <!-- <goals> -->
+            <!-- <goal>shade</goal> -->
+            <!-- </goals> -->
+            <!-- <configuration> -->
+            <!-- <transformers> -->
+            <!-- <transformer -->
+            <!-- implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> -->
+            <!-- <manifestEntries> -->
+            <!-- <Main-Class>${main.class}</Main-Class> -->
+            <!-- </manifestEntries> -->
+            <!-- </transformer> -->
+            <!-- <transformer -->
+            <!-- implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> -->
+            <!-- <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource> -->
+            <!-- </transformer> -->
+            <!-- </transformers> -->
+            <!-- <artifactSet> -->
+            <!-- </artifactSet> -->
+            <!-- <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile> -->
+            <!-- </configuration> -->
+            <!-- </execution> -->
+            <!-- </executions> -->
+            <!-- </plugin> -->
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.apache.maven.plugins
+                                        </groupId>
+                                        <artifactId>
+                                            maven-dependency-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [2.8,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>
+                                                copy-dependencies
+                                            </goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

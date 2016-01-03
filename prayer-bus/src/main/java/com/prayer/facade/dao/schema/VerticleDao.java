@@ -1,8 +1,9 @@
 package com.prayer.facade.dao.schema;
 
+import java.util.List;
+
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.database.DataAccessException;
-import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vertx.VerticleModel;
 
 /**
@@ -26,7 +27,7 @@ public interface VerticleDao extends TemplateDao<VerticleModel,String>{
      * @param group
      * @return
      */
-    VerticleChain getByGroup(String group);
+    List<VerticleModel> getByGroup(String group);
 
     /**
      * 按照类名读取单个VerticleModel

@@ -138,10 +138,7 @@ CREATE TABLE EVX_VERTICLE(
 	IS_HA BOOLEAN NOT NULL,						-- 是否开启了HA
 	IS_WORKER BOOLEAN NOT NULL,					-- 是否是一个Worker
 	IS_MULTI BOOLEAN NOT NULL,					-- 是否是一个Multi类型的Verticle
-	--创建部署配置
-	DP_ORDER INT 								-- Deployment Order发布顺序
-		CHECK(DP_ORDER > 0),
-	DP_ASYNC BOOLEAN,							-- 是否执行异步方式的Deployment过程			
+	--创建部署配置		
 	PRIMARY KEY(K_ID)
 );
 -- EVX_VERTICLE的索引创建
@@ -150,7 +147,6 @@ CREATE INDEX IDX_VERTICLE_IGROUP ON EVX_VERTICLE(S_IGROUP);
 CREATE INDEX IDX_VERTICLE_IS_HA ON EVX_VERTICLE(IS_HA);
 CREATE INDEX IDX_VERTICLE_IS_WORKER ON EVX_VERTICLE(IS_WORKER);
 CREATE INDEX IDX_VERTICLE_IS_MULTI ON EVX_VERTICLE(IS_MULTI);
-CREATE INDEX IDX_VERTICLE_DP_ORDER ON EVX_VERTICLE(DP_ORDER);
 
 --------------------------------------------------------------------------------------
 -- EVX_ROUTE，路由表结构，保存了路由地址以及相关的处理器

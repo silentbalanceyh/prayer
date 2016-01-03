@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vertx.AddressModel;
 import com.prayer.model.h2.vertx.RouteModel;
 import com.prayer.model.h2.vertx.RuleModel;
 import com.prayer.model.h2.vertx.ScriptModel;
 import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.h2.vertx.VerticleModel;
 
 import io.vertx.core.http.HttpMethod;
 
@@ -26,14 +26,14 @@ public interface ConfigService {
      * @param group
      * @return
      */
-    ServiceResult<VerticleChain> findVerticles(String group);
+    ServiceResult<List<VerticleModel>> findVerticles(String group);
 
     /**
      * 从H2数据库中读取所有的Verticle配置
      * 
      * @return
      */
-    ServiceResult<ConcurrentMap<String, VerticleChain>> findVerticles();
+    ServiceResult<ConcurrentMap<String, List<VerticleModel>>> findVerticles();
 
     // ~ Route Interface =====================================
     /**

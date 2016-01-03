@@ -215,34 +215,6 @@ public class VerticleModel implements Serializable {    // NOPMD
     public void setMulti(final boolean multi) {
         this.multi = multi;
     }
-    
-    /**
-     * @return the deployOrder
-     */
-    public int getDeployOrder() {
-        return deployOrder;
-    }
-
-    /**
-     * @param deployOrder the deployOrder to set
-     */
-    public void setDeployOrder(final int deployOrder) {
-        this.deployOrder = deployOrder;
-    }
-
-    /**
-     * @return the deployAsync
-     */
-    public boolean isDeployAsync() {
-        return deployAsync;
-    }
-
-    /**
-     * @param deployAsync the deployAsync to set
-     */
-    public void setDeployAsync(final boolean deployAsync) {
-        this.deployAsync = deployAsync;
-    }
 
     // ~ hashCode,equals,toString ============================
     /**

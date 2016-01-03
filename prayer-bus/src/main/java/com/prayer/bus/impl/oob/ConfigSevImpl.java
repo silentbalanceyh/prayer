@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vertx.AddressModel;
 import com.prayer.model.h2.vertx.RouteModel;
 import com.prayer.model.h2.vertx.RuleModel;
@@ -54,9 +53,9 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<VerticleChain> findVerticles(@NotNull @NotBlank @NotEmpty final String group) {
-        final ServiceResult<VerticleChain> result = new ServiceResult<>();
-        final VerticleChain chain = this.manager.getVerticleDao().getByGroup(group);
+    public ServiceResult<List<VerticleModel>> findVerticles(@NotNull @NotBlank @NotEmpty final String group) {
+        final ServiceResult<List<VerticleModel>> result = new ServiceResult<>();
+        final List<VerticleModel> chain = this.manager.getVerticleDao().getByGroup(group);
         return result.success(chain);
     }
 
@@ -64,13 +63,13 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<ConcurrentMap<String, VerticleChain>> findVerticles() {
+    public ServiceResult<ConcurrentMap<String, List<VerticleModel>>> findVerticles() {
         // 1.构造响应数据
-        final ServiceResult<ConcurrentMap<String, VerticleChain>> result = new ServiceResult<>();
+        final ServiceResult<ConcurrentMap<String, List<VerticleModel>>> result = new ServiceResult<>();
         // 2.读取所有的VerticleModel相关信息
         final List<VerticleModel> verticles = this.manager.getVerticleDao().getAll();
         // 3.返回最终结果
-        return result.success(ResultExtractor.extractVerticles(verticles));
+        return result.success(ResultExtractor.extractList(verticles, "group"));
     }
 
     /** 读取主路由下的子路由 **/

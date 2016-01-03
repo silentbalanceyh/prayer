@@ -16,59 +16,49 @@
         <dependency>
             <groupId>com.prayer</groupId>
             <artifactId>prayer-bus</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
         <!-- Jade4j -->
         <dependency>
             <groupId>de.neuland-bfi</groupId>
             <artifactId>jade4j</artifactId>
-            <version>${jade4j.version}</version>
         </dependency>
         <!-- Vertx Web -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web-templ-jade</artifactId>
-            <version>${vertx.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
-            <version>${vertx.version}</version>
         </dependency>
         <!-- Vertx Hazelcast -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-hazelcast</artifactId>
-            <version>${vertx.version}</version>
         </dependency>
         <!-- Vertx CodeGen -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-codegen</artifactId>
-            <version>${vertx.version}</version>
         </dependency>
         <!-- Vertx Security -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-auth-common</artifactId>
-            <version>${vertx.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-auth-jdbc</artifactId>
-            <version>${vertx.version}</version>
         </dependency>
         <!-- Java Assist -->
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
-            <version>${javassist.version}</version>
         </dependency>
         <!-- Common CLI -->
         <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
-            <version>${common.cli.version}</version>
         </dependency>
     </dependencies>
 </project>

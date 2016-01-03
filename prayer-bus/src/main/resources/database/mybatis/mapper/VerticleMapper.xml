@@ -19,9 +19,6 @@
         <result column="IS_HA" property="ha" />
         <result column="IS_WORKER" property="worker" />
         <result column="IS_MULTI" property="multi" />
-
-        <result column="DP_ORDER" property="deployOrder" />
-        <result column="DP_ASYNC" property="deployAsync" />
     </resultMap>
     <!-- 模板方法 -->
     <insert id="insert" parameterType="Verticle" keyColumn="K_ID"
@@ -37,9 +34,7 @@
                 CP_EXT,
                 IS_HA,
                 IS_WORKER,
-                IS_MULTI,
-                DP_ORDER,
-                DP_ASYNC
+                IS_MULTI
             ) VALUES (
                 #{uniqueId},
                 #{name},
@@ -50,9 +45,7 @@
                 #{extraCp, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{ha},
                 #{worker},
-                #{multi},
-                #{deployOrder},
-                #{deployAsync}
+                #{multi}
             )
         ]]>
     </insert>
@@ -68,9 +61,7 @@
                 CP_EXT,
                 IS_HA,
                 IS_WORKER,
-                IS_MULTI,
-                DP_ORDER,
-                DP_ASYNC
+                IS_MULTI
             ) VALUES
         ]]>
         <foreach collection="list" item="item" index="index"
@@ -85,9 +76,7 @@
                 #{item.extraCp, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.ha},
                 #{item.worker},
-                #{item.multi},
-                #{item.deployOrder},
-                #{item.deployAsync}
+                #{item.multi}
             )]]>
         </foreach>
     </insert>
@@ -103,15 +92,13 @@
                 CP_EXT=#{extraCp, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 IS_HA=#{ha},
                 IS_WORKER=#{worker},
-                IS_MULTI=#{multi},
-                DP_ORDER=#{deployOrder},
-                DP_ASYNC=#{deployAsync}
+                IS_MULTI=#{multi}
             WHERE K_ID=#{uniqueId}
         ]]>
     </update>
     <select id="selectAll" resultMap="verticleObject">
         <![CDATA[
-            SELECT * FROM EVX_VERTICLE ORDER BY DP_ORDER ASC
+            SELECT * FROM EVX_VERTICLE
         ]]>
     </select>
     <select id="selectById" parameterType="String" resultMap="verticleObject">
@@ -148,7 +135,7 @@
     </select>
     <select id="selectByGroup" parameterType="String" resultMap="verticleObject">
         <![CDATA[
-            SELECT * FROM EVX_VERTICLE WHERE S_IGROUP=#{group} ORDER BY DP_ORDER ASC
+            SELECT * FROM EVX_VERTICLE WHERE S_IGROUP=#{group}
         ]]>
     </select>
     <delete id="deleteByName" parameterType="String">

@@ -17,7 +17,6 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vertx.VerticleModel;
 
 import io.vertx.core.DeploymentOptions;
@@ -41,7 +40,7 @@ public class VerticleConfigurator {
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(VerticleConfigurator.class);
     /** 系统核心缓存，因为这个类只会在配置时使用，则这个变量保存了H2中所有的信息 **/
-    private static final ConcurrentMap<String, VerticleChain> DATA_MAP = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, List<VerticleModel>> DATA_MAP = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     /** 访问H2元数据的业务逻辑层 **/
     @NotNull
@@ -60,22 +59,6 @@ public class VerticleConfigurator {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    /**
-     * 从H2中读取所有的发布数据：同步Queue
-     * 
-     * @return
-     */
-    @PreValidateThis
-    public Map<String, DeploymentOptions> readSyncConfig() {
-        // 1.加载缓存
-        this.initDataMap();
-        // 2.读取结果
-        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
-        for (final VerticleChain item : DATA_MAP.values()) {
-            retMap.putAll(this.getConfig(item.getSyncList()));
-        }
-        return retMap;
-    }
 
     /**
      * 从H2中读取所有的发布数据：异步Queue
@@ -83,13 +66,13 @@ public class VerticleConfigurator {
      * @return
      */
     @PreValidateThis
-    public Map<String, DeploymentOptions> readAsyncConfig() {
+    public Map<String, DeploymentOptions> readConfig() {
         // 1.加载缓存
         this.initDataMap();
         // 2.读取结果
         final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
         for (final String key : DATA_MAP.keySet()) {
-            retMap.putAll(this.getConfig(DATA_MAP.get(key).getAsyncList()));
+            retMap.putAll(this.getConfig(DATA_MAP.get(key)));
         }
         return retMap;
     }
@@ -98,32 +81,19 @@ public class VerticleConfigurator {
      * 从H2中按照Group名称读取某个Group下的发布数据
      */
     @PreValidateThis
-    public Map<String, DeploymentOptions> readSyncConfig(@NotNull @NotEmpty @NotBlank final String group) {
+    public Map<String, DeploymentOptions> readConfig(@NotNull @NotEmpty @NotBlank final String group) {
         // 1.加载缓存
         this.initDataMap();
         // 2.读取结果
         final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
-        retMap.putAll(this.getConfig(DATA_MAP.get(group).getSyncList()));
-        return retMap;
-    }
-
-    /**
-     * 从H2中按照Group名称读取某个Group下的发布数据
-     */
-    @PreValidateThis
-    public Map<String, DeploymentOptions> readAsyncConfig(@NotNull @NotEmpty @NotBlank final String group) {
-        // 1.加载缓存
-        this.initDataMap();
-        // 2.读取结果
-        final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
-        retMap.putAll(this.getConfig(DATA_MAP.get(group).getAsyncList()));
+        retMap.putAll(this.getConfig(DATA_MAP.get(group)));
         return retMap;
     }
     // ~ Private Methods =====================================
 
     private void initDataMap() {
         if (DATA_MAP.isEmpty()) {
-            final ServiceResult<ConcurrentMap<String, VerticleChain>> result = this.service.findVerticles();
+            final ServiceResult<ConcurrentMap<String, List<VerticleModel>>> result = this.service.findVerticles();
             if (ResponseCode.SUCCESS == result.getResponseCode()) {
                 DATA_MAP.putAll(result.getResult());
             } else {

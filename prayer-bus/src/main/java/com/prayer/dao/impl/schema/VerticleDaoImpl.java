@@ -11,7 +11,6 @@ import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.facade.dao.schema.VerticleDao;
 import com.prayer.facade.mapper.SessionManager;
 import com.prayer.facade.mapper.VerticleMapper;
-import com.prayer.model.bus.VerticleChain;
 import com.prayer.model.h2.vertx.VerticleModel;
 
 import net.sf.oval.constraint.NotBlank;
@@ -64,20 +63,16 @@ public class VerticleDaoImpl extends TemplateDaoImpl<VerticleModel, String> impl
 
     /** 根据Group名称获取系统存在记录 **/
     @Override
-    public VerticleChain getByGroup(@NotNull @NotBlank @NotEmpty final String group) {
+    public List<VerticleModel> getByGroup(@NotNull @NotBlank @NotEmpty final String group) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.获取Mapper
         final VerticleMapper mapper = session.getMapper(VerticleMapper.class);
         // 3.返回直接结果
         final List<VerticleModel> retList = mapper.selectByGroup(group);
-        // 4.构造返回值
-        final VerticleChain retObj = new VerticleChain(group);
-        // 5.针对返回值进行分类填充
-        retObj.initVerticles(retList);
-        // 6.关闭Session返回最终结果
+        // 3.关闭Session返回最终结果
         session.close();
-        return retObj;
+        return retList;
     }
 
     /** 根据Class类名获取单条VerticleModel **/
