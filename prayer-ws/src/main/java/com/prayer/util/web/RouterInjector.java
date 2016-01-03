@@ -80,7 +80,7 @@ public final class RouterInjector {
         final AuthProvider authProvider = securitor.getProvider();
         if (SecurityMode.BASIC == securitor.getMode()) {
             router.route(WebConfig.WEB_SECURE_API).order(Constants.ORDER.SEC.AUTH)
-                    .handler(BasicAuthHandler.create(authProvider));
+                    .blockingHandler(BasicAuthHandler.create(authProvider));
         }
     }
 

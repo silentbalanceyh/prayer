@@ -28,7 +28,7 @@ public class VerticleAsyncHandler implements Handler<AsyncResult<String>> {
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(VerticleAsyncHandler.class);
     /** **/
-    private static final String DP_VERTICLE = "(Async) Verticle : {0} has been deployed {1} instances successfully";
+    private static final String DP_VERTICLE = "Verticle : {0} has been deployed {1} instances successfully";
 
     // ~ Instance Fields =====================================
     /** **/

@@ -140,13 +140,13 @@ public class RouteConfigurator {
             if (null != metadata.getRequestHandler()) {
                 Interruptor.interruptClass(getClass(), metadata.getRequestHandler(), "GlobalHandler");
                 Interruptor.interruptImplements(getClass(), metadata.getRequestHandler(), Handler.class);
-                route.handler(instance(metadata.getRequestHandler()));
+                route.blockingHandler(instance(metadata.getRequestHandler()));
             }
             // FailureHandler
             if (null != metadata.getFailureHandler()) {
                 Interruptor.interruptClass(getClass(), metadata.getFailureHandler(), "ErrorHandler");
                 Interruptor.interruptImplements(getClass(), metadata.getFailureHandler(), ErrorHandler.class);
-                route.failureHandler(instance(metadata.getFailureHandler()));
+                route.blockingHandler(instance(metadata.getFailureHandler()));
             }
         } catch (AbstractWebException ex) {
             peError(LOGGER, ex);

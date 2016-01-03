@@ -20,6 +20,11 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
         </dependency>
+        <!-- Vertx Hazelcast -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-hazelcast</artifactId>
+        </dependency>
         <!-- Prayer Framework -->
         <dependency>
             <groupId>com.prayer</groupId>

@@ -80,8 +80,8 @@ public class RouterVerticle extends AbstractVerticle {
     // ~ Private Methods =====================================
 
     private void injectStandard(final Router router) {
-        router.route(WebConfig.WEB_API).order(Constants.ORDER.ENG.ROUTER).handler(RouterHandler.create());
-        router.route(WebConfig.WEB_API).order(Constants.ORDER.ENG.SERVICE).handler(ServiceHandler.create());
+        router.route(WebConfig.WEB_API).order(Constants.ORDER.ENG.ROUTER).blockingHandler(RouterHandler.create());
+        router.route(WebConfig.WEB_API).last().blockingHandler(ServiceHandler.create());
         // 7.Failure处理器设置
         router.route(WebConfig.WEB_API).order(Constants.ORDER.FAILURE).failureHandler(FailureHandler.create());
     }
