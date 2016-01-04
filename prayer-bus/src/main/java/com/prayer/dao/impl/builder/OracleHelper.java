@@ -42,6 +42,8 @@ public final class OracleHelper {
 	private final static String SQL_TB_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
 	/** **/
     private final static String SQL_TB_UNIQUE = "SELECT COUNT(DISTINCT {1}) FROM {0} WHERE {1} IN (SELECT {1} FROM {0} GROUP BY {1} HAVING COUNT({1}) > 1)";
+    /** 查询当前表的字段被引用的Referencers列表 **/
+    private final static String SQL_TB_REFS = "SELECT B.CONSTRAINT_NAME,F.TABLE_NAME,F.COLUMN_NAME from USER_CONSTRAINTS B JOIN USER_CONS_COLUMNS F on B.CONSTRAINT_NAME=F.CONSTRAINT_NAME JOIN USER_CONS_COLUMNS T on T.CONSTRAINT_NAME=B.R_CONSTRAINT_NAME WHERE B.OWNER=''{0}'' AND T.TABLE_NAME=''{1}'' AND T.COLUMN_NAME=''{2}''";
 	/** SEQUENCE存在检测 **/
 	private final static String SQL_SEQ_EXIST = "SELECT COUNT(*) FROM ALL_SEQUENCES WHERE SEQUENCE_OWNER=''{0}'' AND SEQUENCE_NAME=''{1}''";
 	/** 数据库配置资源加载器 **/
@@ -119,6 +121,20 @@ public final class OracleHelper {
 		return MessageFormat.format(SQL_TB_COLUMN, database, tableName);
 	}
 
+    /**
+     * 获取数据库References的全部信息
+     * 
+     * @param table
+     * @param column
+     * @return
+     */
+    @NotNull
+    public static String getSqlReferences(@NotNull @NotBlank @NotEmpty final String table,
+            @NotNull @NotBlank @NotEmpty final String column) {
+        final String database = LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+        return MessageFormat.format(SQL_TB_REFS, database, table, column);
+    }
+	
 	/**
 	 * 获取系统中的约束的SQL
 	 * 
