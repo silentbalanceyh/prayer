@@ -27,8 +27,21 @@ public final class OptionsReader {
     public static DeploymentOptions readOpts() {
         final DeploymentOptions options = new DeploymentOptions();
         options.setHa(true); // 默认是false
-        options.setInstances(10); // 默认是1
+        options.setInstances(1); // 默认是1
         options.setWorker(false); // 默认是false，仅为Demo演示
+        options.setMultiThreaded(false); // 默认是false，仅为Demo演示
+        return options;
+    }
+    /**
+     * Verticle选项读取
+     * 
+     * @return
+     */
+    public static DeploymentOptions readWorkerOpts() {
+        final DeploymentOptions options = new DeploymentOptions();
+        options.setHa(true); // 默认是false
+        options.setInstances(1); // 默认是1
+        options.setWorker(true); // 默认是false，仅为Demo演示
         options.setMultiThreaded(false); // 默认是false，仅为Demo演示
         return options;
     }

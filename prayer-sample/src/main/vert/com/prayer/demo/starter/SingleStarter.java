@@ -1,6 +1,5 @@
 package com.prayer.demo.starter;
 
-import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.impl.VertxFactoryImpl;
@@ -25,8 +24,8 @@ public class SingleStarter {
         final VertxOptions options = OptionsReader.readOpts("VXWEB-DEMO");
         final VertxFactory factory = new VertxFactoryImpl();
         final Vertx vertx = factory.vertx(options);
-        final DeploymentOptions verticleOpts = OptionsReader.readOpts();
-        vertx.deployVerticle("com.prayer.demo.web.RouterVerticle", verticleOpts);
+        vertx.deployVerticle("com.prayer.demo.event.rr.RouterVerticle", OptionsReader.readOpts());
+        vertx.deployVerticle("com.prayer.demo.event.rr.UserWorker",OptionsReader.readWorkerOpts());
     }
 
     // ~ Constructors ========================================
