@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.prayer</groupId>
     <artifactId>prayer</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Prayer Framework</name>
     <modules>

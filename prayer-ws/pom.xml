@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.prayer</groupId>
         <artifactId>prayer</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
     <artifactId>prayer-ws</artifactId>
     <name>Prayer Rest Ws</name>
