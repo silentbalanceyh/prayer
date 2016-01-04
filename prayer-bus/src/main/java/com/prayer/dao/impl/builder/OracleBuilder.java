@@ -5,9 +5,12 @@ import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.info;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -26,8 +29,10 @@ import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
 import com.prayer.exception.database.UniqueAddException;
 import com.prayer.exception.database.UniqueAlterException;
+import com.prayer.facade.schema.Referencer;
 import com.prayer.model.h2.schema.FieldModel;
 import com.prayer.model.h2.schema.KeyModel;
+import com.prayer.model.kernel.FKReferencer;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.StringKit;
 
@@ -52,6 +57,8 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NO
 	/** 针对整个系统的表统计管理 **/
 	private static final ConcurrentMap<String, Boolean> TB_COUNT_MAP = new ConcurrentHashMap<>();
 	// ~ Instance Fields =====================================
+    /** **/
+    private transient Referencer referencer;
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
 	// ~ Constructors ========================================
@@ -59,6 +66,10 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NO
 	@PostValidateThis
 	public OracleBuilder(@NotNull @InstanceOfAny(GenericSchema.class) final GenericSchema schema) {
 		super(schema);
+        /**
+         * 固定类型引用，调用了父类构造函数过后，Referencer就可以直接被初始化了
+         */
+        this.referencer = new OracleReferencer(this.getContext());
 	}
 	// ~ Abstract Methods ====================================
 	// ~ Override Methods ====================================
@@ -182,11 +193,11 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NO
 	
 	@Override
 	protected String genAlterColumns(@NotNull final FieldModel field) {
-		
+		String ret = Constants.EMPTY_STR;
 		// 0. oracle dedicated handle for clob/blob fields, remove/add instead of modify (ORA-22859: invalid modification of columns)
 		if (this.getColType(field).equalsIgnoreCase("CLOB") || this.getColType(field).equalsIgnoreCase("BLOB"))
 		{
-			return "";
+			return ret;
 		}	
 		// 1.初始化缓冲区
 		final StringBuilder sql = new StringBuilder();
@@ -207,7 +218,23 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NO
 		if (this.existTable()) {
 			rows = this.getRows();
 		}
-		// 2.清除约束
+        // 2.1.清除约束
+        final List<FKReferencer> refs = new ArrayList<>();
+        {
+            final Set<String> columns = schema.getColumns();
+            for (final String column : columns) {
+                // 2.1.1.第一次加载约束信息
+                refs.addAll(this.referencer.getReferences(this.getTable(), column));
+                // 2.1.2.生成References的DROP语句
+                if (!refs.isEmpty()) {
+                    final List<String> dropSqls = this.referencer.prepDropSql(refs);
+                    for (final String dropSql : dropSqls) {
+                        addSqlLine(dropSql);
+                    }
+                }
+            }
+        }
+        // 2.2.清除约束之前先清除当前约束对应的引用
 		{
 			final Collection<String> csSet = this.getCSNames();
 			for (final String name : csSet) {
@@ -235,14 +262,29 @@ public class OracleBuilder extends AbstractBuilder implements SqlSegment { // NO
 			final Collection<KeyModel> keys = schema.getKeys().values();
 			for (final KeyModel key : keys) {
 				if (KeyCategory.ForeignKey == key.getCategory()) {
-					final String column = key.getColumns().get(Constants.ZERO);
-					final FieldModel field = schema.getColumn(column);
-					addSqlLine(this.genAddCsLine(key, field));
+					final Iterator<String> columns = key.getColumns().iterator();
+                    /**
+                     * 多个外键操作
+                     */
+                    while (columns.hasNext()) {
+                        final String column = columns.next();
+                        final FieldModel field = schema.getColumn(column);
+                        addSqlLine(this.genAddCsLine(key, field));
+                    }
 				} else {
 					addSqlLine(this.genAddCsLine(key, null));
 				}
 			}
 		}
+        // 7.恢复（Recovery）引用语句
+        {
+            if (!refs.isEmpty()) {
+                final List<String> recoverySqls = this.referencer.prepRecoverySql(refs);
+                for (final String recoverySql : recoverySqls) {
+                    addSqlLine(recoverySql);
+                }
+            }
+        }
 		// oracle批量处理时，语句间必须加分号以及换行
 		//return StringKit.join(this.getSqlLines(), SEMICOLON, true);
 		return StringKit.join(this.getSqlLines(), SEMICOLON + NEW_LINE);
