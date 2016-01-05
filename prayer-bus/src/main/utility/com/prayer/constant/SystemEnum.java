@@ -7,6 +7,31 @@ package com.prayer.constant;
  * @see
  */
 public final class SystemEnum { // NOPMD
+    /** Index的操作对象类型 **/
+    public static enum TargetType {
+        VIEW, // 操作对象是视图
+        TABLE, // 操作对象是表
+    }
+
+    /** 触发器触发时的类型 **/
+    public static enum TriggerOp {
+        INSERT, // Insert触发器
+        UPDATE, // Update触发器
+        DELETE, // Delete触发器
+    }
+
+    /** 触发器模式 **/
+    public static enum TriggerMode {
+        BEFORE, // Before触发器
+        AFTER, // After触发器
+        INSTEAD_OF, // Instead Of触发器
+    }
+
+    /** Meta/View的状态 **/
+    public static enum Status {
+        SYSTEM, USER, DISABLED
+    }
+
     /** Meta的S_CATEGORY属性 **/
     public static enum MetaCategory {
         ENTITY, RELATION
@@ -72,10 +97,11 @@ public final class SystemEnum { // NOPMD
         REJECT, // Validate失败的时候被Reject请求
         CONTINUE // Validate成功以及Convert过后继续请求
     }
+
     /** 组件中访问的Database数据库的类型 **/
-    public static enum UACSource{
-        DATA,   // 基本Database的数据库
-        META    // H2元数据库Database
+    public static enum UACSource {
+        DATA, // 基本Database的数据库
+        META // H2元数据库Database
     }
 
     /** 认证模式 **/
@@ -91,8 +117,9 @@ public final class SystemEnum { // NOPMD
         ARRAY, // JsonArray
         ERROR, // JsonObject(Error)
     }
+
     /** 使用的模板引擎的信息 **/
-    public static enum TemplateEngine{
+    public static enum TemplateEngine {
         JADE, // Jade模板引擎
         HTML // 纯的HTML结构，Dynamic无用
     }

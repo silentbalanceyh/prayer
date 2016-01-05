@@ -6,8 +6,8 @@
     <!-- 结果对象定义 -->
     <resultMap type="Meta" id="metaObject">
         <id column="K_ID" property="uniqueId" />
-        <result column="C_OOBDATA_FILE" property="oobFile" />
-        <result column="C_IN_USE" property="using" />
+        <result column="S_STATUS" property="status"
+            typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 
         <result column="S_NAME" property="name" />
         <result column="S_NAMESPACE" property="namespace" />
@@ -32,8 +32,7 @@
         <![CDATA[
             INSERT INTO SYS_META (
                 K_ID,
-                C_OOBDATA_FILE,
-                C_IN_USE,
+                S_STATUS,
                 S_NAME,
                 S_NAMESPACE,
                 S_CATEGORY,
@@ -48,8 +47,7 @@
                 D_SEQ_INIT
             ) VALUES (
                 #{uniqueId},
-                #{oobFile},
-                #{using},
+                #{status, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
                 #{name},
                 #{namespace},
                 #{category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
@@ -69,8 +67,7 @@
         <![CDATA[
             INSERT INTO SYS_META (
                 K_ID,
-                C_OOBDATA_FILE,
-                C_IN_USE,
+                S_STATUS,
                 S_NAME,
                 S_NAMESPACE,
                 S_CATEGORY,
@@ -89,8 +86,7 @@
             separator=",">
             <![CDATA[(
                 #{item.uniqueId},
-                #{item.oobFile},
-                #{item.using},
+                #{item.status, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
                 #{item.name},
                 #{item.namespace},
                 #{item.category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
@@ -110,8 +106,7 @@
         keyProperty="uniqueId">
         <![CDATA[
             UPDATE SYS_META SET
-                C_OOBDATA_FILE=#{oobFile},
-                C_IN_USE=#{using},
+                S_STATUS=#{status, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
                 S_NAME=#{name},
                 S_NAMESPACE=#{namespace},
                 S_CATEGORY=#{category, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
@@ -146,8 +141,8 @@
         <![CDATA[
             DELETE FROM SYS_META WHERE K_ID IN
         ]]>
-        <foreach collection="list" item="item" open="(" separator=","
-            close=")">
+        <foreach collection="list" item="item" open="("
+            separator="," close=")">
             <![CDATA[
                 #{item}
             ]]>
@@ -169,7 +164,8 @@
             SELECT * FROM SYS_META WHERE S_NAMESPACE=#{0,jdbcType=VARCHAR} AND S_NAME=#{1,jdbcType=VARCHAR}
         ]]>
     </select>
-    <select id="selectByGlobalId" parameterType="String" resultMap="metaObject">
+    <select id="selectByGlobalId" parameterType="String"
+        resultMap="metaObject">
         <![CDATA[
             SELECT * FROM SYS_META WHERE S_GLOBAL_ID=#{globalId}
         ]]>

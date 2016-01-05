@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.Status;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.schema.Serializer;
 import com.prayer.model.h2.schema.FieldModel;
@@ -70,6 +71,10 @@ public class CommunionSerializer implements Serializer {
         try {
             meta = this.mapper.readValue(metaStr, new TypeReference<MetaModel>() {
             });
+            // 默认设置status为SYSTEM，如果没有设置则是SYSTEM类型，特殊属性，Schema中不验证
+            if (null == meta.getStatus()) {
+                meta.setStatus(Status.SYSTEM);
+            }
         } catch (JsonParseException ex) {
             jvmError(LOGGER, ex);
             final SerializationException error = new SerializationException(getClass(), "__meta__ ( Parsing )"); // NOPMD

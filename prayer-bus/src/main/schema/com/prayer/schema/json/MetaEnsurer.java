@@ -217,6 +217,11 @@ final class MetaEnsurer implements InternalEnsurer {
                 return false;
             }
         }
+        // 6.1.__meta__ 可选属性status
+        this.error = validator.verifyOptionalPattern(Attributes.M_STATUS, Attributes.RGX_M_STATUS);
+        if (null != this.error) {
+            return false;
+        }
         return null == this.error;
     }
 

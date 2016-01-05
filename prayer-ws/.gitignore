@@ -1,10 +1,8 @@
 /target/
-/*.log
+/*.log*
 /*.classpath
 /*.project
 /.settings/
-
-/PRAYER.lock
-
+/*.lock
 /.vertx
 /

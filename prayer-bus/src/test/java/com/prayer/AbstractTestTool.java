@@ -74,19 +74,6 @@ public abstract class AbstractTestTool implements ErrorKeys { // NOPMD
         }
     }
 
-    /**
-     * 输出Information
-     * 
-     * @param logger
-     * @param messageKey
-     * @param params
-     */
-    protected void info(final Logger logger, final String messageKey, final Object... params) {
-        if (logger.isInfoEnabled()) {
-            logger.info(message(messageKey, params));
-        }
-    }
-
     /** 一般用于异常测试，异常如果没有抛出来则手动设置failure **/
     protected void failure(final String messageKey, final Object... params) {
         fail(message(messageKey, params));

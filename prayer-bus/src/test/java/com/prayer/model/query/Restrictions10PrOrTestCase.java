@@ -1,6 +1,8 @@
 package com.prayer.model.query;
 
 import static com.prayer.util.Instance.instance;
+import static com.prayer.util.debug.Log.info;
+import static com.prayer.util.debug.Log.peError;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -57,7 +59,7 @@ public class Restrictions10PrOrTestCase extends AbstractTestTool { // NOPMD
         try {
             Restrictions.or(null, Restrictions.eq(COL_NAME, STR_VAL));
         } catch (AbstractDatabaseException ex) {
-            info(LOGGER, ex.getErrorMessage());
+            peError(LOGGER, ex);
         }
         failure(TST_OVAL);
     }
@@ -68,7 +70,7 @@ public class Restrictions10PrOrTestCase extends AbstractTestTool { // NOPMD
         try {
             Restrictions.or(Restrictions.eq(COL_NAME, STR_VAL), null);
         } catch (AbstractDatabaseException ex) {
-            info(LOGGER, ex.getErrorMessage());
+            peError(LOGGER, ex);
         }
         failure(TST_OVAL);
     }

@@ -29,6 +29,7 @@ import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.exception.schema.UnsupportAttrException;
 import com.prayer.facade.schema.DataValidator;
+import com.prayer.util.StringKit;
 import com.prayer.util.dao.SqlDdlStatement;
 import com.prayer.util.io.JsonKit;
 
@@ -269,6 +270,32 @@ final class JObjectValidator {
         if (!matcher.matches()) {
             retExp = new PatternNotMatchException(getClass(), attr, value, regexStr);
             peError(LOGGER, retExp);
+        }
+        return retExp;
+    }
+
+    /**
+     * Error-10003
+     * 
+     * @param attr
+     * @param regexStr
+     * @return
+     */
+    @Pre(expr = EXP_PRE_CON, lang = Constants.LANG_GROOVY)
+    public AbstractSchemaException verifyOptionalPattern(@NotNull @NotEmpty @NotBlank final String attr,
+            @NotNull @NotEmpty @NotBlank final String regexStr) {
+        final JsonNode attrNode = this.verifiedNode.path(attr);
+        AbstractSchemaException retExp = null;
+        final Pattern pattern = Pattern.compile(regexStr);
+        final String value = attrNode.asText();
+        // 有值的验证，物质直接Skip
+        if (StringKit.isNonNil(value)) {
+            final Matcher matcher = pattern.matcher(value);
+
+            if (!matcher.matches()) {
+                retExp = new PatternNotMatchException(getClass(), attr, value, regexStr);
+                peError(LOGGER, retExp);
+            }
         }
         return retExp;
     }

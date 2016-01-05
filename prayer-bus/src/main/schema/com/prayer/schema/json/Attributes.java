@@ -5,7 +5,7 @@ package com.prayer.schema.json;
  * @author Lang
  * @see
  */
-interface Attributes {     // NOPMD
+interface Attributes { // NOPMD
     // ------------------ Root Node ---------------------
     /** **/
     String R_META = "__meta__";
@@ -30,6 +30,8 @@ interface Attributes {     // NOPMD
     String M_MAPPING = "mapping";
     /** **/
     String M_POLICY = "policy";
+    /** **/
+    String M_STATUS = "status";
 
     /** **/
     String M_TABLE = "table";
@@ -57,6 +59,8 @@ interface Attributes {     // NOPMD
     String RGX_M_MAPPING = "(DIRECT|COMBINATED|PARTIAL){1}";
     /** **/
     String RGX_M_POLICY = "(GUID|INCREMENT|ASSIGNED|COLLECTION){1}";
+    /** **/
+    String RGX_M_STATUS = "(SYSTEM|USER|DISABLED){1}";
     /** **/
     String RGX_M_TABLE = "[A-Z]{2,4}\\_[A-Z\\_0-9]*";
     /** **/

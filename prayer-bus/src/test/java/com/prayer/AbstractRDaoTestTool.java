@@ -2,6 +2,7 @@ package com.prayer;
 
 import static com.prayer.util.Instance.instance;
 import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.debug.Log.peError;
 
 import java.util.HashSet;
 import java.util.List;
@@ -73,7 +74,7 @@ public abstract class AbstractRDaoTestTool extends AbstractTestTool {
             if (ResponseCode.SUCCESS == syncRet.getResponseCode()) {
                 finalRet = this.getService().syncMetadata(syncRet.getResult());
             } else {
-                info(getLogger(), syncRet.getErrorMessage());
+                peError(getLogger(), syncRet.getServiceError());
                 finalRet = syncRet;
             }
         }
@@ -87,7 +88,7 @@ public abstract class AbstractRDaoTestTool extends AbstractTestTool {
             try {
                 record.set(field, Assistant.generate(record.fields().get(field), false));
             } catch (AbstractDatabaseException ex) {
-                info(getLogger(), ex.getErrorMessage(), ex);
+                peError(getLogger(), ex);
             }
         }
         return record;
@@ -108,7 +109,7 @@ public abstract class AbstractRDaoTestTool extends AbstractTestTool {
                     record.set(field, Assistant.generate(record.fields().get(field), true));
                 }
             } catch (AbstractDatabaseException ex) {
-                info(getLogger(), ex.getErrorMessage(), ex);
+                peError(getLogger(), ex);
             }
         }
     }

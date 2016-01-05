@@ -1,5 +1,6 @@
 package com.prayer.model.query;
 
+import static com.prayer.util.debug.Log.info;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

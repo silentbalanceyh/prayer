@@ -1,5 +1,6 @@
 package com.prayer.model.kernel;
 
+import static com.prayer.util.debug.Log.info;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

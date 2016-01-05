@@ -3,13 +3,13 @@ package com.prayer.model.h2.schema; // NOPMD
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaCategory;
 import com.prayer.constant.SystemEnum.MetaMapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.constant.SystemEnum.Status;
 
 /**
  * 对应表SYS_META
@@ -29,12 +29,10 @@ public class MetaModel implements Serializable { // NOPMD
     /** K_ID：Meta表的主键 **/
     @JsonProperty("id")
     private String uniqueId;
-    /** C_OOBDATA_FILE：OOB数据文件目录，CSV文件 **/
-    @JsonIgnore
-    private String oobFile;
-    /** C_IN_USE：当前Model是否正在使用 **/
-    @JsonIgnore
-    private boolean using;
+
+    /** S_STATUS：Meta的状态 **/
+    @JsonProperty("status")
+    private Status status;
 
     // !Meta基本配置数据---------------------------------------
     /** S_NAME：Meta对应的Model名称 **/
@@ -103,36 +101,6 @@ public class MetaModel implements Serializable { // NOPMD
      */
     public void setUniqueId(final String uniqueId) {
         this.uniqueId = uniqueId;
-    }
-
-    /**
-     * @return the oobFile
-     */
-    public String getOobFile() {
-        return oobFile;
-    }
-
-    /**
-     * @param oobFile
-     *            the oobFile to set
-     */
-    public void setOobFile(final String oobFile) {
-        this.oobFile = oobFile;
-    }
-
-    /**
-     * @return the using
-     */
-    public boolean isUsing() {
-        return using;
-    }
-
-    /**
-     * @param using
-     *            the using to set
-     */
-    public void setUsing(final boolean using) {
-        this.using = using;
     }
 
     /**
@@ -208,6 +176,20 @@ public class MetaModel implements Serializable { // NOPMD
      */
     public void setMapping(final MetaMapping mapping) {
         this.mapping = mapping;
+    }
+
+    /**
+     * @return the status
+     */
+    public Status getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(final Status status) {
+        this.status = status;
     }
 
     /**
@@ -319,7 +301,7 @@ public class MetaModel implements Serializable { // NOPMD
     /** **/
     @Override
     public String toString() {
-        return "MetaModel [uniqueId=" + uniqueId + ", oobFile=" + oobFile + ", using=" + using + ", name=" + name + ", namespace=" + namespace
+        return "MetaModel [uniqueId=" + uniqueId + ", status=" + status + ", name=" + name + ", namespace=" + namespace
                 + ", category=" + category + ", globalId=" + globalId + ", mapping=" + mapping + ", policy=" + policy
                 + ", table=" + table + ", subTable=" + subTable + ", subKey=" + subKey + ", seqName=" + seqName
                 + ", seqStep=" + seqStep + ", seqInit=" + seqInit + "]";
@@ -332,7 +314,6 @@ public class MetaModel implements Serializable { // NOPMD
         int result = 1;
         result = prime * result + ((category == null) ? 0 : category.hashCode());
         result = prime * result + ((globalId == null) ? 0 : globalId.hashCode());
-        result = prime * result + (using ? 1231 : 1237);
         result = prime * result + ((mapping == null) ? 0 : mapping.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((namespace == null) ? 0 : namespace.hashCode());
@@ -361,9 +342,6 @@ public class MetaModel implements Serializable { // NOPMD
                 return false;
             }
         } else if (!globalId.equals(other.globalId)) {
-            return false;
-        }
-        if (using != other.using) {
             return false;
         }
         if (mapping != other.mapping) {
