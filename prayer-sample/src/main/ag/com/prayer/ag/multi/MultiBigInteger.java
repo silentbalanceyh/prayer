@@ -27,11 +27,14 @@ import net.sf.oval.guard.Guarded;
 // Welcome to Big/Little Fly Samples:
 // Topic --> Large Integer Multiplication
 // > 123456789 98521478536541257896
-// [SUCCESS] Result is : 123,456,789 x 98,521,478,536,541,257,896 = 12,163,145,387,653,802,865,861,055,944
+// [SUCCESS] Result is : 123,456,789 x 98,521,478,536,541,257,896 =
+// 12,163,145,387,653,802,865,861,055,944
 @Guarded
 public class MultiBigInteger implements Topic {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
+    private transient Algorithm algorithm = new Algorithm();
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -106,6 +109,7 @@ public class MultiBigInteger implements Topic {
         }
         return ret;
     }
+
     /**
      * 主体算法函数
      */
@@ -149,11 +153,11 @@ public class MultiBigInteger implements Topic {
         /**
          * 7.计算最终结果，并且添加到结果集中
          */
-        final String result = this.multi(firstArr, secondArr);
+        final int[] result = this.algorithm.multi(firstArr, secondArr);
         /**
          * 8.将最终结果输出
          */
-        return ret.append(formatNumber(result)).toString();
+        return ret.append(formatNumber(formatResult(result))).toString();
     }
 
     /**
@@ -201,53 +205,20 @@ public class MultiBigInteger implements Topic {
     }
 
     /**
-     * 大数据乘法
+     * 格式化输出
      * 
-     * @param firstArr
-     * @param secondArr
+     * @param retArr
      * @return
      */
-    private String multi(final int[] firstArr, final int[] secondArr) {
+    private String formatResult(final int[] retArr) {
         /**
-         * 1.将两个数组的长度计算，合计乘法最终结果的总长度，构造新的结果数组
-         */
-        final int size = firstArr.length + secondArr.length;
-        final int[] retArr = new int[size];
-        /**
-         * 2.第一级运算，计算每一个单元格的乘积 <code>1,2,3</code> <code>4,5,6</code>
-         */
-        for (int i = secondArr.length - 1; i >= 0; i--) {
-            /**
-             * 
-             */
-            int k = i + firstArr.length;
-            for (int j = firstArr.length - 1; j >= 0; j--) {
-                retArr[k--] += secondArr[i] * firstArr[j];
-            }
-        }
-        /**
-         * 3.每个单元格中都有数据，但是上边计算的数据有可能超过10，这种情况需要进行10除转换，进位运算
-         */
-        for (int i = size - 1; i >= 0; i--) {
-            if (retArr[i] >= 10) {
-                /**
-                 * 3.1.处理进位
-                 */
-                retArr[i - 1] += retArr[i] / 10;
-                /**
-                 * 3.2.保留个位
-                 */
-                retArr[i] %= 10;
-            }
-        }
-        /**
-         * 4.将最终的数组转换成String打印出来
+         * 1.将最终的数组转换成String打印出来
          */
         final StringBuilder retStr = new StringBuilder();
         boolean start = false;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < retArr.length; i++) {
             /**
-             * 5.寻找第一个开始点进行append
+             * 2.寻找第一个开始点进行append
              */
             if (retArr[i] == 0 && !start) {
                 continue;
