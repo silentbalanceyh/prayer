@@ -1,0 +1,5 @@
+1.读取req.properties
+2.将每种类型打印出来
+3.将最终的文件写入到C:\data.txt
+a=x,b=y,c=z
+Array：[A,B,C,D]

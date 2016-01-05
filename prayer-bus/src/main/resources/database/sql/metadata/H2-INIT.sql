@@ -1,4 +1,8 @@
 --------------------------------------------------------------------------------------
+-- SYS_VIEW
+DROP TABLE IF EXISTS SYS_VIEW;
+CREATE TABLE SYS_VIEW(
+);
 -- SYS_META 核心元数据表
 DROP TABLE IF EXISTS SYS_META;
 CREATE TABLE SYS_META(
