@@ -1,4 +1,4 @@
-package com.prayer.demo.util;
+package com.prayer.ag.util;
 
 import java.util.ArrayList;
 import java.util.List;

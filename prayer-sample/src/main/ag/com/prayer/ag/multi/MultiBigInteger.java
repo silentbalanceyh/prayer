@@ -1,11 +1,11 @@
-package com.prayer.demo.multi;
+package com.prayer.ag.multi;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.prayer.demo.Topic;
-import com.prayer.demo.util.Console;
-import com.prayer.demo.util.Input;
+import com.prayer.ag.Topic;
+import com.prayer.ag.util.Console;
+import com.prayer.ag.util.Input;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Size;

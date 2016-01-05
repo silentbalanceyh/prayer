@@ -1,4 +1,4 @@
-package com.prayer.demo.util;
+package com.prayer.ag.util;
 
 import java.util.Scanner;
 
