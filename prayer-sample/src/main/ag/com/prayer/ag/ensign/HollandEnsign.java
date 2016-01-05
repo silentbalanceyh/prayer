@@ -21,7 +21,7 @@ import net.sf.oval.guard.Guarded;
  * @author Lang
  *
  */
-// 输入：size ( size > 30 )
+// 输入：size ( size > 60 )
 // 1.生成一个随机数组，长度为size
 // 2.这个随机数组只有三个值：0 (红）、1（白）、2（蓝）
 // 3.输入的size必须是合法数值
@@ -31,10 +31,6 @@ public class HollandEnsign implements Topic {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    /**
-     * 当前对象中保存的数组
-     */
-    private transient int[] flags;
     /**
      * 创建算法对象
      */
@@ -60,9 +56,9 @@ public class HollandEnsign implements Topic {
         if (matcher.matches()) {
             final Integer size = Integer.parseInt(inputNum);
             /**
-             * 参数不可以小于30，并且参数必须能被3整除
+             * 参数不可以小于60，并且参数必须能被3整除
              */
-            if (size >= 30 && 0 == size % 3) {
+            if (size >= 60) {
                 ret = true;
             } else {
                 ret = false;
@@ -82,20 +78,20 @@ public class HollandEnsign implements Topic {
          * 1.生成一个数组，这个数组只包含0,1,2三个数，分别代表三种颜色
          */
         final int size = Integer.parseInt(args[0]);
-        initFlagArray(size);
+        final int[] flags = initFlagArray(size);
         /**
          * 2.打印排序之前的国旗信息，国旗高度为16
          */
-        System.out.println(this.getArrayOut("[Before]", 16));
+        System.out.println(this.getArrayOut(flags, "[Before]", 8));
         /**
          * 3.开始执行主函数，计算最终的国旗值，并且通过交换函数修改moves
          */
-        final int moves = this.algorithm.quickProcess(this.flags);
+        final int moves = this.algorithm.quickProcess(flags);
         /**
          * 4.打印移动步数
          */
         System.out.println("Moves : " + moves);
-        return this.getArrayOut("\n[After]", 16);
+        return this.getArrayOut(flags, "\n[After]", 8);
     }
 
     /**
@@ -135,9 +131,8 @@ public class HollandEnsign implements Topic {
                     /**
                      * 4.2.参数验证未通过
                      */
-                    System.out.println(
-                            "[ERROR] The 1st element of arguments must be greater than 3 and could be divided evenly by 3. Args = "
-                                    + Console.toStr(args));
+                    System.out.println("[ERROR] The 1st element of arguments must be greater than 60. Args = "
+                            + Console.toStr(args));
                     inputArgs = Input.commandArgs(Console.prompt());
                     continue;
                 }
@@ -161,7 +156,7 @@ public class HollandEnsign implements Topic {
      * @param height
      * @return
      */
-    private String getArrayOut(final String prefix, final int height) {
+    private String getArrayOut(final int[] flags, final String prefix, final int height) {
         final StringBuilder retStr = new StringBuilder();
         retStr.append(prefix).append(Symbol.COLON).append(Symbol.NEW_LINE);
         for (int i = 0; i < height; i++) {
@@ -174,7 +169,7 @@ public class HollandEnsign implements Topic {
     }
 
     private int[] initFlagArray(final int size) {
-        flags = new int[size];
+        final int[] flags = new int[size];
         final Random random = new Random();
         for (int i = 0; i < flags.length; i++) {
             // 生成随机数0,1,2赋值给retArr数组

@@ -28,7 +28,7 @@ final class Algorithm {
         /**
          * 3.用数组遍历索引代替current
          */
-        while (current <= end) {
+        do {
             final int value = flags[current];
             if (0 == value) {
                 /**
@@ -49,7 +49,7 @@ final class Algorithm {
                 swapFlag(flags, current, end);
                 end--;
             }
-        }
+        } while (current <= end);
         /**
          * 最终返回Move了多少次
          */
