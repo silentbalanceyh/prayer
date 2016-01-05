@@ -106,7 +106,9 @@ public class MultiBigInteger implements Topic {
         }
         return ret;
     }
-
+    /**
+     * 主体算法函数
+     */
     @Override
     public String process(@NotNull @Size(min = 2, max = 2) final String... args) {
         /**
