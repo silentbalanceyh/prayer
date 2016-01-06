@@ -1,0 +1,35 @@
+static
+0.Class/Object
+0.Belong to Class, Class.xxx, Class.xxx()
+
+1. Static Import
+Class里面有一个static方法method();
+import static xxxx.Class.method;
+
+2. Object: x this.
+
+3. Static Initialize ( Assignment )
+
+4. 同步/异步，阻塞/非阻塞
+
+同步阻塞
+同步非阻塞
+异步阻塞
+异步非阻塞
+
+5. com.prayer.model.type.DataType
+
+javac -> .class
+
+JDecompiler -> .class
+
+1）关于static
+2）关于File
+3）关于Enum
+4）utility：全部看完
+
+练习：
+1）在C盘找一个有文件和文件夹的目录；
+（必须有图，必须有文件超过100M，必须有文本，必须有Word，必须有两级以上的目录）
+2）做一个拷贝程序，拷贝到一个Target目录；
+
