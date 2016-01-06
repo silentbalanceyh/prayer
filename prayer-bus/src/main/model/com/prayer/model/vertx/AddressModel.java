@@ -33,7 +33,7 @@ public class AddressModel implements Serializable, ClusterSerializable { // NOPM
     private String uniqueId;
     /** S_WORK_CLASS **/
     @JsonProperty("workClass")
-    private String workClass;
+    private Class<?> workClass;
     /** S_CONSUMER_ADDR **/
     @JsonProperty("consumerAddr")
     private String consumerAddr;
@@ -83,7 +83,7 @@ public class AddressModel implements Serializable, ClusterSerializable { // NOPM
     /**
      * @return the workClass
      */
-    public String getWorkClass() {
+    public Class<?> getWorkClass() {
         return workClass;
     }
 
@@ -91,7 +91,7 @@ public class AddressModel implements Serializable, ClusterSerializable { // NOPM
      * @param workClass
      *            the workClass to set
      */
-    public void setWorkClass(final String workClass) {
+    public void setWorkClass(final Class<?> workClass) {
         this.workClass = workClass;
     }
 

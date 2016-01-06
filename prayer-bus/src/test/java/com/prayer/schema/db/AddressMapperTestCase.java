@@ -67,9 +67,9 @@ public class AddressMapperTestCase extends AbstractMapperCase<AddressModel, Stri
         final AddressMapper mapper = (AddressMapper) this.getMapper();
         final AddressModel entity = this.insertTs(false).get(0);
         // 插入一条心数据
-        final String workClass = entity.getWorkClass();
+        final Class<?> workClass = entity.getWorkClass();
         // 重新从数据库中读取数据
-        final AddressModel targetT = mapper.selectByClass(workClass);
+        final AddressModel targetT = mapper.selectByClass(workClass.getName());
         info(getLogger(), "[TD] (SelectByClass) Selected by workClass = " + workClass);
         assertEquals("[E] (SelectByClass) Entity in database must be the same as inserted one !", entity, targetT);
         // 删除插入的新数据
