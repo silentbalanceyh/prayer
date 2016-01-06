@@ -1,4 +1,4 @@
-package com.prayer.model.h2.vertx;
+package com.prayer.model.vertx;
 
 import java.io.Serializable;
 

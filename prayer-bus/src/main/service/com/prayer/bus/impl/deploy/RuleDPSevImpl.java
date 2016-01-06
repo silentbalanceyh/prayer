@@ -18,8 +18,8 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.schema.RuleDaoImpl;
 import com.prayer.facade.bus.deploy.RuleDPService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.vertx.RuleModel;
-import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.vertx.RuleModel;
+import com.prayer.model.vertx.UriModel;
 import com.prayer.util.bus.ResultExtractor;
 import com.prayer.util.io.JsonKit;
 

@@ -3,7 +3,7 @@ package com.prayer.facade.mapper;
 import java.util.List;
 
 import com.prayer.constant.SystemEnum.ComponentType;
-import com.prayer.model.h2.vertx.RuleModel;
+import com.prayer.model.vertx.RuleModel;
 
 /**
  * 

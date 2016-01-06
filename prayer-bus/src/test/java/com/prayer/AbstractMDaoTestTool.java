@@ -21,7 +21,7 @@ import com.prayer.exception.database.OperationNotSupportException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.database.FieldModel;
 import com.prayer.model.kernel.MetaRecord;
 import com.prayer.model.type.StringType;
 import com.prayer.util.bus.RecordKit;

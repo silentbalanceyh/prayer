@@ -14,7 +14,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.dao.impl.schema.UriDaoImpl;
 import com.prayer.facade.bus.deploy.UriDPService;
-import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.vertx.UriModel;
 import com.prayer.util.io.JsonKit;
 
 import io.vertx.core.http.HttpMethod;

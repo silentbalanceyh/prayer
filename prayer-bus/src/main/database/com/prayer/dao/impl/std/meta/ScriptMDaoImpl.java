@@ -9,7 +9,7 @@ import com.prayer.base.dao.AbstractMDaoImpl;
 import com.prayer.dao.impl.schema.ScriptDaoImpl;
 import com.prayer.facade.dao.schema.ScriptDao;
 import com.prayer.facade.dao.schema.TemplateDao;
-import com.prayer.model.h2.vertx.ScriptModel;
+import com.prayer.model.vertx.ScriptModel;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;

@@ -21,7 +21,7 @@ import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
-import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.database.FieldModel;
 import com.prayer.util.dao.SqlDmlStatement;
 import com.prayer.util.dao.QueryHelper;
 import com.prayer.util.dao.Interrupter.Policy;

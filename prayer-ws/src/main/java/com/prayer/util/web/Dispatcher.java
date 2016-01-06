@@ -13,7 +13,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.vertx.UriModel;
 import com.prayer.util.StringKit;
 
 import io.vertx.core.MultiMap;

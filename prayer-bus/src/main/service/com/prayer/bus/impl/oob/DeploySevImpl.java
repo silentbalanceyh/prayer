@@ -26,8 +26,8 @@ import com.prayer.exception.system.DeploymentException;
 import com.prayer.facade.bus.DeployService;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.vertx.UriModel;
 import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.vertx.UriModel;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.PropertyKit;
 

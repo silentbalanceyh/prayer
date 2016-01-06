@@ -1,4 +1,4 @@
-package com.prayer.model.h2.schema;
+package com.prayer.model.database;
 
 import java.io.Serializable;
 import java.util.List;

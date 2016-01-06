@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.vertx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.util.web.Extractor;

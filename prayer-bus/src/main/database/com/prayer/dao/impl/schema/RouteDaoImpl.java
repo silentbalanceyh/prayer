@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.facade.dao.schema.RouteDao;
 import com.prayer.facade.mapper.RouteMapper;
 import com.prayer.facade.mapper.SessionManager;
-import com.prayer.model.h2.vertx.RouteModel;
+import com.prayer.model.vertx.RouteModel;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

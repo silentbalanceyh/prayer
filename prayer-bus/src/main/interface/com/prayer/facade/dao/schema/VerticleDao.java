@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.database.DataAccessException;
-import com.prayer.model.h2.vertx.VerticleModel;
+import com.prayer.model.vertx.VerticleModel;
 
 /**
  * 

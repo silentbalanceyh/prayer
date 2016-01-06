@@ -1,4 +1,4 @@
-package com.prayer.model.h2.schema; // NOPMD
+package com.prayer.model.database; // NOPMD
 
 import java.io.Serializable;
 

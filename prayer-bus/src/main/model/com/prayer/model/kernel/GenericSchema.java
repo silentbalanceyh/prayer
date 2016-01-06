@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
-import com.prayer.model.h2.schema.FieldModel;
-import com.prayer.model.h2.schema.KeyModel;
-import com.prayer.model.h2.schema.MetaModel;
+import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.KeyModel;
+import com.prayer.model.database.MetaModel;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;

@@ -19,9 +19,9 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.Status;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.schema.Serializer;
-import com.prayer.model.h2.schema.FieldModel;
-import com.prayer.model.h2.schema.KeyModel;
-import com.prayer.model.h2.schema.MetaModel;
+import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.KeyModel;
+import com.prayer.model.database.MetaModel;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

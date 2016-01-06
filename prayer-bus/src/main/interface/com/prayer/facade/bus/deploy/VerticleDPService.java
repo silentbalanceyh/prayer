@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.vertx.VerticleModel;
+import com.prayer.model.vertx.VerticleModel;
 /**
  * 
  * @author Lang

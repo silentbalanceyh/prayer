@@ -1,6 +1,6 @@
 package com.prayer.facade.bus.deploy;
 
-import com.prayer.model.h2.vertx.ScriptModel;
+import com.prayer.model.vertx.ScriptModel;
 
 /**
  * 
