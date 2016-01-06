@@ -14,7 +14,7 @@ import com.prayer.exception.web.DependQueryInvalidException;
 import com.prayer.exception.web.DependRuleInvalidException;
 import com.prayer.exception.web.ValidationFailureException;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.h2.vertx.RuleModel;
+import com.prayer.model.vertx.RuleModel;
 import com.prayer.uca.WebDependant;
 import com.prayer.util.StringKit;
 import com.prayer.util.web.Interruptor;

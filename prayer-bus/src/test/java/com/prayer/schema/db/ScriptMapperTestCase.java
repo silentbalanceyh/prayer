@@ -13,7 +13,7 @@ import com.prayer.constant.Resources;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.facade.mapper.ScriptMapper;
-import com.prayer.model.h2.vertx.ScriptModel;
+import com.prayer.model.vertx.ScriptModel;
 
 /**
  * Uri的特殊测试用例

@@ -2,7 +2,7 @@ package com.prayer.facade.dao.schema;
 
 import java.util.List;
 
-import com.prayer.model.h2.vertx.RouteModel;
+import com.prayer.model.vertx.RouteModel;
 
 /**
  * 

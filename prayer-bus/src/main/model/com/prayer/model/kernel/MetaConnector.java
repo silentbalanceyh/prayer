@@ -25,7 +25,7 @@ import com.prayer.exception.system.MetaCounterException;
 import com.prayer.exception.system.MetaTypeWrongException;
 import com.prayer.exception.system.MetadataDefMissingException;
 import com.prayer.exception.system.SchemaNotFoundException;
-import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.database.FieldModel;
 import com.prayer.model.type.DataType;
 import com.prayer.util.Converter;
 import com.prayer.util.StringKit;

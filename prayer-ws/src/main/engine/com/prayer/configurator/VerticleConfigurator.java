@@ -17,7 +17,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.vertx.VerticleModel;
+import com.prayer.model.vertx.VerticleModel;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.json.JsonObject;

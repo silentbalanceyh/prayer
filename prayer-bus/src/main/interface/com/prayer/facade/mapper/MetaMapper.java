@@ -1,6 +1,6 @@
 package com.prayer.facade.mapper;
 
-import com.prayer.model.h2.schema.MetaModel;
+import com.prayer.model.database.MetaModel;
 
 /**
  * 

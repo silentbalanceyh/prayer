@@ -1,6 +1,6 @@
 package com.prayer.facade.bus.deploy;
 
-import com.prayer.model.h2.vertx.RouteModel;
+import com.prayer.model.vertx.RouteModel;
 
 /**
  * 

@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.database.FieldModel;
 /**
  * 
  * @author Lang

@@ -1,6 +1,6 @@
 package com.prayer.facade.dao.schema;
 
-import com.prayer.model.h2.vertx.AddressModel;
+import com.prayer.model.vertx.AddressModel;
 /**
  * 
  * @author Lang

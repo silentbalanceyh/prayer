@@ -1,6 +1,6 @@
 package com.prayer.base.plugin;
 
-import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.database.FieldModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.type.DataType;
 import com.prayer.util.Instance;

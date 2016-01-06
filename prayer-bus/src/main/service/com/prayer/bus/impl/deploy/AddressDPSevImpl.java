@@ -10,7 +10,7 @@ import com.prayer.base.bus.AbstractDPSevImpl;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.dao.impl.schema.AddressDaoImpl;
 import com.prayer.facade.bus.deploy.AddressDPService;
-import com.prayer.model.h2.vertx.AddressModel;
+import com.prayer.model.vertx.AddressModel;
 import com.prayer.util.io.JsonKit;
 
 import net.sf.oval.constraint.NotBlank;

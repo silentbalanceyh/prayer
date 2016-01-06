@@ -16,7 +16,7 @@ import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.database.FieldModel;
 import com.prayer.model.type.DataType;
 import com.prayer.util.StringKit;
 

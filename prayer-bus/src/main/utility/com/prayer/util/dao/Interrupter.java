@@ -22,7 +22,7 @@ import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.exception.database.PolicyNotSupportException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.database.FieldModel;
 
 /**
  * 

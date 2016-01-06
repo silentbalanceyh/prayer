@@ -20,7 +20,7 @@ import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Transducer.V;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.database.FieldModel;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.StringType;
 

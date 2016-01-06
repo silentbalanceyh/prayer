@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.SystemEnum.KeyCategory;
-import com.prayer.model.h2.schema.FieldModel;
-import com.prayer.model.h2.schema.KeyModel;
+import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.KeyModel;
 import com.prayer.util.StringKit;
 
 import jodd.util.StringUtil;

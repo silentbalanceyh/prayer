@@ -17,7 +17,7 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.schema.ScriptDaoImpl;
 import com.prayer.facade.bus.deploy.ScriptDPService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.vertx.ScriptModel;
+import com.prayer.model.vertx.ScriptModel;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.JsonKit;
 

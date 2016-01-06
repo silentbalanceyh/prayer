@@ -10,7 +10,7 @@ import com.prayer.constant.Resources;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.dao.jdbc.MetadataConn;
 import com.prayer.facade.mapper.KeyMapper;
-import com.prayer.model.h2.schema.KeyModel;
+import com.prayer.model.database.KeyModel;
 
 /**
  * 

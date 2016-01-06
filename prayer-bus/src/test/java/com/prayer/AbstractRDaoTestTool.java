@@ -17,7 +17,7 @@ import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.h2.schema.FieldModel;
+import com.prayer.model.database.FieldModel;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.model.kernel.GenericSchema;
 

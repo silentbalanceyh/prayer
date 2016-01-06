@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.facade.dao.schema.UriDao;
 import com.prayer.facade.mapper.SessionManager;
 import com.prayer.facade.mapper.UriMapper;
-import com.prayer.model.h2.vertx.UriModel;
+import com.prayer.model.vertx.UriModel;
 
 import io.vertx.core.http.HttpMethod;
 import net.sf.oval.constraint.NotBlank;
