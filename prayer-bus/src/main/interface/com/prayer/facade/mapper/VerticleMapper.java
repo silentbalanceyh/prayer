@@ -2,6 +2,8 @@ package com.prayer.facade.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.prayer.model.vertx.VerticleModel;
 
 /**
@@ -15,18 +17,18 @@ public interface VerticleMapper extends H2TMapper<VerticleModel, String> {
      * @param name
      * @return
      */
-    boolean deleteByName(String name);
+    boolean deleteByName(@Param("name") Class<?> name);
     /**
      * 
      * @param name
      * @return
      */
-    VerticleModel selectByName(String name);
+    VerticleModel selectByName(@Param("name") Class<?> name);
 
     /**
      * 
      * @param group
      * @return
      */
-    List<VerticleModel> selectByGroup(String group);
+    List<VerticleModel> selectByGroup(@Param("group") String group);
 }

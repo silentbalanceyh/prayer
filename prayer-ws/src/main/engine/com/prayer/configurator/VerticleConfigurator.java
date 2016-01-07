@@ -20,7 +20,6 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.VerticleModel;
 
 import io.vertx.core.DeploymentOptions;
-import io.vertx.core.json.JsonObject;
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -105,7 +104,7 @@ public class VerticleConfigurator {
     private Map<String, DeploymentOptions> getConfig(final List<VerticleModel> rawList) {
         final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
         for (final VerticleModel item : rawList) {
-            retMap.put(item.getName(), this.getOptions(item));
+            retMap.put(item.getName().getName(), this.getOptions(item));
         }
         return retMap;
     }
@@ -120,7 +119,7 @@ public class VerticleConfigurator {
         // 2.设置额外的ClassPath
         retOpts.setExtraClasspath(rawData.getExtraCp());
         // 3.设置扩展属性
-        retOpts.setConfig(new JsonObject(rawData.getJsonConfig()));
+        retOpts.setConfig(rawData.getJsonConfig());
         // 4.设置基本属性
         retOpts.setInstances(rawData.getInstances());
         retOpts.setHa(rawData.isHa());

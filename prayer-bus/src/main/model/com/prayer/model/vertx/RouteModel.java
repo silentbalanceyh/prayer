@@ -7,7 +7,11 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
+import com.prayer.plugin.jackson.ClassDeserializer;
+import com.prayer.plugin.jackson.ClassSerializer;
 
 import io.vertx.core.http.HttpMethod;
 
@@ -46,17 +50,17 @@ public class RouteModel implements Serializable { // NOPMD
     /** S_ORDER **/
     @JsonProperty("order")
     private int order = Constants.ORDER.NOT_SET;
-    
+
     /** S_SHANDLER **/
     @JsonProperty("requestHandler")
-    private String requestHandler;
+    @JsonSerialize(using = ClassSerializer.class)
+    @JsonDeserialize(using = ClassDeserializer.class)
+    private Class<?> requestHandler;
     /** S_FHANDLER **/
     @JsonProperty("failureHandler")
-    private String failureHandler;
-
-    /** IS_SYNC **/
-    @JsonProperty("sync")
-    private boolean sync = true;
+    @JsonSerialize(using = ClassSerializer.class)
+    @JsonDeserialize(using = ClassDeserializer.class)
+    private Class<?> failureHandler;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -129,7 +133,7 @@ public class RouteModel implements Serializable { // NOPMD
     /**
      * @return the requestHandler
      */
-    public String getRequestHandler() {
+    public Class<?> getRequestHandler() {
         return requestHandler;
     }
 
@@ -137,14 +141,14 @@ public class RouteModel implements Serializable { // NOPMD
      * @param requestHandler
      *            the requestHandler to set
      */
-    public void setRequestHandler(final String requestHandler) {
+    public void setRequestHandler(final Class<?> requestHandler) {
         this.requestHandler = requestHandler;
     }
 
     /**
      * @return the failureHandler
      */
-    public String getFailureHandler() {
+    public Class<?> getFailureHandler() {
         return failureHandler;
     }
 
@@ -152,23 +156,8 @@ public class RouteModel implements Serializable { // NOPMD
      * @param failureHandler
      *            the failureHandler to set
      */
-    public void setFailureHandler(final String failureHandler) {
+    public void setFailureHandler(final Class<?> failureHandler) {
         this.failureHandler = failureHandler;
-    }
-
-    /**
-     * @return the sync
-     */
-    public boolean isSync() {
-        return sync;
-    }
-
-    /**
-     * @param sync
-     *            the sync to set
-     */
-    public void setSync(final boolean sync) {
-        this.sync = sync;
     }
 
     /**
@@ -179,7 +168,8 @@ public class RouteModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param order the order to set
+     * @param order
+     *            the order to set
      */
     public void setOrder(final int order) {
         this.order = order;
@@ -193,7 +183,8 @@ public class RouteModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param consumerMimes the consumerMimes to set
+     * @param consumerMimes
+     *            the consumerMimes to set
      */
     public void setConsumerMimes(final List<String> consumerMimes) {
         this.consumerMimes = consumerMimes;
@@ -207,7 +198,8 @@ public class RouteModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param producerMimes the producerMimes to set
+     * @param producerMimes
+     *            the producerMimes to set
      */
     public void setProducerMimes(final List<String> producerMimes) {
         this.producerMimes = producerMimes;
@@ -218,7 +210,7 @@ public class RouteModel implements Serializable { // NOPMD
     @Override
     public String toString() {
         return "RouteModel [uniqueId=" + uniqueId + ", parent=" + parent + ", path=" + path + ", method=" + method
-                + ", requestHandler=" + requestHandler + ", failureHandler=" + failureHandler + ", sync=" + sync + "]";
+                + ", requestHandler=" + requestHandler + ", failureHandler=" + failureHandler + "]";
     }
 
     /** **/

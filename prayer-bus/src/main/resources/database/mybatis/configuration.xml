@@ -5,22 +5,27 @@
 <configuration>
     <properties resource="database/database.properties" />
     <settings>
-        <setting name="cacheEnabled" value="true" />
-        <setting name="lazyLoadingEnabled" value="true" />
-        <setting name="multipleResultSetsEnabled" value="true" />
-        <setting name="useColumnLabel" value="true" />
+        <setting name="defaultExecutorType" value="REUSE"/>
     </settings>
     <typeAliases>
-        <typeAlias type="com.prayer.model.database.KeyModel" alias="Key" />
-        <typeAlias type="com.prayer.model.database.FieldModel" alias="Field" />
-        <typeAlias type="com.prayer.model.database.MetaModel" alias="Meta" />
+        <typeAlias type="com.prayer.model.database.KeyModel"
+            alias="Key" />
+        <typeAlias type="com.prayer.model.database.FieldModel"
+            alias="Field" />
+        <typeAlias type="com.prayer.model.database.MetaModel"
+            alias="Meta" />
         <typeAlias type="com.prayer.model.vertx.VerticleModel"
             alias="Verticle" />
-        <typeAlias type="com.prayer.model.vertx.RouteModel" alias="Route" />
-        <typeAlias type="com.prayer.model.vertx.UriModel" alias="Uri" />
-        <typeAlias type="com.prayer.model.vertx.RuleModel" alias="Rule"/>
-        <typeAlias type="com.prayer.model.vertx.AddressModel" alias="Address"/>
-        <typeAlias type="com.prayer.model.vertx.ScriptModel" alias="Script"/>
+        <typeAlias type="com.prayer.model.vertx.RouteModel"
+            alias="Route" />
+        <typeAlias type="com.prayer.model.vertx.UriModel"
+            alias="Uri" />
+        <typeAlias type="com.prayer.model.vertx.RuleModel"
+            alias="Rule" />
+        <typeAlias type="com.prayer.model.vertx.AddressModel"
+            alias="Address" />
+        <typeAlias type="com.prayer.model.vertx.ScriptModel"
+            alias="Script" />
     </typeAliases>
     <environments default="H2Environment">
         <environment id="H2Environment">
@@ -30,8 +35,10 @@
                 <property name="url" value="${H2.jdbc.url}" />
                 <property name="username" value="${H2.jdbc.username}" />
                 <property name="password" value="${H2.jdbc.password}" />
-                <property name="poolMaximumActiveConnections" value="100" />
-                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="poolMaximumActiveConnections"
+                    value="100" />
+                <property name="poolMaximumIdleConnections"
+                    value="20" />
             </dataSource>
         </environment>
     </environments>
@@ -42,8 +49,8 @@
         <mapper resource="database/mybatis/mapper/VerticleMapper.xml" />
         <mapper resource="database/mybatis/mapper/RouteMapper.xml" />
         <mapper resource="database/mybatis/mapper/UriMapper.xml" />
-        <mapper resource="database/mybatis/mapper/RuleMapper.xml"/>
-        <mapper resource="database/mybatis/mapper/AddressMapper.xml"/>
-        <mapper resource="database/mybatis/mapper/ScriptMapper.xml"/>
+        <mapper resource="database/mybatis/mapper/RuleMapper.xml" />
+        <mapper resource="database/mybatis/mapper/AddressMapper.xml" />
+        <mapper resource="database/mybatis/mapper/ScriptMapper.xml" />
     </mappers>
 </configuration>

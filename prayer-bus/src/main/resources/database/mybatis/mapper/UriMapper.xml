@@ -3,26 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.prayer.facade.mapper.UriMapper">
-	<resultMap type="Uri" id="uriObject">
-		<id column="K_ID" property="uniqueId" />
-		<result column="S_URI" property="uri" />
-		<result column="S_PARAM_TYPE" property="paramType"
-			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
-		<result column="S_METHOD" property="method"
-			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
-		<result column="S_GLOBAL_ID" property="globalId" />
-		<result column="L_REQUIRED_PARAM" property="requiredParam"
-			typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
-		<result column="MSG_ADDRESS" property="address" />
-		<result column="S_SCRIPT" property="script" />
-		<result column="S_SENDER" property="sender" />
-		<result column="S_ROLES" property="roles"
-			typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
-		<result column="L_RETURN_FILTERS" property="returnFilters"
-			typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
-	</resultMap>
-	<insert id="insert" parameterType="Uri" keyColumn="K_ID"
-		keyProperty="uniqueId">
+    <resultMap type="Uri" id="uriObject">
+        <id column="K_ID" property="uniqueId" />
+        <result column="S_URI" property="uri" />
+        <result column="S_PARAM_TYPE" property="paramType"
+            typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result column="S_METHOD" property="method"
+            typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result column="S_GLOBAL_ID" property="globalId" />
+        <result column="L_REQUIRED_PARAM" property="requiredParam"
+            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
+        <result column="MSG_ADDRESS" property="address" />
+        <result column="S_SCRIPT" property="script" />
+        <result column="S_SENDER" property="sender"
+            typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
+        <result column="S_ROLES" property="roles"
+            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
+        <result column="L_RETURN_FILTERS" property="returnFilters"
+            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
+    </resultMap>
+    <insert id="insert" parameterType="Uri" keyColumn="K_ID"
+        keyProperty="uniqueId">
         <![CDATA[
             INSERT INTO EVX_URI (
                 K_ID,
@@ -44,14 +45,14 @@
                 #{address},
                 #{globalId},
                 #{script},
-                #{sender},
+                #{sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{roles, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             )
         ]]>
-	</insert>
-	<insert id="batchInsert" parameterType="java.util.List">
+    </insert>
+    <insert id="batchInsert" parameterType="java.util.List">
         <![CDATA[
             INSERT INTO EVX_URI (
                 K_ID,
@@ -67,8 +68,8 @@
                 L_RETURN_FILTERS
             ) VALUES
         ]]>
-		<foreach collection="list" item="item" index="index"
-			separator=",">
+        <foreach collection="list" item="item" index="index"
+            separator=",">
             <![CDATA[(
                 #{item.uniqueId},
                 #{item.uri},
@@ -77,15 +78,15 @@
                 #{item.address},
                 #{item.globalId},
                 #{item.script},
-                #{item.sender},
+                #{item.sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{item.roles, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             )]]>
-		</foreach>
-	</insert>
-	<update id="update" parameterType="Uri" keyColumn="K_ID"
-		keyProperty="uniqueId">
+        </foreach>
+    </insert>
+    <update id="update" parameterType="Uri" keyColumn="K_ID"
+        keyProperty="uniqueId">
         <![CDATA[
             UPDATE EVX_URI SET
                 S_URI=#{uri},
@@ -94,58 +95,58 @@
                 MSG_ADDRESS=#{address},
                 S_GLOBAL_ID=#{globalId},
                 S_SCRIPT=#{script},
-                S_SENDER=#{sender},
+                S_SENDER=#{sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 S_ROLES=#{roles, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 L_RETURN_FILTERS=#{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             WHERE K_ID=#{uniqueId}
         ]]>
-	</update>
-	<delete id="deleteById" parameterType="String">
+    </update>
+    <delete id="deleteById" parameterType="String">
         <![CDATA[
             DELETE FROM EVX_URI WHERE K_ID=#{uniqueId}
         ]]>
-	</delete>
-	<delete id="batchDelete" parameterType="java.util.List">
+    </delete>
+    <delete id="batchDelete" parameterType="java.util.List">
         <![CDATA[
             DELETE FROM EVX_URI WHERE K_ID IN
         ]]>
-		<foreach collection="list" item="item" open="(" separator=","
-			close=")">
+        <foreach collection="list" item="item" open="("
+            separator="," close=")">
             <![CDATA[
                 #{item}
             ]]>
-		</foreach>
-	</delete>
-	<delete id="purgeData">
+        </foreach>
+    </delete>
+    <delete id="purgeData">
         <![CDATA[
             DELETE FROM EVX_URI
         ]]>
-	</delete>
-	<select id="selectById" parameterType="String" resultMap="uriObject">
+    </delete>
+    <select id="selectById" parameterType="String" resultMap="uriObject">
         <![CDATA[
             SELECT * FROM EVX_URI WHERE K_ID=#{uniqueId}
         ]]>
-	</select>
-	<select id="selectAll" resultMap="uriObject">
+    </select>
+    <select id="selectAll" resultMap="uriObject">
         <![CDATA[
             SELECT * FROM EVX_URI
         ]]>
-	</select>
+    </select>
 
-	<select id="selectByUri" resultMap="uriObject">
+    <select id="selectByUri" resultMap="uriObject">
         <![CDATA[
             SELECT * FROM EVX_URI WHERE S_URI=#{uri}
         ]]>
-	</select>
-	<select id="selectByUriAndMethod" resultMap="uriObject">
+    </select>
+    <select id="selectByUriAndMethod" resultMap="uriObject">
         <![CDATA[
-            SELECT * FROM EVX_URI WHERE S_URI=#{0} AND S_METHOD=#{1,typeHandler=org.apache.ibatis.type.EnumTypeHandler}
+            SELECT * FROM EVX_URI WHERE S_URI=#{uri} AND S_METHOD=#{method,jdbcType=VARCHAR}
         ]]>
-	</select>
-	<select id="selectByPage" resultMap="uriObject">
+    </select>
+    <select id="selectByPage" resultMap="uriObject">
         <![CDATA[
             SELECT * FROM EVX_URI ORDER BY #{order} LIMIT #{size} OFFSET #{start}
         ]]>
-	</select>
+    </select>
 </mapper>

@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
+import com.prayer.plugin.jackson.ClassDeserializer;
+import com.prayer.plugin.jackson.ClassSerializer;
 import com.prayer.util.io.JsonKit;
 
 import io.vertx.core.buffer.Buffer;
@@ -33,13 +37,17 @@ public class AddressModel implements Serializable, ClusterSerializable { // NOPM
     private String uniqueId;
     /** S_WORK_CLASS **/
     @JsonProperty("workClass")
+    @JsonSerialize(using = ClassSerializer.class)
+    @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> workClass;
     /** S_CONSUMER_ADDR **/
     @JsonProperty("consumerAddr")
     private String consumerAddr;
     /** S_CONSUMER_HANDLER **/
     @JsonProperty("consumerHandler")
-    private String consumerHandler;
+    @JsonSerialize(using = ClassSerializer.class)
+    @JsonDeserialize(using = ClassDeserializer.class)
+    private Class<?> consumerHandler;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -113,7 +121,7 @@ public class AddressModel implements Serializable, ClusterSerializable { // NOPM
     /**
      * @return the consumerHandler
      */
-    public String getConsumerHandler() {
+    public Class<?> getConsumerHandler() {
         return consumerHandler;
     }
 
@@ -121,7 +129,7 @@ public class AddressModel implements Serializable, ClusterSerializable { // NOPM
      * @param consumerHandler
      *            the consumerHandler to set
      */
-    public void setConsumerHandler(final String consumerHandler) {
+    public void setConsumerHandler(final Class<?> consumerHandler) {
         this.consumerHandler = consumerHandler;
     }
 

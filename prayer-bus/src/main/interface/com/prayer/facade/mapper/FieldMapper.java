@@ -2,6 +2,8 @@ package com.prayer.facade.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.prayer.model.database.FieldModel;
 
 /**
@@ -17,7 +19,7 @@ public interface FieldMapper extends H2TMapper<FieldModel, String> {
      * @param metaId
      * @return
      */
-    boolean deleteByMeta(String metaId);
+    boolean deleteByMeta(@Param("metaId") String metaId);
 
     /**
      * 根据Field的metaId获取Field记录
@@ -25,5 +27,5 @@ public interface FieldMapper extends H2TMapper<FieldModel, String> {
      * @param metaId
      * @return
      */
-    List<FieldModel> selectByMeta(String metaId);
+    List<FieldModel> selectByMeta(@Param("metaId") String metaId);
 }

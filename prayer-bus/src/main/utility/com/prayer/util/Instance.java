@@ -116,6 +116,30 @@ public final class Instance { // NOPMD
     }
 
     /**
+     * 构造一个新的实例，直接用Class构造
+     * 
+     * @param clazz
+     * @param params
+     * @return
+     */
+    public static <T> T instance(final Class<?> clazz, final Object... params) {
+        T ret = null;
+        try {
+            if (0 == params.length) {
+                ret = construct(clazz);
+            } else {
+                ret = construct(clazz, params);
+            }
+        } catch (ConstraintsViolatedException ex) { // NOPMD
+            ovalError(LOGGER, ex);
+            throw ex;
+        } catch (SecurityException ex) {
+            jvmError(LOGGER, ex);
+        }
+        return ret;
+    }
+
+    /**
      * 
      * @param className
      * @return
@@ -125,7 +149,7 @@ public final class Instance { // NOPMD
         try {
             ret = Class.forName(className);
         } catch (ClassNotFoundException ex) {
-            jvmError(LOGGER,ex);
+            jvmError(LOGGER, ex);
         }
         return ret;
     }
@@ -188,7 +212,7 @@ public final class Instance { // NOPMD
             }
             ret = (T) field.get(instance);
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex) {
-            jvmError(LOGGER,ex);
+            jvmError(LOGGER, ex);
         }
         return ret;
     }
@@ -211,7 +235,7 @@ public final class Instance { // NOPMD
             }
             field.set(instance, value);
         } catch (IllegalAccessException | NoSuchFieldException | SecurityException ex) {
-            jvmError(LOGGER,ex);
+            jvmError(LOGGER, ex);
         }
     }
 
@@ -223,29 +247,6 @@ public final class Instance { // NOPMD
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-
-    /**
-     * 
-     * @param clazz
-     * @param params
-     * @return
-     */
-    private static <T> T instance(final Class<?> clazz, final Object... params) {
-        T ret = null;
-        try {
-            if (0 == params.length) {
-                ret = construct(clazz);
-            } else {
-                ret = construct(clazz, params);
-            }
-        } catch (ConstraintsViolatedException ex) { // NOPMD
-            ovalError(LOGGER, ex);
-            throw ex;
-        } catch (SecurityException ex) {
-            jvmError(LOGGER,ex);
-        }
-        return ret;
-    }
 
     private static <T> T construct(final Class<?> clazz, final Object... params) {
         T ret = null;
@@ -282,9 +283,9 @@ public final class Instance { // NOPMD
                 throw error;
             }
         } catch (IllegalArgumentException ex) {
-            jvmError(LOGGER,ex);
+            jvmError(LOGGER, ex);
         } catch (InstantiationException | IllegalAccessException ex) {
-            jvmError(LOGGER,ex);
+            jvmError(LOGGER, ex);
         }
         return ret;
     }

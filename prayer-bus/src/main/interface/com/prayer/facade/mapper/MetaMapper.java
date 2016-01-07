@@ -1,5 +1,7 @@
 package com.prayer.facade.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.prayer.model.database.MetaModel;
 
 /**
@@ -17,7 +19,7 @@ public interface MetaMapper extends H2TMapper<MetaModel, String> { // NOPMD
      * @param name
      * @return
      */
-    boolean deleteByModel(String namespace, String name);
+    boolean deleteByModel(@Param("namespace") String namespace, @Param("name") String name);
 
     /**
      * 根据Meta的namespace和name获取Meta记录
@@ -26,12 +28,12 @@ public interface MetaMapper extends H2TMapper<MetaModel, String> { // NOPMD
      * @param name
      * @return
      */
-    MetaModel selectByModel(String namespace, String name);
+    MetaModel selectByModel(@Param("namespace") String namespace, @Param("name") String name);
 
     /**
      * 
      * @param globalId
      * @return
      */
-    MetaModel selectByGlobalId(String globalId);
+    MetaModel selectByGlobalId(@Param("globalId") String globalId);
 }

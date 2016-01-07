@@ -12,9 +12,11 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractRDaoTestTool;
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.database.PolicyConflictCallException;
+import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
@@ -139,8 +141,11 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     }
 
     /** **/
-    @Test
+    @Test(expected = CustomValidatorException.class)
     public void testT05051MselectById() throws AbstractDatabaseException {
+        if (!Resources.DB_V_ENABLED) {
+            throw new CustomValidatorException(getClass(), "SKIP Custom Validation.");
+        }
         if (this.isValidDB()) {
             // 准备数据
             final Record before = this.getRecord(IDENTIFIER);
@@ -163,6 +168,7 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
             }
         }
     }
+
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05102Mupdate() throws AbstractDatabaseException {
@@ -192,6 +198,7 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
             this.getRecordDao().delete(updateR);
         }
     }
+
     /** **/
     @Test
     public void testT05053MselectById() throws AbstractDatabaseException {

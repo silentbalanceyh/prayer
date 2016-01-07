@@ -49,7 +49,7 @@ public class VerticleDaoImpl extends TemplateDaoImpl<VerticleModel, String> impl
 
     /** 根据name删除系统中存在的记录 **/
     @Override
-    public boolean deleteByName(@NotNull @NotBlank @NotEmpty final String name) throws AbstractTransactionException {
+    public boolean deleteByName(@NotNull final Class<?> name) throws AbstractTransactionException {
         // 1.开启Mybatis事务
         final SqlSession session = SessionManager.getSession();
         final Transaction transaction = transaction(session);
@@ -77,7 +77,7 @@ public class VerticleDaoImpl extends TemplateDaoImpl<VerticleModel, String> impl
 
     /** 根据Class类名获取单条VerticleModel **/
     @Override
-    public VerticleModel getByClass(@NotNull @NotBlank @NotEmpty final String clazz) {
+    public VerticleModel getByClass(@NotNull final Class<?> clazz) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.获取Mapper

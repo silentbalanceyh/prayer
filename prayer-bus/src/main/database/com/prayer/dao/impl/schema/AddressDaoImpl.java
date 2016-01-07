@@ -45,7 +45,7 @@ public class AddressDaoImpl extends TemplateDaoImpl<AddressModel, String> implem
 
     /** **/
     @Override
-    public AddressModel getByClass(@NotNull @NotBlank @NotEmpty final String workClass) {
+    public AddressModel getByClass(@NotNull @NotBlank @NotEmpty final Class<?> workClass) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.获取Mapper

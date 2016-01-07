@@ -42,6 +42,8 @@ public final class Resources { // NOPMD
     public static final String DB_TRANSDUCER;
     /** Builder过程的关于Target数据库的验证 **/
     public static final String DB_VALIDATOR;
+    /** 是否跳过最底层的字段的Validation过程 **/
+    public static final boolean DB_V_ENABLED;
 
     // Database Type Mapping =================================
     /** 数据库类型映射文件地址 **/
@@ -123,6 +125,8 @@ public final class Resources { // NOPMD
         DB_DAO = LOADER.getString("database.dao");
 
         DB_TRANSDUCER = LOADER.getString("database.dao.transducer");
+        
+        DB_V_ENABLED = LOADER.getBoolean("database.validation.skip");
 
         // Open Source
         T_CFG_MYBATIS = LOADER.getString("mybatis.config.file");

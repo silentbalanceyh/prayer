@@ -6,10 +6,12 @@
     <!-- 返回对象定义 -->
     <resultMap type="Verticle" id="verticleObject">
         <id column="K_ID" property="uniqueId" />
-        <result column="S_CLASS" property="name" />
+        <result column="S_CLASS" property="name"
+            typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
         <result column="S_INSTANCES" property="instances" />
         <result column="S_IGROUP" property="group" />
-        <result column="S_JSON_CONFIG" property="jsonConfig" />
+        <result column="S_JSON_CONFIG" property="jsonConfig"
+            typeHandler="com.prayer.plugin.db.handler.JsonObjectHandler" />
         <result column="S_ISOLATED_CLASS" property="isolatedClasses"
             typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
 
@@ -37,10 +39,10 @@
                 IS_MULTI
             ) VALUES (
                 #{uniqueId},
-                #{name},
+                #{name, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{instances},
                 #{group},
-                #{jsonConfig},
+                #{jsonConfig, typeHandler=com.prayer.plugin.db.handler.JsonObjectHandler},
                 #{isolatedClasses, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{extraCp, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{ha},
@@ -68,10 +70,10 @@
             separator=",">
             <![CDATA[(
                 #{item.uniqueId},
-                #{item.name},
+                #{item.name, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{item.instances},
                 #{item.group},
-                #{item.jsonConfig},
+                #{item.jsonConfig, typeHandler=com.prayer.plugin.db.handler.JsonObjectHandler},
                 #{item.isolatedClasses, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.extraCp, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.ha},
@@ -84,10 +86,10 @@
         keyProperty="uniqueId">
         <![CDATA[
             UPDATE EVX_VERTICLE SET
-                S_CLASS=#{name},
+                S_CLASS=#{name, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 S_INSTANCES=#{instances},
                 S_IGROUP=#{group},
-                S_JSON_CONFIG=#{jsonConfig},
+                S_JSON_CONFIG=#{jsonConfig, typeHandler=com.prayer.plugin.db.handler.JsonObjectHandler},
                 S_ISOLATED_CLASSES=#{isolatedClasses, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 CP_EXT=#{extraCp, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 IS_HA=#{ha},
@@ -115,8 +117,8 @@
         <![CDATA[
             DELETE FROM EVX_VERTICLE WHERE K_ID IN
         ]]>
-        <foreach collection="list" item="item" open="(" separator=","
-            close=")">
+        <foreach collection="list" item="item" open="("
+            separator="," close=")">
             <![CDATA[
                 #{item}
             ]]>
@@ -128,9 +130,9 @@
         ]]>
     </delete>
     <!-- 自定义接口方法 -->
-    <select id="selectByName" parameterType="String" resultMap="verticleObject">
+    <select id="selectByName" parameterType="java.lang.Class" resultMap="verticleObject">
         <![CDATA[
-            SELECT * FROM EVX_VERTICLE WHERE S_CLASS=#{name}
+            SELECT * FROM EVX_VERTICLE WHERE S_CLASS=#{name,typeHandler=com.prayer.plugin.db.handler.ClassHandler}
         ]]>
     </select>
     <select id="selectByGroup" parameterType="String" resultMap="verticleObject">
@@ -138,12 +140,12 @@
             SELECT * FROM EVX_VERTICLE WHERE S_IGROUP=#{group}
         ]]>
     </select>
-    <delete id="deleteByName" parameterType="String">
+    <delete id="deleteByName" parameterType="java.lang.Class">
         <![CDATA[
-            DELETE FROM EVX_VERTICLE WHERE S_CLASS=#{name}
+            DELETE FROM EVX_VERTICLE WHERE S_CLASS=#{name,typeHandler=com.prayer.plugin.db.handler.ClassHandler}
         ]]>
     </delete>
-    
+
     <select id="selectByPage" resultMap="verticleObject">
         <![CDATA[
             SELECT * FROM EVX_VERTICLE ORDER BY #{order} LIMIT #{size} OFFSET #{start}

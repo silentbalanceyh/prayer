@@ -36,26 +36,28 @@ public final class UCAConvertor {
     public static String convertField(@NotNull @NotEmpty @NotBlank final String paramName, final String paramValue,
             @NotNull final RuleModel ruleModel) throws AbstractWebException {
         // 1.验证Convertor是否合法
-        final String convertorCls = ruleModel.getComponentClass();
-        Interruptor.interruptClass(UCAConvertor.class, convertorCls, "UCAConvertor");
-        Interruptor.interruptImplements(UCAConvertor.class, convertorCls, WebConvertor.class);
+        final Class<?> comCls = ruleModel.getComponentClass();
+        Interruptor.interruptClass(UCAConvertor.class, comCls.getName(), "UCAConvertor");
+        Interruptor.interruptImplements(UCAConvertor.class, comCls.getName(), WebConvertor.class);
         // 2.提取Convertor中的
         final String typeCls = ruleModel.getType().getClassName();
         final Value<?> value = instance(typeCls, paramValue);
         // 3.提取配置信息
         final JsonObject config = ruleModel.getConfig();
         // 4.执行转换
-        final WebConvertor convertor = instance(convertorCls);
+        final WebConvertor convertor = instance(comCls);
         final Value<?> ret = convertor.convert(paramName, value, config);
         // 5.最终返回literal，转换失败的时候使用原值
         return null == ret ? paramValue : ret.literal();
     }
+
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private UCAConvertor(){}
+    private UCAConvertor() {
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

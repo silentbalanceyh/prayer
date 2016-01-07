@@ -167,7 +167,7 @@ public class ConfigSevImpl implements ConfigService {
         // 1.构造响应数据
         final ServiceResult<AddressModel> result = new ServiceResult<>();
         // 2.调用读取方法
-        final AddressModel ret = this.manager.getAddressDao().getByClass(workClass.getName());
+        final AddressModel ret = this.manager.getAddressDao().getByClass(workClass);
         // 3.设置最终响应结果
         return result.success(ret);
     }

@@ -8,8 +8,12 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
+import com.prayer.plugin.jackson.ClassDeserializer;
+import com.prayer.plugin.jackson.ClassSerializer;
 
 import io.vertx.core.http.HttpMethod;
 
@@ -65,7 +69,9 @@ public class UriModel implements Serializable { // NOPMD
 
     /** S_SENDER **/
     @JsonProperty("sender")
-    private String sender;
+    @JsonSerialize(using = ClassSerializer.class)
+    @JsonDeserialize(using = ClassDeserializer.class)
+    private Class<?> sender;
     
     /** S_ROLES **/
     @JsonProperty("roles")
@@ -218,7 +224,7 @@ public class UriModel implements Serializable { // NOPMD
     /**
      * @return the sender
      */
-    public String getSender() {
+    public Class<?> getSender() {
         return sender;
     }
 
@@ -226,7 +232,7 @@ public class UriModel implements Serializable { // NOPMD
      * @param sender
      *            the sender to set
      */
-    public void setSender(final String sender) {
+    public void setSender(final Class<?> sender) {
         this.sender = sender;
     }
 

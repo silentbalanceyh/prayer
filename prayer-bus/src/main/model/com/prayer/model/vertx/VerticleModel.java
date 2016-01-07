@@ -8,7 +8,15 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
+import com.prayer.plugin.jackson.ClassDeserializer;
+import com.prayer.plugin.jackson.ClassSerializer;
+import com.prayer.plugin.jackson.JsonObjectDeserializer;
+import com.prayer.plugin.jackson.JsonObjectSerializer;
+
+import io.vertx.core.json.JsonObject;
 
 /**
  * 对应表EVX_VERTICLE
@@ -30,7 +38,9 @@ public class VerticleModel implements Serializable {    // NOPMD
     // ~ !基础配置数据 =======================================
     /** S_CLASS **/
     @JsonProperty("name")
-    private String name;
+    @JsonSerialize(using = ClassSerializer.class)
+    @JsonDeserialize(using = ClassDeserializer.class)
+    private Class<?> name;
     /** S_INSTANCES **/
     @JsonProperty("instances")
     private int instances = 1;
@@ -39,7 +49,9 @@ public class VerticleModel implements Serializable {    // NOPMD
     private String group = Constants.VX_GROUP;    // NOPMD，__DEFAULT__是HA中Group的默认值
     /** S_JSON_CONFIG **/
     @JsonProperty("jsonConfig")
-    private String jsonConfig = Constants.EMPTY_JOBJ;    // NOPMD
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private JsonObject jsonConfig = new JsonObject();    // NOPMD
     /** S_ISOLATED_CLASSES **/
     @JsonProperty("isolatedClasses")
     private List<String> isolatedClasses = new ArrayList<>();  // NOPMD
@@ -60,13 +72,6 @@ public class VerticleModel implements Serializable {    // NOPMD
     private boolean multi = false; // NOPMD
     
     // ~ !和发布相关的配置====================================
-    /** DP_ORDER **/
-    @JsonProperty("deployOrder")
-    private int deployOrder = 1;
-    /** DP_ASYNC **/
-    @JsonProperty("deployAsync")
-    private boolean deployAsync = false;    // NOPMD
-
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -93,14 +98,14 @@ public class VerticleModel implements Serializable {    // NOPMD
     /**
      * @return the name
      */
-    public String getName() {
+    public Class<?> getName() {
         return name;
     }
 
     /**
      * @param name the name to set
      */
-    public void setName(final String name) {
+    public void setName(final Class<?> name) {
         this.name = name;
     }
 
@@ -135,14 +140,14 @@ public class VerticleModel implements Serializable {    // NOPMD
     /**
      * @return the jsonConfig
      */
-    public String getJsonConfig() {
+    public JsonObject getJsonConfig() {
         return jsonConfig;
     }
 
     /**
      * @param jsonConfig the jsonConfig to set
      */
-    public void setJsonConfig(final String jsonConfig) {
+    public void setJsonConfig(final JsonObject jsonConfig) {
         this.jsonConfig = jsonConfig;
     }
 

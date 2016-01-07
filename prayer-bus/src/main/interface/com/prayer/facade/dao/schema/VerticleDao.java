@@ -19,7 +19,7 @@ public interface VerticleDao extends TemplateDao<VerticleModel,String>{
      * @return
      * @throws DataAccessException
      */
-    boolean deleteByName(String name) throws AbstractTransactionException;
+    boolean deleteByName(Class<?> name) throws AbstractTransactionException;
 
     /**
      * 按照组名读取系统中所有的VerticleModel，返回的是一个VerticleChain对象
@@ -35,5 +35,5 @@ public interface VerticleDao extends TemplateDao<VerticleModel,String>{
      * @param clazz
      * @return
      */
-    VerticleModel getByClass(String clazz);
+    VerticleModel getByClass(Class<?> clazz);
 }

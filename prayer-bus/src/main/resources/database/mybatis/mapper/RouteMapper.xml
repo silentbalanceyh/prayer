@@ -17,10 +17,10 @@
 
         <result column="S_ORDER" property="order" />
 
-        <result column="S_SHANDLER" property="requestHandler" />
-        <result column="S_FHANDLER" property="failureHandler" />
-
-        <result column="IS_SYNC" property="sync" />
+        <result column="S_SHANDLER" property="requestHandler" 
+            typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
+        <result column="S_FHANDLER" property="failureHandler" 
+            typeHandler="com.prayer.plugin.db.handler.ClassHandler"/>
     </resultMap>
     <insert id="insert" parameterType="Route" keyColumn="K_ID"
         keyProperty="uniqueId">
@@ -34,8 +34,7 @@
                 S_MIME_PRODUCER,
                 S_ORDER,
                 S_SHANDLER,
-                S_FHANDLER,
-                IS_SYNC
+                S_FHANDLER
             ) VALUES (
                 #{uniqueId},
                 #{parent},
@@ -44,9 +43,8 @@
                 #{consumerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{producerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{order},
-                #{requestHandler},
-                #{failureHandler},
-                #{sync}
+                #{requestHandler, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
+                #{failureHandler, typeHandler=com.prayer.plugin.db.handler.ClassHandler}
             )
         ]]>
     </insert>
@@ -61,8 +59,7 @@
                 S_MIME_PRODUCER,
                 S_ORDER,
                 S_SHANDLER,
-                S_FHANDLER,
-                IS_SYNC
+                S_FHANDLER
             ) VALUES
         ]]>
         <foreach collection="list" item="item" index="index"
@@ -75,9 +72,8 @@
                 #{item.consumerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.producerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.order},
-                #{item.requestHandler},
-                #{item.failureHandler},
-                #{item.sync}
+                #{item.requestHandler, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
+                #{item.failureHandler, typeHandler=com.prayer.plugin.db.handler.ClassHandler}
             )]]>
         </foreach>
     </insert>
@@ -91,9 +87,8 @@
                 S_MIME_CONSUMER=#{consumerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 S_MIME_PRODUCER=#{producerMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 S_ORDER=#{order},
-                S_SHANDLER=#{requestHandler},
-                S_FHANDLER=#{failureHandler},
-                IS_SYNC=#{sync}
+                S_SHANDLER=#{requestHandler, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
+                S_FHANDLER=#{failureHandler, typeHandler=com.prayer.plugin.db.handler.ClassHandler}
             WHERE K_ID=#{uniqueId}
         ]]>
     </update>
@@ -131,7 +126,7 @@
 
     <select id="selectByPath" resultMap="routeObject">
         <![CDATA[
-            SELECT * FROM EVX_ROUTE WHERE S_PARENT=#{0,jdbcType=VARCHAR} AND S_PATH=#{1,jdbcType=VARCHAR}
+            SELECT * FROM EVX_ROUTE WHERE S_PARENT=#{parent,jdbcType=VARCHAR} AND S_PATH=#{path,jdbcType=VARCHAR}
         ]]>
     </select>
     <select id="selectByParent" resultMap="routeObject">

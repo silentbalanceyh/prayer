@@ -70,7 +70,7 @@ public class VerticleMapperTestCase extends AbstractMapperCase<VerticleModel, St
         final VerticleMapper mapper = (VerticleMapper) this.getMapper();
         final VerticleModel entity = this.insertTs(false).get(0);
         // 插入一条新数据
-        final String name = entity.getName();
+        final Class<?> name = entity.getName();
         // 从数据库中读取数据
         final VerticleModel targetT = mapper.selectByName(name);
         info(getLogger(), "[TD] (SelectByName) Selected by name = " + name);
@@ -110,7 +110,7 @@ public class VerticleMapperTestCase extends AbstractMapperCase<VerticleModel, St
         final VerticleMapper mapper = (VerticleMapper) this.getMapper();
         final VerticleModel entity = this.insertTs(false).get(0);
         // 插入一条新数据
-        final String name = entity.getName();
+        final Class<?> name = entity.getName();
         // 从数据库中读取数据
         mapper.deleteByName(name);
         this.session().commit();

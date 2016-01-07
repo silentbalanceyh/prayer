@@ -1,5 +1,7 @@
 package com.prayer.bus.impl.deploy;
 
+import static com.prayer.util.Instance.clazz;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -89,7 +91,7 @@ public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String> implements
                 item.setRoles(emptyArr);
             }
             if (null == item.getSender()) {
-                item.setSender("com.prayer.uca.sender.JsonRecordSender");
+                item.setSender(clazz("com.prayer.uca.sender.JsonRecordSender"));
             }
             if (null == item.getScript()) {
                 final StringBuilder script = new StringBuilder(Constants.BUFFER_SIZE); // NOPMD

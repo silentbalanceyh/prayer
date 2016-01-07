@@ -1,5 +1,7 @@
 package com.prayer.bus.impl.deploy;
 
+import static com.prayer.util.Instance.clazz;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +72,7 @@ public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String>impleme
             }
             // Default Order
             if (null == item.getRequestHandler()){
-                item.setRequestHandler("com.prayer.handler.standard.RecordHandler");
+                item.setRequestHandler(clazz("com.prayer.handler.standard.RecordHandler"));
             }
             // Default Parent
             if (null == item.getParent()){

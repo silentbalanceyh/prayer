@@ -2,6 +2,8 @@ package com.prayer.facade.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
  * 
  * @author Lang
@@ -31,7 +33,7 @@ public interface H2TMapper<T, ID> {    // NOPMD
      * @param uniqueId
      * @return
      */
-    boolean deleteById(ID uniqueId);
+    boolean deleteById(@Param("uniqueId") ID uniqueId);
     /**
      * 
      * @param ids
@@ -43,7 +45,7 @@ public interface H2TMapper<T, ID> {    // NOPMD
      * @param uniqueId
      * @return
      */
-    T selectById(ID uniqueId);
+    T selectById(@Param("uniqueId") ID uniqueId);
     /**
      * 
      * @return
@@ -56,7 +58,7 @@ public interface H2TMapper<T, ID> {    // NOPMD
      * @param start
      * @return
      */
-    List<T> selectByPage(String order, int size, int start);
+    List<T> selectByPage(@Param("order") String order, @Param("size") int size, @Param("start") int start);
     /**
      * 
      * @return

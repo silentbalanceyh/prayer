@@ -79,16 +79,16 @@ public final class UCAValidator {
         AbstractWebException error = null;
         try {
             // 1.验证Validator是否存在
-            final String validatorCls = ruleModel.getComponentClass();
-            Interruptor.interruptClass(UCAValidator.class, validatorCls, "Validator");
-            Interruptor.interruptImplements(UCAValidator.class, validatorCls, WebValidator.class);
+            final Class<?> comCls = ruleModel.getComponentClass();
+            Interruptor.interruptClass(UCAValidator.class, comCls.getName(), "Validator");
+            Interruptor.interruptImplements(UCAValidator.class, comCls.getName(), WebValidator.class);
             // 2.从value中提取值信息
             final Value<?> value = buildValue(paramValue, ruleModel);
 
             // 3.提取配置信息
             final JsonObject config = ruleModel.getConfig();
             // 4.验证结果
-            final WebValidator validator = instance(validatorCls);
+            final WebValidator validator = instance(comCls);
             final boolean ret = validator.validate(paramName, value, config);
             // 5.验证失败，特殊的Exception
             if (!ret) {

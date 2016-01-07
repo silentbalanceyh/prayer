@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.model.type.DataType;
+import com.prayer.plugin.jackson.ClassDeserializer;
+import com.prayer.plugin.jackson.ClassSerializer;
 import com.prayer.plugin.jackson.DataTypeDeserializer;
 import com.prayer.plugin.jackson.DataTypeSerializer;
 import com.prayer.plugin.jackson.JsonObjectDeserializer;
@@ -42,23 +44,27 @@ public class RuleModel implements Serializable { // NOPMD
     private String name;
     /** S_TYPE：对应的Lyra的数据类型 **/
     @JsonProperty("type")
+    @JsonSerialize(using = DataTypeSerializer.class)
+    @JsonDeserialize(using = DataTypeDeserializer.class)
     private DataType type;
     /** S_ORDER **/
     @JsonProperty("order")
     private int order;
-    
+
     /** J_COMPONENT_TYPE **/
     @JsonProperty("componentType")
     private ComponentType componentType;
     /** J_COMPONENT_CLASS **/
     @JsonProperty("componentClass")
-    private String componentClass;
+    @JsonSerialize(using = ClassSerializer.class)
+    @JsonDeserialize(using = ClassDeserializer.class)
+    private Class<?> componentClass;
     /** J_CONFIG **/
     @JsonProperty("config")
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private JsonObject config;        // NOPMD
-    
+    private JsonObject config; // NOPMD
+
     /** J_ERROR_MSG **/
     @JsonProperty("errorMessage")
     private String errorMessage;
@@ -104,11 +110,11 @@ public class RuleModel implements Serializable { // NOPMD
     public void setName(final String name) {
         this.name = name;
     }
-    
+
     /**
      * @return the type
      */
-    @JsonSerialize(using = DataTypeSerializer.class)
+
     public DataType getType() {
         return type;
     }
@@ -117,7 +123,6 @@ public class RuleModel implements Serializable { // NOPMD
      * @param type
      *            the type to set
      */
-    @JsonDeserialize(using = DataTypeDeserializer.class)
     public void setType(final DataType type) {
         this.type = type;
     }
@@ -145,7 +150,8 @@ public class RuleModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param componentType the componentType to set
+     * @param componentType
+     *            the componentType to set
      */
     public void setComponentType(final ComponentType componentType) {
         this.componentType = componentType;
@@ -154,14 +160,15 @@ public class RuleModel implements Serializable { // NOPMD
     /**
      * @return the componentClass
      */
-    public String getComponentClass() {
+    public Class<?> getComponentClass() {
         return componentClass;
     }
 
     /**
-     * @param componentClass the componentClass to set
+     * @param componentClass
+     *            the componentClass to set
      */
-    public void setComponentClass(final String componentClass) {
+    public void setComponentClass(final Class<?> componentClass) {
         this.componentClass = componentClass;
     }
 
@@ -188,7 +195,8 @@ public class RuleModel implements Serializable { // NOPMD
     }
 
     /**
-     * @param errorMessage the errorMessage to set
+     * @param errorMessage
+     *            the errorMessage to set
      */
     public void setErrorMessage(final String errorMessage) {
         this.errorMessage = errorMessage;
@@ -231,7 +239,7 @@ public class RuleModel implements Serializable { // NOPMD
 
     /** **/
     @Override
-    public boolean equals(final Object obj) {    // NOPMD
+    public boolean equals(final Object obj) { // NOPMD
         if (this == obj) {
             return true;
         }

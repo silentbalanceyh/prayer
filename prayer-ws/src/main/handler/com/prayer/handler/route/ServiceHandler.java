@@ -13,15 +13,14 @@ import com.prayer.constant.log.DebugKey;
 import com.prayer.model.vertx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
+import com.prayer.uca.WebSender;
 import com.prayer.util.web.Extractor;
 import com.prayer.util.web.Future;
 import com.prayer.util.web.Interruptor;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.Message;
 import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -75,10 +74,12 @@ public class ServiceHandler implements Handler<RoutingContext> {
             // 设置Class类信息
             try {
                 // 发送Message到Event Bus
-                final Handler<AsyncResult<Message<Object>>> sender = instance(uri.getSender(), context.response());
+                final WebSender sender = instance(uri.getSender());
+                // Fix：必须注入Response
+                sender.injectResponse(context.response());
                 // 检查Sender的合法性
-                Interruptor.interruptClass(getClass(), uri.getSender(), "Sender");
-                Interruptor.interruptImplements(getClass(), uri.getSender(), Handler.class);
+                Interruptor.interruptClass(getClass(), uri.getSender().getName(), "Sender");
+                Interruptor.interruptImplements(getClass(), uri.getSender().getName(), Handler.class);
                 // 通过Sender发送Message
                 bus.send(uri.getAddress(), requestor.getParams(), sender);
             } catch (AbstractWebException ex) {

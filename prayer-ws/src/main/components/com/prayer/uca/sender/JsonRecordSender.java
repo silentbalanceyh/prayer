@@ -10,10 +10,10 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.StatusCode;
+import com.prayer.uca.WebSender;
 import com.prayer.util.web.Future;
 
 import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
@@ -27,14 +27,14 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public final class JsonRecordSender implements Handler<AsyncResult<Message<Object>>> {
+public final class JsonRecordSender implements WebSender {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonRecordSender.class);
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient final HttpServerResponse response;
+    private transient HttpServerResponse response;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -43,7 +43,8 @@ public final class JsonRecordSender implements Handler<AsyncResult<Message<Objec
      * 
      * @param response
      */
-    public JsonRecordSender(final HttpServerResponse response) {
+    @Override
+    public void injectResponse(final HttpServerResponse response) {
         this.response = response;
     }
 

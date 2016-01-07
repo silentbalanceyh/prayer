@@ -12,5 +12,5 @@ public interface AddressDao extends TemplateDao<AddressModel, String> {
      * @param workClass
      * @return
      */
-    AddressModel getByClass(String workClass);
+    AddressModel getByClass(Class<?> workClass);
 }

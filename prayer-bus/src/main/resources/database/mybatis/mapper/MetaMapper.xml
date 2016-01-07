@@ -156,12 +156,12 @@
     <!-- 扩展接口 -->
     <delete id="deleteByModel">
         <![CDATA[
-            DELETE FROM SYS_META WHERE S_NAMESPACE=#{0,jdbcType=VARCHAR} AND S_NAME=#{1,jdbcType=VARCHAR}
+            DELETE FROM SYS_META WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR}
         ]]>
     </delete>
     <select id="selectByModel" resultMap="metaObject">
         <![CDATA[
-            SELECT * FROM SYS_META WHERE S_NAMESPACE=#{0,jdbcType=VARCHAR} AND S_NAME=#{1,jdbcType=VARCHAR}
+            SELECT * FROM SYS_META WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR}
         ]]>
     </select>
     <select id="selectByGlobalId" parameterType="String"

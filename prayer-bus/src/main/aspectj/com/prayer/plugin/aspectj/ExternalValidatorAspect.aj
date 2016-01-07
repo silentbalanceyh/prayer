@@ -4,6 +4,7 @@ import static com.prayer.util.Instance.singleton;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.plugin.AbstractValidatorAspect;
+import com.prayer.constant.Resources;
 import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Validator;
@@ -28,15 +29,17 @@ public aspect ExternalValidatorAspect extends AbstractValidatorAspect {
     // ~ Point Cut Implementation ============================
     /** 针对pattern拦截点的实现，需要抛出异常信息 **/
     after(final String field, final Value<?> value) throws AbstractDatabaseException: ValidatorPointCut(field,value){
-        // 1.获取被拦截的字段的Schema
-        final FieldModel schema = this.getField(thisJoinPoint.getTarget(), field);
-        if (null != schema) {
-            // 2.获取Validator名称
-            final String validatorClass = schema.getValidator();
-            if (StringKit.isNonNil(validatorClass)) {
-                final Validator validator = singleton(validatorClass);
-                if (!validator.validate(value)) {
-                    throw new CustomValidatorException(getClass(), validatorClass);
+        if (Resources.DB_V_ENABLED) {
+            // 1.获取被拦截的字段的Schema
+            final FieldModel schema = this.getField(thisJoinPoint.getTarget(), field);
+            if (null != schema) {
+                // 2.获取Validator名称
+                final String validatorClass = schema.getValidator();
+                if (StringKit.isNonNil(validatorClass)) {
+                    final Validator validator = singleton(validatorClass);
+                    if (!validator.validate(value)) {
+                        throw new CustomValidatorException(getClass(), validatorClass);
+                    }
                 }
             }
         }

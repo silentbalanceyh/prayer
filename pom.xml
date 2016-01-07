@@ -48,7 +48,7 @@
         <bonecp.version>0.8.0.RELEASE</bonecp.version>
         <druid.version>1.0.16</druid.version>
         <!-- 【Latest】Spring的版本 -->
-        <spring.version>4.2.2.RELEASE</spring.version>
+        <spring.version>4.2.4.RELEASE</spring.version>
         <!-- Slf4j日志器版本 -->
         <slf4j.version>1.7.12</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
@@ -71,7 +71,7 @@
         <!-- ReflectASM -->
         <reflect.asm.version>1.10.0</reflect.asm.version>
         <!-- Mybatis -->
-        <mybatis.version>3.2.8</mybatis.version>
+        <mybatis.version>3.3.0</mybatis.version>
         <!-- H2 Database -->
         <h2db.version>1.4.190</h2db.version>
         <!-- AspectJ Version -->

@@ -132,7 +132,7 @@ CREATE TABLE SYS_VIEW(
     S_GLOBAL_ID VARCHAR(256) NOT NULL UNIQUE,   -- Global ID
     D_CATEGORY VARCHAR(20) NOT NULL,            -- 数据库类型，字符串：MSSQL, PGSQL, ORACLE, MYSQL
     D_VIEW VARCHAR(256) NOT NULL,               -- 数据库内视图的名称，V_前缀
-    D_STATEMENT VARCHAR(4096) NOT NULL,         -- SQL或NON-SQL语句
+    D_STATEMENT CLOB NOT NULL,                  -- SQL或NON-SQL语句
     D_CHECK_OPTION BOOLEAN,                     -- 是否检查CHECK约束
     PRIMARY KEY(K_ID)
 );
@@ -198,7 +198,7 @@ CREATE TABLE SYS_TRIGGER(
         CHECK(D_OP_TYPE = 'INSERT' OR D_OP_TYPE = 'UPDATE' OR D_OP_TYPE = 'DELETE'),
     D_MODE VARCHAR(20) NOT NULL                 -- 操作位置 BEFORE | AFTER | INSTEAD_OF
         CHECK(D_MODE = 'BEFORE' OR D_MODE = 'AFTER' OR D_MODE = 'INSTEAD_OF'),
-    D_STATEMENT VARCHAR(4096) NOT NULL,         -- SQL或NON-SQL语句
+    D_STATEMENT CLOB NOT NULL,                  -- SQL或NON-SQL语句
     R_REF_ID VARCHAR(192) NOT NULL,             -- 关联table/view的identifier，非外键：S_META, S_VIEW
     PRIMARY KEY(K_ID)
 );
@@ -254,15 +254,12 @@ CREATE TABLE EVX_ROUTE(
 	--处理器信息
 	S_SHANDLER VARCHAR(256),					-- Java处理当前Route的SuccessHandler内容
 	S_FHANDLER VARCHAR(256),					-- Java处理当前Route的FailureHandler内容
-	--同步还是异步处理
-	IS_SYNC BOOLEAN NOT NULL,					-- 判断是同步还是异步
 	PRIMARY KEY(K_ID)
 );
 -- EVX_ROUTE的索引创建
 CREATE INDEX IDX_ROUTE_PARENT ON EVX_ROUTE(S_PARENT);
 CREATE INDEX IDX_ROUTE_PATH ON EVX_ROUTE(S_PATH);
 CREATE INDEX IDX_ROUTE_METHOD ON EVX_ROUTE(S_METHOD);
-CREATE INDEX IDX_ROUTE_IS_SYNC ON EVX_ROUTE(IS_SYNC);
 
 --------------------------------------------------------------------------------------
 -- EVX_URI, 接口参数验证表，保存了某个接口中的参数获取方式以及参数规范

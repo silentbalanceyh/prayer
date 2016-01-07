@@ -11,9 +11,10 @@
         <result column="S_ORDER" property="order" />
         <result column="J_COMPONENT_TYPE" property="componentType"
             typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
-        <result column="J_COMPONENT_CLASS" property="componentClass" />
+        <result column="J_COMPONENT_CLASS" property="componentClass" 
+            typeHandler="com.prayer.plugin.db.handler.ClassHandler"/>
         <result column="J_CONFIG" property="config"
-            typeHandler="com.prayer.plugin.db.handler.JsonHandler" />
+            typeHandler="com.prayer.plugin.db.handler.JsonObjectHandler" />
         <result column="J_ERROR_MSG" property="errorMessage"/>
         <result column="R_URI_ID" property="refUriId" />
     </resultMap>
@@ -36,8 +37,8 @@
                 #{type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
                 #{order},
                 #{componentType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-                #{componentClass},
-                #{config, typeHandler=com.prayer.plugin.db.handler.JsonHandler},
+                #{componentClass,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
+                #{config, typeHandler=com.prayer.plugin.db.handler.JsonObjectHandler},
                 #{errorMessage},
                 #{refUriId}
             )
@@ -65,8 +66,8 @@
                 #{item.type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
                 #{item.order},
                 #{item.componentType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-                #{item.componentClass},
-                #{item.config, typeHandler=com.prayer.plugin.db.handler.JsonHandler},
+                #{item.componentClass,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
+                #{item.config, typeHandler=com.prayer.plugin.db.handler.JsonObjectHandler},
                 #{item.errorMessage},
                 #{item.refUriId}
             )]]>
@@ -80,8 +81,8 @@
                 S_TYPE=#{type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
                 S_ORDER=#{order},
                 J_COMPONENT_TYPE=#{componentType,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-                J_COMPONENT_CLASS=#{componentClass},
-                J_CONFIG=#{config,typeHandler=com.prayer.plugin.db.handler.JsonHandler},
+                J_COMPONENT_CLASS=#{componentClass,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
+                J_CONFIG=#{config,typeHandler=com.prayer.plugin.db.handler.JsonObjectHandler},
                 J_ERROR_MSG=#{errorMessage},
                 R_URI_ID=#{refUriId}
             WHERE K_ID=#{uniqueId}
@@ -121,12 +122,12 @@
 
     <select id="selectByUri" resultMap="ruleObject">
         <![CDATA[
-            SELECT * FROM EVX_RULE WHERE R_URI_ID=#{refUriId} ORDER BY J_COMPONENT_TYPE, S_ORDER ASC
+            SELECT * FROM EVX_RULE WHERE R_URI_ID=#{refId} ORDER BY J_COMPONENT_TYPE, S_ORDER ASC
         ]]>
     </select>
     <select id="selectByUriAndCom" resultMap="ruleObject">
         <![CDATA[
-            SELECT * FROM EVX_RULE WHERE R_URI_ID=#{0,jdbcType=VARCHAR} AND J_COMPONENT_TYPE=#{1,jdbcType=VARCHAR} ORDER BY S_ORDER ASC
+            SELECT * FROM EVX_RULE WHERE R_URI_ID=#{refId,jdbcType=VARCHAR} AND J_COMPONENT_TYPE=#{type,jdbcType=VARCHAR} ORDER BY S_ORDER ASC
         ]]>
     </select>
     <select id="selectByPage" resultMap="ruleObject">

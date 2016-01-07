@@ -1,6 +1,7 @@
 package com.prayer.schema.db;
 
 import static com.prayer.util.Generator.uuid;
+import static com.prayer.util.Instance.clazz;
 import static com.prayer.util.debug.Log.jvmError;
 
 import java.lang.reflect.Field;
@@ -82,6 +83,8 @@ final class Generator { // NOPMD
             ret = type.getEnumConstants()[random.nextInt(length - 1)];
         } else if (JsonObject.class == type) {
             ret = new JsonObject("{\"username\":\"Lang\",\"password\":\"pl,okm123\"}");
+        } else if (Class.class == type){
+            ret = clazz("com.prayer.TestClass");
         }
         return ret;
     }

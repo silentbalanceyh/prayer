@@ -56,9 +56,9 @@ public final class UCADependant {   // NOPMD
             @NotNull final RuleModel ruleModel, @NotNull final JsonObject inputParam, @NotNull final JsonObject outputParam)
                     throws AbstractWebException {
         // 1.验证Dependant是否合法
-        final String componentCls = ruleModel.getComponentClass();
-        Interruptor.interruptClass(UCADependant.class, componentCls, "Dependant");
-        Interruptor.interruptImplements(UCADependant.class, componentCls, WebDependant.class);
+        final Class<?> comCls = ruleModel.getComponentClass();
+        Interruptor.interruptClass(UCADependant.class, comCls.getName(), "Dependant");
+        Interruptor.interruptImplements(UCADependant.class, comCls.getName(), WebDependant.class);
         // 2.提取Dependant中处理的类型信息
         final String typeCls = ruleModel.getType().getClassName();
         final Value<?> value = instance(typeCls, paramValue);
@@ -69,7 +69,7 @@ public final class UCADependant {   // NOPMD
         if (null != config) {
             final String sqlQuery = buildSql(config.getString("query"), inputParam, config.getJsonArray("parameter"));
             // 5.获取Dependant
-            final WebDependant dependant = instance(componentCls);
+            final WebDependant dependant = instance(comCls);
             final JsonObject retJson = dependant.process(paramName, value, config, sqlQuery);
             // 6.获取当前Config的Rule
             final DependRule rule = fromStr(DependRule.class, config.getString("rule"));

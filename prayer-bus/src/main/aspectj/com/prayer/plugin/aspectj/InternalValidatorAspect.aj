@@ -8,6 +8,7 @@ import java.util.Arrays;
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.plugin.AbstractValidatorAspect;
 import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
 import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;
@@ -37,18 +38,20 @@ public aspect InternalValidatorAspect extends AbstractValidatorAspect {
     // ~ Point Cut Implementation ============================
     /** 针对pattern拦截点的实现，需要抛出异常信息 **/
     before(final String field, final Value<?> value) throws AbstractDatabaseException: ValidatorPointCut(field,value){
-        // 1.获取被拦截的字段的Schema
-        final FieldModel schema = this.getField(thisJoinPoint.getTarget(), field);
-        // 2.Nullable的验证
-        this.verifyNullable(schema, value);
-        // 3.Pattern的验证
-        this.verifyPattern(schema, value);
-        // 4.Length的验证：minLength和maxLength
-        this.verifyLength(schema, value);
-        // 5.Range的验证：min和max
-        this.verifyRange(schema, value);
-        // 6.Precision的验证：precision和length
-        this.verifyPrecision(schema, value);
+        if (Resources.DB_V_ENABLED) {
+            // 1.获取被拦截的字段的Schema
+            final FieldModel schema = this.getField(thisJoinPoint.getTarget(), field);
+            // 2.Nullable的验证
+            this.verifyNullable(schema, value);
+            // 3.Pattern的验证
+            this.verifyPattern(schema, value);
+            // 4.Length的验证：minLength和maxLength
+            this.verifyLength(schema, value);
+            // 5.Range的验证：min和max
+            this.verifyRange(schema, value);
+            // 6.Precision的验证：precision和length
+            this.verifyPrecision(schema, value);
+        }
     }
 
     // ~ Private Methods =====================================
@@ -60,7 +63,7 @@ public aspect InternalValidatorAspect extends AbstractValidatorAspect {
             // DecimalType必须包含上边两个属性
             final Validator validator = singleton("com.prayer.plugin.validator.PrecisionValidator");
             if (!validator.validate(value, precision, length)) {
-                final BigDecimal curValue = (BigDecimal)value.getValue();
+                final BigDecimal curValue = (BigDecimal) value.getValue();
                 throw new PrecisionFailureException(getClass(), schema.getName(), String.valueOf(length),
                         String.valueOf(precision),
                         value.literal() + ", length = " + curValue.precision() + ", precision = " + curValue.scale());

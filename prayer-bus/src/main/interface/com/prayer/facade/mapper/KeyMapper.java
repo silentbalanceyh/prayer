@@ -2,6 +2,8 @@ package com.prayer.facade.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.prayer.model.database.KeyModel;
 
 /**
@@ -17,7 +19,7 @@ public interface KeyMapper extends H2TMapper<KeyModel, String> {
      * @param metaId
      * @return
      */
-    boolean deleteByMeta(String metaId);
+    boolean deleteByMeta(@Param("metaId") String metaId);
 
     /**
      * 根据Meta的metaId获取Key记录的集合
@@ -25,5 +27,5 @@ public interface KeyMapper extends H2TMapper<KeyModel, String> {
      * @param metaId
      * @return
      */
-    List<KeyModel> selectByMeta(String metaId);
+    List<KeyModel> selectByMeta(@Param("metaId") String metaId);
 }

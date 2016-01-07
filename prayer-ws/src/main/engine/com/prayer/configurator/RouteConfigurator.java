@@ -138,14 +138,14 @@ public class RouteConfigurator {
         try {
             // RequestHandler
             if (null != metadata.getRequestHandler()) {
-                Interruptor.interruptClass(getClass(), metadata.getRequestHandler(), "GlobalHandler");
-                Interruptor.interruptImplements(getClass(), metadata.getRequestHandler(), Handler.class);
+                Interruptor.interruptClass(getClass(), metadata.getRequestHandler().getName(), "GlobalHandler");
+                Interruptor.interruptImplements(getClass(), metadata.getRequestHandler().getName(), Handler.class);
                 route.blockingHandler(instance(metadata.getRequestHandler()));
             }
             // FailureHandler
             if (null != metadata.getFailureHandler()) {
-                Interruptor.interruptClass(getClass(), metadata.getFailureHandler(), "ErrorHandler");
-                Interruptor.interruptImplements(getClass(), metadata.getFailureHandler(), ErrorHandler.class);
+                Interruptor.interruptClass(getClass(), metadata.getFailureHandler().getName(), "ErrorHandler");
+                Interruptor.interruptImplements(getClass(), metadata.getFailureHandler().getName(), ErrorHandler.class);
                 route.blockingHandler(instance(metadata.getFailureHandler()));
             }
         } catch (AbstractWebException ex) {

@@ -102,6 +102,7 @@ public class BoneCPPool extends AbstractDbPool {
         this.getDataSource().setStatementsCacheSize(this.getLoader().getInt("bonecp.statements.cache.size"));
         this.getDataSource().setMinConnectionsPerPartition(this.getLoader().getInt("bonecp.min.conn.per.partition"));
         this.getDataSource().setMaxConnectionsPerPartition(this.getLoader().getInt("bonecp.max.conn.per.partition"));
+        this.getDataSource().setPoolStrategy(this.getLoader().getString("bonecp.pool.strategy"));
     }
     // ~ Private Methods =====================================
     // ~ hashCode,equals,toString ============================

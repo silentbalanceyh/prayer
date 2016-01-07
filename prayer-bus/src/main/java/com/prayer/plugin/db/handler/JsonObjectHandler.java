@@ -20,7 +20,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public class JsonHandler extends BaseTypeHandler<JsonObject> {    // NOPMD
+public class JsonObjectHandler extends BaseTypeHandler<JsonObject> {    // NOPMD
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
