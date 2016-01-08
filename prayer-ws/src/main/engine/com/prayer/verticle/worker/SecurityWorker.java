@@ -6,7 +6,7 @@ import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.AddressModel;
+import com.prayer.model.vertx.PEAddress;
 import com.prayer.uca.consumer.BasicAuthConsumer;
 
 import io.vertx.core.AbstractVerticle;
@@ -42,9 +42,9 @@ public class SecurityWorker extends AbstractVerticle {
         // 1.获取当前Worker的类名
         final Class<?> workClass = getClass();
         // 2.获取元数据信息
-        final ServiceResult<AddressModel> result = this.configSev.findAddress(workClass);
+        final ServiceResult<PEAddress> result = this.configSev.findAddress(workClass);
         if (ResponseCode.SUCCESS == result.getResponseCode()) {
-            final AddressModel address = result.getResult();
+            final PEAddress address = result.getResult();
             if (null != address) {
                 // 3.从地址上消费Message
                 final EventBus bus = vertx.eventBus();

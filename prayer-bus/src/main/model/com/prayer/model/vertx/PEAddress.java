@@ -1,13 +1,12 @@
 package com.prayer.model.vertx;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
@@ -15,7 +14,6 @@ import com.prayer.util.io.JsonKit;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.shareddata.impl.ClusterSerializable;
 
 /**
  * 对应表EVX_ADDRESS
@@ -24,7 +22,7 @@ import io.vertx.core.shareddata.impl.ClusterSerializable;
  *
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
-public class AddressModel implements Serializable, ClusterSerializable { // NOPMD
+public class PEAddress extends AbstractEntity { // NOPMD
 
     // ~ Static Fields =======================================
     /**
@@ -33,18 +31,18 @@ public class AddressModel implements Serializable, ClusterSerializable { // NOPM
     private static final long serialVersionUID = -1215877643355466773L;
     // ~ Instance Fields =====================================
     /** K_ID: EVX_ADDRESS表的主键 **/
-    @JsonIgnore
+    @JsonProperty(ID)
     private String uniqueId;
     /** S_WORK_CLASS **/
-    @JsonProperty("workClass")
+    @JsonProperty(WORK_CLASS)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> workClass;
     /** S_CONSUMER_ADDR **/
-    @JsonProperty("consumerAddr")
+    @JsonProperty(CONSUMER_ADDR)
     private String consumerAddr;
     /** S_CONSUMER_HANDLER **/
-    @JsonProperty("consumerHandler")
+    @JsonProperty(CONSUMER_HANDLER)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> consumerHandler;
@@ -54,22 +52,29 @@ public class AddressModel implements Serializable, ClusterSerializable { // NOPM
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
+    // ~ Vert.X Serialization ================================
+    /** 写入Buffer **/
     @Override
     public void writeToBuffer(final Buffer buffer) {
-        final String jsonStr = JsonKit.toStr(this);
-        final JsonObject jsonObj = new JsonObject(jsonStr);
-        jsonObj.put("uniqueId", this.uniqueId);
-        jsonObj.writeToBuffer(buffer);
+        writeString(buffer, this::getUniqueId);
+        writeClass(buffer, this::getWorkClass);
+        writeString(buffer, this::getConsumerAddr);
+        writeClass(buffer, this::getConsumerHandler);
     }
 
-    /** **/
+    /** 从Buffer中读取 **/
     @Override
-    public int readFromBuffer(final int pos, final Buffer buffer) {
-        final JsonObject jsonObj = new JsonObject();
-        return jsonObj.readFromBuffer(pos, buffer);
+    public int readFromBuffer(int pos, final Buffer buffer) {
+        pos += readString(pos, buffer, this::setUniqueId);
+        pos += readClass(pos, buffer, this::setWorkClass);
+        pos += readString(pos, buffer, this::setConsumerAddr);
+        pos += readClass(pos, buffer, this::setConsumerHandler);
+        return pos;
     }
-
+    
+    // ~ Entity Json/Buffer Serialization ====================
+    
+    
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
@@ -157,7 +162,7 @@ public class AddressModel implements Serializable, ClusterSerializable { // NOPM
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AddressModel other = (AddressModel) obj;
+        final PEAddress other = (PEAddress) obj;
         if (consumerAddr == null) {
             if (other.consumerAddr != null) {
                 return false;

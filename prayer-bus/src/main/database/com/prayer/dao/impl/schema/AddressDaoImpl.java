@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.dao.schema.AddressDao;
 import com.prayer.facade.mapper.AddressMapper;
-import com.prayer.facade.mapper.SessionManager;
-import com.prayer.model.vertx.AddressModel;
+import com.prayer.model.vertx.PEAddress;
+import com.prayer.plugin.ibatis.SessionManager;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -20,7 +20,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class AddressDaoImpl extends TemplateDaoImpl<AddressModel, String> implements AddressDao {    // NOPMD
+public class AddressDaoImpl extends TemplateDaoImpl<PEAddress, String> implements AddressDao {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(AddressDaoImpl.class);
@@ -45,13 +45,13 @@ public class AddressDaoImpl extends TemplateDaoImpl<AddressModel, String> implem
 
     /** **/
     @Override
-    public AddressModel getByClass(@NotNull @NotBlank @NotEmpty final Class<?> workClass) {
+    public PEAddress getByClass(@NotNull @NotBlank @NotEmpty final Class<?> workClass) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.获取Mapper
         final AddressMapper mapper = session.getMapper(AddressMapper.class);
         // 3.读取返回信息
-        final AddressModel ret = mapper.selectByClass(workClass);
+        final PEAddress ret = mapper.selectByClass(workClass);
         // 4.关闭Session并返回
         session.close();
         return ret;

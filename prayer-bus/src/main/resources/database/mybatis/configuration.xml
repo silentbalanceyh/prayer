@@ -3,9 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <properties resource="database/database.properties" />
     <settings>
-        <setting name="defaultExecutorType" value="REUSE"/>
+        <setting name="defaultExecutorType" value="REUSE" />
     </settings>
     <typeAliases>
         <typeAlias type="com.prayer.model.database.KeyModel"
@@ -30,16 +29,8 @@
     <environments default="H2Environment">
         <environment id="H2Environment">
             <transactionManager type="JDBC" />
-            <dataSource type="POOLED">
-                <property name="driver" value="${H2.jdbc.driver}" />
-                <property name="url" value="${H2.jdbc.url}" />
-                <property name="username" value="${H2.jdbc.username}" />
-                <property name="password" value="${H2.jdbc.password}" />
-                <property name="poolMaximumActiveConnections"
-                    value="100" />
-                <property name="poolMaximumIdleConnections"
-                    value="20" />
-            </dataSource>
+            <dataSource
+                type="com.prayer.plugin.ibatis.BoneCPDataSourceFactory" />
         </environment>
     </environments>
     <mappers>

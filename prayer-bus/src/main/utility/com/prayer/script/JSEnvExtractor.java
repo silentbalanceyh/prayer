@@ -7,7 +7,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.vertx.PEScript;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;
@@ -79,7 +79,7 @@ public final class JSEnvExtractor {
     // ~ Private Methods =====================================
     
     private String getJsByName(final String scriptName){
-        final ServiceResult<ScriptModel> script = this.configSev.findScript(scriptName);
+        final ServiceResult<PEScript> script = this.configSev.findScript(scriptName);
         String ret = "";
         if (ResponseCode.SUCCESS == script.getResponseCode() && null != script.getResult()) {
             ret = script.getResult().getContent();

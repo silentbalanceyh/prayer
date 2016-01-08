@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.dao.schema.RuleDao;
 import com.prayer.facade.mapper.RuleMapper;
-import com.prayer.facade.mapper.SessionManager;
 import com.prayer.model.vertx.RuleModel;
+import com.prayer.plugin.ibatis.SessionManager;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;

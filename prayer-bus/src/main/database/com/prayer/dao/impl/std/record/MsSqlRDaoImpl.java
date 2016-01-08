@@ -15,7 +15,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.facade.dao.jdbc.JdbcContext;
+import com.prayer.facade.dao.JdbcContext;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;

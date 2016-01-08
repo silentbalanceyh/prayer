@@ -23,6 +23,8 @@ public final class Resources { // NOPMD
     public static final String ERR_CODE_FILE = "/errors.properties";
     /** 系统默认英文编码 **/
     public static final Charset SYS_ENCODING;
+    /** 系统使用的缓存信息 **/
+    public static final String SYS_CACHE_CLS;
 
     // Database Configuration ================================
     /** 数据库模式：SQL/NOSQL **/
@@ -33,7 +35,7 @@ public final class Resources { // NOPMD
     public static final String DB_CATEGORY;
     /** JDBC配置文件路径 **/
     public static final String DB_CFG_FILE;
-    
+
     /** 数据库的Builder **/
     public static final String DB_BUILDER;
     /** 数据库访问Record的Dao实现 **/
@@ -59,20 +61,20 @@ public final class Resources { // NOPMD
     public static final String DB_SQL_DIR;
     /** SQL Error的Mapping映射文件 **/
     public static final String DB_SQL_ERROR;
-    
+
     // Metadata Configuration ================================
-    
+
     /** Meta Data的配置文件路径 **/
     public static final String META_CFG_FILE;
     /** Meta Data的OOB数据默认路径 **/
-    public static final String OOB_FOLDER;
+    public static final String META_OOB_FOLDER;
     /** Meta Data的数据库类型 **/
     public static final String META_CATEGORY;
     /** Meta Data的初始化SQL脚本位置 **/
     public static final String META_INIT_SQL;
     /** OOB Data的PurgeSQL脚本 **/
-    public static final String DB_PURGE_SQL;
-    
+    public static final String META_PURGE_SQL;
+
     // File Configuration ====================================
     /** Vertx的配置文件路径 **/
     public static final String VX_CFG_FILE;
@@ -84,7 +86,7 @@ public final class Resources { // NOPMD
     public static final String SEC_CFG_FILE;
     /** Web Config配置文件路径 **/
     public static final String WEB_CFG_FILE;
-    
+
     /** 默认不是从CONSOLE启动 **/
     public static boolean useConsole = Boolean.FALSE;
 
@@ -104,6 +106,8 @@ public final class Resources { // NOPMD
 
         // Global Configuration
         SYS_ENCODING = Charset.forName(LOADER.getString("system.en.encoding"));
+        // Cache
+        SYS_CACHE_CLS = LOADER.getString("system.cache.manager");
 
         // Database Configuration
         DB_MODE = null == LOADER.getString("database.mode") ? Constants.DB_MODE_SQL
@@ -119,13 +123,13 @@ public final class Resources { // NOPMD
         DB_TYPES_FILE = LOADER.getString("database.mapping");
 
         DB_BUILDER = LOADER.getString("database.meta.builder");
-        
+
         DB_VALIDATOR = LOADER.getString("database.meta.validator");
 
         DB_DAO = LOADER.getString("database.dao");
 
         DB_TRANSDUCER = LOADER.getString("database.dao.transducer");
-        
+
         DB_V_ENABLED = LOADER.getBoolean("database.validation.skip");
 
         // Open Source
@@ -135,7 +139,7 @@ public final class Resources { // NOPMD
 
         // Metadata
         DB_SQL_DIR = LOADER.getString("database.sql.directory");
-        
+
         // Metadata
         DB_SQL_ERROR = LOADER.getString("database.sql.errors");
 
@@ -144,10 +148,10 @@ public final class Resources { // NOPMD
 
         // Server
         SEV_CFG_FILE = LOADER.getString("server.config.file");
-        
+
         // Security
         SEC_CFG_FILE = LOADER.getString("security.config.file");
-        
+
         // Web
         WEB_CFG_FILE = LOADER.getString("web.config.file");
 
@@ -158,16 +162,16 @@ public final class Resources { // NOPMD
         META_CFG_FILE = LOADER.getString("meta.config.file");
 
         // Meta
-        OOB_FOLDER = LOADER.getString("meta.oob.data.folder");
-        
+        META_OOB_FOLDER = LOADER.getString("meta.oob.data.folder");
+
         // Meta
         META_CATEGORY = LOADER.getString("meta.category");
-        
+
         // Meta
-        META_INIT_SQL = DB_SQL_DIR + LOADER.getString("meta.init.sql.file");
-        
+        META_INIT_SQL = DB_SQL_DIR + LOADER.getString("meta.init.data.file");
+
         // Data Purge Sql
-        DB_PURGE_SQL = LOADER.getString("oob.purge.sql");
+        META_PURGE_SQL = LOADER.getString("oob.purge.data");
     }
 
     // ~ Constructors ========================================

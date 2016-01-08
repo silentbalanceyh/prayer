@@ -50,11 +50,6 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-auth-jdbc</artifactId>
         </dependency>
-        <!-- Java Assist -->
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-        </dependency>
         <!-- Common CLI -->
         <dependency>
             <groupId>commons-cli</groupId>

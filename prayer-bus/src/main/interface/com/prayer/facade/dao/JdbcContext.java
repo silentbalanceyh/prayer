@@ -1,9 +1,11 @@
-package com.prayer.facade.dao.jdbc;
+package com.prayer.facade.dao;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.facade.kernel.Value;
+import com.prayer.model.bus.Metadata;
 import com.prayer.model.type.DataType;
 
 /**
@@ -32,8 +34,6 @@ public interface JdbcContext {
      */
     List<ConcurrentMap<String, String>> select(String sql, String[] columns);
 
-    // ~ 带参数语句
-    // ==================================================================
     /**
      * 带参数执行
      * 
@@ -82,4 +82,20 @@ public interface JdbcContext {
      * @return
      */
     int executeBatch(String sql);
+
+    /**
+     * 执行SQL语句
+     * 
+     * @param sqlFile
+     * @return
+     */
+    boolean executeSql(InputStream sqlFile);
+
+    /**
+     * 根据数据库类型读取数据库的Metadata
+     * 
+     * @param category
+     * @return
+     */
+    Metadata getMetadata(String category);
 }

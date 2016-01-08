@@ -70,7 +70,7 @@ public final class PropertyKit {
      * 
      * @param resource
      */
-    @PostValidateThis
+    // @PostValidateThis 因为OVAL的特殊属性，不可以使用PostValidateThis，这里使用了会抛异常
     public PropertyKit(@NotNull @NotEmpty @NotBlank final String resource) {
         this(null, resource);
     }

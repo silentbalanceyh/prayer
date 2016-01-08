@@ -18,12 +18,12 @@ import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.mapper.FieldMapper;
 import com.prayer.facade.mapper.KeyMapper;
 import com.prayer.facade.mapper.MetaMapper;
-import com.prayer.facade.mapper.SessionManager;
 import com.prayer.model.database.FieldModel;
 import com.prayer.model.database.KeyModel;
 import com.prayer.model.database.MetaModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.SchemaExpander;
+import com.prayer.plugin.ibatis.SessionManager;
 import com.prayer.util.StringKit;
 
 import net.sf.oval.constraint.NotBlank;

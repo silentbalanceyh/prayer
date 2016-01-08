@@ -1,12 +1,12 @@
 package com.prayer.facade.bus.deploy;
 
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.vertx.PEScript;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface ScriptDPService extends TemplateDPService<ScriptModel,String>{
+public interface ScriptDPService extends TemplateDPService<PEScript,String>{
 
 }

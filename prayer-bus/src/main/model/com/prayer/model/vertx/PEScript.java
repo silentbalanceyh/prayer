@@ -1,14 +1,12 @@
 package com.prayer.model.vertx;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.prayer.base.model.AbstractMetadata;
+import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
 
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -17,33 +15,103 @@ import io.vertx.core.json.JsonObject;
  *
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
-public class ScriptModel extends AbstractMetadata implements Serializable { // NOPMD
+public class PEScript extends AbstractEntity { // NOPMD
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = 963356616665541306L;
+    private static final long serialVersionUID = -4378311650545473656L;
     // ~ Instance Fields =====================================
     /** K_ID: ENG_SCRIPT表的主键 **/
-    @JsonIgnore
+    @JsonProperty(ID)
     private String uniqueId;
     /** S_NAME：脚本名称 **/
-    @JsonProperty("name")
+    @JsonProperty(NAME)
     private String name;
     /** S_NAMESPACE：脚本名空间 **/
-    @JsonProperty("namespace")
+    @JsonProperty(NAMESPACE)
     private String namespace;
     /** S_CONTENT **/
-    @JsonProperty("content")
+    @JsonProperty(CONTENT)
     private String content;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /**
+     * 无参构造函数
+     */
+    public PEScript() {
+    }
+
+    /**
+     * 使用JsonObject构造PEScript
+     * 
+     * @param data
+     */
+    public PEScript(final JsonObject data) {
+        this.fromJson(data);
+    }
+
+    /**
+     * 使用Buffer构造PEScript
+     * 
+     * @param data
+     */
+    public PEScript(final Buffer data) {
+        this.readFromBuffer(Constants.POS, data);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    // ~ Vert.X Serialization ================================
+    /** 写入Buffer **/
+    @Override
+    public void writeToBuffer(final Buffer buffer) {
+        writeString(buffer, this::getUniqueId);
+        writeString(buffer, this::getName);
+        writeString(buffer, this::getNamespace);
+        writeString(buffer, this::getContent);
+    }
+
+    /** 从Buffer中读取 **/
+    @Override
+    public int readFromBuffer(int pos, final Buffer buffer) {
+        pos = readString(pos, buffer, this::setUniqueId);
+        pos = readString(pos, buffer, this::setName);
+        pos = readString(pos, buffer, this::setNamespace);
+        pos = readString(pos, buffer, this::setContent);
+        return pos;
+    }
+
+    // ~ Entity Json/Buffer Serialization ====================
+    /**
+     * 将当前Entity转换成一个JsonObject
+     */
+    @Override
+    public JsonObject toJson() {
+        final JsonObject data = new JsonObject();
+        writeString(data, ID, this::getUniqueId);
+        writeString(data, NAME, this::getName);
+        writeString(data, NAMESPACE, this::getNamespace);
+        writeString(data, CONTENT, this::getContent);
+        return data;
+    }
+
+    /**
+     * 将一个JsonObject转换成一个Entity
+     */
+    @Override
+    public PEScript fromJson(final JsonObject data) {
+        readString(data, ID, this::setUniqueId);
+        readString(data, NAME, this::setName);
+        readString(data, NAMESPACE, this::setNamespace);
+        readString(data, CONTENT, this::setContent);
+        return this;
+    }
+
     // ~ Get/Set =============================================
     /**
      * @return the uniqueId
@@ -105,38 +173,11 @@ public class ScriptModel extends AbstractMetadata implements Serializable { // N
         this.content = content;
     }
 
-    // ~ Cluster Serialization ===============================
-    /**
-     * 将Metadata对象和Vertx架构下的序列化系统连接
-     */
-    @Override
-    public JsonObject toJson(){
-        final JsonObject data = new JsonObject();
-        data.put("uniqueId",this.uniqueId);
-        data.put("name", this.name);
-        data.put("namespace", this.namespace);
-        data.put("content", this.content);
-        return data;
-    }
-    /**
-     * 
-     */
-    @Override
-    public ScriptModel fromJson(final JsonObject data){
-        if(null != data){
-            this.uniqueId = data.getString("uniqueId");
-            this.name = data.getString("name");
-            this.namespace = data.getString("namespace");
-            this.content = data.getString("content");
-        }
-        return this;
-    }
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override
     public String toString() {
-        return "ScriptModel [uniqueId=" + uniqueId + ", name=" + name + ", namespace=" + namespace + ", content="
-                + content + "]";
+        return this.toJson().encode();
     }
 
     /** **/
@@ -162,7 +203,7 @@ public class ScriptModel extends AbstractMetadata implements Serializable { // N
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ScriptModel other = (ScriptModel) obj;
+        final PEScript other = (PEScript) obj;
         if (name == null) {
             if (other.name != null) {
                 return false;
@@ -186,5 +227,4 @@ public class ScriptModel extends AbstractMetadata implements Serializable { // N
         }
         return true;
     }
-
 }

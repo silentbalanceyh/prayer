@@ -16,16 +16,16 @@ import org.slf4j.Logger;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractTransactionException;
-import com.prayer.base.model.AbstractMetadata;
+import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.facade.dao.JdbcContext;
 import com.prayer.facade.dao.RecordDao;
-import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.dao.schema.TemplateDao;
+import com.prayer.facade.entity.Entity;
 import com.prayer.facade.kernel.Expression;
-import com.prayer.facade.kernel.JsonEntity;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
@@ -57,7 +57,7 @@ import net.sf.oval.guard.PostValidateThis;
  */
 @Guarded
 @SuppressWarnings("unchecked")
-public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Serializable> implements RecordDao { // NOPMD
+public abstract class AbstractMDaoImpl <T extends AbstractEntity, ID extends Serializable> implements RecordDao { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -249,7 +249,7 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
     protected T toEntity(@NotNull final Record record) throws AbstractDatabaseException {
         T ret = this.newT();
         final JsonObject data = this.serializer.extractRecord(record);
-        final JsonEntity entity = ret.fromJson(data);
+        final Entity entity = ret.fromJson(data);
         if (null == entity) {
             ret = null; // NOPMD
         } else {
@@ -259,7 +259,7 @@ public abstract class AbstractMDaoImpl<T extends AbstractMetadata, ID extends Se
     }
 
     /** **/
-    protected Record fromEntity(@NotNull @NotBlank @NotEmpty final String identifier, final JsonEntity entity)
+    protected Record fromEntity(@NotNull @NotBlank @NotEmpty final String identifier, final Entity entity)
             throws AbstractDatabaseException {
         Record ret = null;
         if (null != entity) {

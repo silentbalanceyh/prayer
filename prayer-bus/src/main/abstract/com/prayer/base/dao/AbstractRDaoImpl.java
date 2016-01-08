@@ -16,9 +16,9 @@ import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.dao.impl.jdbc.JdbcConnImpl;
+import com.prayer.dao.impl.jdbc.RecordConnImpl;
+import com.prayer.facade.dao.JdbcContext;
 import com.prayer.facade.dao.RecordDao;
-import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
@@ -66,7 +66,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
     protected JdbcContext getContext(@NotNull @NotEmpty @NotBlank final String identifier) {
         JdbcContext context = MemoryPool.POOL_JDBC.get(identifier);
         if (null == context) {
-            context = reservoir(MemoryPool.POOL_JDBC, identifier, JdbcConnImpl.class);
+            context = reservoir(MemoryPool.POOL_JDBC, identifier, RecordConnImpl.class);
         }
         return context;
     }

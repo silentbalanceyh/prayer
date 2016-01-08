@@ -18,13 +18,13 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
-import com.prayer.dao.impl.jdbc.JdbcConnImpl;
+import com.prayer.dao.impl.jdbc.RecordConnImpl;
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.Builder;
+import com.prayer.facade.dao.JdbcContext;
 import com.prayer.facade.dao.RecordDao;
-import com.prayer.facade.dao.jdbc.JdbcContext;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.schema.DataValidator;
@@ -66,7 +66,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     public AbstractBCPTestCase() {
         super();
         this.dao = singleton(SchemaDaoImpl.class);
-        this.context = instance(JdbcConnImpl.class.getName());
+        this.context = instance(RecordConnImpl.class.getName());
         this.verifier = singleton(Accessors.validator());
     }
 

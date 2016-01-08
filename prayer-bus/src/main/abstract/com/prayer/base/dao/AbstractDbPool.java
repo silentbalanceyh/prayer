@@ -89,7 +89,7 @@ public abstract class AbstractDbPool {
      * 
      * @return
      */
-    protected abstract DataSource getDataSource();
+    public abstract DataSource getDataSource();
 
     // ~ Methods =============================================
     /**

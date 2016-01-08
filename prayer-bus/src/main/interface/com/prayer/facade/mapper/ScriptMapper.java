@@ -2,18 +2,18 @@ package com.prayer.facade.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.vertx.PEScript;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface ScriptMapper extends H2TMapper<ScriptModel,String>{
+public interface ScriptMapper extends H2TMapper<PEScript,String>{
     /**
      * 
      * @param name
      * @return
      */
-    ScriptModel selectByName(@Param("name") String name);
+    PEScript selectByName(@Param("name") String name);
 }

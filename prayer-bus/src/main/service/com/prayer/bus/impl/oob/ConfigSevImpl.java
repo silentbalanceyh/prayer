@@ -8,10 +8,10 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.AddressModel;
+import com.prayer.model.vertx.PEAddress;
 import com.prayer.model.vertx.RouteModel;
 import com.prayer.model.vertx.RuleModel;
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.vertx.PEScript;
 import com.prayer.model.vertx.UriModel;
 import com.prayer.model.vertx.VerticleModel;
 import com.prayer.util.bus.ResultExtractor;
@@ -163,11 +163,11 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<AddressModel> findAddress(@NotNull final Class<?> workClass) {
+    public ServiceResult<PEAddress> findAddress(@NotNull final Class<?> workClass) {
         // 1.构造响应数据
-        final ServiceResult<AddressModel> result = new ServiceResult<>();
+        final ServiceResult<PEAddress> result = new ServiceResult<>();
         // 2.调用读取方法
-        final AddressModel ret = this.manager.getAddressDao().getByClass(workClass);
+        final PEAddress ret = this.manager.getAddressDao().getByClass(workClass);
         // 3.设置最终响应结果
         return result.success(ret);
     }
@@ -176,11 +176,11 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<ScriptModel> findScript(@NotNull @NotBlank @NotEmpty final String name) {
+    public ServiceResult<PEScript> findScript(@NotNull @NotBlank @NotEmpty final String name) {
         // 1.构造响应数据
-        final ServiceResult<ScriptModel> result = new ServiceResult<>();
+        final ServiceResult<PEScript> result = new ServiceResult<>();
         // 2.调用读取方法
-        final ScriptModel ret = this.manager.getScriptDao().getByName(name);
+        final PEScript ret = this.manager.getScriptDao().getByName(name);
         // 3.设置最终响应结果
         return result.success(ret);
     }

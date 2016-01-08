@@ -1,13 +1,7 @@
 package com.prayer.console.commands;
 
-import static com.prayer.util.Instance.singleton;
-
-import com.prayer.bus.impl.console.StatusSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.bus.console.StatusService;
-import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.json.JsonObject;
@@ -23,7 +17,7 @@ class JdbcHelper {
     /** **/
     private transient final PropertyKit LOADER = new PropertyKit(getClass(), Resources.DB_CFG_FILE); // NOPMD
     /** **/
-    private transient final StatusService service;
+//    private transient final StatusService service;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -31,7 +25,7 @@ class JdbcHelper {
      * 
      */
     public JdbcHelper(){
-        this.service = singleton(StatusSevImpl.class);
+//        this.service = singleton(StatusSevImpl.class);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
@@ -49,12 +43,12 @@ class JdbcHelper {
 
     private JsonObject getResult(final JsonObject params) {
         JsonObject retJson = new JsonObject();
-        final ServiceResult<JsonObject> ret = service.getMetadata(params);
+/*        final ServiceResult<JsonObject> ret = service.getMetadata(params);
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             retJson = ret.getResult();
         } else {
             retJson.put("error", ret.getErrorMessage());
-        }
+        }*/
         return retJson;
     }
     

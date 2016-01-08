@@ -2,7 +2,14 @@ package com.prayer.base.dao;
 
 import static com.prayer.constant.Accessors.pool;
 import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.debug.Log.jvmError;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
@@ -11,8 +18,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
-import com.prayer.facade.dao.jdbc.JdbcContext;
+import com.prayer.facade.dao.JdbcContext;
 import com.prayer.facade.kernel.Value;
+import com.prayer.model.bus.Metadata;
 import com.prayer.model.type.DataType;
 import com.prayer.util.dao.Input;
 import com.prayer.util.dao.Output;
@@ -129,9 +137,33 @@ public abstract class AbstractConn implements JdbcContext {
     }
 
     // ~ Methods =============================================
+    /** **/
+    @Override
+    public boolean executeSql(InputStream sqlFile) {
+        final Reader reader = new InputStreamReader(sqlFile);
+        return Constants.RC_SUCCESS == SqlKit.execute(this.getPool().getJdbc(), reader);
+    }
+
+    /**
+     * 根据数据库类型读取数据库的Metadata
+     * 
+     * @param category
+     * @return
+     */
+    @Override
+    public Metadata getMetadata(String category) {
+        Metadata ret = null;
+        try (final Connection conn = this.getPool().getDataSource().getConnection()) {
+            final DatabaseMetaData sqlMeta = conn.getMetaData();
+            ret = new Metadata(sqlMeta, this.getPool().getCategory());
+        } catch (SQLException ex) {
+            jvmError(getLogger(), ex);
+        }
+        return ret;
+    }
+
     /** 获取Jdbc连接池引用 **/
-    @NotNull
-    public AbstractDbPool getPool() {
+    private AbstractDbPool getPool() {
         return this.dbPool;
     }
     // ~ Private Methods =====================================

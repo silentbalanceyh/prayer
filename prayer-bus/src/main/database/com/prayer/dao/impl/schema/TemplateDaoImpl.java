@@ -21,10 +21,10 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.dao.impl.jdbc.H2ConnImpl;
 import com.prayer.exception.database.MapperClassNullException;
-import com.prayer.facade.dao.jdbc.JdbcContext;
+import com.prayer.facade.dao.JdbcContext;
 import com.prayer.facade.dao.schema.TemplateDao;
 import com.prayer.facade.mapper.H2TMapper;
-import com.prayer.facade.mapper.SessionManager;
+import com.prayer.plugin.ibatis.SessionManager;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.Min;

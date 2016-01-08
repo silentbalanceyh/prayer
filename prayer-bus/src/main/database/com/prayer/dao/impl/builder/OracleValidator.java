@@ -7,12 +7,12 @@ import java.util.Locale;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
-import com.prayer.dao.impl.jdbc.JdbcConnImpl;
+import com.prayer.dao.impl.jdbc.RecordConnImpl;
 import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
-import com.prayer.facade.dao.jdbc.JdbcContext;
+import com.prayer.facade.dao.JdbcContext;
 import com.prayer.facade.schema.DataValidator;
 import com.prayer.util.StringKit;
 
@@ -46,7 +46,7 @@ public final class OracleValidator implements DataValidator {
      */
     @PostValidateThis
     public OracleValidator() {
-        this.context = reservoir(MemoryPool.POOL_JDBC, Resources.DB_CATEGORY, JdbcConnImpl.class);
+        this.context = reservoir(MemoryPool.POOL_JDBC, Resources.DB_CATEGORY, RecordConnImpl.class);
     }
 
     /**

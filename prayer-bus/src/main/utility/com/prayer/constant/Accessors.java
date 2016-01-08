@@ -22,10 +22,20 @@ public final class Accessors {
     private static final String DFT_DB_DAO = "com.prayer.dao.impl.std.record.MsSqlRDaoImpl";
     /** Transverter默认值 **/
     private static final String DFT_DB_TRANS = "com.prayer.dao.impl.std.record.MsSqlTransducer";
+    /** Cache默认值 **/
+    private static final String DFT_SYS_CACHE = "com.prayer.model.cache.HazelcastManager";
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
 
     // ~ Static Methods ======================================
+    /**
+     * 缓存相关
+     * 
+     * @return
+     */
+    public static String cache() {
+        return null == Resources.SYS_CACHE_CLS ? DFT_SYS_CACHE : Resources.SYS_CACHE_CLS;
+    }
 
     /**
      * 验证器相关信息

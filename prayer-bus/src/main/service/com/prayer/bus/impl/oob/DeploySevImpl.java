@@ -21,10 +21,10 @@ import com.prayer.base.exception.AbstractException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.dao.impl.jdbc.MetadataConnImpl;
+import com.prayer.dao.impl.jdbc.RecordConnImpl;
 import com.prayer.exception.system.DeploymentException;
 import com.prayer.facade.bus.DeployService;
-import com.prayer.facade.dao.jdbc.MetadataConn;
+import com.prayer.facade.dao.JdbcContext;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.vertx.UriModel;
@@ -51,7 +51,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
     private static final Logger LOGGER = LoggerFactory.getLogger(DeploySevImpl.class);
     // ~ Instance Fields =====================================
     /** **/
-    private transient final MetadataConn metaConn = singleton(MetadataConnImpl.class);
+    private transient final JdbcContext metaConn = singleton(RecordConnImpl.class);
     /** **/
     private transient final DeploySevManager manager = singleton(DeploySevManager.class);
 
@@ -74,7 +74,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<Boolean> initMetadata(@NotNull @NotBlank @NotEmpty final String scriptPath) {
         // 1.执行Script脚本
-        final boolean executedRet = this.metaConn.initMeta(IOKit.getFile(scriptPath));
+        final boolean executedRet = false; // this.metaConn.initMeta(IOKit.getFile(scriptPath));
         // 2.设置相应信息
         final ServiceResult<Boolean> ret = new ServiceResult<>();
 

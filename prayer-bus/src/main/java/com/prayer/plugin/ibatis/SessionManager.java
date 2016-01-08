@@ -1,4 +1,4 @@
-package com.prayer.facade.mapper;
+package com.prayer.plugin.ibatis;
 
 import java.io.InputStream;
 

@@ -9,7 +9,7 @@ import com.prayer.base.dao.AbstractMDaoImpl;
 import com.prayer.dao.impl.schema.ScriptDaoImpl;
 import com.prayer.facade.dao.schema.ScriptDao;
 import com.prayer.facade.dao.schema.TemplateDao;
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.vertx.PEScript;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
@@ -22,7 +22,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-final class ScriptMDaoImpl extends AbstractMDaoImpl<ScriptModel, String> {
+final class ScriptMDaoImpl extends AbstractMDaoImpl<PEScript, String> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(ScriptMDaoImpl.class);
@@ -58,8 +58,8 @@ final class ScriptMDaoImpl extends AbstractMDaoImpl<ScriptModel, String> {
     
     /** **/
     @Override
-    public ScriptModel newT(){
-        return new ScriptModel();
+    public PEScript newT(){
+        return new PEScript();
     }
 
     // ~ Methods =============================================

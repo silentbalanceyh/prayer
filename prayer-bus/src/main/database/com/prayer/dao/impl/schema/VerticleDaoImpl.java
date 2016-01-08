@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.facade.dao.schema.VerticleDao;
-import com.prayer.facade.mapper.SessionManager;
 import com.prayer.facade.mapper.VerticleMapper;
 import com.prayer.model.vertx.VerticleModel;
+import com.prayer.plugin.ibatis.SessionManager;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

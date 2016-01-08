@@ -17,7 +17,7 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.schema.ScriptDaoImpl;
 import com.prayer.facade.bus.deploy.ScriptDPService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.vertx.PEScript;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.JsonKit;
 
@@ -33,7 +33,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public class ScriptDPSevImpl extends AbstractDPSevImpl<ScriptModel, String>implements ScriptDPService { // NOPMD
+public class ScriptDPSevImpl extends AbstractDPSevImpl<PEScript, String>implements ScriptDPService { // NOPMD
 	// ~ Static Fields =======================================
 
 	/** **/
@@ -59,15 +59,15 @@ public class ScriptDPSevImpl extends AbstractDPSevImpl<ScriptModel, String>imple
 
 	/** T Array **/
 	@Override
-	public ScriptModel[] getArrayType() {
-		return new ScriptModel[] {};
+	public PEScript[] getArrayType() {
+		return new PEScript[] {};
 	}
 
 	/** **/
 	@Override
-	public List<ScriptModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath)
+	public List<PEScript> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath)
 			throws AbstractSystemException {
-		final TypeReference<List<ScriptModel>> typeRef = new TypeReference<List<ScriptModel>>() {
+		final TypeReference<List<PEScript>> typeRef = new TypeReference<List<PEScript>>() {
 		};
 		return JsonKit.fromFile(typeRef, jsonPath);
 	}
@@ -75,11 +75,11 @@ public class ScriptDPSevImpl extends AbstractDPSevImpl<ScriptModel, String>imple
 	/** **/
 	@PreValidateThis
 	@Override
-	public ServiceResult<List<ScriptModel>> importToList(@NotNull @NotBlank @NotEmpty final String jsonPath) {
+	public ServiceResult<List<PEScript>> importToList(@NotNull @NotBlank @NotEmpty final String jsonPath) {
 		// 1.构造响应结果
-		final ServiceResult<List<ScriptModel>> result = new ServiceResult<>();
+		final ServiceResult<List<PEScript>> result = new ServiceResult<>();
 		// 2.从Json中读取List
-		List<ScriptModel> dataList = new ArrayList<>();
+		List<PEScript> dataList = new ArrayList<>();
 		try {
 			dataList = this.readJson(jsonPath);
 		} catch (AbstractSystemException ex) {
@@ -87,7 +87,7 @@ public class ScriptDPSevImpl extends AbstractDPSevImpl<ScriptModel, String>imple
 			result.error(ex);
 		}
 		// 3.脚本内容读取
-		for (final ScriptModel script : dataList) {
+		for (final PEScript script : dataList) {
 			if (null == script.getContent()) {
 			    final String path = script.getName().replaceAll("\\.", "/");
                 script.setContent(IOKit.getContent("deploy/oob/" + path + ".js"));

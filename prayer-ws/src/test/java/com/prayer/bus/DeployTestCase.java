@@ -17,7 +17,7 @@ import com.prayer.constant.log.InfoKey;
 import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.bus.DataService;
 import com.prayer.facade.bus.DeployService;
-import com.prayer.facade.dao.jdbc.MetadataConn;
+import com.prayer.facade.dao.MetadataConn;
 import com.prayer.facade.schema.DataValidator;
 import com.prayer.model.bus.ServiceResult;
 
@@ -56,7 +56,7 @@ public class DeployTestCase {
         /**
          * 去掉了外键约束的生成语句，所以不需要删除掉对应的表信息
          */
-        // this.metaConn.loadSqlFile(Resources.class.getResourceAsStream(Resources.DB_PURGE_SQL));
+        // this.metaConn.loadSqlFile(Resources.class.getResourceAsStream(Resources.META_PURGE_SQL));
         // 删除所有测试表，特殊方法
         this.verifier.purgeTestData();
     }
@@ -66,15 +66,15 @@ public class DeployTestCase {
      */
     @Test
     public void testDeploy() throws Exception {
-        ServiceResult<Boolean> ret = this.service.deployMetadata(Resources.OOB_FOLDER);
+        ServiceResult<Boolean> ret = this.service.deployMetadata(Resources.META_OOB_FOLDER);
         assertTrue("[TD] Deploying failure ! ", ret.getResult());
 
         // 添加默认账号信息的测试用例
         ret = this.dataSev.purgeData("sec.account");
-        ret = this.dataSev.deployData(Resources.OOB_FOLDER, "sec.account");
+        ret = this.dataSev.deployData(Resources.META_OOB_FOLDER, "sec.account");
         // 添加默认角色信息
         ret = this.dataSev.purgeData("sec.role");
-        ret = this.dataSev.deployData(Resources.OOB_FOLDER, "sec.role");
+        ret = this.dataSev.deployData(Resources.META_OOB_FOLDER, "sec.role");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

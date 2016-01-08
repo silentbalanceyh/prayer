@@ -24,6 +24,7 @@ import net.sf.oval.guard.Guarded;
 
 /**
  * 执行SQL脚本的单独类
+ * 
  * @author Lang
  *
  */
@@ -51,6 +52,24 @@ public final class SqlKit {
             // conn.close();
             ret = Constants.RC_SUCCESS;
         } catch (SQLException | UnsupportedEncodingException ex) {
+            jvmError(LOGGER, ex);
+        }
+        return ret;
+    }
+
+    /** **/
+    public static int execute(@NotNull final JdbcTemplate jdbc, @NotNull final Reader reader) {
+        int ret = Constants.RC_FAILURE;
+        try (final Connection conn = jdbc.getDataSource().getConnection()) {
+            final ScriptRunner runner = new ScriptRunner(conn);
+            // set to false, runs script line by line
+            runner.setSendFullScript(true);
+            runner.runScript(reader);
+            runner.closeConnection();
+            // 默认日志级别输出SQL语句是DEBUG级别，只要不是级别则不会输出
+            // conn.close();
+            ret = Constants.RC_SUCCESS;
+        } catch (SQLException ex) {
             jvmError(LOGGER, ex);
         }
         return ret;

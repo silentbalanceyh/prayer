@@ -7,7 +7,7 @@ import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.AddressModel;
+import com.prayer.model.vertx.PEAddress;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -20,7 +20,7 @@ import io.vertx.core.shareddata.AsyncMap;
  * @author Lang
  *
  */
-public class AsyncAddressHandler implements Handler<AsyncResult<AsyncMap<String, AddressModel>>> {
+public class AsyncAddressHandler implements Handler<AsyncResult<AsyncMap<String, PEAddress>>> {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
@@ -65,22 +65,22 @@ public class AsyncAddressHandler implements Handler<AsyncResult<AsyncMap<String,
      * 
      */
     @Override
-    public void handle(AsyncResult<AsyncMap<String, AddressModel>> event) {
+    public void handle(AsyncResult<AsyncMap<String, PEAddress>> event) {
         if (event.succeeded()) {
             // 1.Handler获取异步Map
-            final AsyncMap<String, AddressModel> dataMap = event.result();
+            final AsyncMap<String, PEAddress> dataMap = event.result();
             // 2.使用类名
             final String clsName = this.workClass.getName();
             // 2.从dataMap中读取
             System.out.println(dataMap);
             dataMap.get(clsName, res -> {
                 if (res.succeeded()) {
-                    AddressModel addr = res.result();
+                    PEAddress addr = res.result();
                     if (null == addr) {
-                        this.vertxRef.<AddressModel> executeBlocking(block -> {
-                            final ServiceResult<AddressModel> result = this.configSev.findAddress(this.workClass);
+                        this.vertxRef.<PEAddress> executeBlocking(block -> {
+                            final ServiceResult<PEAddress> result = this.configSev.findAddress(this.workClass);
                             if (ResponseCode.SUCCESS == result.getResponseCode()) {
-                                final AddressModel addrRef = result.getResult();
+                                final PEAddress addrRef = result.getResult();
                                 if (null != addrRef.getConsumerHandler()) {
                                     final EventBus bus = this.vertxRef.eventBus();
                                     bus.consumer(addrRef.getConsumerAddr(), instance(addrRef.getConsumerHandler()));

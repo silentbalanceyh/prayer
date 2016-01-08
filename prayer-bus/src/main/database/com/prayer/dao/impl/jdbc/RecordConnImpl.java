@@ -13,16 +13,16 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class JdbcConnImpl extends AbstractConn {
+public class RecordConnImpl extends AbstractConn {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcConnImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecordConnImpl.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public JdbcConnImpl() {
+    public RecordConnImpl() {
         super(null);
     }
 

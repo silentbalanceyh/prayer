@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.AddressModel;
+import com.prayer.model.vertx.PEAddress;
 import com.prayer.model.vertx.RouteModel;
 import com.prayer.model.vertx.RuleModel;
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.vertx.PEScript;
 import com.prayer.model.vertx.UriModel;
 import com.prayer.model.vertx.VerticleModel;
 
@@ -83,12 +83,12 @@ public interface ConfigService {
      * @param workClass
      * @return
      */
-    ServiceResult<AddressModel> findAddress(Class<?> workClass);
+    ServiceResult<PEAddress> findAddress(Class<?> workClass);
 
     /**
      * 
      * @param name
      * @return
      */
-    ServiceResult<ScriptModel> findScript(String name);
+    ServiceResult<PEScript> findScript(String name);
 }

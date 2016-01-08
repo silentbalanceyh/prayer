@@ -1,17 +1,17 @@
 package com.prayer.facade.dao.schema;
 
-import com.prayer.model.vertx.ScriptModel;
+import com.prayer.model.vertx.PEScript;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface ScriptDao extends TemplateDao<ScriptModel, String>{
+public interface ScriptDao extends TemplateDao<PEScript, String>{
     /**
      * 
      * @param name
      * @return
      */
-    ScriptModel getByName(String name);
+    PEScript getByName(String name);
 }

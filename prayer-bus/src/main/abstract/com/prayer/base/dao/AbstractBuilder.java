@@ -15,9 +15,9 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.StatusFlag;
-import com.prayer.dao.impl.jdbc.JdbcConnImpl;
+import com.prayer.dao.impl.jdbc.RecordConnImpl;
 import com.prayer.facade.dao.Builder;
-import com.prayer.facade.dao.jdbc.JdbcContext;
+import com.prayer.facade.dao.JdbcContext;
 import com.prayer.model.database.FieldModel;
 import com.prayer.model.database.KeyModel;
 import com.prayer.model.kernel.GenericSchema;
@@ -66,7 +66,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      */
     @PostValidateThis
     public AbstractBuilder(@AssertFieldConstraints("schema") final GenericSchema schema) {
-        this.context = reservoir(MemoryPool.POOL_JDBC, schema.getIdentifier(), JdbcConnImpl.class);
+        this.context = reservoir(MemoryPool.POOL_JDBC, schema.getIdentifier(), RecordConnImpl.class);
         this.sqlLines = new ArrayList<>();
         this.schema = schema;
     }

@@ -73,7 +73,7 @@ public class BDataCommand extends AbstractCommand {
         JsonObject retJson = new JsonObject();
         final String identifier = cmdLine.getOptionValue('d');
         if (StringKit.isNonNil(identifier)) {
-            final ServiceResult<Boolean> ret = this.service.deployData(Resources.OOB_FOLDER, identifier);
+            final ServiceResult<Boolean> ret = this.service.deployData(Resources.META_OOB_FOLDER, identifier);
             if (ret.getResult()) {
                 retJson.put(DEPLOYED, Boolean.TRUE);
             } else {

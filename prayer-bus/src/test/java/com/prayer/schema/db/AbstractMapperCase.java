@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 
 import com.prayer.constant.Constants;
 import com.prayer.facade.mapper.H2TMapper;
-import com.prayer.facade.mapper.SessionManager;
+import com.prayer.plugin.ibatis.SessionManager;
 
 /**
  * 

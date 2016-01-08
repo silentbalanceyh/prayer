@@ -13,7 +13,8 @@ import java.util.Set;
 public interface Constants { // NOPMD
     // ~ Static Fields =======================================
     /** 全局统一属性ID信息 **/
-    String PID = "uniqueId";
+    // TODO: 这里改动过后可能很多地方无法通过编译
+    String PID = "id";
     /** 数据库SQL模式 **/
     String DB_MODE_SQL = "SQL";
     /** 数据库NOSQL模式 **/
@@ -37,6 +38,10 @@ public interface Constants { // NOPMD
     int ONE = 1;
     /** System value 0 **/
     int ZERO = 0;
+    /** 读取Buffer的开始值 **/
+    int POS = ZERO;
+    /** 索引的开始值 **/
+    int IDX = ZERO;
     /** 系统边界值：-1，用于很多地方的临界值使用 **/
     int RANGE = -1;
     /** HashCode base number **/
