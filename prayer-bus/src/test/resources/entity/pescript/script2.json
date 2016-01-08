@@ -1,0 +1,5 @@
+{
+    "name":"api.js.sec.login",
+    "namespace":"com.lang.namespace",
+    "content":"var i = \"exe\";"
+}

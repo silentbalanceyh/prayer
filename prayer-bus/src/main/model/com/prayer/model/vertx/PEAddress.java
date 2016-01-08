@@ -1,7 +1,6 @@
 package com.prayer.model.vertx;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -10,7 +9,6 @@ import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
-import com.prayer.util.io.JsonKit;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -71,10 +69,29 @@ public class PEAddress extends AbstractEntity { // NOPMD
         pos += readClass(pos, buffer, this::setConsumerHandler);
         return pos;
     }
-    
+
     // ~ Entity Json/Buffer Serialization ====================
-    
-    
+    /** 转成Json **/
+    @Override
+    public JsonObject toJson() {
+        final JsonObject data = new JsonObject();
+        writeString(data, ID, this::getUniqueId);
+        writeClass(data, WORK_CLASS, this::getWorkClass);
+        writeString(data, CONSUMER_ADDR, this::getConsumerAddr);
+        writeClass(data, CONSUMER_HANDLER, this::getConsumerHandler);
+        return data;
+    }
+
+    /** 从Json反序列化 **/
+    @Override
+    public PEAddress fromJson(final JsonObject data) {
+        readString(data, ID, this::setUniqueId);
+        readClass(data, WORK_CLASS, this::setWorkClass);
+        readString(data, CONSUMER_ADDR, this::setConsumerAddr);
+        readClass(data, CONSUMER_HANDLER, this::setConsumerHandler);
+        return this;
+    }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

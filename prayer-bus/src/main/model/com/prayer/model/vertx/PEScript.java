@@ -87,9 +87,7 @@ public class PEScript extends AbstractEntity { // NOPMD
     }
 
     // ~ Entity Json/Buffer Serialization ====================
-    /**
-     * 将当前Entity转换成一个JsonObject
-     */
+    /** 转成Json **/
     @Override
     public JsonObject toJson() {
         final JsonObject data = new JsonObject();
@@ -100,9 +98,7 @@ public class PEScript extends AbstractEntity { // NOPMD
         return data;
     }
 
-    /**
-     * 将一个JsonObject转换成一个Entity
-     */
+    /** 从Json反序列化 **/
     @Override
     public PEScript fromJson(final JsonObject data) {
         readString(data, ID, this::setUniqueId);

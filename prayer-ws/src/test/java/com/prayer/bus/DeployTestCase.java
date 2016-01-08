@@ -14,10 +14,8 @@ import com.prayer.bus.impl.oob.DeploySevImpl;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
-import com.prayer.dao.impl.jdbc.MetadataConnImpl;
 import com.prayer.facade.bus.DataService;
 import com.prayer.facade.bus.DeployService;
-import com.prayer.facade.dao.MetadataConn;
 import com.prayer.facade.schema.DataValidator;
 import com.prayer.model.bus.ServiceResult;
 
@@ -37,7 +35,7 @@ public class DeployTestCase {
     /** **/
     private transient final DataService dataSev = singleton(DataSevImpl.class);
     /** **/
-    private transient final MetadataConn metaConn = singleton(MetadataConnImpl.class);
+    //private transient final MetadataConn metaConn = singleton(MetadataConnImpl.class);
     /** **/
     private transient DataValidator verifier = singleton(Accessors.validator());
 
@@ -52,7 +50,7 @@ public class DeployTestCase {
     public void setUp() {
         final String scriptFile = Resources.META_INIT_SQL;
         info(LOGGER, InfoKey.INF_META_INIT, scriptFile);
-        this.metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
+        //this.metaConn.initMeta(Resources.class.getResourceAsStream(scriptFile));
         /**
          * 去掉了外键约束的生成语句，所以不需要删除掉对应的表信息
          */
