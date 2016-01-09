@@ -1,7 +1,14 @@
 package com.prayer.model.entity;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+import com.prayer.constant.Constants;
+import com.prayer.facade.entity.Entity;
 import com.prayer.util.io.IOKit;
 
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -9,14 +16,19 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public class AbstractEntityTestCase {
+public abstract class AbstractEntityTestCase {
     // ~ Static Fields =======================================
+    /** **/
+    protected static String EMPTY_FILE = "/entity/empty.json";
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    public abstract Entity getInstance(String file);
     // ~ Methods =============================================
     /**
      * 读取JsonObject的方法
@@ -31,6 +43,20 @@ public class AbstractEntityTestCase {
             json.mergeIn(new JsonObject(content));
         }
         return json;
+    }
+
+    /**
+     * 
+     */
+    @Test
+    public void testBufferInvalid() {
+        final Buffer buffer = Buffer.buffer();
+        final Entity expected = this.getInstance(EMPTY_FILE);
+        expected.writeToBuffer(buffer);
+        final Entity actual = this.getInstance(null);
+        actual.readFromBuffer(Constants.POS, buffer);
+        // Compare
+        assertEquals(expected, actual);
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

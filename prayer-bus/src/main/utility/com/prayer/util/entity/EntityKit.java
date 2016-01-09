@@ -1,14 +1,20 @@
 package com.prayer.util.entity;
 
+import static com.prayer.util.debug.Log.jvmError;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.prayer.constant.Constants;
-import com.prayer.constant.Resources;
 import com.prayer.model.type.DataType;
 import com.prayer.util.bits.BitsEnum;
 import com.prayer.util.bits.BitsKit;
 import com.prayer.util.bits.BitsString;
 import com.prayer.util.fun.BeanGet;
 import com.prayer.util.fun.BeanSet;
+import com.prayer.util.reflection.Instance;
 
+import groovyjarjarantlr.collections.List;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
@@ -19,6 +25,10 @@ import io.vertx.core.json.JsonObject;
  */
 public class EntityKit {
     // ~ Static Fields =======================================
+
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(EntityKit.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -29,15 +39,13 @@ public class EntityKit {
          */
         final T data = fun.get();
         /**
-         * 2.不为null的时候写入
+         * 2.写入Json对象
          */
-        if (null != data) {
-            final String value = new String(toBytes(data.getClass(), data), Resources.SYS_ENCODING);
-            json.put(key, value);
-        }
+        writeObject(json, key, data);
     }
 
     /** 将数据从Json中读取出来 **/
+    @SuppressWarnings("unchecked")
     public static <T> void readField(final JsonObject json, final String key, final BeanSet<T> fun,
             final Class<?> type) {
         /**
@@ -51,11 +59,18 @@ public class EntityKit {
             /**
              * 3.读取值的字节
              */
-            final byte[] bytesData = value.toString().getBytes(Resources.SYS_ENCODING);
-            final T item = readObject(type, bytesData);
-            fun.set(item);
-        } else {
-            fun.set(null);
+            if (!Instance.primitive(type)) {
+                /**
+                 * 4.1.非基础类型
+                 */
+                final T item = readObject(type, toBytes(type, (T) value));
+                fun.set(item);
+            } else {
+                /**
+                 * 4.2.基础类型
+                 */
+                fun.set((T) value);
+            }
         }
     }
 
@@ -83,6 +98,46 @@ public class EntityKit {
     public static <T extends Enum<T>> int readEnumField(final Buffer buffer, int pos, final BeanSet<T> fun,
             final Class<T> type) {
         if (DataType.class != type) {
+            try {
+                /**
+                 * 1.根据类型获取Length
+                 */
+                final int length = buffer.getInt(pos);
+                /**
+                 * 2.跳过长度length
+                 */
+                pos += 4;
+                /**
+                 * 3.从Buffer中得到字节数组
+                 */
+                final byte[] bytesData = buffer.getBytes(pos, pos + length);
+
+                /**
+                 * 4.构造新的枚举类型
+                 */
+                final T value = BitsEnum.fromBytes(type, bytesData);
+                /**
+                 * 5.刷新position
+                 */
+                pos += length;
+                if (Constants.ZERO < bytesData.length) {
+                    fun.set(value);
+                } else {
+                    fun.set(null);
+                }
+            } catch (IndexOutOfBoundsException ex) {
+                jvmError(LOGGER, ex);
+            }
+        }
+        /**
+         * 6.返回
+         */
+        return pos;
+    }
+
+    /** 将数据从Buffer中读取出来 **/
+    public static <T> int readField(final Buffer buffer, int pos, final BeanSet<T> fun, final Class<?> type) {
+        try {
             /**
              * 1.根据类型获取Length
              */
@@ -96,52 +151,21 @@ public class EntityKit {
              */
             final byte[] bytesData = buffer.getBytes(pos, pos + length);
             /**
-             * 4.构造新的枚举类型
+             * 4.构造读取的新的T类型
              */
-            final T value = BitsEnum.fromBytes(type, bytesData);
+            final T value = readObject(type, bytesData);
             /**
              * 5.刷新position
              */
             pos += length;
-            if (Constants.ZERO < length) {
+            
+            if (Constants.ZERO < bytesData.length) {
                 fun.set(value);
             } else {
                 fun.set(null);
             }
-
-        }
-        /**
-         * 6.返回
-         */
-        return pos;
-    }
-
-    /** 将数据从Buffer中读取出来 **/
-    public static <T> int readField(final Buffer buffer, int pos, final BeanSet<T> fun, final Class<?> type) {
-        /**
-         * 1.根据类型获取Length
-         */
-        final int length = buffer.getInt(pos);
-        /**
-         * 2.跳过长度length
-         */
-        pos += 4;
-        /**
-         * 3.从Buffer中得到字节数组
-         */
-        final byte[] bytesData = buffer.getBytes(pos, pos + length);
-        /**
-         * 4.构造读取的新的T类型
-         */
-        final T value = readObject(type, bytesData);
-        /**
-         * 5.刷新position
-         */
-        pos += length;
-        if (Constants.ZERO < length) {
-            fun.set(value);
-        } else {
-            fun.set(null);
+        } catch (IndexOutOfBoundsException ex) {
+            jvmError(LOGGER, ex);
         }
         /**
          * 6.返回
@@ -166,7 +190,7 @@ public class EntityKit {
              */
             final Class<?> clazz = data.getClass();
             int length = 0;
-            if (clazz.isPrimitive()) {
+            if (Instance.primitive(clazz)) {
                 /**
                  * 3.1.基础类型
                  */
@@ -189,8 +213,8 @@ public class EntityKit {
      */
     private static <T> T readObject(final Class<?> type, final byte[] bytesData) {
         T ret = null;
-        if (null != type && null != bytesData && 0 < bytesData.length) {
-            if (type.isPrimitive()) {
+        if (null != type) {
+            if (Instance.primitive(type)) {
                 /**
                  * 1.基础类型
                  */
@@ -204,6 +228,36 @@ public class EntityKit {
             }
         }
         return ret;
+    }
+
+    @SuppressWarnings({ "rawtypes" })
+    private static <T> void writeObject(final JsonObject json, final String key, final T data) {
+        if (null != data) {
+            final Class<?> type = data.getClass();
+            /**
+             * 过滤非基础类型
+             */
+            if (Instance.primitive(type)) {
+                /**
+                 * 1.基础类型
+                 */
+                json.put(key, (T) data);
+            } else {
+                /**
+                 * 2.字节数据
+                 */
+                final T value = readObject(type, toBytes(type, data));
+                if (Class.class == type) {
+                    /** Class **/
+                    final String name = ((Class) value).getName();
+                    json.put(key, name);
+                } else if (List.class == type) {
+
+                } else {
+                    json.put(key, value);
+                }
+            }
+        }
     }
 
     private static <T> void writeObject(final Buffer buffer, final T data) {
@@ -226,7 +280,7 @@ public class EntityKit {
         /**
          * 1.基础类型
          */
-        if (type.isPrimitive()) {
+        if (Instance.primitive(type)) {
             /**
              * 2.基础类型字节
              */

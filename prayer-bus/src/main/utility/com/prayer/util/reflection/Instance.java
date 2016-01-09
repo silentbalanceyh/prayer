@@ -144,7 +144,7 @@ public final class Instance { // NOPMD
      * @param className
      * @return
      */
-    public static Class<?> clazz(@NotNull @NotBlank @NotEmpty final String className) {
+    public static Class<?> clazz(final String className) {
         Class<?> ret = null;
         try {
             ret = Class.forName(className);
@@ -237,6 +237,17 @@ public final class Instance { // NOPMD
         } catch (IllegalAccessException | NoSuchFieldException | SecurityException ex) {
             jvmError(LOGGER, ex);
         }
+    }
+
+    /**
+     * 
+     * @param type
+     * @return
+     */
+    public static boolean primitive(@NotNull final Class<?> type) {
+        final Class<?>[] typeRefs = new Class<?>[] { Boolean.class, Integer.class, Short.class, Long.class,
+                Character.class, Float.class, Double.class };
+        return type.isPrimitive() || Arrays.asList(typeRefs).contains(type);
     }
 
     // ~ Constructors ========================================

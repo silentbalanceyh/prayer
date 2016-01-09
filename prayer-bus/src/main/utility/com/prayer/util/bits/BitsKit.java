@@ -112,31 +112,31 @@ public final class BitsKit {
             // List, Enum需要单独处理
             if (short.class == type || Short.class == type) {
                 // Short 2
-                final Short value = getShort(bytes, LEN_MAP.get(type));
+                final Short value = getShort(bytes, Constants.POS);
                 ret = (T) value;
             } else if (int.class == type || Integer.class == type) {
                 // Integer 4
-                final Integer value = getInt(bytes, LEN_MAP.get(type));
+                final Integer value = getInt(bytes, Constants.POS);
                 ret = (T) value;
             } else if (long.class == type || Long.class == type) {
                 // Long 8
-                final Long value = getLong(bytes, LEN_MAP.get(type));
+                final Long value = getLong(bytes, Constants.POS);
                 ret = (T) value;
             } else if (char.class == type || Character.class == type) {
                 // Char 2
-                final Character value = getChar(bytes, LEN_MAP.get(type));
+                final Character value = getChar(bytes, Constants.POS);
                 ret = (T) value;
             } else if (float.class == type || Float.class == type) {
                 // Float 4
-                final Float value = getFloat(bytes, LEN_MAP.get(type));
+                final Float value = getFloat(bytes, Constants.POS);
                 ret = (T) value;
             } else if (double.class == type || Double.class == type) {
                 // Double 8
-                final Double value = getDouble(bytes, LEN_MAP.get(type));
+                final Double value = getDouble(bytes, Constants.POS);
                 ret = (T) value;
             } else if (boolean.class == type || Boolean.class == type) {
                 // Boolean 1
-                final Boolean value = getBoolean(bytes, LEN_MAP.get(type));
+                final Boolean value = getBoolean(bytes, Constants.POS);
                 ret = (T) value;
             }
         }

@@ -29,6 +29,19 @@ public class PEAddressTestCase extends AbstractEntityTestCase {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public PEAddress getInstance(final String file){
+        PEAddress instance = null;
+        if(null == file){
+            instance = new PEAddress();
+        }else{
+            final JsonObject data = this.readData(file);
+            instance = new PEAddress(data);
+        }
+        Log.debug(LOGGER,instance.toString());
+        return instance;
+    }
     // ~ Methods =============================================
     /**
      * 检查
@@ -79,13 +92,6 @@ public class PEAddressTestCase extends AbstractEntityTestCase {
         assertEquals(expected, actual);
     }
     // ~ Private Methods =====================================
-
-    private PEAddress getInstance(final String file) {
-        final JsonObject data = this.readData(file);
-        final PEAddress address = new PEAddress(data);
-        Log.debug(LOGGER, address.toString());
-        return address;
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

@@ -95,20 +95,49 @@ public class PEVerticle extends AbstractEntity { // NOPMD
     /** 写入Buffer **/
     @Override
     public void writeToBuffer(final Buffer buffer) {
-
+        writeString(buffer,this::getUniqueId);
+        writeClass(buffer,this::getName);
+        writeInt(buffer,this::getInstances);
+        writeString(buffer,this::getGroup);
+        writeJObject(buffer,this::getJsonConfig);
+        writeList(buffer,this::getIsolatedClasses);
+        writeList(buffer,this::getExtraCp);
+        writeBoolean(buffer,this::isHa);
+        writeBoolean(buffer,this::isWorker);
+        writeBoolean(buffer,this::isMulti);
     }
 
     /** 从Buffer中读取 **/
     @Override
     public int readFromBuffer(int pos, final Buffer buffer) {
-        return -1;
+        pos = readString(pos,buffer,this::setUniqueId);
+        pos = readClass(pos,buffer,this::setName);
+        pos = readInt(pos,buffer,this::setInstances);
+        pos = readString(pos,buffer,this::setGroup);
+        pos = readJObject(pos,buffer,this::setJsonConfig);
+        pos = readList(pos,buffer,this::setIsolatedClasses);
+        pos = readList(pos,buffer,this::setExtraCp);
+        pos = readBoolean(pos,buffer,this::setHa);
+        pos = readBoolean(pos,buffer,this::setWorker);
+        pos = readBoolean(pos,buffer,this::setMulti);
+        return pos;
     }
-    // ~ Entity Json/Buffer Serialization ====================
 
+    // ~ Entity Json/Buffer Serialization ====================
+    /** 从Json中读取数据 **/
     @Override
     public JsonObject toJson() {
         final JsonObject data = new JsonObject();
-
+        writeString(data, ID, this::getUniqueId);
+        writeClass(data, NAME, this::getName);
+        writeInt(data, INSTANCES, this::getInstances);
+        writeString(data, GROUP, this::getGroup);
+        writeJObject(data, JSON_CONFIG, this::getJsonConfig);
+        writeList(data, ISOLATED_CLASSES, this::getIsolatedClasses);
+        writeList(data, EXTRA_CP, this::getExtraCp);
+        writeBoolean(data, HA, this::isHa);
+        writeBoolean(data, WORKER, this::isWorker);
+        writeBoolean(data, MULTI, this::isMulti);
         return data;
     }
 
@@ -118,7 +147,13 @@ public class PEVerticle extends AbstractEntity { // NOPMD
         readString(data, ID, this::setUniqueId);
         readClass(data, NAME, this::setName);
         readInt(data, INSTANCES, this::setInstances);
-        
+        readString(data, GROUP, this::setGroup);
+        readJObject(data, JSON_CONFIG, this::setJsonConfig);
+        readList(data, ISOLATED_CLASSES, this::setIsolatedClasses);
+        readList(data, EXTRA_CP, this::setExtraCp);
+        readBoolean(data, HA, this::setHa);
+        readBoolean(data, WORKER, this::setWorker);
+        readBoolean(data, MULTI, this::setMulti);
         return this;
     }
     // ~ Methods =============================================

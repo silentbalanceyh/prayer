@@ -30,7 +30,21 @@ public class PEScriptTestCase extends AbstractEntityTestCase {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public PEScript getInstance(final String file){
+        PEScript instance = null;
+        if(null == file){
+            instance = new PEScript();
+        }else{
+            final JsonObject data = this.readData(file);
+            instance = new PEScript(data);
+        }
+        Log.debug(LOGGER,instance.toString());
+        return instance;
+    }
     // ~ Methods =============================================
+
     /**
      * 检查
      */
@@ -79,14 +93,8 @@ public class PEScriptTestCase extends AbstractEntityTestCase {
         // Compare
         assertEquals(expected, actual);
     }
-    // ~ Private Methods =====================================
 
-    private PEScript getInstance(final String file) {
-        final JsonObject data = this.readData(file);
-        final PEScript script = new PEScript(data);
-        Log.debug(LOGGER, script.toString());
-        return script;
-    }
+    // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 
