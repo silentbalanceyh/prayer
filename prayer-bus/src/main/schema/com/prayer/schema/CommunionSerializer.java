@@ -19,9 +19,9 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.Status;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.schema.Serializer;
-import com.prayer.model.database.FieldModel;
-import com.prayer.model.database.KeyModel;
-import com.prayer.model.database.MetaModel;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
+import com.prayer.model.database.PEMeta;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -65,11 +65,11 @@ public class CommunionSerializer implements Serializer {
      */
     @Override
     @Pre(expr = "_this.mapper != null", lang = Constants.LANG_GROOVY)
-    public MetaModel readMeta(@NotNull final JsonNode metaNode) throws SerializationException {
+    public PEMeta readMeta(@NotNull final JsonNode metaNode) throws SerializationException {
         final String metaStr = metaNode.toString();
-        MetaModel meta = new MetaModel();
+        PEMeta meta = new PEMeta();
         try {
-            meta = this.mapper.readValue(metaStr, new TypeReference<MetaModel>() {
+            meta = this.mapper.readValue(metaStr, new TypeReference<PEMeta>() {
             });
             // 默认设置status为SYSTEM，如果没有设置则是SYSTEM类型，特殊属性，Schema中不验证
             if (null == meta.getStatus()) {
@@ -94,11 +94,11 @@ public class CommunionSerializer implements Serializer {
      */
     @Override
     @Pre(expr = "_this.mapper != null", lang = Constants.LANG_GROOVY)
-    public List<KeyModel> readKeys(@NotNull final ArrayNode keysNodes) throws SerializationException {
+    public List<PEKey> readKeys(@NotNull final ArrayNode keysNodes) throws SerializationException {
         final String keysStr = keysNodes.toString();
-        List<KeyModel> keys = new ArrayList<>();
+        List<PEKey> keys = new ArrayList<>();
         try {
-            keys = this.mapper.readValue(keysStr, new TypeReference<List<KeyModel>>() {
+            keys = this.mapper.readValue(keysStr, new TypeReference<List<PEKey>>() {
             });
         } catch (JsonParseException ex) {
             jvmError(LOGGER, ex);
@@ -119,11 +119,11 @@ public class CommunionSerializer implements Serializer {
      */
     @Override
     @Pre(expr = "_this.mapper != null", lang = Constants.LANG_GROOVY)
-    public List<FieldModel> readFields(@NotNull final ArrayNode fieldsNodes) throws SerializationException {
+    public List<PEField> readFields(@NotNull final ArrayNode fieldsNodes) throws SerializationException {
         final String fieldsStr = fieldsNodes.toString();
-        List<FieldModel> fields = new ArrayList<>();
+        List<PEField> fields = new ArrayList<>();
         try {
-            fields = this.mapper.readValue(fieldsStr, new TypeReference<List<FieldModel>>() {
+            fields = this.mapper.readValue(fieldsStr, new TypeReference<List<PEField>>() {
             });
         } catch (JsonParseException ex) {
             jvmError(LOGGER, ex);

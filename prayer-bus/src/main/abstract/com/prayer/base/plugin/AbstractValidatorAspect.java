@@ -1,6 +1,6 @@
 package com.prayer.base.plugin;
 
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.type.DataType;
 import com.prayer.util.reflection.Instance;
@@ -25,9 +25,9 @@ public abstract class AbstractValidatorAspect { // NOPMD
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /** **/
-    protected FieldModel getField(final Object instance, final String field) {
+    protected PEField getField(final Object instance, final String field) {
         final GenericSchema schema = Instance.field(instance, "_schema");
-        FieldModel fieldSchema = null;
+        PEField fieldSchema = null;
         if (null != schema && null != field) {
             fieldSchema = schema.getFields().get(field);
         }

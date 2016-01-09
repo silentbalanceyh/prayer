@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.prayer.model.database.KeyModel;
+import com.prayer.model.database.PEKey;
 
 /**
  * 
@@ -12,7 +12,7 @@ import com.prayer.model.database.KeyModel;
  * @author Lang
  * @see
  */
-public interface KeyMapper extends H2TMapper<KeyModel, String> {
+public interface KeyMapper extends H2TMapper<PEKey, String> {
     /**
      * 根据Meta的metaId删除Key记录
      * 
@@ -27,5 +27,5 @@ public interface KeyMapper extends H2TMapper<KeyModel, String> {
      * @param metaId
      * @return
      */
-    List<KeyModel> selectByMeta(@Param("metaId") String metaId);
+    List<PEKey> selectByMeta(@Param("metaId") String metaId);
 }

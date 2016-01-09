@@ -18,8 +18,8 @@ import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.dao.impl.jdbc.RecordConnImpl;
 import com.prayer.facade.dao.Builder;
 import com.prayer.facade.dao.JdbcContext;
-import com.prayer.model.database.FieldModel;
-import com.prayer.model.database.KeyModel;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.util.jdbc.SqlDDL;
 import com.prayer.util.string.StringKit;
@@ -129,7 +129,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @param field
      * @return
      */
-    protected String genAddColumns(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
+    protected String genAddColumns(@NotNull @InstanceOfAny(PEField.class) final PEField field) {
         return SqlDDL.addColSql(this.getTable(), this.genColumnLine(field));
     }
 
@@ -139,7 +139,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @param field
      * @return
      */
-    protected String genAlterColumns(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
+    protected String genAlterColumns(@NotNull @InstanceOfAny(PEField.class) final PEField field) {
         return SqlDDL.alterColSql(this.getTable(), this.genColumnLine(field));
     }
 
@@ -152,8 +152,8 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return
      */
     protected List<String> genForeignKeys() {
-        final List<KeyModel> fkeys = this.schema.getForeignKey();
-        final List<FieldModel> ffields = this.schema.getForeignField();
+        final List<PEKey> fkeys = this.schema.getForeignKey();
+        final List<PEField> ffields = this.schema.getForeignField();
         final List<String> fkeyLines = new ArrayList<>();
         for (int idx = 0; idx < fkeys.size(); idx++) {
             fkeyLines.add(SqlDDL.newFKSql(fkeys.get(idx), ffields.get(idx)));
@@ -167,7 +167,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @param key
      * @return
      */
-    protected String genKeyLine(@NotNull @InstanceOfAny(KeyModel.class) final KeyModel key) {
+    protected String genKeyLine(@NotNull @InstanceOfAny(PEKey.class) final PEKey key) {
         String sql = null;
         if (KeyCategory.UniqueKey == key.getCategory()) {
             sql = SqlDDL.newUKSql(key);
@@ -183,8 +183,8 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @param key
      * @return
      */
-    protected String genAddCsLine(@NotNull @InstanceOfAny(KeyModel.class) final KeyModel key,
-            @InstanceOfAny(FieldModel.class) final FieldModel field) {
+    protected String genAddCsLine(@NotNull @InstanceOfAny(PEKey.class) final PEKey key,
+            @InstanceOfAny(PEField.class) final PEField field) {
         String sql = null;
         if (KeyCategory.ForeignKey == key.getCategory()) {
             sql = SqlDDL.addCSSql(this.getTable(), SqlDDL.newFKSql(key, field));
@@ -200,7 +200,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @param field
      * @return
      */
-    protected String genColumnLine(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
+    protected String genColumnLine(@NotNull @InstanceOfAny(PEField.class) final PEField field) {
         return SqlDDL.newColumnSql(lengthTypes(), precisionTypes(), field);
     }
 
@@ -210,7 +210,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @param field
      * @return
      */
-    protected String getColType(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
+    protected String getColType(@NotNull @InstanceOfAny(PEField.class) final PEField field) {
         return SqlDDL.getColType(field);
     }
 

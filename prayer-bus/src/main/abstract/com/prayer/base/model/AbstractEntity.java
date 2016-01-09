@@ -121,6 +121,27 @@ public abstract class AbstractEntity implements Entity, Attributes {
         return StreamBasic.readField(buffer, pos, fun, boolean.class);
     }
 
+    // ~ Long Serialization Method ========================
+    /** 将数据写入到JsonObject **/
+    protected void writeLong(final JsonObject json, final String key, final BeanGet<Long> fun) {
+        StreamBasic.writeField(json, key, fun);
+    }
+
+    /** 将数据写入到Buffer **/
+    protected void writeLong(final Buffer buffer, final BeanGet<Long> fun) {
+        StreamBasic.writeField(buffer, fun);
+    }
+
+    /** 从JsonObject中读取数据 **/
+    protected void readLong(final JsonObject json, final String key, final BeanSet<Long> fun) {
+        StreamBasic.readField(json, key, fun, long.class);
+    }
+
+    /** 从Buffer中读取数据 **/
+    protected int readLong(int pos, final Buffer buffer, final BeanSet<Long> fun) {
+        return StreamBasic.readField(buffer, pos, fun, long.class);
+    }
+
     // ~ Integer Serialization Method ========================
     /** 将数据写入到JsonObject **/
     protected void writeInt(final JsonObject json, final String key, final BeanGet<Integer> fun) {

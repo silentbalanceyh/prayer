@@ -18,9 +18,9 @@ import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.model.database.FieldModel;
-import com.prayer.model.database.KeyModel;
-import com.prayer.model.database.MetaModel;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
+import com.prayer.model.database.PEMeta;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.schema.json.CommunionImporter;
 import com.prayer.util.io.JsonKit;
@@ -85,7 +85,7 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
         if (null != this.rootNode) {
             final JsonNode metaNode = this.rootNode.path("__meta__");
             try {
-                final MetaModel meta = this.serializer.readMeta(metaNode);
+                final PEMeta meta = this.serializer.readMeta(metaNode);
                 assertNotNull("[T-ERROR] Serialization result should not be null !", meta);
             } catch (SerializationException ex) {
                 peError(getLogger(), ex);
@@ -102,11 +102,11 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
         if (null != this.rootNode) {
             final ArrayNode keysNode = JsonKit.fromJObject(this.rootNode.path("__keys__"));
             try {
-                final List<KeyModel> keys = this.serializer.readKeys(keysNode);
+                final List<PEKey> keys = this.serializer.readKeys(keysNode);
                 // String Result
                 if (!keys.isEmpty()) {
                     final StringBuilder builder = new StringBuilder();
-                    for (final KeyModel key : keys) {
+                    for (final PEKey key : keys) {
                         builder.append(key).append(" | ");
                     }
                 }
@@ -126,11 +126,11 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
         if (null != this.rootNode) {
             final ArrayNode fieldsNode = JsonKit.fromJObject(this.rootNode.path("__fields__"));
             try {
-                final List<FieldModel> fields = this.serializer.readFields(fieldsNode);
+                final List<PEField> fields = this.serializer.readFields(fieldsNode);
                 // String Result
                 if (!fields.isEmpty()) {
                     final StringBuilder builder = new StringBuilder();
-                    for (final FieldModel field : fields) {
+                    for (final PEField field : fields) {
                         builder.append(field).append(" | ");
                     }
                 }

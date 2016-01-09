@@ -70,7 +70,7 @@ public class PERule extends AbstractEntity { // NOPMD
     private String errorMessage;
 
     /** R_URI_ID **/
-    @JsonProperty(REF_ID)
+    @JsonProperty(REF_UID)
     private String refUriId;
 
     // ~ Static Block ========================================
@@ -103,7 +103,7 @@ public class PERule extends AbstractEntity { // NOPMD
         writeClass(data, COMPONENT_CLASS, this::getComponentClass);
         writeJObject(data, CONFIG, this::getConfig);
         writeString(data, ERROR_MESSAGE, this::getErrorMessage);
-        writeString(data, REF_ID, this::getRefUriId);
+        writeString(data, REF_UID, this::getRefUriId);
         return data;
     }
 
@@ -118,7 +118,7 @@ public class PERule extends AbstractEntity { // NOPMD
         readClass(data, COMPONENT_CLASS, this::setComponentClass);
         readJObject(data, CONFIG, this::setConfig);
         readString(data, ERROR_MESSAGE, this::setErrorMessage);
-        readString(data, REF_ID, this::setRefUriId);
+        readString(data, REF_UID, this::setRefUriId);
         return this;
     }
 

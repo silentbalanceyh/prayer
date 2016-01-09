@@ -24,7 +24,7 @@ import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.util.exception.Interrupter.Policy;
 import com.prayer.util.exception.Interrupter.PrimaryKey;
@@ -99,7 +99,7 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 		// ERR.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy
 		Policy.interrupt(getClass(), record.policy(), false);
 		// 1.填充主键参数
-		final FieldModel pkField = record.idschema().get(Constants.ZERO);
+		final PEField pkField = record.idschema().get(Constants.ZERO);
 		final ConcurrentMap<String, Value<?>> uniqueIds = new ConcurrentHashMap<>();
 		uniqueIds.put(pkField.getColumnName(), uniqueId);
 		// 2.调用内部函数
@@ -285,11 +285,11 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 			/**
 			 * 如果主键是自增长的，需要获取相应的SEQ值
 			 */
-			final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
+			final PEField pkSchema = record.idschema().get(Constants.ZERO);
 			record.set(pkSchema.getName(), this.getSEQ(record, jdbc));
 		} else if (MetaPolicy.GUID == policy) {
 			// 如果主键是GUID的策略，则需要预处理主键的赋值
-			final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
+			final PEField pkSchema = record.idschema().get(Constants.ZERO);
 			record.set(pkSchema.getName(), uuid());
 		}
 		// 父类方法，不过滤任何传参流程

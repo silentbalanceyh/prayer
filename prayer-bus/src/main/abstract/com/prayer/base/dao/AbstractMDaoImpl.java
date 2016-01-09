@@ -30,7 +30,7 @@ import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 import com.prayer.model.kernel.MetaRecord;
 import com.prayer.util.bus.RecordSerializer;
 import com.prayer.util.exception.Interrupter.Api;
@@ -94,7 +94,7 @@ public abstract class AbstractMDaoImpl <T extends AbstractEntity, ID extends Ser
         // ERR: Policy Support
         Policy.interrupt(getClass(), MetaPolicy.GUID, record.policy());
         // 3.预处理UUID
-        final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
+        final PEField pkSchema = record.idschema().get(Constants.ZERO);
         record.set(pkSchema.getName(), uuid());
         // 4.将Record数据转换成H2 Model
         final T entity = this.toEntity(record);

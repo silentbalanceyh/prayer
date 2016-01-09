@@ -17,7 +17,7 @@ import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.model.kernel.GenericSchema;
 
@@ -97,9 +97,9 @@ public abstract class AbstractRDaoTestTool extends AbstractTestTool {
     /** **/
     protected void updateRecord(final Record record) {
         // ID不可更新
-        final List<FieldModel> pkeys = record.idschema();
+        final List<PEField> pkeys = record.idschema();
         final Set<String> ids = new HashSet<>();
-        for (final FieldModel pkey : pkeys) {
+        for (final PEField pkey : pkeys) {
             ids.add(pkey.getName());
         }
         // 和添加不一样，这里面存在一个判断

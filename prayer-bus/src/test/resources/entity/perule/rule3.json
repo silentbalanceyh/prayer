@@ -11,5 +11,5 @@
         "order":30
     },
     "errorMessage":"这是错误信息",
-    "refID":"refId"
+    "refUID":"refId"
 }

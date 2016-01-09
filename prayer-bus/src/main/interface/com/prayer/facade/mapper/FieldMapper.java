@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 
 /**
  * 
@@ -12,7 +12,7 @@ import com.prayer.model.database.FieldModel;
  * @author Lang
  * @see
  */
-public interface FieldMapper extends H2TMapper<FieldModel, String> {
+public interface FieldMapper extends H2TMapper<PEField, String> {
     /**
      * 根据Field的metaId删除记录
      * 
@@ -27,5 +27,5 @@ public interface FieldMapper extends H2TMapper<FieldModel, String> {
      * @param metaId
      * @return
      */
-    List<FieldModel> selectByMeta(@Param("metaId") String metaId);
+    List<PEField> selectByMeta(@Param("metaId") String metaId);
 }

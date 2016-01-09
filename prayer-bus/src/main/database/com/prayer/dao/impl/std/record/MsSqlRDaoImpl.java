@@ -21,7 +21,7 @@ import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 import com.prayer.util.exception.Interrupter.Policy;
 import com.prayer.util.exception.Interrupter.PrimaryKey;
 import com.prayer.util.exception.Interrupter.Response;
@@ -91,7 +91,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
         // ERR.Policy验证，只有这种会验证Policy，另外一种方式不验证Policy
         Policy.interrupt(getClass(), record.policy(), false);
         // 1.填充主键参数
-        final FieldModel pkField = record.idschema().get(Constants.ZERO);
+        final PEField pkField = record.idschema().get(Constants.ZERO);
         final ConcurrentMap<String, Value<?>> uniqueIds = new ConcurrentHashMap<>();
         uniqueIds.put(pkField.getColumnName(), uniqueId);
         // 2.调用内部函数

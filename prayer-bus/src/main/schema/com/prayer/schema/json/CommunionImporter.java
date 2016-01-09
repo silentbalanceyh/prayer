@@ -23,9 +23,9 @@ import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.ExternalEnsurer;
 import com.prayer.facade.schema.Importer;
 import com.prayer.facade.schema.Serializer;
-import com.prayer.model.database.FieldModel;
-import com.prayer.model.database.KeyModel;
-import com.prayer.model.database.MetaModel;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
+import com.prayer.model.database.PEMeta;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.SchemaExpander;
 import com.prayer.schema.CommunionSerializer;
@@ -142,7 +142,7 @@ public class CommunionImporter implements Importer {
     @Override
     @Pre(expr = "_this.schema != null && _this.rawData != null && _this.serializer != null", lang = Constants.LANG_GROOVY)
     public GenericSchema transformSchema() throws SerializationException {
-        final MetaModel meta = this.readMeta();
+        final PEMeta meta = this.readMeta();
         try {
             this.schema.setMeta(meta);
             this.schema.setIdentifier(meta.getGlobalId());
@@ -204,16 +204,16 @@ public class CommunionImporter implements Importer {
         this.schemaDao = singleton(SchemaDaoImpl.class);
     }
 
-    private MetaModel readMeta() throws SerializationException {
+    private PEMeta readMeta() throws SerializationException {
         return this.serializer.readMeta(this.rawData.path("__meta__"));
     }
 
-    private ConcurrentMap<String, FieldModel> readFields() throws SerializationException {
+    private ConcurrentMap<String, PEField> readFields() throws SerializationException {
         return SchemaExpander
                 .toFieldsMap(this.serializer.readFields(JsonKit.fromJObject(this.rawData.path("__fields__"))));
     }
 
-    private ConcurrentMap<String, KeyModel> readKeys() throws SerializationException {
+    private ConcurrentMap<String, PEKey> readKeys() throws SerializationException {
         return SchemaExpander.toKeysMap(this.serializer.readKeys(JsonKit.fromJObject(this.rawData.path("__keys__"))));
     }
     // ~ Get/Set =============================================

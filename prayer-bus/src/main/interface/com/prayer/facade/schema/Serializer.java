@@ -5,9 +5,9 @@ import java.util.List;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.model.database.FieldModel;
-import com.prayer.model.database.KeyModel;
-import com.prayer.model.database.MetaModel;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
+import com.prayer.model.database.PEMeta;
 
 /**
  * 
@@ -22,7 +22,7 @@ public interface Serializer {
      * @return
      * @throws SerializationException
      */
-    MetaModel readMeta(JsonNode metaNode) throws SerializationException;
+    PEMeta readMeta(JsonNode metaNode) throws SerializationException;
 
     /**
      * 将Json格式的__keys__节点转换成KeyModel对象List
@@ -31,7 +31,7 @@ public interface Serializer {
      * @return
      * @throws SerializationException
      */
-    List<KeyModel> readKeys(ArrayNode keysNodes) throws SerializationException;
+    List<PEKey> readKeys(ArrayNode keysNodes) throws SerializationException;
 
     /**
      * 将Json格式的__fields__节点转换成FieldModel对象List
@@ -40,5 +40,5 @@ public interface Serializer {
      * @return
      * @throws SerializationException
      */
-    List<FieldModel> readFields(ArrayNode fieldsNodes) throws SerializationException;
+    List<PEField> readFields(ArrayNode fieldsNodes) throws SerializationException;
 }

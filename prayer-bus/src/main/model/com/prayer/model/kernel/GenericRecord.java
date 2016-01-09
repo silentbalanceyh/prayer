@@ -20,7 +20,7 @@ import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Transducer.V;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.StringType;
 
@@ -121,7 +121,7 @@ public class GenericRecord implements Record { // NOPMD
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public Value<?> column(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
-        final FieldModel colInfo = this._schema.getColumn(column);
+        final PEField colInfo = this._schema.getColumn(column);
         return this.get(colInfo.getName());
     }
 
@@ -164,7 +164,7 @@ public class GenericRecord implements Record { // NOPMD
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public String toField(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
-        final FieldModel field = this._schema.getColumn(column);
+        final PEField field = this._schema.getColumn(column);
         return field.getName();
     }
 
@@ -174,7 +174,7 @@ public class GenericRecord implements Record { // NOPMD
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public String toColumn(@AssertFieldConstraints(RULE_ID) final String field) throws AbstractDatabaseException {
         this.verifyField(field);
-        final FieldModel column = this._schema.getFields().get(field);
+        final PEField column = this._schema.getFields().get(field);
         return column.getColumnName();
     }
 
@@ -184,9 +184,9 @@ public class GenericRecord implements Record { // NOPMD
     @MinSize(1)
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, Value<?>> idKV() {
-        final List<FieldModel> pkFields = this._schema.getPrimaryKeys();
+        final List<PEField> pkFields = this._schema.getPrimaryKeys();
         final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
-        for (final FieldModel field : pkFields) {
+        for (final PEField field : pkFields) {
             try {
                 if (null == this.column(field.getColumnName())) {
                     // 默认String为主键替换Null的默认ID
@@ -206,7 +206,7 @@ public class GenericRecord implements Record { // NOPMD
     @NotNull
     @MinSize(1)
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
-    public List<FieldModel> idschema() {
+    public List<PEField> idschema() {
         return this._schema.getPrimaryKeys();
     }
 

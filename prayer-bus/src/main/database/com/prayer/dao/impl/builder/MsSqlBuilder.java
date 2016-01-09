@@ -27,9 +27,9 @@ import com.prayer.exception.database.NullableAlterException;
 import com.prayer.exception.database.UniqueAddException;
 import com.prayer.exception.database.UniqueAlterException;
 import com.prayer.facade.schema.Referencer;
-import com.prayer.model.database.FieldModel;
-import com.prayer.model.database.KeyModel;
-import com.prayer.model.database.MetaModel;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
+import com.prayer.model.database.PEMeta;
 import com.prayer.model.kernel.FKReferencer;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.type.DataType;
@@ -86,7 +86,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     // Fix: com.microsoft.sqlserver.jdbc.SQLServerException: Cannot alter column
     // '<COLUMN NAME>' to be data type timestamp.
     @Override
-    public String genAlterColumns(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
+    public String genAlterColumns(@NotNull @InstanceOfAny(PEField.class) final PEField field) {
         String ret = Constants.EMPTY_STR;
         if (DataType.DATE != field.getType()) {
             ret = SqlDDL.alterColSql(this.getTable(), this.genColumnLine(field));
@@ -261,8 +261,8 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         }
         // 6.添加约束
         {
-            final Collection<KeyModel> keys = schema.getKeys().values();
-            for (final KeyModel key : keys) {
+            final Collection<PEKey> keys = schema.getKeys().values();
+            for (final PEKey key : keys) {
                 if (KeyCategory.ForeignKey == key.getCategory()) {
                     final Iterator<String> columns = key.getColumns().iterator();
                     /**
@@ -270,7 +270,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
                      */
                     while (columns.hasNext()) {
                         final String column = columns.next();
-                        final FieldModel field = schema.getColumn(column);
+                        final PEField field = schema.getColumn(column);
                         addSqlLine(this.genAddCsLine(key, field));
                     }
                 } else {
@@ -294,7 +294,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
             final GenericSchema schema, final long rows) {
         final Collection<String> columns = statusMap.get(StatusFlag.UPDATE);
         for (final String column : columns) {
-            final FieldModel field = schema.getColumn(column);
+            final PEField field = schema.getColumn(column);
             if (Constants.ZERO == rows) {
                 addSqlLine(this.genAlterColumns(field));
             } else if (Constants.ZERO < rows) {
@@ -320,7 +320,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
             final GenericSchema schema, final long rows) {
         final Collection<String> columns = statusMap.get(StatusFlag.ADD);
         for (final String column : columns) {
-            final FieldModel field = schema.getColumn(column);
+            final PEField field = schema.getColumn(column);
             if (Constants.ZERO == rows) {
                 addSqlLine(this.genAddColumns(field));
             } else {
@@ -361,8 +361,8 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         }
         // 2.字段定义行
         {
-            final Collection<FieldModel> fields = this.getSchema().getFields().values();
-            for (final FieldModel field : fields) {
+            final Collection<PEField> fields = this.getSchema().getFields().values();
+            for (final PEField field : fields) {
                 if (!field.isPrimaryKey()) {
                     addSqlLine(this.genColumnLine(field));
                     // this.getSqlLines().add(this.genColumnLine(field));
@@ -371,8 +371,8 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         }
         // 3.添加Unique/Primary Key约束
         {
-            final Collection<KeyModel> keys = this.getSchema().getKeys().values();
-            for (final KeyModel key : keys) {
+            final Collection<PEKey> keys = this.getSchema().getKeys().values();
+            for (final PEKey key : keys) {
                 /**
                  * INCREMENT已经在前边生成过主键行了，不需要重新生成
                  */
@@ -397,21 +397,21 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
             addSqlLine(this.genIdentityLine(this.getSchema().getMeta()));
             // this.getSqlLines().add(this.genIdentityLine(getSchema().getMeta()));
         } else if (MetaPolicy.COLLECTION == policy) {
-            final List<FieldModel> pkFields = this.getSchema().getPrimaryKeys();
-            for (final FieldModel field : pkFields) {
+            final List<PEField> pkFields = this.getSchema().getPrimaryKeys();
+            for (final PEField field : pkFields) {
                 addSqlLine(this.genColumnLine(field));
                 // this.getSqlLines().add(this.genColumnLine(field));
             }
         } else {
-            final FieldModel field = this.getSchema().getPrimaryKeys().get(Constants.ZERO);
+            final PEField field = this.getSchema().getPrimaryKeys().get(Constants.ZERO);
             addSqlLine(this.genColumnLine(field));
             // this.getSqlLines().add(this.genColumnLine(field));
         }
     }
 
-    private String genIdentityLine(final MetaModel meta) {
+    private String genIdentityLine(final PEMeta meta) {
         final StringBuilder pkSql = new StringBuilder();
-        final FieldModel field = this.getSchema().getPrimaryKeys().get(Constants.ZERO);
+        final PEField field = this.getSchema().getPrimaryKeys().get(Constants.ZERO);
         // 1.1.主键字段和数据类型
         final String columnType = SqlDDL.DB_TYPES.get(field.getColumnType());
 

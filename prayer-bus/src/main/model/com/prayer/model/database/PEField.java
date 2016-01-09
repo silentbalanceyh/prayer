@@ -1,18 +1,22 @@
 package com.prayer.model.database; // NOPMD
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
-import com.prayer.constant.SystemEnum.FieldDatetime;
+import com.prayer.constant.SystemEnum.DateMode;
+import com.prayer.facade.entity.Attributes;
 import com.prayer.model.type.DataType;
+import com.prayer.plugin.jackson.ClassDeserializer;
+import com.prayer.plugin.jackson.ClassSerializer;
 import com.prayer.plugin.jackson.DataTypeDeserializer;
 import com.prayer.plugin.jackson.DataTypeSerializer;
+
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 对应表SYS_FIELDS
@@ -20,8 +24,8 @@ import com.prayer.plugin.jackson.DataTypeSerializer;
  * @author Lang
  * @see
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="uniqueId")
-public class FieldModel implements Serializable { // NOPMD
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = Attributes.ID)
+public class PEField extends AbstractEntity { // NOPMD
     // ~ Static Fields =======================================
     /**
      * 
@@ -29,91 +33,226 @@ public class FieldModel implements Serializable { // NOPMD
     private static final long serialVersionUID = 7466951277850489853L;
     // ~ Instance Fields =====================================
     /** K_ID：Fields表的主键 **/
-    @JsonProperty("id")
+    @JsonProperty(ID)
     private String uniqueId;
     // !基础Field数据------------------------------------------
     /** S_NAME：Field字段名 **/
-    @JsonProperty("name")
+    @JsonProperty(NAME)
     private String name;
     /** S_TYPE：对应的Lyra的数据类型 **/
-    @JsonProperty("type")
+    @JsonProperty(TYPE)
     private DataType type;
 
     // !Constraints数据---------------------------------------
     /** C_PATTERN：对应的Pattern **/
-    @JsonProperty("pattern")
+    @JsonProperty(PATTERN)
     private String pattern;
     /** C_VALIDATOR：Java的Class名 **/
-    @JsonProperty("validator")
-    private String validator;
+    @JsonProperty(VALIDATOR)
+    @JsonSerialize(using = ClassSerializer.class)
+    @JsonDeserialize(using = ClassDeserializer.class)
+    private Class<?> validator;
     /** C_LENGTH：String类型的长度定义 **/
-    @JsonProperty("length")
+    @JsonProperty(LENGTH)
     private int length;
     /** C_DATETIME：时间格式类型 **/
-    @JsonProperty("datetime")
-    private FieldDatetime datetime;
+    @JsonProperty(DATE_TIME)
+    private DateMode datetime;
     /** C_DATEFORMAT：时间格式Pattern **/
-    @JsonProperty("dateformat")
+    @JsonProperty(DATE_FORMAT)
     private String dateFormat;
     /** C_PRECISION：浮点数精度描述 **/
-    @JsonProperty("precision")
+    @JsonProperty(PRECISION)
     private int precision;
     /** C_UNIT：数据后边的单位信息 **/
-    @JsonProperty("unit")
+    @JsonProperty(UNIT)
     private String unit;
     /** C_MAX_LENGTH：字符串的最大长度限制 **/
-    @JsonProperty("maxLength")
+    @JsonProperty(MAX_LENGTH)
     private int maxLength = -1;
     /** C_MIN_LENGTH：字符串的最小长度限制 **/
-    @JsonProperty("minLength")
+    @JsonProperty(MIN_LENGTH)
     private int minLength = -1;
     /** C_MIN：数值的最小值 **/
-    @JsonProperty("min")
+    @JsonProperty(MIN)
     private long min = -1;
     /** C_MAX：数值的最大值 **/
-    @JsonProperty("max")
+    @JsonProperty(MAX)
     private long max = -1;
 
     // !数据库Boolean约束数据----------------------------------
     /** IS_PRIMARY_KEY：当前字段是否主键 **/
-    @JsonProperty("primarykey")
+    @JsonProperty(PRIMARY_KEY)
     private boolean primaryKey;
     /** IS_UNIQUE：当前字段是否Unique **/
-    @JsonProperty("unique")
+    @JsonProperty(UNIQUE)
     private boolean unique;
     /** IS_SUB_TABLE：当前字段是否存在于子表 **/
-    @JsonProperty("subtable")
+    @JsonProperty(SUB_TABLE)
     private boolean subTable;
     /** IS_FOREIGN_KEY：当前字段是否外键 **/
-    @JsonProperty("foreignkey")
+    @JsonProperty(FOREIGN_KEY)
     private boolean foreignKey;
     /** IS_NULLABLE：当前字段是否可为空 **/
-    @JsonProperty("nullable")
+    @JsonProperty(NULLABLE)
     private boolean nullable = true;
 
     // !Fields数据库配置信息-----------------------------------
     /** D_COLUMN_NAME：字段对应的数据列名 **/
-    @JsonProperty("columnName")
+    @JsonProperty(COLUMN_NAME)
     private String columnName;
     /** D_COLUMN_TYPE：字段对应的数据类型名 **/
-    @JsonProperty("columnType")
+    @JsonProperty(COLUMN_TYPE)
     private String columnType;
     /** D_REF_TABLE：字段为外键时引用的外键表名 **/
-    @JsonProperty("refTable")
+    @JsonProperty(REF_TABLE)
     private String refTable;
     /** D_REF_ID：字段为外键时引用的外键的主键名 **/
-    @JsonProperty("refId")
+    @JsonProperty(REF_ID)
     private String refId;
 
     /** R_META_ID：外键约束，关联SYS_META **/
-    @JsonIgnore
+    @JsonProperty(REF_MID)
     private String refMetaId;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    public PEField() {
+    }
+
+    /** **/
+    public PEField(final JsonObject data) {
+        this.fromJson(data);
+    }
+
+    /** **/
+    public PEField(final Buffer buffer) {
+        this.readFromBuffer(Constants.POS, buffer);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public JsonObject toJson() {
+        final JsonObject data = new JsonObject();
+        writeString(data, ID, this::getUniqueId);
+        writeString(data, NAME, this::getName);
+        writeEnum(data, TYPE, this::getType);
+        writeString(data, PATTERN, this::getPattern);
+        writeClass(data, VALIDATOR, this::getValidator);
+        writeInt(data, LENGTH, this::getLength);
+        writeEnum(data, DATE_TIME, this::getDatetime);
+        writeString(data, DATE_FORMAT, this::getDateFormat);
+        writeInt(data, PRECISION, this::getPrecision);
+        writeString(data, UNIT, this::getUnit);
+        writeInt(data, MAX_LENGTH, this::getMaxLength);
+        writeInt(data, MIN_LENGTH, this::getMinLength);
+        writeLong(data, MAX, this::getMax);
+        writeLong(data, MIN, this::getMin);
+        writeBoolean(data, PRIMARY_KEY, this::isPrimaryKey);
+        writeBoolean(data, UNIQUE, this::isUnique);
+        writeBoolean(data, SUB_TABLE, this::isSubTable);
+        writeBoolean(data, FOREIGN_KEY, this::isForeignKey);
+        writeBoolean(data, NULLABLE, this::isNullable);
+        writeString(data, COLUMN_NAME, this::getColumnName);
+        writeString(data, COLUMN_TYPE, this::getColumnType);
+        writeString(data, REF_TABLE, this::getRefTable);
+        writeString(data, REF_ID, this::getRefId);
+        writeString(data, REF_MID, this::getRefMetaId);
+        return data;
+    }
+
+    /** **/
+    @Override
+    public PEField fromJson(final JsonObject data) {
+        readString(data, ID, this::setUniqueId);
+        readString(data, NAME, this::setName);
+        readEnum(data, TYPE, this::setType, DataType.class);
+        readString(data, PATTERN, this::setPattern);
+        readClass(data, VALIDATOR, this::setValidator);
+        readInt(data, LENGTH, this::setLength);
+        readEnum(data, DATE_TIME, this::setDatetime, DateMode.class);
+        readString(data, DATE_FORMAT, this::setDateFormat);
+        readInt(data, PRECISION, this::setPrecision);
+        readString(data, UNIT, this::setUnit);
+        readInt(data, MAX_LENGTH, this::setMaxLength);
+        readInt(data, MIN_LENGTH, this::setMinLength);
+        readLong(data, MAX, this::setMax);
+        readLong(data, MIN, this::setMin);
+        readBoolean(data, PRIMARY_KEY, this::setPrimaryKey);
+        readBoolean(data, UNIQUE, this::setUnique);
+        readBoolean(data, SUB_TABLE, this::setSubTable);
+        readBoolean(data, FOREIGN_KEY, this::setForeignKey);
+        readBoolean(data, NULLABLE, this::setNullable);
+        readString(data, COLUMN_NAME, this::setColumnName);
+        readString(data, COLUMN_TYPE, this::setColumnType);
+        readString(data, REF_TABLE, this::setRefTable);
+        readString(data, REF_ID, this::setRefId);
+        readString(data, REF_MID, this::setRefMetaId);
+        return this;
+    }
+
+    /** **/
+    @Override
+    public void writeToBuffer(final Buffer buffer) {
+        writeString(buffer, this::getUniqueId);
+        writeString(buffer, this::getName);
+        writeEnum(buffer, this::getType);
+        writeString(buffer, this::getPattern);
+        writeClass(buffer, this::getValidator);
+        writeInt(buffer, this::getLength);
+        writeEnum(buffer, this::getDatetime);
+        writeString(buffer, this::getDateFormat);
+        writeInt(buffer, this::getPrecision);
+        writeString(buffer, this::getUnit);
+        writeInt(buffer, this::getMaxLength);
+        writeInt(buffer, this::getMinLength);
+        writeLong(buffer, this::getMax);
+        writeLong(buffer, this::getMin);
+        writeBoolean(buffer, this::isPrimaryKey);
+        writeBoolean(buffer, this::isUnique);
+        writeBoolean(buffer, this::isSubTable);
+        writeBoolean(buffer, this::isForeignKey);
+        writeBoolean(buffer, this::isNullable);
+        writeString(buffer, this::getColumnName);
+        writeString(buffer, this::getColumnType);
+        writeString(buffer, this::getRefTable);
+        writeString(buffer, this::getRefId);
+        writeString(buffer, this::getRefMetaId);
+    }
+
+    /** **/
+    @Override
+    public int readFromBuffer(int pos, final Buffer buffer) {
+        pos = readString(pos, buffer, this::setUniqueId);
+        pos = readString(pos, buffer, this::setName);
+        pos = readEnum(pos, buffer, this::setType, DataType.class);
+        pos = readString(pos, buffer, this::setPattern);
+        pos = readClass(pos, buffer, this::setValidator);
+        pos = readInt(pos, buffer, this::setLength);
+        pos = readEnum(pos, buffer, this::setDatetime, DateMode.class);
+        pos = readString(pos, buffer, this::setDateFormat);
+        pos = readInt(pos, buffer, this::setPrecision);
+        pos = readString(pos, buffer, this::setUnit);
+        pos = readInt(pos, buffer, this::setMaxLength);
+        pos = readInt(pos, buffer, this::setMinLength);
+        pos = readLong(pos, buffer, this::setMax);
+        pos = readLong(pos, buffer, this::setMin);
+        pos = readBoolean(pos, buffer, this::setPrimaryKey);
+        pos = readBoolean(pos, buffer, this::setUnique);
+        pos = readBoolean(pos, buffer, this::setSubTable);
+        pos = readBoolean(pos, buffer, this::setForeignKey);
+        pos = readBoolean(pos, buffer, this::setNullable);
+        pos = readString(pos, buffer, this::setColumnName);
+        pos = readString(pos, buffer, this::setColumnType);
+        pos = readString(pos, buffer, this::setRefTable);
+        pos = readString(pos, buffer, this::setRefId);
+        pos = readString(pos, buffer, this::setRefMetaId);
+        return pos;
+    }
     // ~ Get/Set =============================================
 
     /**
@@ -181,7 +320,7 @@ public class FieldModel implements Serializable { // NOPMD
     /**
      * @return the validator
      */
-    public String getValidator() {
+    public Class<?> getValidator() {
         return validator;
     }
 
@@ -189,7 +328,7 @@ public class FieldModel implements Serializable { // NOPMD
      * @param validator
      *            the validator to set
      */
-    public void setValidator(final String validator) {
+    public void setValidator(final Class<?> validator) {
         this.validator = validator;
     }
 
@@ -211,7 +350,7 @@ public class FieldModel implements Serializable { // NOPMD
     /**
      * @return the datetime
      */
-    public FieldDatetime getDatetime() {
+    public DateMode getDatetime() {
         return datetime;
     }
 
@@ -219,7 +358,7 @@ public class FieldModel implements Serializable { // NOPMD
      * @param datetime
      *            the datetime to set
      */
-    public void setDatetime(final FieldDatetime datetime) {
+    public void setDatetime(final DateMode datetime) {
         this.datetime = datetime;
     }
 
@@ -484,18 +623,12 @@ public class FieldModel implements Serializable { // NOPMD
     /** **/
     @Override
     public String toString() {
-        return "FieldModel [uniqueId=" + uniqueId + ", name=" + name + ", type=" + type + ", pattern=" + pattern
-                + ", validator=" + validator + ", length=" + length + ", datetime=" + datetime + ", dateFormat="
-                + dateFormat + ", precision=" + precision + ", unit=" + unit + ", maxLength=" + maxLength
-                + ", minLength=" + minLength + ", min=" + min + ", max=" + max + ", primaryKey=" + primaryKey
-                + ", unique=" + unique + ", subTable=" + subTable + ", foreignKey=" + foreignKey + ", nullable="
-                + nullable + ", columnName=" + columnName + ", columnType=" + columnType + ", refTable=" + refTable
-                + ", refId=" + refId + ", refMetaId=" + refMetaId + "]";
+        return this.toJson().encode();
     }
 
     /** **/
     @Override
-    public int hashCode() {    // NOPMD
+    public int hashCode() { // NOPMD
         final int prime = Constants.HASH_BASE;
         int result = 1;
         result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
@@ -518,7 +651,7 @@ public class FieldModel implements Serializable { // NOPMD
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final FieldModel other = (FieldModel) obj;
+        final PEField other = (PEField) obj;
         if (columnName == null) {
             if (other.columnName != null) {
                 return false;

@@ -1,14 +1,17 @@
 package com.prayer.model.database;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.KeyCategory;
+import com.prayer.facade.entity.Attributes;
+
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 对应表SYS_KEYS
@@ -16,8 +19,8 @@ import com.prayer.constant.SystemEnum.KeyCategory;
  * @author Lang
  * @see
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="uniqueId")
-public class KeyModel implements Serializable { // NOPMD
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = Attributes.ID)
+public class PEKey extends AbstractEntity { // NOPMD
     // ~ Static Fields =======================================
     /**
      * 
@@ -25,29 +28,91 @@ public class KeyModel implements Serializable { // NOPMD
     private static final long serialVersionUID = -2090226950871844055L;
     // ~ Instance Fields =====================================
     /** K_ID: Keys表的主键 **/
-    @JsonProperty("id")
+    @JsonProperty(ID)
     private String uniqueId;
     /** S_NAME: Keys表的系统键的名字 **/
-    @JsonProperty("name")
+    @JsonProperty(NAME)
     private String name;
     /** S_CATEGORY：键类型 **/
-    @JsonProperty("category")
+    @JsonProperty(CATEGORY)
     private KeyCategory category;
     /** S_COLUMNS：当前键中包含的列信息 **/
-    @JsonProperty("columns")
+    @JsonProperty(COLUMNS)
     private List<String> columns;
     /** IS_MULTI：是否跨字段 **/
-    @JsonProperty("multi")
+    @JsonProperty(MULTI)
     private boolean multi;
 
     /** R_META_ID：外键约束，关联SYS_META **/
-    @JsonIgnore
+    @JsonProperty(REF_MID)
     private String refMetaId;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    public PEKey() {
+    }
+
+    /** **/
+    public PEKey(final JsonObject data) {
+        this.fromJson(data);
+    }
+
+    /** **/
+    public PEKey(final Buffer buffer) {
+        this.readFromBuffer(Constants.POS, buffer);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** 写入Json **/
+    @Override
+    public JsonObject toJson() {
+        final JsonObject data = new JsonObject();
+        writeString(data, ID, this::getUniqueId);
+        writeString(data, NAME, this::getName);
+        writeEnum(data, CATEGORY, this::getCategory);
+        writeList(data, COLUMNS, this::getColumns);
+        writeBoolean(data, MULTI, this::isMulti);
+        writeString(data, REF_MID, this::getRefMetaId);
+        return data;
+    }
+
+    /** 从Json中读取数据 **/
+    @Override
+    public PEKey fromJson(final JsonObject data) {
+        readString(data, ID, this::setUniqueId);
+        readString(data, NAME, this::setName);
+        readEnum(data, CATEGORY, this::setCategory, KeyCategory.class);
+        readList(data, COLUMNS, this::setColumns);
+        readBoolean(data, MULTI, this::setMulti);
+        readString(data, REF_MID, this::setRefMetaId);
+        return this;
+    }
+
+    /** 写入Buffer **/
+    @Override
+    public void writeToBuffer(final Buffer buffer) {
+        writeString(buffer, this::getUniqueId);
+        writeString(buffer, this::getName);
+        writeEnum(buffer, this::getCategory);
+        writeList(buffer, this::getColumns);
+        writeBoolean(buffer, this::isMulti);
+        writeString(buffer, this::getRefMetaId);
+    }
+
+    /** 从Buffer中读取 **/
+    @Override
+    public int readFromBuffer(int pos, final Buffer buffer) {
+        pos = readString(pos, buffer, this::setUniqueId);
+        pos = readString(pos, buffer, this::setName);
+        pos = readEnum(pos, buffer, this::setCategory, KeyCategory.class);
+        pos = readList(pos, buffer, this::setColumns);
+        pos = readBoolean(pos, buffer, this::setMulti);
+        pos = readString(pos, buffer, this::setRefMetaId);
+        return pos;
+    }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
@@ -112,6 +177,7 @@ public class KeyModel implements Serializable { // NOPMD
     public void setColumns(final List<String> columns) {
         this.columns = columns;
     }
+
     /**
      * @return the multi
      */
@@ -146,13 +212,12 @@ public class KeyModel implements Serializable { // NOPMD
     /** **/
     @Override
     public String toString() {
-        return "KeyModel [uniqueId=" + uniqueId + ", name=" + name + ", category=" + category + ", columns=" + columns
-                + ", multi=" + multi + ", refMetaId=" + refMetaId + "]";
+        return this.toJson().encode();
     }
 
     /** **/
     @Override
-    public int hashCode() {        // NOPMD
+    public int hashCode() { // NOPMD
         final int prime = Constants.HASH_BASE;
         int result = 1;
         result = prime * result + ((category == null) ? 0 : category.hashCode());
@@ -175,7 +240,7 @@ public class KeyModel implements Serializable { // NOPMD
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final KeyModel other = (KeyModel) obj;
+        final PEKey other = (PEKey) obj;
         if (category != other.category) {
             return false;
         }

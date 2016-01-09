@@ -11,8 +11,8 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.KeyCategory;
-import com.prayer.model.database.FieldModel;
-import com.prayer.model.database.KeyModel;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
 import com.prayer.util.io.PropertyKit;
 import com.prayer.util.string.StringKit;
 
@@ -87,8 +87,8 @@ public final class SqlDDL implements SqlSegment, Symbol {
      * @return
      */
     @NotNull
-    public static String newFKSql(@InstanceOfAny(KeyModel.class) final KeyModel foreignKey,
-            @InstanceOfAny(FieldModel.class) final FieldModel foreignField) {
+    public static String newFKSql(@InstanceOfAny(PEKey.class) final PEKey foreignKey,
+            @InstanceOfAny(PEField.class) final PEField foreignField) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.添加外键约束
@@ -113,7 +113,7 @@ public final class SqlDDL implements SqlSegment, Symbol {
      * @return
      */
     @NotNull
-    public static String newUKSql(@NotNull @InstanceOfAny(KeyModel.class) final KeyModel key) {
+    public static String newUKSql(@NotNull @InstanceOfAny(PEKey.class) final PEKey key) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.添加Unique键约束
@@ -131,7 +131,7 @@ public final class SqlDDL implements SqlSegment, Symbol {
      * @return
      */
     @NotNull
-    public static String newPKSql(@NotNull @InstanceOfAny(KeyModel.class) final KeyModel key) {
+    public static String newPKSql(@NotNull @InstanceOfAny(PEKey.class) final PEKey key) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         // 2.添加主键约束
@@ -153,7 +153,7 @@ public final class SqlDDL implements SqlSegment, Symbol {
      */
     @NotNull
     public static String newColumnSql(@NotNull final String[] lengthTypes, @NotNull final String[] precisionTypes,
-            @NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
+            @NotNull @InstanceOfAny(PEField.class) final PEField field) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
         final String columnType = DB_TYPES.get(field.getColumnType());
@@ -183,7 +183,7 @@ public final class SqlDDL implements SqlSegment, Symbol {
      * @return
      */
     @NotNull
-    public static String getColType(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
+    public static String getColType(@NotNull @InstanceOfAny(PEField.class) final PEField field) {
         return DB_TYPES.get(field.getColumnType());
     }
 

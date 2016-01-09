@@ -102,6 +102,43 @@ public final class BitsKit {
 
     /**
      * 
+     * @param type
+     * @param value
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T fromObject(final Class<?> type, final Object value) {
+        T ret = null;
+        if (null != value) {
+            // List, Enum需要单独处理
+            if (short.class == type || Short.class == type) {
+                // Short 2
+                ret = (T) Short.valueOf(value.toString());
+            } else if (int.class == type || Integer.class == type) {
+                // Integer 4
+                ret = (T) Integer.valueOf(value.toString());
+            } else if (long.class == type || Long.class == type) {
+                // Long 8
+                ret = (T) Long.valueOf(value.toString());
+            } else if (char.class == type || Character.class == type) {
+                // Char 2
+                ret = (T) Character.valueOf(value.toString().charAt(Constants.IDX));
+            } else if (float.class == type || Float.class == type) {
+                // Float 4
+                ret = (T) Float.valueOf(value.toString());
+            } else if (double.class == type || Double.class == type) {
+                // Double 8
+                ret = (T) Double.valueOf(value.toString());
+            } else if (boolean.class == type || Boolean.class == type) {
+                // Boolean 1
+                ret = (T) Boolean.valueOf(value.toString());
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * 
      * @param bytes
      * @return
      */

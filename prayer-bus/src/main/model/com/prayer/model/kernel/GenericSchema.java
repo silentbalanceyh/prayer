@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
-import com.prayer.model.database.FieldModel;
-import com.prayer.model.database.KeyModel;
-import com.prayer.model.database.MetaModel;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
+import com.prayer.model.database.PEMeta;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
@@ -35,11 +35,11 @@ public class GenericSchema implements Serializable { // NOPMD
     /** **/
     private transient String identifier;
     /** **/
-    private transient MetaModel meta;
+    private transient PEMeta meta;
     /** **/
-    private transient ConcurrentMap<String, KeyModel> keys = new ConcurrentHashMap<>();
+    private transient ConcurrentMap<String, PEKey> keys = new ConcurrentHashMap<>();
     /** **/
-    private transient ConcurrentMap<String, FieldModel> fields = new ConcurrentHashMap<>();
+    private transient ConcurrentMap<String, PEField> fields = new ConcurrentHashMap<>();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -62,7 +62,7 @@ public class GenericSchema implements Serializable { // NOPMD
      * @param colName
      * @return
      */
-    public FieldModel getColumn(@NotNull @NotBlank @NotEmpty final String colName) {
+    public PEField getColumn(@NotNull @NotBlank @NotEmpty final String colName) {
         return SchemaExpander.getColumn(this.getFields(), colName);
     }
 
@@ -71,7 +71,7 @@ public class GenericSchema implements Serializable { // NOPMD
      * 
      * @return
      */
-    public List<FieldModel> getPrimaryKeys() {
+    public List<PEField> getPrimaryKeys() {
         return SchemaExpander.getPrimaryKeys(this.getFields());
     }
 
@@ -80,7 +80,7 @@ public class GenericSchema implements Serializable { // NOPMD
      * 
      * @return
      */
-    public List<FieldModel> getForeignField() {
+    public List<PEField> getForeignField() {
         return SchemaExpander.getForeignField(this.getFields());
     }
 
@@ -89,7 +89,7 @@ public class GenericSchema implements Serializable { // NOPMD
      * 
      * @return
      */
-    public List<KeyModel> getForeignKey() {
+    public List<PEKey> getForeignKey() {
         return SchemaExpander.getForeignKey(this.getKeys());
     }
 
@@ -113,8 +113,8 @@ public class GenericSchema implements Serializable { // NOPMD
     /**
      * @return the meta
      */
-    @InstanceOfAny(MetaModel.class)
-    public MetaModel getMeta() {
+    @InstanceOfAny(PEMeta.class)
+    public PEMeta getMeta() {
         return meta;
     }
 
@@ -122,14 +122,14 @@ public class GenericSchema implements Serializable { // NOPMD
      * @param meta
      *            the meta to set
      */
-    public void setMeta(final MetaModel meta) {
+    public void setMeta(final PEMeta meta) {
         this.meta = meta;
     }
 
     /**
      * @return the keys
      */
-    public ConcurrentMap<String, KeyModel> getKeys() {
+    public ConcurrentMap<String, PEKey> getKeys() {
         return keys;
     }
 
@@ -137,14 +137,14 @@ public class GenericSchema implements Serializable { // NOPMD
      * @param keys
      *            the keys to set
      */
-    public void setKeys(final ConcurrentMap<String, KeyModel> keys) {
+    public void setKeys(final ConcurrentMap<String, PEKey> keys) {
         this.keys = keys;
     }
 
     /**
      * @return the fields
      */
-    public ConcurrentMap<String, FieldModel> getFields() {
+    public ConcurrentMap<String, PEField> getFields() {
         return fields;
     }
 
@@ -152,7 +152,7 @@ public class GenericSchema implements Serializable { // NOPMD
      * @param fields
      *            the fields to set
      */
-    public void setFields(final ConcurrentMap<String, FieldModel> fields) {
+    public void setFields(final ConcurrentMap<String, PEField> fields) {
         this.fields = fields;
     }
 

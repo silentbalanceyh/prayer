@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.SystemEnum.KeyCategory;
-import com.prayer.model.database.FieldModel;
-import com.prayer.model.database.KeyModel;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
 import com.prayer.util.string.StringKit;
 
 import jodd.util.StringUtil;
@@ -34,9 +34,9 @@ public final class SchemaExpander {
      * @param keys
      * @return
      */
-    public static ConcurrentMap<String, KeyModel> toKeysMap(@NotNull final List<KeyModel> keys) {
-        final ConcurrentMap<String, KeyModel> retMap = new ConcurrentHashMap<>();
-        for (final KeyModel key : keys) {
+    public static ConcurrentMap<String, PEKey> toKeysMap(@NotNull final List<PEKey> keys) {
+        final ConcurrentMap<String, PEKey> retMap = new ConcurrentHashMap<>();
+        for (final PEKey key : keys) {
             if (StringKit.isNonNil(key.getName())) {
                 retMap.put(key.getName(), key);
             }
@@ -50,9 +50,9 @@ public final class SchemaExpander {
      * @param fields
      * @return
      */
-    public static ConcurrentMap<String, FieldModel> toFieldsMap(@NotNull final List<FieldModel> fields) {
-        final ConcurrentMap<String, FieldModel> retMap = new ConcurrentHashMap<>();
-        for (final FieldModel field : fields) {
+    public static ConcurrentMap<String, PEField> toFieldsMap(@NotNull final List<PEField> fields) {
+        final ConcurrentMap<String, PEField> retMap = new ConcurrentHashMap<>();
+        for (final PEField field : fields) {
             if (StringKit.isNonNil(field.getName())) {
                 retMap.put(field.getName(), field);
             }
@@ -66,10 +66,10 @@ public final class SchemaExpander {
      * @param colName
      * @return
      */
-    public static FieldModel getColumn(@NotNull final ConcurrentMap<String, FieldModel> fields,
+    public static PEField getColumn(@NotNull final ConcurrentMap<String, PEField> fields,
             @NotNull @NotBlank @NotEmpty final String colName) {
-        FieldModel colField = null;
-        for (final FieldModel field : fields.values()) {
+        PEField colField = null;
+        for (final PEField field : fields.values()) {
             if (StringKit.isNonNil(field.getColumnName()) && StringUtil.equals(field.getColumnName(), colName)) {
                 colField = field;
                 break;
@@ -84,10 +84,10 @@ public final class SchemaExpander {
      * @param fields
      * @return
      */
-    public static Set<String> getColumns(@NotNull final ConcurrentMap<String, FieldModel> fields) {
+    public static Set<String> getColumns(@NotNull final ConcurrentMap<String, PEField> fields) {
         // 因为列顺序会对SQL语句生成影响，所以使用了TreeSet的自然排序
         final Set<String> columns = new TreeSet<>();
-        for (final FieldModel field : fields.values()) {
+        for (final PEField field : fields.values()) {
             if (StringKit.isNonNil(field.getColumnName())) {
                 columns.add(field.getColumnName());
             }
@@ -101,9 +101,9 @@ public final class SchemaExpander {
      * @param fields
      * @return
      */
-    public static List<FieldModel> getPrimaryKeys(@NotNull final ConcurrentMap<String, FieldModel> fields) {
-        final List<FieldModel> retList = new ArrayList<>();
-        for (final FieldModel field : fields.values()) {
+    public static List<PEField> getPrimaryKeys(@NotNull final ConcurrentMap<String, PEField> fields) {
+        final List<PEField> retList = new ArrayList<>();
+        for (final PEField field : fields.values()) {
             if (field.isPrimaryKey()) {
                 retList.add(field);
             }
@@ -117,9 +117,9 @@ public final class SchemaExpander {
      * @param keys
      * @return
      */
-    public static List<KeyModel> getForeignKey(@NotNull final ConcurrentMap<String, KeyModel> keys) {
-        List<KeyModel> foreignKeys = new ArrayList<>();
-        for (final KeyModel key : keys.values()) {
+    public static List<PEKey> getForeignKey(@NotNull final ConcurrentMap<String, PEKey> keys) {
+        List<PEKey> foreignKeys = new ArrayList<>();
+        for (final PEKey key : keys.values()) {
             if (KeyCategory.ForeignKey == key.getCategory()) {
                 foreignKeys.add(key);
             }
@@ -133,9 +133,9 @@ public final class SchemaExpander {
      * @param fields
      * @return
      */
-    public static List<FieldModel> getForeignField(@NotNull final ConcurrentMap<String, FieldModel> fields) {
-        final List<FieldModel> foreignFields = new ArrayList<>();
-        for (final FieldModel field : fields.values()) {
+    public static List<PEField> getForeignField(@NotNull final ConcurrentMap<String, PEField> fields) {
+        final List<PEField> foreignFields = new ArrayList<>();
+        for (final PEField field : fields.values()) {
             if (field.isForeignKey()) {
                 foreignFields.add(field);
             }

@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentMap;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Resources;
-import com.prayer.constant.SystemEnum.MetaCategory;
-import com.prayer.constant.SystemEnum.MetaMapping;
+import com.prayer.constant.SystemEnum.Category;
+import com.prayer.constant.SystemEnum.Mapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 
 import jodd.util.StringUtil;
@@ -113,9 +113,9 @@ final class MetaEnsurer implements InternalEnsurer {
      * @return
      */
     private boolean validateDispatcher() {
-        final MetaCategory category = fromStr(MetaCategory.class,
+        final Category category = fromStr(Category.class,
                 this.metaNode.path(Attributes.M_CATEGORY).textValue());
-        final MetaMapping mapping = fromStr(MetaMapping.class, this.metaNode.path(Attributes.M_MAPPING).textValue());
+        final Mapping mapping = fromStr(Mapping.class, this.metaNode.path(Attributes.M_MAPPING).textValue());
         // Category
         switch (category) {
         case ENTITY: {
@@ -306,7 +306,7 @@ final class MetaEnsurer implements InternalEnsurer {
             return false;
         }
         // 7.1.2.mapping in DIRECT
-        this.error = validator.verifyIn(Attributes.M_MAPPING, MetaMapping.DIRECT.toString());
+        this.error = validator.verifyIn(Attributes.M_MAPPING, Mapping.DIRECT.toString());
         if (null != this.error) {
             return false;
         }

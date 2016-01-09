@@ -2,7 +2,7 @@ package com.prayer.facade.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.prayer.model.database.MetaModel;
+import com.prayer.model.database.PEMeta;
 
 /**
  * 
@@ -10,7 +10,7 @@ import com.prayer.model.database.MetaModel;
  * @author Lang
  * @see
  */
-public interface MetaMapper extends H2TMapper<MetaModel, String> { // NOPMD
+public interface MetaMapper extends H2TMapper<PEMeta, String> { // NOPMD
 
     /**
      * 根据Meta的namespace和name删除Meta记录
@@ -28,12 +28,12 @@ public interface MetaMapper extends H2TMapper<MetaModel, String> { // NOPMD
      * @param name
      * @return
      */
-    MetaModel selectByModel(@Param("namespace") String namespace, @Param("name") String name);
+    PEMeta selectByModel(@Param("namespace") String namespace, @Param("name") String name);
 
     /**
      * 
      * @param globalId
      * @return
      */
-    MetaModel selectByGlobalId(@Param("globalId") String globalId);
+    PEMeta selectByGlobalId(@Param("globalId") String globalId);
 }

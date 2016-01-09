@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 /**
  * 
  * @author Lang
@@ -27,7 +27,7 @@ interface RecordPK {
      * 当前记录的主键Schema
      * @return
      */
-    List<FieldModel> idschema();
+    List<PEField> idschema();
     /**
      * seq name
      * 

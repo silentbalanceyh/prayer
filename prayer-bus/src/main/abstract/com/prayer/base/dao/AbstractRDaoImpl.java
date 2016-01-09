@@ -23,7 +23,7 @@ import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.util.exception.Interrupter.PrimaryKey;
 import com.prayer.util.jdbc.QueryHelper;
@@ -123,7 +123,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
             /**
              * 如果主键是自增长的，在插入数据的时候不需要传参，并且插入成功过后需要获取返回值
              */
-            final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
+            final PEField pkSchema = record.idschema().get(Constants.ZERO);
             // 父类方法，过滤掉主键传参
             final String sql = QueryHelper.prepInsertSQL(record, getPKFilters(record).toArray(Constants.T_STR_ARR));
             final List<Value<?>> params = QueryHelper.prepParam(record,
@@ -135,7 +135,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         } else {
             if (MetaPolicy.GUID == policy) {
                 // 如果主键是GUID的策略，则需要预处理主键的赋值
-                final FieldModel pkSchema = record.idschema().get(Constants.ZERO);
+                final PEField pkSchema = record.idschema().get(Constants.ZERO);
                 record.set(pkSchema.getName(), uuid());
             }
 

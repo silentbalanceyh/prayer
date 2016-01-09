@@ -22,7 +22,7 @@ import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.kernel.Transducer.V;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.StringType;
 
@@ -108,7 +108,7 @@ public class MetaRecord implements Record { // NOPMD
     @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, Value<?>> idKV() throws AbstractDatabaseException {
         final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
-        for (final FieldModel field : this.idschema()) {
+        for (final PEField field : this.idschema()) {
             try {
                 if (null == this.column(field.getColumnName())) {
                     // 默认String为主键替换Null的默认ID
@@ -128,7 +128,7 @@ public class MetaRecord implements Record { // NOPMD
     @NotNull
     @MinSize(1)
     @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
-    public List<FieldModel> idschema() {
+    public List<PEField> idschema() {
         return this.connector().idschema();
     }
 

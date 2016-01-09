@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
-import com.prayer.constant.SystemEnum.MetaMapping;
+import com.prayer.constant.SystemEnum.Mapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.schema.ExternalEnsurer;
 import com.prayer.util.string.StringKit;
@@ -121,7 +121,7 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
             }
         }
         // 5.开始验证subtable
-        if (ret && MetaMapping.COMBINATED == getMapping()) {
+        if (ret && Mapping.COMBINATED == getMapping()) {
             try {
                 subRelEnsurer.validate();
                 ret = true;
@@ -215,7 +215,7 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
             }
             // 关系验证器
             // 当COMBINATED的时候需要验证子表属性，且只会关联到第二张表
-            if (MetaMapping.COMBINATED == getMapping()) {
+            if (Mapping.COMBINATED == getMapping()) {
                 subRelEnsurer = new SubRelEnsurer(fieldsNode);
             }
             // 外键验证器
@@ -246,10 +246,10 @@ final class GenericEnsurer implements ExternalEnsurer { // NOPMD
      * 
      * @return
      */
-    private MetaMapping getMapping() {
+    private Mapping getMapping() {
         final String mapping = this.rootNode.path(Attributes.R_META).path(Attributes.M_MAPPING).asText();
         // mapping为null会触发fromStr方法的Vol
-        return StringKit.isNil(mapping) ? MetaMapping.DIRECT : fromStr(MetaMapping.class, mapping);
+        return StringKit.isNil(mapping) ? Mapping.DIRECT : fromStr(Mapping.class, mapping);
     }
 
     /**

@@ -31,17 +31,16 @@ public final class StreamBasic {
     public static <T> void writeField(final JsonObject json, final String key, final BeanGet<T> fun) {
         final T data = fun.get();
         if (null != data) {
-            json.put(key, (T) data);
+            json.put(key, data);
         }
     }
 
     /** 将数据从Json中读取出来 **/
-    @SuppressWarnings("unchecked")
     public static <T> void readField(final JsonObject json, final String key, final BeanSet<T> fun,
             final Class<?> type) {
-        final Object value = json.getValue(key);
-        if (null != value) {
-            fun.set((T) value);
+        final Object data = json.getValue(key);
+        if (null != data) {
+            fun.set(BitsKit.fromObject(type, data));
         }
     }
 

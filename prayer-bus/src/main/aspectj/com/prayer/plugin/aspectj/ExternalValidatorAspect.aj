@@ -9,8 +9,7 @@ import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.database.FieldModel;
-import com.prayer.util.string.StringKit;
+import com.prayer.model.database.PEField;
 
 /**
  * 外部验证器：调用自定义验证Validator验证Record中的字段
@@ -31,15 +30,12 @@ public aspect ExternalValidatorAspect extends AbstractValidatorAspect {
     after(final String field, final Value<?> value) throws AbstractDatabaseException: ValidatorPointCut(field,value){
         if (Resources.DB_V_ENABLED) {
             // 1.获取被拦截的字段的Schema
-            final FieldModel schema = this.getField(thisJoinPoint.getTarget(), field);
+            final PEField schema = this.getField(thisJoinPoint.getTarget(), field);
             if (null != schema) {
                 // 2.获取Validator名称
-                final String validatorClass = schema.getValidator();
-                if (StringKit.isNonNil(validatorClass)) {
-                    final Validator validator = singleton(validatorClass);
-                    if (!validator.validate(value)) {
-                        throw new CustomValidatorException(getClass(), validatorClass);
-                    }
+                final Validator validator = singleton(schema.getValidator());
+                if (!validator.validate(value)) {
+                    throw new CustomValidatorException(getClass(), schema.getValidator().getName());
                 }
             }
         }

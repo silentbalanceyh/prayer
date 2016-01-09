@@ -16,8 +16,8 @@ import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.KeyCategory;
-import com.prayer.constant.SystemEnum.MetaCategory;
-import com.prayer.constant.SystemEnum.MetaMapping;
+import com.prayer.constant.SystemEnum.Category;
+import com.prayer.constant.SystemEnum.Mapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.schema.ColumnsMissingException;
 import com.prayer.exception.schema.MultiForPKPolicyException;
@@ -124,11 +124,11 @@ final class CrossEnsurer implements InternalEnsurer { // NOPMD
 
     private boolean validateSubTColumnType() {
         // 36.验证最终的subtable子表以中的subkey是否和主键冲突
-        final MetaCategory category = fromStr(MetaCategory.class,
+        final Category category = fromStr(Category.class,
                 this.metaNode.path(Attributes.M_CATEGORY).textValue());
-        final MetaMapping mapping = fromStr(MetaMapping.class, this.metaNode.path(Attributes.M_MAPPING).textValue());
+        final Mapping mapping = fromStr(Mapping.class, this.metaNode.path(Attributes.M_MAPPING).textValue());
         // 特殊的category和mapping才会做这个验证
-        if (MetaCategory.ENTITY == category && MetaMapping.COMBINATED == mapping) {
+        if (Category.ENTITY == category && Mapping.COMBINATED == mapping) {
             final JsonNode pkNode = this.findPKNode();
             final String type = pkNode.path(Attributes.F_COL_TYPE).asText();
             // SubTable, SubKey

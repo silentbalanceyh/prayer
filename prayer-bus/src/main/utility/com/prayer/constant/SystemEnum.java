@@ -33,12 +33,12 @@ public final class SystemEnum { // NOPMD
     }
 
     /** Meta的S_CATEGORY属性 **/
-    public static enum MetaCategory {
+    public static enum Category {
         ENTITY, RELATION
     }
 
     /** Meta的S_MAPPING属性 **/
-    public static enum MetaMapping {
+    public static enum Mapping {
         DIRECT, COMBINATED, PARTIAL
     }
 
@@ -53,7 +53,7 @@ public final class SystemEnum { // NOPMD
     }
 
     /** Field的C_DATETIME属性 **/
-    public static enum FieldDatetime {
+    public static enum DateMode {
         STRING, TIMER
     }
 

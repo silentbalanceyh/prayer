@@ -21,7 +21,7 @@ import com.prayer.exception.database.OperationNotSupportException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 import com.prayer.model.kernel.MetaRecord;
 import com.prayer.model.type.StringType;
 import com.prayer.util.bus.RecordKit;
@@ -63,9 +63,9 @@ public abstract class AbstractMDaoTestTool extends AbstractTestTool {
     /** **/
     protected void updateRecord(final Record record) {
         // ID不可更新
-        final List<FieldModel> pkeys = record.idschema();
+        final List<PEField> pkeys = record.idschema();
         final Set<String> ids = new HashSet<>();
-        for (final FieldModel pkey : pkeys) {
+        for (final PEField pkey : pkeys) {
             ids.add(pkey.getName());
         }
         // 和添加不一样，这里面存在一个判断

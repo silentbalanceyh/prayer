@@ -1,0 +1,11 @@
+{
+    "id":"testid",
+    "name":"testname",
+    "category":"PrimaryKey",
+    "columns":[
+        "SEC_COL1",
+        "SEC_COL2"
+    ],
+    "multi":true,
+    "refMID":"testid"
+}

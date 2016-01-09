@@ -25,7 +25,7 @@ import com.prayer.exception.system.MetaCounterException;
 import com.prayer.exception.system.MetaTypeWrongException;
 import com.prayer.exception.system.MetadataDefMissingException;
 import com.prayer.exception.system.SchemaNotFoundException;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 import com.prayer.model.type.DataType;
 import com.prayer.util.Converter;
 import com.prayer.util.io.PropertyKit;
@@ -138,11 +138,11 @@ public class MetaConnector { // NOPMD
     /** **/
     @NotNull
     @MinSize(1)
-    public List<FieldModel> idschema() {
+    public List<PEField> idschema() {
         final List<String> ids = Arrays.asList(LOADER.getArray(this.identifier() + ".ids"));
         // final List<String> ids = fromStr(LOADER.getString(this.identifier() +
         // ".ids"), ",");
-        final List<FieldModel> ret = new ArrayList<>();
+        final List<PEField> ret = new ArrayList<>();
         for (final String id : ids) {
             ret.add(this.getPrimaryKey(id));
         }
@@ -209,8 +209,8 @@ public class MetaConnector { // NOPMD
 
     // ~ Private Methods =====================================
 
-    private FieldModel getPrimaryKey(final String uniqueId) {
-        final FieldModel pKeySchema = new FieldModel();
+    private PEField getPrimaryKey(final String uniqueId) {
+        final PEField pKeySchema = new PEField();
         // 1.Field Name
         pKeySchema.setName(uniqueId);
         // 2.Basic Information

@@ -22,7 +22,7 @@ import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.exception.database.PolicyNotSupportException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.database.FieldModel;
+import com.prayer.model.database.PEField;
 
 /**
  * 
@@ -100,7 +100,7 @@ public final class Interrupter {
          * @throws AbstractDatabaseException
          */
         public static void interrupt(final Class<?> clazz, final Record record) throws AbstractDatabaseException {
-            for (final FieldModel field : record.idschema()) {
+            for (final PEField field : record.idschema()) {
                 final Value<?> value = record.get(field.getName());
                 if (null == value) {
                     throw new PKValueMissingException(clazz, field.getColumnName(), record.table());
@@ -118,7 +118,7 @@ public final class Interrupter {
          */
         public static void interrupt(final Class<?> clazz, final Record record, final Collection<String> pkeys)
                 throws AbstractDatabaseException {
-            for (final FieldModel pkSchema : record.idschema()) {
+            for (final PEField pkSchema : record.idschema()) {
                 if (!pkeys.contains(pkSchema.getColumnName())) {
                     throw new InvalidPKParameterException(clazz, pkSchema.getColumnName(), record.table());
                 }

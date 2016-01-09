@@ -7,16 +7,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
-import com.prayer.model.vertx.PEUri;
+import com.prayer.model.database.PEMeta;
 import com.prayer.util.debug.Log;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-
-public class PEUriTestCase extends AbstractEntityTestCase {
+/**
+ * 
+ * @author Lang
+ *
+ */
+public class PEMetaTestCase extends AbstractEntityTestCase {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(PEUriTestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PEMetaTestCase.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -26,13 +30,13 @@ public class PEUriTestCase extends AbstractEntityTestCase {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public PEUri getInstance(final String file) {
-        PEUri instance = null;
+    public PEMeta getInstance(final String file) {
+        PEMeta instance = null;
         if (null == file) {
-            instance = new PEUri();
+            instance = new PEMeta();
         } else {
             final JsonObject data = this.readData(file);
-            instance = new PEUri(data);
+            instance = new PEMeta(data);
         }
         Log.debug(LOGGER, instance.toString());
         return instance;
@@ -42,8 +46,8 @@ public class PEUriTestCase extends AbstractEntityTestCase {
     /** **/
     @Test
     public void testFromJson() {
-        final JsonObject expected = this.readData("/entity/peuri/uri.json");
-        final PEUri actual = this.getInstance("/entity/peuri/uri.json");
+        final JsonObject expected = this.readData("/entity/pemeta/meta.json");
+        final PEMeta actual = this.getInstance("/entity/pemeta/meta.json");
         // Compare
         assertEquals(expected.encode(), actual.toString());
     }
@@ -51,8 +55,8 @@ public class PEUriTestCase extends AbstractEntityTestCase {
     /** **/
     @Test
     public void testToJson() {
-        final JsonObject expected = this.readData("/entity/peuri/uri2.json");
-        final PEUri actual = this.getInstance("/entity/peuri/uri2.json");
+        final JsonObject expected = this.readData("/entity/pemeta/meta2.json");
+        final PEMeta actual = this.getInstance("/entity/pemeta/meta2.json");
         // Compare
         assertEquals(expected, actual.toJson());
     }
@@ -61,9 +65,9 @@ public class PEUriTestCase extends AbstractEntityTestCase {
     @Test
     public void testToBuffer() {
         final Buffer buffer = Buffer.buffer();
-        final PEUri actual = this.getInstance("/entity/peuri/uri3.json");
+        final PEMeta actual = this.getInstance("/entity/pemeta/meta3.json");
         actual.writeToBuffer(buffer);
-        final PEUri expected = new PEUri(buffer);
+        final PEMeta expected = new PEMeta(buffer);
         // Compare
         assertEquals(expected, actual);
     }
@@ -72,9 +76,9 @@ public class PEUriTestCase extends AbstractEntityTestCase {
     @Test
     public void testFromBuffer() {
         final Buffer buffer = Buffer.buffer();
-        final PEUri expected = this.getInstance("/entity/peuri/uri4.json");
+        final PEMeta expected = this.getInstance("/entity/pemeta/meta4.json");
         expected.writeToBuffer(buffer);
-        final PEUri actual = new PEUri();
+        final PEMeta actual = new PEMeta();
         actual.readFromBuffer(Constants.POS, buffer);
         // Compare
         assertEquals(expected, actual);

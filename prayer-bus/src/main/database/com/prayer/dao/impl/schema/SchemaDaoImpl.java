@@ -18,9 +18,9 @@ import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.mapper.FieldMapper;
 import com.prayer.facade.mapper.KeyMapper;
 import com.prayer.facade.mapper.MetaMapper;
-import com.prayer.model.database.FieldModel;
-import com.prayer.model.database.KeyModel;
-import com.prayer.model.database.MetaModel;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
+import com.prayer.model.database.PEMeta;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.SchemaExpander;
 import com.prayer.plugin.ibatis.SessionManager;
@@ -116,7 +116,7 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
         // 1.读取Meta
         final SqlSession session = SessionManager.getSession();
         final MetaMapper metaMapper = session.getMapper(MetaMapper.class);
-        final MetaModel meta = metaMapper.selectByGlobalId(globalId);
+        final PEMeta meta = metaMapper.selectByGlobalId(globalId);
 
         // 2.返回GenericSchema
         session.close();
@@ -154,16 +154,16 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
      * @param meta
      * @return
      */
-    private GenericSchema extractSchema(final MetaModel meta) {
+    private GenericSchema extractSchema(final PEMeta meta) {
         // 1.读取Keys -> List
-        List<KeyModel> keys = null;
+        List<PEKey> keys = null;
         final SqlSession session = SessionManager.getSession();
         if (null != meta && null != meta.getUniqueId()) {
             final KeyMapper keyMapper = session.getMapper(KeyMapper.class);
             keys = keyMapper.selectByMeta(meta.getUniqueId());
         }
         // 2.读取Fields -> List
-        List<FieldModel> fields = null;
+        List<PEField> fields = null;
         if (null != meta && null != meta.getUniqueId()) {
             final FieldMapper fieldMapper = session.getMapper(FieldMapper.class);
             fields = fieldMapper.selectByMeta(meta.getUniqueId());
@@ -172,8 +172,8 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
         return extractSchema(meta, keys, fields);
     }
 
-    private GenericSchema extractSchema(final MetaModel meta, final List<KeyModel> keys,
-            final List<FieldModel> fields) {
+    private GenericSchema extractSchema(final PEMeta meta, final List<PEKey> keys,
+            final List<PEField> fields) {
         if (null == meta) {
             return null;
         }
@@ -237,12 +237,12 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
         // 设置Identifier
         schema.setIdentifier(schema.getMeta().getGlobalId());
         // 2.设置Keys的ID
-        for (final KeyModel key : schema.getKeys().values()) {
+        for (final PEKey key : schema.getKeys().values()) {
             key.setUniqueId(uuid());
             key.setRefMetaId(metaId);
         }
         // 3.设置Fields的ID
-        for (final FieldModel model : schema.getFields().values()) {
+        for (final PEField model : schema.getFields().values()) {
             model.setUniqueId(uuid());
             model.setRefMetaId(metaId);
         }

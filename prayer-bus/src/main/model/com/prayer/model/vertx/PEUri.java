@@ -12,7 +12,6 @@ import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.facade.entity.Attributes;
-import com.prayer.facade.entity.Entity;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
 
@@ -114,7 +113,7 @@ public class PEUri extends AbstractEntity { // NOPMD
 
     /** 从Json中读取数据 **/
     @Override
-    public Entity fromJson(final JsonObject data) {
+    public PEUri fromJson(final JsonObject data) {
         readString(data, ID, this::setUniqueId);
         readString(data, ID, this::setUniqueId);
         readString(data, URI, this::setUri);
