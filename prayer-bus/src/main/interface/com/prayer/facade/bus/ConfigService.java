@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.PEAddress;
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.vertx.PERoute;
 import com.prayer.model.vertx.RuleModel;
 import com.prayer.model.vertx.PEScript;
 import com.prayer.model.vertx.UriModel;
@@ -41,14 +41,14 @@ public interface ConfigService {
      * 
      * @return
      */
-    ServiceResult<List<RouteModel>> findRoutes(final String parent);
+    ServiceResult<List<PERoute>> findRoutes(final String parent);
 
     /**
      * 读取所有的路由表
      * 
      * @return
      */
-    ServiceResult<ConcurrentMap<String, List<RouteModel>>> findRoutes();
+    ServiceResult<ConcurrentMap<String, List<PERoute>>> findRoutes();
 
     // ~ Uri Records ========================================
     /**

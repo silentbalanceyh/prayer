@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.dao.schema.RouteDao;
 import com.prayer.facade.mapper.RouteMapper;
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.vertx.PERoute;
 import com.prayer.plugin.ibatis.SessionManager;
 
 import net.sf.oval.constraint.NotBlank;
@@ -22,7 +22,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RouteDaoImpl extends TemplateDaoImpl<RouteModel, String>implements RouteDao { // NOPMD
+public class RouteDaoImpl extends TemplateDaoImpl<PERoute, String>implements RouteDao { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RouteDaoImpl.class);
@@ -47,14 +47,14 @@ public class RouteDaoImpl extends TemplateDaoImpl<RouteModel, String>implements 
 
     /** 根据路径查询 **/
     @Override
-    public RouteModel getByPath(@NotNull @NotBlank @NotEmpty final String parent,
+    public PERoute getByPath(@NotNull @NotBlank @NotEmpty final String parent,
             @NotNull @NotBlank @NotEmpty final String path) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.获取Mapper
         final RouteMapper mapper = session.getMapper(RouteMapper.class);
         // 3.读取Model
-        final RouteModel ret = mapper.selectByPath(parent, path);
+        final PERoute ret = mapper.selectByPath(parent, path);
         // 4.关闭Session并返回最终结果
         session.close();
         return ret;
@@ -62,13 +62,13 @@ public class RouteDaoImpl extends TemplateDaoImpl<RouteModel, String>implements 
 
     /** 根据根路径查询 **/
     @Override
-    public List<RouteModel> getByParent(@NotNull @NotBlank @NotEmpty final String parent) {
+    public List<PERoute> getByParent(@NotNull @NotBlank @NotEmpty final String parent) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.获取Mapper
         final RouteMapper mapper = session.getMapper(RouteMapper.class);
         // 3.读取Model
-        final List<RouteModel> retList = mapper.selectByParent(parent);
+        final List<PERoute> retList = mapper.selectByParent(parent);
         // 4.关闭Session并返回最终结果
         session.close();
         return retList;

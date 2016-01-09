@@ -1,12 +1,12 @@
 package com.prayer.facade.bus.deploy;
 
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.vertx.PERoute;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface RouteDPService extends TemplateDPService<RouteModel,String>{
+public interface RouteDPService extends TemplateDPService<PERoute,String>{
 
 }

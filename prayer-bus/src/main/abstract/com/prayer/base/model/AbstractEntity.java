@@ -4,7 +4,12 @@ import java.util.List;
 
 import com.prayer.facade.entity.Attributes;
 import com.prayer.facade.entity.Entity;
-import com.prayer.util.entity.EntityKit;
+import com.prayer.util.entity.streamer.StreamBasic;
+import com.prayer.util.entity.streamer.StreamClass;
+import com.prayer.util.entity.streamer.StreamEnum;
+import com.prayer.util.entity.streamer.StreamJson;
+import com.prayer.util.entity.streamer.StreamList;
+import com.prayer.util.entity.streamer.StreamString;
 import com.prayer.util.fun.BeanGet;
 import com.prayer.util.fun.BeanSet;
 
@@ -28,134 +33,155 @@ public abstract class AbstractEntity implements Entity, Attributes {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
-    // ~ JsonObject Serialization Method =====================
+    // ~ Enum Serialization Method ===========================
     /** 将数据写入到JsonObject **/
-    @SuppressWarnings("rawtypes")
-    protected void writeList(final JsonObject json, final String key, final BeanGet<List> fun) {
-        EntityKit.writeField(json, key, fun);
+    protected <T extends Enum<T>> void writeEnum(final JsonObject json, final String key, final BeanGet<T> fun) {
+        StreamEnum.writeField(json, key, fun);
     }
 
     /** 将数据写入到Buffer **/
-    @SuppressWarnings("rawtypes")
-    protected void writeList(final Buffer buffer, final BeanGet<List> fun) {
-        EntityKit.writeField(buffer, fun);
+    protected <T extends Enum<T>> void writeEnum(final Buffer buffer, final BeanGet<T> fun) {
+        StreamEnum.writeField(buffer, fun);
+    }
+
+    /** 从JsonObject中读取数据 **/
+    protected <T extends Enum<T>> void readEnum(final JsonObject json, final String key, final BeanSet<T> fun,
+            final Class<?> type) {
+        StreamEnum.readField(json, key, fun, type);
+    }
+
+    /** 从Buffer中读取数据 **/
+    protected <T extends Enum<T>> int readEnum(int pos, final Buffer buffer, final BeanSet<T> fun,
+            final Class<?> type) {
+        return StreamEnum.readField(buffer, pos, fun, type);
+    }
+
+    // ~ List Serialization Method ===========================
+    /** 将数据写入到JsonObject **/
+    protected <T> void writeList(final JsonObject json, final String key, final BeanGet<List<T>> fun) {
+        StreamList.writeField(json, key, fun);
+    }
+
+    /** 将数据写入到Buffer **/
+    protected <T> void writeList(final Buffer buffer, final BeanGet<List<T>> fun) {
+        StreamList.writeField(buffer, fun);
     }
 
     /** 从JsonObject中读取数据 **/
     @SuppressWarnings("rawtypes")
-    protected void readList(final JsonObject json, final String key, final BeanSet<List> fun) {
-        EntityKit.readField(json, key, fun, List.class);
+    protected <T> void readList(final JsonObject json, final String key, final BeanSet<List> fun) {
+        StreamList.readField(json, key, fun);
     }
 
     /** 从Buffer中读取数据 **/
     @SuppressWarnings("rawtypes")
-    protected int readList(int pos, final Buffer buffer, final BeanSet<List> fun) {
-        return EntityKit.readField(buffer, pos, fun, List.class);
+    protected <T> int readList(int pos, final Buffer buffer, final BeanSet<List> fun) {
+        return StreamList.readField(buffer, pos, fun);
     }
 
     // ~ JsonObject Serialization Method =====================
     /** 将数据写入到JsonObject **/
     protected void writeJObject(final JsonObject json, final String key, final BeanGet<JsonObject> fun) {
-        EntityKit.writeField(json, key, fun);
+        StreamJson.writeField(json, key, fun);
     }
 
     /** 将数据写入到Buffer **/
     protected void writeJObject(final Buffer buffer, final BeanGet<JsonObject> fun) {
-        EntityKit.writeField(buffer, fun);
+        StreamJson.writeField(buffer, fun);
     }
 
     /** 从JsonObject中读取数据 **/
     protected void readJObject(final JsonObject json, final String key, final BeanSet<JsonObject> fun) {
-        EntityKit.readField(json, key, fun, JsonObject.class);
+        StreamJson.readField(json, key, fun);
     }
 
     /** 从Buffer中读取数据 **/
     protected int readJObject(int pos, final Buffer buffer, final BeanSet<JsonObject> fun) {
-        return EntityKit.readField(buffer, pos, fun, JsonObject.class);
+        return StreamJson.readField(buffer, pos, fun);
     }
 
     // ~ Boolean Serialization Method ========================
     /** 将数据写入到JsonObject **/
     protected void writeBoolean(final JsonObject json, final String key, final BeanGet<Boolean> fun) {
-        EntityKit.writeField(json, key, fun);
+        StreamBasic.writeField(json, key, fun);
     }
 
     /** 将数据写入到Buffer **/
     protected void writeBoolean(final Buffer buffer, final BeanGet<Boolean> fun) {
-        EntityKit.writeField(buffer, fun);
+        StreamBasic.writeField(buffer, fun);
     }
 
     /** 从JsonObject中读取数据 **/
     protected void readBoolean(final JsonObject json, final String key, final BeanSet<Boolean> fun) {
-        EntityKit.readField(json, key, fun, boolean.class);
+        StreamBasic.readField(json, key, fun, boolean.class);
     }
 
     /** 从Buffer中读取数据 **/
     protected int readBoolean(int pos, final Buffer buffer, final BeanSet<Boolean> fun) {
-        return EntityKit.readField(buffer, pos, fun, boolean.class);
+        return StreamBasic.readField(buffer, pos, fun, boolean.class);
     }
 
     // ~ Integer Serialization Method ========================
     /** 将数据写入到JsonObject **/
     protected void writeInt(final JsonObject json, final String key, final BeanGet<Integer> fun) {
-        EntityKit.writeField(json, key, fun);
+        StreamBasic.writeField(json, key, fun);
     }
 
     /** 将数据写入到Buffer **/
     protected void writeInt(final Buffer buffer, final BeanGet<Integer> fun) {
-        EntityKit.writeField(buffer, fun);
+        StreamBasic.writeField(buffer, fun);
     }
 
     /** 从JsonObject中读取数据 **/
     protected void readInt(final JsonObject json, final String key, final BeanSet<Integer> fun) {
-        EntityKit.readField(json, key, fun, int.class);
+        StreamBasic.readField(json, key, fun, int.class);
     }
 
     /** 从Buffer中读取数据 **/
     protected int readInt(int pos, final Buffer buffer, final BeanSet<Integer> fun) {
-        return EntityKit.readField(buffer, pos, fun, int.class);
+        return StreamBasic.readField(buffer, pos, fun, int.class);
     }
     // ~ Clazz Serialization Method ==========================
 
     /** 将数据写入到JsonObject **/
     protected void writeClass(final JsonObject json, final String key, final BeanGet<Class<?>> fun) {
-        EntityKit.writeField(json, key, fun);
+        StreamClass.writeField(json, key, fun);
     }
 
     /** 将数据写入到Buffer **/
     protected void writeClass(final Buffer buffer, final BeanGet<Class<?>> fun) {
-        EntityKit.writeField(buffer, fun);
+        StreamClass.writeField(buffer, fun);
     }
 
     /** 从JsonObject中读取数据 **/
     protected void readClass(final JsonObject json, final String key, final BeanSet<Class<?>> fun) {
-        EntityKit.readField(json, key, fun, Class.class);
+        StreamClass.readField(json, key, fun);
     }
 
     /** 从Buffer中读取数据 **/
     protected int readClass(int pos, final Buffer buffer, final BeanSet<Class<?>> fun) {
-        return EntityKit.readField(buffer, pos, fun, Class.class);
+        return StreamClass.readField(buffer, pos, fun);
     }
 
     // ~ String Serialization Method =========================
     /** 将数据写入到JsonObject **/
     protected void writeString(final JsonObject json, final String key, final BeanGet<String> fun) {
-        EntityKit.writeField(json, key, fun);
+        StreamString.writeField(json, key, fun);
     }
 
     /** 将数据写入到Buffer **/
     protected void writeString(final Buffer buffer, final BeanGet<String> fun) {
-        EntityKit.writeField(buffer, fun);
+        StreamString.writeField(buffer, fun);
     }
 
     /** 从JsonObject中读取数据 **/
     protected void readString(final JsonObject json, final String key, final BeanSet<String> fun) {
-        EntityKit.readField(json, key, fun, String.class);
+        StreamString.readField(json, key, fun);
     }
 
     /** 从Buffer中读取数据 **/
     protected int readString(int pos, final Buffer buffer, final BeanSet<String> fun) {
-        return EntityKit.readField(buffer, pos, fun, String.class);
+        return StreamString.readField(buffer, pos, fun);
     }
     // ~ Override Methods ====================================
     // ~ Methods =============================================

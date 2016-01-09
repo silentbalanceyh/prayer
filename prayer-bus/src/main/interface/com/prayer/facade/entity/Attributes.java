@@ -18,32 +18,50 @@ public interface Attributes {
     String NAMESPACE = "namespace";
 
     // ~ Script Attr ========================================
-    /** PEScript专用属性content **/
+    /** PEScript -> content **/
     String CONTENT = "content";
 
     // ~ Address Attr =======================================
-    /** PEAddress专用属性workClass **/
+    /** PEAddress -> workClass **/
     String WORK_CLASS = "workClass";
-    /** PEAddress专用属性consumerAddr **/
+    /** PEAddress -> consumerAddr **/
     String CONSUMER_ADDR = "consumerAddr";
-    /** PEAddress专用属性consumerHandler **/
+    /** PEAddress -> consumerHandler **/
     String CONSUMER_HANDLER = "consumerHandler";
 
     // ~ Verticle Attr ======================================
-    /** PEVerticle专用属性instances **/
+    /** PEVerticle -> instances **/
     String INSTANCES = "instances";
-    /** PEVerticle专用属性group **/
+    /** PEVerticle -> group **/
     String GROUP = "group";
-    /** PEVerticle专用属性jsonConfig **/
+    /** PEVerticle -> jsonConfig **/
     String JSON_CONFIG = "jsonConfig";
-    /** PEVerticle专用属性isolatedClasses **/
+    /** PEVerticle -> isolatedClasses **/
     String ISOLATED_CLASSES = "isolatedClasses";
-    /** PEVerticle专用属性extraCp **/
+    /** PEVerticle -> extraCp **/
     String EXTRA_CP = "extraCp";
-    /** PEVerticle专用属性ha **/
+    /** PEVerticle -> ha **/
     String HA = "ha";
-    /** PEVerticle专用属性worker **/
+    /** PEVerticle -> worker **/
     String WORKER = "worker";
-    /** PEVerticle专用属性multi **/
+    /** PEVerticle -> multi **/
     String MULTI = "multi";
+
+    // ~ Route Attr =========================================
+    /** PERoute -> parent **/
+    String PARENT = "parent";
+    /** PERoute -> path **/
+    String PATH = "path";
+    /** PERoute -> consumerMimes **/
+    String CONSUMER_MIMES = "consumerMimes";
+    /** PERoute -> producerMimes **/
+    String PRODUCER_MIMES = "producerMimes";
+    
+    String METHOD = "method";
+    
+    String ORDER = "order";
+    
+    String REQUEST_HANDLER = "requestHandler";
+    
+    String FAILURE_HANDLER = "failureHandler";
 }

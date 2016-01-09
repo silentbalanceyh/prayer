@@ -17,7 +17,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.vertx.PERoute;
 import com.prayer.util.web.Interruptor;
 
 import io.vertx.core.Handler;
@@ -71,15 +71,15 @@ public class RouteConfigurator {
     @PreValidateThis
     public Router getRouter() {
         // 1.从H2的Database中读取所有的Route信息
-        final ServiceResult<ConcurrentMap<String, List<RouteModel>>> result = this.service.findRoutes();
+        final ServiceResult<ConcurrentMap<String, List<PERoute>>> result = this.service.findRoutes();
         // 2.如果读取成功的情况
         final Router retRouter = Router.router(this.vertxRef);
         if (ResponseCode.SUCCESS == result.getResponseCode()) {
             // 3.Sub Router
-            final ConcurrentMap<String, List<RouteModel>> retMap = result.getResult();
-            for (final List<RouteModel> routeList : retMap.values()) {
+            final ConcurrentMap<String, List<PERoute>> retMap = result.getResult();
+            for (final List<PERoute> routeList : retMap.values()) {
                 // 4.Sub Router调用
-                for (final RouteModel item : routeList) {
+                for (final PERoute item : routeList) {
                     final Route route = this.configRouter(retRouter, item);
                     retRouter.getRoutes().add(route);
                 }
@@ -91,7 +91,7 @@ public class RouteConfigurator {
     }
     // ~ Private Methods =====================================
 
-    private Route configRouter(final Router router, final RouteModel metadata) {
+    private Route configRouter(final Router router, final PERoute metadata) {
         // 2.初始化Route，设置Method
         Route route = initRoute(router, metadata);
         // 3.设置Order
@@ -109,7 +109,7 @@ public class RouteConfigurator {
         return route;
     }
 
-    private Route initRoute(final Router router, final RouteModel metadata) {
+    private Route initRoute(final Router router, final PERoute metadata) {
         Route route = null;
         // Fix: 暂时不修改表结构
         final String path = metadata.getParent() + metadata.getPath();
@@ -134,7 +134,7 @@ public class RouteConfigurator {
         return route;
     }
 
-    private void registerHandler(final Route route, final RouteModel metadata) {
+    private void registerHandler(final Route route, final PERoute metadata) {
         try {
             // RequestHandler
             if (null != metadata.getRequestHandler()) {
@@ -154,7 +154,7 @@ public class RouteConfigurator {
     }
 
     /*
-     * private void logHandler(final RouteModel metadata, final boolean failure)
+     * private void logHandler(final PERoute metadata, final boolean failure)
      * { final String registeredUri = metadata.getParent() + metadata.getPath();
      * if (failure) { info(LOGGER, WebLogger.I_MSGH_FAILURE,
      * metadata.getFailureHandler(), registeredUri, metadata.getOrder()); } else

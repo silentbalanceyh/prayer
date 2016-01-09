@@ -2,25 +2,25 @@ package com.prayer.facade.dao.schema;
 
 import java.util.List;
 
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.vertx.PERoute;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface RouteDao extends TemplateDao<RouteModel, String>{
+public interface RouteDao extends TemplateDao<PERoute, String>{
     /**
      * 
      * @param parent
      * @param path
      * @return
      */
-    RouteModel getByPath(String parent, String path);
+    PERoute getByPath(String parent, String path);
     /**
      * 
      * @param parent
      * @return
      */
-    List<RouteModel> getByParent(String parent);
+    List<PERoute> getByParent(String parent);
 }

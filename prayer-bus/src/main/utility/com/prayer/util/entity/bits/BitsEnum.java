@@ -1,4 +1,4 @@
-package com.prayer.util.bits;
+package com.prayer.util.entity.bits;
 
 import static com.prayer.util.Converter.fromStr;
 

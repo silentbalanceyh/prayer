@@ -15,7 +15,7 @@
             alias="Meta" />
         <typeAlias type="com.prayer.model.vertx.VerticleModel"
             alias="Verticle" />
-        <typeAlias type="com.prayer.model.vertx.RouteModel"
+        <typeAlias type="com.prayer.model.vertx.PERoute"
             alias="Route" />
         <typeAlias type="com.prayer.model.vertx.UriModel"
             alias="Uri" />

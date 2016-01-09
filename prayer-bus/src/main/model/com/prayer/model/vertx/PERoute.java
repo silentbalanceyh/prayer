@@ -1,19 +1,21 @@
 package com.prayer.model.vertx;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
+import com.prayer.facade.entity.Entity;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
 
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 对应表EVX_ROUTE
@@ -22,7 +24,7 @@ import io.vertx.core.http.HttpMethod;
  *
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
-public class RouteModel implements Serializable { // NOPMD
+public class PERoute extends AbstractEntity { // NOPMD
     // ~ Static Fields =======================================
     /**
      * 
@@ -30,42 +32,117 @@ public class RouteModel implements Serializable { // NOPMD
     private static final long serialVersionUID = -9091453176338568079L;
     // ~ Instance Fields =====================================
     /** K_ID: EVX_ROUTE表的主键 **/
-    @JsonIgnore
+    @JsonProperty(ID)
     private String uniqueId;
     /** S_PARENT **/
-    @JsonProperty("parent")
+    @JsonProperty(PARENT)
     private String parent;
     /** S_PATH **/
-    @JsonProperty("path")
+    @JsonProperty(PATH)
     private String path;
     /** S_MIME_CONSUMER **/
-    @JsonProperty("consumerMimes")
+    @JsonProperty(CONSUMER_MIMES)
     private List<String> consumerMimes;
     /** S_MIME_PRODUCER **/
-    @JsonProperty("producerMimes")
+    @JsonProperty(PRODUCER_MIMES)
     private List<String> producerMimes;
     /** S_METHOD **/
-    @JsonProperty("method")
+    @JsonProperty(METHOD)
     private HttpMethod method;
     /** S_ORDER **/
-    @JsonProperty("order")
+    @JsonProperty(ORDER)
     private int order = Constants.ORDER.NOT_SET;
 
     /** S_SHANDLER **/
-    @JsonProperty("requestHandler")
+    @JsonProperty(REQUEST_HANDLER)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> requestHandler;
     /** S_FHANDLER **/
-    @JsonProperty("failureHandler")
+    @JsonProperty(FAILURE_HANDLER)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> failureHandler;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    public PERoute() {
+    }
+
+    /** **/
+    public PERoute(final JsonObject data) {
+        this.fromJson(data);
+    }
+
+    /** **/
+    public PERoute(final Buffer buffer) {
+        this.readFromBuffer(Constants.POS, buffer);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** 转成Json **/
+    @Override
+    public JsonObject toJson() {
+        final JsonObject data = new JsonObject();
+        writeString(data, ID, this::getUniqueId);
+        writeString(data, PARENT, this::getParent);
+        writeString(data, PATH, this::getPath);
+        writeList(data, CONSUMER_MIMES, this::getConsumerMimes);
+        writeList(data, PRODUCER_MIMES, this::getProducerMimes);
+        writeEnum(data, METHOD, this::getMethod);
+        writeInt(data, ORDER, this::getOrder);
+        writeClass(data, REQUEST_HANDLER, this::getRequestHandler);
+        writeClass(data, FAILURE_HANDLER, this::getFailureHandler);
+        return data;
+    }
+
+    /** 从Json反序列化 **/
+    @Override
+    public Entity fromJson(final JsonObject data) {
+        readString(data, ID, this::setUniqueId);
+        readString(data, PARENT, this::setParent);
+        readString(data, PATH, this::setPath);
+        readList(data, CONSUMER_MIMES, this::setConsumerMimes);
+        readList(data, PRODUCER_MIMES, this::setProducerMimes);
+        readEnum(data, METHOD, this::setMethod, HttpMethod.class);
+        readInt(data, ORDER, this::setOrder);
+        readClass(data, REQUEST_HANDLER, this::setRequestHandler);
+        readClass(data, FAILURE_HANDLER, this::setFailureHandler);
+        return null;
+    }
+
+    /** 写入Buffer **/
+    @Override
+    public void writeToBuffer(final Buffer buffer) {
+        writeString(buffer, this::getUniqueId);
+        writeString(buffer, this::getParent);
+        writeString(buffer, this::getPath);
+        writeList(buffer, this::getConsumerMimes);
+        writeList(buffer, this::getProducerMimes);
+        writeEnum(buffer, this::getMethod);
+        writeInt(buffer, this::getOrder);
+        writeClass(buffer, this::getRequestHandler);
+        writeClass(buffer, this::getFailureHandler);
+    }
+
+    /** 从Buffer中读取 **/
+    @Override
+    public int readFromBuffer(int pos, final Buffer buffer) {
+        pos = readString(pos, buffer, this::setUniqueId);
+        pos = readString(pos, buffer, this::setParent);
+        pos = readString(pos, buffer, this::setPath);
+        pos = readList(pos, buffer, this::setConsumerMimes);
+        pos = readList(pos, buffer, this::setProducerMimes);
+        pos = readEnum(pos, buffer, this::setMethod, HttpMethod.class);
+        pos = readInt(pos, buffer, this::setOrder);
+        pos = readClass(pos, buffer, this::setRequestHandler);
+        pos = readClass(pos, buffer, this::setFailureHandler);
+        return 0;
+    }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
@@ -209,8 +286,7 @@ public class RouteModel implements Serializable { // NOPMD
     /** **/
     @Override
     public String toString() {
-        return "RouteModel [uniqueId=" + uniqueId + ", parent=" + parent + ", path=" + path + ", method=" + method
-                + ", requestHandler=" + requestHandler + ", failureHandler=" + failureHandler + "]";
+        return this.toJson().encode();
     }
 
     /** **/
@@ -237,7 +313,7 @@ public class RouteModel implements Serializable { // NOPMD
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RouteModel other = (RouteModel) obj;
+        final PERoute other = (PERoute) obj;
         if (method != other.method) {
             return false;
         }

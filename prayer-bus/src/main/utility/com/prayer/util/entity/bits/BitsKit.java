@@ -1,4 +1,4 @@
-package com.prayer.util.bits;
+package com.prayer.util.entity.bits;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

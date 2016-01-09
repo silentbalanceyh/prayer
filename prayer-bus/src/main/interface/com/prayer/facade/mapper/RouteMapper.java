@@ -4,25 +4,25 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.vertx.PERoute;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface RouteMapper extends H2TMapper<RouteModel, String>{
+public interface RouteMapper extends H2TMapper<PERoute, String>{
     /**
      * 
      * @param parent
      * @param path
      * @return
      */
-    RouteModel selectByPath(@Param("parent") String parent, @Param("path") String path);
+    PERoute selectByPath(@Param("parent") String parent, @Param("path") String path);
     /**
      * 
      * @param parent
      * @return
      */
-    List<RouteModel> selectByParent(@Param("parent") String parent);
+    List<PERoute> selectByParent(@Param("parent") String parent);
 }

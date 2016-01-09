@@ -9,7 +9,7 @@ import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.PEAddress;
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.vertx.PERoute;
 import com.prayer.model.vertx.RuleModel;
 import com.prayer.model.vertx.PEScript;
 import com.prayer.model.vertx.UriModel;
@@ -76,11 +76,11 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<List<RouteModel>> findRoutes(@NotNull @NotBlank @NotEmpty final String parent) {
+    public ServiceResult<List<PERoute>> findRoutes(@NotNull @NotBlank @NotEmpty final String parent) {
         // 1.构造响应数据
-        final ServiceResult<List<RouteModel>> result = new ServiceResult<>();
+        final ServiceResult<List<PERoute>> result = new ServiceResult<>();
         // 2.读取所有的RouteMode相关信息
-        final List<RouteModel> routes = this.manager.getRouteDao().getByParent(parent);
+        final List<PERoute> routes = this.manager.getRouteDao().getByParent(parent);
         // 3.返回最终结果
         return result.success(routes);
     }
@@ -89,13 +89,13 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<ConcurrentMap<String, List<RouteModel>>> findRoutes() {
+    public ServiceResult<ConcurrentMap<String, List<PERoute>>> findRoutes() {
         // 1.构造响应数据
-        final ServiceResult<ConcurrentMap<String, List<RouteModel>>> result = new ServiceResult<>();
+        final ServiceResult<ConcurrentMap<String, List<PERoute>>> result = new ServiceResult<>();
         // 2.读取所有的RouteMode相关信息
-        final List<RouteModel> routes = this.manager.getRouteDao().getAll();
+        final List<PERoute> routes = this.manager.getRouteDao().getAll();
         // 3.设置返回结果
-        final ConcurrentMap<String, List<RouteModel>> listRet = ResultExtractor.extractList(routes, "parent");
+        final ConcurrentMap<String, List<PERoute>> listRet = ResultExtractor.extractList(routes, "parent");
         // 4.返回最终结果
         return result.success(listRet);
     }

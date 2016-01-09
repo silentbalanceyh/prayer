@@ -13,7 +13,7 @@ import com.prayer.base.bus.AbstractDPSevImpl;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.dao.impl.schema.RouteDaoImpl;
 import com.prayer.facade.bus.deploy.RouteDPService;
-import com.prayer.model.vertx.RouteModel;
+import com.prayer.model.vertx.PERoute;
 import com.prayer.util.io.JsonKit;
 
 import io.vertx.core.http.HttpMethod;
@@ -28,7 +28,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String>implements RouteDPService { // NOPMD
+public class RouteDPSevImpl extends AbstractDPSevImpl<PERoute, String>implements RouteDPService { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RouteDPSevImpl.class);
@@ -54,18 +54,18 @@ public class RouteDPSevImpl extends AbstractDPSevImpl<RouteModel, String>impleme
 
     /** T Array **/
     @Override
-    public RouteModel[] getArrayType() {
-        return new RouteModel[] {};
+    public PERoute[] getArrayType() {
+        return new PERoute[] {};
     }
 
     /** **/
     @Override
-    public List<RouteModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath)
+    public List<PERoute> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath)
             throws AbstractSystemException {
-        final TypeReference<List<RouteModel>> typeRef = new TypeReference<List<RouteModel>>() {
+        final TypeReference<List<PERoute>> typeRef = new TypeReference<List<PERoute>>() {
         };
-        final List<RouteModel> retList = JsonKit.fromFile(typeRef, jsonPath);
-        for (final RouteModel item : retList) {
+        final List<PERoute> retList = JsonKit.fromFile(typeRef, jsonPath);
+        for (final PERoute item : retList) {
             // Default Http Method
             if (null == item.getMethod()) {
                 item.setMethod(HttpMethod.GET);
