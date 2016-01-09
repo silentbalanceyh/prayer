@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
+import com.prayer.facade.entity.Attributes;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -14,7 +15,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = Attributes.ID)
 public class PEScript extends AbstractEntity { // NOPMD
     // ~ Static Fields =======================================
     /**

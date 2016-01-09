@@ -18,8 +18,8 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.schema.RuleDaoImpl;
 import com.prayer.facade.bus.deploy.RuleDPService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.RuleModel;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PERule;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.util.bus.ResultExtractor;
 import com.prayer.util.io.JsonKit;
 
@@ -32,7 +32,7 @@ import net.sf.oval.constraint.NotNull;
  * @author Lang
  *
  */
-public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implements RuleDPService { // NOPMD
+public class RuleDPSevImpl extends AbstractDPSevImpl<PERule, String>implements RuleDPService { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RuleDPSevImpl.class);
@@ -57,26 +57,26 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
 
     /** T Array **/
     @Override
-    public RuleModel[] getArrayType() {
-        return new RuleModel[] {};
+    public PERule[] getArrayType() {
+        return new PERule[] {};
     }
 
     /** **/
     @Override
-    public List<RuleModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath) throws AbstractSystemException {
-        final TypeReference<List<RuleModel>> typeRef = new TypeReference<List<RuleModel>>() {
+    public List<PERule> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath) throws AbstractSystemException {
+        final TypeReference<List<PERule>> typeRef = new TypeReference<List<PERule>>() {
         };
         return JsonKit.fromFile(typeRef, jsonPath);
     }
 
     /** 设置Validator的导入 **/
     @Override
-    public ServiceResult<ConcurrentMap<String, List<RuleModel>>> importRules(
-            @NotNull @NotBlank @NotEmpty final String jsonPath, @NotNull final UriModel uri) {
+    public ServiceResult<ConcurrentMap<String, List<PERule>>> importRules(
+            @NotNull @NotBlank @NotEmpty final String jsonPath, @NotNull final PEUri uri) {
         // 1.构造响应函数
-        final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
+        final ServiceResult<ConcurrentMap<String, List<PERule>>> result = new ServiceResult<>();
         // 2.从Json中读取ValidatorModel的列表
-        List<RuleModel> dataList = new ArrayList<>();
+        List<PERule> dataList = new ArrayList<>();
         try {
             dataList = this.readJson(jsonPath);
         } catch (AbstractSystemException ex) {
@@ -85,11 +85,11 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
         }
         try {
             // 3.设置RefID的值
-            for (final RuleModel validator : dataList) {
+            for (final PERule validator : dataList) {
                 validator.setRefUriId(uri.getUniqueId());
             }
             if (!dataList.isEmpty()) {
-                this.getDao().insert(dataList.toArray(new RuleModel[] {}));
+                this.getDao().insert(dataList.toArray(new PERule[] {}));
             }
         } catch (AbstractTransactionException ex) {
             peError(getLogger(),ex);
@@ -97,7 +97,7 @@ public class RuleDPSevImpl extends AbstractDPSevImpl<RuleModel, String>implement
         }
         // 4.返回最终的Result信息
         if (ResponseCode.SUCCESS == result.getResponseCode() && Constants.RC_SUCCESS == result.getErrorCode()) {
-            final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(dataList, "refUriId");
+            final ConcurrentMap<String, List<PERule>> listRet = ResultExtractor.extractList(dataList, "refUriId");
             result.success(listRet);
         }
         return result;

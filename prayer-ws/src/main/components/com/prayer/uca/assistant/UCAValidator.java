@@ -17,7 +17,7 @@ import com.prayer.model.type.DataType;
 import com.prayer.model.type.JsonType;
 import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.XmlType;
-import com.prayer.model.vertx.RuleModel;
+import com.prayer.model.vertx.PERule;
 import com.prayer.uca.WebValidator;
 import com.prayer.util.web.Interruptor;
 import com.prayer.util.web.Validator;
@@ -52,11 +52,11 @@ public final class UCAValidator {
      * @return
      */
     public static AbstractWebException verifyField(@NotNull @NotBlank @NotEmpty final String name, final String value,
-            @MinSize(1) final List<RuleModel> validators) {
+            @MinSize(1) final List<PERule> validators) {
         AbstractWebException error = null;
         // Fix: Null Pointer，因为validators是从Map中取得的，所以必须判断是否为null
         if (null != validators && !validators.isEmpty()) {
-            for (final RuleModel validator : validators) {
+            for (final PERule validator : validators) {
                 error = verifyField(name, value, validator);
                 if (null != error) {
                     break;
@@ -75,7 +75,7 @@ public final class UCAValidator {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     private static AbstractWebException verifyField(final String paramName, final String paramValue,
-            final RuleModel ruleModel) { // NOPMD
+            final PERule ruleModel) { // NOPMD
         AbstractWebException error = null;
         try {
             // 1.验证Validator是否存在
@@ -105,7 +105,7 @@ public final class UCAValidator {
         return error;
     }
 
-    private static Value<?> buildValue(final String paramValue, final RuleModel ruleModel)
+    private static Value<?> buildValue(final String paramValue, final PERule ruleModel)
             throws AbstractDatabaseException {
         Value<?> value = null;
         if (DataType.JSON == ruleModel.getType() || DataType.XML == ruleModel.getType()

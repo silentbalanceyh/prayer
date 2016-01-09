@@ -1,15 +1,14 @@
 package com.prayer.model.vertx;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ComponentType;
+import com.prayer.facade.entity.Attributes;
 import com.prayer.model.type.DataType;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
@@ -18,6 +17,7 @@ import com.prayer.plugin.jackson.DataTypeSerializer;
 import com.prayer.plugin.jackson.JsonObjectDeserializer;
 import com.prayer.plugin.jackson.JsonObjectSerializer;
 
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -26,8 +26,8 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
-public class RuleModel implements Serializable { // NOPMD
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = Attributes.ID)
+public class PERule extends AbstractEntity { // NOPMD
     // ~ Static Fields =======================================
 
     /**
@@ -37,46 +37,120 @@ public class RuleModel implements Serializable { // NOPMD
 
     // ~ Instance Fields =====================================
     /** K_ID: EVX_PVRULE表的主键 **/
-    @JsonIgnore
+    @JsonProperty(ID)
     private String uniqueId;
     /** S_NAME **/
-    @JsonProperty("name")
+    @JsonProperty(NAME)
     private String name;
     /** S_TYPE：对应的Lyra的数据类型 **/
-    @JsonProperty("type")
+    @JsonProperty(TYPE)
     @JsonSerialize(using = DataTypeSerializer.class)
     @JsonDeserialize(using = DataTypeDeserializer.class)
     private DataType type;
     /** S_ORDER **/
-    @JsonProperty("order")
+    @JsonProperty(ORDER)
     private int order;
 
     /** J_COMPONENT_TYPE **/
-    @JsonProperty("componentType")
+    @JsonProperty(COMPONENT_TYPE)
     private ComponentType componentType;
     /** J_COMPONENT_CLASS **/
-    @JsonProperty("componentClass")
+    @JsonProperty(COMPONENT_CLASS)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> componentClass;
     /** J_CONFIG **/
-    @JsonProperty("config")
+    @JsonProperty(CONFIG)
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject config; // NOPMD
 
     /** J_ERROR_MSG **/
-    @JsonProperty("errorMessage")
+    @JsonProperty(ERROR_MESSAGE)
     private String errorMessage;
 
     /** R_URI_ID **/
-    @JsonIgnore
+    @JsonProperty(REF_ID)
     private String refUriId;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    public PERule() {
+    }
+
+    /** **/
+    public PERule(final JsonObject data) {
+        this.fromJson(data);
+    }
+
+    /** **/
+    public PERule(final Buffer buffer) {
+        this.readFromBuffer(Constants.POS, buffer);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    @Override
+    public JsonObject toJson() {
+        final JsonObject data = new JsonObject();
+        writeString(data, ID, this::getUniqueId);
+        writeString(data, NAME, this::getName);
+        writeEnum(data, TYPE, this::getType);
+        writeInt(data, ORDER, this::getOrder);
+        writeEnum(data, COMPONENT_TYPE, this::getComponentType);
+        writeClass(data, COMPONENT_CLASS, this::getComponentClass);
+        writeJObject(data, CONFIG, this::getConfig);
+        writeString(data, ERROR_MESSAGE, this::getErrorMessage);
+        writeString(data, REF_ID, this::getRefUriId);
+        return data;
+    }
+
+    /** **/
+    @Override
+    public PERule fromJson(final JsonObject data) {
+        readString(data, ID, this::setUniqueId);
+        readString(data, NAME, this::setName);
+        readEnum(data, TYPE, this::setType, DataType.class);
+        readInt(data, ORDER, this::setOrder);
+        readEnum(data, COMPONENT_TYPE, this::setComponentType, ComponentType.class);
+        readClass(data, COMPONENT_CLASS, this::setComponentClass);
+        readJObject(data, CONFIG, this::setConfig);
+        readString(data, ERROR_MESSAGE, this::setErrorMessage);
+        readString(data, REF_ID, this::setRefUriId);
+        return this;
+    }
+
+    /** 写入Buffer **/
+    @Override
+    public void writeToBuffer(final Buffer buffer) {
+        writeString(buffer, this::getUniqueId);
+        writeString(buffer, this::getName);
+        writeEnum(buffer, this::getType);
+        writeInt(buffer, this::getOrder);
+        writeEnum(buffer, this::getComponentType);
+        writeClass(buffer, this::getComponentClass);
+        writeJObject(buffer, this::getConfig);
+        writeString(buffer, this::getErrorMessage);
+        writeString(buffer, this::getRefUriId);
+    }
+
+    /** 从Buffer中读取 **/
+    @Override
+    public int readFromBuffer(int pos, final Buffer buffer) {
+        pos = readString(pos, buffer, this::setUniqueId);
+        pos = readString(pos, buffer, this::setName);
+        pos = readEnum(pos, buffer, this::setType, DataType.class);
+        pos = readInt(pos, buffer, this::setOrder);
+        pos = readEnum(pos, buffer, this::setComponentType, ComponentType.class);
+        pos = readClass(pos, buffer, this::setComponentClass);
+        pos = readJObject(pos, buffer, this::setConfig);
+        pos = readString(pos, buffer, this::setErrorMessage);
+        pos = readString(pos, buffer, this::setRefUriId);
+        return pos;
+    }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
@@ -221,8 +295,7 @@ public class RuleModel implements Serializable { // NOPMD
     /** **/
     @Override
     public String toString() {
-        return "RuleModel [uniqueId=" + uniqueId + ", name=" + name + ", order=" + order + ", componentClass="
-                + componentClass + ", config=" + config + ", refUriId=" + refUriId + "]";
+        return this.toJson().encode();
     }
 
     /** **/
@@ -249,7 +322,7 @@ public class RuleModel implements Serializable { // NOPMD
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RuleModel other = (RuleModel) obj;
+        final PERule other = (PERule) obj;
         if (name == null) {
             if (other.name != null) {
                 return false;

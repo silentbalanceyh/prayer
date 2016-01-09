@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.util.reflection.Instance;
 import com.prayer.util.string.StringKit;
 
@@ -70,11 +70,11 @@ public final class ResultExtractor {
 
     /** **/
     @NotNull
-    public static ConcurrentMap<HttpMethod, UriModel> extractUris(@NotNull final List<UriModel> dataList) {
+    public static ConcurrentMap<HttpMethod, PEUri> extractUris(@NotNull final List<PEUri> dataList) {
         // 1.构造结果
-        final ConcurrentMap<HttpMethod, UriModel> retMap = new ConcurrentHashMap<>();
+        final ConcurrentMap<HttpMethod, PEUri> retMap = new ConcurrentHashMap<>();
         // 2.遍历结果集
-        for (final UriModel item : dataList) {
+        for (final PEUri item : dataList) {
             // 3.5.填充Map
             retMap.put(item.getMethod(), item);
         }

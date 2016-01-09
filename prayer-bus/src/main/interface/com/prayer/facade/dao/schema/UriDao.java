@@ -2,7 +2,7 @@ package com.prayer.facade.dao.schema;
 
 import java.util.List;
 
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 
 import io.vertx.core.http.HttpMethod;
 
@@ -11,17 +11,17 @@ import io.vertx.core.http.HttpMethod;
  * @author Lang
  *
  */
-public interface UriDao extends TemplateDao<UriModel, String>{
+public interface UriDao extends TemplateDao<PEUri, String>{
     /**
      * 
      * @param uri
      * @return
      */
-    UriModel getByUri(String uri,HttpMethod method);
+    PEUri getByUri(String uri,HttpMethod method);
     /**
      * 
      * @param uri
      * @return
      */
-    List<UriModel> getByUri(String uri);
+    List<PEUri> getByUri(String uri);
 }

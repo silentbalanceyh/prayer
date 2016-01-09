@@ -3,25 +3,25 @@ package com.prayer.facade.dao.schema;
 import java.util.List;
 
 import com.prayer.constant.SystemEnum.ComponentType;
-import com.prayer.model.vertx.RuleModel;
+import com.prayer.model.vertx.PERule;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface RuleDao extends TemplateDao<RuleModel,String>{
+public interface RuleDao extends TemplateDao<PERule,String>{
     /**
      * 
      * @param uriId
      * @return
      */
-    List<RuleModel> getByUri(String uriId);
+    List<PERule> getByUri(String uriId);
     /**
      * 
      * @param uriId
      * @param type
      * @return
      */
-    List<RuleModel> getByUriAndCom(String uriId, ComponentType type);
+    List<PERule> getByUriAndCom(String uriId, ComponentType type);
 }

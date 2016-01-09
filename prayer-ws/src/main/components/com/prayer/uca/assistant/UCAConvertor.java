@@ -4,7 +4,7 @@ import static com.prayer.util.reflection.Instance.instance;
 
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.vertx.RuleModel;
+import com.prayer.model.vertx.PERule;
 import com.prayer.uca.WebConvertor;
 import com.prayer.util.web.Interruptor;
 
@@ -34,7 +34,7 @@ public final class UCAConvertor {
      * @throws AbstractWebException
      */
     public static String convertField(@NotNull @NotEmpty @NotBlank final String paramName, final String paramValue,
-            @NotNull final RuleModel ruleModel) throws AbstractWebException {
+            @NotNull final PERule ruleModel) throws AbstractWebException {
         // 1.验证Convertor是否合法
         final Class<?> comCls = ruleModel.getComponentClass();
         Interruptor.interruptClass(UCAConvertor.class, comCls.getName(), "UCAConvertor");

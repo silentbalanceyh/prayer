@@ -1,21 +1,24 @@
 package com.prayer.model.vertx;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
+import com.prayer.facade.entity.Attributes;
+import com.prayer.facade.entity.Entity;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
 
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 对应EVX_URI表
@@ -23,8 +26,8 @@ import io.vertx.core.http.HttpMethod;
  * @author Lang
  *
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
-public class UriModel implements Serializable { // NOPMD
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = Attributes.ID)
+public class PEUri extends AbstractEntity { // NOPMD
     // ~ Static Fields =======================================
     /**
      * 
@@ -32,56 +35,130 @@ public class UriModel implements Serializable { // NOPMD
     private static final long serialVersionUID = -685942970952420895L;
     // ~ Instance Fields =====================================
     /** K_ID: EVX_URI表的主键 **/
-    @JsonIgnore
+    @JsonProperty(ID)
     private String uniqueId;
 
     /** S_URI **/
-    @JsonProperty("uri")
+    @JsonProperty(URI)
     private String uri;
 
     /** S_METHOD **/
-    @JsonProperty("method")
+    @JsonProperty(METHOD)
     private HttpMethod method;
 
     /** S_PARAM_TYPE **/
-    @JsonProperty("paramType")
+    @JsonProperty(PARAM_TYPE)
     private ParamType paramType;
 
     /** S_REQUIRED_PARAM **/
-    @JsonProperty("requiredParam")
+    @JsonProperty(REQUIRED_PARAM)
     private List<String> requiredParam = new ArrayList<>();
 
     /** S_GLOBAL_ID **/
-    @JsonProperty("globalId")
+    @JsonProperty(GLOBAL_ID)
     private String globalId;
 
     /** MSG_ADDRESS **/
-    @JsonProperty("address")
+    @JsonProperty(ADDRESS)
     private String address;
 
     /** S_SCRIPT **/
-    @JsonProperty("script")
+    @JsonProperty(SCRIPT)
     private String script;
 
     /** L_RETURN_FILTERS **/
-    @JsonProperty("returnFilters")
+    @JsonProperty(RETURN_FILTERS)
     private List<String> returnFilters = new ArrayList<>();
 
     /** S_SENDER **/
-    @JsonProperty("sender")
+    @JsonProperty(SENDER)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> sender;
-    
-    /** S_ROLES **/
-    @JsonProperty("roles")
-    private List<String> roles = new ArrayList<>();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    public PEUri() {
+    }
+
+    /** **/
+    public PEUri(final JsonObject data) {
+        this.fromJson(data);
+    }
+
+    /** **/
+    public PEUri(final Buffer buffer) {
+        this.readFromBuffer(Constants.POS, buffer);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** 写入Json **/
+    @Override
+    public JsonObject toJson() {
+        final JsonObject data = new JsonObject();
+        writeString(data, ID, this::getUniqueId);
+        writeString(data, URI, this::getUri);
+        writeEnum(data, METHOD, this::getMethod);
+        writeEnum(data, PARAM_TYPE, this::getParamType);
+        writeList(data, REQUIRED_PARAM, this::getRequiredParam);
+        writeString(data, GLOBAL_ID, this::getGlobalId);
+        writeString(data, ADDRESS, this::getAddress);
+        writeString(data, SCRIPT, this::getScript);
+        writeList(data, RETURN_FILTERS, this::getReturnFilters);
+        writeClass(data, SENDER, this::getSender);
+        return data;
+    }
+
+    /** 从Json中读取数据 **/
+    @Override
+    public Entity fromJson(final JsonObject data) {
+        readString(data, ID, this::setUniqueId);
+        readString(data, ID, this::setUniqueId);
+        readString(data, URI, this::setUri);
+        readEnum(data, METHOD, this::setMethod, HttpMethod.class);
+        readEnum(data, PARAM_TYPE, this::setParamType, ParamType.class);
+        readList(data, REQUIRED_PARAM, this::setRequiredParam);
+        readString(data, GLOBAL_ID, this::setGlobalId);
+        readString(data, ADDRESS, this::setAddress);
+        readString(data, SCRIPT, this::setScript);
+        readList(data, RETURN_FILTERS, this::setReturnFilters);
+        readClass(data, SENDER, this::setSender);
+        return this;
+    }
+
+    /** 写入Buffer **/
+    @Override
+    public void writeToBuffer(final Buffer buffer) {
+        writeString(buffer, this::getUniqueId);
+        writeString(buffer, this::getUri);
+        writeEnum(buffer, this::getMethod);
+        writeEnum(buffer, this::getParamType);
+        writeList(buffer, this::getRequiredParam);
+        writeString(buffer, this::getGlobalId);
+        writeString(buffer, this::getAddress);
+        writeString(buffer, this::getScript);
+        writeList(buffer, this::getReturnFilters);
+        writeClass(buffer, this::getSender);
+    }
+
+    /** 从Buffer中读取 **/
+    @Override
+    public int readFromBuffer(int pos, final Buffer buffer) {
+        pos = readString(pos, buffer, this::setUniqueId);
+        pos = readString(pos, buffer, this::setUri);
+        pos = readEnum(pos, buffer, this::setMethod, HttpMethod.class);
+        pos = readEnum(pos, buffer, this::setParamType, ParamType.class);
+        pos = readList(pos, buffer, this::setRequiredParam);
+        pos = readString(pos, buffer, this::setGlobalId);
+        pos = readString(pos, buffer, this::setAddress);
+        pos = readString(pos, buffer, this::setScript);
+        pos = readList(pos, buffer, this::setReturnFilters);
+        pos = readClass(pos, buffer, this::setSender);
+        return pos;
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
@@ -236,27 +313,11 @@ public class UriModel implements Serializable { // NOPMD
         this.sender = sender;
     }
 
-    /**
-     * @return the roles
-     */
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    /**
-     * @param roles the roles to set
-     */
-    public void setRoles(final List<String> roles) {
-        this.roles = roles;
-    }
-
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override
     public String toString() {
-        return "UriModel [uniqueId=" + uniqueId + ", uri=" + uri + ", method=" + method + ", paramType=" + paramType
-                + ", requiredParam=" + requiredParam + ", globalId=" + globalId + ", address=" + address + ", script="
-                + script + ", returnFilters=" + returnFilters + ", sender=" + sender + ", roles=" + roles + "]";
+        return this.toJson().encode();
     }
 
     /**
@@ -286,7 +347,7 @@ public class UriModel implements Serializable { // NOPMD
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final UriModel other = (UriModel) obj;
+        final PEUri other = (PEUri) obj;
         if (paramType != other.paramType) {
             return false;
         }
@@ -320,5 +381,4 @@ public class UriModel implements Serializable { // NOPMD
         }
         return true;
     }
-
 }

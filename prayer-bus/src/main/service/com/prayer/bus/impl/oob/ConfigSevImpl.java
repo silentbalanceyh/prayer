@@ -10,9 +10,9 @@ import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.PEAddress;
 import com.prayer.model.vertx.PERoute;
-import com.prayer.model.vertx.RuleModel;
+import com.prayer.model.vertx.PERule;
 import com.prayer.model.vertx.PEScript;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.model.vertx.PEVerticle;
 import com.prayer.util.bus.ResultExtractor;
 
@@ -104,13 +104,13 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<ConcurrentMap<HttpMethod, UriModel>> findUri(@NotNull @NotBlank @NotEmpty final String uri) {
+    public ServiceResult<ConcurrentMap<HttpMethod, PEUri>> findUri(@NotNull @NotBlank @NotEmpty final String uri) {
         // 1.构造响应数据
-        final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = new ServiceResult<>();
+        final ServiceResult<ConcurrentMap<HttpMethod, PEUri>> result = new ServiceResult<>();
         // 2.调用读取方法
-        final List<UriModel> ret = this.manager.getUriDao().getByUri(uri);
+        final List<PEUri> ret = this.manager.getUriDao().getByUri(uri);
         // 3.设置响应信息
-        final ConcurrentMap<HttpMethod, UriModel> retMap = ResultExtractor.extractUris(ret);
+        final ConcurrentMap<HttpMethod, PEUri> retMap = ResultExtractor.extractUris(ret);
         return result.success(retMap);
     }
 
@@ -118,14 +118,14 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findValidators(
+    public ServiceResult<ConcurrentMap<String, List<PERule>>> findValidators(
             @NotNull @NotBlank @NotEmpty final String uriId) {
         // 1.构造响应数据
-        final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
+        final ServiceResult<ConcurrentMap<String, List<PERule>>> result = new ServiceResult<>();
         // 2.调用读取方法
-        final List<RuleModel> ret = this.manager.getRuleDao().getByUriAndCom(uriId, ComponentType.VALIDATOR);
+        final List<PERule> ret = this.manager.getRuleDao().getByUriAndCom(uriId, ComponentType.VALIDATOR);
         // 3.抽取结果
-        final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
+        final ConcurrentMap<String, List<PERule>> listRet = ResultExtractor.extractList(ret, "name");
         return result.success(listRet);
     }
 
@@ -133,14 +133,14 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findDependants(
+    public ServiceResult<ConcurrentMap<String, List<PERule>>> findDependants(
             @NotNull @NotBlank @NotEmpty final String uriId) {
         // 1.构造响应数据
-        final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
+        final ServiceResult<ConcurrentMap<String, List<PERule>>> result = new ServiceResult<>();
         // 2.调用读取方法
-        final List<RuleModel> ret = this.manager.getRuleDao().getByUriAndCom(uriId, ComponentType.DEPENDANT);
+        final List<PERule> ret = this.manager.getRuleDao().getByUriAndCom(uriId, ComponentType.DEPENDANT);
         // 3.设置响应结果
-        final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
+        final ConcurrentMap<String, List<PERule>> listRet = ResultExtractor.extractList(ret, "name");
         return result.success(listRet);
     }
 
@@ -148,14 +148,14 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors(
+    public ServiceResult<ConcurrentMap<String, List<PERule>>> findConvertors(
             @NotNull @NotBlank @NotEmpty final String uriId) {
         // 1.构造响应数据
-        final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = new ServiceResult<>();
+        final ServiceResult<ConcurrentMap<String, List<PERule>>> result = new ServiceResult<>();
         // 2.调用读取方法
-        final List<RuleModel> ret = this.manager.getRuleDao().getByUriAndCom(uriId, ComponentType.CONVERTOR);
+        final List<PERule> ret = this.manager.getRuleDao().getByUriAndCom(uriId, ComponentType.CONVERTOR);
         // 3.设置响应结果
-        final ConcurrentMap<String, List<RuleModel>> listRet = ResultExtractor.extractList(ret, "name");
+        final ConcurrentMap<String, List<PERule>> listRet = ResultExtractor.extractList(ret, "name");
         return result.success(listRet);
     }
 

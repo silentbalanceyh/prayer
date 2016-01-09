@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.dao.schema.RuleDao;
 import com.prayer.facade.mapper.RuleMapper;
-import com.prayer.model.vertx.RuleModel;
+import com.prayer.model.vertx.PERule;
 import com.prayer.plugin.ibatis.SessionManager;
 
 import net.sf.oval.constraint.InstanceOfAny;
@@ -24,7 +24,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RuleDaoImpl extends TemplateDaoImpl<RuleModel, String> implements RuleDao { // NOPMD
+public class RuleDaoImpl extends TemplateDaoImpl<PERule, String> implements RuleDao { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RuleDaoImpl.class);
@@ -49,13 +49,13 @@ public class RuleDaoImpl extends TemplateDaoImpl<RuleModel, String> implements R
 
     /** **/
     @Override
-    public List<RuleModel> getByUri(@NotNull @NotBlank @NotEmpty final String uriId) {
+    public List<PERule> getByUri(@NotNull @NotBlank @NotEmpty final String uriId) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.获取Mapper
         final RuleMapper mapper = session.getMapper(RuleMapper.class);
         // 3.读取返回信息
-        final List<RuleModel> ret = mapper.selectByUri(uriId);
+        final List<PERule> ret = mapper.selectByUri(uriId);
         // 4.关闭Session
         session.close();
         return ret;
@@ -63,14 +63,14 @@ public class RuleDaoImpl extends TemplateDaoImpl<RuleModel, String> implements R
 
     /** **/
     @Override
-    public List<RuleModel> getByUriAndCom(@NotNull @NotBlank @NotEmpty final String uriId,
+    public List<PERule> getByUriAndCom(@NotNull @NotBlank @NotEmpty final String uriId,
             @NotNull @InstanceOfAny(ComponentType.class) final ComponentType type) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.获取Mapper
         final RuleMapper mapper = session.getMapper(RuleMapper.class);
         // 3.读取返回信息
-        final List<RuleModel> ret = mapper.selectByUriAndCom(uriId, type);
+        final List<PERule> ret = mapper.selectByUriAndCom(uriId, type);
         // 4.关闭Session
         session.close();
         return ret;

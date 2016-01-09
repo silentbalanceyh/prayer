@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
+import com.prayer.facade.entity.Attributes;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
 
@@ -19,7 +20,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = Attributes.ID)
 public class PEAddress extends AbstractEntity { // NOPMD
 
     // ~ Static Fields =======================================

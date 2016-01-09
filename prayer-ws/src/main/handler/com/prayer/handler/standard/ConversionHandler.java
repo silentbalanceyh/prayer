@@ -18,8 +18,8 @@ import com.prayer.constant.log.DebugKey;
 import com.prayer.exception.web.ConvertorMultiException;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.RuleModel;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PERule;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.uca.assistant.UCAConvertor;
@@ -66,9 +66,9 @@ public class ConversionHandler implements Handler<RoutingContext> {
 
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
-        final UriModel uri = Extractor.uri(context);
+        final PEUri uri = Extractor.uri(context);
         // 2.查找Convertors的数据
-        final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
+        final ServiceResult<ConcurrentMap<String, List<PERule>>> result = this.service
                 .findConvertors(uri.getUniqueId());
         if (this.requestDispatch(result, context, requestor)) {
             // SUCCESS -->
@@ -80,7 +80,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
+    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<PERule>>> result,
             final RoutingContext context, final Requestor requestor) {
         final JsonObject params = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
         if(ResponseCode.SUCCESS != result.getResponseCode()){
@@ -90,7 +90,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
         }
         
         AbstractWebException error = null;
-        final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
+        final ConcurrentMap<String, List<PERule>> dataMap = result.getResult();
         boolean ret = true;
         // 遍历每一个字段
         try {
@@ -100,7 +100,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
                 final String value = toStr(params, field); // params.getString(field);
                 updatedParams.put(field, value);
                 // 2.读取这个字段拥有的Convertor的信息
-                final List<RuleModel> convertors = dataMap.get(field);
+                final List<PERule> convertors = dataMap.get(field);
                 if (null != convertors) {
                     // 3.读取这个字段上所有的Convertors
                     if (Constants.ONE < convertors.size()) {
@@ -108,7 +108,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
                         throw error;
                     } else if (Constants.ONE == convertors.size()) {
                         // 直接通过Convertor处理
-                        final RuleModel convertor = convertors.get(Constants.ZERO);
+                        final PERule convertor = convertors.get(Constants.ZERO);
                         final String cvRet = UCAConvertor.convertField(field, value, convertor);
                         updatedParams.put(field, cvRet);
                     }

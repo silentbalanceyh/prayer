@@ -16,7 +16,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.model.web.StatusCode;
@@ -104,7 +104,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl implements BasicAuthHa
         boolean ret = true;
         final String endpoint = this.configurator.getSecurityOptions().getString(BASIC.LOGIN_URL);
         if (StringUtil.equals(context.request().path(), endpoint)) {
-            final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service
+            final ServiceResult<ConcurrentMap<HttpMethod, PEUri>> result = this.service
                     .findUri(context.request().path());
             ret = Dispatcher.requestDispatch(getClass(), result, context);
         }

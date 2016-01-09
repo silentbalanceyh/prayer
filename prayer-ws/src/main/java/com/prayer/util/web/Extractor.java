@@ -7,7 +7,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.constant.SystemEnum.SecurityMode;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.model.web.Responsor;
@@ -139,7 +139,7 @@ public final class Extractor {
      * @param requestor
      * @return
      */
-    public static UriModel uri(@NotNull final RoutingContext context) {
+    public static PEUri uri(@NotNull final RoutingContext context) {
         return context.get(Constants.KEY.CTX_URI);
     }
 

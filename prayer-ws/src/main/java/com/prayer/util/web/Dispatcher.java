@@ -13,7 +13,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.MultiMap;
@@ -49,7 +49,7 @@ public final class Dispatcher { // NOPMD
      * @return
      */
     public static boolean requestDispatch(final Class<?> clazz,
-            final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result, final RoutingContext context) {
+            final ServiceResult<ConcurrentMap<HttpMethod, PEUri>> result, final RoutingContext context) {
         final HttpServerRequest request = context.request();
         // 1.内部500Error
         if (ResponseCode.SUCCESS != result.getResponseCode()) {
@@ -58,14 +58,14 @@ public final class Dispatcher { // NOPMD
             return false; // NOPMD
         }
         // 2.URI的获取
-        final ConcurrentMap<HttpMethod, UriModel> uriMap = result.getResult();
+        final ConcurrentMap<HttpMethod, PEUri> uriMap = result.getResult();
         if (uriMap.isEmpty()) {
             // 404 Resources Not Found
             Future.error404(clazz, context, request.path());
             return false; // NOPMD
         }
         // 3.405 Method Not Allowed
-        final UriModel uriSpec = uriMap.get(request.method());
+        final PEUri uriSpec = uriMap.get(request.method());
         if (null == uriSpec) {
             // 405 Method Not Allowed
             Future.error405(clazz, context, request.method());
@@ -92,7 +92,7 @@ public final class Dispatcher { // NOPMD
      * @param context
      * @return
      */
-    public static String getErrorParam(final UriModel uri, final RoutingContext context) { // NOPMD
+    public static String getErrorParam(final PEUri uri, final RoutingContext context) { // NOPMD
         String retParam = null;
         final List<String> paramList = uri.getRequiredParam();
         final HttpServerRequest request = context.request();

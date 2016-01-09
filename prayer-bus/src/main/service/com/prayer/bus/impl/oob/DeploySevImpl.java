@@ -27,7 +27,7 @@ import com.prayer.facade.bus.DeployService;
 import com.prayer.facade.dao.JdbcContext;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.kernel.GenericSchema;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.PropertyKit;
 
@@ -123,8 +123,8 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                 info(LOGGER, " 3.EVX_URI ( URI deployed successfully ). PATH = " + uriFolder + file);
                 if (ResponseCode.SUCCESS == ret.getResponseCode()) {
                     // URI中的Param参数List
-                    final List<UriModel> uriModels = (List<UriModel>) ret.getResult();
-                    for (final UriModel model : uriModels) {
+                    final List<PEUri> uriModels = (List<PEUri>) ret.getResult();
+                    for (final PEUri model : uriModels) {
                         // 4.EVX_RULE
                         final String ruleFolder = rootFolder + VX_URI_PARAM;
                         final String paramFolder = ruleFolder

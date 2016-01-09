@@ -6,9 +6,9 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.PEAddress;
 import com.prayer.model.vertx.PERoute;
-import com.prayer.model.vertx.RuleModel;
+import com.prayer.model.vertx.PERule;
 import com.prayer.model.vertx.PEScript;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.model.vertx.PEVerticle;
 
 import io.vertx.core.http.HttpMethod;
@@ -56,7 +56,7 @@ public interface ConfigService {
      * @param uri
      * @return
      */
-    ServiceResult<ConcurrentMap<HttpMethod, UriModel>> findUri(String uri);
+    ServiceResult<ConcurrentMap<HttpMethod, PEUri>> findUri(String uri);
 
     // ~ Uri Parameter Rules ================================
     /**
@@ -64,20 +64,20 @@ public interface ConfigService {
      * @param uriId
      * @return
      */
-    ServiceResult<ConcurrentMap<String, List<RuleModel>>> findValidators(String uriId);
+    ServiceResult<ConcurrentMap<String, List<PERule>>> findValidators(String uriId);
 
     /**
      * 
      * @param uriId
      * @return
      */
-    ServiceResult<ConcurrentMap<String, List<RuleModel>>> findConvertors(String uriId);
+    ServiceResult<ConcurrentMap<String, List<PERule>>> findConvertors(String uriId);
     /**
      * 
      * @param uriId
      * @return
      */
-    ServiceResult<ConcurrentMap<String, List<RuleModel>>> findDependants(String uriId);
+    ServiceResult<ConcurrentMap<String, List<PERule>>> findDependants(String uriId);
     /**
      * 
      * @param workClass

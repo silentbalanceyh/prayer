@@ -1,6 +1,7 @@
 package com.prayer.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -69,6 +70,16 @@ public abstract class AbstractEntityTestCase {
         actual.readFromBuffer(Constants.POS, buffer);
         // Compare
         assertEquals(expected, actual);
+    }
+    /**
+     * 
+     */
+    @Test
+    public void testRef(){
+        final JsonObject data = this.readData(EMPTY_FILE);
+        final Entity expected = this.getInstance(null);
+        final Entity actual = expected.fromJson(data);
+        assertTrue(expected == actual);
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

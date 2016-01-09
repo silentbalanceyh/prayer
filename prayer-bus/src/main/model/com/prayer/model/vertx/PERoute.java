@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
-import com.prayer.facade.entity.Entity;
+import com.prayer.facade.entity.Attributes;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
 
@@ -23,7 +23,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = Attributes.ID)
 public class PERoute extends AbstractEntity { // NOPMD
     // ~ Static Fields =======================================
     /**
@@ -101,7 +101,7 @@ public class PERoute extends AbstractEntity { // NOPMD
 
     /** 从Json反序列化 **/
     @Override
-    public Entity fromJson(final JsonObject data) {
+    public PERoute fromJson(final JsonObject data) {
         readString(data, ID, this::setUniqueId);
         readString(data, PARENT, this::setParent);
         readString(data, PATH, this::setPath);
@@ -111,7 +111,7 @@ public class PERoute extends AbstractEntity { // NOPMD
         readInt(data, ORDER, this::setOrder);
         readClass(data, REQUEST_HANDLER, this::setRequestHandler);
         readClass(data, FAILURE_HANDLER, this::setFailureHandler);
-        return null;
+        return this;
     }
 
     /** 写入Buffer **/
@@ -140,7 +140,7 @@ public class PERoute extends AbstractEntity { // NOPMD
         pos = readInt(pos, buffer, this::setOrder);
         pos = readClass(pos, buffer, this::setRequestHandler);
         pos = readClass(pos, buffer, this::setFailureHandler);
-        return 0;
+        return pos;
     }
 
     // ~ Methods =============================================

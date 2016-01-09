@@ -10,12 +10,20 @@ import com.prayer.constant.Constants;
  */
 public interface Attributes {
     // ~ Shared Attr ========================================
-    /** 共享属性id **/// PEScript,
+    /** Shared: id **/
     String ID = Constants.PID;
-    /** 共享属性name **/// PEScript
+    /** Shared: name **/
     String NAME = "name";
-    /** 共享属性namespace **/ // PEScript
+    /** Shared: type **/
+    String TYPE = "type";
+    /** Shared: namespace **/
     String NAMESPACE = "namespace";
+    /** Shared: order **/
+    String ORDER = "order";
+    /** Shared: refID **/
+    String REF_ID = "refID";
+    /** Shared: method **/
+    String METHOD = "method";
 
     // ~ Script Attr ========================================
     /** PEScript -> content **/
@@ -57,11 +65,37 @@ public interface Attributes {
     /** PERoute -> producerMimes **/
     String PRODUCER_MIMES = "producerMimes";
     
-    String METHOD = "method";
-    
-    String ORDER = "order";
-    
     String REQUEST_HANDLER = "requestHandler";
     
     String FAILURE_HANDLER = "failureHandler";
+    
+    // ~ Rule Attr ==========================================
+    
+    String COMPONENT_TYPE = "componentType";
+    
+    String COMPONENT_CLASS = "componentClass";
+    
+    String CONFIG = "config";
+    
+    String ERROR_MESSAGE = "errorMessage";
+    
+    // ~ Uri Attr ===========================================
+    
+    String URI = "uri";
+    
+    String PARAM_TYPE = "paramType";
+    
+    String REQUIRED_PARAM = "requiredParam";
+    
+    String GLOBAL_ID = "globalId";
+    
+    String ADDRESS = "address";
+    
+    String SCRIPT = "script";
+    
+    String RETURN_FILTERS = "returnFilters";
+    
+    String SENDER = "sender";
+    
+    
 }

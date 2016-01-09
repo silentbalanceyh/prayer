@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
+import com.prayer.facade.entity.Attributes;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
 import com.prayer.plugin.jackson.JsonObjectDeserializer;
@@ -24,7 +25,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = Attributes.ID)
 public class PEVerticle extends AbstractEntity { // NOPMD
     // ~ Static Fields =======================================
     /**
@@ -124,7 +125,7 @@ public class PEVerticle extends AbstractEntity { // NOPMD
     }
 
     // ~ Entity Json/Buffer Serialization ====================
-    /** 从Json中读取数据 **/
+    /** 写入Json **/
     @Override
     public JsonObject toJson() {
         final JsonObject data = new JsonObject();

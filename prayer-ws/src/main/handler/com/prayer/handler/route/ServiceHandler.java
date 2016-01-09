@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.uca.WebSender;
@@ -55,7 +55,7 @@ public class ServiceHandler implements Handler<RoutingContext> {
 
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
-        final UriModel uri = Extractor.uri(context);
+        final PEUri uri = Extractor.uri(context);
         // 2.Service获取参数信息
         if (null == uri) {
             // 500 Internal Server

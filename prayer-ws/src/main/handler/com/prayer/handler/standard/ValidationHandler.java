@@ -17,8 +17,8 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.RuleModel;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PERule;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.uca.assistant.UCAValidator;
@@ -68,10 +68,10 @@ public class ValidationHandler implements Handler<RoutingContext> { // NOPMD
             debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
             // 1.从Context中提取参数信息
             final Requestor requestor = Extractor.requestor(context);
-            final UriModel uri = Extractor.uri(context);
+            final PEUri uri = Extractor.uri(context);
 
             // 2.获取当前路径下的Validator的数据
-            final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
+            final ServiceResult<ConcurrentMap<String, List<PERule>>> result = this.service
                     .findValidators(uri.getUniqueId());
             // 3.Dispatcher
             if (this.requestDispatch(result, context, requestor)) {
@@ -86,7 +86,7 @@ public class ValidationHandler implements Handler<RoutingContext> { // NOPMD
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
+    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<PERule>>> result,
             final RoutingContext context, final Requestor requestor) {
         // 1.内部500 Error
         if (ResponseCode.SUCCESS != result.getResponseCode()) {
@@ -97,12 +97,12 @@ public class ValidationHandler implements Handler<RoutingContext> { // NOPMD
         // 2.特殊参数错
         final JsonObject params = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
         AbstractWebException error = null;
-        final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
+        final ConcurrentMap<String, List<PERule>> dataMap = result.getResult();
         boolean ret = true;
         // 遍历每个字段
         for (final String field : params.fieldNames()) {
             // 1.从系统里读取validators
-            final List<RuleModel> validators = dataMap.get(field);
+            final List<PERule> validators = dataMap.get(field);
             // 2.该字段存在validators的时候就执行
             if (!validators.isEmpty()) {
                 // 3.能够读取到字段对应的Validator

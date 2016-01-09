@@ -1,0 +1,15 @@
+{
+    "id":"testid",
+    "name":"TEST.RULE",
+    "type":"StringType",
+    "order":10,
+    "componentType":"VALIDATOR",
+    "componentClass":"com.prayer.model.entity.clazz.EntityHandler",
+    "config":{
+        "param":"param1",
+        "bollean":true,
+        "order":30
+    },
+    "errorMessage":"这是错误信息",
+    "refID":"refId"
+}

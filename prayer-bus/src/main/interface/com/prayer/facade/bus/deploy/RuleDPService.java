@@ -4,20 +4,20 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.RuleModel;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PERule;
+import com.prayer.model.vertx.PEUri;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface RuleDPService extends TemplateDPService<RuleModel,String>{
+public interface RuleDPService extends TemplateDPService<PERule,String>{
     /**
      * 
      * @param jsonPath
      * @param uri
      * @return
      */
-    ServiceResult<ConcurrentMap<String,List<RuleModel>>> importRules(String jsonPath, UriModel uri);
+    ServiceResult<ConcurrentMap<String,List<PERule>>> importRules(String jsonPath, PEUri uri);
 }

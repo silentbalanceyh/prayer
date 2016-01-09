@@ -5,25 +5,25 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.prayer.constant.SystemEnum.ComponentType;
-import com.prayer.model.vertx.RuleModel;
+import com.prayer.model.vertx.PERule;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface RuleMapper extends H2TMapper<RuleModel,String>{
+public interface RuleMapper extends H2TMapper<PERule,String>{
     /**
      * 
      * @param uriId
      * @return
      */
-    List<RuleModel> selectByUri(@Param("refId") String refId);
+    List<PERule> selectByUri(@Param("refId") String refId);
     /**
      * 
      * @param uriId
      * @param type
      * @return
      */
-    List<RuleModel> selectByUriAndCom(@Param("refId")String refUriId, @Param("type") ComponentType type);
+    List<PERule> selectByUriAndCom(@Param("refId")String refUriId, @Param("type") ComponentType type);
 }

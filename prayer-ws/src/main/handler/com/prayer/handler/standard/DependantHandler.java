@@ -18,8 +18,8 @@ import com.prayer.constant.log.DebugKey;
 import com.prayer.exception.web.DependantMultiException;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.RuleModel;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PERule;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.uca.assistant.UCADependant;
@@ -65,9 +65,9 @@ public class DependantHandler implements Handler<RoutingContext> {
         debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
         // 1.从Context中提取参数信息
         final Requestor requestor = Extractor.requestor(context);
-        final UriModel uri = Extractor.uri(context);
+        final PEUri uri = Extractor.uri(context);
         // 2.查找Dependant的组件数据
-        final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result = this.service
+        final ServiceResult<ConcurrentMap<String, List<PERule>>> result = this.service
                 .findDependants(uri.getUniqueId());
         if (this.requestDispatch(result, context, requestor)) {
             // SUCCESS ->
@@ -78,7 +78,7 @@ public class DependantHandler implements Handler<RoutingContext> {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<RuleModel>>> result,
+    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<PERule>>> result,
             final RoutingContext context, final Requestor requestor) {
         final JsonObject inParams = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
         if (ResponseCode.SUCCESS != result.getResponseCode()) {
@@ -87,7 +87,7 @@ public class DependantHandler implements Handler<RoutingContext> {
             return false;
         }
         AbstractWebException error = null;
-        final ConcurrentMap<String, List<RuleModel>> dataMap = result.getResult();
+        final ConcurrentMap<String, List<PERule>> dataMap = result.getResult();
         // 遍历每一个字段
         boolean ret = true;
         try {
@@ -98,13 +98,13 @@ public class DependantHandler implements Handler<RoutingContext> {
                 final String value = toStr(inParams, field);
                 outParams.put(field, value);
                 // 2.读取所有的dependant组件
-                final List<RuleModel> dependants = dataMap.get(field);
+                final List<PERule> dependants = dataMap.get(field);
                 // 3.Dependants对一个字段而言不可以有多个，这个规则和Convertor转换器一样
                 if (null != dependants) {
                     if (Constants.ONE < dependants.size()) {
                         throw new DependantMultiException(getClass(), field); // NOPMD
                     } else if (Constants.ONE == dependants.size()) {
-                        final RuleModel dependant = dependants.get(Constants.ZERO);
+                        final PERule dependant = dependants.get(Constants.ZERO);
                         UCADependant.dependField(field, value, dependant, inParams, outParams);
                     }
                 }

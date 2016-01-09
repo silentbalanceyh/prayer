@@ -16,7 +16,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.dao.impl.schema.UriDaoImpl;
 import com.prayer.facade.bus.deploy.UriDPService;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.util.io.JsonKit;
 
 import io.vertx.core.http.HttpMethod;
@@ -31,7 +31,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String> implements UriDPService { // NOPMD
+public class UriDPSevImpl extends AbstractDPSevImpl<PEUri, String> implements UriDPService { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(UriDPSevImpl.class);
@@ -56,17 +56,17 @@ public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String> implements
 
     /** T Array **/
     @Override
-    public UriModel[] getArrayType() {
-        return new UriModel[] {};
+    public PEUri[] getArrayType() {
+        return new PEUri[] {};
     }
 
     /** **/
     @Override
-    public List<UriModel> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath) throws AbstractSystemException { // NOPMD
-        final TypeReference<List<UriModel>> typeRef = new TypeReference<List<UriModel>>() {
+    public List<PEUri> readJson(@NotNull @NotBlank @NotEmpty final String jsonPath) throws AbstractSystemException { // NOPMD
+        final TypeReference<List<PEUri>> typeRef = new TypeReference<List<PEUri>>() {
         };
-        final List<UriModel> retList = JsonKit.fromFile(typeRef, jsonPath);
-        for (final UriModel item : retList) {
+        final List<PEUri> retList = JsonKit.fromFile(typeRef, jsonPath);
+        for (final PEUri item : retList) {
             if (null == item.getMethod()) {
                 item.setMethod(HttpMethod.GET);
             }
@@ -86,9 +86,6 @@ public class UriDPSevImpl extends AbstractDPSevImpl<UriModel, String> implements
             }
             if (null == item.getRequiredParam()) {
                 item.setRequiredParam(emptyArr);
-            }
-            if (null == item.getRoles()){
-                item.setRoles(emptyArr);
             }
             if (null == item.getSender()) {
                 item.setSender(clazz("com.prayer.uca.sender.JsonRecordSender"));

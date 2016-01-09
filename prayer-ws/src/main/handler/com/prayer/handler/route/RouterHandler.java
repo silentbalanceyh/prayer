@@ -16,7 +16,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.UriModel;
+import com.prayer.model.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.util.string.StringKit;
@@ -78,12 +78,12 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 
         final HttpServerRequest request = context.request();
         // 2.从系统中按URI读取接口规范
-        final ServiceResult<ConcurrentMap<HttpMethod, UriModel>> result = this.service.findUri(path);
+        final ServiceResult<ConcurrentMap<HttpMethod, PEUri>> result = this.service.findUri(path);
         // 3.请求转发，去除掉Error过后的信息
         if (Dispatcher.requestDispatch(getClass(), result, context)) {
             // SUCCESS -->
             // 4.保存UriModel到Request节点中
-            final UriModel uri = result.getResult().get(request.method());
+            final PEUri uri = result.getResult().get(request.method());
             // 5.序列化URI模型
             context.put(Constants.KEY.CTX_URI, uri);
             // 6.获取请求参数
@@ -97,7 +97,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private JsonObject extractParams(final RoutingContext context, final UriModel uri) {
+    private JsonObject extractParams(final RoutingContext context, final PEUri uri) {
         JsonObject retJson = new JsonObject();
         final HttpServerRequest request = context.request();
         if (ParamType.QUERY == uri.getParamType()) {

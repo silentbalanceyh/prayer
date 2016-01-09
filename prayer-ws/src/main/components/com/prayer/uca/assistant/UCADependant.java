@@ -14,7 +14,7 @@ import com.prayer.exception.web.DependQueryInvalidException;
 import com.prayer.exception.web.DependRuleInvalidException;
 import com.prayer.exception.web.ValidationFailureException;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.vertx.RuleModel;
+import com.prayer.model.vertx.PERule;
 import com.prayer.uca.WebDependant;
 import com.prayer.util.string.StringKit;
 import com.prayer.util.web.Interruptor;
@@ -53,7 +53,7 @@ public final class UCADependant {   // NOPMD
      * @throws AbstractWebException
      */
     public static void dependField(@NotNull @NotBlank @NotEmpty final String paramName, final String paramValue,
-            @NotNull final RuleModel ruleModel, @NotNull final JsonObject inputParam, @NotNull final JsonObject outputParam)
+            @NotNull final PERule ruleModel, @NotNull final JsonObject inputParam, @NotNull final JsonObject outputParam)
                     throws AbstractWebException {
         // 1.验证Dependant是否合法
         final Class<?> comCls = ruleModel.getComponentClass();
@@ -102,7 +102,7 @@ public final class UCADependant {   // NOPMD
      * 
      * @param ruleModel
      */
-    private static void verifyConfig(final RuleModel ruleModel) throws AbstractWebException { // NOPMD
+    private static void verifyConfig(final PERule ruleModel) throws AbstractWebException { // NOPMD
         // 3.提取配置信息，验证config的必须属性
         final JsonObject config = ruleModel.getConfig();
         if (null != config) {
