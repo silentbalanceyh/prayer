@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.constant.SystemEnum.UACSource;
-import com.prayer.facade.dao.JdbcConnection;
+import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.pool.impl.jdbc.H2ConnImpl;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.util.string.StringKit;

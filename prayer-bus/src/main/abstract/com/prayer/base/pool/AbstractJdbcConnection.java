@@ -14,12 +14,13 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.JdbcOperations;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
-import com.prayer.facade.dao.JdbcConnection;
 import com.prayer.facade.kernel.Value;
+import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.facade.pool.JdbcPool;
 import com.prayer.model.bus.Metadata;
 import com.prayer.model.type.DataType;
 import com.prayer.util.jdbc.Input;
@@ -46,7 +47,7 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     /** **/
     @NotNull
     @InstanceOfAny(AbstractJdbcPool.class)
-    private transient final AbstractJdbcPool dbPool; // NOPMD
+    private transient final JdbcPool dbPool; // NOPMD
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -72,7 +73,7 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     /** **/
     @Override
     public int execute(@NotNull @NotBlank @NotEmpty final String sql, final List<Value<?>> params) {
-        final JdbcTemplate jdbc = this.getPool().getJdbc();
+        final JdbcOperations jdbc = this.getPool().getExecutor();
         int ret = Constants.RC_FAILURE;
         if (null == params) {
             jdbc.execute(sql);
@@ -89,7 +90,7 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     /** **/
     @Override
     public Long count(@NotNull @NotBlank @NotEmpty final String sql) {
-        final JdbcTemplate jdbc = this.getPool().getJdbc();
+        final JdbcOperations jdbc = this.getPool().getExecutor();
         return jdbc.queryForObject(sql, Long.class);
     }
 
@@ -98,7 +99,7 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     public List<ConcurrentMap<String, Value<?>>> select(@NotNull @NotBlank @NotEmpty final String sql,
             final List<Value<?>> params, @MinSize(1) final ConcurrentMap<String, DataType> columnMap,
             @MinSize(0) final String... columns) {
-        final JdbcTemplate jdbc = this.getPool().getJdbc();
+        final JdbcOperations jdbc = this.getPool().getExecutor();
         if (null == params) {
             return jdbc.query(sql, Output.extractDataList(columnMap, columns));
         } else {
@@ -110,7 +111,7 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     @Override
     public List<String> select(@NotNull @NotBlank @NotEmpty final String sql,
             @NotNull @NotBlank @NotEmpty final String column) {
-        final JdbcTemplate jdbc = this.getPool().getJdbc();
+        final JdbcOperations jdbc = this.getPool().getExecutor();
         return jdbc.query(sql, Output.extractColumnList(column));
     }
 
@@ -118,7 +119,7 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     @Override
     public List<ConcurrentMap<String, String>> select(@NotNull @NotBlank @NotEmpty final String sql,
             @NotNull @MinSize(2) final String[] columns) {
-        final JdbcTemplate jdbc = this.getPool().getJdbc();
+        final JdbcOperations jdbc = this.getPool().getExecutor();
         return jdbc.query(sql, Output.extractColumnList(columns));
     }
 
@@ -126,14 +127,14 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     @Override
     public Value<?> insert(@NotNull @NotBlank @NotEmpty final String sql,
             @NotNull @MinSize(1) final List<Value<?>> values, final boolean isRetKey, final DataType retType) {
-        final JdbcTemplate jdbc = this.getPool().getJdbc();
+        final JdbcOperations jdbc = this.getPool().getExecutor();
         return jdbc.execute(Input.prepStmt(sql, values, isRetKey), Output.extractIncrement(isRetKey, retType));
     }
 
     /** for oracle **/
     @Override
     public int executeBatch(@NotNull @NotBlank @NotEmpty final String sql) {
-        return SqlKit.execute(this.getPool().getJdbc(), sql);
+        return SqlKit.execute(this.getPool().getDataSource(), sql);
     }
 
     // ~ Methods =============================================
@@ -141,7 +142,7 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     @Override
     public boolean executeSql(InputStream sqlFile) {
         final Reader reader = new InputStreamReader(sqlFile);
-        return Constants.RC_SUCCESS == SqlKit.execute(this.getPool().getJdbc(), reader);
+        return Constants.RC_SUCCESS == SqlKit.execute(this.getPool().getDataSource(), reader);
     }
 
     /**
@@ -163,7 +164,7 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     }
 
     /** 获取Jdbc连接池引用 **/
-    private AbstractJdbcPool getPool() {
+    private JdbcPool getPool() {
         return this.dbPool;
     }
     // ~ Private Methods =====================================

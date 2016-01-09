@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.prayer.base.exception.AbstractTransactionException;
-import com.prayer.facade.dao.JdbcConnection;
+import com.prayer.facade.pool.JdbcConnection;
 
 /**
  * 

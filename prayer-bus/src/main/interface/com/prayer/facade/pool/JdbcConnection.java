@@ -1,4 +1,4 @@
-package com.prayer.facade.dao;
+package com.prayer.facade.pool;
 
 import java.io.InputStream;
 import java.util.List;

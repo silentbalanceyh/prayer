@@ -20,7 +20,7 @@ import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
-import com.prayer.facade.dao.JdbcConnection;
+import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.DataValidator;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.util.string.StringKit;

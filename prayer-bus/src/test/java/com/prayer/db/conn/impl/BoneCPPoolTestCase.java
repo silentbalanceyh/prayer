@@ -65,7 +65,7 @@ public class BoneCPPoolTestCase extends AbstractTestCase {
         setMethod("getJdbc()");
         final AbstractJdbcPool pool = instance(BoneCPPool.class.getName());
         if (null != pool) {
-            assertNotNull(getPosition(), pool.getJdbc());
+            assertNotNull(getPosition(), pool.getExecutor());
         }
     }
     // ~ hashCode,equals,toString ============================

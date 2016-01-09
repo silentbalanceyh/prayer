@@ -2,6 +2,7 @@ package com.prayer.base.pool;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.prayer.constant.Constants;
@@ -98,7 +99,7 @@ public abstract class AbstractJdbcPool implements JdbcPool {
      * 
      * @return
      */
-    public JdbcTemplate getJdbc() {
+    public JdbcOperations getExecutor() {
         return new JdbcTemplate(this.getDataSource());
     }
 

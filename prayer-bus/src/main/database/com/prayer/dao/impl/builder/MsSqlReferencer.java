@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.facade.dao.JdbcConnection;
+import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Referencer;
 import com.prayer.model.kernel.FKReferencer;
 import com.prayer.util.jdbc.SqlDDL;

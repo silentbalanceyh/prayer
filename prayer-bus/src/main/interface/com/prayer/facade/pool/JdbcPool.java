@@ -2,6 +2,8 @@ package com.prayer.facade.pool;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.JdbcOperations;
+
 import com.prayer.util.io.PropertyKit;
 
 /**
@@ -11,7 +13,12 @@ import com.prayer.util.io.PropertyKit;
  */
 public interface JdbcPool {
     /**
-     * 使用Spring中的JdbcTemplate
+     * 使用Spring中的Executor，可初始化JdbcTemplate
+     * @return
+     */
+    JdbcOperations getExecutor();
+    /**
+     * 返回连接池数据源信息
      * @return
      */
     DataSource getDataSource();

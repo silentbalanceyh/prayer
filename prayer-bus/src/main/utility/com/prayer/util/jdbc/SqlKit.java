@@ -9,10 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
@@ -38,9 +39,9 @@ public final class SqlKit {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
-    public static int execute(@NotNull final JdbcTemplate jdbc, @NotNull @NotBlank @NotEmpty final String sql) {
+    public static int execute(@NotNull final DataSource dataSource, @NotNull @NotBlank @NotEmpty final String sql) {
         int ret = Constants.RC_FAILURE;
-        try (final Connection conn = jdbc.getDataSource().getConnection()) {
+        try (final Connection conn = dataSource.getConnection()) {
             final ScriptRunner runner = new ScriptRunner(conn);
             final ByteArrayInputStream istream = new ByteArrayInputStream(sql.getBytes(Resources.SYS_ENCODING.name()));
             final Reader sqlReader = new InputStreamReader(istream);
@@ -58,9 +59,9 @@ public final class SqlKit {
     }
 
     /** **/
-    public static int execute(@NotNull final JdbcTemplate jdbc, @NotNull final Reader reader) {
+    public static int execute(@NotNull final DataSource dataSource, @NotNull final Reader reader) {
         int ret = Constants.RC_FAILURE;
-        try (final Connection conn = jdbc.getDataSource().getConnection()) {
+        try (final Connection conn = dataSource.getConnection()) {
             final ScriptRunner runner = new ScriptRunner(conn);
             // set to false, runs script line by line
             runner.setSendFullScript(true);

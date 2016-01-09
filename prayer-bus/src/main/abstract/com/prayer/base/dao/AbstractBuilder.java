@@ -16,7 +16,7 @@ import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.facade.dao.Builder;
-import com.prayer.facade.dao.JdbcConnection;
+import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.model.database.PEField;
 import com.prayer.model.database.PEKey;
 import com.prayer.model.kernel.GenericSchema;

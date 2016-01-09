@@ -20,9 +20,9 @@ import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.exception.database.MapperClassNullException;
-import com.prayer.facade.dao.JdbcConnection;
 import com.prayer.facade.dao.metadata.TemplateDao;
 import com.prayer.facade.mapper.H2TMapper;
+import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.plugin.ibatis.PESessionManager;
 import com.prayer.pool.impl.jdbc.H2ConnImpl;
 
