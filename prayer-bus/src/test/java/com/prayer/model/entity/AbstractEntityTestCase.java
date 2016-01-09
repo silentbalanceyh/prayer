@@ -29,6 +29,7 @@ public abstract class AbstractEntityTestCase {
     // ~ Override Methods ====================================
     /** **/
     public abstract Entity getInstance(String file);
+
     // ~ Methods =============================================
     /**
      * 读取JsonObject的方法
@@ -43,6 +44,17 @@ public abstract class AbstractEntityTestCase {
             json.mergeIn(new JsonObject(content));
         }
         return json;
+    }
+
+    /**
+     * 检查
+     */
+    @Test
+    public void testJsonInvalid() {
+        final Entity actual = this.getInstance(EMPTY_FILE);
+        // Compare
+        final Entity expected = this.getInstance(null);
+        assertEquals(expected, actual);
     }
 
     /**
