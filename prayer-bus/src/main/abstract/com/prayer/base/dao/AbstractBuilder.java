@@ -15,12 +15,12 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.StatusFlag;
-import com.prayer.dao.impl.jdbc.RecordConnImpl;
 import com.prayer.facade.dao.Builder;
-import com.prayer.facade.dao.JdbcContext;
+import com.prayer.facade.dao.JdbcConnection;
 import com.prayer.model.database.PEField;
 import com.prayer.model.database.PEKey;
 import com.prayer.model.kernel.GenericSchema;
+import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.util.jdbc.SqlDDL;
 import com.prayer.util.string.StringKit;
 
@@ -45,8 +45,8 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
     // ~ Instance Fields =====================================
     /** 数据库连接 **/
     @NotNull
-    @InstanceOf(JdbcContext.class)
-    private transient final JdbcContext context; // NOPMD
+    @InstanceOf(JdbcConnection.class)
+    private transient final JdbcConnection context; // NOPMD
     /** 创建表的Sql语句 **/
     @NotNull
     private transient final List<String> sqlLines;
@@ -272,7 +272,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return the context
      */
     @NotNull
-    protected JdbcContext getContext() {
+    protected JdbcConnection getContext() {
         return context;
     }
 

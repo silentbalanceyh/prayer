@@ -1,4 +1,4 @@
-package com.prayer.facade.dao.schema;
+package com.prayer.facade.dao.metadata;
 
 import com.prayer.model.vertx.PEScript;
 

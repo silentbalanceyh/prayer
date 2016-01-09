@@ -18,7 +18,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.facade.dao.JdbcContext;
+import com.prayer.facade.dao.JdbcConnection;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
@@ -168,7 +168,7 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 			final String[] columns, final List<Value<?>> params, final Expression filters,
 			final OrderBy orders, final Pager pager) throws AbstractDatabaseException {
 		// 1.获取JDBC访问器
-		final JdbcContext jdbc = this.getContext(record.identifier());
+		final JdbcConnection jdbc = this.getContext(record.identifier());
 		// 2.生成SQL Count语句
 		final String countSql = SqlDML.prepCountSQL(record.table(),
 				filters);
@@ -280,7 +280,7 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 				.size());
 		// 获取主键Policy策略以及Jdbc访问器
 		final MetaPolicy policy = record.policy();
-		final JdbcContext jdbc = this.getContext(record.identifier());
+		final JdbcConnection jdbc = this.getContext(record.identifier());
 		if (MetaPolicy.INCREMENT == policy) {
 			/**
 			 * 如果主键是自增长的，需要获取相应的SEQ值
@@ -304,7 +304,7 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 	/**
 	 * This method is for Oracle only
 	 */
-	private String getSEQ(final Record record, final JdbcContext jdbc) {
+	private String getSEQ(final Record record, final JdbcConnection jdbc) {
 		final String seqSql = MessageFormat.format(SQL_NEXT_SEQ,
 				record.seqname());
 		final List<String> retList = jdbc.select(seqSql, "NEXTVAL");

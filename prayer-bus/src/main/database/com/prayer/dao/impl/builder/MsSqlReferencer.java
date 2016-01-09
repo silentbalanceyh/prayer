@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.facade.dao.JdbcContext;
+import com.prayer.facade.dao.JdbcConnection;
 import com.prayer.facade.schema.Referencer;
 import com.prayer.model.kernel.FKReferencer;
 import com.prayer.util.jdbc.SqlDDL;
@@ -28,8 +28,8 @@ public final class MsSqlReferencer implements Referencer {
     // ~ Instance Fields =====================================
     /** 数据库连接 **/
     @NotNull
-    @InstanceOf(JdbcContext.class)
-    private transient final JdbcContext context; // NOPMD
+    @InstanceOf(JdbcConnection.class)
+    private transient final JdbcConnection context; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -38,7 +38,7 @@ public final class MsSqlReferencer implements Referencer {
      * 
      */
     @PostValidateThis
-    public MsSqlReferencer(@NotNull final JdbcContext context) {
+    public MsSqlReferencer(@NotNull final JdbcConnection context) {
         this.context = context;
     }
     // ~ Abstract Methods ====================================

@@ -14,7 +14,7 @@ import com.prayer.model.type.DataType;
  * @author Lang
  * @see
  */
-public interface JdbcContext {
+public interface JdbcConnection {
 
     /**
      * 单列读取【仅支持String类型】

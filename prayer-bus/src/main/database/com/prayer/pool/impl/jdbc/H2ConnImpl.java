@@ -1,9 +1,9 @@
-package com.prayer.dao.impl.jdbc;
+package com.prayer.pool.impl.jdbc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.dao.AbstractConn;
+import com.prayer.base.pool.AbstractJdbcConnection;
 import com.prayer.constant.Resources;
 import com.prayer.util.io.PropertyKit;
 
@@ -15,7 +15,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class H2ConnImpl extends AbstractConn{
+public class H2ConnImpl extends AbstractJdbcConnection{
     // ~ Static Fields =======================================
     /** **/
     private static final PropertyKit LOADER = new PropertyKit(H2ConnImpl.class,Resources.DB_CFG_FILE);

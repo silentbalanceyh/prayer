@@ -16,8 +16,7 @@ import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.dao.impl.jdbc.RecordConnImpl;
-import com.prayer.facade.dao.JdbcContext;
+import com.prayer.facade.dao.JdbcConnection;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
@@ -25,6 +24,7 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.database.PEField;
 import com.prayer.model.kernel.GenericRecord;
+import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.util.exception.Interrupter.PrimaryKey;
 import com.prayer.util.jdbc.QueryHelper;
 import com.prayer.util.jdbc.SqlDML;
@@ -62,9 +62,9 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
      * @return
      */
     @NotNull
-    @InstanceOf(JdbcContext.class)
-    protected JdbcContext getContext(@NotNull @NotEmpty @NotBlank final String identifier) {
-        JdbcContext context = MemoryPool.POOL_JDBC.get(identifier);
+    @InstanceOf(JdbcConnection.class)
+    protected JdbcConnection getContext(@NotNull @NotEmpty @NotBlank final String identifier) {
+        JdbcConnection context = MemoryPool.POOL_JDBC.get(identifier);
         if (null == context) {
             context = reservoir(MemoryPool.POOL_JDBC, identifier, RecordConnImpl.class);
         }
@@ -101,7 +101,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
             paramValues.add(record.column(column));
         }
         // 7.执行
-        final JdbcContext jdbc = this.getContext(record.identifier());
+        final JdbcConnection jdbc = this.getContext(record.identifier());
         final int ret = jdbc.execute(sql, paramValues);
         return ret > Constants.RC_SUCCESS;
     }
@@ -118,7 +118,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         PrimaryKey.interrupt(getClass(), record.identifier(), record.idschema().size());
         // 获取主键Policy策略以及Jdbc访问器
         final MetaPolicy policy = record.policy();
-        final JdbcContext jdbc = this.getContext(record.identifier());
+        final JdbcConnection jdbc = this.getContext(record.identifier());
         if (MetaPolicy.INCREMENT == policy) {
             /**
              * 如果主键是自增长的，在插入数据的时候不需要传参，并且插入成功过后需要获取返回值
@@ -204,7 +204,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
             @InstanceOf(Expression.class) final Expression filters, @InstanceOfAny(OrderBy.class) final OrderBy orders)
                     throws AbstractDatabaseException {
         // 1.获取JDBC访问器
-        final JdbcContext jdbc = this.getContext(record.identifier());
+        final JdbcConnection jdbc = this.getContext(record.identifier());
         // 2.生成SQL语句
         final String sql = SqlDML.prepSelectSQL(record.table(), Arrays.asList(columns), filters, orders);
         // 3.根据参数表生成查询结果集
@@ -223,7 +223,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
     protected boolean sharedDelete(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
             @NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
         // 1.获取JDBC访问器
-        final JdbcContext jdbc = this.getContext(record.identifier());
+        final JdbcConnection jdbc = this.getContext(record.identifier());
         // 2.生成Expression
         final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
         final Expression whereExpr = QueryHelper.getAndExpr(paramCols);
@@ -247,7 +247,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
     protected boolean sharedPurge(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
             throws AbstractDatabaseException {
         // 1.获取JDBC访问器
-        final JdbcContext jdbc = this.getContext(record.identifier());
+        final JdbcConnection jdbc = this.getContext(record.identifier());
         // 2.生成SQL语句
         final String sql = SqlDML.prepDeleteSQL(record.table(), null);
         // 3.执行，因为是Purge

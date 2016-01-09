@@ -18,19 +18,19 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
-import com.prayer.dao.impl.jdbc.RecordConnImpl;
-import com.prayer.dao.impl.schema.SchemaDaoImpl;
+import com.prayer.dao.impl.metadata.SchemaDaoImpl;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.Builder;
-import com.prayer.facade.dao.JdbcContext;
+import com.prayer.facade.dao.JdbcConnection;
 import com.prayer.facade.dao.RecordDao;
-import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.schema.DataValidator;
 import com.prayer.facade.schema.Importer;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.model.kernel.GenericSchema;
+import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.schema.json.CommunionImporter;
 
 import jodd.util.StringUtil;
@@ -50,7 +50,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     /** **/
     private transient final SchemaDao dao;
     /** **/
-    private transient final JdbcContext context;
+    private transient final JdbcConnection context;
     /** **/
     private transient RecordDao recordDao;
     /** **/
@@ -93,7 +93,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     }
 
     /** **/
-    protected JdbcContext getContext() {
+    protected JdbcConnection getContext() {
         return this.context;
     }
     /** **/

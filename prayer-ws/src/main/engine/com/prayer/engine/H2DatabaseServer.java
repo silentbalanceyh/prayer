@@ -171,7 +171,7 @@ public class H2DatabaseServer {
     
     /** 初始化OOB元数据 **/
     public boolean initMetadata() {
-        return this.initMetadata(Resources.META_OOB_FOLDER);
+        return this.initMetadata(Resources.OOB_DATA_FOLDER);
     }
 
     /** 按照目录初始化元数据 **/

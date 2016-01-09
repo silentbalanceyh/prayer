@@ -13,7 +13,7 @@ import net.sf.oval.guard.Guarded;
 public final class Accessors {
     // ~ Static Fields =======================================
     /** 默认值 **/
-    private static final String DFT_DB_POOL = "com.prayer.dao.impl.jdbc.BoneCPPool";
+    private static final String DFT_DB_POOL = "com.prayer.pool.impl.jdbc.BoneCPPool";
     /** Builder 默认值 **/
     private static final String DFT_DB_BUILDER = "com.prayer.dao.impl.builder.MsSqlBuilder";
     /** Validator 默认值 **/

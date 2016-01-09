@@ -1,10 +1,10 @@
-package com.prayer.facade.dao.schema;
+package com.prayer.facade.dao.metadata;
 
 import java.io.Serializable;
 import java.util.List;
 
 import com.prayer.base.exception.AbstractTransactionException;
-import com.prayer.facade.dao.JdbcContext;
+import com.prayer.facade.dao.JdbcConnection;
 
 /**
  * 
@@ -69,5 +69,5 @@ public interface TemplateDao<T, ID extends Serializable> {    // NOPMD
      * @param identifier
      * @return
      */
-    JdbcContext getContext(String identifier);
+    JdbcConnection getContext(String identifier);
 }

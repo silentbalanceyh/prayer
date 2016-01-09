@@ -9,14 +9,14 @@ import com.prayer.AbstractTestCase;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
-import com.prayer.dao.impl.jdbc.RecordConnImpl;
-import com.prayer.dao.impl.schema.SchemaDaoImpl;
+import com.prayer.dao.impl.metadata.SchemaDaoImpl;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.facade.dao.JdbcContext;
-import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.facade.dao.JdbcConnection;
+import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.facade.schema.Importer;
 import com.prayer.facade.schema.Serializer;
 import com.prayer.model.kernel.GenericSchema;
+import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.schema.CommunionSerializer;
 import com.prayer.schema.json.CommunionImporter;
 
@@ -39,7 +39,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
     /** **/
     protected transient SchemaDao service;    // NOPMD
     /** **/
-    protected transient JdbcContext context;    // NOPMD
+    protected transient JdbcConnection context;    // NOPMD
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

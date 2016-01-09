@@ -19,7 +19,7 @@ import net.sf.oval.guard.Guarded;
  * @see
  */
 @Guarded
-public final class SessionManager {
+public final class PESessionManager {
     // ~ Static Fields =======================================
     /** Session Factory 的单例 **/
     private static SqlSessionFactory sessionFactory;
@@ -50,7 +50,7 @@ public final class SessionManager {
     // ~ Get/Set =============================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private SessionManager() {
+    private PESessionManager() {
     }
     // ~ hashCode,equals,toString ============================
 }

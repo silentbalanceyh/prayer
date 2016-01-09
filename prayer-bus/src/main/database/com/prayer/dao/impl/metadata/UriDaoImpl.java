@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.schema;
+package com.prayer.dao.impl.metadata;
 
 import java.util.List;
 
@@ -6,11 +6,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.dao.schema.RouteDao;
-import com.prayer.facade.mapper.RouteMapper;
-import com.prayer.model.vertx.PERoute;
-import com.prayer.plugin.ibatis.SessionManager;
+import com.prayer.facade.dao.metadata.UriDao;
+import com.prayer.facade.mapper.UriMapper;
+import com.prayer.model.vertx.PEUri;
+import com.prayer.plugin.ibatis.PESessionManager;
 
+import io.vertx.core.http.HttpMethod;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -22,10 +23,10 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RouteDaoImpl extends TemplateDaoImpl<PERoute, String>implements RouteDao { // NOPMD
+public class UriDaoImpl extends TemplateDaoImpl<PEUri, String>implements UriDao { // NOPMD
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(RouteDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UriDaoImpl.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -42,38 +43,36 @@ public class RouteDaoImpl extends TemplateDaoImpl<PERoute, String>implements Rou
     /** 获取Mapper类型 **/
     @Override
     protected Class<?> getMapper() {
-        return RouteMapper.class;
+        return UriMapper.class;
     }
 
-    /** 根据路径查询 **/
+    /** 根据URI查询系统中的唯一记录 **/
     @Override
-    public PERoute getByPath(@NotNull @NotBlank @NotEmpty final String parent,
-            @NotNull @NotBlank @NotEmpty final String path) {
+    public PEUri getByUri(@NotNull @NotBlank @NotEmpty final String uri, @NotNull final HttpMethod method) {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         // 2.获取Mapper
-        final RouteMapper mapper = session.getMapper(RouteMapper.class);
-        // 3.读取Model
-        final PERoute ret = mapper.selectByPath(parent, path);
-        // 4.关闭Session并返回最终结果
+        final UriMapper mapper = session.getMapper(UriMapper.class);
+        // 3.读取返回信息
+        final PEUri ret = mapper.selectByUriAndMethod(uri, method);
+        // 4.关闭Session并且返回最终结果
         session.close();
         return ret;
     }
 
-    /** 根据根路径查询 **/
+    /** 根据URI查询系统中存在的Method，405 问题专用 **/
     @Override
-    public List<PERoute> getByParent(@NotNull @NotBlank @NotEmpty final String parent) {
+    public List<PEUri> getByUri(@NotNull @NotBlank @NotEmpty final String uri) {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         // 2.获取Mapper
-        final RouteMapper mapper = session.getMapper(RouteMapper.class);
-        // 3.读取Model
-        final List<PERoute> retList = mapper.selectByParent(parent);
-        // 4.关闭Session并返回最终结果
+        final UriMapper mapper = session.getMapper(UriMapper.class);
+        // 3.List结果
+        final List<PEUri> uris = mapper.selectByUri(uri);
+        // 4.关Session返回最终结果
         session.close();
-        return retList;
+        return uris;
     }
-
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

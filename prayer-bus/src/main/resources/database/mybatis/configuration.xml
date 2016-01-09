@@ -30,7 +30,7 @@
         <environment id="H2Environment">
             <transactionManager type="JDBC" />
             <dataSource
-                type="com.prayer.plugin.ibatis.BoneCPDataSourceFactory" />
+                type="com.prayer.plugin.ibatis.PEDataSourceFactory" />
         </environment>
     </environments>
     <mappers>

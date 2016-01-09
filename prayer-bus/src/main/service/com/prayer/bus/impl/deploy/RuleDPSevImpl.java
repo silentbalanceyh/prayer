@@ -15,7 +15,7 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.dao.impl.schema.RuleDaoImpl;
+import com.prayer.dao.impl.metadata.RuleDaoImpl;
 import com.prayer.facade.bus.deploy.RuleDPService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.PERule;

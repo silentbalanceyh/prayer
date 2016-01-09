@@ -14,7 +14,7 @@ import com.prayer.base.bus.AbstractDPSevImpl;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
-import com.prayer.dao.impl.schema.UriDaoImpl;
+import com.prayer.dao.impl.metadata.UriDaoImpl;
 import com.prayer.facade.bus.deploy.UriDPService;
 import com.prayer.model.vertx.PEUri;
 import com.prayer.util.io.JsonKit;

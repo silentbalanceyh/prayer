@@ -1,4 +1,4 @@
-package com.prayer.facade.dao.schema;
+package com.prayer.facade.dao.metadata;
 
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.system.DataLoadingException;

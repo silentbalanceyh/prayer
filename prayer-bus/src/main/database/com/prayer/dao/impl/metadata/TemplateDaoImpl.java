@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.schema;
+package com.prayer.dao.impl.metadata;
 
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.debug.Log.peError;
@@ -19,12 +19,12 @@ import com.prayer.base.dao.AbstractDaoImpl;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
-import com.prayer.dao.impl.jdbc.H2ConnImpl;
 import com.prayer.exception.database.MapperClassNullException;
-import com.prayer.facade.dao.JdbcContext;
-import com.prayer.facade.dao.schema.TemplateDao;
+import com.prayer.facade.dao.JdbcConnection;
+import com.prayer.facade.dao.metadata.TemplateDao;
 import com.prayer.facade.mapper.H2TMapper;
-import com.prayer.plugin.ibatis.SessionManager;
+import com.prayer.plugin.ibatis.PESessionManager;
+import com.prayer.pool.impl.jdbc.H2ConnImpl;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.Min;
@@ -72,7 +72,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
         // 1.设置返回List
         final List<T> retList = new ArrayList<>();
         // 2.开启Mybatis事务处理
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         // 3.执行插入操作
         final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
@@ -108,7 +108,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
     @Override
     public T update(@NotNull final T entity) throws AbstractTransactionException {
         // 1.开启Mybatis事务
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         // 2.获取Mapper
         final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
@@ -125,7 +125,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
     @Override
     public boolean deleteById(@NotNull final ID uniqueId) throws AbstractTransactionException {
         // 1.开启Mybatis事务
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         // 2.删除当前记录
         final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
@@ -139,7 +139,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
     @Override
     public T getById(@NotNull final ID uniqueId) {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         T ret = null;
         try {
             // 2.获取Mapper
@@ -158,7 +158,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
     @Override
     public List<T> getAll() {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         List<T> retList = null;
         try {
             // 2.获取Mapper
@@ -179,7 +179,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
     @Override
     public List<T> getByPage(@Min(1) final int index, @Min(1) final int size, @NotNull @NotEmpty @NotBlank final String orderBy){
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         // 2.计算偏移量
         final int start = (index - 1) * size;
         List<T> retList = null;
@@ -200,7 +200,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
     @Override
     public boolean clear() throws AbstractTransactionException {
         // 1.开启Mybatis事务
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         // 2.删除当前记录
         final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
@@ -211,9 +211,9 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
     }
     /** 获取连接信息 **/
     @NotNull
-    @InstanceOf(JdbcContext.class)
-    public JdbcContext getContext(@NotNull @NotEmpty @NotBlank final String identifier){
-        JdbcContext context = MemoryPool.POOL_JDBC.get(identifier);
+    @InstanceOf(JdbcConnection.class)
+    public JdbcConnection getContext(@NotNull @NotEmpty @NotBlank final String identifier){
+        JdbcConnection context = MemoryPool.POOL_JDBC.get(identifier);
         if (null == context) {
             context = reservoir(MemoryPool.POOL_JDBC, identifier, H2ConnImpl.class);
         }

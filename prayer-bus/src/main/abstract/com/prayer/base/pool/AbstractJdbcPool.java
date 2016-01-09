@@ -1,4 +1,4 @@
-package com.prayer.base.dao;
+package com.prayer.base.pool;
 
 import javax.sql.DataSource;
 
@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
+import com.prayer.facade.pool.JdbcPool;
 import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
@@ -24,11 +25,11 @@ import net.sf.oval.guard.Pre;
  * @see
  */
 @Guarded
-public abstract class AbstractDbPool {
+public abstract class AbstractJdbcPool implements JdbcPool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /**
-     * 数据库的种类： MSSQL,PGSQL,ORACLE,MYSQL,MONGODB
+     * 数据库的种类： MSSQL,PGSQL,ORACLE,MYSQL,MONGODB,H2
      */
     @NotNull
     @NotEmpty
@@ -46,7 +47,7 @@ public abstract class AbstractDbPool {
      * 默认构造函数
      */
     @PostValidateThis
-    protected AbstractDbPool() {
+    protected AbstractJdbcPool() {
         this(Resources.DB_CATEGORY);
     }
 
@@ -56,7 +57,7 @@ public abstract class AbstractDbPool {
      * @param category
      */
     @PostValidateThis
-    protected AbstractDbPool(@AssertFieldConstraints("category") final String category) {
+    protected AbstractJdbcPool(@AssertFieldConstraints("category") final String category) {
         synchronized (getClass()) {
             this.category = category;
             // 初始化数据源
@@ -108,6 +109,7 @@ public abstract class AbstractDbPool {
      */
     @NotNull
     @Pre(expr = "_this.category != null", lang = Constants.LANG_GROOVY)
+    @Override
     public String getCategory() {
         return this.category;
     }
@@ -118,6 +120,7 @@ public abstract class AbstractDbPool {
      * @return
      */
     @Pre(expr = "_this.loader != null", lang = Constants.LANG_GROOVY)
+    @Override
     public PropertyKit getLoader() {
         return this.LOADER;
     }

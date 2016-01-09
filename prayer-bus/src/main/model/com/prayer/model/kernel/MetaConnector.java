@@ -51,7 +51,7 @@ public class MetaConnector { // NOPMD
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaConnector.class);
     /** 元数据资源文件 **/
-    private static final PropertyKit LOADER = new PropertyKit(MetaConnector.class, Resources.META_CFG_FILE);
+    private static final PropertyKit LOADER = new PropertyKit(MetaConnector.class, Resources.OOB_SCHEMA_FILE);
     /** 前置条件 **/
     private static final String PRE_ID_CON = "_this._identifier != null";
     /** 元数据Global ID集合 **/
@@ -232,7 +232,7 @@ public class MetaConnector { // NOPMD
         if (null != this.nameList && this.nameList.isEmpty()) {
             this.nameList.addAll(Arrays.asList(LOADER.getArray(this.identifier() + ".field.names")));
             if (this.nameList.isEmpty()) {
-                throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
+                throw new MetadataDefMissingException(getClass(), Resources.OOB_SCHEMA_FILE,
                         this.identifier() + ".field.names");
             }
         }
@@ -240,14 +240,14 @@ public class MetaConnector { // NOPMD
         if (null != this.typeList && this.typeList.isEmpty()) {
             final List<String> typeLiteral = Arrays.asList(LOADER.getArray(this.identifier() + ".field.types"));
             if (typeLiteral.isEmpty()) {
-                throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
+                throw new MetadataDefMissingException(getClass(), Resources.OOB_SCHEMA_FILE,
                         this.identifier() + ".field.types");
             } else {
                 for (final String literal : typeLiteral) {
                     if (StringKit.isNonNil(literal)) {
                         final DataType type = DataType.fromString(literal);
                         if (null == type) { // NOPMD
-                            throw new MetaTypeWrongException(getClass(), literal, Resources.META_CFG_FILE,
+                            throw new MetaTypeWrongException(getClass(), literal, Resources.OOB_SCHEMA_FILE,
                                     this.identifier() + ".field.types");
                         }
                         this.typeList.add(type);
@@ -261,7 +261,7 @@ public class MetaConnector { // NOPMD
             // this.columnList.addAll(fromStr(LOADER.getString(this.identifier()
             // + ".column.names"), ","));
             if (this.columnList.isEmpty()) {
-                throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
+                throw new MetadataDefMissingException(getClass(), Resources.OOB_SCHEMA_FILE,
                         this.identifier() + ".column.names");
             }
         }
@@ -269,7 +269,7 @@ public class MetaConnector { // NOPMD
         if (null != this.colTypeList && this.colTypeList.isEmpty()) {
             final List<String> typeLiteral = Arrays.asList(LOADER.getArray(this.identifier() + ".column.types"));
             if (typeLiteral.isEmpty()) {
-                throw new MetadataDefMissingException(getClass(), Resources.META_CFG_FILE,
+                throw new MetadataDefMissingException(getClass(), Resources.OOB_SCHEMA_FILE,
                         this.identifier() + ".column.types");
             } else {
                 for (final String literal : typeLiteral) {
@@ -277,7 +277,7 @@ public class MetaConnector { // NOPMD
                         if (DBTYPES.contains(literal)) {
                             this.colTypeList.add(literal);
                         } else {
-                            throw new MetaTypeWrongException(getClass(), literal, Resources.META_CFG_FILE,
+                            throw new MetaTypeWrongException(getClass(), literal, Resources.OOB_SCHEMA_FILE,
                                     this.identifier() + ".column.types");
                         }
                     }

@@ -14,7 +14,7 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.dao.impl.schema.ScriptDaoImpl;
+import com.prayer.dao.impl.metadata.ScriptDaoImpl;
 import com.prayer.facade.bus.deploy.ScriptDPService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.PEScript;

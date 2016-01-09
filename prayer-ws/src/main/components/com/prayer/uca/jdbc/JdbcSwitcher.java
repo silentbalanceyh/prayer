@@ -5,9 +5,9 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.constant.SystemEnum.UACSource;
-import com.prayer.dao.impl.jdbc.H2ConnImpl;
-import com.prayer.dao.impl.jdbc.RecordConnImpl;
-import com.prayer.facade.dao.JdbcContext;
+import com.prayer.facade.dao.JdbcConnection;
+import com.prayer.pool.impl.jdbc.H2ConnImpl;
+import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.util.string.StringKit;
 import com.prayer.util.web.Extractor;
 
@@ -27,9 +27,9 @@ public class JdbcSwitcher {
     private static final String SOURCE = "$$SOURCE";
     // ~ Instance Fields =====================================
     /** **/
-    private transient final JdbcContext dataContext;
+    private transient final JdbcConnection dataContext;
     /** **/
-    private transient final JdbcContext h2Context;
+    private transient final JdbcConnection h2Context;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -43,8 +43,8 @@ public class JdbcSwitcher {
     // ~ Methods =============================================
     /** **/
     @NotNull
-    public JdbcContext getContext(final JsonObject config) throws AbstractWebException{
-        JdbcContext context = null;
+    public JdbcConnection getContext(final JsonObject config) throws AbstractWebException{
+        JdbcConnection context = null;
         if(config.containsKey(SOURCE)){
             // 检查$$SOURCE是不是一个字符串
             final String source = Extractor.getString(config, SOURCE);

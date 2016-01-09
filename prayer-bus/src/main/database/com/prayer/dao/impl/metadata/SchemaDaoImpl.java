@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.schema;
+package com.prayer.dao.impl.metadata;
 
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.debug.Log.debug;
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.dao.AbstractDaoImpl;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.facade.mapper.FieldMapper;
 import com.prayer.facade.mapper.KeyMapper;
 import com.prayer.facade.mapper.MetaMapper;
@@ -23,7 +23,7 @@ import com.prayer.model.database.PEKey;
 import com.prayer.model.database.PEMeta;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.SchemaExpander;
-import com.prayer.plugin.ibatis.SessionManager;
+import com.prayer.plugin.ibatis.PESessionManager;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.NotBlank;
@@ -67,7 +67,7 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
         }
         this.prepareData(schema);
         // 2.开启Mybatis的事务
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         {
             // 3.MetaModel的导入
@@ -91,7 +91,7 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
         // 2.数据准备
         this.prepareData(latestSchema);
         // 3.开启Mybatis的事务
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         {
             // 4.MetaModel的更新
@@ -114,7 +114,7 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
     @Override
     public GenericSchema getById(@NotNull @NotBlank @NotEmpty final String globalId) {
         // 1.读取Meta
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         final MetaMapper metaMapper = session.getMapper(MetaMapper.class);
         final PEMeta meta = metaMapper.selectByGlobalId(globalId);
 
@@ -129,7 +129,7 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
     @Override
     public boolean deleteById(@NotNull @NotBlank @NotEmpty final String identifier) throws AbstractTransactionException {
         // 1.开启Mybatis的事务
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         final GenericSchema schema = this.getById(identifier);
         final String metaId = schema.getMeta().getUniqueId();
@@ -157,7 +157,7 @@ public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOP
     private GenericSchema extractSchema(final PEMeta meta) {
         // 1.读取Keys -> List
         List<PEKey> keys = null;
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         if (null != meta && null != meta.getUniqueId()) {
             final KeyMapper keyMapper = session.getMapper(KeyMapper.class);
             keys = keyMapper.selectByMeta(meta.getUniqueId());

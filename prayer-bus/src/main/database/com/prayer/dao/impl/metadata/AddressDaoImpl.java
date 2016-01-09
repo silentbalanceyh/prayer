@@ -1,13 +1,13 @@
-package com.prayer.dao.impl.schema;
+package com.prayer.dao.impl.metadata;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.dao.schema.ScriptDao;
-import com.prayer.facade.mapper.ScriptMapper;
-import com.prayer.model.vertx.PEScript;
-import com.prayer.plugin.ibatis.SessionManager;
+import com.prayer.facade.dao.metadata.AddressDao;
+import com.prayer.facade.mapper.AddressMapper;
+import com.prayer.model.vertx.PEAddress;
+import com.prayer.plugin.ibatis.PESessionManager;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -20,10 +20,10 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class ScriptDaoImpl extends TemplateDaoImpl<PEScript, String> implements ScriptDao {    // NOPMD
+public class AddressDaoImpl extends TemplateDaoImpl<PEAddress, String> implements AddressDao {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddressDaoImpl.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -40,23 +40,22 @@ public class ScriptDaoImpl extends TemplateDaoImpl<PEScript, String> implements 
     /** 获取Mapper类型 **/
     @Override
     protected Class<?> getMapper() {
-        return ScriptMapper.class;
+        return AddressMapper.class;
     }
 
     /** **/
     @Override
-    public PEScript getByName(@NotNull @NotBlank @NotEmpty final String name) {
+    public PEAddress getByClass(@NotNull @NotBlank @NotEmpty final Class<?> workClass) {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         // 2.获取Mapper
-        final ScriptMapper mapper = session.getMapper(ScriptMapper.class);
+        final AddressMapper mapper = session.getMapper(AddressMapper.class);
         // 3.读取返回信息
-        final PEScript ret = mapper.selectByName(name);
-        // 4.关闭Session并且返回最终结果
+        final PEAddress ret = mapper.selectByClass(workClass);
+        // 4.关闭Session并返回
         session.close();
         return ret;
     }
-
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

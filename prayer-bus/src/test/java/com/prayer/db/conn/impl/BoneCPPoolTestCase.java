@@ -7,9 +7,9 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 import org.junit.Test;
 
 import com.prayer.AbstractTestCase;
-import com.prayer.base.dao.AbstractDbPool;
+import com.prayer.base.pool.AbstractJdbcPool;
 import com.prayer.constant.Resources;
-import com.prayer.dao.impl.jdbc.BoneCPPool;
+import com.prayer.pool.impl.jdbc.BoneCPPool;
 
 /**
  * 
@@ -21,7 +21,7 @@ public class BoneCPPoolTestCase extends AbstractTestCase {
     // ~ Constructors ========================================
     /** **/
     public BoneCPPoolTestCase() {
-        super(AbstractDbPool.class.getName());
+        super(AbstractJdbcPool.class.getName());
         // instance("xxx",null); Compiler High Level Warning
     }
 
@@ -30,7 +30,7 @@ public class BoneCPPoolTestCase extends AbstractTestCase {
     @Test(expected = ConstraintsViolatedException.class)
     public void testCon1() {
         setMethod("Constructor with exception.");
-        final AbstractDbPool pool = instance(BoneCPPool.class.getName(), "  ");
+        final AbstractJdbcPool pool = instance(BoneCPPool.class.getName(), "  ");
         failure(pool);
     }
 
@@ -38,7 +38,7 @@ public class BoneCPPoolTestCase extends AbstractTestCase {
     @Test(expected = ConstraintsViolatedException.class)
     public void testCon2() {
         setMethod("Constructor with exception.");
-        final AbstractDbPool pool = instance(BoneCPPool.class.getName(), "");
+        final AbstractJdbcPool pool = instance(BoneCPPool.class.getName(), "");
         failure(pool);
     }
 
@@ -46,7 +46,7 @@ public class BoneCPPoolTestCase extends AbstractTestCase {
     @Test
     public void testCon3() {
         setMethod("Constructor.");
-        final AbstractDbPool pool = instance(BoneCPPool.class.getName());
+        final AbstractJdbcPool pool = instance(BoneCPPool.class.getName());
         assertNotNull(getPosition(), pool);
     }
 
@@ -54,7 +54,7 @@ public class BoneCPPoolTestCase extends AbstractTestCase {
     @Test
     public void testCon4() {
         setMethod("Constructor.");
-        final AbstractDbPool pool = instance(BoneCPPool.class.getName(),
+        final AbstractJdbcPool pool = instance(BoneCPPool.class.getName(),
                 Resources.DB_CATEGORY);
         assertNotNull(getPosition(), pool);
     }
@@ -63,7 +63,7 @@ public class BoneCPPoolTestCase extends AbstractTestCase {
     @Test
     public void testGetJdbc() {
         setMethod("getJdbc()");
-        final AbstractDbPool pool = instance(BoneCPPool.class.getName());
+        final AbstractJdbcPool pool = instance(BoneCPPool.class.getName());
         if (null != pool) {
             assertNotNull(getPosition(), pool.getJdbc());
         }

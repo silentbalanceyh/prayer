@@ -64,15 +64,15 @@ public class DeployTestCase {
      */
     @Test
     public void testDeploy() throws Exception {
-        ServiceResult<Boolean> ret = this.service.deployMetadata(Resources.META_OOB_FOLDER);
+        ServiceResult<Boolean> ret = this.service.deployMetadata(Resources.OOB_DATA_FOLDER);
         assertTrue("[TD] Deploying failure ! ", ret.getResult());
 
         // 添加默认账号信息的测试用例
         ret = this.dataSev.purgeData("sec.account");
-        ret = this.dataSev.deployData(Resources.META_OOB_FOLDER, "sec.account");
+        ret = this.dataSev.deployData(Resources.OOB_DATA_FOLDER, "sec.account");
         // 添加默认角色信息
         ret = this.dataSev.purgeData("sec.role");
-        ret = this.dataSev.deployData(Resources.META_OOB_FOLDER, "sec.role");
+        ret = this.dataSev.deployData(Resources.OOB_DATA_FOLDER, "sec.role");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

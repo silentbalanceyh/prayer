@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.jdbc;
+package com.prayer.pool.impl.jdbc;
 
 import static com.prayer.util.reflection.Instance.reservoir;
 
@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 import javax.sql.DataSource;
 
 import com.jolbox.bonecp.BoneCPDataSource;
-import com.prayer.base.dao.AbstractDbPool;
+import com.prayer.base.pool.AbstractJdbcPool;
 import com.prayer.constant.MemoryPool;
 
 import net.sf.oval.constraint.InstanceOfAny;
@@ -24,7 +24,7 @@ import net.sf.oval.guard.Pre;
  * @see
  */
 @Guarded
-public class BoneCPPool extends AbstractDbPool {
+public class BoneCPPool extends AbstractJdbcPool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /**

@@ -9,8 +9,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.impl.schema.SchemaDaoImpl;
-import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.dao.impl.metadata.SchemaDaoImpl;
+import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.schema.json.CommunionImporter;
 

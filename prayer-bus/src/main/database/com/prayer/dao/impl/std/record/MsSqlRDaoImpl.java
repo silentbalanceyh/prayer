@@ -15,7 +15,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.facade.dao.JdbcContext;
+import com.prayer.facade.dao.JdbcConnection;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
@@ -155,7 +155,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
             final List<Value<?>> params, final Expression filters, final OrderBy orders, final Pager pager)
                     throws AbstractDatabaseException {
         // 1.获取JDBC访问器
-        final JdbcContext jdbc = this.getContext(record.identifier());
+        final JdbcConnection jdbc = this.getContext(record.identifier());
         // 2.生成SQL Count语句
         final String countSql = SqlDML.prepCountSQL(record.table(), filters);
         // 3.返回Sql Count

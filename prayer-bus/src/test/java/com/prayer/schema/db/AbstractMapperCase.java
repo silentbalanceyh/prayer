@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 
 import com.prayer.constant.Constants;
 import com.prayer.facade.mapper.H2TMapper;
-import com.prayer.plugin.ibatis.SessionManager;
+import com.prayer.plugin.ibatis.PESessionManager;
 
 /**
  * 
@@ -43,7 +43,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
 
     /** **/
     public AbstractMapperCase() {
-        this._session = SessionManager.getSession();
+        this._session = PESessionManager.getSession();
         this.mapper = (H2TMapper<T, ID>) _session.getMapper(getMapperClass());
     }
 

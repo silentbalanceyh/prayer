@@ -15,7 +15,7 @@ import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.deploy.TemplateDPService;
-import com.prayer.facade.dao.schema.TemplateDao;
+import com.prayer.facade.dao.metadata.TemplateDao;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.bus.ResultExtractor;
 

@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.schema;
+package com.prayer.dao.impl.metadata;
 
 import java.util.List;
 
@@ -6,12 +6,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.dao.schema.UriDao;
-import com.prayer.facade.mapper.UriMapper;
-import com.prayer.model.vertx.PEUri;
-import com.prayer.plugin.ibatis.SessionManager;
+import com.prayer.constant.SystemEnum.ComponentType;
+import com.prayer.facade.dao.metadata.RuleDao;
+import com.prayer.facade.mapper.RuleMapper;
+import com.prayer.model.vertx.PERule;
+import com.prayer.plugin.ibatis.PESessionManager;
 
-import io.vertx.core.http.HttpMethod;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -23,10 +24,10 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class UriDaoImpl extends TemplateDaoImpl<PEUri, String>implements UriDao { // NOPMD
+public class RuleDaoImpl extends TemplateDaoImpl<PERule, String> implements RuleDao { // NOPMD
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(UriDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RuleDaoImpl.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -43,36 +44,38 @@ public class UriDaoImpl extends TemplateDaoImpl<PEUri, String>implements UriDao 
     /** 获取Mapper类型 **/
     @Override
     protected Class<?> getMapper() {
-        return UriMapper.class;
+        return RuleMapper.class;
     }
 
-    /** 根据URI查询系统中的唯一记录 **/
+    /** **/
     @Override
-    public PEUri getByUri(@NotNull @NotBlank @NotEmpty final String uri, @NotNull final HttpMethod method) {
+    public List<PERule> getByUri(@NotNull @NotBlank @NotEmpty final String uriId) {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         // 2.获取Mapper
-        final UriMapper mapper = session.getMapper(UriMapper.class);
+        final RuleMapper mapper = session.getMapper(RuleMapper.class);
         // 3.读取返回信息
-        final PEUri ret = mapper.selectByUriAndMethod(uri, method);
-        // 4.关闭Session并且返回最终结果
+        final List<PERule> ret = mapper.selectByUri(uriId);
+        // 4.关闭Session
         session.close();
         return ret;
     }
 
-    /** 根据URI查询系统中存在的Method，405 问题专用 **/
+    /** **/
     @Override
-    public List<PEUri> getByUri(@NotNull @NotBlank @NotEmpty final String uri) {
+    public List<PERule> getByUriAndCom(@NotNull @NotBlank @NotEmpty final String uriId,
+            @NotNull @InstanceOfAny(ComponentType.class) final ComponentType type) {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         // 2.获取Mapper
-        final UriMapper mapper = session.getMapper(UriMapper.class);
-        // 3.List结果
-        final List<PEUri> uris = mapper.selectByUri(uri);
-        // 4.关Session返回最终结果
+        final RuleMapper mapper = session.getMapper(RuleMapper.class);
+        // 3.读取返回信息
+        final List<PERule> ret = mapper.selectByUriAndCom(uriId, type);
+        // 4.关闭Session
         session.close();
-        return uris;
+        return ret;
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

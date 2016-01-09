@@ -11,7 +11,7 @@ import com.prayer.base.bus.AbstractDPSevImpl;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.dao.impl.schema.VerticleDaoImpl;
+import com.prayer.dao.impl.metadata.VerticleDaoImpl;
 import com.prayer.facade.bus.deploy.VerticleDPService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.PEVerticle;

@@ -7,13 +7,13 @@ import java.util.Locale;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
-import com.prayer.dao.impl.jdbc.RecordConnImpl;
 import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
-import com.prayer.facade.dao.JdbcContext;
+import com.prayer.facade.dao.JdbcConnection;
 import com.prayer.facade.schema.DataValidator;
+import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOf;
@@ -35,8 +35,8 @@ public final class OracleValidator implements DataValidator {
     // ~ Instance Fields =====================================
     /** 数据库连接 **/
     @NotNull
-    @InstanceOf(JdbcContext.class)
-    private transient final JdbcContext context; // NOPMD
+    @InstanceOf(JdbcConnection.class)
+    private transient final JdbcConnection context; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================

@@ -83,7 +83,7 @@ public class SchemaCommand extends AbstractCommand {
 
     private JsonObject syncSchema(final CommandLine cmdLine) {
         final String file = cmdLine.getOptionValue('u');
-        final String schemaFile = Resources.META_OOB_FOLDER + "/schema/" + file;
+        final String schemaFile = Resources.OOB_DATA_FOLDER + "/schema/" + file;
         final URL url = IOKit.getURL(schemaFile);
         JsonObject ret = new JsonObject();
         if (null == url) {

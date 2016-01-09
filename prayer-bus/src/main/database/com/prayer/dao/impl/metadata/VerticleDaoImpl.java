@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.schema;
+package com.prayer.dao.impl.metadata;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractTransactionException;
-import com.prayer.facade.dao.schema.VerticleDao;
+import com.prayer.facade.dao.metadata.VerticleDao;
 import com.prayer.facade.mapper.VerticleMapper;
 import com.prayer.model.vertx.PEVerticle;
-import com.prayer.plugin.ibatis.SessionManager;
+import com.prayer.plugin.ibatis.PESessionManager;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -51,7 +51,7 @@ public class VerticleDaoImpl extends TemplateDaoImpl<PEVerticle, String> impleme
     @Override
     public boolean deleteByName(@NotNull final Class<?> name) throws AbstractTransactionException {
         // 1.开启Mybatis事务
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         // 2.删除当前记录
         final VerticleMapper mapper = session.getMapper(VerticleMapper.class);
@@ -65,7 +65,7 @@ public class VerticleDaoImpl extends TemplateDaoImpl<PEVerticle, String> impleme
     @Override
     public List<PEVerticle> getByGroup(@NotNull @NotBlank @NotEmpty final String group) {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         // 2.获取Mapper
         final VerticleMapper mapper = session.getMapper(VerticleMapper.class);
         // 3.返回直接结果
@@ -79,7 +79,7 @@ public class VerticleDaoImpl extends TemplateDaoImpl<PEVerticle, String> impleme
     @Override
     public PEVerticle getByClass(@NotNull final Class<?> clazz) {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         // 2.获取Mapper
         final VerticleMapper mapper = session.getMapper(VerticleMapper.class);
         // 3.读取返回信息

@@ -65,9 +65,7 @@ public final class Resources { // NOPMD
     // Metadata Configuration ================================
 
     /** Meta Data的配置文件路径 **/
-    public static final String META_CFG_FILE;
-    /** Meta Data的OOB数据默认路径 **/
-    public static final String META_OOB_FOLDER;
+    public static final String OOB_SCHEMA_FILE;
     /** Meta Data的数据库类型 **/
     public static final String META_CATEGORY;
     /** Meta Data的初始化SQL脚本位置 **/
@@ -76,6 +74,9 @@ public final class Resources { // NOPMD
     public static final String META_PURGE_SQL;
 
     // File Configuration ====================================
+
+    /** Meta Data的OOB数据默认路径 **/
+    public static final String OOB_DATA_FOLDER;
     /** Vertx的配置文件路径 **/
     public static final String VX_CFG_FILE;
     /** Server的配置文件路径 **/
@@ -158,11 +159,11 @@ public final class Resources { // NOPMD
         // Log Folder
         LOG_CFG_FOLDER = LOADER.getString("system.log.folder");
 
-        // Meta
-        META_CFG_FILE = LOADER.getString("meta.config.file");
+        // OOB Data Folder
+        OOB_DATA_FOLDER = LOADER.getString("oob.data.folder");
 
-        // Meta
-        META_OOB_FOLDER = LOADER.getString("meta.oob.data.folder");
+        // OOB Schema File
+        OOB_SCHEMA_FILE = LOADER.getString("oob.schema.file");
 
         // Meta
         META_CATEGORY = LOADER.getString("meta.category");
@@ -170,8 +171,8 @@ public final class Resources { // NOPMD
         // Meta
         META_INIT_SQL = DB_SQL_DIR + LOADER.getString("meta.init.data.file");
 
-        // Data Purge Sql
-        META_PURGE_SQL = LOADER.getString("oob.purge.data");
+        // Meta
+        META_PURGE_SQL = LOADER.getString("meta.oob.purge.data");
     }
 
     // ~ Constructors ========================================

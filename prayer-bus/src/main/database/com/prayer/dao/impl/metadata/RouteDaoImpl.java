@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.schema;
+package com.prayer.dao.impl.metadata;
 
 import java.util.List;
 
@@ -6,13 +6,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.SystemEnum.ComponentType;
-import com.prayer.facade.dao.schema.RuleDao;
-import com.prayer.facade.mapper.RuleMapper;
-import com.prayer.model.vertx.PERule;
-import com.prayer.plugin.ibatis.SessionManager;
+import com.prayer.facade.dao.metadata.RouteDao;
+import com.prayer.facade.mapper.RouteMapper;
+import com.prayer.model.vertx.PERoute;
+import com.prayer.plugin.ibatis.PESessionManager;
 
-import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -24,10 +22,10 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RuleDaoImpl extends TemplateDaoImpl<PERule, String> implements RuleDao { // NOPMD
+public class RouteDaoImpl extends TemplateDaoImpl<PERoute, String>implements RouteDao { // NOPMD
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(RuleDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RouteDaoImpl.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -44,36 +42,36 @@ public class RuleDaoImpl extends TemplateDaoImpl<PERule, String> implements Rule
     /** 获取Mapper类型 **/
     @Override
     protected Class<?> getMapper() {
-        return RuleMapper.class;
+        return RouteMapper.class;
     }
 
-    /** **/
+    /** 根据路径查询 **/
     @Override
-    public List<PERule> getByUri(@NotNull @NotBlank @NotEmpty final String uriId) {
+    public PERoute getByPath(@NotNull @NotBlank @NotEmpty final String parent,
+            @NotNull @NotBlank @NotEmpty final String path) {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         // 2.获取Mapper
-        final RuleMapper mapper = session.getMapper(RuleMapper.class);
-        // 3.读取返回信息
-        final List<PERule> ret = mapper.selectByUri(uriId);
-        // 4.关闭Session
+        final RouteMapper mapper = session.getMapper(RouteMapper.class);
+        // 3.读取Model
+        final PERoute ret = mapper.selectByPath(parent, path);
+        // 4.关闭Session并返回最终结果
         session.close();
         return ret;
     }
 
-    /** **/
+    /** 根据根路径查询 **/
     @Override
-    public List<PERule> getByUriAndCom(@NotNull @NotBlank @NotEmpty final String uriId,
-            @NotNull @InstanceOfAny(ComponentType.class) final ComponentType type) {
+    public List<PERoute> getByParent(@NotNull @NotBlank @NotEmpty final String parent) {
         // 1.初始化SqlSession
-        final SqlSession session = SessionManager.getSession();
+        final SqlSession session = PESessionManager.getSession();
         // 2.获取Mapper
-        final RuleMapper mapper = session.getMapper(RuleMapper.class);
-        // 3.读取返回信息
-        final List<PERule> ret = mapper.selectByUriAndCom(uriId, type);
-        // 4.关闭Session
+        final RouteMapper mapper = session.getMapper(RouteMapper.class);
+        // 3.读取Model
+        final List<PERoute> retList = mapper.selectByParent(parent);
+        // 4.关闭Session并返回最终结果
         session.close();
-        return ret;
+        return retList;
     }
 
     // ~ Methods =============================================

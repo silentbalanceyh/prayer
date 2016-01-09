@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.configurator.ServerConfigurator;
 import com.prayer.constant.Constants;
-import com.prayer.dao.impl.jdbc.H2ConnImpl;
+import com.prayer.pool.impl.jdbc.H2ConnImpl;
 import com.prayer.util.string.StringKit;
 
 /**

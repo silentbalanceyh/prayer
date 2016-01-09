@@ -1,9 +1,9 @@
-package com.prayer.dao.impl.jdbc;
+package com.prayer.pool.impl.jdbc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.dao.AbstractConn;
+import com.prayer.base.pool.AbstractJdbcConnection;
 
 import net.sf.oval.guard.Guarded;
 
@@ -13,7 +13,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RecordConnImpl extends AbstractConn {
+public class RecordConnImpl extends AbstractJdbcConnection {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordConnImpl.class);

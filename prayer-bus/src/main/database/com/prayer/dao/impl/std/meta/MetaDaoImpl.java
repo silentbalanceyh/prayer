@@ -32,7 +32,7 @@ import net.sf.oval.guard.Guarded;
 public class MetaDaoImpl implements RecordDao {
     // ~ Static Fields =======================================
     /** **/
-    private static final PropertyKit LOADER = new PropertyKit(MetaDaoImpl.class, Resources.META_CFG_FILE);
+    private static final PropertyKit LOADER = new PropertyKit(MetaDaoImpl.class, Resources.OOB_SCHEMA_FILE);
     /** 前置验证条件 **/
     // ~ Instance Fields =====================================
     /** **/

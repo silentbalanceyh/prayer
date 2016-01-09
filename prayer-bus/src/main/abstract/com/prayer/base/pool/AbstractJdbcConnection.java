@@ -1,4 +1,4 @@
-package com.prayer.base.dao;
+package com.prayer.base.pool;
 
 import static com.prayer.constant.Accessors.pool;
 import static com.prayer.util.debug.Log.jvmError;
@@ -18,7 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
-import com.prayer.facade.dao.JdbcContext;
+import com.prayer.facade.dao.JdbcConnection;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.Metadata;
 import com.prayer.model.type.DataType;
@@ -40,20 +40,20 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public abstract class AbstractConn implements JdbcContext {
+public abstract class AbstractJdbcConnection implements JdbcConnection {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    @InstanceOfAny(AbstractDbPool.class)
-    private transient final AbstractDbPool dbPool; // NOPMD
+    @InstanceOfAny(AbstractJdbcPool.class)
+    private transient final AbstractJdbcPool dbPool; // NOPMD
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public AbstractConn(@NotEmpty @NotBlank final String category) {
+    public AbstractJdbcConnection(@NotEmpty @NotBlank final String category) {
         synchronized (getClass()) {
             if (null == category) {
                 // Fix数据源切换的问题
@@ -163,7 +163,7 @@ public abstract class AbstractConn implements JdbcContext {
     }
 
     /** 获取Jdbc连接池引用 **/
-    private AbstractDbPool getPool() {
+    private AbstractJdbcPool getPool() {
         return this.dbPool;
     }
     // ~ Private Methods =====================================

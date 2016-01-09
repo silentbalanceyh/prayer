@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.dao.AbstractMDaoImpl;
-import com.prayer.dao.impl.schema.ScriptDaoImpl;
-import com.prayer.facade.dao.schema.ScriptDao;
-import com.prayer.facade.dao.schema.TemplateDao;
+import com.prayer.dao.impl.metadata.ScriptDaoImpl;
+import com.prayer.facade.dao.metadata.ScriptDao;
+import com.prayer.facade.dao.metadata.TemplateDao;
 import com.prayer.model.vertx.PEScript;
 
 import net.sf.oval.constraint.InstanceOf;
