@@ -48,6 +48,20 @@ public class PEAddress extends AbstractEntity { // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** 无参构造函数 **/
+    public PEAddress() {
+    }
+
+    /** 使用JsonObject构造PEAdddress **/
+    public PEAddress(final JsonObject data) {
+        this.fromJson(data);
+    }
+
+    /** 使用Buffer构造PEAddress **/
+    public PEAddress(final Buffer data) {
+        this.readFromBuffer(Constants.POS, data);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Vert.X Serialization ================================
@@ -63,10 +77,10 @@ public class PEAddress extends AbstractEntity { // NOPMD
     /** 从Buffer中读取 **/
     @Override
     public int readFromBuffer(int pos, final Buffer buffer) {
-        pos += readString(pos, buffer, this::setUniqueId);
-        pos += readClass(pos, buffer, this::setWorkClass);
-        pos += readString(pos, buffer, this::setConsumerAddr);
-        pos += readClass(pos, buffer, this::setConsumerHandler);
+        pos = readString(pos, buffer, this::setUniqueId);
+        pos = readClass(pos, buffer, this::setWorkClass);
+        pos = readString(pos, buffer, this::setConsumerAddr);
+        pos = readClass(pos, buffer, this::setConsumerHandler);
         return pos;
     }
 
@@ -156,6 +170,11 @@ public class PEAddress extends AbstractEntity { // NOPMD
     }
 
     // ~ hashCode,equals,toString ============================
+    /** **/
+    @Override
+    public String toString(){
+        return this.toJson().encode();
+    }
     /** **/
     @Override
     public int hashCode() {

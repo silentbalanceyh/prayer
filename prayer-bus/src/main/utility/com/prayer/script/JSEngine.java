@@ -1,6 +1,6 @@
 package com.prayer.script;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import javax.script.Bindings;
 import javax.script.ScriptContext;
@@ -13,8 +13,8 @@ import javax.script.SimpleScriptContext;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.facade.kernel.Record;
-import com.prayer.util.StringKit;
 import com.prayer.util.bus.ClauseInjector;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;

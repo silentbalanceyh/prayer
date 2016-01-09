@@ -1,9 +1,9 @@
 package com.prayer.base;
 
 import static com.prayer.util.Converter.toStr;
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.IOException;
 import java.io.InputStream;

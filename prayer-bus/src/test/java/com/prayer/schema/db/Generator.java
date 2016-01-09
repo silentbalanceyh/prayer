@@ -1,8 +1,8 @@
 package com.prayer.schema.db;
 
 import static com.prayer.util.Generator.uuid;
-import static com.prayer.util.Instance.clazz;
 import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.reflection.Instance.clazz;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

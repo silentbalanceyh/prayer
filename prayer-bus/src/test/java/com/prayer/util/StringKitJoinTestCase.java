@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractTestTool;
 import com.prayer.Assistant;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 

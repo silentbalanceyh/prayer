@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
-import com.prayer.util.dao.DatabaseKit;
+import com.prayer.util.jdbc.DatabaseKit;
 
 /**
  * 数据库元数据

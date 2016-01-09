@@ -12,7 +12,7 @@ import com.prayer.exception.web.UCAConfigErrorException;
 import com.prayer.exception.web.UCAConfigMissingException;
 import com.prayer.exception.web.UCAInvalidException;
 import com.prayer.exception.web.UCANotFoundException;
-import com.prayer.util.Instance;
+import com.prayer.util.reflection.Instance;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;

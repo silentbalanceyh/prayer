@@ -1,7 +1,7 @@
 package com.prayer.util.web;
 
-import static com.prayer.util.StringKit.decodeURL;
 import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.string.StringKit.decodeURL;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -14,7 +14,7 @@ import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.UriModel;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;

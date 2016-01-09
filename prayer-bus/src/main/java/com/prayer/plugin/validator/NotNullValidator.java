@@ -3,7 +3,7 @@ package com.prayer.plugin.validator;
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.MinSize;

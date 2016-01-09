@@ -1,8 +1,8 @@
 package com.prayer.handler.route;
 
-import static com.prayer.util.Instance.instance;
 import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.instance;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

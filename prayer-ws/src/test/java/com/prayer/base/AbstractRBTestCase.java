@@ -1,8 +1,8 @@
 package com.prayer.base;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.info;
+import static com.prayer.util.reflection.Instance.singleton;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 

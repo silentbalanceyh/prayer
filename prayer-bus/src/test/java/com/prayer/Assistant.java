@@ -27,7 +27,7 @@ import com.prayer.model.type.LongType;
 import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.StringType;
 import com.prayer.model.type.XmlType;
-import com.prayer.util.Instance;
+import com.prayer.util.reflection.Instance;
 
 /**
  * 

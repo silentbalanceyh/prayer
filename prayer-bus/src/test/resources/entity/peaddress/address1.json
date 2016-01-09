@@ -1,0 +1,5 @@
+{
+    "id":"testId",
+    "workClass":"com.prayer.model.entity.clazz.EntityHandler",
+    "consumerAddr":"MSG://QUEUE/PAGE"
+}

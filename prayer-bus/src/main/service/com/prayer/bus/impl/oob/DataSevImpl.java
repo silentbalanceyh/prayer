@@ -1,9 +1,9 @@
 package com.prayer.bus.impl.oob;
 
-import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.instance;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.List;
 

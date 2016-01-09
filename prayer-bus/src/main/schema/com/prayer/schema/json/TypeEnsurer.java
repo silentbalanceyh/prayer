@@ -1,7 +1,7 @@
 package com.prayer.schema.json;
 
-import static com.prayer.util.Instance.instance;
 import static com.prayer.util.debug.Error.message;
+import static com.prayer.util.reflection.Instance.instance;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
 import com.prayer.model.type.DataType;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 /**
  * 

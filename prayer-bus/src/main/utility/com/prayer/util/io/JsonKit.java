@@ -2,6 +2,7 @@ package com.prayer.util.io; // NOPMD
 
 import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.string.StringKit.upper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,9 +24,8 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.constant.Constants;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;
@@ -204,7 +204,7 @@ public final class JsonKit { // NOPMD
         int occurs = 0;
         final Iterator<String> attrIt = jsonNode.fieldNames();
         while (attrIt.hasNext()) {
-            if (StringUtil.equals(attrIt.next(), attr)) {
+            if (StringKit.equals(attrIt.next(), attr)) {
                 occurs++;
             }
         }
@@ -269,12 +269,12 @@ public final class JsonKit { // NOPMD
             final String jsonValue = jsonNode.path(attr).asText();
             if (caseSensitive) {
                 // 大小写敏感
-                if (StringUtil.equals(jsonValue, value.toString())) {
+                if (StringKit.equals(jsonValue, value.toString())) {
                     occurs++;
                 }
             } else {
                 // 大小写不敏感
-                if (StringUtil.equals(StringUtil.toUpperCase(jsonValue), StringUtil.toUpperCase(value.toString()))) {
+                if (StringKit.equals(upper(jsonValue), upper(value.toString()))) {
                     occurs++;
                 }
             }
@@ -296,7 +296,7 @@ public final class JsonKit { // NOPMD
         final String jsonValue = attrNode.asText();
         boolean ret = false;
         for (final String value : values) {
-            if (StringKit.isNonNil(jsonValue) && StringUtil.equals(value, jsonValue)) {
+            if (StringKit.isNonNil(jsonValue) && StringKit.equals(value, jsonValue)) {
                 ret = true;
                 break;
             }

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractTestTool;
+import com.prayer.util.string.StringKit;
 
 /**
  * 

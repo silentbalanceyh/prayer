@@ -1,8 +1,8 @@
 package com.prayer.plugin.ibatis;
 
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.Arrays;
 import java.util.HashSet;

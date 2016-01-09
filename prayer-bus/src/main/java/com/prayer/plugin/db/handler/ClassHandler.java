@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import com.prayer.util.Instance;
+import com.prayer.util.reflection.Instance;
 
 /**
  * 在Mybatis中处理Class<?>类型的数据库Handler，Prayer中依赖上层Class，因为Class可能不存在

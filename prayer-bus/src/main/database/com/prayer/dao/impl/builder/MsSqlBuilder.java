@@ -33,8 +33,8 @@ import com.prayer.model.database.MetaModel;
 import com.prayer.model.kernel.FKReferencer;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.type.DataType;
-import com.prayer.util.StringKit;
-import com.prayer.util.dao.SqlDdlStatement;
+import com.prayer.util.jdbc.SqlDDL;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
@@ -89,7 +89,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     public String genAlterColumns(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
         String ret = Constants.EMPTY_STR;
         if (DataType.DATE != field.getType()) {
-            ret = SqlDdlStatement.alterColSql(this.getTable(), this.genColumnLine(field));
+            ret = SqlDDL.alterColSql(this.getTable(), this.genColumnLine(field));
         }
         return ret;
     }
@@ -413,7 +413,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         final StringBuilder pkSql = new StringBuilder();
         final FieldModel field = this.getSchema().getPrimaryKeys().get(Constants.ZERO);
         // 1.1.主键字段和数据类型
-        final String columnType = SqlDdlStatement.DB_TYPES.get(field.getColumnType());
+        final String columnType = SqlDDL.DB_TYPES.get(field.getColumnType());
 
         // 2.字段名、数据类型，SQL Server独有：NAME INT PRIMARY KEY IDENTITY
         pkSql.append(field.getColumnName()).append(SPACE).append(columnType).append(SPACE).append(MsSqlHelper.IDENTITY)

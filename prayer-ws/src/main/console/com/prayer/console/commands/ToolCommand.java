@@ -3,7 +3,7 @@ package com.prayer.console.commands;
 import org.apache.commons.cli.CommandLine;
 
 import com.prayer.util.Encryptor;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;
 

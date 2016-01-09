@@ -1,7 +1,7 @@
 package com.prayer.security.handler.impl; // NOPMD
 
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.debug;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;

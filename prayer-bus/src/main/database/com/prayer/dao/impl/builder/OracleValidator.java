@@ -1,6 +1,6 @@
 package com.prayer.dao.impl.builder;
 
-import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.util.Locale;
 
@@ -14,7 +14,7 @@ import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.facade.dao.JdbcContext;
 import com.prayer.facade.schema.DataValidator;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;

@@ -1,6 +1,6 @@
 package com.prayer.dao.impl.jdbc;
 
-import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.util.concurrent.TimeUnit;
 

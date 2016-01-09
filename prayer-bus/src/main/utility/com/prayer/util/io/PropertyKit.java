@@ -1,7 +1,7 @@
 package com.prayer.util.io;
 
-import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,10 +13,9 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Symbol;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
+import com.prayer.util.string.StringPool;
 
-import jodd.util.StringPool;
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -86,7 +85,7 @@ public final class PropertyKit {
     public long getLong(@NotNull @NotEmpty @NotBlank final String propKey) {
         final String orgValue = this.getString(propKey);
         long retValue = -1;
-        if (null != orgValue && StringUtil.containsOnlyDigitsAndSigns(orgValue)) {
+        if (null != orgValue && StringKit.digitsAndSigns(orgValue)) {
             retValue = Long.parseLong(orgValue.trim());
         }
         return retValue;
@@ -102,7 +101,7 @@ public final class PropertyKit {
     public int getInt(@NotNull @NotEmpty @NotBlank final String propKey) {
         final String orgValue = this.getString(propKey);
         int retValue = -1;
-        if (null != orgValue && StringUtil.containsOnlyDigitsAndSigns(orgValue)) {
+        if (null != orgValue && StringKit.digitsAndSigns(orgValue)) {
             retValue = Integer.parseInt(orgValue.trim());
         }
         return retValue;
@@ -146,7 +145,7 @@ public final class PropertyKit {
     @NotNull
     public String[] getArray(@NotNull @NotBlank @NotEmpty final String propKey) {
         final String ret = this.getString(propKey);
-        return StringUtil.split(ret, String.valueOf(Symbol.COMMA));
+        return StringKit.split(ret, String.valueOf(Symbol.COMMA));
     }
 
     /**

@@ -1,8 +1,8 @@
 package com.prayer.base.dao;
 
 import static com.prayer.constant.Accessors.pool;
-import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,9 +22,9 @@ import com.prayer.facade.dao.JdbcContext;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.Metadata;
 import com.prayer.model.type.DataType;
-import com.prayer.util.dao.Input;
-import com.prayer.util.dao.Output;
-import com.prayer.util.dao.SqlKit;
+import com.prayer.util.jdbc.Input;
+import com.prayer.util.jdbc.Output;
+import com.prayer.util.jdbc.SqlKit;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinSize;

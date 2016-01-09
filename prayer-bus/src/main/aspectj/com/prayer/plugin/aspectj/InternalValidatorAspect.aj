@@ -1,6 +1,6 @@
 package com.prayer.plugin.aspectj;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.database.FieldModel;
 import com.prayer.model.type.DataType;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 /**
  * 内部验证器，验证几个特殊的Record中字段属性的约束信息

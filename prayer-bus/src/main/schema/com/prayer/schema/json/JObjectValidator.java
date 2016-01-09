@@ -2,9 +2,9 @@ package com.prayer.schema.json; // NOPMD
 
 import static com.prayer.constant.Accessors.validator;
 import static com.prayer.util.Converter.toStr;
-import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.instance;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -29,9 +29,9 @@ import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.exception.schema.UnsupportAttrException;
 import com.prayer.facade.schema.DataValidator;
-import com.prayer.util.StringKit;
-import com.prayer.util.dao.SqlDdlStatement;
 import com.prayer.util.io.JsonKit;
+import com.prayer.util.jdbc.SqlDDL;
+import com.prayer.util.string.StringKit;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.AssertFieldConstraints;
@@ -247,7 +247,7 @@ final class JObjectValidator {
         final JsonNode tableNode = this.verifiedNode.path(table);
         final JsonNode columnNode = this.verifiedNode.path(column);
         final JsonNode colTypeNode = this.verifiedNode.path(colType);
-        final String type = SqlDdlStatement.DB_TYPES.get(colTypeNode.asText());
+        final String type = SqlDDL.DB_TYPES.get(colTypeNode.asText());
         return this.verifier.verifyColumnType(tableNode.asText(), columnNode.asText(), type);
     }
 

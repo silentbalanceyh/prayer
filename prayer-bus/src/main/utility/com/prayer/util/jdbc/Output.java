@@ -1,4 +1,4 @@
-package com.prayer.util.dao; // NOPMD
+package com.prayer.util.jdbc; // NOPMD
 
 import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.peError;
@@ -25,7 +25,7 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.IntType;
 import com.prayer.model.type.LongType;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinLength;

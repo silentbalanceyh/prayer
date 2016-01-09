@@ -1,7 +1,7 @@
 package com.prayer.facade.cache;
 
 import static com.prayer.constant.Accessors.cache;
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 /**
  * 

@@ -10,6 +10,7 @@ import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.JsonKit;
+import com.prayer.util.string.StringKit;
 
 /**
  * 构造函数的生成

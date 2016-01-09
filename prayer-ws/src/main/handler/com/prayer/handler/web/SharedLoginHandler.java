@@ -9,7 +9,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.security.provider.BasicProvider;
 import com.prayer.security.provider.impl.BasicUser;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;

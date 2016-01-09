@@ -1,6 +1,6 @@
 package com.prayer.util.web;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configurator.SecurityConfigurator;
 import com.prayer.constant.Constants;

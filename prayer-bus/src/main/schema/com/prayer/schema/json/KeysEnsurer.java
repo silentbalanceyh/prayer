@@ -1,9 +1,9 @@
 package com.prayer.schema.json;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.Instance.instance;
 import static com.prayer.util.debug.Error.message;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.instance;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;

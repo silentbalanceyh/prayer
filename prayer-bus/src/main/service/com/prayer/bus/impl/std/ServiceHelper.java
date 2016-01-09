@@ -1,8 +1,8 @@
 package com.prayer.bus.impl.std; // NOPMD
 
-import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.debug;
+import static com.prayer.util.reflection.Instance.instance;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.ArrayList;
 import java.util.List;

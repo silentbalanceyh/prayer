@@ -1,4 +1,4 @@
-package com.prayer.util.dao;
+package com.prayer.util.jdbc;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -13,8 +13,8 @@ import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.model.database.FieldModel;
 import com.prayer.model.database.KeyModel;
-import com.prayer.util.StringKit;
 import com.prayer.util.io.PropertyKit;
+import com.prayer.util.string.StringKit;
 
 import jodd.util.ArraysUtil;
 import jodd.util.StringUtil;
@@ -32,7 +32,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class SqlDdlStatement implements SqlSegment, Symbol {
+public final class SqlDDL implements SqlSegment, Symbol {
     // ~ Static Fields =======================================
     /** 数据库类型映射 **/
     public static final ConcurrentMap<String, String> DB_TYPES = new ConcurrentHashMap<>();
@@ -41,7 +41,7 @@ public final class SqlDdlStatement implements SqlSegment, Symbol {
     // ~ Static Block ========================================
     /** 初始化数据类型映射表，直接根据Database填充 **/
     static {
-        final PropertyKit loader = new PropertyKit(SqlDdlStatement.class, Resources.DB_TYPES_FILE);
+        final PropertyKit loader = new PropertyKit(SqlDDL.class, Resources.DB_TYPES_FILE);
         final Properties prop = loader.getProp();
         for (final Object key : prop.keySet()) {
             if (null != key && StringKit.isNonNil(key.toString())) {
@@ -293,7 +293,7 @@ public final class SqlDdlStatement implements SqlSegment, Symbol {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private SqlDdlStatement() {
+    private SqlDDL() {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

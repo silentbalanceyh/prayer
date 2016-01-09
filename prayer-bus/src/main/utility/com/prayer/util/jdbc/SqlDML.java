@@ -1,4 +1,4 @@
-package com.prayer.util.dao;
+package com.prayer.util.jdbc;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.model.bus.OrderBy;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -26,7 +26,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class SqlDmlStatement implements SqlSegment, Symbol {
+public final class SqlDML implements SqlSegment, Symbol {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -140,7 +140,7 @@ public final class SqlDmlStatement implements SqlSegment, Symbol {
         return retSql.toString();
     }
 
-    private SqlDmlStatement() {
+    private SqlDML() {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

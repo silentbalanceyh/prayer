@@ -1,8 +1,8 @@
 package com.prayer.schema.db;
 
 import static com.prayer.util.Generator.uuid;
-import static com.prayer.util.Instance.field;
 import static com.prayer.util.debug.Log.info;
+import static com.prayer.util.reflection.Instance.field;
 import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;

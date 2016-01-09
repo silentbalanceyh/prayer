@@ -1,6 +1,6 @@
 package com.prayer.verticle.standard;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configurator.ServerConfigurator;
 import com.prayer.constant.Constants;

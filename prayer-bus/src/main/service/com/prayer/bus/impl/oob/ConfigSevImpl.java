@@ -1,6 +1,6 @@
 package com.prayer.bus.impl.oob; // NOPMD
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -13,7 +13,7 @@ import com.prayer.model.vertx.RouteModel;
 import com.prayer.model.vertx.RuleModel;
 import com.prayer.model.vertx.PEScript;
 import com.prayer.model.vertx.UriModel;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.vertx.PEVerticle;
 import com.prayer.util.bus.ResultExtractor;
 
 import io.vertx.core.http.HttpMethod;
@@ -53,9 +53,9 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<List<VerticleModel>> findVerticles(@NotNull @NotBlank @NotEmpty final String group) {
-        final ServiceResult<List<VerticleModel>> result = new ServiceResult<>();
-        final List<VerticleModel> chain = this.manager.getVerticleDao().getByGroup(group);
+    public ServiceResult<List<PEVerticle>> findVerticles(@NotNull @NotBlank @NotEmpty final String group) {
+        final ServiceResult<List<PEVerticle>> result = new ServiceResult<>();
+        final List<PEVerticle> chain = this.manager.getVerticleDao().getByGroup(group);
         return result.success(chain);
     }
 
@@ -63,11 +63,11 @@ public class ConfigSevImpl implements ConfigService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<ConcurrentMap<String, List<VerticleModel>>> findVerticles() {
+    public ServiceResult<ConcurrentMap<String, List<PEVerticle>>> findVerticles() {
         // 1.构造响应数据
-        final ServiceResult<ConcurrentMap<String, List<VerticleModel>>> result = new ServiceResult<>();
+        final ServiceResult<ConcurrentMap<String, List<PEVerticle>>> result = new ServiceResult<>();
         // 2.读取所有的VerticleModel相关信息
-        final List<VerticleModel> verticles = this.manager.getVerticleDao().getAll();
+        final List<PEVerticle> verticles = this.manager.getVerticleDao().getAll();
         // 3.返回最终结果
         return result.success(ResultExtractor.extractList(verticles, "group"));
     }

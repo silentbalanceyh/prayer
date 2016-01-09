@@ -1,6 +1,6 @@
 package com.prayer;
 
-import static com.prayer.util.Instance.instance;
+import static com.prayer.util.reflection.Instance.instance;
 import static org.junit.Assert.fail;
 
 import java.util.Random;

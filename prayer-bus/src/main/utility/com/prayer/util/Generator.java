@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
 
-import jodd.util.MathUtil;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -42,7 +41,7 @@ public final class Generator {
     @NotNull
     public static boolean bool() {
         final int number = number(100);
-        return MathUtil.isEven(number);
+        return number % 2 == 0;
     }
 
     /**

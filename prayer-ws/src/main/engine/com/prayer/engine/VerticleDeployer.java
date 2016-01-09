@@ -1,9 +1,9 @@
 package com.prayer.engine;
 
-import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.error;
 import static com.prayer.util.debug.Log.info;
+import static com.prayer.util.reflection.Instance.instance;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

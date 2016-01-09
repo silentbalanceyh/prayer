@@ -9,7 +9,7 @@ import com.prayer.model.vertx.RouteModel;
 import com.prayer.model.vertx.RuleModel;
 import com.prayer.model.vertx.PEScript;
 import com.prayer.model.vertx.UriModel;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.vertx.PEVerticle;
 
 import io.vertx.core.http.HttpMethod;
 
@@ -26,14 +26,14 @@ public interface ConfigService {
      * @param group
      * @return
      */
-    ServiceResult<List<VerticleModel>> findVerticles(String group);
+    ServiceResult<List<PEVerticle>> findVerticles(String group);
 
     /**
      * 从H2数据库中读取所有的Verticle配置
      * 
      * @return
      */
-    ServiceResult<ConcurrentMap<String, List<VerticleModel>>> findVerticles();
+    ServiceResult<ConcurrentMap<String, List<PEVerticle>>> findVerticles();
 
     // ~ Route Interface =====================================
     /**

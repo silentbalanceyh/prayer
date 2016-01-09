@@ -1,9 +1,9 @@
-package com.prayer.util.dao;
+package com.prayer.util.jdbc;
 
 import static com.prayer.util.Calculator.diff;
-import static com.prayer.util.Instance.instance;
 import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.instance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,7 +105,7 @@ public final class QueryHelper {
     @NotNull
     public static String prepInsertSQL(@InstanceOf(Record.class) final Record record, final String... filters) {
         final Collection<String> columns = diff(record.columns(), Arrays.asList(filters));
-        return SqlDmlStatement.prepInsertSQL(record.table(), columns);
+        return SqlDML.prepInsertSQL(record.table(), columns);
     }
 
     /**

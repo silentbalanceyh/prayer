@@ -1,8 +1,8 @@
 package com.prayer.base.dao; // NOPMD
 
 import static com.prayer.util.Generator.uuid;
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -33,12 +33,12 @@ import com.prayer.model.bus.Pager;
 import com.prayer.model.database.FieldModel;
 import com.prayer.model.kernel.MetaRecord;
 import com.prayer.util.bus.RecordSerializer;
-import com.prayer.util.dao.Interrupter.Api;
-import com.prayer.util.dao.Interrupter.Policy;
-import com.prayer.util.dao.Interrupter.PrimaryKey;
-import com.prayer.util.dao.Interrupter.Response;
-import com.prayer.util.dao.SqlDmlStatement;
-import com.prayer.util.dao.QueryHelper;
+import com.prayer.util.exception.Interrupter.Api;
+import com.prayer.util.exception.Interrupter.Policy;
+import com.prayer.util.exception.Interrupter.PrimaryKey;
+import com.prayer.util.exception.Interrupter.Response;
+import com.prayer.util.jdbc.QueryHelper;
+import com.prayer.util.jdbc.SqlDML;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;
@@ -204,7 +204,7 @@ public abstract class AbstractMDaoImpl <T extends AbstractEntity, ID extends Ser
         // 1.获取JDBC访问器
         final JdbcContext jdbc = this.getDao().getContext(record.identifier());
         // 2.生成SQL语句
-        final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters, orders);
+        final String sql = SqlDML.prepSelectSQL(record.table(), Arrays.asList(columns), filters, orders);
         // 3.根据参数表生成查询结果集
         final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
         return QueryHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), cols));
@@ -221,7 +221,7 @@ public abstract class AbstractMDaoImpl <T extends AbstractEntity, ID extends Ser
         // 1.获取JDBC访问器
         final JdbcContext jdbc = this.getDao().getContext(record.identifier());
         // 2.生成SQL Count语句
-        final String countSql = SqlDmlStatement.prepCountSQL(record.table(), filters);
+        final String countSql = SqlDML.prepCountSQL(record.table(), filters);
         // 3.返回Sql Count
         final Long count = jdbc.count(countSql);
         // 4.生成Page语句

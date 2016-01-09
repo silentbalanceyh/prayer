@@ -36,12 +36,10 @@ public class PEScriptTestCase extends AbstractEntityTestCase {
      */
     @Test
     public void testFromJson() {
-        // Expected
-        final JsonObject data = this.readData("/entity/pescript/script.json");
-        // Actual
-        final PEScript script = this.getInstance("/entity/pescript/script.json");
+        final JsonObject expected = this.readData("/entity/pescript/script.json");
+        final PEScript actual = this.getInstance("/entity/pescript/script.json");
         // Compare
-        assertEquals(data.encode(), script.toString());
+        assertEquals(expected.encode(), actual.toString());
     }
 
     /**
@@ -49,12 +47,10 @@ public class PEScriptTestCase extends AbstractEntityTestCase {
      */
     @Test
     public void testToJson() {
-        // Expected
-        final JsonObject data = this.readData("/entity/pescript/script1.json");
-        // Actual
-        final PEScript script = this.getInstance("/entity/pescript/script1.json");
+        final JsonObject expected = this.readData("/entity/pescript/script1.json");
+        final PEScript actual = this.getInstance("/entity/pescript/script1.json");
         // Compare
-        assertEquals(data, script.toJson());
+        assertEquals(expected, actual.toJson());
     }
 
     /**
@@ -63,13 +59,11 @@ public class PEScriptTestCase extends AbstractEntityTestCase {
     @Test
     public void testToBuffer() {
         final Buffer buffer = Buffer.buffer();
-        // Actual
-        final PEScript script = this.getInstance("/entity/pescript/script2.json");
-        script.writeToBuffer(buffer);
-        // Expected
+        final PEScript actual = this.getInstance("/entity/pescript/script2.json");
+        actual.writeToBuffer(buffer);
         final PEScript expected = new PEScript(buffer);
         // Compare
-        assertEquals(expected, script);
+        assertEquals(expected, actual);
     }
 
     /**
@@ -78,10 +72,8 @@ public class PEScriptTestCase extends AbstractEntityTestCase {
     @Test
     public void testFromBuffer() {
         final Buffer buffer = Buffer.buffer();
-        // Actual
         final PEScript expected = this.getInstance("/entity/pescript/script3.json");
         expected.writeToBuffer(buffer);
-        // Expected
         final PEScript actual = new PEScript();
         actual.readFromBuffer(Constants.POS, buffer);
         // Compare

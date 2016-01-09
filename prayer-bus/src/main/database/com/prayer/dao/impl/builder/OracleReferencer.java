@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.facade.dao.JdbcContext;
 import com.prayer.facade.schema.Referencer;
 import com.prayer.model.kernel.FKReferencer;
-import com.prayer.util.dao.SqlDdlStatement;
+import com.prayer.util.jdbc.SqlDDL;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
@@ -68,7 +68,7 @@ public final class OracleReferencer implements Referencer {
     public List<String> prepDropSql(@NotNull final List<FKReferencer> refs) {
         final List<String> dropSqls = new ArrayList<>();
         for (final FKReferencer ref : refs) {
-            final String dropSql = SqlDdlStatement.dropCSSql(ref.getFromTable(), ref.getName());
+            final String dropSql = SqlDDL.dropCSSql(ref.getFromTable(), ref.getName());
             dropSqls.add(dropSql);
         }
         return dropSqls;
@@ -83,8 +83,8 @@ public final class OracleReferencer implements Referencer {
         for (final FKReferencer ref : refs) {
             final List<String> columns = new ArrayList<>();
             columns.add(ref.getFromColumn());
-            final String fkLine = SqlDdlStatement.newFKSql(ref.getName(), columns, ref.getToTable(), ref.getToColumn());
-            final String lineSql = SqlDdlStatement.addColSql(ref.getFromTable(), fkLine);
+            final String fkLine = SqlDDL.newFKSql(ref.getName(), columns, ref.getToTable(), ref.getToColumn());
+            final String lineSql = SqlDDL.addColSql(ref.getFromTable(), fkLine);
             recoverySqls.add(lineSql);
         }
         return recoverySqls;

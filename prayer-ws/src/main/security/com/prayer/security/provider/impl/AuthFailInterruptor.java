@@ -9,7 +9,7 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.StatusCode;
 import com.prayer.security.provider.BasicProvider;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;

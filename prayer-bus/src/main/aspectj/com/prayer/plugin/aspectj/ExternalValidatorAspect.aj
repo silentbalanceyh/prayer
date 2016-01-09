@@ -1,6 +1,6 @@
 package com.prayer.plugin.aspectj;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.plugin.AbstractValidatorAspect;
@@ -10,7 +10,7 @@ import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.database.FieldModel;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 /**
  * 外部验证器：调用自定义验证Validator验证Record中的字段

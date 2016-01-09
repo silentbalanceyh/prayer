@@ -1,12 +1,12 @@
 package com.prayer.engine;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.hazelcast.config.Config;
 import com.prayer.base.exception.AbstractException;
 import com.prayer.configurator.VertxConfigurator;
 import com.prayer.handler.deploy.VertxClusterHandler;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;

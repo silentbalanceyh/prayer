@@ -38,26 +38,16 @@ public class PEScript extends AbstractEntity { // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /**
-     * 无参构造函数
-     */
+    /** 无参构造函数 **/
     public PEScript() {
     }
 
-    /**
-     * 使用JsonObject构造PEScript
-     * 
-     * @param data
-     */
+    /** 使用JsonObject构造PEScript **/
     public PEScript(final JsonObject data) {
         this.fromJson(data);
     }
 
-    /**
-     * 使用Buffer构造PEScript
-     * 
-     * @param data
-     */
+    /** 使用Buffer构造PEScript **/
     public PEScript(final Buffer data) {
         this.readFromBuffer(Constants.POS, data);
     }

@@ -1,7 +1,7 @@
 package com.prayer.base.bus;
 
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
 import java.util.ArrayList;

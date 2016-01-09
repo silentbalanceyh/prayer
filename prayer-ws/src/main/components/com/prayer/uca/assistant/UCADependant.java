@@ -1,7 +1,7 @@
 package com.prayer.uca.assistant;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.Instance.instance;
+import static com.prayer.util.reflection.Instance.instance;
 
 import java.text.MessageFormat;
 
@@ -16,7 +16,7 @@ import com.prayer.exception.web.ValidationFailureException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.vertx.RuleModel;
 import com.prayer.uca.WebDependant;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 import com.prayer.util.web.Interruptor;
 
 import io.vertx.core.json.JsonArray;

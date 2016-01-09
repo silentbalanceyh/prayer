@@ -1,4 +1,4 @@
-package com.prayer.util.dao;
+package com.prayer.util.exception;
 
 import static com.prayer.util.debug.Log.debug;
 

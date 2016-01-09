@@ -1,21 +1,21 @@
 package com.prayer.model.vertx;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
 import com.prayer.plugin.jackson.JsonObjectDeserializer;
 import com.prayer.plugin.jackson.JsonObjectSerializer;
 
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -25,7 +25,7 @@ import io.vertx.core.json.JsonObject;
  *
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "uniqueId")
-public class VerticleModel implements Serializable {    // NOPMD
+public class PEVerticle extends AbstractEntity { // NOPMD
     // ~ Static Fields =======================================
     /**
      * 
@@ -33,50 +33,94 @@ public class VerticleModel implements Serializable {    // NOPMD
     private static final long serialVersionUID = -1056134069321946140L;
     // ~ Instance Fields =====================================
     /** K_ID: EVX_VERTICLE表的主键 **/
-    @JsonIgnore
+    @JsonProperty(ID)
     private String uniqueId;
     // ~ !基础配置数据 =======================================
     /** S_CLASS **/
-    @JsonProperty("name")
+    @JsonProperty(NAME)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> name;
     /** S_INSTANCES **/
-    @JsonProperty("instances")
+    @JsonProperty(INSTANCES)
     private int instances = 1;
     /** S_IGROUP **/
-    @JsonProperty("group")
-    private String group = Constants.VX_GROUP;    // NOPMD，__DEFAULT__是HA中Group的默认值
+    @JsonProperty(GROUP)
+    private String group = Constants.VX_GROUP; // NOPMD，__DEFAULT__是HA中Group的默认值
     /** S_JSON_CONFIG **/
-    @JsonProperty("jsonConfig")
+    @JsonProperty(JSON_CONFIG)
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private JsonObject jsonConfig = new JsonObject();    // NOPMD
+    private JsonObject jsonConfig = new JsonObject(); // NOPMD
     /** S_ISOLATED_CLASSES **/
-    @JsonProperty("isolatedClasses")
-    private List<String> isolatedClasses = new ArrayList<>();  // NOPMD
+    @JsonProperty(ISOLATED_CLASSES)
+    private List<String> isolatedClasses = new ArrayList<>(); // NOPMD
     // ~ !类路径配置数据 =====================================
     /** CP_EXT **/
-    @JsonProperty("extraCp")
-    private List<String> extraCp = new ArrayList<>();    // NOPMD
+    @JsonProperty(EXTRA_CP)
+    private List<String> extraCp = new ArrayList<>(); // NOPMD
 
     // ~ !Boolean类型配置数据 ================================
     /** IS_HA **/
-    @JsonProperty("ha")
+    @JsonProperty(HA)
     private boolean ha = false; // NOPMD
     /** IS_WORKER **/
-    @JsonProperty("worker")
-    private boolean worker = false;    // NOPMD
+    @JsonProperty(WORKER)
+    private boolean worker = false; // NOPMD
     /** IS_MULTI **/
-    @JsonProperty("multi")
+    @JsonProperty(MULTI)
     private boolean multi = false; // NOPMD
-    
+
     // ~ !和发布相关的配置====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    public PEVerticle() {
+    }
+
+    /** **/
+    public PEVerticle(final JsonObject data) {
+        this.fromJson(data);
+    }
+
+    /** **/
+    public PEVerticle(final Buffer buffer) {
+        this.readFromBuffer(Constants.POS, buffer);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    // ~ Vert.X Serialization ================================
+    /** 写入Buffer **/
+    @Override
+    public void writeToBuffer(final Buffer buffer) {
+
+    }
+
+    /** 从Buffer中读取 **/
+    @Override
+    public int readFromBuffer(int pos, final Buffer buffer) {
+        return -1;
+    }
+    // ~ Entity Json/Buffer Serialization ====================
+
+    @Override
+    public JsonObject toJson() {
+        final JsonObject data = new JsonObject();
+
+        return data;
+    }
+
+    /** 从Json反序列化 **/
+    @Override
+    public PEVerticle fromJson(final JsonObject data) {
+        readString(data, ID, this::setUniqueId);
+        readClass(data, NAME, this::setName);
+        readInt(data, INSTANCES, this::setInstances);
+        
+        return this;
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
@@ -89,7 +133,8 @@ public class VerticleModel implements Serializable {    // NOPMD
     }
 
     /**
-     * @param uniqueId the uniqueId to set
+     * @param uniqueId
+     *            the uniqueId to set
      */
     public void setUniqueId(final String uniqueId) {
         this.uniqueId = uniqueId;
@@ -103,7 +148,8 @@ public class VerticleModel implements Serializable {    // NOPMD
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(final Class<?> name) {
         this.name = name;
@@ -117,7 +163,8 @@ public class VerticleModel implements Serializable {    // NOPMD
     }
 
     /**
-     * @param instances the instances to set
+     * @param instances
+     *            the instances to set
      */
     public void setInstances(final int instances) {
         this.instances = instances;
@@ -131,7 +178,8 @@ public class VerticleModel implements Serializable {    // NOPMD
     }
 
     /**
-     * @param group the group to set
+     * @param group
+     *            the group to set
      */
     public void setGroup(final String group) {
         this.group = group;
@@ -145,7 +193,8 @@ public class VerticleModel implements Serializable {    // NOPMD
     }
 
     /**
-     * @param jsonConfig the jsonConfig to set
+     * @param jsonConfig
+     *            the jsonConfig to set
      */
     public void setJsonConfig(final JsonObject jsonConfig) {
         this.jsonConfig = jsonConfig;
@@ -159,7 +208,8 @@ public class VerticleModel implements Serializable {    // NOPMD
     }
 
     /**
-     * @param isolatedClasses the isolatedClasses to set
+     * @param isolatedClasses
+     *            the isolatedClasses to set
      */
     public void setIsolatedClasses(final List<String> isolatedClasses) {
         this.isolatedClasses = isolatedClasses;
@@ -173,7 +223,8 @@ public class VerticleModel implements Serializable {    // NOPMD
     }
 
     /**
-     * @param extraCp the extraCp to set
+     * @param extraCp
+     *            the extraCp to set
      */
     public void setExtraCp(final List<String> extraCp) {
         this.extraCp = extraCp;
@@ -187,9 +238,10 @@ public class VerticleModel implements Serializable {    // NOPMD
     }
 
     /**
-     * @param ha the ha to set
+     * @param ha
+     *            the ha to set
      */
-    public void setHa(final boolean ha) {     // NOPMD
+    public void setHa(final boolean ha) { // NOPMD
         this.ha = ha;
     }
 
@@ -201,7 +253,8 @@ public class VerticleModel implements Serializable {    // NOPMD
     }
 
     /**
-     * @param worker the worker to set
+     * @param worker
+     *            the worker to set
      */
     public void setWorker(final boolean worker) {
         this.worker = worker;
@@ -215,26 +268,26 @@ public class VerticleModel implements Serializable {    // NOPMD
     }
 
     /**
-     * @param multi the multi to set
+     * @param multi
+     *            the multi to set
      */
     public void setMulti(final boolean multi) {
         this.multi = multi;
     }
 
     // ~ hashCode,equals,toString ============================
+
     /**
      * 
      */
     @Override
     public String toString() {
-        return "VerticleModel [uniqueId=" + uniqueId + ", name=" + name + ", instances=" + instances + ", group="
-                + group + ", jsonConfig=" + jsonConfig + ", isolatedClasses=" + isolatedClasses + ", extraCp=" + extraCp
-                + ", ha=" + ha + ", worker=" + worker + ", multi=" + multi + "]";
+        return this.toJson().encode();
     }
 
     /** **/
     @Override
-    public int hashCode() {    
+    public int hashCode() {
         final int prime = Constants.HASH_BASE;
         int result = 1;
         result = prime * result + ((group == null) ? 0 : group.hashCode());
@@ -247,36 +300,36 @@ public class VerticleModel implements Serializable {    // NOPMD
      * 
      */
     @Override
-    public boolean equals(final Object obj) {    // NOPMD
-        if (this == obj){
+    public boolean equals(final Object obj) { // NOPMD
+        if (this == obj) {
             return true;
         }
-        if (obj == null){
+        if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()){
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        final VerticleModel other = (VerticleModel) obj;
+        final PEVerticle other = (PEVerticle) obj;
         if (group == null) {
-            if (other.group != null){
+            if (other.group != null) {
                 return false;
             }
-        } else if (!group.equals(other.group)){
+        } else if (!group.equals(other.group)) {
             return false;
         }
         if (name == null) {
-            if (other.name != null){
+            if (other.name != null) {
                 return false;
             }
-        } else if (!name.equals(other.name)){
+        } else if (!name.equals(other.name)) {
             return false;
         }
         if (uniqueId == null) {
-            if (other.uniqueId != null){
+            if (other.uniqueId != null) {
                 return false;
             }
-        } else if (!uniqueId.equals(other.uniqueId)){
+        } else if (!uniqueId.equals(other.uniqueId)) {
             return false;
         }
         return true;

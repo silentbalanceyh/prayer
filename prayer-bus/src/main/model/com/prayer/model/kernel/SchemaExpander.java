@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.model.database.FieldModel;
 import com.prayer.model.database.KeyModel;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;

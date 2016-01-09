@@ -1,4 +1,4 @@
-package com.prayer.util.dao;
+package com.prayer.util.jdbc;
 
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotBlank;

@@ -1,6 +1,6 @@
 package com.prayer.console;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -9,8 +9,8 @@ import com.prayer.base.exception.AbstractException;
 import com.prayer.configurator.VertxConfigurator;
 import com.prayer.console.commands.Command;
 import com.prayer.constant.Constants;
-import com.prayer.util.StringKit;
 import com.prayer.util.io.IOKit;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;
 

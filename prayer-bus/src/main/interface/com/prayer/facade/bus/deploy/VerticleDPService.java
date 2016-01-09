@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.vertx.PEVerticle;
 /**
  * 
  * @author Lang
  *
  */
-public interface VerticleDPService extends TemplateDPService<VerticleModel,String> {
+public interface VerticleDPService extends TemplateDPService<PEVerticle,String> {
     /** 
      * 
      * @param jsonPath
      * @return
      */
-    ServiceResult<ConcurrentMap<String, List<VerticleModel>>> importVerticles(String jsonPath);
+    ServiceResult<ConcurrentMap<String, List<PEVerticle>>> importVerticles(String jsonPath);
 }

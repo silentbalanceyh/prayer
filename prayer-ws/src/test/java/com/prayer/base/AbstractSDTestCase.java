@@ -1,7 +1,7 @@
 package com.prayer.base;
 
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.info;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 

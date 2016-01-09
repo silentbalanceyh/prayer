@@ -1,6 +1,6 @@
 package com.prayer.engine;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.prayer.util;
 
-import static com.prayer.util.Instance.clazz;
+import static com.prayer.util.reflection.Instance.clazz;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

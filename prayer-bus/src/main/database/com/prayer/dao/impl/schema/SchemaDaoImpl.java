@@ -24,7 +24,7 @@ import com.prayer.model.database.MetaModel;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.SchemaExpander;
 import com.prayer.plugin.ibatis.SessionManager;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

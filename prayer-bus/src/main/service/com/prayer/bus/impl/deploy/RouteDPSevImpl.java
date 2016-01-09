@@ -1,6 +1,6 @@
 package com.prayer.bus.impl.deploy;
 
-import static com.prayer.util.Instance.clazz;
+import static com.prayer.util.reflection.Instance.clazz;
 
 import java.util.ArrayList;
 import java.util.List;

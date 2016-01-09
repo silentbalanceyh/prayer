@@ -1,6 +1,6 @@
 package com.prayer.console;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.console.commands.ApiCommand;
 import com.prayer.console.commands.BDataCommand;

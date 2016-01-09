@@ -1,9 +1,9 @@
 package com.prayer.bus.impl.std;
 
-import static com.prayer.util.Instance.reservoir;
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.reservoir;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

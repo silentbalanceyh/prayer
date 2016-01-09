@@ -15,7 +15,7 @@ import com.prayer.exception.web.ServiceParamInvalidException;
 import com.prayer.exception.web.ServiceParamMissingException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;

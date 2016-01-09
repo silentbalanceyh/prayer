@@ -1,6 +1,6 @@
 package com.prayer.starter;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.base.exception.AbstractException;
 import com.prayer.engine.H2DatabaseServer;

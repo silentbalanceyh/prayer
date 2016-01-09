@@ -1,6 +1,6 @@
 package com.prayer.deploy;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import org.junit.Test;
 

@@ -6,8 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.vertx.UriModel;
-import com.prayer.util.Instance;
-import com.prayer.util.StringKit;
+import com.prayer.util.reflection.Instance;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.http.HttpMethod;
 import net.sf.oval.constraint.NotBlank;

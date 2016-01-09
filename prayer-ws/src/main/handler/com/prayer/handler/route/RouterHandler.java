@@ -1,8 +1,8 @@
 package com.prayer.handler.route; // NOPMD
 
-import static com.prayer.util.Instance.singleton;
-import static com.prayer.util.StringKit.decodeURL;
 import static com.prayer.util.debug.Log.info;
+import static com.prayer.util.reflection.Instance.singleton;
+import static com.prayer.util.string.StringKit.decodeURL;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -19,7 +19,7 @@ import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.UriModel;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 import com.prayer.util.web.Dispatcher;
 import com.prayer.util.web.Extractor;
 

@@ -2,7 +2,7 @@ package com.prayer.base.dao; // NOPMD
 
 import static com.prayer.util.Calculator.diff;
 import static com.prayer.util.Calculator.intersect;
-import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,8 +21,8 @@ import com.prayer.facade.dao.JdbcContext;
 import com.prayer.model.database.FieldModel;
 import com.prayer.model.database.KeyModel;
 import com.prayer.model.kernel.GenericSchema;
-import com.prayer.util.StringKit;
-import com.prayer.util.dao.SqlDdlStatement;
+import com.prayer.util.jdbc.SqlDDL;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.InstanceOf;
@@ -110,7 +110,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return
      */
     protected String genDropConstraints(@NotNull @NotEmpty @NotBlank final String name) {
-        return SqlDdlStatement.dropCSSql(this.getTable(), name);
+        return SqlDDL.dropCSSql(this.getTable(), name);
     }
 
     /**
@@ -120,7 +120,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return
      */
     protected String genDropColumns(@NotNull @NotEmpty @NotBlank final String column) {
-        return SqlDdlStatement.dropColSql(this.getTable(), column);
+        return SqlDDL.dropColSql(this.getTable(), column);
     }
 
     /**
@@ -130,7 +130,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return
      */
     protected String genAddColumns(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
-        return SqlDdlStatement.addColSql(this.getTable(), this.genColumnLine(field));
+        return SqlDDL.addColSql(this.getTable(), this.genColumnLine(field));
     }
 
     /**
@@ -140,7 +140,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return
      */
     protected String genAlterColumns(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
-        return SqlDdlStatement.alterColSql(this.getTable(), this.genColumnLine(field));
+        return SqlDDL.alterColSql(this.getTable(), this.genColumnLine(field));
     }
 
     /**
@@ -156,7 +156,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
         final List<FieldModel> ffields = this.schema.getForeignField();
         final List<String> fkeyLines = new ArrayList<>();
         for (int idx = 0; idx < fkeys.size(); idx++) {
-            fkeyLines.add(SqlDdlStatement.newFKSql(fkeys.get(idx), ffields.get(idx)));
+            fkeyLines.add(SqlDDL.newFKSql(fkeys.get(idx), ffields.get(idx)));
         }
         return fkeyLines;
     }
@@ -170,9 +170,9 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
     protected String genKeyLine(@NotNull @InstanceOfAny(KeyModel.class) final KeyModel key) {
         String sql = null;
         if (KeyCategory.UniqueKey == key.getCategory()) {
-            sql = SqlDdlStatement.newUKSql(key);
+            sql = SqlDDL.newUKSql(key);
         } else if (KeyCategory.PrimaryKey == key.getCategory()) {
-            sql = SqlDdlStatement.newPKSql(key);
+            sql = SqlDDL.newPKSql(key);
         }
         return sql;
     }
@@ -187,9 +187,9 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
             @InstanceOfAny(FieldModel.class) final FieldModel field) {
         String sql = null;
         if (KeyCategory.ForeignKey == key.getCategory()) {
-            sql = SqlDdlStatement.addCSSql(this.getTable(), SqlDdlStatement.newFKSql(key, field));
+            sql = SqlDDL.addCSSql(this.getTable(), SqlDDL.newFKSql(key, field));
         } else {
-            sql = SqlDdlStatement.addCSSql(this.getTable(), this.genKeyLine(key));
+            sql = SqlDDL.addCSSql(this.getTable(), this.genKeyLine(key));
         }
         return sql;
     }
@@ -201,7 +201,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return
      */
     protected String genColumnLine(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
-        return SqlDdlStatement.newColumnSql(lengthTypes(), precisionTypes(), field);
+        return SqlDDL.newColumnSql(lengthTypes(), precisionTypes(), field);
     }
 
     /**
@@ -211,7 +211,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return
      */
     protected String getColType(@NotNull @InstanceOfAny(FieldModel.class) final FieldModel field) {
-        return SqlDdlStatement.getColType(field);
+        return SqlDDL.getColType(field);
     }
 
     /**
@@ -220,7 +220,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return
      */
     protected Long getRows() {
-        return this.getContext().count(SqlDdlStatement.genCountRowsSql(this.getTable()));
+        return this.getContext().count(SqlDDL.genCountRowsSql(this.getTable()));
     }
 
     /**

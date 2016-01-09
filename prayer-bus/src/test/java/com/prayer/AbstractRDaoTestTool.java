@@ -1,8 +1,8 @@
 package com.prayer;
 
-import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.instance;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.HashSet;
 import java.util.List;

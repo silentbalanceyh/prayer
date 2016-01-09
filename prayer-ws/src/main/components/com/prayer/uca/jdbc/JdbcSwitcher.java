@@ -1,14 +1,14 @@
 package com.prayer.uca.jdbc;
 
 import static com.prayer.util.Converter.fromStr;
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.constant.SystemEnum.UACSource;
 import com.prayer.dao.impl.jdbc.H2ConnImpl;
 import com.prayer.dao.impl.jdbc.RecordConnImpl;
 import com.prayer.facade.dao.JdbcContext;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 import com.prayer.util.web.Extractor;
 
 import io.vertx.core.json.JsonObject;

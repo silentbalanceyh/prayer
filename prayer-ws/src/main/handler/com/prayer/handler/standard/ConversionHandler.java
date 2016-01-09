@@ -1,8 +1,8 @@
 package com.prayer.handler.standard;    // NOPMD
 
 import static com.prayer.util.Converter.toStr;
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.debug;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;

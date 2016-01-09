@@ -1,7 +1,7 @@
 package com.prayer.configurator;
 
-import static com.prayer.util.Instance.singleton;
 import static com.prayer.util.debug.Log.error;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,7 +17,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.vertx.PEVerticle;
 
 import io.vertx.core.DeploymentOptions;
 import jodd.util.StringUtil;
@@ -39,7 +39,7 @@ public class VerticleConfigurator {
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(VerticleConfigurator.class);
     /** 系统核心缓存，因为这个类只会在配置时使用，则这个变量保存了H2中所有的信息 **/
-    private static final ConcurrentMap<String, List<VerticleModel>> DATA_MAP = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, List<PEVerticle>> DATA_MAP = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     /** 访问H2元数据的业务逻辑层 **/
     @NotNull
@@ -92,7 +92,7 @@ public class VerticleConfigurator {
 
     private void initDataMap() {
         if (DATA_MAP.isEmpty()) {
-            final ServiceResult<ConcurrentMap<String, List<VerticleModel>>> result = this.service.findVerticles();
+            final ServiceResult<ConcurrentMap<String, List<PEVerticle>>> result = this.service.findVerticles();
             if (ResponseCode.SUCCESS == result.getResponseCode()) {
                 DATA_MAP.putAll(result.getResult());
             } else {
@@ -101,15 +101,15 @@ public class VerticleConfigurator {
         }
     }
 
-    private Map<String, DeploymentOptions> getConfig(final List<VerticleModel> rawList) {
+    private Map<String, DeploymentOptions> getConfig(final List<PEVerticle> rawList) {
         final Map<String, DeploymentOptions> retMap = new LinkedHashMap<>(); // NOPMD
-        for (final VerticleModel item : rawList) {
+        for (final PEVerticle item : rawList) {
             retMap.put(item.getName().getName(), this.getOptions(item));
         }
         return retMap;
     }
 
-    private DeploymentOptions getOptions(final VerticleModel rawData) {
+    private DeploymentOptions getOptions(final PEVerticle rawData) {
         final DeploymentOptions retOpts = new DeploymentOptions();
         // 1.Group的划分，对象构造就会有Group信息，所以rawData的group不可能为空
         if (!StringUtil.equals(Constants.VX_GROUP, rawData.getGroup())) {

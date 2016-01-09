@@ -28,4 +28,22 @@ public interface Attributes {
     String CONSUMER_ADDR = "consumerAddr";
     /** PEAddress专用属性consumerHandler **/
     String CONSUMER_HANDLER = "consumerHandler";
+
+    // ~ Verticle Attr ======================================
+    /** PEVerticle专用属性instances **/
+    String INSTANCES = "instances";
+    /** PEVerticle专用属性group **/
+    String GROUP = "group";
+    /** PEVerticle专用属性jsonConfig **/
+    String JSON_CONFIG = "jsonConfig";
+    /** PEVerticle专用属性isolatedClasses **/
+    String ISOLATED_CLASSES = "isolatedClasses";
+    /** PEVerticle专用属性extraCp **/
+    String EXTRA_CP = "extraCp";
+    /** PEVerticle专用属性ha **/
+    String HA = "ha";
+    /** PEVerticle专用属性worker **/
+    String WORKER = "worker";
+    /** PEVerticle专用属性multi **/
+    String MULTI = "multi";
 }

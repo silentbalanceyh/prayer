@@ -1,7 +1,7 @@
 package com.prayer.base.bus;
 
-import static com.prayer.util.Instance.reservoir;
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.reservoir;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import javax.script.ScriptException;
 

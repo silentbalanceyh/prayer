@@ -1,6 +1,6 @@
 package com.prayer.dao.impl.std.record;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;

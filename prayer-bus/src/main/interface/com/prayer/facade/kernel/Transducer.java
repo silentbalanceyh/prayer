@@ -1,6 +1,6 @@
 package com.prayer.facade.kernel;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;

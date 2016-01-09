@@ -1,6 +1,6 @@
 package com.prayer.bus.impl.oob;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.dao.impl.schema.AddressDaoImpl;
 import com.prayer.dao.impl.schema.RouteDaoImpl;

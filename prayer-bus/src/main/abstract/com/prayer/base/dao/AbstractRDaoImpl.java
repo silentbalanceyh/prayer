@@ -2,7 +2,7 @@ package com.prayer.base.dao; // NOPMD
 
 import static com.prayer.util.Calculator.diff;
 import static com.prayer.util.Generator.uuid;
-import static com.prayer.util.Instance.reservoir;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,9 +25,9 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.database.FieldModel;
 import com.prayer.model.kernel.GenericRecord;
-import com.prayer.util.dao.SqlDmlStatement;
-import com.prayer.util.dao.QueryHelper;
-import com.prayer.util.dao.Interrupter.PrimaryKey;
+import com.prayer.util.exception.Interrupter.PrimaryKey;
+import com.prayer.util.jdbc.QueryHelper;
+import com.prayer.util.jdbc.SqlDML;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -91,7 +91,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         final Collection<String> columns = diff(record.columns(), pkCols);
         final List<Value<?>> updatedValues = QueryHelper.prepParam(record, pkCols.toArray(Constants.T_STR_ARR));
         // 5.SQL语句
-        final String sql = SqlDmlStatement.prepUpdateSQL(record.table(), columns, whereExpr);
+        final String sql = SqlDML.prepUpdateSQL(record.table(), columns, whereExpr);
         // 6.最终参数表，先添加基本参数，再添加主键
         paramValues.addAll(updatedValues);
         /**
@@ -206,7 +206,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         // 1.获取JDBC访问器
         final JdbcContext jdbc = this.getContext(record.identifier());
         // 2.生成SQL语句
-        final String sql = SqlDmlStatement.prepSelectSQL(record.table(), Arrays.asList(columns), filters, orders);
+        final String sql = SqlDML.prepSelectSQL(record.table(), Arrays.asList(columns), filters, orders);
         // 3.根据参数表生成查询结果集
         final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
         return QueryHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), cols));
@@ -228,7 +228,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
         final Expression whereExpr = QueryHelper.getAndExpr(paramCols);
         // 3.生成SQL语句
-        final String sql = SqlDmlStatement.prepDeleteSQL(record.table(), whereExpr);
+        final String sql = SqlDML.prepDeleteSQL(record.table(), whereExpr);
         // 4.生成参数表
         final List<Value<?>> paramValues = new ArrayList<>();
         for (final String column : paramCols) {
@@ -249,7 +249,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         // 1.获取JDBC访问器
         final JdbcContext jdbc = this.getContext(record.identifier());
         // 2.生成SQL语句
-        final String sql = SqlDmlStatement.prepDeleteSQL(record.table(), null);
+        final String sql = SqlDML.prepDeleteSQL(record.table(), null);
         // 3.执行，因为是Purge
         final int ret = jdbc.execute(sql, null);
         // 4.无数据的时候是0，有数据的时候是行数，和其他操作不同，因为Purge确实存在没有数据的情况

@@ -1,9 +1,9 @@
 package com.prayer.dao.impl.schema;
 
 import static com.prayer.util.Generator.uuid;
-import static com.prayer.util.Instance.field;
-import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.field;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.database.DataAccessException;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.vertx.PEVerticle;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface VerticleDao extends TemplateDao<VerticleModel,String>{
+public interface VerticleDao extends TemplateDao<PEVerticle,String>{
     /**
      * 删除配置
      * 
@@ -27,7 +27,7 @@ public interface VerticleDao extends TemplateDao<VerticleModel,String>{
      * @param group
      * @return
      */
-    List<VerticleModel> getByGroup(String group);
+    List<PEVerticle> getByGroup(String group);
 
     /**
      * 按照类名读取单个VerticleModel
@@ -35,5 +35,5 @@ public interface VerticleDao extends TemplateDao<VerticleModel,String>{
      * @param clazz
      * @return
      */
-    VerticleModel getByClass(Class<?> clazz);
+    PEVerticle getByClass(Class<?> clazz);
 }

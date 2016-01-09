@@ -1,6 +1,6 @@
 package com.prayer.dao.impl.std.meta;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

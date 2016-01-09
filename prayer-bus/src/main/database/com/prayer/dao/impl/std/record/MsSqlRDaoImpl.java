@@ -22,11 +22,11 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
 import com.prayer.model.database.FieldModel;
-import com.prayer.util.dao.SqlDmlStatement;
-import com.prayer.util.dao.QueryHelper;
-import com.prayer.util.dao.Interrupter.Policy;
-import com.prayer.util.dao.Interrupter.PrimaryKey;
-import com.prayer.util.dao.Interrupter.Response;
+import com.prayer.util.exception.Interrupter.Policy;
+import com.prayer.util.exception.Interrupter.PrimaryKey;
+import com.prayer.util.exception.Interrupter.Response;
+import com.prayer.util.jdbc.QueryHelper;
+import com.prayer.util.jdbc.SqlDML;
 
 import jodd.util.StringUtil;
 
@@ -157,7 +157,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
         // 1.获取JDBC访问器
         final JdbcContext jdbc = this.getContext(record.identifier());
         // 2.生成SQL Count语句
-        final String countSql = SqlDmlStatement.prepCountSQL(record.table(), filters);
+        final String countSql = SqlDML.prepCountSQL(record.table(), filters);
         // 3.返回Sql Count
         final Long count = jdbc.count(countSql);
         // 4.生成Page语句

@@ -34,7 +34,7 @@ import com.prayer.model.database.FieldModel;
 import com.prayer.model.database.KeyModel;
 import com.prayer.model.kernel.FKReferencer;
 import com.prayer.model.kernel.GenericSchema;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;

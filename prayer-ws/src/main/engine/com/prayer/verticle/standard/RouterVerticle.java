@@ -1,7 +1,7 @@
 package com.prayer.verticle.standard; // NOPMD
 
-import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.instance;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configurator.RouteConfigurator;
 import com.prayer.configurator.ServerConfigurator;

@@ -1,8 +1,8 @@
 package com.prayer.model.kernel; // NOPMD
 
 import static com.prayer.util.Calculator.index;
-import static com.prayer.util.Instance.reservoir;
 import static com.prayer.util.debug.Log.info;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +28,8 @@ import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.model.database.FieldModel;
 import com.prayer.model.type.DataType;
 import com.prayer.util.Converter;
-import com.prayer.util.StringKit;
 import com.prayer.util.io.PropertyKit;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotBlank;

@@ -1,6 +1,6 @@
 {
     "id":"testid",
-    "name":"api.js.sec.login",
+    "name":"",
     "namespace":"com.lang.namespace",
     "content":"var i = \"exe\";"
 }

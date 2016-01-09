@@ -1,6 +1,6 @@
 package com.prayer.plugin.jackson;
 
-import static com.prayer.util.Instance.clazz;
+import static com.prayer.util.reflection.Instance.clazz;
 
 import java.io.IOException;
 

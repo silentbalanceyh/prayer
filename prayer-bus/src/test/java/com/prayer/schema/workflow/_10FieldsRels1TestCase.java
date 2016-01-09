@@ -1,7 +1,7 @@
 package com.prayer.schema.workflow;
 
 import static com.prayer.constant.Accessors.validator;
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import org.junit.After;
 import org.junit.Test;

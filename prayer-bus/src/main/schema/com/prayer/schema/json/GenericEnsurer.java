@@ -11,7 +11,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaMapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.schema.ExternalEnsurer;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

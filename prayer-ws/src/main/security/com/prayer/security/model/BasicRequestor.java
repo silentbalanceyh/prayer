@@ -16,7 +16,7 @@ import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.model.web.StatusCode;
 import com.prayer.util.Encryptor;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;

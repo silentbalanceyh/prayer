@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.facade.dao.schema.VerticleDao;
 import com.prayer.facade.mapper.VerticleMapper;
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.vertx.PEVerticle;
 import com.prayer.plugin.ibatis.SessionManager;
 
 import net.sf.oval.constraint.NotBlank;
@@ -24,7 +24,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class VerticleDaoImpl extends TemplateDaoImpl<VerticleModel, String> implements VerticleDao { // NOPMD
+public class VerticleDaoImpl extends TemplateDaoImpl<PEVerticle, String> implements VerticleDao { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(VerticleDaoImpl.class);
@@ -63,13 +63,13 @@ public class VerticleDaoImpl extends TemplateDaoImpl<VerticleModel, String> impl
 
     /** 根据Group名称获取系统存在记录 **/
     @Override
-    public List<VerticleModel> getByGroup(@NotNull @NotBlank @NotEmpty final String group) {
+    public List<PEVerticle> getByGroup(@NotNull @NotBlank @NotEmpty final String group) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.获取Mapper
         final VerticleMapper mapper = session.getMapper(VerticleMapper.class);
         // 3.返回直接结果
-        final List<VerticleModel> retList = mapper.selectByGroup(group);
+        final List<PEVerticle> retList = mapper.selectByGroup(group);
         // 3.关闭Session返回最终结果
         session.close();
         return retList;
@@ -77,13 +77,13 @@ public class VerticleDaoImpl extends TemplateDaoImpl<VerticleModel, String> impl
 
     /** 根据Class类名获取单条VerticleModel **/
     @Override
-    public VerticleModel getByClass(@NotNull final Class<?> clazz) {
+    public PEVerticle getByClass(@NotNull final Class<?> clazz) {
         // 1.初始化SqlSession
         final SqlSession session = SessionManager.getSession();
         // 2.获取Mapper
         final VerticleMapper mapper = session.getMapper(VerticleMapper.class);
         // 3.读取返回信息
-        final VerticleModel ret = mapper.selectByName(clazz);
+        final PEVerticle ret = mapper.selectByName(clazz);
         // 4.关闭Session并且返回最终结果
         session.close();
         return ret;

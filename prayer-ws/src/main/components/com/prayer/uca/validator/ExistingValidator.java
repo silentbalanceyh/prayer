@@ -1,6 +1,6 @@
 package com.prayer.uca.validator;
 
-import static com.prayer.util.Instance.instance;
+import static com.prayer.util.reflection.Instance.instance;
 
 import com.prayer.base.exception.AbstractWebException;
 import com.prayer.facade.kernel.Value;

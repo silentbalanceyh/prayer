@@ -1,6 +1,6 @@
 package com.prayer.script;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.constant.Constants;

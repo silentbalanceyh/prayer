@@ -1,6 +1,6 @@
 package com.prayer.console.commands;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import org.apache.commons.cli.CommandLine;
 

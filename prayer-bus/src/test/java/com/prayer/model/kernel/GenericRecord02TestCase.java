@@ -1,6 +1,6 @@
 package com.prayer.model.kernel;
 
-import static com.prayer.util.Instance.instance;
+import static com.prayer.util.reflection.Instance.instance;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.prayer.model.vertx.VerticleModel;
+import com.prayer.model.vertx.PEVerticle;
 
 /**
  * 
  * @author Lang
  *
  */
-public interface VerticleMapper extends H2TMapper<VerticleModel, String> {
+public interface VerticleMapper extends H2TMapper<PEVerticle, String> {
     /**
      * 
      * @param name
@@ -23,12 +23,12 @@ public interface VerticleMapper extends H2TMapper<VerticleModel, String> {
      * @param name
      * @return
      */
-    VerticleModel selectByName(@Param("name") Class<?> name);
+    PEVerticle selectByName(@Param("name") Class<?> name);
 
     /**
      * 
      * @param group
      * @return
      */
-    List<VerticleModel> selectByGroup(@Param("group") String group);
+    List<PEVerticle> selectByGroup(@Param("group") String group);
 }

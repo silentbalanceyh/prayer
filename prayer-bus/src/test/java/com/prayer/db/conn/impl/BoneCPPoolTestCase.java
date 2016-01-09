@@ -1,6 +1,6 @@
 package com.prayer.db.conn.impl;
 
-import static com.prayer.util.Instance.instance;
+import static com.prayer.util.reflection.Instance.instance;
 import static org.junit.Assert.assertNotNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
 

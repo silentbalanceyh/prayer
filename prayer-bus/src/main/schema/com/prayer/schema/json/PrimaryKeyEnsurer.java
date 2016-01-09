@@ -1,7 +1,7 @@
 package com.prayer.schema.json;
 
-import static com.prayer.util.Instance.instance;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.instance;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +17,7 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.schema.PKNullableConflictException;
 import com.prayer.exception.schema.PKUniqueConflictException;
 import com.prayer.model.type.DataType;
-import com.prayer.util.StringKit;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.NotBlank;

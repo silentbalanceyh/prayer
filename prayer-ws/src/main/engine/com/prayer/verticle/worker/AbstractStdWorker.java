@@ -1,7 +1,7 @@
 package com.prayer.verticle.worker;
 
-import static com.prayer.util.Instance.instance;
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.instance;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.constant.SystemEnum.ResponseCode;

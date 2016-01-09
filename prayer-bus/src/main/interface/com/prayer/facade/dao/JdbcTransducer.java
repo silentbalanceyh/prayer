@@ -1,6 +1,6 @@
 package com.prayer.facade.dao;
 
-import static com.prayer.util.Instance.singleton;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
