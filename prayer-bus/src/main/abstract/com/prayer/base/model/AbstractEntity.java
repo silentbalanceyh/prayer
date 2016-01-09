@@ -209,5 +209,5 @@ public abstract class AbstractEntity implements Entity, Attributes {
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
+    
 }

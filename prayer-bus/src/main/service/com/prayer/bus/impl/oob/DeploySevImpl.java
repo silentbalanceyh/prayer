@@ -21,10 +21,8 @@ import com.prayer.base.exception.AbstractException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.dao.impl.jdbc.RecordConnImpl;
 import com.prayer.exception.system.DeploymentException;
 import com.prayer.facade.bus.DeployService;
-import com.prayer.facade.dao.JdbcContext;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.vertx.PEUri;
@@ -50,8 +48,6 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
     /** 日志记录器 **/
     private static final Logger LOGGER = LoggerFactory.getLogger(DeploySevImpl.class);
     // ~ Instance Fields =====================================
-    /** **/
-    private transient final JdbcContext metaConn = singleton(RecordConnImpl.class);
     /** **/
     private transient final DeploySevManager manager = singleton(DeploySevManager.class);
 

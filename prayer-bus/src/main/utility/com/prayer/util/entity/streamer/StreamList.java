@@ -36,7 +36,9 @@ public final class StreamList {
         final List<T> data = fun.get();
         if (null != data) {
             final JsonArray value = fromList(data);
-            json.put(key, value);
+            if (0 < value.size()) {
+                json.put(key, value);
+            }
         }
     }
 

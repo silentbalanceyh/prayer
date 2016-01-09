@@ -20,8 +20,10 @@ public interface Attributes {
     String NAMESPACE = "namespace";
     /** Shared: order **/
     String ORDER = "order";
-    /** Shared: refID **/
+    /** Shared: refMID **/
     String REF_MID = "refMID";
+    /** Shared: refId **/
+    String REF_ID = "refId";
     /** Shared: method **/
     String METHOD = "method";
     /** Shared: category **/
@@ -30,6 +32,8 @@ public interface Attributes {
     String MULTI = "multi";
     /** Shared -> subtable **/
     String SUB_TABLE = "subtable";
+    /** Shared -> columns **/
+    String COLUMNS = "columns";
 
     // ~ Script Attr ========================================
     /** PEScript -> content **/
@@ -68,23 +72,22 @@ public interface Attributes {
     String CONSUMER_MIMES = "consumerMimes";
     /** PERoute -> producerMimes **/
     String PRODUCER_MIMES = "producerMimes";
-
+    /** PERoute -> requestHandler **/
     String REQUEST_HANDLER = "requestHandler";
-
+    /** PERoute -> failureHandler **/
     String FAILURE_HANDLER = "failureHandler";
 
     // ~ Rule Attr ==========================================
-
+    /** PERute -> componentType **/
     String COMPONENT_TYPE = "componentType";
-
+    /** PERute -> componentClass **/
     String COMPONENT_CLASS = "componentClass";
-
+    /** PERute -> config **/
     String CONFIG = "config";
-
+    /** PERute -> errorMessage **/
     String ERROR_MESSAGE = "errorMessage";
-    
+    /** PERute -> refUID **/
     String REF_UID = "refUID";
-
     // ~ Uri Attr ===========================================
 
     String URI = "uri";
@@ -124,45 +127,63 @@ public interface Attributes {
     String SEQ_INIT = "seqinit";
 
     // ~ Key Attr ===========================================
-    String COLUMNS = "columns";
-
+    // ~ Index Attr =========================================
+    
     // ~ Field Attr =========================================
 
     String PATTERN = "pattern";
 
     String VALIDATOR = "validator";
-    
+
     String LENGTH = "length";
-    
+
     String DATE_TIME = "datetime";
-    
+
     String DATE_FORMAT = "dateformat";
-    
+
     String PRECISION = "precision";
-    
+
     String UNIT = "unit";
-    
+
     String MAX_LENGTH = "maxLength";
-    
+
     String MIN_LENGTH = "minLength";
-    
+
     String MAX = "max";
-    
+
     String MIN = "min";
-    
+
     String PRIMARY_KEY = "primarykey";
-    
+
     String UNIQUE = "unique";
-    
+
     String FOREIGN_KEY = "foreignkey";
-    
+
     String NULLABLE = "nullable";
-    
+
     String COLUMN_NAME = "columnName";
-    
+
     String COLUMN_TYPE = "columnType";
-    
+
     String REF_TABLE = "refTable";
+
+    // ~ Trigger Attr ======================================
     
-    String REF_ID = "refId";
+    String TARGET = "target";
+    
+    String OP_TYPE = "opType";
+    
+    String MODE = "mode";
+    
+    String STATEMENT = "statement";
+    
+    // ~ View Attr =========================================
+    
+    String VIEW_NAME = "view";
+    
+    String CHECK_OPTION = "check";
+    
+    // ~ Column Attr =======================================
+    
+    String REF_VID = "refVID";
 }

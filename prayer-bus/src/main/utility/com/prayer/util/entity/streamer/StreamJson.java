@@ -33,7 +33,9 @@ public final class StreamJson {
     public static void writeField(final JsonObject json, final String key, final BeanGet<JsonObject> fun) {
         final JsonObject data = fun.get();
         if (null != data) {
-            json.put(key, data);
+            if (!data.isEmpty()) {
+                json.put(key, data);
+            }
         }
     }
 

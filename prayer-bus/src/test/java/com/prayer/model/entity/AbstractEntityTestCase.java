@@ -63,13 +63,14 @@ public abstract class AbstractEntityTestCase {
      */
     @Test
     public void testBufferInvalid() {
+        final Entity expected = this.getInstance(null);
+        
         final Buffer buffer = Buffer.buffer();
-        final Entity expected = this.getInstance(EMPTY_FILE);
-        expected.writeToBuffer(buffer);
-        final Entity actual = this.getInstance(null);
+        final Entity actual = this.getInstance(EMPTY_FILE);
+        actual.writeToBuffer(buffer);
         actual.readFromBuffer(Constants.POS, buffer);
         // Compare
-        assertEquals(expected, actual);
+        assertEquals(expected.toJson(), actual.toJson());
     }
     /**
      * 

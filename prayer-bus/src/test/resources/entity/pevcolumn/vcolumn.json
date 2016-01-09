@@ -1,0 +1,8 @@
+{
+    "id":"testid",
+    "name":"testname",
+    "type":"IntType",
+    "columnName":"SEC_NAME",
+    "columnType":"BOOLEAN",
+    "refVID":"refViewId"
+}
