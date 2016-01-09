@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.prayer.facade.entity.Attributes;
 import com.prayer.facade.entity.Entity;
-import com.prayer.util.entity.streamer.StreamBasic;
-import com.prayer.util.entity.streamer.StreamClass;
-import com.prayer.util.entity.streamer.StreamEnum;
-import com.prayer.util.entity.streamer.StreamJson;
-import com.prayer.util.entity.streamer.StreamList;
-import com.prayer.util.entity.streamer.StreamString;
+import com.prayer.util.entity.stream.StreamBasic;
+import com.prayer.util.entity.stream.StreamClass;
+import com.prayer.util.entity.stream.StreamEnum;
+import com.prayer.util.entity.stream.StreamJson;
+import com.prayer.util.entity.stream.StreamList;
+import com.prayer.util.entity.stream.StreamString;
 import com.prayer.util.fun.BeanGet;
 import com.prayer.util.fun.BeanSet;
 

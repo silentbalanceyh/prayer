@@ -11,7 +11,7 @@ import com.prayer.constant.Constants;
  * @author Lang
  *
  */
-public final class BitsKit {
+public final class BitsBasic {
     // ~ Static Fields =======================================
     /** Length **/
     private static ConcurrentMap<Class<?>, Integer> LEN_MAP = new ConcurrentHashMap<>();
@@ -274,7 +274,7 @@ public final class BitsKit {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private BitsKit() {
+    private BitsBasic() {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

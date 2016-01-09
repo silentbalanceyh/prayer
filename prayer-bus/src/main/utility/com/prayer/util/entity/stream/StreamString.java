@@ -1,4 +1,4 @@
-package com.prayer.util.entity.streamer;
+package com.prayer.util.entity.stream;
 
 import static com.prayer.util.debug.Log.jvmError;
 
@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
-import com.prayer.util.entity.bits.BitsKit;
+import com.prayer.util.entity.bits.BitsString;
 import com.prayer.util.fun.BeanGet;
 import com.prayer.util.fun.BeanSet;
 
@@ -14,61 +14,61 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
 /**
- * 处理数据：Boolean, Character, Integer, Short, Long, Double, Float
+ * 处理数据：String
  * 
  * @author Lang
  *
  */
-public final class StreamBasic {
+public final class StreamString {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(StreamBasic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StreamString.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** 将数据写入到JsonObject **/
-    public static <T> void writeField(final JsonObject json, final String key, final BeanGet<T> fun) {
-        final T data = fun.get();
+    public static void writeField(final JsonObject json, final String key, final BeanGet<String> fun) {
+        final String data = fun.get();
         if (null != data) {
             json.put(key, data);
         }
     }
 
-    /** 将数据从Json中读取出来 **/
-    public static <T> void readField(final JsonObject json, final String key, final BeanSet<T> fun,
-            final Class<?> type) {
+    /** 将数据从JSON中读取出来 **/
+    public static void readField(final JsonObject json, final String key, final BeanSet<String> fun) {
         final Object data = json.getValue(key);
-        if (null != data) {
-            fun.set(BitsKit.fromObject(type, data));
+        if (null != data && data instanceof String) {
+            final String value = json.getString(key);
+            fun.set(value);
         }
     }
 
     /** 将数据写入到Buffer **/
-    public static <T> void writeField(final Buffer buffer, final BeanGet<T> fun) {
-        final T data = fun.get();
+    public static void writeField(final Buffer buffer, final BeanGet<String> fun) {
+        final String data = fun.get();
         byte[] bytesData = new byte[] {};
         if (null == data) {
             buffer.appendInt(Constants.ZERO);
             buffer.appendBytes(bytesData);
         } else {
-            final int length = BitsKit.getLength(data);
+            final int length = BitsString.getLength(data);
             buffer.appendInt(length);
-            bytesData = BitsKit.toBytes(data);
+            bytesData = BitsString.toBytes(data);
             buffer.appendBytes(bytesData);
         }
     }
 
     /** 将数据从Buffer中读取出来 **/
-    public static <T> int readField(final Buffer buffer, int pos, final BeanSet<T> fun, final Class<?> type) {
+    public static int readField(final Buffer buffer, int pos, final BeanSet<String> fun) {
         try {
             final int length = buffer.getInt(pos);
             pos += 4;
             final byte[] bytesData = buffer.getBytes(pos, pos + length);
-            final T value = BitsKit.fromBytes(type, bytesData);
+            final String data = BitsString.fromBytes(bytesData);
             pos += length;
-            if (Constants.ZERO < bytesData.length) {
-                fun.set(value);
+            if (0 < bytesData.length) {
+                fun.set(data);
             } else {
                 fun.set(null);
             }
@@ -83,7 +83,7 @@ public final class StreamBasic {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private StreamBasic() {
+    private StreamString() {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

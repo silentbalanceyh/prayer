@@ -1,4 +1,4 @@
-package com.prayer.util.entity.streamer;
+package com.prayer.util.entity.stream;
 
 import static com.prayer.util.debug.Log.jvmError;
 
@@ -9,50 +9,54 @@ import com.prayer.constant.Constants;
 import com.prayer.util.entity.bits.BitsString;
 import com.prayer.util.fun.BeanGet;
 import com.prayer.util.fun.BeanSet;
-import com.prayer.util.reflection.Instance;
 
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 
 /**
- * 处理数据：Class，将类名转换成String
+ * 处理数据：JsonObject
  * 
  * @author Lang
  *
  */
-public final class StreamClass {
+public final class StreamJson {
     // ~ Static Fields =======================================
+
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(StreamClass.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StreamJson.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
+    // ~ Static Methods ======================================
     /** 将数据写入到JsonObject **/
-    public static void writeField(final JsonObject json, final String key, final BeanGet<Class<?>> fun) {
-        final Class<?> data = fun.get();
+    public static void writeField(final JsonObject json, final String key, final BeanGet<JsonObject> fun) {
+        final JsonObject data = fun.get();
         if (null != data) {
-            json.put(key, data.getName());
+            if (!data.isEmpty()) {
+                json.put(key, data);
+            }
         }
     }
 
     /** 将数据从JSON中读取出来 **/
-    public static void readField(final JsonObject json, final String key, final BeanSet<Class<?>> fun) {
+    public static void readField(final JsonObject json, final String key, final BeanSet<JsonObject> fun) {
         final Object data = json.getValue(key);
-        if (null != data && data instanceof String) {
-            final Class<?> value = Instance.clazz(data.toString());
+        if (null != data && data instanceof JsonObject) {
+            final JsonObject value = json.getJsonObject(key);
             fun.set(value);
         }
     }
 
     /** 将数据写入到Buffer **/
-    public static void writeField(final Buffer buffer, final BeanGet<Class<?>> fun) {
-        final Class<?> data = fun.get();
+    public static void writeField(final Buffer buffer, final BeanGet<JsonObject> fun) {
+        final JsonObject data = fun.get();
         byte[] bytesData = new byte[] {};
         if (null == data) {
             buffer.appendInt(Constants.ZERO);
             buffer.appendBytes(bytesData);
         } else {
-            final String name = data.getName();
+            final String name = data.encode();
             final int length = BitsString.getLength(name);
             buffer.appendInt(length);
             bytesData = BitsString.toBytes(name);
@@ -61,32 +65,34 @@ public final class StreamClass {
     }
 
     /** 将数据从Buffer中读取出来 **/
-    public static int readField(final Buffer buffer, int pos, final BeanSet<Class<?>> fun) {
+    public static int readField(final Buffer buffer, int pos, final BeanSet<JsonObject> fun) {
         try {
             final int length = buffer.getInt(pos);
             pos += 4;
             final byte[] bytesData = buffer.getBytes(pos, pos + length);
             final String data = BitsString.fromBytes(bytesData);
             pos += length;
+            final JsonObject value = new JsonObject();
             if (Constants.ZERO < bytesData.length) {
-                final Class<?> value = Instance.clazz(data);
+                value.mergeIn(new JsonObject(data));
                 fun.set(value);
             } else {
-                fun.set(null);
+                fun.set(value);
             }
         } catch (IndexOutOfBoundsException ex) {
+            jvmError(LOGGER, ex);
+        } catch (DecodeException ex) {
             jvmError(LOGGER, ex);
         }
         return pos;
     }
 
-    // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private StreamClass() {
+    private StreamJson() {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

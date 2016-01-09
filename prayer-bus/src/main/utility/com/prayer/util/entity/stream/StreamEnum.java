@@ -1,4 +1,4 @@
-package com.prayer.util.entity.streamer;
+package com.prayer.util.entity.stream;
 
 import static com.prayer.util.debug.Log.jvmError;
 
