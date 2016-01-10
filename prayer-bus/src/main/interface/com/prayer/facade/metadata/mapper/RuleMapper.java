@@ -1,4 +1,4 @@
-package com.prayer.facade.mapper;
+package com.prayer.facade.metadata.mapper;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import com.prayer.model.vertx.PERule;
  * @author Lang
  *
  */
-public interface RuleMapper extends H2TMapper<PERule,String>{
+public interface RuleMapper extends IBatisMapper<PERule,String>{
     /**
      * 
      * @param uriId

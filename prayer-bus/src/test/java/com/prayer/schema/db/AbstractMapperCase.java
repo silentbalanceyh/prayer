@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.prayer.constant.Constants;
-import com.prayer.facade.mapper.H2TMapper;
+import com.prayer.facade.metadata.mapper.IBatisMapper;
 import com.prayer.plugin.ibatis.PESessionManager;
 
 /**
@@ -34,7 +34,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
     private static final int BATCH_SIZE = 24;
     // ~ Instance Fields =====================================
     /** **/
-    private transient final H2TMapper<T, ID> mapper;
+    private transient final IBatisMapper<T, ID> mapper;
     /** **/
     private transient final SqlSession _session; // NOPMD
     // ~ Static Block ========================================
@@ -44,7 +44,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
     /** **/
     public AbstractMapperCase() {
         this._session = PESessionManager.getSession();
-        this.mapper = (H2TMapper<T, ID>) _session.getMapper(getMapperClass());
+        this.mapper = (IBatisMapper<T, ID>) _session.getMapper(getMapperClass());
     }
 
     // ~ Abstract Methods ====================================
@@ -79,7 +79,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
      * 
      * @return
      */
-    protected H2TMapper<T, ID> getMapper() {
+    protected IBatisMapper<T, ID> getMapper() {
         return this.mapper;
     }
 
@@ -129,7 +129,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
      * @return
      */
     protected List<T> insertTs(final boolean isBatch) {
-        final H2TMapper<T, ID> mapper = this.getMapper();
+        final IBatisMapper<T, ID> mapper = this.getMapper();
         final List<T> retList = new ArrayList<>();
         if (isBatch) {
             final List<T> entities = this.getTs(null);
@@ -154,7 +154,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
      */
     protected boolean deleteByIds(final ID... ids) {
         boolean flag = false;
-        final H2TMapper<T, ID> mapper = this.getMapper();
+        final IBatisMapper<T, ID> mapper = this.getMapper();
         if (Constants.ONE == ids.length) {
             flag = mapper.deleteById(ids[0]);
             this.session().commit();
@@ -185,7 +185,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
      */
     @Test
     public void testUpdate() {
-        final H2TMapper<T, ID> mapper = this.getMapper();
+        final IBatisMapper<T, ID> mapper = this.getMapper();
         final T entity = this.insertTs(false).get(0);
         // Updating Testing
         final ID uniqueId = field(entity, UK_ID);
@@ -201,7 +201,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
     /** **/
     @Test
     public void testBatchUpdateAndDelete() {
-        final H2TMapper<T, ID> mapper = this.getMapper();
+        final IBatisMapper<T, ID> mapper = this.getMapper();
         final List<T> entities = this.insertTs(true);
         // 获取插入的ID值
         final List<ID> ids = new ArrayList<>();
@@ -226,7 +226,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
     /** **/
     @Test
     public void testSelectAllAndDelete() {
-        final H2TMapper<T, ID> mapper = this.getMapper();
+        final IBatisMapper<T, ID> mapper = this.getMapper();
         final List<T> entities = this.insertTs(true);
         final List<T> queriedTs = mapper.selectAll();
         info(getLogger(), "[TD] Queried records successfully : " + queriedTs);
@@ -240,7 +240,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
     /** **/
     @Test
     public void testBatchInsertAndDelete() {
-        final H2TMapper<T, ID> mapper = this.getMapper();
+        final IBatisMapper<T, ID> mapper = this.getMapper();
         final List<T> entities = this.insertTs(true);
         // 获取插入的ID值
         final List<ID> ids = new ArrayList<>();

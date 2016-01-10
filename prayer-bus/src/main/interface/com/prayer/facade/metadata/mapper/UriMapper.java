@@ -1,4 +1,4 @@
-package com.prayer.facade.mapper;
+package com.prayer.facade.metadata.mapper;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import io.vertx.core.http.HttpMethod;
  * @author Lang
  *
  */
-public interface UriMapper extends H2TMapper<PEUri, String>{
+public interface UriMapper extends IBatisMapper<PEUri, String>{
     /**
      * 
      * @param uri

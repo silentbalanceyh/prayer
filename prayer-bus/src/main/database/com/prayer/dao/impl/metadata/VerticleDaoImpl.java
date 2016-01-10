@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.facade.dao.metadata.VerticleDao;
-import com.prayer.facade.mapper.VerticleMapper;
+import com.prayer.facade.metadata.mapper.VerticleMapper;
 import com.prayer.model.vertx.PEVerticle;
 import com.prayer.plugin.ibatis.PESessionManager;
 

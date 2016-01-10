@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.dao.metadata.RuleDao;
-import com.prayer.facade.mapper.RuleMapper;
+import com.prayer.facade.metadata.mapper.RuleMapper;
 import com.prayer.model.vertx.PERule;
 import com.prayer.plugin.ibatis.PESessionManager;
 

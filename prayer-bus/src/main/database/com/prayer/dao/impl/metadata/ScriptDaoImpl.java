@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.facade.dao.metadata.ScriptDao;
-import com.prayer.facade.mapper.ScriptMapper;
+import com.prayer.facade.metadata.mapper.ScriptMapper;
 import com.prayer.model.vertx.PEScript;
 import com.prayer.plugin.ibatis.PESessionManager;
 

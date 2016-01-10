@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.facade.dao.metadata.AddressDao;
-import com.prayer.facade.mapper.AddressMapper;
+import com.prayer.facade.metadata.mapper.AddressMapper;
 import com.prayer.model.vertx.PEAddress;
 import com.prayer.plugin.ibatis.PESessionManager;
 

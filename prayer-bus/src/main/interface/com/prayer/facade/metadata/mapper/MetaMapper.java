@@ -1,4 +1,4 @@
-package com.prayer.facade.mapper;
+package com.prayer.facade.metadata.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +10,7 @@ import com.prayer.model.database.PEMeta;
  * @author Lang
  * @see
  */
-public interface MetaMapper extends H2TMapper<PEMeta, String> { // NOPMD
+public interface MetaMapper extends IBatisMapper<PEMeta, String> { // NOPMD
 
     /**
      * 根据Meta的namespace和name删除Meta记录

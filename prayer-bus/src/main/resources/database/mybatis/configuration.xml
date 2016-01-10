@@ -7,41 +7,16 @@
         <setting name="defaultExecutorType" value="REUSE" />
     </settings>
     <typeAliases>
-        <typeAlias type="com.prayer.model.database.KeyModel"
-            alias="Key" />
-        <typeAlias type="com.prayer.model.database.FieldModel"
-            alias="Field" />
-        <typeAlias type="com.prayer.model.database.MetaModel"
-            alias="Meta" />
-        <typeAlias type="com.prayer.model.vertx.VerticleModel"
-            alias="Verticle" />
-        <typeAlias type="com.prayer.model.vertx.PERoute"
-            alias="Route" />
-        <typeAlias type="com.prayer.model.vertx.UriModel"
-            alias="Uri" />
-        <typeAlias type="com.prayer.model.vertx.RuleModel"
-            alias="Rule" />
-        <typeAlias type="com.prayer.model.vertx.AddressModel"
-            alias="Address" />
-        <typeAlias type="com.prayer.model.vertx.ScriptModel"
+        <typeAlias type="com.prayer.model.database.PEScript"
             alias="Script" />
     </typeAliases>
     <environments default="H2Environment">
         <environment id="H2Environment">
             <transactionManager type="JDBC" />
-            <dataSource
-                type="com.prayer.plugin.ibatis.PEDataSourceFactory" />
+            <dataSource type="com.prayer.plugin.ibatis.PEDataSourceFactory" />
         </environment>
     </environments>
     <mappers>
-        <mapper resource="database/mybatis/mapper/KeyMapper.xml" />
-        <mapper resource="database/mybatis/mapper/FieldMapper.xml" />
-        <mapper resource="database/mybatis/mapper/MetaMapper.xml" />
-        <mapper resource="database/mybatis/mapper/VerticleMapper.xml" />
-        <mapper resource="database/mybatis/mapper/RouteMapper.xml" />
-        <mapper resource="database/mybatis/mapper/UriMapper.xml" />
-        <mapper resource="database/mybatis/mapper/RuleMapper.xml" />
-        <mapper resource="database/mybatis/mapper/AddressMapper.xml" />
-        <mapper resource="database/mybatis/mapper/ScriptMapper.xml" />
+        <mapper resource="database/mybatis/mapper/PEScript.xml" />
     </mappers>
 </configuration>

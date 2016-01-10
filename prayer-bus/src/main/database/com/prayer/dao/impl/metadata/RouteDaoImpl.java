@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.facade.dao.metadata.RouteDao;
-import com.prayer.facade.mapper.RouteMapper;
+import com.prayer.facade.metadata.mapper.RouteMapper;
 import com.prayer.model.vertx.PERoute;
 import com.prayer.plugin.ibatis.PESessionManager;
 

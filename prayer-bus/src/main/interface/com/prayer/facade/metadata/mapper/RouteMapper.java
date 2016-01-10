@@ -1,4 +1,4 @@
-package com.prayer.facade.mapper;
+package com.prayer.facade.metadata.mapper;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import com.prayer.model.vertx.PERoute;
  * @author Lang
  *
  */
-public interface RouteMapper extends H2TMapper<PERoute, String>{
+public interface RouteMapper extends IBatisMapper<PERoute, String>{
     /**
      * 
      * @param parent

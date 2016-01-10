@@ -1,4 +1,4 @@
-package com.prayer.facade.mapper;
+package com.prayer.facade.metadata.mapper;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import com.prayer.model.vertx.PEVerticle;
  * @author Lang
  *
  */
-public interface VerticleMapper extends H2TMapper<PEVerticle, String> {
+public interface VerticleMapper extends IBatisMapper<PEVerticle, String> {
     /**
      * 
      * @param name

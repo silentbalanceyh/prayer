@@ -22,7 +22,7 @@ import com.prayer.constant.MemoryPool;
 import com.prayer.exception.database.MapperClassNullException;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.entity.Entity;
-import com.prayer.facade.mapper.H2TMapper;
+import com.prayer.facade.metadata.mapper.IBatisMapper;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.plugin.ibatis.PESessionManager;
 import com.prayer.pool.impl.jdbc.H2ConnImpl;
@@ -43,7 +43,8 @@ import net.sf.oval.guard.Guarded;
  */
 @SuppressWarnings("unchecked")
 @Guarded
-public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> extends AbstractIBatisAccessor implements MetaAccessor<T, ID> { // NOPMD
+public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> extends AbstractIBatisAccessor
+        implements MetaAccessor<T, ID> { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(IBatisAccessorImpl.class);
@@ -76,7 +77,7 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
         final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         // 3.执行插入操作
-        final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
+        final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
         {
             if (Constants.ONE == entities.length) {
                 final T entity = entities[0];
@@ -112,7 +113,7 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
         final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         // 2.获取Mapper
-        final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
+        final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
         {
             // 3.更新数据信息
             mapper.update(entity);
@@ -129,7 +130,7 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
         final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         // 2.删除当前记录
-        final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
+        final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
         mapper.deleteById(uniqueId);
         // 3.事务提交完成
         submit(transaction, EXP_CLASS);
@@ -144,13 +145,13 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
         T ret = null;
         try {
             // 2.获取Mapper
-            final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
+            final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
             // 3.读取返回信息
             ret = mapper.selectById(uniqueId);
             // 4.关闭Session返回结构
             session.close();
         } catch (AbstractTransactionException ex) {
-            peError(LOGGER,ex);
+            peError(LOGGER, ex);
         }
         return ret;
     }
@@ -163,36 +164,38 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
         List<T> retList = null;
         try {
             // 2.获取Mapper
-            final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
+            final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
             // 3.读取返回列表
             retList = mapper.selectAll();
             // 4.关闭Session返回最终结果
             session.close();
         } catch (AbstractTransactionException ex) {
-            peError(LOGGER,ex);
+            peError(LOGGER, ex);
         }
         return retList;
     }
+
     /**
      * 
      * @return
      */
     @Override
-    public List<T> getByPage(@Min(1) final int index, @Min(1) final int size, @NotNull @NotEmpty @NotBlank final String orderBy){
+    public List<T> getByPage(@Min(1) final int index, @Min(1) final int size,
+            @NotNull @NotEmpty @NotBlank final String orderBy) {
         // 1.初始化SqlSession
         final SqlSession session = PESessionManager.getSession();
         // 2.计算偏移量
         final int start = (index - 1) * size;
         List<T> retList = null;
-        try{
+        try {
             // 3.获取Mapper
-            final H2TMapper<T,ID> mapper = (H2TMapper<T,ID>)session.getMapper(mapper());
+            final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
             // 4.读取返回列表
-            retList = mapper.selectByPage(orderBy, size, start);
+            retList = mapper.selectByPage(start, size, orderBy);
             // 5.关闭Session返回最终结果
             session.close();
-        }catch(AbstractTransactionException ex){
-            peError(LOGGER,ex);
+        } catch (AbstractTransactionException ex) {
+            peError(LOGGER, ex);
         }
         return retList;
     }
@@ -204,16 +207,17 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
         final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
         // 2.删除当前记录
-        final H2TMapper<T, ID> mapper = (H2TMapper<T, ID>) session.getMapper(mapper());
+        final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
         mapper.purgeData();
         // 3.事务提交完成
         submit(transaction, EXP_CLASS);
         return true;
     }
+
     /** 获取连接信息 **/
     @NotNull
     @InstanceOf(JdbcConnection.class)
-    public JdbcConnection getContext(@NotNull @NotEmpty @NotBlank final String identifier){
+    public JdbcConnection getContext(@NotNull @NotEmpty @NotBlank final String identifier) {
         JdbcConnection context = MemoryPool.POOL_JDBC.get(identifier);
         if (null == context) {
             context = reservoir(MemoryPool.POOL_JDBC, identifier, H2ConnImpl.class);

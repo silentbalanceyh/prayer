@@ -95,7 +95,6 @@ public final class Resources { // NOPMD
     public static final String DB_POOL;
     /** 底层元数据的实现访问器 **/
     public static final String META_ACCESSOR;
-
     /**
      * Private singleton resource LOADER. *
      */
@@ -181,7 +180,9 @@ public final class Resources { // NOPMD
         // Jdbc Database Pool
         DB_POOL = LOADER.getString("database.pool.impl");
         // Meta Accessor Implementation
-        META_ACCESSOR = LOADER.getString("database.access.impl");
+        META_ACCESSOR = LOADER.getString("database.accessor.impl");
+        // Meta Initializer Implementation
+        
     }
 
     // ~ Constructors ========================================

@@ -1,10 +1,10 @@
-package com.prayer.facade.mapper;
+package com.prayer.facade.metadata.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEKey;
 
 /**
  * 
@@ -12,9 +12,9 @@ import com.prayer.model.database.PEField;
  * @author Lang
  * @see
  */
-public interface FieldMapper extends H2TMapper<PEField, String> {
+public interface KeyMapper extends IBatisMapper<PEKey, String> {
     /**
-     * 根据Field的metaId删除记录
+     * 根据Meta的metaId删除Key记录
      * 
      * @param metaId
      * @return
@@ -22,10 +22,10 @@ public interface FieldMapper extends H2TMapper<PEField, String> {
     boolean deleteByMeta(@Param("metaId") String metaId);
 
     /**
-     * 根据Field的metaId获取Field记录
+     * 根据Meta的metaId获取Key记录的集合
      * 
      * @param metaId
      * @return
      */
-    List<PEField> selectByMeta(@Param("metaId") String metaId);
+    List<PEKey> selectByMeta(@Param("metaId") String metaId);
 }
