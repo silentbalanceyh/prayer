@@ -3,6 +3,7 @@ package com.prayer.facade.dao.metadata;
 import java.util.List;
 
 import com.prayer.constant.SystemEnum.ComponentType;
+import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.model.vertx.PERule;
 
 /**
@@ -10,7 +11,7 @@ import com.prayer.model.vertx.PERule;
  * @author Lang
  *
  */
-public interface RuleDao extends TemplateDao<PERule,String>{
+public interface RuleDao extends MetaAccessor<PERule,String>{
     /**
      * 
      * @param uriId

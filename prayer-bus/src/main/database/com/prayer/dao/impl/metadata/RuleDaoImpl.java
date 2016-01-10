@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.dao.metadata.RuleDao;
 import com.prayer.facade.mapper.RuleMapper;
@@ -24,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RuleDaoImpl extends TemplateDaoImpl<PERule, String> implements RuleDao { // NOPMD
+public class RuleDaoImpl extends IBatisAccessorImpl<PERule, String> implements RuleDao { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RuleDaoImpl.class);

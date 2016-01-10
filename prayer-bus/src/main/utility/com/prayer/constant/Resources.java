@@ -29,8 +29,7 @@ public final class Resources { // NOPMD
     // Database Configuration ================================
     /** 数据库模式：SQL/NOSQL **/
     public static final String DB_MODE;
-    /** 数据库连接池实现类名： **/
-    public static final String DB_POOL;
+
     /** 数据库种类：MYSQL, MSSQL, ORACLE, PGSQL, MONGO **/
     public static final String DB_CATEGORY;
     /** JDBC配置文件路径 **/
@@ -91,6 +90,12 @@ public final class Resources { // NOPMD
     /** 默认不是从CONSOLE启动 **/
     public static boolean useConsole = Boolean.FALSE;
 
+    // Switch Configuration ==================================
+    /** 数据库连接池实现类名： **/
+    public static final String DB_POOL;
+    /** 底层元数据的实现访问器 **/
+    public static final String META_ACCESSOR;
+
     /**
      * Private singleton resource LOADER. *
      */
@@ -113,8 +118,6 @@ public final class Resources { // NOPMD
         // Database Configuration
         DB_MODE = null == LOADER.getString("database.mode") ? Constants.DB_MODE_SQL
                 : StringUtil.toUpperCase(LOADER.getString("database.mode"));
-
-        DB_POOL = LOADER.getString("database.pool.impl");
 
         DB_CATEGORY = null == LOADER.getString("database.category") ? "MSSQL"
                 : StringUtil.toUpperCase(LOADER.getString("database.category"));
@@ -173,6 +176,12 @@ public final class Resources { // NOPMD
 
         // Meta
         META_PURGE_SQL = LOADER.getString("meta.oob.purge.data");
+        
+        // =================== Switcher ========================
+        // Jdbc Database Pool
+        DB_POOL = LOADER.getString("database.pool.impl");
+        // Meta Accessor Implementation
+        META_ACCESSOR = LOADER.getString("database.access.impl");
     }
 
     // ~ Constructors ========================================

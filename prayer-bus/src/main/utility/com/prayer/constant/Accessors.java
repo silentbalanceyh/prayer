@@ -14,6 +14,9 @@ public final class Accessors {
     // ~ Static Fields =======================================
     /** 默认值 **/
     private static final String DFT_DB_POOL = "com.prayer.pool.impl.jdbc.BoneCPPool";
+    /** 默认的Accessor使用SQL **/
+    private static final String DFT_META_ACCESSOR = "com.prayer.accessor.impl.IBatisAccessorImpl";
+
     /** Builder 默认值 **/
     private static final String DFT_DB_BUILDER = "com.prayer.dao.impl.builder.MsSqlBuilder";
     /** Validator 默认值 **/
@@ -28,6 +31,26 @@ public final class Accessors {
     // ~ Static Block ========================================
 
     // ~ Static Methods ======================================
+    /**
+     * 获取连接池实现方式
+     * 
+     * @return
+     */
+    @NotNull
+    public static String pool() {
+        return null == Resources.DB_POOL ? DFT_DB_POOL : Resources.DB_POOL;
+    }
+
+    /**
+     * 获取元数据Accessor的实现方法
+     * @return
+     */
+    @NotNull
+    public static String accessor() {
+        return null == Resources.META_ACCESSOR ? DFT_META_ACCESSOR : Resources.META_ACCESSOR;
+    }
+
+    // ~ Old Configuration ===================================
     /**
      * 缓存相关
      * 
@@ -44,16 +67,6 @@ public final class Accessors {
      */
     public static String validator() {
         return null == Resources.DB_VALIDATOR ? DFT_DB_VALIDATOR : Resources.DB_VALIDATOR;
-    }
-
-    /**
-     * 获取连接池实现方式
-     * 
-     * @return
-     */
-    @NotNull
-    public static String pool() {
-        return null == Resources.DB_POOL ? DFT_DB_POOL : Resources.DB_POOL;
     }
 
     /**

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.facade.dao.metadata.UriDao;
 import com.prayer.facade.mapper.UriMapper;
 import com.prayer.model.vertx.PEUri;
@@ -23,7 +24,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class UriDaoImpl extends TemplateDaoImpl<PEUri, String>implements UriDao { // NOPMD
+public class UriDaoImpl extends IBatisAccessorImpl<PEUri, String>implements UriDao { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(UriDaoImpl.class);

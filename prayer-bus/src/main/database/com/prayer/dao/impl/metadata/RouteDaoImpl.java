@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.facade.dao.metadata.RouteDao;
 import com.prayer.facade.mapper.RouteMapper;
 import com.prayer.model.vertx.PERoute;
@@ -22,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RouteDaoImpl extends TemplateDaoImpl<PERoute, String>implements RouteDao { // NOPMD
+public class RouteDaoImpl extends IBatisAccessorImpl<PERoute, String>implements RouteDao { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RouteDaoImpl.class);

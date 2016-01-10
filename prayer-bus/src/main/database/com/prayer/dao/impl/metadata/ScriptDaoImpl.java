@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.facade.dao.metadata.ScriptDao;
 import com.prayer.facade.mapper.ScriptMapper;
 import com.prayer.model.vertx.PEScript;
@@ -20,7 +21,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class ScriptDaoImpl extends TemplateDaoImpl<PEScript, String> implements ScriptDao {    // NOPMD
+public class ScriptDaoImpl extends IBatisAccessorImpl<PEScript, String> implements ScriptDao {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(ScriptDaoImpl.class);

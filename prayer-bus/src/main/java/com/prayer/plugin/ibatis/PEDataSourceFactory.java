@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
 import com.prayer.exception.database.MetadataNotSupportException;
 import com.prayer.facade.pool.JdbcPool;
@@ -61,7 +62,7 @@ public class PEDataSourceFactory implements DataSourceFactory {
                 /**
                  * 传入DB_POOL实现类，以及Metadata Database的类型
                  */
-                final JdbcPool pool = singleton(Resources.DB_POOL, Resources.META_CATEGORY);
+                final JdbcPool pool = singleton(Accessors.pool(), Resources.META_CATEGORY);
                 this.dataSource = pool.getDataSource();
             } else {
                 throw new MetadataNotSupportException(getClass(), Resources.META_CATEGORY, supports);

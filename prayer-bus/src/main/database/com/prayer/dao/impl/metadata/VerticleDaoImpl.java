@@ -7,6 +7,7 @@ import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.facade.dao.metadata.VerticleDao;
 import com.prayer.facade.mapper.VerticleMapper;
@@ -24,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class VerticleDaoImpl extends TemplateDaoImpl<PEVerticle, String> implements VerticleDao { // NOPMD
+public class VerticleDaoImpl extends IBatisAccessorImpl<PEVerticle, String> implements VerticleDao { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(VerticleDaoImpl.class);

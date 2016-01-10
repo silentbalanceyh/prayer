@@ -1,4 +1,4 @@
-package com.prayer.base.dao;
+package com.prayer.base.accessor;
 
 import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.debug.Log.peError;
@@ -26,7 +26,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public abstract class AbstractDaoImpl { // NOPMD
+public abstract class AbstractIBatisAccessor { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

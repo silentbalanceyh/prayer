@@ -11,7 +11,7 @@ import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.dao.AbstractDaoImpl;
+import com.prayer.base.accessor.AbstractIBatisAccessor;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.dao.metadata.SchemaDao;
@@ -37,7 +37,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class SchemaDaoImpl extends AbstractDaoImpl implements SchemaDao { // NOPMD
+public class SchemaDaoImpl extends AbstractIBatisAccessor implements SchemaDao { // NOPMD
 
     // ~ Static Fields =======================================
     /** **/

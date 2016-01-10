@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.dao.AbstractMDaoImpl;
 import com.prayer.dao.impl.metadata.ScriptDaoImpl;
+import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.dao.metadata.ScriptDao;
-import com.prayer.facade.dao.metadata.TemplateDao;
 import com.prayer.model.vertx.PEScript;
 
 import net.sf.oval.constraint.InstanceOf;
@@ -28,7 +28,7 @@ final class ScriptMDaoImpl extends AbstractMDaoImpl<PEScript, String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScriptMDaoImpl.class);
     // ~ Instance Fields =====================================
     /** Schema Dao **/
-    @InstanceOf(TemplateDao.class)
+    @InstanceOf(MetaAccessor.class)
     private transient final ScriptDao dao;
 
     // ~ Static Block ========================================

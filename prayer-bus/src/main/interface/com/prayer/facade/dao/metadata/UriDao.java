@@ -2,6 +2,7 @@ package com.prayer.facade.dao.metadata;
 
 import java.util.List;
 
+import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.model.vertx.PEUri;
 
 import io.vertx.core.http.HttpMethod;
@@ -11,7 +12,7 @@ import io.vertx.core.http.HttpMethod;
  * @author Lang
  *
  */
-public interface UriDao extends TemplateDao<PEUri, String>{
+public interface UriDao extends MetaAccessor<PEUri, String>{
     /**
      * 
      * @param uri

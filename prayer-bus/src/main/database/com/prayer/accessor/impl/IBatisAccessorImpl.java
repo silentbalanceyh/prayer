@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.metadata;
+package com.prayer.accessor.impl;
 
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.debug.Log.peError;
@@ -15,12 +15,13 @@ import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.dao.AbstractDaoImpl;
+import com.prayer.base.accessor.AbstractIBatisAccessor;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.exception.database.MapperClassNullException;
-import com.prayer.facade.dao.metadata.TemplateDao;
+import com.prayer.facade.accessor.MetaAccessor;
+import com.prayer.facade.entity.Entity;
 import com.prayer.facade.mapper.H2TMapper;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.plugin.ibatis.PESessionManager;
@@ -42,10 +43,10 @@ import net.sf.oval.guard.Guarded;
  */
 @SuppressWarnings("unchecked")
 @Guarded
-public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl implements TemplateDao<T, ID> { // NOPMD
+public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> extends AbstractIBatisAccessor implements MetaAccessor<T, ID> { // NOPMD
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(TemplateDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IBatisAccessorImpl.class);
     /** Exception Class **/
     protected static final String EXP_CLASS = "com.prayer.exception.vertx.DataAccessException";
 
@@ -198,7 +199,7 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
 
     /** 清空数据库中的数据 **/
     @Override
-    public boolean clear() throws AbstractTransactionException {
+    public boolean purge() throws AbstractTransactionException {
         // 1.开启Mybatis事务
         final SqlSession session = PESessionManager.getSession();
         final Transaction transaction = transaction(session);
@@ -231,4 +232,10 @@ public class TemplateDaoImpl<T, ID extends Serializable> extends AbstractDaoImpl
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
+    @Override
+    public List<T> queryList(String whereClause) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

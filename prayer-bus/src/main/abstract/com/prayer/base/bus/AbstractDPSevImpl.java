@@ -14,8 +14,9 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.bus.deploy.TemplateDPService;
-import com.prayer.facade.dao.metadata.TemplateDao;
+import com.prayer.facade.entity.Entity;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.util.bus.ResultExtractor;
 
@@ -35,11 +36,11 @@ import net.sf.oval.guard.PreValidateThis;
  * @param <ID>
  */
 @Guarded
-public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements TemplateDPService<T, ID> { // NOPMD
+public abstract class AbstractDPSevImpl<T extends Entity, ID extends Serializable> implements TemplateDPService<T, ID> { // NOPMD
 	// ~ Static Fields =======================================
 	// ~ Instance Fields =====================================
 	/** 通用Dao **/
-	private transient final TemplateDao<T, ID> dao;
+	private transient final MetaAccessor<T, ID> dao;
 
 	// ~ Static Block ========================================
 	// ~ Static Methods ======================================
@@ -137,7 +138,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 		final ServiceResult<Boolean> result = new ServiceResult<>();
 		// 2.调用删除方法
 		try {
-			this.dao.clear();
+			this.dao.purge();
 			result.success(Boolean.TRUE);
 		} catch (AbstractTransactionException ex) {
 		    peError(getLogger(),ex);
@@ -149,7 +150,7 @@ public abstract class AbstractDPSevImpl<T, ID extends Serializable> implements T
 	// ~ Methods ==============================================
 
 	/** **/
-	protected TemplateDao<T, ID> getDao() {
+	protected MetaAccessor<T, ID> getDao() {
 		return this.dao;
 	}
 	// ~ Private Methods =====================================

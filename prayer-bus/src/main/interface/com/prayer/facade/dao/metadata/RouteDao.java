@@ -2,6 +2,7 @@ package com.prayer.facade.dao.metadata;
 
 import java.util.List;
 
+import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.model.vertx.PERoute;
 
 /**
@@ -9,7 +10,7 @@ import com.prayer.model.vertx.PERoute;
  * @author Lang
  *
  */
-public interface RouteDao extends TemplateDao<PERoute, String>{
+public interface RouteDao extends MetaAccessor<PERoute, String>{
     /**
      * 
      * @param parent

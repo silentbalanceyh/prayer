@@ -21,8 +21,8 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.dao.RecordDao;
-import com.prayer.facade.dao.metadata.TemplateDao;
 import com.prayer.facade.entity.Entity;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Record;
@@ -75,7 +75,7 @@ public abstract class AbstractMDaoImpl <T extends AbstractEntity, ID extends Ser
 
     // ~ Abstract Methods ====================================
     /** Overwrite by sub class **/
-    public abstract TemplateDao<T, ID> getDao();
+    public abstract MetaAccessor<T, ID> getDao();
 
     /** Entity **/
     public abstract T newT();
@@ -148,7 +148,7 @@ public abstract class AbstractMDaoImpl <T extends AbstractEntity, ID extends Ser
     public boolean purge(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
             throws AbstractDatabaseException{
         // 1.直接删除，底层的Dao拥有了clear()方法
-        return this.getDao().clear();
+        return this.getDao().purge();
     }
 
     /** **/
@@ -202,7 +202,7 @@ public abstract class AbstractMDaoImpl <T extends AbstractEntity, ID extends Ser
             @InstanceOf(Expression.class) final Expression filters,
             @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders) throws AbstractDatabaseException {
         // 1.获取JDBC访问器
-        final JdbcConnection jdbc = this.getDao().getContext(record.identifier());
+        final JdbcConnection jdbc = null; // this.getDao().getContext(record.identifier());
         // 2.生成SQL语句
         final String sql = SqlDML.prepSelectSQL(record.table(), Arrays.asList(columns), filters, orders);
         // 3.根据参数表生成查询结果集
@@ -219,7 +219,7 @@ public abstract class AbstractMDaoImpl <T extends AbstractEntity, ID extends Ser
             @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders,
             @NotNull @InstanceOfAny(Pager.class) final Pager pager) throws AbstractDatabaseException {
         // 1.获取JDBC访问器
-        final JdbcConnection jdbc = this.getDao().getContext(record.identifier());
+        final JdbcConnection jdbc = null; // this.getDao().getContext(record.identifier());
         // 2.生成SQL Count语句
         final String countSql = SqlDML.prepCountSQL(record.table(), filters);
         // 3.返回Sql Count

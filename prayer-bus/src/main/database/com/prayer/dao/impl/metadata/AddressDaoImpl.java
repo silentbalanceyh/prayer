@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.accessor.impl.IBatisAccessorImpl;
 import com.prayer.facade.dao.metadata.AddressDao;
 import com.prayer.facade.mapper.AddressMapper;
 import com.prayer.model.vertx.PEAddress;
@@ -20,7 +21,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class AddressDaoImpl extends TemplateDaoImpl<PEAddress, String> implements AddressDao {    // NOPMD
+public class AddressDaoImpl extends IBatisAccessorImpl<PEAddress, String> implements AddressDao {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(AddressDaoImpl.class);

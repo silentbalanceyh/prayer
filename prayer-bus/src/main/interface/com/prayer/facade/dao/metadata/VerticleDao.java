@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.database.DataAccessException;
+import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.model.vertx.PEVerticle;
 
 /**
@@ -11,7 +12,7 @@ import com.prayer.model.vertx.PEVerticle;
  * @author Lang
  *
  */
-public interface VerticleDao extends TemplateDao<PEVerticle,String>{
+public interface VerticleDao extends MetaAccessor<PEVerticle,String>{
     /**
      * 删除配置
      * 
