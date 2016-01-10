@@ -9,7 +9,6 @@ import com.prayer.AbstractTestCase;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
-import com.prayer.dao.impl.metadata.SchemaDaoImpl;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.facade.pool.JdbcConnection;
@@ -37,9 +36,9 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
     /** **/
     protected transient Serializer serializer;
     /** **/
-    protected transient SchemaDao service;    // NOPMD
+    protected transient SchemaDao service; // NOPMD
     /** **/
-    protected transient JdbcConnection context;    // NOPMD
+    protected transient JdbcConnection context; // NOPMD
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -48,7 +47,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
     public AbstractSchemaTestCase() {
         super(CommunionImporter.class.getName());
         this.serializer = new CommunionSerializer();
-        this.service = singleton(SchemaDaoImpl.class);
+        // this.service = singleton(SchemaDaoImpl.class);
         this.context = singleton(RecordConnImpl.class);
     }
 
@@ -70,7 +69,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
             importer.readSchema();
             importer.ensureSchema();
         } catch (AbstractSystemException ex) {
-            peError(getLogger(),ex);
+            peError(getLogger(), ex);
         }
         failure("[T-ERROR] " + errMsg);
     }
@@ -80,7 +79,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
         try {
             // 如果存在旧的先删除
             GenericSchema dbSchema = this.service.getById(identifier);
-            if(null != dbSchema){
+            if (null != dbSchema) {
                 this.service.deleteById(dbSchema.getIdentifier());
             }
             // 1.读取Schema信息
@@ -91,17 +90,17 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
             final GenericSchema schema = this.importer.transformSchema();
             // 4.同步数据
             dbSchema = this.service.getById(identifier);
-            if(null == dbSchema){
+            if (null == dbSchema) {
                 this.importer.syncSchema(schema);
             }
         } catch (AbstractTransactionException ex) {
-            peError(getLogger(),ex);
+            peError(getLogger(), ex);
         } catch (SerializationException ex) {
-            peError(getLogger(),ex);
+            peError(getLogger(), ex);
         } catch (AbstractSystemException ex) {
-            peError(getLogger(),ex);
+            peError(getLogger(), ex);
         } catch (AbstractSchemaException ex) {
-            peError(getLogger(),ex);
+            peError(getLogger(), ex);
         }
     }
     // ~ Private Methods =====================================

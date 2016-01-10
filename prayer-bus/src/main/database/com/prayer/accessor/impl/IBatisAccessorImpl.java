@@ -24,7 +24,6 @@ import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.entity.Entity;
 import com.prayer.facade.metadata.mapper.IBatisMapper;
 import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.plugin.ibatis.PESessionManager;
 import com.prayer.pool.impl.jdbc.H2ConnImpl;
 
 import net.sf.oval.constraint.InstanceOf;
@@ -43,8 +42,7 @@ import net.sf.oval.guard.Guarded;
  */
 @SuppressWarnings("unchecked")
 @Guarded
-public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> extends AbstractIBatisAccessor
-        implements MetaAccessor<T, ID> { // NOPMD
+public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> extends AbstractIBatisAccessor implements MetaAccessor<T, ID> { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(IBatisAccessorImpl.class);
@@ -55,6 +53,7 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** 日志记录器 **/
@@ -63,19 +62,14 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
         return LOGGER;
     }
 
-    /** 获取Mapper类型 **/
-    protected Class<?> getMapper() {
-        return null;
-    }
-
     /** 可支持批量创建的创建方法 **/
     @Override
     public List<T> insert(@NotNull @MinSize(1) final T... entities) throws AbstractTransactionException {
         // 1.设置返回List
         final List<T> retList = new ArrayList<>();
         // 2.开启Mybatis事务处理
-        final SqlSession session = PESessionManager.getSession();
-        final Transaction transaction = transaction(session);
+        final SqlSession session = session();
+        final Transaction transaction = transaction();
         // 3.执行插入操作
         final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
         {
@@ -110,8 +104,8 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
     @Override
     public T update(@NotNull final T entity) throws AbstractTransactionException {
         // 1.开启Mybatis事务
-        final SqlSession session = PESessionManager.getSession();
-        final Transaction transaction = transaction(session);
+        final SqlSession session = session();
+        final Transaction transaction = transaction();
         // 2.获取Mapper
         final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
         {
@@ -127,8 +121,8 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
     @Override
     public boolean deleteById(@NotNull final ID uniqueId) throws AbstractTransactionException {
         // 1.开启Mybatis事务
-        final SqlSession session = PESessionManager.getSession();
-        final Transaction transaction = transaction(session);
+        final SqlSession session = session();
+        final Transaction transaction = transaction();
         // 2.删除当前记录
         final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
         mapper.deleteById(uniqueId);
@@ -141,7 +135,7 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
     @Override
     public T getById(@NotNull final ID uniqueId) {
         // 1.初始化SqlSession
-        final SqlSession session = PESessionManager.getSession();
+        final SqlSession session = session();
         T ret = null;
         try {
             // 2.获取Mapper
@@ -160,7 +154,7 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
     @Override
     public List<T> getAll() {
         // 1.初始化SqlSession
-        final SqlSession session = PESessionManager.getSession();
+        final SqlSession session = session();
         List<T> retList = null;
         try {
             // 2.获取Mapper
@@ -183,7 +177,7 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
     public List<T> getByPage(@Min(1) final int index, @Min(1) final int size,
             @NotNull @NotEmpty @NotBlank final String orderBy) {
         // 1.初始化SqlSession
-        final SqlSession session = PESessionManager.getSession();
+        final SqlSession session = session();
         // 2.计算偏移量
         final int start = (index - 1) * size;
         List<T> retList = null;
@@ -204,8 +198,8 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
     @Override
     public boolean purge() throws AbstractTransactionException {
         // 1.开启Mybatis事务
-        final SqlSession session = PESessionManager.getSession();
-        final Transaction transaction = transaction(session);
+        final SqlSession session = session();
+        final Transaction transaction = transaction();
         // 2.删除当前记录
         final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
         mapper.purgeData();
@@ -228,7 +222,7 @@ public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> exten
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     private Class<?> mapper() throws AbstractTransactionException {
-        final Class<?> mapperClass = getMapper();
+        final Class<?> mapperClass = null; // getMapper();
         if (null == mapperClass) {
             throw new MapperClassNullException(getClass(), getClass().getName());
         }

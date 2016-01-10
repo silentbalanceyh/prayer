@@ -6,10 +6,10 @@ import com.prayer.model.vertx.PEAddress;
 
 /**
  * 
- * @author Lang
+ * @author Lang  
  *
  */
-public interface AddressMapper extends IBatisMapper<PEAddress, String> {
+public interface PEAddressMapper extends IBatisMapper<PEAddress, String> {
     /**
      * 
      * @param workClass

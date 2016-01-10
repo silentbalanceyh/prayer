@@ -1,7 +1,6 @@
 package com.prayer.schema.workflow; // NOPMD
 
 import static com.prayer.util.debug.Log.info;
-import static com.prayer.util.reflection.Instance.singleton;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -9,7 +8,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.impl.metadata.SchemaDaoImpl;
 import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.schema.json.CommunionImporter;
@@ -48,7 +46,7 @@ public class _18SchemaUpdate1TestCase extends AbstractSchemaTestCase { // NOPMD
      */
     @Before
     public void setUp() {
-        service = singleton(SchemaDaoImpl.class);
+        // service = singleton(SchemaDaoImpl.class);
         importer = new CommunionImporter("/schema/data/json/validation/P012meta-schema1-from.json");
         this.executeSync(IDENTIFIER);
     }

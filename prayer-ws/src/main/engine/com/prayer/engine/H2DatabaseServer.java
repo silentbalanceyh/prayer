@@ -58,7 +58,7 @@ public class H2DatabaseServer {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient final DeployService service;
+    private transient DeployService service;
     /** **/
     @NotNull
     private transient final ServerConfigurator configurator;
@@ -75,7 +75,7 @@ public class H2DatabaseServer {
     /** **/
     @PostValidateThis
     public H2DatabaseServer() {
-        this.service = singleton(DeploySevImpl.class);
+        // this.service = singleton(DeploySevImpl.class);
         this.configurator = singleton(ServerConfigurator.class);
         if (this.configurator.enabledH2Cluster()) {
             try {

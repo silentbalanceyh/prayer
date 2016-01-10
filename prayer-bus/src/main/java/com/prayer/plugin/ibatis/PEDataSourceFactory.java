@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Accessors;
+import com.prayer.constant.DBConstants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.database.MetadataNotSupportException;
 import com.prayer.facade.pool.JdbcPool;
@@ -32,7 +33,7 @@ public class PEDataSourceFactory implements DataSourceFactory {
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PEDataSourceFactory.class);
     /** 支持的Database，SQL类型的Metadata Database **/
-    private static final String[] DB_SUPPORTED = new String[] { "H2" };
+    private static final String[] DB_SUPPORTED = new String[] { DBConstants.CATEGORY_H2 };
     // ~ Instance Fields =====================================
     /**
      * SQL数据库连接池

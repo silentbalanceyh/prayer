@@ -1,46 +1,40 @@
-package com.prayer.dao.record.meta.impl;
+package com.prayer.accessor.mapper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.prayer.base.accessor.AbstractIBatisAccessor;
+import com.prayer.util.io.IOKit;
 
-import com.prayer.AbstractMDaoTestTool;
-import com.prayer.dao.impl.metadata.ScriptDaoImpl;
-
-
+import io.vertx.core.json.JsonObject;
 /**
- * 
+ * IBATIS的Mapper接口测试
  * @author Lang
  *
  */
-public class ScriptDaoTestCase extends AbstractMDaoTestTool{
+public abstract class AbstractMapperTestCase<T> extends AbstractIBatisAccessor{
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptDaoTestCase.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public Logger getLogger(){
-        return LOGGER;
-    }
-    /** **/
-    @Override
-    public String identifier(){
-        return "meta-script";
-    }
-    /** **/
-    @Override
-    protected Class<?> getTarget() {
-        return ScriptDaoImpl.class;
+    
+    /**
+     * 读取JsonObject的方法
+     * 
+     * @param file
+     * @return
+     */
+    protected JsonObject readData(final String file) {
+        final String content = IOKit.getContent(file);
+        final JsonObject json = new JsonObject();
+        if (null != content) {
+            json.mergeIn(new JsonObject(content));
+        }
+        return json;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-    
 
 }

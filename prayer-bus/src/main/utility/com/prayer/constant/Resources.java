@@ -3,8 +3,8 @@ package com.prayer.constant;
 import java.nio.charset.Charset;
 
 import com.prayer.util.io.PropertyKit;
+import com.prayer.util.string.StringKit;
 
-import jodd.util.StringUtil;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -29,6 +29,8 @@ public final class Resources { // NOPMD
     // Database Configuration ================================
     /** 数据库模式：SQL/NOSQL **/
     public static final String DB_MODE;
+    /** 元数据数据库模式：SQL/NOSQL **/
+    public static final String META_MODE;
 
     /** 数据库种类：MYSQL, MSSQL, ORACLE, PGSQL, MONGO **/
     public static final String DB_CATEGORY;
@@ -65,7 +67,7 @@ public final class Resources { // NOPMD
 
     /** Meta Data的配置文件路径 **/
     public static final String OOB_SCHEMA_FILE;
-    /** Meta Data的数据库类型 **/
+    /** Meta Data的数据库类型SQL/NOSQL **/
     public static final String META_CATEGORY;
     /** Meta Data的初始化SQL脚本位置 **/
     public static final String META_INIT_SQL;
@@ -113,13 +115,22 @@ public final class Resources { // NOPMD
         SYS_ENCODING = Charset.forName(LOADER.getString("system.en.encoding"));
         // Cache
         SYS_CACHE_CLS = LOADER.getString("system.cache.manager");
+        /**
+         * 数据库模式，默认为SQL模式，也可以为NOSQL模式
+         */
+        DB_MODE = null == LOADER.getString("database.mode") ? DBConstants.MODE_SQL
+                : StringKit.upper(LOADER.getString("database.mode"));
+        /**
+         * 元数据数据库模式，默认为SQL模式，也可以为NOSQL模式
+         */
+        // Metadata Configuration
+        META_MODE = null == LOADER.getString("metadata.mode") ? DBConstants.MODE_SQL
+                : StringKit.upper(LOADER.getString("metadata.mode"));
 
-        // Database Configuration
-        DB_MODE = null == LOADER.getString("database.mode") ? Constants.DB_MODE_SQL
-                : StringUtil.toUpperCase(LOADER.getString("database.mode"));
-
-        DB_CATEGORY = null == LOADER.getString("database.category") ? "MSSQL"
-                : StringUtil.toUpperCase(LOADER.getString("database.category"));
+        DB_CATEGORY = null == LOADER.getString("database.category") ? DBConstants.CATEGORY_MSSQL
+                : StringKit.upper(LOADER.getString("database.category"));
+        META_CATEGORY = null == LOADER.getString("meta.category") ? DBConstants.CATEGORY_H2
+                : StringKit.upper(LOADER.getString("meta.category"));
 
         DB_CFG_FILE = LOADER.getString("database.config.file");
 
@@ -168,21 +179,18 @@ public final class Resources { // NOPMD
         OOB_SCHEMA_FILE = LOADER.getString("oob.schema.file");
 
         // Meta
-        META_CATEGORY = LOADER.getString("meta.category");
-
-        // Meta
         META_INIT_SQL = DB_SQL_DIR + LOADER.getString("meta.init.data.file");
 
         // Meta
         META_PURGE_SQL = LOADER.getString("meta.oob.purge.data");
-        
+
         // =================== Switcher ========================
         // Jdbc Database Pool
         DB_POOL = LOADER.getString("database.pool.impl");
         // Meta Accessor Implementation
         META_ACCESSOR = LOADER.getString("database.accessor.impl");
         // Meta Initializer Implementation
-        
+
     }
 
     // ~ Constructors ========================================

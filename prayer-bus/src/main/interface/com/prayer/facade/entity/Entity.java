@@ -14,6 +14,8 @@ import io.vertx.core.shareddata.impl.ClusterSerializable;
 // 2.实现ClusterSerializable接口，用于Vert.X中的SharedData
 // 3.实现EntityAssistant接口，包含了不常用的Internal辅助方法
 public interface Entity extends Serializable, ClusterSerializable {
+    
+    
     /**
      * 将当前对象转换成Json
      * 

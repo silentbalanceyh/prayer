@@ -7,7 +7,7 @@
         <setting name="defaultExecutorType" value="REUSE" />
     </settings>
     <typeAliases>
-        <typeAlias type="com.prayer.model.database.PEScript"
+        <typeAlias type="com.prayer.model.vertx.PEScript"
             alias="Script" />
     </typeAliases>
     <environments default="H2Environment">

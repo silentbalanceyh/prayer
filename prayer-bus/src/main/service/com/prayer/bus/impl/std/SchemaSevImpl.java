@@ -3,7 +3,6 @@ package com.prayer.bus.impl.std;
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.reservoir;
-import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,6 @@ import com.prayer.constant.Accessors;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
-import com.prayer.dao.impl.metadata.SchemaDaoImpl;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.bus.SchemaService;
@@ -47,7 +45,7 @@ public class SchemaSevImpl implements SchemaService {
     // ~ Instance Fields =====================================
     /** 访问H2的Schema数据层接口 **/
     @NotNull
-    private transient final SchemaDao dao;
+    private transient SchemaDao dao;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -55,7 +53,7 @@ public class SchemaSevImpl implements SchemaService {
     /** **/
     @PostValidateThis
     public SchemaSevImpl() {
-        this.dao = singleton(SchemaDaoImpl.class);
+        // this.dao = singleton(SchemaDaoImpl.class);
     }
 
     // ~ Abstract Methods ====================================

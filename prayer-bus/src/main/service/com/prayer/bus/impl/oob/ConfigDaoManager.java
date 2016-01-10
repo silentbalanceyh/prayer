@@ -1,13 +1,5 @@
 package com.prayer.bus.impl.oob;
 
-import static com.prayer.util.reflection.Instance.singleton;
-
-import com.prayer.dao.impl.metadata.AddressDaoImpl;
-import com.prayer.dao.impl.metadata.RouteDaoImpl;
-import com.prayer.dao.impl.metadata.RuleDaoImpl;
-import com.prayer.dao.impl.metadata.ScriptDaoImpl;
-import com.prayer.dao.impl.metadata.UriDaoImpl;
-import com.prayer.dao.impl.metadata.VerticleDaoImpl;
 import com.prayer.facade.dao.metadata.AddressDao;
 import com.prayer.facade.dao.metadata.RouteDao;
 import com.prayer.facade.dao.metadata.RuleDao;
@@ -30,34 +22,34 @@ class ConfigDaoManager {
     // ~ Instance Fields =====================================
     /** 访问H2的EVX_VERTICLE接口 **/
     @NotNull
-    private transient final VerticleDao verticleDao;
+    private transient VerticleDao verticleDao;
     /** 访问H2的EVX_ROUTE接口 **/
     @NotNull
-    private transient final RouteDao routeDao;
+    private transient RouteDao routeDao;
     /** 访问H2的EVX_URI接口 **/
     @NotNull
-    private transient final UriDao uriDao;
+    private transient UriDao uriDao;
     /** 访问H2的EVX_PVRULE接口 **/
     @NotNull
-    private transient final RuleDao ruleDao;
+    private transient RuleDao ruleDao;
     /** 访问H2的EVX_ADDRESS接口 **/
     @NotNull
-    private transient final AddressDao addressDao;
+    private transient AddressDao addressDao;
     /** **/
     @NotNull
-    private transient final ScriptDao scriptDao;
+    private transient ScriptDao scriptDao;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
     public ConfigDaoManager() {
-        this.verticleDao = singleton(VerticleDaoImpl.class);
-        this.routeDao = singleton(RouteDaoImpl.class);
-        this.uriDao = singleton(UriDaoImpl.class);
-        this.ruleDao = singleton(RuleDaoImpl.class);
-        this.addressDao = singleton(AddressDaoImpl.class);
-        this.scriptDao = singleton(ScriptDaoImpl.class);
+//        this.verticleDao = singleton(VerticleDaoImpl.class);
+//        this.routeDao = singleton(RouteDaoImpl.class);
+//        this.uriDao = singleton(UriDaoImpl.class);
+//        this.ruleDao = singleton(RuleDaoImpl.class);
+//        this.addressDao = singleton(AddressDaoImpl.class);
+//        this.scriptDao = singleton(ScriptDaoImpl.class);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

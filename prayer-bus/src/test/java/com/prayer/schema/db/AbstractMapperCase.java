@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 
 import com.prayer.constant.Constants;
 import com.prayer.facade.metadata.mapper.IBatisMapper;
-import com.prayer.plugin.ibatis.PESessionManager;
 
 /**
  * 
@@ -43,7 +42,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
 
     /** **/
     public AbstractMapperCase() {
-        this._session = PESessionManager.getSession();
+        this._session = session();
         this.mapper = (IBatisMapper<T, ID>) _session.getMapper(getMapperClass());
     }
 

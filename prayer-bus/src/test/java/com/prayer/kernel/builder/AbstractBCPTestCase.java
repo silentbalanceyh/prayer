@@ -18,7 +18,6 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
-import com.prayer.dao.impl.metadata.SchemaDaoImpl;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.Builder;
@@ -48,7 +47,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     private static final ConcurrentMap<String, Importer> I_POOLS = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     /** **/
-    private transient final SchemaDao dao;
+    private transient SchemaDao dao;
     /** **/
     private transient final JdbcConnection context;
     /** **/
@@ -65,7 +64,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
      */
     public AbstractBCPTestCase() {
         super();
-        this.dao = singleton(SchemaDaoImpl.class);
+        //this.dao = singleton(SchemaDaoImpl.class);
         this.context = instance(RecordConnImpl.class.getName());
         this.verifier = singleton(Accessors.validator());
     }

@@ -16,7 +16,6 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.dao.impl.metadata.SchemaDaoImpl;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.exception.system.TypeInitException;
 import com.prayer.facade.dao.metadata.SchemaDao;
@@ -201,7 +200,7 @@ public class CommunionImporter implements Importer {
         // Singleton
         this.ensurer = singleton(GenericEnsurer.class);
         this.serializer = singleton(CommunionSerializer.class);
-        this.schemaDao = singleton(SchemaDaoImpl.class);
+        //this.schemaDao = singleton(SchemaDaoImpl.class);
     }
 
     private PEMeta readMeta() throws SerializationException {

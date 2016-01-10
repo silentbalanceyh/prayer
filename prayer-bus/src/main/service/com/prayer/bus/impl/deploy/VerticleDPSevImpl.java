@@ -11,7 +11,6 @@ import com.prayer.base.bus.AbstractDPSevImpl;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.dao.impl.metadata.VerticleDaoImpl;
 import com.prayer.facade.bus.deploy.VerticleDPService;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.vertx.PEVerticle;
@@ -43,7 +42,7 @@ public class VerticleDPSevImpl extends AbstractDPSevImpl<PEVerticle, String> imp
     /** **/
     @Override
     public Class<?> getDaoClass() {
-        return VerticleDaoImpl.class;
+        return null; // VerticleDaoImpl.class;
     }
 
     /** 获取Logger **/
