@@ -10,7 +10,7 @@
         <result column="S_INSTANCES" property="instances" />
         <result column="S_IGROUP" property="group" />
         <result column="S_JSON_CONFIG" property="jsonConfig" typeHandler="com.prayer.plugin.db.handler.JsonObjectHandler" />
-        <result column="S_ISOLATED_CLASS" property="isolatedClasses" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
+        <result column="S_ISOLATED_CLASSES" property="isolatedClasses" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
 
         <result column="CP_EXT" property="extraCp" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
 

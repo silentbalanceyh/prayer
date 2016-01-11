@@ -274,7 +274,6 @@ CREATE TABLE EVX_URI(
 	S_GLOBAL_ID VARCHAR(256),					-- 这个URI地址对应的GLOBAL ID，这个ID最终Record会使用
 	S_SCRIPT VARCHAR(256) NOT NULL,				-- 这个Api调用的脚本名称，业务逻辑层脚本名
 	S_SENDER VARCHAR(256) NOT NULL,				-- 当前这个Api调用的Message Sender
-	S_ROLES VARCHAR(2048),                      -- 当前URI访问需要的角色代码
 	MSG_ADDRESS VARCHAR(256) NOT NULL,			-- 当前URL对应的Event Bus上的地址信息
 	L_REQUIRED_PARAM VARCHAR(2048),				-- 必须参数列表,
 	L_RETURN_FILTERS VARCHAR(2048),				-- 返回结果中需要过滤的属性值

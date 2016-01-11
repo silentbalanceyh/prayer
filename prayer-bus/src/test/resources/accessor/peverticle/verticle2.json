@@ -1,0 +1,14 @@
+{
+    "name":"com.prayer.model.entity.clazz.EntityHandler",
+    "instances":10,
+    "group":"__DEFAULT__",
+    "jsonConfig":{
+        "extension":"sql",
+        "filename":"execute"
+    },
+    "isolatedClasses":["Classes1","Classes2","Classes3"],
+    "extraCp":["C:\\data.txt;","C:/Dev/JDK","C:/Dev/JDK/lib"],
+    "ha":true,
+    "worker":true,
+    "multi":true
+}

@@ -1,0 +1,15 @@
+{
+    "uri":"/api/sec/role",
+    "method":"PUT",
+    "paramType":"QUERY",
+    "requiredParam":[
+        "name"
+    ],
+    "globalId":"sec.role2",
+    "address":"messageAddress2",
+    "script":"sec.test",
+    "returnFilters":[
+        "password"
+    ],
+    "sender":"com.prayer.model.entity.clazz.EntityHandler"
+}

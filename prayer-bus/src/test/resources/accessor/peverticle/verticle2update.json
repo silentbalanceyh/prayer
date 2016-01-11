@@ -1,0 +1,14 @@
+{
+    "name":"com.prayer.model.entity.clazz.EntityHandler",
+    "instances":10,
+    "group":"__HAGROUP__",
+    "jsonConfig":{
+        "extension":"pdf",
+        "filename":"execute"
+    },
+    "isolatedClasses":["Classes1","Classes3"],
+    "extraCp":["C:\\data.txt;","C:/Dev/JDK/lib"],
+    "ha":false,
+    "worker":true,
+    "multi":true
+}

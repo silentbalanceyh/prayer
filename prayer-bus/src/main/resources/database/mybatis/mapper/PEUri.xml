@@ -13,7 +13,6 @@
         <result column="MSG_ADDRESS" property="address" />
         <result column="S_SCRIPT" property="script" />
         <result column="S_SENDER" property="sender" typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
-        <result column="S_ROLES" property="roles" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
         <result column="L_RETURN_FILTERS" property="returnFilters" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
     </resultMap>
     <insert id="insert" parameterType="Uri" keyColumn="K_ID" keyProperty="uniqueId">
@@ -27,7 +26,6 @@
                 S_GLOBAL_ID,
                 S_SCRIPT,
                 S_SENDER,
-                S_ROLES,
                 L_REQUIRED_PARAM,
                 L_RETURN_FILTERS
             ) VALUES (
@@ -39,7 +37,6 @@
                 #{globalId},
                 #{script},
                 #{sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
-                #{roles, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             )
@@ -56,7 +53,6 @@
                 S_GLOBAL_ID,
                 S_SCRIPT,
                 S_SENDER,
-                S_ROLES,
                 L_REQUIRED_PARAM,
                 L_RETURN_FILTERS
             ) VALUES
@@ -71,7 +67,6 @@
                 #{item.globalId},
                 #{item.script},
                 #{item.sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
-                #{item.roles, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             )]]>
@@ -87,7 +82,6 @@
                 S_GLOBAL_ID=#{globalId},
                 S_SCRIPT=#{script},
                 S_SENDER=#{sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
-                S_ROLES=#{roles, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 L_RETURN_FILTERS=#{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             WHERE K_ID=#{uniqueId}
