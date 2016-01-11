@@ -12,7 +12,7 @@ import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.WrongTimeAttrException;
-import com.prayer.facade.schema.DataValidator;
+import com.prayer.facade.schema.verifier.DataValidator;
 
 /**
  * 

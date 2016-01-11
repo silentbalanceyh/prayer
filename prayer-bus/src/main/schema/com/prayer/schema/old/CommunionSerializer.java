@@ -34,6 +34,7 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
+@Deprecated
 public class CommunionSerializer implements Serializer {
 
     // ~ Static Fields =======================================

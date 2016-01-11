@@ -67,20 +67,24 @@ public final class IOKit {
         BufferedReader reader;
         String content = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(inStream, Resources.SYS_ENCODING));
-            String line = null;
-            while (null != (line = reader.readLine())) { // NOPMD
-                builder.append(line).append(Symbol.NEW_LINE);
+            if (null != inStream) {
+                reader = new BufferedReader(new InputStreamReader(inStream, Resources.SYS_ENCODING));
+                String line = null;
+                while (null != (line = reader.readLine())) { // NOPMD
+                    builder.append(line).append(Symbol.NEW_LINE);
+                }
+                content = builder.toString();
+                reader.close();
             }
-            content = builder.toString();
-            reader.close();
         } catch (UnsupportedEncodingException ex) {
             jvmError(LOGGER, ex);
         } catch (IOException ex) {
             jvmError(LOGGER, ex);
         } finally {
             try {
-                inStream.close();
+                if (null != inStream) {
+                    inStream.close();
+                }
             } catch (IOException ex) {
                 jvmError(LOGGER, ex);
             }

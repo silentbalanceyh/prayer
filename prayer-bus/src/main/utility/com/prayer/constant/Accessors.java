@@ -19,7 +19,7 @@ public final class Accessors {
 
     /** Builder 默认值 **/
     private static final String DFT_DB_BUILDER = "com.prayer.dao.impl.builder.MsSqlBuilder";
-    /** Validator 默认值 **/
+    /** Ruler 默认值 **/
     private static final String DFT_DB_VALIDATOR = "com.prayer.dao.impl.builder.MsSqlValidator";
     /** Dao 默认值 **/
     private static final String DFT_DB_DAO = "com.prayer.dao.impl.std.record.MsSqlRDaoImpl";

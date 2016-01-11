@@ -23,7 +23,7 @@ import com.prayer.exception.schema.ColumnsMissingException;
 import com.prayer.exception.schema.MultiForPKPolicyException;
 import com.prayer.exception.schema.PKNotOnlyOneException;
 import com.prayer.exception.schema.WrongTimeAttrException;
-import com.prayer.facade.schema.DataValidator;
+import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.util.io.JsonKit;
 
 import jodd.util.StringUtil;

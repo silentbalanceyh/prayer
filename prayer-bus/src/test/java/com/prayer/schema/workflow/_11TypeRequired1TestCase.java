@@ -15,7 +15,7 @@ import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
-import com.prayer.facade.schema.DataValidator;
+import com.prayer.facade.schema.verifier.DataValidator;
 
 /**
  * 

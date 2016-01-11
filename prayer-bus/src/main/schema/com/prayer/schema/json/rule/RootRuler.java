@@ -1,20 +1,18 @@
-package com.prayer.schema.json;
+package com.prayer.schema.json.rule;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
-import com.prayer.facade.schema.verifier.Verifier;
-
-import io.vertx.core.json.JsonObject;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
+import com.prayer.facade.schema.rule.Rule;
+import com.prayer.facade.schema.rule.Ruler;
 
 /**
- * 验证器的入口
+ * Schema的根节点的规则器
+ * 
  * @author Lang
  *
  */
-@Guarded
-public class SchemaVerifier implements Verifier {
+public final class RootRuler implements Ruler {
+
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -22,14 +20,14 @@ public class SchemaVerifier implements Verifier {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    
     @Override
-    public AbstractSchemaException verify(@NotNull final JsonObject data) {
-        final ObjectHabitus root = new JObjectHabitus(data);
-        return null;
+    public boolean apply(ObjectHabitus habitus, Rule rule) throws AbstractSchemaException {
+        // TODO Auto-generated method stub
+        return false;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

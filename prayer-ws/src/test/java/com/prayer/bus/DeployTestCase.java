@@ -16,7 +16,7 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.facade.bus.DataService;
 import com.prayer.facade.bus.DeployService;
-import com.prayer.facade.schema.DataValidator;
+import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.model.bus.ServiceResult;
 
 /**

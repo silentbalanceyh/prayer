@@ -11,8 +11,8 @@ import com.prayer.bus.impl.std.ServiceHelper;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.dao.Builder;
 import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.facade.schema.DataValidator;
 import com.prayer.facade.schema.OldImporter;
+import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.MetaConnector;
 

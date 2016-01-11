@@ -75,9 +75,9 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     public void testT05059Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
             final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
-            record.set("uk1", "Validator");
+            record.set("uk1", "Ruler");
         } else {
-            throw new PatternFailureException(getClass(), "Validator", "uk1", null);
+            throw new PatternFailureException(getClass(), "Ruler", "uk1", null);
         }
     }
 

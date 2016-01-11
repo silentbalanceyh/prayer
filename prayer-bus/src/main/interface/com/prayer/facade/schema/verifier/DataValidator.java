@@ -1,4 +1,4 @@
-package com.prayer.facade.schema;
+package com.prayer.facade.schema.verifier;
 
 import com.prayer.base.exception.AbstractSchemaException;
 

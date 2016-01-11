@@ -80,7 +80,7 @@ public final class UCAValidator {
         try {
             // 1.验证Validator是否存在
             final Class<?> comCls = ruleModel.getComponentClass();
-            Interruptor.interruptClass(UCAValidator.class, comCls.getName(), "Validator");
+            Interruptor.interruptClass(UCAValidator.class, comCls.getName(), "Ruler");
             Interruptor.interruptImplements(UCAValidator.class, comCls.getName(), WebValidator.class);
             // 2.从value中提取值信息
             final Value<?> value = buildValue(paramValue, ruleModel);

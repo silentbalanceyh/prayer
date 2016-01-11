@@ -31,7 +31,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class ValueTransducer implements Transducer { // NOPMD
+public final class ValueTransducer implements Transducer { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

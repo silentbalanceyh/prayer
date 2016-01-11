@@ -33,7 +33,7 @@ import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
 /**
- * 【Step 2】参数的第二部检查 -> Validator/UCAConvertor
+ * 【Step 2】参数的第二部检查 -> Ruler/UCAConvertor
  * 
  * @author Lang
  *

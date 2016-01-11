@@ -1,11 +1,11 @@
-package com.prayer.schema.json;
+package com.prayer.facade.schema.verifier;
 
 /**
  * 
  * @author Lang
  * @see
  */
-interface Attributes { // NOPMD
+public interface Attributes { // NOPMD
     // ------------------ Root Node ---------------------
     /** **/
     String R_META = "__meta__";

@@ -13,7 +13,7 @@ import com.prayer.constant.Constants;
 import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.SubtableWrongException;
-import com.prayer.facade.schema.DataValidator;
+import com.prayer.facade.schema.verifier.DataValidator;
 
 /**
  * 

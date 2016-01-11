@@ -28,7 +28,7 @@ import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.exception.schema.UnsupportAttrException;
-import com.prayer.facade.schema.DataValidator;
+import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.util.io.JsonKit;
 import com.prayer.util.jdbc.SqlDDL;
 import com.prayer.util.string.StringKit;

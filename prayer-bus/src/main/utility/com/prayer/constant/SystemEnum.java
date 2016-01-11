@@ -81,7 +81,7 @@ public final class SystemEnum { // NOPMD
 
     /** Rule的类型，目前仅包含验证器和转换器 **/
     public static enum ComponentType {
-        VALIDATOR, // Validator
+        VALIDATOR, // Ruler
         CONVERTOR, // Convertor
         DEPENDANT, // Dependant
     }
