@@ -1,0 +1,5 @@
+{
+    "workClass":"com.prayer.model.entity.clazz.EntityHandler",
+    "consumerAddr":"MSG://QUEUE/PAGEXXX",
+    "consumerHandler":"com.prayer.model.entity.clazz.EntityHandler"
+}

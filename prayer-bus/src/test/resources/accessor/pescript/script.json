@@ -1,5 +1,4 @@
 {
-    "id":"testid",
     "name":"",
     "namespace":"com.lang.namespace",
     "content":"var i = \"exe\";"

@@ -72,11 +72,21 @@
             ]]>
         </foreach>
     </delete>
-    <delete id="purgeData">
+    <delete id="purge">
         <![CDATA[
             DELETE FROM EVX_ADDRESS
         ]]>
     </delete>
+    <select id="count" resultType="java.lang.Long">
+        <![CDATA[
+            SELECT COUNT(K_ID) FROM EVX_ADDRESS
+        ]]>
+    </select>
+    <select id="queryList" parameterType="String" resultMap="addressObject">
+        <![CDATA[
+            SELECT * FROM EVX_ADDRESS WHERE ${where}
+        ]]>
+    </select>
     <select id="selectById" parameterType="String" resultMap="addressObject">
         <![CDATA[
             SELECT * FROM EVX_ADDRESS WHERE K_ID=#{uniqueId}
@@ -87,16 +97,12 @@
             SELECT * FROM EVX_ADDRESS
         ]]>
     </select>
-
-    <select id="selectByClass" parameterType="java.lang.Class" resultMap="addressObject">
-        <![CDATA[
-            SELECT * FROM EVX_ADDRESS WHERE S_WORK_CLASS=#{workClass,jdbcType=VARCHAR,typeHandler=com.prayer.plugin.db.handler.ClassHandler}
-        ]]>
-    </select>
-
     <select id="selectByPage" resultMap="addressObject">
-        <![CDATA[
-            SELECT * FROM EVX_ADDRESS ORDER BY #{order} LIMIT #{size} OFFSET #{start}
-        ]]>
+        <!-- 动态SQL语句 -->
+        <if test="category = 'H2'">
+            <![CDATA[
+                SELECT * FROM EVX_ADDRESS ORDER BY ${orderBy} LIMIT #{size} OFFSET #{start}
+            ]]>
+        </if>
     </select>
 </mapper>

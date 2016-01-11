@@ -9,6 +9,8 @@
     <typeAliases>
         <typeAlias type="com.prayer.model.vertx.PEScript"
             alias="Script" />
+        <typeAlias type="com.prayer.model.vertx.PEAddress"
+            alias="Address" />
     </typeAliases>
     <environments default="H2Environment">
         <environment id="H2Environment">
@@ -18,5 +20,6 @@
     </environments>
     <mappers>
         <mapper resource="database/mybatis/mapper/PEScript.xml" />
+        <mapper resource="database/mybatis/mapper/PEAddress.xml" />
     </mappers>
 </configuration>

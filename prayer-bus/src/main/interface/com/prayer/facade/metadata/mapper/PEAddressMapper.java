@@ -1,19 +1,13 @@
 package com.prayer.facade.metadata.mapper;
 
-import org.apache.ibatis.annotations.Param;
+import java.io.Serializable;
 
-import com.prayer.model.vertx.PEAddress;
+import com.prayer.facade.entity.Entity;
 
 /**
  * 
  * @author Lang  
  *
  */
-public interface PEAddressMapper extends IBatisMapper<PEAddress, String> {
-    /**
-     * 
-     * @param workClass
-     * @return
-     */
-    PEAddress selectByClass(@Param("workClass") Class<?> workClass);
+public interface PEAddressMapper extends IBatisMapper<Entity, Serializable> {
 }

@@ -24,7 +24,9 @@ import com.prayer.constant.Resources;
 import com.prayer.exception.database.DataAccessException;
 import com.prayer.facade.entity.Entity;
 import com.prayer.facade.metadata.mapper.IBatisMapper;
+import com.prayer.facade.metadata.mapper.PEAddressMapper;
 import com.prayer.facade.metadata.mapper.PEScriptMapper;
+import com.prayer.model.vertx.PEAddress;
 import com.prayer.model.vertx.PEScript;
 import com.prayer.util.io.IOKit;
 
@@ -85,6 +87,7 @@ public final class IBatisHelper {
          */
         if (MDATA.isEmpty()) {
             MDATA.put(PEScript.class, PEScriptMapper.class);
+            MDATA.put(PEAddress.class, PEAddressMapper.class);
         }
     }
 
