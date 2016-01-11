@@ -1,0 +1,10 @@
+{
+    "parent":"/api",
+    "path":"/sec/cur",
+    "consumerMimes":["text/html","application/json"],
+    "producerMimes":["text/html","application/json"],
+    "method":"POST",
+    "order":12,
+    "requestHandler":"com.prayer.model.entity.clazz.EntityHandler",
+    "failureHandler":"com.prayer.model.entity.clazz.EntityHandler"
+}

@@ -49,7 +49,7 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
         this.entityCls = entityCls;
         this.helper = IBatisHelper.create();
         if (OFFSET_FUN.isEmpty()) {
-            // TODO: 暂时是H2的，计算Offset，可使用函数引用进行分离
+            // TODO: 【完成】暂时是H2的，计算Offset，可使用函数引用进行分离
             OFFSET_FUN.put(Resources.META_CATEGORY, IBatisPagerMixer::offset);
         }
     }

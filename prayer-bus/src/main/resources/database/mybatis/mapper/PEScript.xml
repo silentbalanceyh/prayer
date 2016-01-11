@@ -9,8 +9,7 @@
         <result column="S_NAMESPACE" property="namespace" />
         <result column="S_CONTENT" property="content" />
     </resultMap>
-    <insert id="insert" parameterType="Script" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <insert id="insert" parameterType="Script" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             INSERT INTO ENG_SCRIPT (
                 K_ID,
@@ -34,8 +33,7 @@
                 S_CONTENT
             ) VALUES
         ]]>
-        <foreach collection="list" item="item" index="index"
-            separator=",">
+        <foreach collection="list" item="item" index="index" separator=",">
             <![CDATA[(
                 #{item.uniqueId},
                 #{item.name},
@@ -44,8 +42,7 @@
             )]]>
         </foreach>
     </insert>
-    <update id="update" parameterType="Script" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <update id="update" parameterType="Script" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             UPDATE ENG_SCRIPT SET
                 S_NAME=#{name},
@@ -63,8 +60,7 @@
         <![CDATA[
             DELETE FROM ENG_SCRIPT WHERE K_ID IN
         ]]>
-        <foreach collection="list" item="item" open="("
-            separator="," close=")">
+        <foreach collection="list" item="item" open="(" separator="," close=")">
             <![CDATA[
                 #{item}
             ]]>

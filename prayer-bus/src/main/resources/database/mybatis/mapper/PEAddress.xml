@@ -5,14 +5,11 @@
 <mapper namespace="com.prayer.facade.metadata.mapper.PEAddressMapper">
     <resultMap type="Address" id="addressObject">
         <id column="K_ID" property="uniqueId" />
-        <result column="S_WORK_CLASS" property="workClass"
-            typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
+        <result column="S_WORK_CLASS" property="workClass" typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
         <result column="S_CONSUMER_ADDR" property="consumerAddr" />
-        <result column="S_CONSUMER_HANDLER" property="consumerHandler"
-            typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
+        <result column="S_CONSUMER_HANDLER" property="consumerHandler" typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
     </resultMap>
-    <insert id="insert" parameterType="Address" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <insert id="insert" parameterType="Address" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             INSERT INTO EVX_ADDRESS (
                 K_ID,
@@ -36,8 +33,7 @@
                 S_CONSUMER_HANDLER
             ) VALUES
         ]]>
-        <foreach collection="list" item="item" index="index"
-            separator=",">
+        <foreach collection="list" item="item" index="index" separator=",">
             <![CDATA[(
                 #{item.uniqueId},
                 #{item.workClass,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
@@ -46,8 +42,7 @@
             )]]>
         </foreach>
     </insert>
-    <update id="update" parameterType="Address" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <update id="update" parameterType="Address" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             UPDATE EVX_ADDRESS SET
                 S_WORK_CLASS=#{workClass,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
@@ -65,8 +60,7 @@
         <![CDATA[
             DELETE FROM EVX_ADDRESS WHERE K_ID IN
         ]]>
-        <foreach collection="list" item="item" open="("
-            separator="," close=")">
+        <foreach collection="list" item="item" open="(" separator="," close=")">
             <![CDATA[
                 #{item}
             ]]>

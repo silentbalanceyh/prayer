@@ -7,10 +7,19 @@
         <setting name="defaultExecutorType" value="REUSE" />
     </settings>
     <typeAliases>
-        <typeAlias type="com.prayer.model.vertx.PEScript"
-            alias="Script" />
-        <typeAlias type="com.prayer.model.vertx.PEAddress"
-            alias="Address" />
+        <typeAlias type="com.prayer.model.vertx.PEScript" alias="Script" />
+        <typeAlias type="com.prayer.model.vertx.PEAddress" alias="Address" />
+        <typeAlias type="com.prayer.model.vertx.PERoute" alias="Route" />
+        <typeAlias type="com.prayer.model.vertx.PERule" alias="Rule" />
+        <typeAlias type="com.prayer.model.vertx.PEUri" alias="Uri" />
+        <typeAlias type="com.prayer.model.vertx.PEVerticle" alias="Verticle" />
+        <typeAlias type="com.prayer.model.database.PEField" alias="Field" />
+        <typeAlias type="com.prayer.model.database.PEIndex" alias="Index" />
+        <typeAlias type="com.prayer.model.database.PEKey" alias="Key" />
+        <typeAlias type="com.prayer.model.database.PEMeta" alias="Meta" />
+        <typeAlias type="com.prayer.model.database.PETrigger" alias="Trigger" />
+        <typeAlias type="com.prayer.model.database.PEVColumn" alias="VColumn" />
+        <typeAlias type="com.prayer.model.database.PEView" alias="View" />
     </typeAliases>
     <environments default="H2Environment">
         <environment id="H2Environment">
@@ -21,5 +30,7 @@
     <mappers>
         <mapper resource="database/mybatis/mapper/PEScript.xml" />
         <mapper resource="database/mybatis/mapper/PEAddress.xml" />
+        <mapper resource="database/mybatis/mapper/PERoute.xml" />
+        <mapper resource="database/mybatis/mapper/PERule.xml" />
     </mappers>
 </configuration>

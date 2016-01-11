@@ -25,9 +25,31 @@ import com.prayer.exception.database.DataAccessException;
 import com.prayer.facade.entity.Entity;
 import com.prayer.facade.metadata.mapper.IBatisMapper;
 import com.prayer.facade.metadata.mapper.PEAddressMapper;
+import com.prayer.facade.metadata.mapper.PEFieldMapper;
+import com.prayer.facade.metadata.mapper.PEIndexMapper;
+import com.prayer.facade.metadata.mapper.PEKeyMapper;
+import com.prayer.facade.metadata.mapper.PEMetaMapper;
+import com.prayer.facade.metadata.mapper.PERouteMapper;
+import com.prayer.facade.metadata.mapper.PERuleMapper;
 import com.prayer.facade.metadata.mapper.PEScriptMapper;
+import com.prayer.facade.metadata.mapper.PETriggerMapper;
+import com.prayer.facade.metadata.mapper.PEUriMapper;
+import com.prayer.facade.metadata.mapper.PEVColumnMapper;
+import com.prayer.facade.metadata.mapper.PEVerticleMapper;
+import com.prayer.facade.metadata.mapper.PEViewMapper;
+import com.prayer.model.database.PEField;
+import com.prayer.model.database.PEIndex;
+import com.prayer.model.database.PEKey;
+import com.prayer.model.database.PEMeta;
+import com.prayer.model.database.PETrigger;
+import com.prayer.model.database.PEVColumn;
+import com.prayer.model.database.PEView;
 import com.prayer.model.vertx.PEAddress;
+import com.prayer.model.vertx.PERoute;
+import com.prayer.model.vertx.PERule;
 import com.prayer.model.vertx.PEScript;
+import com.prayer.model.vertx.PEUri;
+import com.prayer.model.vertx.PEVerticle;
 import com.prayer.util.io.IOKit;
 
 import net.sf.oval.guard.Guarded;
@@ -86,8 +108,20 @@ public final class IBatisHelper {
          * 填充Mapper
          */
         if (MDATA.isEmpty()) {
+            // TODO：【完成】如果添加新的Entity需要修改
             MDATA.put(PEScript.class, PEScriptMapper.class);
             MDATA.put(PEAddress.class, PEAddressMapper.class);
+            MDATA.put(PERoute.class, PERouteMapper.class);
+            MDATA.put(PERule.class, PERuleMapper.class);
+            MDATA.put(PEUri.class, PEUriMapper.class);
+            MDATA.put(PEVerticle.class, PEVerticleMapper.class);
+            MDATA.put(PEField.class, PEFieldMapper.class);
+            MDATA.put(PEIndex.class, PEIndexMapper.class);
+            MDATA.put(PEKey.class, PEKeyMapper.class);
+            MDATA.put(PEMeta.class, PEMetaMapper.class);
+            MDATA.put(PETrigger.class, PETriggerMapper.class);
+            MDATA.put(PEVColumn.class, PEVColumnMapper.class);
+            MDATA.put(PEView.class, PEViewMapper.class);
         }
     }
 

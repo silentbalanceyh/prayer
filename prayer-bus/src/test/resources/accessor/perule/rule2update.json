@@ -1,0 +1,12 @@
+{
+    "name":"TEST.RULE2",
+    "type":"IntType",
+    "order":13,
+    "componentType":"VALIDATOR",
+    "componentClass":"com.prayer.model.entity.clazz.EntityHandler",
+    "config":{
+        "param":"param2",
+        "bollean":true
+    },
+    "errorMessage":"这是错误信息的更新信息"
+}

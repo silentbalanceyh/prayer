@@ -1,0 +1,10 @@
+{
+    "parent":"/api",
+    "path":"/sec/current",
+    "consumerMimes":["text/image","application/json"],
+    "producerMimes":["text/pdf","application/json"],
+    "method":"GET",
+    "order":11,
+    "requestHandler":"com.prayer.model.entity.clazz.EntityHandler",
+    "failureHandler":"com.prayer.model.entity.clazz.EntityHandler"
+}
