@@ -1,0 +1,10 @@
+{
+    "status":"USER",
+    "name":"SecView",
+    "namespace":"com.prayer.engine.security",
+    "globalId":"sec.role",
+    "category":"ORACLE",
+    "view":"V_LANG",
+    "statement":"SELECT * FROM SEC_ROLE",
+    "check":true
+}

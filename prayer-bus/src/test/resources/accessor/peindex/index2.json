@@ -1,0 +1,14 @@
+{
+    "name":"IDX_SEC_ROLE",
+    "columns":[
+        {
+            "name":"S_NAME",
+            "order":"ASC"
+        },
+        {
+            "name":"S_CODE",
+            "order":"DESC"
+        }
+    ],
+    "refId":"testRefId"
+}

@@ -1,0 +1,9 @@
+{
+    "name":"testname.lang",
+    "category":"PrimaryKey",
+    "columns":[
+        "SEC_COL1",
+        "SEC_COL2"
+    ],
+    "multi":true
+}

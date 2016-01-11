@@ -80,7 +80,7 @@
                 D_CATEGORY=#{category},
                 D_VIEW=#{view},
                 D_STATEMENT=#{statement},
-                D_CHECK=#{check}
+                D_CHECK_OPTION=#{check}
             WHERE K_ID=#{uniqueId}
         ]]>
     </update>

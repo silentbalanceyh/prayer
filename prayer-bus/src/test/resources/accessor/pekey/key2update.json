@@ -1,0 +1,10 @@
+{
+    "name":"testname",
+    "category":"UniqueKey",
+    "columns":[
+        "SEC_COL1",
+        "SEC_COL2",
+        "SEC_COL3"
+    ],
+    "multi":false
+}

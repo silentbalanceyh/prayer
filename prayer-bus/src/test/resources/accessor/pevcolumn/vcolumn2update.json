@@ -1,0 +1,6 @@
+{
+    "name":"testlang",
+    "type":"StringType",
+    "columnName":"SEC_NAME",
+    "columnType":"BOOLEAN"
+}

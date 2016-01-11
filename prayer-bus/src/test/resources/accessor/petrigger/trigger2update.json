@@ -1,0 +1,9 @@
+{
+    "name":"TG_UPDATE",
+    "category":"MSSQL",
+    "target":"TABLE",
+    "opType":"UPDATE",
+    "mode":"BEFORE",
+    "statement":"SELECT * FROM SEC_ROLE",
+    "refId":"referenceId"
+}
