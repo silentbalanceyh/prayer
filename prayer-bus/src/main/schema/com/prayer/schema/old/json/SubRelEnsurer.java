@@ -1,4 +1,4 @@
-package com.prayer.schema.json;
+package com.prayer.schema.old.json;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

@@ -19,10 +19,10 @@ import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.dao.Builder;
 import com.prayer.facade.dao.metadata.SchemaDao;
-import com.prayer.facade.schema.Importer;
+import com.prayer.facade.schema.OldImporter;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.kernel.GenericSchema;
-import com.prayer.schema.json.CommunionImporter;
+import com.prayer.schema.old.json.CommunionImporter;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
@@ -65,17 +65,17 @@ public class SchemaSevImpl implements SchemaService {
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<GenericSchema> syncSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
-        final Importer importer = this.getImporter(filePath);
+        final OldImporter oldImporter = this.getImporter(filePath);
         final ServiceResult<GenericSchema> result = new ServiceResult<>();
         try {
             // 1.读取filePath -> AbstractSystemException
-            importer.readSchema();
+            oldImporter.readSchema();
             // 2.验证Schema文件流程
-            importer.ensureSchema();
+            oldImporter.ensureSchema();
             // 3.转换Schema文件
-            final GenericSchema schema = importer.transformSchema();
+            final GenericSchema schema = oldImporter.transformSchema();
             // 4.因为importer中已经检查过，所以不需要再检查
-            importer.syncSchema(schema);
+            oldImporter.syncSchema(schema);
             // 5.成功代码
             result.success(schema);
             info(LOGGER, InfoKey.INF_DP_STEP1, filePath, Resources.META_CATEGORY);
@@ -154,14 +154,14 @@ public class SchemaSevImpl implements SchemaService {
     /**
      * 注意Importer本身的刷新流程，根据文件路径刷新了filePath
      **/
-    private Importer getImporter(final String filePath) {
-        Importer importer = MemoryPool.POOL_IMPORTER.get(filePath);
-        if (null == importer) {
-            importer = reservoir(MemoryPool.POOL_IMPORTER, filePath, CommunionImporter.class, filePath);
+    private OldImporter getImporter(final String filePath) {
+        OldImporter oldImporter = MemoryPool.POOL_IMPORTER.get(filePath);
+        if (null == oldImporter) {
+            oldImporter = reservoir(MemoryPool.POOL_IMPORTER, filePath, CommunionImporter.class, filePath);
         } else {
-            importer.refreshSchema(filePath);
+            oldImporter.refreshSchema(filePath);
         }
-        return importer;// instance(CommunionImporter.class.getName(),
+        return oldImporter;// instance(CommunionImporter.class.getName(),
                         // filePath);
     }
     // ~ Get/Set =============================================

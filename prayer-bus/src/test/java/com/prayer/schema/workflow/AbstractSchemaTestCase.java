@@ -12,12 +12,12 @@ import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.facade.schema.Importer;
+import com.prayer.facade.schema.OldImporter;
 import com.prayer.facade.schema.Serializer;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
-import com.prayer.schema.CommunionSerializer;
-import com.prayer.schema.json.CommunionImporter;
+import com.prayer.schema.old.CommunionSerializer;
+import com.prayer.schema.old.json.CommunionImporter;
 
 /**
  * 
@@ -32,7 +32,7 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
     protected static final String M_IMPORT_FILE = "importFile()";
     // ~ Instance Fields =====================================
     /** **/
-    protected transient Importer importer;
+    protected transient OldImporter oldImporter;
     /** **/
     protected transient Serializer serializer;
     /** **/
@@ -64,10 +64,10 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
      */
     protected void testImport(final String inputFile, final String errMsg) throws AbstractSchemaException {
         setMethod(M_IMPORT_FILE);
-        importer = new CommunionImporter(SCHEMA_ROOT + inputFile);
+        oldImporter = new CommunionImporter(SCHEMA_ROOT + inputFile);
         try {
-            importer.readSchema();
-            importer.ensureSchema();
+            oldImporter.readSchema();
+            oldImporter.ensureSchema();
         } catch (AbstractSystemException ex) {
             peError(getLogger(), ex);
         }
@@ -83,15 +83,15 @@ public abstract class AbstractSchemaTestCase extends AbstractTestCase {
                 this.service.deleteById(dbSchema.getIdentifier());
             }
             // 1.读取Schema信息
-            importer.readSchema();
+            oldImporter.readSchema();
             // 2.验证Schema文件
-            importer.ensureSchema();
+            oldImporter.ensureSchema();
             // 3.转换Schema
-            final GenericSchema schema = this.importer.transformSchema();
+            final GenericSchema schema = this.oldImporter.transformSchema();
             // 4.同步数据
             dbSchema = this.service.getById(identifier);
             if (null == dbSchema) {
-                this.importer.syncSchema(schema);
+                this.oldImporter.syncSchema(schema);
             }
         } catch (AbstractTransactionException ex) {
             peError(getLogger(), ex);

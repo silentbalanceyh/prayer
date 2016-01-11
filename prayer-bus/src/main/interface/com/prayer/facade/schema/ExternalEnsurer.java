@@ -8,6 +8,7 @@ import com.prayer.base.exception.AbstractSchemaException;
  * @author Lang
  * @see
  */
+@Deprecated
 public interface ExternalEnsurer {
     /**
      * 从JsonMap中导入数据

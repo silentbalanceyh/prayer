@@ -1,4 +1,4 @@
-package com.prayer.schema.json; // NOPMD
+package com.prayer.schema.old.json; // NOPMD
 
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.instance;

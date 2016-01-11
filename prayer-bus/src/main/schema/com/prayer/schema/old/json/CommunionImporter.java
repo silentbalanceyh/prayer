@@ -1,4 +1,4 @@
-package com.prayer.schema.json; // NOPMD
+package com.prayer.schema.old.json; // NOPMD
 
 import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.peError;
@@ -20,14 +20,14 @@ import com.prayer.exception.system.SerializationException;
 import com.prayer.exception.system.TypeInitException;
 import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.facade.schema.ExternalEnsurer;
-import com.prayer.facade.schema.Importer;
+import com.prayer.facade.schema.OldImporter;
 import com.prayer.facade.schema.Serializer;
 import com.prayer.model.database.PEField;
 import com.prayer.model.database.PEKey;
 import com.prayer.model.database.PEMeta;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.model.kernel.SchemaExpander;
-import com.prayer.schema.CommunionSerializer;
+import com.prayer.schema.old.CommunionSerializer;
 import com.prayer.util.io.JsonKit;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
@@ -45,7 +45,7 @@ import net.sf.oval.guard.Pre;
  * @see
  */
 @Guarded
-public class CommunionImporter implements Importer {
+public class CommunionImporter implements OldImporter {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(CommunionImporter.class);

@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
+import com.prayer.facade.kernel.Schema;
 import com.prayer.model.database.PEField;
 import com.prayer.model.database.PEKey;
 import com.prayer.model.database.PEMeta;
@@ -24,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  * @see
  */
 @Guarded
-public class GenericSchema implements Serializable { // NOPMD
+public class GenericSchema implements Schema, Serializable { // NOPMD
 
     // ~ Static Fields =======================================
     /**

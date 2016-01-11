@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.model.kernel.GenericSchema;
-import com.prayer.schema.json.CommunionImporter;
+import com.prayer.schema.old.json.CommunionImporter;
 
 /**
  * 
@@ -47,7 +47,7 @@ public class _18SchemaUpdate1TestCase extends AbstractSchemaTestCase { // NOPMD
     @Before
     public void setUp() {
         // service = singleton(SchemaDaoImpl.class);
-        importer = new CommunionImporter("/schema/data/json/validation/P012meta-schema1-from.json");
+        oldImporter = new CommunionImporter("/schema/data/json/validation/P012meta-schema1-from.json");
         this.executeSync(IDENTIFIER);
     }
 
@@ -58,9 +58,9 @@ public class _18SchemaUpdate1TestCase extends AbstractSchemaTestCase { // NOPMD
     public void testSchemaUpdate() {
         final GenericSchema oldSchema = this.service.getById(IDENTIFIER);
         info(LOGGER, "[T] Old Schema Meta : => " + oldSchema.getMeta());
-        this.importer.refreshSchema("/schema/data/json/validation/P012meta-schema1-to.json");
+        this.oldImporter.refreshSchema("/schema/data/json/validation/P012meta-schema1-to.json");
         this.executeSync(IDENTIFIER);
-        final GenericSchema newSchema = this.importer.getSchema();
+        final GenericSchema newSchema = this.oldImporter.getSchema();
         info(LOGGER, "[T] New Schema Meta : => " + newSchema.getMeta());
         final int oldKeys = oldSchema.getKeys().size();
         final int newKeys = newSchema.getKeys().size();

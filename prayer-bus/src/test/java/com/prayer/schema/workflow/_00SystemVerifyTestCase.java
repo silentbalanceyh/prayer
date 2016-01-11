@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
-import com.prayer.facade.schema.Importer;
-import com.prayer.schema.json.CommunionImporter;
+import com.prayer.facade.schema.OldImporter;
+import com.prayer.schema.old.json.CommunionImporter;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 
@@ -26,7 +26,7 @@ public class _00SystemVerifyTestCase extends AbstractSchemaTestCase {    // NOPM
 
     // ~ Instance Fields =====================================
     /** **/
-    protected transient Importer importer;
+    protected transient OldImporter oldImporter;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -43,32 +43,32 @@ public class _00SystemVerifyTestCase extends AbstractSchemaTestCase {    // NOPM
     @Test(expected = ConstraintsViolatedException.class)
     public void testConstructor1() {
         setMethod("Constructor(null)");
-        importer = new CommunionImporter(null);
-        failure(importer);
+        oldImporter = new CommunionImporter(null);
+        failure(oldImporter);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testConstructor2() {
         setMethod("Constructor(Empty)");
-        importer = new CommunionImporter("");
-        failure(importer);
+        oldImporter = new CommunionImporter("");
+        failure(oldImporter);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testConstructor3() {
         setMethod("Constructor(Blank)");
-        importer = new CommunionImporter("  ");
-        failure(importer);
+        oldImporter = new CommunionImporter("  ");
+        failure(oldImporter);
     }
 
     /** **/
     @Test(expected = JsonParserException.class)
     public void testP000System20003() throws AbstractSystemException {
         setMethod("importFile()");
-        importer = new CommunionImporter(SCHEMA_ROOT + "P000json20003.txt");
-        importer.readSchema();
+        oldImporter = new CommunionImporter(SCHEMA_ROOT + "P000json20003.txt");
+        oldImporter.readSchema();
         failure("[E20003] Json Parser ==> (Failure) There is unexpected exception!");
     }
 
@@ -76,8 +76,8 @@ public class _00SystemVerifyTestCase extends AbstractSchemaTestCase {    // NOPM
     @Test(expected = ResourceIOException.class)
     public void testP000System20002() throws AbstractSystemException {
         setMethod("importFile()");
-        importer = new CommunionImporter(SCHEMA_ROOT + "P000json20003.json");
-        importer.readSchema();
+        oldImporter = new CommunionImporter(SCHEMA_ROOT + "P000json20003.json");
+        oldImporter.readSchema();
         failure("[E20002] Resource IO ==> (Failure) There is no expected exception!");
     }
     // ~ Private Methods =====================================

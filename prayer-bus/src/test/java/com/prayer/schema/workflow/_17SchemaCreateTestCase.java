@@ -22,7 +22,7 @@ import com.prayer.model.database.PEField;
 import com.prayer.model.database.PEKey;
 import com.prayer.model.database.PEMeta;
 import com.prayer.model.kernel.GenericSchema;
-import com.prayer.schema.json.CommunionImporter;
+import com.prayer.schema.old.json.CommunionImporter;
 import com.prayer.util.io.JsonKit;
 
 /**
@@ -58,23 +58,23 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
      */
     @Before
     public void setUp() {
-        importer = new CommunionImporter("/schema/system/data/json/role.json");
+        oldImporter = new CommunionImporter("/schema/system/data/json/role.json");
         // 1.Read Schema File
         try {
-            importer.readSchema();
+            oldImporter.readSchema();
         } catch (AbstractSystemException ex) {
             peError(getLogger(), ex);
             failure(ex.toString());
         }
         // 2.Validate Schema File
         try {
-            importer.ensureSchema();
+            oldImporter.ensureSchema();
         } catch (AbstractSchemaException ex) {
             peError(getLogger(), ex);
             failure(ex.toString());
         }
         // 3.Extract Raw Data
-        this.rootNode = this.importer.getEnsurer().getRaw();
+        this.rootNode = this.oldImporter.getEnsurer().getRaw();
     }
 
     /**
@@ -149,7 +149,7 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
     public void testTransformModel() {
         GenericSchema schema = null;
         try {
-            schema = this.importer.transformSchema();
+            schema = this.oldImporter.transformSchema();
         } catch (SerializationException ex) {
             peError(getLogger(), ex);
             failure("[T-ERROR] Searialization Exception. ");
@@ -165,10 +165,10 @@ public class _17SchemaCreateTestCase extends AbstractSchemaTestCase { // NOPMD
         GenericSchema schema = null;
         boolean result = false;
         try {
-            schema = this.importer.transformSchema();
+            schema = this.oldImporter.transformSchema();
             final GenericSchema prepSchema = this.service.getById("sys.sec.role");
             if (null == prepSchema) {
-                result = this.importer.syncSchema(schema);
+                result = this.oldImporter.syncSchema(schema);
             } else {
                 // Skip Test Case
                 result = true;

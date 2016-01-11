@@ -26,11 +26,11 @@ import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.DataValidator;
-import com.prayer.facade.schema.Importer;
+import com.prayer.facade.schema.OldImporter;
 import com.prayer.model.kernel.GenericRecord;
 import com.prayer.model.kernel.GenericSchema;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
-import com.prayer.schema.json.CommunionImporter;
+import com.prayer.schema.old.json.CommunionImporter;
 
 import jodd.util.StringUtil;
 
@@ -44,7 +44,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     /** **/
     protected static final String BUILDER_FILE = "/schema/data/json/database/";
     /** **/
-    private static final ConcurrentMap<String, Importer> I_POOLS = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, OldImporter> I_POOLS = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     /** **/
     private transient SchemaDao dao;
@@ -196,14 +196,14 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     /** **/
     private GenericSchema prepData(final String inputFile, final String globalId) {
         // this.importer = new CommunionImporter(BUILDER_FILE + inputFile);
-        final Importer importer = this.getImporter(BUILDER_FILE + inputFile);
+        final OldImporter oldImporter = this.getImporter(BUILDER_FILE + inputFile);
         GenericSchema schema = null;
         try {
-            importer.readSchema();
-            importer.ensureSchema();
-            schema = importer.transformSchema();
+            oldImporter.readSchema();
+            oldImporter.ensureSchema();
+            schema = oldImporter.transformSchema();
             if(schema.getMeta().getGlobalId().equals(globalId)){
-                importer.syncSchema(schema);
+                oldImporter.syncSchema(schema);
             }
         } catch (SerializationException ex) {
             info(getLogger(), ex.getErrorMessage(), ex);
@@ -220,16 +220,16 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     /**
      * 注意Importer本身的刷新流程，根据文件路径刷新了filePath
      **/
-    private Importer getImporter(final String filePath) {
-        Importer importer = I_POOLS.get(filePath);
-        if (null == importer) {
-            importer = reservoir(I_POOLS, filePath, CommunionImporter.class, filePath);
-            info(getLogger(), "[IP] Init new importer: file = " + filePath);
+    private OldImporter getImporter(final String filePath) {
+        OldImporter oldImporter = I_POOLS.get(filePath);
+        if (null == oldImporter) {
+            oldImporter = reservoir(I_POOLS, filePath, CommunionImporter.class, filePath);
+            info(getLogger(), "[IP] Init new oldImporter: file = " + filePath);
         } else {
-            importer.refreshSchema(filePath);
-            info(getLogger(), "[IP] Refresh schema of importer: file = " + filePath);
+            oldImporter.refreshSchema(filePath);
+            info(getLogger(), "[IP] Refresh schema of oldImporter: file = " + filePath);
         }
-        return importer;//instance(CommunionImporter.class.getName(), filePath);
+        return oldImporter;//instance(CommunionImporter.class.getName(), filePath);
     }
 
     private void executeNotMatch() {

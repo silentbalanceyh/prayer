@@ -1,4 +1,4 @@
-package com.prayer.schema;
+package com.prayer.schema.old;
 
 import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.debug.Log.peError;

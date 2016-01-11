@@ -1,4 +1,4 @@
-package com.prayer.schema.json;
+package com.prayer.schema.old.json;
 
 import com.prayer.base.exception.AbstractSchemaException;
 
