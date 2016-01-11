@@ -2,29 +2,24 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.facade.metadata.mapper.VerticleMapper">
+<mapper namespace="com.prayer.facade.metadata.mapper.PEVerticleMapper">
     <!-- 返回对象定义 -->
     <resultMap type="Verticle" id="verticleObject">
         <id column="K_ID" property="uniqueId" />
-        <result column="S_CLASS" property="name"
-            typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
+        <result column="S_CLASS" property="name" typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
         <result column="S_INSTANCES" property="instances" />
         <result column="S_IGROUP" property="group" />
-        <result column="S_JSON_CONFIG" property="jsonConfig"
-            typeHandler="com.prayer.plugin.db.handler.JsonObjectHandler" />
-        <result column="S_ISOLATED_CLASS" property="isolatedClasses"
-            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
+        <result column="S_JSON_CONFIG" property="jsonConfig" typeHandler="com.prayer.plugin.db.handler.JsonObjectHandler" />
+        <result column="S_ISOLATED_CLASS" property="isolatedClasses" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
 
-        <result column="CP_EXT" property="extraCp"
-            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
+        <result column="CP_EXT" property="extraCp" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
 
         <result column="IS_HA" property="ha" />
         <result column="IS_WORKER" property="worker" />
         <result column="IS_MULTI" property="multi" />
     </resultMap>
     <!-- 模板方法 -->
-    <insert id="insert" parameterType="Verticle" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <insert id="insert" parameterType="Verticle" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             INSERT INTO EVX_VERTICLE (
                 K_ID,
@@ -66,8 +61,7 @@
                 IS_MULTI
             ) VALUES
         ]]>
-        <foreach collection="list" item="item" index="index"
-            separator=",">
+        <foreach collection="list" item="item" index="index" separator=",">
             <![CDATA[(
                 #{item.uniqueId},
                 #{item.name, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
@@ -82,8 +76,7 @@
             )]]>
         </foreach>
     </insert>
-    <update id="update" parameterType="Verticle" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <update id="update" parameterType="Verticle" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             UPDATE EVX_VERTICLE SET
                 S_CLASS=#{name, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
@@ -98,16 +91,6 @@
             WHERE K_ID=#{uniqueId}
         ]]>
     </update>
-    <select id="selectAll" resultMap="verticleObject">
-        <![CDATA[
-            SELECT * FROM EVX_VERTICLE
-        ]]>
-    </select>
-    <select id="selectById" parameterType="String" resultMap="verticleObject">
-        <![CDATA[
-            SELECT * FROM EVX_VERTICLE WHERE K_ID=#{uniqueId}
-        ]]>
-    </select>
     <delete id="deleteById" parameterType="String">
         <![CDATA[
             DELETE FROM EVX_VERTICLE WHERE K_ID=#{uniqueId}
@@ -117,38 +100,59 @@
         <![CDATA[
             DELETE FROM EVX_VERTICLE WHERE K_ID IN
         ]]>
-        <foreach collection="list" item="item" open="("
-            separator="," close=")">
+        <foreach collection="list" item="item" open="(" separator="," close=")">
             <![CDATA[
                 #{item}
             ]]>
         </foreach>
     </delete>
-    <delete id="purgeData">
+    <delete id="purge">
         <![CDATA[
             DELETE FROM EVX_VERTICLE
         ]]>
     </delete>
-    <!-- 自定义接口方法 -->
-    <select id="selectByName" parameterType="java.lang.Class" resultMap="verticleObject">
+    <select id="count" resultType="java.lang.Long">
         <![CDATA[
-            SELECT * FROM EVX_VERTICLE WHERE S_CLASS=#{name,typeHandler=com.prayer.plugin.db.handler.ClassHandler}
+            SELECT COUNT(K_ID) FROM EVX_VERTICLE
         ]]>
     </select>
-    <select id="selectByGroup" parameterType="String" resultMap="verticleObject">
+    <select id="selectAll" resultMap="verticleObject">
         <![CDATA[
-            SELECT * FROM EVX_VERTICLE WHERE S_IGROUP=#{group}
+            SELECT * FROM EVX_VERTICLE
         ]]>
     </select>
-    <delete id="deleteByName" parameterType="java.lang.Class">
+    <select id="queryList" parameterType="String" resultMap="verticleObject">
         <![CDATA[
-            DELETE FROM EVX_VERTICLE WHERE S_CLASS=#{name,typeHandler=com.prayer.plugin.db.handler.ClassHandler}
+            SELECT * FROM EVX_VERTICLE WHERE ${where}
         ]]>
-    </delete>
-
+    </select>
+    <select id="selectById" parameterType="String" resultMap="verticleObject">
+        <![CDATA[
+            SELECT * FROM EVX_VERTICLE WHERE K_ID=#{uniqueId}
+        ]]>
+    </select>
     <select id="selectByPage" resultMap="verticleObject">
-        <![CDATA[
-            SELECT * FROM EVX_VERTICLE ORDER BY #{order} LIMIT #{size} OFFSET #{start}
-        ]]>
+        <!-- 动态SQL语句 -->
+        <if test="category = 'H2'">
+            <![CDATA[
+                SELECT * FROM EVX_VERTICLE ORDER BY ${orderBy} LIMIT #{size} OFFSET #{start}
+            ]]>
+        </if>
     </select>
+    <!-- 自定义接口方法 -->
+    <!-- <select id="selectByName" parameterType="java.lang.Class" resultMap="verticleObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM EVX_VERTICLE WHERE S_CLASS=#{name,typeHandler=com.prayer.plugin.db.handler.ClassHandler} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+    <!-- <select id="selectByGroup" parameterType="String" resultMap="verticleObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM EVX_VERTICLE WHERE S_IGROUP=#{group} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+    <!-- <delete id="deleteByName" parameterType="java.lang.Class"> -->
+    <!-- <![CDATA[ -->
+    <!-- DELETE FROM EVX_VERTICLE WHERE S_CLASS=#{name,typeHandler=com.prayer.plugin.db.handler.ClassHandler} -->
+    <!-- ]]> -->
+    <!-- </delete> -->
 </mapper>

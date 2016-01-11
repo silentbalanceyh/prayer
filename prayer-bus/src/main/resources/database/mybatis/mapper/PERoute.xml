@@ -109,6 +109,11 @@
             SELECT COUNT(K_ID) FROM EVX_ROUTE
         ]]>
     </select>
+    <select id="selectAll" resultMap="routeObject">
+        <![CDATA[
+            SELECT * FROM EVX_ROUTE
+        ]]>
+    </select>
     <select id="queryList" parameterType="String" resultMap="routeObject">
         <![CDATA[
             SELECT * FROM EVX_ROUTE WHERE ${where}
@@ -119,11 +124,7 @@
             SELECT * FROM EVX_ROUTE WHERE K_ID=#{uniqueId}
         ]]>
     </select>
-    <select id="selectAll" resultMap="routeObject">
-        <![CDATA[
-            SELECT * FROM EVX_ROUTE
-        ]]>
-    </select>
+
     <select id="selectByPage" resultMap="routeObject">
         <!-- 动态SQL语句 -->
         <if test="category = 'H2'">

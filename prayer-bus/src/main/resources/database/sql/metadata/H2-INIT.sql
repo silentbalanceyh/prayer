@@ -177,7 +177,7 @@ DROP TABLE IF EXISTS SYS_INDEX;
 CREATE TABLE SYS_INDEX(
     K_ID VARCHAR(192),                          -- Index索引ID标识符
     D_NAME VARCHAR(256) NOT NULL,               -- 数据库中索引名：IDX_前缀
-    D_COLUMNS VARCHAR(2048) NOT NULL,           -- JSON格式：[{"column":"A","mode":"ASC"}]
+    D_COLUMNS CLOB NOT NULL,                    -- JSON格式：[{"column":"A","mode":"ASC"}]
     R_REF_ID VARCHAR(192) NOT NULL,             -- 关联table/view的identifier，非外键：S_META, S_VIEW
     PRIMARY KEY(K_ID)
 );

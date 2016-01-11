@@ -106,9 +106,9 @@
             SELECT COUNT(K_ID) FROM EVX_RULE
         ]]>
     </select>
-    <select id="selectById" parameterType="String" resultMap="ruleObject">
+    <select id="selectAll" resultMap="ruleObject">
         <![CDATA[
-            SELECT * FROM EVX_RULE WHERE K_ID=#{uniqueId}
+            SELECT * FROM EVX_RULE ORDER BY J_COMPONENT_TYPE, R_URI_ID, S_ORDER ASC
         ]]>
     </select>
     <select id="queryList" parameterType="String" resultMap="ruleObject">
@@ -116,9 +116,9 @@
             SELECT * FROM EVX_RULE WHERE ${where}
         ]]>
     </select>
-    <select id="selectAll" resultMap="ruleObject">
+    <select id="selectById" parameterType="String" resultMap="ruleObject">
         <![CDATA[
-            SELECT * FROM EVX_RULE ORDER BY J_COMPONENT_TYPE, R_URI_ID, S_ORDER ASC
+            SELECT * FROM EVX_RULE WHERE K_ID=#{uniqueId}
         ]]>
     </select>
     <select id="selectByPage" resultMap="ruleObject">

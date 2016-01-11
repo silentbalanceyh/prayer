@@ -96,19 +96,12 @@ public final class StreamList {
         }
         return pos;
     }
-
-    // ~ Static Methods ======================================
-    // ~ Constructors ========================================
-    // ~ Abstract Methods ====================================
-    // ~ Override Methods ====================================
-    // ~ Methods =============================================
-    // ~ Private Methods =====================================
     /**
      * 
      * @param data
      * @return
      */
-    private static <T> JsonArray fromList(final List<T> data) {
+    public static <T> JsonArray fromList(final List<T> data) {
         final JsonArray retArr = new JsonArray();
         for (final T item : data) {
             retArr.add(item);
@@ -122,7 +115,7 @@ public final class StreamList {
      * @return
      */
     @SuppressWarnings("unchecked")
-    private static <T> List<T> toList(final JsonArray data) {
+    public static <T> List<T> toList(final JsonArray data) {
         final List<T> list = new ArrayList<>();
         for (final Object item : data) {
             if (null != item) {
@@ -131,6 +124,12 @@ public final class StreamList {
         }
         return list;
     }
+    // ~ Static Methods ======================================
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    // ~ Private Methods =====================================
 
     private StreamList() {
     }

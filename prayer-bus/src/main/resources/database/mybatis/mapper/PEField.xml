@@ -2,19 +2,17 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.facade.metadata.mapper.FieldMapper">
+<mapper namespace="com.prayer.facade.metadata.mapper.PEFieldMapper">
     <!-- 返回对象定义 -->
     <resultMap type="Field" id="fieldObject">
         <id column="K_ID" property="uniqueId" />
         <result column="S_NAME" property="name" />
-        <result column="S_TYPE" property="type"
-            typeHandler="com.prayer.plugin.db.handler.DataTypeHandler" />
+        <result column="S_TYPE" property="type" typeHandler="com.prayer.plugin.db.handler.DataTypeHandler" />
 
         <result column="C_PATTERN" property="pattern" />
-        <result column="C_VALIDATOR" property="validator" />
+        <result column="C_VALIDATOR" property="validator" typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
         <result column="C_LENGTH" property="length" />
-        <result column="C_DATETIME" property="datetime"
-            typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result column="C_DATETIME" property="datetime" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
         <result column="C_DATEFORMAT" property="dateFormat" />
         <result column="C_PRECISION" property="precision" />
         <result column="C_UNIT" property="unit" />
@@ -37,8 +35,7 @@
         <result column="R_META_ID" property="refMetaId" />
     </resultMap>
     <!-- 模板方法 -->
-    <insert id="insert" parameterType="Field" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <insert id="insert" parameterType="Field" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             INSERT INTO SYS_FIELDS (
                 K_ID,
@@ -70,7 +67,7 @@
                 #{name},
                 #{type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
                 #{pattern},
-                #{validator},
+                #{validator, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{length},
                 #{datetime, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
                 #{dateFormat},
@@ -122,14 +119,13 @@
                 R_META_ID
             ) VALUES 
         ]]>
-        <foreach collection="list" item="item" index="index"
-            separator=",">
+        <foreach collection="list" item="item" index="index" separator=",">
             <![CDATA[(
                 #{item.uniqueId},
                 #{item.name},
                 #{item.type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
                 #{item.pattern},
-                #{item.validator},
+                #{item.validator, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{item.length},
                 #{item.datetime, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
                 #{item.dateFormat},
@@ -152,14 +148,13 @@
             )]]>
         </foreach>
     </insert>
-    <update id="update" parameterType="Field" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <update id="update" parameterType="Field" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             UPDATE SYS_FIELDS SET
                 S_NAME=#{name},
                 S_TYPE=#{type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
                 C_PATTERN=#{pattern},
-                C_VALIDATOR=#{validator},
+                C_VALIDATOR=#{validator, typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 C_LENGTH=#{length},
                 C_DATETIME=#{datetime, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
                 C_DATEFORMAT=#{dateFormat},
@@ -182,16 +177,7 @@
             WHERE K_ID=#{uniqueId}
         ]]>
     </update>
-    <select id="selectAll" resultMap="fieldObject">
-        <![CDATA[
-            SELECT * FROM SYS_FIELDS
-        ]]>
-    </select>
-    <select id="selectById" parameterType="String" resultMap="fieldObject">
-        <![CDATA[
-            SELECT * FROM SYS_FIELDS WHERE K_ID=#{uniqueId}
-        ]]>
-    </select>
+
     <delete id="deleteById" parameterType="String">
         <![CDATA[
             DELETE FROM SYS_FIELDS WHERE K_ID=#{uniqueId}
@@ -201,32 +187,55 @@
         <![CDATA[
             DELETE FROM SYS_FIELDS WHERE K_ID IN
         ]]>
-        <foreach collection="list" item="item" open="(" separator=","
-            close=")">
+        <foreach collection="list" item="item" open="(" separator="," close=")">
             <![CDATA[
                 #{item}
             ]]>
         </foreach>
     </delete>
-    <delete id="purgeData">
+    <delete id="purge">
         <![CDATA[
             DELETE FROM SYS_FIELDS
         ]]>
     </delete>
-    <!-- 自定义扩展接口 -->
-    <delete id="deleteByMeta" parameterType="String">
+
+    <select id="count" resultType="java.lang.Long">
         <![CDATA[
-            DELETE FROM SYS_FIELDS WHERE R_META_ID=#{metaId}
+            SELECT COUNT(K_ID) FROM SYS_FIELDS
         ]]>
-    </delete>
-    <select id="selectByMeta" parameterType="String" resultMap="fieldObject">
+    </select>
+    <select id="selectAll" resultMap="fieldObject">
         <![CDATA[
-            SELECT * FROM SYS_FIELDS WHERE R_META_ID=#{metaId}
+            SELECT * FROM SYS_FIELDS
+        ]]>
+    </select>
+    <select id="queryList" parameterType="String" resultMap="fieldObject">
+        <![CDATA[
+            SELECT * FROM SYS_FIELDS WHERE ${where}
+        ]]>
+    </select>
+    <select id="selectById" parameterType="String" resultMap="fieldObject">
+        <![CDATA[
+            SELECT * FROM SYS_FIELDS WHERE K_ID=#{uniqueId}
         ]]>
     </select>
     <select id="selectByPage" resultMap="fieldObject">
-        <![CDATA[
-            SELECT * FROM SYS_FIELDS ORDER BY #{order} LIMIT #{size} OFFSET #{start}
-        ]]>
+        <!-- 动态SQL语句 -->
+        <if test="category = 'H2'">
+            <![CDATA[
+                SELECT * FROM SYS_FIELDS ORDER BY ${orderBy} LIMIT #{size} OFFSET #{start}
+            ]]>
+        </if>
     </select>
+    <!-- 自定义扩展接口 -->
+    <!-- <delete id="deleteByMeta" parameterType="String"> -->
+    <!-- <![CDATA[ -->
+    <!-- DELETE FROM SYS_FIELDS WHERE R_META_ID=#{metaId} -->
+    <!-- ]]> -->
+    <!-- </delete> -->
+    <!-- <select id="selectByMeta" parameterType="String" resultMap="fieldObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_FIELDS WHERE R_META_ID=#{metaId} -->
+    <!-- ]]> -->
+    <!-- </select> -->
 </mapper>

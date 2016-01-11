@@ -76,6 +76,11 @@
             SELECT COUNT(K_ID) FROM ENG_SCRIPT
         ]]>
     </select>
+    <select id="selectAll" resultMap="scriptObject">
+        <![CDATA[
+            SELECT * FROM ENG_SCRIPT
+        ]]>
+    </select>
     <select id="queryList" parameterType="String" resultMap="scriptObject">
         <![CDATA[
             SELECT * FROM ENG_SCRIPT WHERE ${where}
@@ -86,11 +91,7 @@
             SELECT * FROM ENG_SCRIPT WHERE K_ID=#{uniqueId}
         ]]>
     </select>
-    <select id="selectAll" resultMap="scriptObject">
-        <![CDATA[
-            SELECT * FROM ENG_SCRIPT
-        ]]>
-    </select>
+
     <select id="selectByPage" resultMap="scriptObject">
         <!-- 动态SQL语句 -->
         <if test="category = 'H2'">

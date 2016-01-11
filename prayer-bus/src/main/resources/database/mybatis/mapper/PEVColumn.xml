@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.facade.metadata.mapper.PEVColumnMapper">
+    <!-- 结果对象定义 -->
+    <resultMap type="VColumn" id="vcolumnObject">
+        <id column="K_ID" property="uniqueId" />
+        <result column="S_NAME" property="name" />
+        <result column="S_TYPE" property="type" typeHandler="com.prayer.plugin.db.handler.DataTypeHandler" />
+
+        <result column="D_COLUMN_NAME" property="columnName" />
+        <result column="D_COLUMN_TYPE" property="columnType" />
+        <result column="R_VIEW_ID" property="refViewId" />
+    </resultMap>
+    <!-- 模板方法 -->
+    <insert id="insert" parameterType="VColumn" keyColumn="K_ID" keyProperty="uniqueId">
+        <![CDATA[
+            INSERT INTO SYS_VCOLUMNS (
+                K_ID,
+                S_NAME,
+                S_TYPE,
+                D_COLUMN_NAME,
+                D_COLUMN_TYPE,
+                R_VIEW_ID
+            ) VALUES (
+                #{uniqueId},
+                #{name},
+                #{type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
+                #{columnName},
+                #{columnType},
+                #{refViewId}
+            )
+        ]]>
+    </insert>
+    <insert id="batchInsert" parameterType="java.util.List">
+        <![CDATA[
+            INSERT INTO SYS_VCOLUMNS (
+                K_ID,
+                S_NAME,
+                S_TYPE,
+                D_COLUMN_NAME,
+                D_COLUMN_TYPE,
+                R_VIEW_ID
+            ) VALUES 
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            <![CDATA[(
+                #{item.uniqueId},
+                #{item.name},
+                #{item.type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
+                #{item.columnName},
+                #{item.columnType},
+                #{item.refViewId}
+            )]]>
+        </foreach>
+    </insert>
+    <update id="update" parameterType="VColumn" keyColumn="K_ID" keyProperty="uniqueId">
+        <![CDATA[
+            UPDATE SYS_VCOLUMNS SET
+                S_NAME=#{name},
+                S_TYPE=#{type, typeHandler=com.prayer.plugin.db.handler.DataTypeHandler},
+                D_COLUMN_NAME=#{columnName},
+                D_COLUMN_TYPE=#{columnType},
+                R_VIEW_ID=#{refViewId}
+            WHERE K_ID=#{uniqueId}
+        ]]>
+    </update>
+
+    <delete id="deleteById" parameterType="String">
+        <![CDATA[
+            DELETE FROM SYS_VCOLUMNS WHERE K_ID=#{uniqueId}
+        ]]>
+    </delete>
+
+    <delete id="batchDelete" parameterType="java.util.List">
+        <![CDATA[
+            DELETE FROM SYS_VCOLUMNS WHERE K_ID IN
+        ]]>
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            <![CDATA[
+                #{item}
+            ]]>
+        </foreach>
+    </delete>
+    <delete id="purge">
+        <![CDATA[
+            DELETE FROM SYS_VCOLUMNS
+        ]]>
+    </delete>
+
+    <select id="count" resultType="java.lang.Long">
+        <![CDATA[
+            SELECT COUNT(K_ID) FROM SYS_VCOLUMNS
+        ]]>
+    </select>
+    <select id="selectAll" resultMap="vcolumnObject">
+        <![CDATA[
+            SELECT * FROM SYS_VCOLUMNS
+        ]]>
+    </select>
+    <select id="queryList" parameterType="String" resultMap="vcolumnObject">
+        <![CDATA[
+            SELECT * FROM SYS_VCOLUMNS WHERE ${where}
+        ]]>
+    </select>
+    <select id="selectById" parameterType="String" resultMap="vcolumnObject">
+        <![CDATA[
+            SELECT * FROM SYS_VCOLUMNS WHERE K_ID=#{uniqueId}
+        ]]>
+    </select>
+    <select id="selectByPage" resultMap="vcolumnObject">
+        <!-- 动态SQL语句 -->
+        <if test="category = 'H2'">
+            <![CDATA[
+                SELECT * FROM SYS_VCOLUMNS ORDER BY ${orderBy} LIMIT #{size} OFFSET #{start}
+            ]]>
+        </if>
+    </select>
+    <!-- 扩展接口 -->
+    <!-- <delete id="deleteByModel"> -->
+    <!-- <![CDATA[ -->
+    <!-- DELETE FROM SYS_VCOLUMNS WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR} -->
+    <!-- ]]> -->
+    <!-- </delete> -->
+    <!-- <select id="selectByModel" resultMap="vcolumnObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_VCOLUMNS WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+    <!-- <select id="selectByGlobalId" parameterType="String" resultMap="vcolumnObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_VCOLUMNS WHERE S_GLOBAL_ID=#{globalId} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+</mapper>

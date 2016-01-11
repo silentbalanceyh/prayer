@@ -76,6 +76,11 @@
             SELECT COUNT(K_ID) FROM EVX_ADDRESS
         ]]>
     </select>
+    <select id="selectAll" resultMap="addressObject">
+        <![CDATA[
+            SELECT * FROM EVX_ADDRESS
+        ]]>
+    </select>
     <select id="queryList" parameterType="String" resultMap="addressObject">
         <![CDATA[
             SELECT * FROM EVX_ADDRESS WHERE ${where}
@@ -86,11 +91,7 @@
             SELECT * FROM EVX_ADDRESS WHERE K_ID=#{uniqueId}
         ]]>
     </select>
-    <select id="selectAll" resultMap="addressObject">
-        <![CDATA[
-            SELECT * FROM EVX_ADDRESS
-        ]]>
-    </select>
+
     <select id="selectByPage" resultMap="addressObject">
         <!-- 动态SQL语句 -->
         <if test="category = 'H2'">

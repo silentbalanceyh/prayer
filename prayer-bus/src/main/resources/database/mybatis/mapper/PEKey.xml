@@ -2,21 +2,18 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.facade.metadata.mapper.KeyMapper">
+<mapper namespace="com.prayer.facade.metadata.mapper.PEKeyMapper">
     <!-- 返回对象定义 -->
     <resultMap type="Key" id="keyObject">
         <id column="K_ID" property="uniqueId" />
         <result column="S_NAME" property="name" />
-        <result column="S_CATEGORY" property="category"
-            typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result column="S_CATEGORY" property="category" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
         <result column="IS_MULTI" property="multi" />
-        <result column="S_COLUMNS" property="columns"
-            typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
+        <result column="S_COLUMNS" property="columns" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
         <result column="R_META_ID" property="refMetaId" />
     </resultMap>
     <!-- 模板方法 -->
-    <insert id="insert" parameterType="Key" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <insert id="insert" parameterType="Key" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             INSERT INTO SYS_KEYS (
                 K_ID,
@@ -46,8 +43,7 @@
                 R_META_ID
             ) VALUES 
         ]]>
-        <foreach collection="list" item="item" index="index"
-            separator=",">
+        <foreach collection="list" item="item" index="index" separator=",">
             <![CDATA[(
                 #{item.uniqueId},
                 #{item.name},
@@ -58,8 +54,7 @@
             )]]>
         </foreach>
     </insert>
-    <update id="update" parameterType="Key" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <update id="update" parameterType="Key" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             UPDATE SYS_KEYS SET
                 S_NAME=#{name},
@@ -70,16 +65,6 @@
             WHERE K_ID=#{uniqueId}
         ]]>
     </update>
-    <select id="selectAll" resultMap="keyObject">
-        <![CDATA[
-            SELECT * FROM SYS_KEYS
-        ]]>
-    </select>
-    <select id="selectById" parameterType="String" resultMap="keyObject">
-        <![CDATA[
-            SELECT * FROM SYS_KEYS WHERE K_ID=#{uniqueId}
-        ]]>
-    </select>
     <delete id="deleteById" parameterType="String">
         <![CDATA[
             DELETE FROM SYS_KEYS WHERE K_ID=#{uniqueId}
@@ -89,32 +74,54 @@
         <![CDATA[
             DELETE FROM SYS_KEYS WHERE K_ID IN
         ]]>
-        <foreach collection="list" item="item" open="(" separator=","
-            close=")">
+        <foreach collection="list" item="item" open="(" separator="," close=")">
             <![CDATA[
                 #{item}
             ]]>
         </foreach>
     </delete>
-    <delete id="purgeData">
+    <delete id="purge">
         <![CDATA[
             DELETE FROM SYS_KEYS
         ]]>
     </delete>
-    <!-- 扩展接口 -->
-    <delete id="deleteByMeta" parameterType="String">
+    <select id="count" resultType="java.lang.Long">
         <![CDATA[
-            DELETE FROM SYS_KEYS WHERE R_META_ID=#{metaId}
+            SELECT COUNT(K_ID) FROM SYS_KEYS
         ]]>
-    </delete>
-    <select id="selectByMeta" parameterType="String" resultMap="keyObject">
+    </select>
+    <select id="selectAll" resultMap="keyObject">
         <![CDATA[
-            SELECT * FROM SYS_KEYS WHERE R_META_ID=#{metaId}
+            SELECT * FROM SYS_KEYS
+        ]]>
+    </select>
+    <select id="queryList" parameterType="String" resultMap="keyObject">
+        <![CDATA[
+            SELECT * FROM SYS_KEYS WHERE ${where}
+        ]]>
+    </select>
+    <select id="selectById" parameterType="String" resultMap="keyObject">
+        <![CDATA[
+            SELECT * FROM SYS_KEYS WHERE K_ID=#{uniqueId}
         ]]>
     </select>
     <select id="selectByPage" resultMap="keyObject">
-        <![CDATA[
-            SELECT * FROM SYS_KEYS ORDER BY #{order} LIMIT #{size} OFFSET #{start}
-        ]]>
+        <!-- 动态SQL语句 -->
+        <if test="category = 'H2'">
+            <![CDATA[
+                SELECT * FROM SYS_KEYS ORDER BY ${orderBy} LIMIT #{size} OFFSET #{start}
+            ]]>
+        </if>
     </select>
+    <!-- 扩展接口 -->
+    <!-- <delete id="deleteByMeta" parameterType="String"> -->
+    <!-- <![CDATA[ -->
+    <!-- DELETE FROM SYS_KEYS WHERE R_META_ID=#{metaId} -->
+    <!-- ]]> -->
+    <!-- </delete> -->
+    <!-- <select id="selectByMeta" parameterType="String" resultMap="keyObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_KEYS WHERE R_META_ID=#{metaId} -->
+    <!-- ]]> -->
+    <!-- </select> -->
 </mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.facade.metadata.mapper.PEViewMapper">
+    <!-- 结果对象定义 -->
+    <resultMap type="View" id="viewObject">
+        <id column="K_ID" property="uniqueId" />
+        <result column="S_STATUS" property="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+
+        <result column="S_NAME" property="name" />
+        <result column="S_NAMESPACE" property="namespace" />
+        <result column="S_GLOBAL_ID" property="globalId" />
+        <result column="D_CATEGORY" property="category" />
+        <result column="D_VIEW" property="view" />
+        <result column="D_STATEMENT" property="statement" />
+        <result column="D_CHECK_OPTION" property="check" />
+    </resultMap>
+    <!-- 模板方法 -->
+    <insert id="insert" parameterType="View" keyColumn="K_ID" keyProperty="uniqueId">
+        <![CDATA[
+            INSERT INTO SYS_VIEW (
+                K_ID,
+                S_STATUS,
+                S_NAME,
+                S_NAMESPACE,
+                S_GLOBAL_ID,
+                D_CATEGORY,
+                D_VIEW,
+                D_STATEMENT,
+                D_CHECK_OPTION
+            ) VALUES (
+                #{uniqueId},
+                #{status, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                #{name},
+                #{namespace},
+                #{globalId},
+                #{category},
+                #{view},
+                #{statement},
+                #{check}
+            )
+        ]]>
+    </insert>
+    <insert id="batchInsert" parameterType="java.util.List">
+        <![CDATA[
+            INSERT INTO SYS_VIEW (
+                K_ID,
+                S_STATUS,
+                S_NAME,
+                S_NAMESPACE,
+                S_GLOBAL_ID,
+                D_CATEGORY,
+                D_VIEW,
+                D_STATEMENT,
+                D_CHECK_OPTION
+            ) VALUES 
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            <![CDATA[(
+                #{item.uniqueId},
+                #{item.status, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                #{item.name},
+                #{item.namespace},
+                #{item.globalId},
+                #{item.category},
+                #{item.view},
+                #{item.statement},
+                #{item.check}
+            )]]>
+        </foreach>
+    </insert>
+    <update id="update" parameterType="View" keyColumn="K_ID" keyProperty="uniqueId">
+        <![CDATA[
+            UPDATE SYS_VIEW SET
+                S_STATUS=#{status, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                S_NAME=#{name},
+                S_NAMESPACE=#{namespace},
+                S_GLOBAL_ID=#{globalId},
+                D_CATEGORY=#{category},
+                D_VIEW=#{view},
+                D_STATEMENT=#{statement},
+                D_CHECK=#{check}
+            WHERE K_ID=#{uniqueId}
+        ]]>
+    </update>
+
+    <delete id="deleteById" parameterType="String">
+        <![CDATA[
+            DELETE FROM SYS_VIEW WHERE K_ID=#{uniqueId}
+        ]]>
+    </delete>
+
+    <delete id="batchDelete" parameterType="java.util.List">
+        <![CDATA[
+            DELETE FROM SYS_VIEW WHERE K_ID IN
+        ]]>
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            <![CDATA[
+                #{item}
+            ]]>
+        </foreach>
+    </delete>
+    <delete id="purge">
+        <![CDATA[
+            DELETE FROM SYS_VIEW
+        ]]>
+    </delete>
+
+    <select id="count" resultType="java.lang.Long">
+        <![CDATA[
+            SELECT COUNT(K_ID) FROM SYS_VIEW
+        ]]>
+    </select>
+    <select id="selectAll" resultMap="viewObject">
+        <![CDATA[
+            SELECT * FROM SYS_VIEW
+        ]]>
+    </select>
+    <select id="queryList" parameterType="String" resultMap="viewObject">
+        <![CDATA[
+            SELECT * FROM SYS_VIEW WHERE ${where}
+        ]]>
+    </select>
+    <select id="selectById" parameterType="String" resultMap="viewObject">
+        <![CDATA[
+            SELECT * FROM SYS_VIEW WHERE K_ID=#{uniqueId}
+        ]]>
+    </select>
+    <select id="selectByPage" resultMap="viewObject">
+        <!-- 动态SQL语句 -->
+        <if test="category = 'H2'">
+            <![CDATA[
+                SELECT * FROM SYS_VIEW ORDER BY ${orderBy} LIMIT #{size} OFFSET #{start}
+            ]]>
+        </if>
+    </select>
+    <!-- 扩展接口 -->
+    <!-- <delete id="deleteByModel"> -->
+    <!-- <![CDATA[ -->
+    <!-- DELETE FROM SYS_VIEW WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR} -->
+    <!-- ]]> -->
+    <!-- </delete> -->
+    <!-- <select id="selectByModel" resultMap="viewObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_VIEW WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+    <!-- <select id="selectByGlobalId" parameterType="String" resultMap="viewObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_VIEW WHERE S_GLOBAL_ID=#{globalId} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+</mapper>

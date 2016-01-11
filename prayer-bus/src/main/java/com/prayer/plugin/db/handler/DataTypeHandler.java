@@ -35,36 +35,32 @@ public class DataTypeHandler extends BaseTypeHandler<DataType> { // NOPMD
     @Override
     public DataType getNullableResult(final ResultSet retSet, final String columnName) throws SQLException {
         final String repValue = retSet.getString(columnName);
-        DataType retValue = null;
-        if (!retSet.wasNull()) {
-            retValue = DataType.fromString(repValue);
-        }
-        return retValue;
+        return getNull(!retSet.wasNull(), repValue);
     }
 
     /** **/
     @Override
     public DataType getNullableResult(final ResultSet retSet, final int columnIndex) throws SQLException {
         final String repValue = retSet.getString(columnIndex);
-        DataType retValue = null;
-        if (!retSet.wasNull()) {
-            retValue = DataType.fromString(repValue);
-        }
-        return retValue;
+        return getNull(!retSet.wasNull(), repValue);
     }
 
     /** **/
     @Override
     public DataType getNullableResult(final CallableStatement callStmt, final int columnIndex) throws SQLException {
         final String repValue = callStmt.getString(columnIndex);
-        DataType retValue = null;
-        if (!callStmt.wasNull()) {
-            retValue = DataType.fromString(repValue);
-        }
-        return retValue;
+        return getNull(!callStmt.wasNull(), repValue);
     }
     // ~ Get/Set =============================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private DataType getNull(final boolean ret, final String value) {
+        DataType retType = null;
+        if (ret) {
+            retType = DataType.fromString(value);
+        }
+        return retType;
+    }
     // ~ hashCode,equals,toString ============================
 }

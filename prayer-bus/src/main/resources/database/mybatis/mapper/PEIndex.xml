@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.facade.metadata.mapper.PEIndexMapper">
+    <!-- 结果对象定义 -->
+    <resultMap type="Index" id="indexObject">
+        <id column="K_ID" property="uniqueId" />
+        <result column="D_NAME" property="name" />
+        <result column="D_COLUMNS" property="columns" typeHandler="com.prayer.plugin.db.handler.JsonListHandler" />
+        <result column="R_REF_ID" property="refId" />
+    </resultMap>
+    <!-- 模板方法 -->
+    <insert id="insert" parameterType="Index" keyColumn="K_ID" keyProperty="uniqueId">
+        <![CDATA[
+            INSERT INTO SYS_INDEX (
+                K_ID,
+                D_NAME,
+                D_COLUMNS,
+                R_REF_ID
+            ) VALUES (
+                #{uniqueId},
+                #{name},
+                #{columns, typeHandler=com.prayer.plugin.db.handler.JsonListHandler},
+                #{refId}
+            )
+        ]]>
+    </insert>
+    <insert id="batchInsert" parameterType="java.util.List">
+        <![CDATA[
+            INSERT INTO SYS_INDEX (
+                K_ID,
+                D_NAME,
+                D_COLUMNS,
+                R_REF_ID
+            ) VALUES 
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            <![CDATA[(
+                #{item.uniqueId},
+                #{item.name},
+                #{item.columns, typeHandler=com.prayer.plugin.db.handler.JsonListHandler},
+                #{item.refId}
+            )]]>
+        </foreach>
+    </insert>
+    <update id="update" parameterType="Index" keyColumn="K_ID" keyProperty="uniqueId">
+        <![CDATA[
+            UPDATE SYS_INDEX SET
+                D_NAME=#{name},
+                D_COLUMNS=#{columns, typeHandler=com.prayer.plugin.db.handler.JsonListHandler},
+                R_REF_ID=#{refId}
+            WHERE K_ID=#{uniqueId}
+        ]]>
+    </update>
+
+    <delete id="deleteById" parameterType="String">
+        <![CDATA[
+            DELETE FROM SYS_INDEX WHERE K_ID=#{uniqueId}
+        ]]>
+    </delete>
+
+    <delete id="batchDelete" parameterType="java.util.List">
+        <![CDATA[
+            DELETE FROM SYS_INDEX WHERE K_ID IN
+        ]]>
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            <![CDATA[
+                #{item}
+            ]]>
+        </foreach>
+    </delete>
+    <delete id="purge">
+        <![CDATA[
+            DELETE FROM SYS_INDEX
+        ]]>
+    </delete>
+
+    <select id="count" resultType="java.lang.Long">
+        <![CDATA[
+            SELECT COUNT(K_ID) FROM SYS_INDEX
+        ]]>
+    </select>
+    <select id="selectAll" resultMap="indexObject">
+        <![CDATA[
+            SELECT * FROM SYS_INDEX
+        ]]>
+    </select>
+    <select id="queryList" parameterType="String" resultMap="indexObject">
+        <![CDATA[
+            SELECT * FROM SYS_INDEX WHERE ${where}
+        ]]>
+    </select>
+    <select id="selectById" parameterType="String" resultMap="indexObject">
+        <![CDATA[
+            SELECT * FROM SYS_INDEX WHERE K_ID=#{uniqueId}
+        ]]>
+    </select>
+    <select id="selectByPage" resultMap="indexObject">
+        <!-- 动态SQL语句 -->
+        <if test="category = 'H2'">
+            <![CDATA[
+                SELECT * FROM SYS_INDEX ORDER BY ${orderBy} LIMIT #{size} OFFSET #{start}
+            ]]>
+        </if>
+    </select>
+    <!-- 扩展接口 -->
+    <!-- <delete id="deleteByModel"> -->
+    <!-- <![CDATA[ -->
+    <!-- DELETE FROM SYS_INDEX WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR} -->
+    <!-- ]]> -->
+    <!-- </delete> -->
+    <!-- <select id="selectByModel" resultMap="indexObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_INDEX WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+    <!-- <select id="selectByGlobalId" parameterType="String" resultMap="indexObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_INDEX WHERE S_GLOBAL_ID=#{globalId} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+</mapper>

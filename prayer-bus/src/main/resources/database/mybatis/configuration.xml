@@ -32,5 +32,14 @@
         <mapper resource="database/mybatis/mapper/PEAddress.xml" />
         <mapper resource="database/mybatis/mapper/PERoute.xml" />
         <mapper resource="database/mybatis/mapper/PERule.xml" />
+        <mapper resource="database/mybatis/mapper/PEUri.xml" />
+        <mapper resource="database/mybatis/mapper/PEVerticle.xml" />
+        <mapper resource="database/mybatis/mapper/PEMeta.xml" />
+        <mapper resource="database/mybatis/mapper/PEKey.xml" />
+        <mapper resource="database/mybatis/mapper/PEField.xml" />
+        <mapper resource="database/mybatis/mapper/PEView.xml" />
+        <mapper resource="database/mybatis/mapper/PEIndex.xml" />
+        <mapper resource="database/mybatis/mapper/PEVColumn.xml" />
+        <mapper resource="database/mybatis/mapper/PETrigger.xml" />
     </mappers>
 </configuration>

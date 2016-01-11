@@ -2,22 +2,18 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.facade.metadata.mapper.MetaMapper">
+<mapper namespace="com.prayer.facade.metadata.mapper.PEMetaMapper">
     <!-- 结果对象定义 -->
     <resultMap type="Meta" id="metaObject">
         <id column="K_ID" property="uniqueId" />
-        <result column="S_STATUS" property="status"
-            typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result column="S_STATUS" property="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 
         <result column="S_NAME" property="name" />
         <result column="S_NAMESPACE" property="namespace" />
-        <result column="S_CATEGORY" property="category"
-            typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result column="S_CATEGORY" property="category" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
         <result column="S_GLOBAL_ID" property="globalId" />
-        <result column="S_MAPPING" property="mapping"
-            typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
-        <result column="S_POLICY" property="policy"
-            typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result column="S_MAPPING" property="mapping" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result column="S_POLICY" property="policy" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 
         <result column="D_TABLE" property="table" />
         <result column="D_SUB_TABLE" property="subTable" />
@@ -27,8 +23,7 @@
         <result column="D_SEQ_INIT" property="seqInit" />
     </resultMap>
     <!-- 模板方法 -->
-    <insert id="insert" parameterType="Meta" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <insert id="insert" parameterType="Meta" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             INSERT INTO SYS_META (
                 K_ID,
@@ -82,8 +77,7 @@
                 D_SEQ_INIT
             ) VALUES 
         ]]>
-        <foreach collection="list" item="item" index="index"
-            separator=",">
+        <foreach collection="list" item="item" index="index" separator=",">
             <![CDATA[(
                 #{item.uniqueId},
                 #{item.status, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
@@ -102,8 +96,7 @@
             )]]>
         </foreach>
     </insert>
-    <update id="update" parameterType="Meta" keyColumn="K_ID"
-        keyProperty="uniqueId">
+    <update id="update" parameterType="Meta" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
             UPDATE SYS_META SET
                 S_STATUS=#{status, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
@@ -122,9 +115,32 @@
             WHERE K_ID=#{uniqueId}
         ]]>
     </update>
-    <select id="selectById" parameterType="String" resultMap="metaObject">
+
+    <delete id="deleteById" parameterType="String">
         <![CDATA[
-            SELECT * FROM SYS_META WHERE K_ID=#{uniqueId}
+            DELETE FROM SYS_META WHERE K_ID=#{uniqueId}
+        ]]>
+    </delete>
+
+    <delete id="batchDelete" parameterType="java.util.List">
+        <![CDATA[
+            DELETE FROM SYS_META WHERE K_ID IN
+        ]]>
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            <![CDATA[
+                #{item}
+            ]]>
+        </foreach>
+    </delete>
+    <delete id="purge">
+        <![CDATA[
+            DELETE FROM SYS_META
+        ]]>
+    </delete>
+
+    <select id="count" resultType="java.lang.Long">
+        <![CDATA[
+            SELECT COUNT(K_ID) FROM SYS_META
         ]]>
     </select>
     <select id="selectAll" resultMap="metaObject">
@@ -132,47 +148,38 @@
             SELECT * FROM SYS_META
         ]]>
     </select>
-    <delete id="deleteById" parameterType="String">
+    <select id="queryList" parameterType="String" resultMap="metaObject">
         <![CDATA[
-            DELETE FROM SYS_META WHERE K_ID=#{uniqueId}
-        ]]>
-    </delete>
-    <delete id="batchDelete" parameterType="java.util.List">
-        <![CDATA[
-            DELETE FROM SYS_META WHERE K_ID IN
-        ]]>
-        <foreach collection="list" item="item" open="("
-            separator="," close=")">
-            <![CDATA[
-                #{item}
-            ]]>
-        </foreach>
-    </delete>
-    <delete id="purgeData">
-        <![CDATA[
-            DELETE FROM SYS_META
-        ]]>
-    </delete>
-    <!-- 扩展接口 -->
-    <delete id="deleteByModel">
-        <![CDATA[
-            DELETE FROM SYS_META WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR}
-        ]]>
-    </delete>
-    <select id="selectByModel" resultMap="metaObject">
-        <![CDATA[
-            SELECT * FROM SYS_META WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR}
+            SELECT * FROM SYS_META WHERE ${where}
         ]]>
     </select>
-    <select id="selectByGlobalId" parameterType="String"
-        resultMap="metaObject">
+    <select id="selectById" parameterType="String" resultMap="metaObject">
         <![CDATA[
-            SELECT * FROM SYS_META WHERE S_GLOBAL_ID=#{globalId}
+            SELECT * FROM SYS_META WHERE K_ID=#{uniqueId}
         ]]>
     </select>
     <select id="selectByPage" resultMap="metaObject">
-        <![CDATA[
-            SELECT * FROM SYS_META ORDER BY #{order} LIMIT #{size} OFFSET #{start}
-        ]]>
+        <!-- 动态SQL语句 -->
+        <if test="category = 'H2'">
+            <![CDATA[
+                SELECT * FROM SYS_META ORDER BY ${orderBy} LIMIT #{size} OFFSET #{start}
+            ]]>
+        </if>
     </select>
+    <!-- 扩展接口 -->
+    <!-- <delete id="deleteByModel"> -->
+    <!-- <![CDATA[ -->
+    <!-- DELETE FROM SYS_META WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR} -->
+    <!-- ]]> -->
+    <!-- </delete> -->
+    <!-- <select id="selectByModel" resultMap="metaObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_META WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+    <!-- <select id="selectByGlobalId" parameterType="String" resultMap="metaObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_META WHERE S_GLOBAL_ID=#{globalId} -->
+    <!-- ]]> -->
+    <!-- </select> -->
 </mapper>

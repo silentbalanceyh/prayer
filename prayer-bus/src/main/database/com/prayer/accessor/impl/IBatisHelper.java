@@ -78,14 +78,18 @@ public final class IBatisHelper {
     // ~ Static Block ========================================
     /** 静态初始化 **/
     static {
-        /** 简单的单例实现 **/
-        if (null == factory) {
-            /** 读取MyBatis配置 **/
-            final InputStream configuration = IOKit.getFile(Resources.T_CFG_MYBATIS);
-            if (null != configuration) {
-                /** 构造Factory **/
-                factory = new SqlSessionFactoryBuilder().build(configuration, Resources.T_CFG_MB_ENV);
+        try {
+            /** 简单的单例实现 **/
+            if (null == factory) {
+                /** 读取MyBatis配置 **/
+                final InputStream configuration = IOKit.getFile(Resources.T_CFG_MYBATIS);
+                if (null != configuration) {
+                    /** 构造Factory **/
+                    factory = new SqlSessionFactoryBuilder().build(configuration, Resources.T_CFG_MB_ENV);
+                }
             }
+        } catch (Exception ex) {
+            jvmError(LOGGER, ex);
         }
     }
 

@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
+import com.prayer.constant.Constants;
 import com.prayer.util.io.JsonKit;
 
 /**
@@ -31,33 +32,21 @@ public class ArrayHandler extends BaseTypeHandler<List<String>> { // NOPMD
     @Override
     public List<String> getNullableResult(final ResultSet retSet, final String columnName) throws SQLException {
         final String retValue = retSet.getString(columnName);
-        List<String> retList = new ArrayList<>();
-        if (!retSet.wasNull()) {
-            retList = JsonKit.fromStr(retList.getClass(), retValue);
-        }
-        return retList;
+        return getNull(!retSet.wasNull(), retValue);
     }
 
     /** **/
     @Override
     public List<String> getNullableResult(final ResultSet retSet, final int columnIndex) throws SQLException {
         final String retValue = retSet.getString(columnIndex);
-        List<String> retList = new ArrayList<>();
-        if (!retSet.wasNull()) {
-            retList = JsonKit.fromStr(retList.getClass(), retValue);
-        }
-        return retList;
+        return getNull(!retSet.wasNull(), retValue);
     }
 
     /** **/
     @Override
     public List<String> getNullableResult(final CallableStatement callStmt, final int columnIndex) throws SQLException {
         final String retValue = callStmt.getString(columnIndex);
-        List<String> retList = new ArrayList<>();
-        if (!callStmt.wasNull()) {
-            retList = JsonKit.fromStr(retList.getClass(), retValue);
-        }
-        return retList;
+        return getNull(!callStmt.wasNull(), retValue);
     }
 
     /** **/
@@ -65,10 +54,19 @@ public class ArrayHandler extends BaseTypeHandler<List<String>> { // NOPMD
     public void setNonNullParameter(final PreparedStatement pstmt, final int colIndex, final List<String> parameter,
             final JdbcType jdbcType) throws SQLException {
         final String paramStr = JsonKit.toStr(parameter);
-        pstmt.setString(colIndex, null == paramStr ? "[]" : paramStr);
+        pstmt.setString(colIndex, null == paramStr ? Constants.EMPTY_JARR : paramStr);
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private List<String> getNull(final boolean ret, final String value) {
+        List<String> retList = new ArrayList<>();
+        if (ret) {
+            retList = JsonKit.fromStr(retList.getClass(), value);
+        }
+        return retList;
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 }

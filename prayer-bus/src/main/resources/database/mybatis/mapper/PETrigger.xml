@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prayer.facade.metadata.mapper.PETriggerMapper">
+    <!-- 结果对象定义 -->
+    <resultMap type="Trigger" id="triggerObject">
+        <id column="K_ID" property="uniqueId" />
+        <result column="D_NAME" property="name" />
+        <result column="D_CATEGORY" property="category" />
+
+        <result column="D_TARGET" property="target" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result column="D_OP_TYPE" property="opType" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result column="D_MODE" property="mode" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+
+        <result column="D_STATEMENT" property="statement" />
+        <result column="R_REF_ID" property="refId" />
+    </resultMap>
+    <!-- 模板方法 -->
+    <insert id="insert" parameterType="Trigger" keyColumn="K_ID" keyProperty="uniqueId">
+        <![CDATA[
+            INSERT INTO SYS_TRIGGER (
+                K_ID,
+                D_NAME,
+                D_CATEGORY,
+                D_TARGET,
+                D_OP_TYPE,
+                D_MODE,
+                D_STATEMENT,
+                R_REF_ID
+            ) VALUES (
+                #{uniqueId},
+                #{name},
+                #{category},
+                #{target, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                #{opType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                #{mode, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                #{statement},
+                #{refId}
+            )
+        ]]>
+    </insert>
+    <insert id="batchInsert" parameterType="java.util.List">
+        <![CDATA[
+            INSERT INTO SYS_TRIGGER (
+                K_ID,
+                D_NAME,
+                D_CATEGORY,
+                D_TARGET,
+                D_OP_TYPE,
+                D_MODE,
+                D_STATEMENT,
+                R_REF_ID
+            ) VALUES 
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            <![CDATA[(
+                #{item.uniqueId},
+                #{item.name},
+                #{item.category},
+                #{item.target, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                #{item.opType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                #{item.mode, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                #{item.statement},
+                #{item.refId}
+            )]]>
+        </foreach>
+    </insert>
+    <update id="update" parameterType="Trigger" keyColumn="K_ID" keyProperty="uniqueId">
+        <![CDATA[
+            UPDATE SYS_TRIGGER SET
+                D_NAME=#{name},
+                D_CATEGORY=#{category},
+                D_TARGET=#{target, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                D_OP_TYPE=#{opType, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                D_MODE=#{mode, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+                D_STATEMENT=#{statement},
+                R_REF_ID=#{refId}
+            WHERE K_ID=#{uniqueId}
+        ]]>
+    </update>
+
+    <delete id="deleteById" parameterType="String">
+        <![CDATA[
+            DELETE FROM SYS_TRIGGER WHERE K_ID=#{uniqueId}
+        ]]>
+    </delete>
+
+    <delete id="batchDelete" parameterType="java.util.List">
+        <![CDATA[
+            DELETE FROM SYS_TRIGGER WHERE K_ID IN
+        ]]>
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            <![CDATA[
+                #{item}
+            ]]>
+        </foreach>
+    </delete>
+    <delete id="purge">
+        <![CDATA[
+            DELETE FROM SYS_TRIGGER
+        ]]>
+    </delete>
+
+    <select id="count" resultType="java.lang.Long">
+        <![CDATA[
+            SELECT COUNT(K_ID) FROM SYS_TRIGGER
+        ]]>
+    </select>
+    <select id="selectAll" resultMap="triggerObject">
+        <![CDATA[
+            SELECT * FROM SYS_TRIGGER
+        ]]>
+    </select>
+    <select id="queryList" parameterType="String" resultMap="triggerObject">
+        <![CDATA[
+            SELECT * FROM SYS_TRIGGER WHERE ${where}
+        ]]>
+    </select>
+    <select id="selectById" parameterType="String" resultMap="triggerObject">
+        <![CDATA[
+            SELECT * FROM SYS_TRIGGER WHERE K_ID=#{uniqueId}
+        ]]>
+    </select>
+    <select id="selectByPage" resultMap="triggerObject">
+        <!-- 动态SQL语句 -->
+        <if test="category = 'H2'">
+            <![CDATA[
+                SELECT * FROM SYS_TRIGGER ORDER BY ${orderBy} LIMIT #{size} OFFSET #{start}
+            ]]>
+        </if>
+    </select>
+    <!-- 扩展接口 -->
+    <!-- <delete id="deleteByModel"> -->
+    <!-- <![CDATA[ -->
+    <!-- DELETE FROM SYS_TRIGGER WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR} -->
+    <!-- ]]> -->
+    <!-- </delete> -->
+    <!-- <select id="selectByModel" resultMap="triggerObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_TRIGGER WHERE S_NAMESPACE=#{namespace,jdbcType=VARCHAR} AND S_NAME=#{name,jdbcType=VARCHAR} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+    <!-- <select id="selectByGlobalId" parameterType="String" resultMap="triggerObject"> -->
+    <!-- <![CDATA[ -->
+    <!-- SELECT * FROM SYS_TRIGGER WHERE S_GLOBAL_ID=#{globalId} -->
+    <!-- ]]> -->
+    <!-- </select> -->
+</mapper>
