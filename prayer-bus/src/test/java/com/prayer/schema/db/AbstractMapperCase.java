@@ -232,7 +232,7 @@ public abstract class AbstractMapperCase<T, ID extends Serializable> { // NOPMD
         final boolean ret = entities.size() <= queriedTs.size() && !queriedTs.isEmpty();
         assertTrue("[E] Insert & Select Error!", ret);
         // 清除系统中的所有数据
-        mapper.purgeData();
+        mapper.purge();
         this.session().commit();
     }
 

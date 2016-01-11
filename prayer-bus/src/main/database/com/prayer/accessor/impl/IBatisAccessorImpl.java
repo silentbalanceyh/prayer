@@ -1,38 +1,19 @@
 package com.prayer.accessor.impl;
 
 import static com.prayer.util.Generator.uuid;
-import static com.prayer.util.debug.Log.peError;
-import static com.prayer.util.reflection.Instance.field;
-import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.transaction.Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.prayer.base.accessor.AbstractIBatisAccessor;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
-import com.prayer.constant.MemoryPool;
-import com.prayer.exception.database.MapperClassNullException;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.entity.Entity;
 import com.prayer.facade.metadata.mapper.IBatisMapper;
-import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.pool.impl.jdbc.H2ConnImpl;
 
-import net.sf.oval.constraint.InstanceOf;
-import net.sf.oval.constraint.Min;
-import net.sf.oval.constraint.MinSize;
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
 
 /**
  * 一个Dao的标准实现模型，包含了模板方法
@@ -40,200 +21,168 @@ import net.sf.oval.guard.Guarded;
  * @author Lang
  *
  */
-@SuppressWarnings("unchecked")
-@Guarded
-public class IBatisAccessorImpl<T extends Entity, ID extends Serializable> extends AbstractIBatisAccessor implements MetaAccessor<T, ID> { // NOPMD
+public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(IBatisAccessorImpl.class);
-    /** Exception Class **/
-    protected static final String EXP_CLASS = "com.prayer.exception.vertx.DataAccessException";
-
     // ~ Instance Fields =====================================
+    /** VO -> Value Object用于维护实体的类型信息 **/
+    @NotNull
+    private transient final Class<?> entityCls;
+    /** Helper **/
+    @NotNull
+    private transient final IBatisHelper helper;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    
+    /**
+     * 单参数的构造函数，这个操作必须
+     * 
+     * @param entityCls
+     */
+    public IBatisAccessorImpl(final Class<?> entityCls) {
+        this.entityCls = entityCls;
+        this.helper = IBatisHelper.create();
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** 日志记录器 **/
+    /**
+     * 
+     */
     @Override
-    protected Logger getLogger() {
-        return LOGGER;
-    }
-
-    /** 可支持批量创建的创建方法 **/
-    @Override
-    public List<T> insert(@NotNull @MinSize(1) final T... entities) throws AbstractTransactionException {
-        // 1.设置返回List
-        final List<T> retList = new ArrayList<>();
-        // 2.开启Mybatis事务处理
-        final SqlSession session = session();
-        final Transaction transaction = transaction();
-        // 3.执行插入操作
-        final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
-        {
-            if (Constants.ONE == entities.length) {
-                final T entity = entities[0];
-                // 3.1.1.单挑记录ID设置
-                if (null == field(entity, Constants.PID)) {
-                    field(entity, Constants.PID, uuid());
-                }
-                // 3.1.2.数据库插入
-                mapper.insert(entity);
-                retList.add(entity);
-            } else {
-                // 3.2.1.批量插入
-                for (final T item : entities) {
-                    if (null == field(item, Constants.PID)) {
-                        field(item, Constants.PID, uuid());
-                    }
-                }
-                // 3.2.2.批量处理插入
-                final List<T> params = Arrays.asList(entities);
-                mapper.batchInsert(params);
-                retList.addAll(params);
-            }
-        }
-        // 4.事务提交
-        submit(transaction, EXP_CLASS);
-        return retList;
-    }
-
-    /** 更新的模板方法 **/
-    @Override
-    public T update(@NotNull final T entity) throws AbstractTransactionException {
-        // 1.开启Mybatis事务
-        final SqlSession session = session();
-        final Transaction transaction = transaction();
-        // 2.获取Mapper
-        final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
-        {
-            // 3.更新数据信息
-            mapper.update(entity);
-        }
-        // 4.事务提交
-        submit(transaction, EXP_CLASS);
-        return entity;
-    }
-
-    /** 删除的模板方法 **/
-    @Override
-    public boolean deleteById(@NotNull final ID uniqueId) throws AbstractTransactionException {
-        // 1.开启Mybatis事务
-        final SqlSession session = session();
-        final Transaction transaction = transaction();
-        // 2.删除当前记录
-        final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
-        mapper.deleteById(uniqueId);
-        // 3.事务提交完成
-        submit(transaction, EXP_CLASS);
-        return true;
-    }
-
-    /** 获取实体的模板方法 **/
-    @Override
-    public T getById(@NotNull final ID uniqueId) {
-        // 1.初始化SqlSession
-        final SqlSession session = session();
-        T ret = null;
-        try {
-            // 2.获取Mapper
-            final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
-            // 3.读取返回信息
-            ret = mapper.selectById(uniqueId);
-            // 4.关闭Session返回结构
-            session.close();
-        } catch (AbstractTransactionException ex) {
-            peError(LOGGER, ex);
+    public Entity insert(final Entity entity) throws AbstractTransactionException {
+        final List<Entity> retList = this.insert(new Entity[] { entity });
+        Entity ret = null;
+        if (!retList.isEmpty()) {
+            ret = retList.get(Constants.IDX);
         }
         return ret;
     }
 
-    /** 获取所有数据的模板方法 **/
+    /**
+     * 支持插入、批量插入两种类型
+     */
     @Override
-    public List<T> getAll() {
-        // 1.初始化SqlSession
-        final SqlSession session = session();
-        List<T> retList = null;
-        try {
-            // 2.获取Mapper
-            final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
-            // 3.读取返回列表
-            retList = mapper.selectAll();
-            // 4.关闭Session返回最终结果
-            session.close();
-        } catch (AbstractTransactionException ex) {
-            peError(LOGGER, ex);
+    public List<Entity> insert(final Entity... entities) throws AbstractTransactionException {
+        // 1.开启Transaction
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
+        // 2.设置返回的List
+        final List<Entity> retList = new ArrayList<>();
+        // 3.插入操作，考虑主键的UUID设置
+        {
+            /**
+             * 直接过滤掉null的实体，不处理这种类型
+             */
+            if (Constants.ONE == entities.length) {
+                final Entity entity = entities[Constants.IDX];
+                if (null != entity) {
+                    // 4.1.1 -> ID: By Reference
+                    if (null == entity.id()) {
+                        entity.id(uuid());
+                    }
+                    // 4.1.2 -> 插入
+                    mapper.insert(entity);
+                    retList.add(entity);
+                }
+            } else {
+                // 4.2.1 -> ID：By Reference
+                for (final Entity item : entities) {
+                    if (null != item) {
+                        if (null == item.id()) {
+                            item.id(uuid());
+                        }
+                    }
+                }
+                // 4.2.2 -> 批量插入
+                final List<Entity> params = Arrays.asList(entities);
+                mapper.batchInsert(params);
+                retList.addAll(params);
+            }
         }
+        // 5.事务提交，必须带此语句
+        this.helper.endTransaction();
         return retList;
+    }
+
+    // Helper中的事务处理流程
+    // 1.this.helper.beginTransaction(this.entityCls)
+    // 2.mapper.<operation> on Entity
+    // 3.this.helper.submit()
+    /**
+     * 更新实体的方法
+     */
+    @Override
+    public Entity update(final Entity entity) throws AbstractTransactionException {
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
+        mapper.update(entity);
+        this.helper.endTransaction();
+        return entity;
     }
 
     /**
-     * 
-     * @return
+     * 根据ID删除某个实体的方法
      */
     @Override
-    public List<T> getByPage(@Min(1) final int index, @Min(1) final int size,
-            @NotNull @NotEmpty @NotBlank final String orderBy) {
-        // 1.初始化SqlSession
-        final SqlSession session = session();
-        // 2.计算偏移量
-        final int start = (index - 1) * size;
-        List<T> retList = null;
-        try {
-            // 3.获取Mapper
-            final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
-            // 4.读取返回列表
-            retList = mapper.selectByPage(start, size, orderBy);
-            // 5.关闭Session返回最终结果
-            session.close();
-        } catch (AbstractTransactionException ex) {
-            peError(LOGGER, ex);
-        }
-        return retList;
-    }
-
-    /** 清空数据库中的数据 **/
-    @Override
-    public boolean purge() throws AbstractTransactionException {
-        // 1.开启Mybatis事务
-        final SqlSession session = session();
-        final Transaction transaction = transaction();
-        // 2.删除当前记录
-        final IBatisMapper<T, ID> mapper = (IBatisMapper<T, ID>) session.getMapper(mapper());
-        mapper.purgeData();
-        // 3.事务提交完成
-        submit(transaction, EXP_CLASS);
+    public boolean deleteById(final Serializable uniqueId) throws AbstractTransactionException {
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
+        mapper.deleteById(uniqueId);
+        this.helper.endTransaction();
         return true;
     }
 
-    /** 获取连接信息 **/
-    @NotNull
-    @InstanceOf(JdbcConnection.class)
-    public JdbcConnection getContext(@NotNull @NotEmpty @NotBlank final String identifier) {
-        JdbcConnection context = MemoryPool.POOL_JDBC.get(identifier);
-        if (null == context) {
-            context = reservoir(MemoryPool.POOL_JDBC, identifier, H2ConnImpl.class);
-        }
-        return context;
-    }
-
-    // ~ Methods =============================================
-    // ~ Private Methods =====================================
-    private Class<?> mapper() throws AbstractTransactionException {
-        final Class<?> mapperClass = null; // getMapper();
-        if (null == mapperClass) {
-            throw new MapperClassNullException(getClass(), getClass().getName());
-        }
-        return mapperClass;
-    }
-    // ~ Get/Set =============================================
-    // ~ hashCode,equals,toString ============================
-
+    /**
+     * 根据ID获取Entity
+     */
     @Override
-    public List<T> queryList(String whereClause) {
-        // TODO Auto-generated method stub
-        return null;
+    public Entity getById(final Serializable uniqueId) {
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginQuery(this.entityCls);
+        final Entity entity = mapper.selectById(uniqueId);
+        this.helper.endQuery();
+        return entity;
     }
+
+    /**
+     * 查询系统中所有的Entity
+     */
+    @Override
+    public List<Entity> getAll() {
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginQuery(this.entityCls);
+        final List<Entity> entities = mapper.selectAll();
+        this.helper.endQuery();
+        return entities;
+    }
+
+    /**
+     * 分页查询系统中所有的Entity
+     */
+    @Override
+    public List<Entity> getByPage(final int index, final int size, final String orderBy) {
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginQuery(this.entityCls);
+        final List<Entity> entities = mapper.selectByPage(index, size, orderBy);
+        this.helper.endQuery();
+        return entities;
+    }
+
+    /**
+     * 按照WHERE子句查询系统中所有的Entities
+     */
+    @Override
+    public List<Entity> queryList(final String whereClause) {
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginQuery(this.entityCls);
+        final List<Entity> entities = mapper.queryList(whereClause);
+        this.helper.endQuery();
+        return entities;
+    }
+
+    /**
+     * 执行某个表的Purge操作
+     */
+    @Override
+    public boolean purge() throws AbstractTransactionException {
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
+        mapper.purge();
+        this.helper.endTransaction();
+        return true;
+    }
+
 }

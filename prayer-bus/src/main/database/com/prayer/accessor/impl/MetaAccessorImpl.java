@@ -1,11 +1,12 @@
 package com.prayer.accessor.impl;
 
-import static com.prayer.util.reflection.Instance.singleton;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.io.Serializable;
 import java.util.List;
 
 import com.prayer.base.exception.AbstractTransactionException;
+import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.entity.Entity;
@@ -25,23 +26,35 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class MetaAccessorImpl implements MetaAccessor<Entity, String> {
+public class MetaAccessorImpl implements MetaAccessor {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /**
      * 用于访问底层元数据的Accessor
      */
-    private transient final MetaAccessor<Entity, Serializable> accessor;
+    private transient final MetaAccessor accessor;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /**
-     * 默认无参构造函数
+     * 带一个参数的构造函数
+     * 
+     * @param entityCls
+     *            实体的真实类型，该类型会影响底层获取Mapper
      */
-    public MetaAccessorImpl() {
-        this.accessor = singleton(Resources.META_ACCESSOR);
+    public MetaAccessorImpl(@NotNull final Class<?> entityCls) {
+        /**
+         * 池化操作，每一个实现必须包含一个值对象，这个对象存储了操作实体的类型
+         * 即传入的entityCls表示其类型，使用池化的目的是防止单件的非初始化操作，保证Accessor操作的实体是准确无误的，最终目的：
+         * 每一个类型的元数据对象仅拥有一个Accessor
+         */
+        // PEAddress -> IBatisAccessorImpl ( PEAddress.class )
+        // PERule -> IBatisAccessorImpl ( PERule.class )
+        // PEScript -> IBatisAccessorImpl ( PEScript.class )
+        // ......
+        this.accessor = reservoir(MemoryPool.POOL_ACCESSOR, entityCls.getName(), Resources.META_ACCESSOR, entityCls);
     }
 
     // ~ Abstract Methods ====================================
@@ -53,8 +66,20 @@ public class MetaAccessorImpl implements MetaAccessor<Entity, String> {
      * @throws AbstractTransactionException
      */
     @Override
+    @InstanceOf(Entity.class)
+    public Entity insert(@NotNull final Entity entity) throws AbstractTransactionException {
+        return this.getAccessor().insert(entity);
+    }
+
+    /**
+     * 
+     * @param entity
+     * @return
+     * @throws AbstractTransactionException
+     */
+    @Override
     @InstanceOf(List.class)
-    public List<Entity> insert(@MinSize(1) final Entity... entity) throws AbstractTransactionException {
+    public List<Entity> insert(@NotNull @MinSize(1) final Entity... entity) throws AbstractTransactionException {
         return this.getAccessor().insert(entity);
     }
 
@@ -78,7 +103,8 @@ public class MetaAccessorImpl implements MetaAccessor<Entity, String> {
      * @throws AbstractTransactionException
      */
     @Override
-    public boolean deleteById(@NotNull @NotBlank @NotEmpty final String uniqueId) throws AbstractTransactionException {
+    public boolean deleteById(@NotNull @NotBlank @NotEmpty final Serializable uniqueId)
+            throws AbstractTransactionException {
         return this.getAccessor().deleteById(uniqueId);
     }
 
@@ -89,7 +115,7 @@ public class MetaAccessorImpl implements MetaAccessor<Entity, String> {
      */
     @Override
     @InstanceOf(Entity.class)
-    public Entity getById(@NotNull @NotBlank @NotEmpty final String uniqueId) {
+    public Entity getById(@NotNull @NotBlank @NotEmpty final Serializable uniqueId) {
         return this.getAccessor().getById(uniqueId);
     }
 
@@ -136,7 +162,7 @@ public class MetaAccessorImpl implements MetaAccessor<Entity, String> {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private MetaAccessor<Entity, Serializable> getAccessor() {
+    private MetaAccessor getAccessor() {
         return this.accessor;
     }
     // ~ Get/Set =============================================

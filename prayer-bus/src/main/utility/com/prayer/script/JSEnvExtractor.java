@@ -1,8 +1,5 @@
 package com.prayer.script;
 
-import static com.prayer.util.reflection.Instance.singleton;
-
-import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
@@ -33,13 +30,13 @@ public final class JSEnvExtractor {
     /** Config Service 接口 **/
     @NotNull
     @InstanceOf(ConfigService.class)
-    private transient final ConfigService configSev;    // NOPMD
+    private transient ConfigService configSev;    // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     @PostValidateThis
     JSEnvExtractor(){
-        this.configSev = singleton(ConfigSevImpl.class);
+        // this.configSev = singleton(ConfigSevImpl.class);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

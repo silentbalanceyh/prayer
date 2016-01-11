@@ -13,8 +13,16 @@ import com.prayer.facade.entity.Entity;
  *
  * @param <T>
  */
-@SuppressWarnings("unchecked")
-public interface MetaAccessor<T extends Entity, ID extends Serializable> { // NOPMD
+public interface MetaAccessor { // NOPMD
+    /**
+     * 单条记录插入
+     * 
+     * @param entity
+     * @return
+     * @throws AbstractTransactionException
+     */
+    Entity insert(Entity entity) throws AbstractTransactionException;
+
     /**
      * 添加Entity实体操作
      * 
@@ -24,7 +32,7 @@ public interface MetaAccessor<T extends Entity, ID extends Serializable> { // NO
      */
     // 1.支持单个Entity的插入
     // 2.支持批量的Entity的插入
-    List<T> insert(T... entity) throws AbstractTransactionException;
+    List<Entity> insert(Entity... entity) throws AbstractTransactionException;
 
     /**
      * 单个Entity的更新操作
@@ -33,7 +41,7 @@ public interface MetaAccessor<T extends Entity, ID extends Serializable> { // NO
      * @return
      * @throws AbstractTransactionException
      */
-    T update(T entity) throws AbstractTransactionException;
+    Entity update(Entity entity) throws AbstractTransactionException;
 
     /**
      * 删除单个Entity实体
@@ -42,7 +50,7 @@ public interface MetaAccessor<T extends Entity, ID extends Serializable> { // NO
      * @return
      * @throws AbstractTransactionException
      */
-    boolean deleteById(ID uniqueId) throws AbstractTransactionException;
+    boolean deleteById(Serializable uniqueId) throws AbstractTransactionException;
 
     /**
      * 按照ID从系统中读取单个Entity
@@ -51,14 +59,14 @@ public interface MetaAccessor<T extends Entity, ID extends Serializable> { // NO
      * @return
      * @throws AbstractTransactionException
      */
-    T getById(ID uniqueId);
+    Entity getById(Serializable uniqueId);
 
     /**
      * 读取所有的Entity
      * 
      * @return
      */
-    List<T> getAll();
+    List<Entity> getAll();
 
     /**
      * 分页读取Entity的集合
@@ -70,14 +78,15 @@ public interface MetaAccessor<T extends Entity, ID extends Serializable> { // NO
      * @param orderBy
      * @return
      */
-    List<T> getByPage(int index, int size, String orderBy);
+    List<Entity> getByPage(int index, int size, String orderBy);
 
     /**
      * 提供WHERE子句，实现动态查询
+     * 
      * @param where
      * @return
      */
-    List<T> queryList(String whereClause);
+    List<Entity> queryList(String whereClause);
 
     /**
      * 删除元数据表中所有的数据

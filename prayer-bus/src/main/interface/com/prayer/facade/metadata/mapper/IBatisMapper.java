@@ -71,7 +71,7 @@ public interface IBatisMapper<T, ID> { // NOPMD
      * 
      * @return
      */
-    boolean purgeData();
+    boolean purge();
 
     /**
      * 

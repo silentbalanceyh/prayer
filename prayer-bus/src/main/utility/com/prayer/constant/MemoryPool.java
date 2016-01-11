@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import com.prayer.base.pool.AbstractJdbcPool;
 import com.prayer.bus.impl.std.ServiceHelper;
+import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.dao.Builder;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.DataValidator;
@@ -17,11 +18,14 @@ import com.prayer.model.kernel.MetaConnector;
 
 /**
  * 静态变量统一管理
+ * 
  * @author Lang
  *
  */
-public interface MemoryPool {    // NOPMD
+public interface MemoryPool { // NOPMD
     // ~ Static Fields =======================================
+    /** Accessor Pool **/
+    ConcurrentMap<String, MetaAccessor> POOL_ACCESSOR = new ConcurrentHashMap<>();
     /** Metadata Builder Pool **/
     ConcurrentMap<String, Builder> POOL_BUILDER = new ConcurrentHashMap<>();
     /** Schema Importer Pool **/
