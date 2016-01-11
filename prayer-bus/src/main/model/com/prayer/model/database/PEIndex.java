@@ -19,7 +19,7 @@ import io.vertx.core.json.JsonObject;
  *
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = Attributes.ID)
-public class PEIndex extends AbstractEntity {
+public class PEIndex extends AbstractEntity<String> {
     // ~ Static Fields =======================================
     /**
      * 
@@ -105,6 +105,7 @@ public class PEIndex extends AbstractEntity {
     /**
      * @return the uniqueId
      */
+    @Override
     public String getUniqueId() {
         return uniqueId;
     }
@@ -113,6 +114,7 @@ public class PEIndex extends AbstractEntity {
      * @param uniqueId
      *            the uniqueId to set
      */
+    @Override
     public void setUniqueId(final String uniqueId) {
         this.uniqueId = uniqueId;
     }

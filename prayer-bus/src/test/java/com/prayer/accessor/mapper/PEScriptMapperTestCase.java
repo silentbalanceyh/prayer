@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.facade.entity.Entity;
+import com.prayer.facade.metadata.mapper.IBatisMapper;
 import com.prayer.facade.metadata.mapper.PEScriptMapper;
 import com.prayer.model.vertx.PEScript;
 
@@ -33,7 +35,7 @@ public class PEScriptMapperTestCase extends AbstractMapperTestCase<PEScript> {
     @Test
     public void testInsert() throws AbstractDatabaseException {
         final PEScript instance = new PEScript(this.readData("/mapper/pescript/script.json"));
-        final PEScriptMapper mapper = session().getMapper(PEScriptMapper.class);
+        final IBatisMapper<Entity,String> mapper = (IBatisMapper<Entity,String>)session().getMapper(PEScriptMapper.class);
         mapper.insert(instance);
     }
     // ~ Private Methods =====================================

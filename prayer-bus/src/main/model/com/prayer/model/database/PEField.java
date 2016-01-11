@@ -25,7 +25,7 @@ import io.vertx.core.json.JsonObject;
  * @see
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = Attributes.ID)
-public class PEField extends AbstractEntity { // NOPMD
+public class PEField extends AbstractEntity<String> { // NOPMD
     // ~ Static Fields =======================================
     /**
      * 
@@ -258,6 +258,7 @@ public class PEField extends AbstractEntity { // NOPMD
     /**
      * @return the uniqueId
      */
+    @Override
     public String getUniqueId() {
         return uniqueId;
     }
@@ -266,6 +267,7 @@ public class PEField extends AbstractEntity { // NOPMD
      * @param uniqueId
      *            the uniqueId to set
      */
+    @Override
     public void setUniqueId(final String uniqueId) {
         this.uniqueId = uniqueId;
     }
