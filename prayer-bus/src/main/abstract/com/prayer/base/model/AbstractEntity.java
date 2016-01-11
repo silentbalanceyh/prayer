@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.prayer.facade.entity.Attributes;
+import com.prayer.facade.entity.BeanGet;
+import com.prayer.facade.entity.BeanSet;
 import com.prayer.facade.entity.Entity;
 import com.prayer.util.entity.bits.BitsBasic;
 import com.prayer.util.entity.stream.StreamBasic;
@@ -12,8 +14,6 @@ import com.prayer.util.entity.stream.StreamEnum;
 import com.prayer.util.entity.stream.StreamJson;
 import com.prayer.util.entity.stream.StreamList;
 import com.prayer.util.entity.stream.StreamString;
-import com.prayer.util.fun.BeanGet;
-import com.prayer.util.fun.BeanSet;
 import com.prayer.util.reflection.Instance;
 
 import io.vertx.core.buffer.Buffer;

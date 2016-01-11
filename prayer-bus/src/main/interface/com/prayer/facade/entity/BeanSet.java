@@ -1,4 +1,4 @@
-package com.prayer.util.fun;
+package com.prayer.facade.entity;
 /**
  * Java Bean专用方法void set(String)
  * @author Lang

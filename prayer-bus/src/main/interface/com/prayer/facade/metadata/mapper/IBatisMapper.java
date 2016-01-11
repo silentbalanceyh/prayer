@@ -59,19 +59,28 @@ public interface IBatisMapper<T, ID> { // NOPMD
     List<T> selectAll();
 
     /**
-     * 
+     * @param category 动态SQL参数，判断元数据信息
      * @param order
      * @param size
      * @param start
      * @return
      */
-    List<T> selectByPage(@Param("start") int start, @Param("size") int size, @Param("order") String order);
+    List<T> selectByPage(@Param("category") String category, @Param("orderBy") String order, @Param("size") int size,
+            @Param("start") int start);
 
     /**
+     * 将目前系统中的数据清除
      * 
      * @return
      */
     boolean purge();
+
+    /**
+     * 统计系统中的数据总量
+     * 
+     * @return
+     */
+    long count();
 
     /**
      * 

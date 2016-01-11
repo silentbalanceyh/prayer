@@ -6,9 +6,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
+import com.prayer.facade.accessor.IBatisMixer;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.entity.Entity;
 import com.prayer.facade.metadata.mapper.IBatisMapper;
@@ -23,6 +27,8 @@ import net.sf.oval.constraint.NotNull;
  */
 public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     // ~ Static Fields =======================================
+    /** **/
+    private static final ConcurrentMap<String, IBatisMixer> OFFSET_FUN = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     /** VO -> Value Object用于维护实体的类型信息 **/
     @NotNull
@@ -42,6 +48,10 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     public IBatisAccessorImpl(final Class<?> entityCls) {
         this.entityCls = entityCls;
         this.helper = IBatisHelper.create();
+        if (OFFSET_FUN.isEmpty()) {
+            // TODO: 暂时是H2的，计算Offset，可使用函数引用进行分离
+            OFFSET_FUN.put(Resources.META_CATEGORY, IBatisPagerMixer::offset);
+        }
     }
 
     // ~ Abstract Methods ====================================
@@ -131,6 +141,17 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     }
 
     /**
+     * 批量删除
+     */
+    @Override
+    public boolean deleteById(final Serializable... uniqueId) throws AbstractTransactionException {
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
+        mapper.batchDelete(Arrays.asList(uniqueId));
+        this.helper.endTransaction();
+        return true;
+    }
+
+    /**
      * 根据ID获取Entity
      */
     @Override
@@ -158,7 +179,8 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     @Override
     public List<Entity> getByPage(final int index, final int size, final String orderBy) {
         final IBatisMapper<Entity, Serializable> mapper = this.helper.beginQuery(this.entityCls);
-        final List<Entity> entities = mapper.selectByPage(index, size, orderBy);
+        final int offset = OFFSET_FUN.get(Resources.META_CATEGORY).offset(index, size);
+        final List<Entity> entities = mapper.selectByPage(Resources.META_CATEGORY, orderBy, size, offset);
         this.helper.endQuery();
         return entities;
     }
@@ -172,6 +194,17 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
         final List<Entity> entities = mapper.queryList(whereClause);
         this.helper.endQuery();
         return entities;
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public long count() {
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginQuery(this.entityCls);
+        final long count = mapper.count();
+        this.helper.endQuery();
+        return count;
     }
 
     /**

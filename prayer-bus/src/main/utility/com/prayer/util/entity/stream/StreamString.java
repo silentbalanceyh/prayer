@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
+import com.prayer.facade.entity.BeanGet;
+import com.prayer.facade.entity.BeanSet;
 import com.prayer.util.entity.bits.BitsString;
-import com.prayer.util.fun.BeanGet;
-import com.prayer.util.fun.BeanSet;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;

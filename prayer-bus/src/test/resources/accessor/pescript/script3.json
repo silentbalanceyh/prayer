@@ -1,0 +1,27 @@
+[
+    {
+        "name":"LANG1",
+        "namespace":"com.lang.namespace1",
+        "content":"var i = \"exe\";1"
+    },
+    {
+        "name":"LANG2",
+        "namespace":"com.lang.namespace2",
+        "content":"var i = \"exe\";2"
+    },
+    {
+        "name":"LANG3",
+        "namespace":"com.lang.namespace3",
+        "content":"var i = \"exe\";3"
+    },
+    {
+        "name":"LANG4",
+        "namespace":"com.lang.namespace4",
+        "content":"var i = \"exe\";4"
+    },
+    {
+        "name":"LANG5",
+        "namespace":"com.lang.namespace5",
+        "content":"var i = \"exe\";5"
+    }
+]

@@ -63,18 +63,28 @@
         <![CDATA[
             DELETE FROM ENG_SCRIPT WHERE K_ID IN
         ]]>
-        <foreach collection="list" item="item" open="(" separator=","
-            close=")">
+        <foreach collection="list" item="item" open="("
+            separator="," close=")">
             <![CDATA[
                 #{item}
             ]]>
         </foreach>
     </delete>
-    <delete id="purgeData">
+    <delete id="purge">
         <![CDATA[
             DELETE FROM ENG_SCRIPT
         ]]>
     </delete>
+    <select id="count" resultType="java.lang.Long">
+        <![CDATA[
+            SELECT COUNT(K_ID) FROM ENG_SCRIPT
+        ]]>
+    </select>
+    <select id="queryList" parameterType="String" resultMap="scriptObject">
+        <![CDATA[
+            SELECT * FROM ENG_SCRIPT WHERE ${where}
+        ]]>
+    </select>
     <select id="selectById" parameterType="String" resultMap="scriptObject">
         <![CDATA[
             SELECT * FROM ENG_SCRIPT WHERE K_ID=#{uniqueId}
@@ -85,15 +95,12 @@
             SELECT * FROM ENG_SCRIPT
         ]]>
     </select>
-
-    <select id="selectByName" resultMap="scriptObject">
-        <![CDATA[
-            SELECT * FROM ENG_SCRIPT WHERE S_NAME=#{name}
-        ]]>
-    </select>
     <select id="selectByPage" resultMap="scriptObject">
-        <![CDATA[
-            SELECT * FROM ENG_SCRIPT ORDER BY #{order} LIMIT #{size} OFFSET #{start}
-        ]]>
+        <!-- 动态SQL语句 -->
+        <if test="category = 'H2'">
+            <![CDATA[
+                SELECT * FROM ENG_SCRIPT ORDER BY ${orderBy} LIMIT #{size} OFFSET #{start}
+            ]]>
+        </if>
     </select>
 </mapper>

@@ -1,0 +1,6 @@
+{
+    "id":"testidwhere",
+    "name":"LANG-XXX",
+    "namespace":"com.lang.namespace",
+    "content":"var i = \"exe\";"
+}

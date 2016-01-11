@@ -174,7 +174,6 @@ public final class Instance { // NOPMD
     public static Class<?> genericT(final Class<?> clazz, final int idx) {
         Class<?> ret = null;
         final Type type = clazz.getGenericSuperclass();
-        System.out.println(type instanceof ParameterizedType);
         if (type instanceof ParameterizedType) {
             final Type[] params = ((ParameterizedType) type).getActualTypeArguments();
             if (idx < params.length) {

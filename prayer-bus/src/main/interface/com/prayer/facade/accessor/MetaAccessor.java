@@ -51,6 +51,13 @@ public interface MetaAccessor { // NOPMD
      * @throws AbstractTransactionException
      */
     boolean deleteById(Serializable uniqueId) throws AbstractTransactionException;
+    /**
+     * 批量删除一个Entity 
+     * @param uniqueId
+     * @return
+     * @throws AbstractTransactionException
+     */
+    boolean deleteById(Serializable... uniqueId) throws AbstractTransactionException;
 
     /**
      * 按照ID从系统中读取单个Entity
@@ -89,9 +96,16 @@ public interface MetaAccessor { // NOPMD
     List<Entity> queryList(String whereClause);
 
     /**
+     * 
+     * @return
+     */
+    long count();
+
+    /**
      * 删除元数据表中所有的数据
      * 
      * @return
      */
     boolean purge() throws AbstractTransactionException;
+
 }
