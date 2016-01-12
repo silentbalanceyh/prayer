@@ -51,7 +51,7 @@ public class JObjectHabitus extends JsonObject implements ObjectHabitus {
      *  
      */
     @Override
-    public Set<String> attributes(){
+    public Set<String> fields(){
         return this.data.fieldNames();
     }
     // ~ Methods =============================================

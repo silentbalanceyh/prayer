@@ -13,7 +13,7 @@ public interface ObjectHabitus {
      * 获取当前节点中的所有属性表
      * @return
      */
-    Set<String> attributes();
+    Set<String> fields();
     /**
      * 获取当前节点中所有属性的类型表
      * @return

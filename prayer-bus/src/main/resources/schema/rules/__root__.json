@@ -1,0 +1,9 @@
+{
+    "required":{
+        "value":[
+            "__meta__",
+            "__keys__",
+            "__fields__"
+        ]
+    }
+}

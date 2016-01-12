@@ -15,5 +15,5 @@ public interface Ruler {
      * @return
      * @throws AbstractSchemaException
      */
-    boolean apply(ObjectHabitus habitus, Rule rule) throws AbstractSchemaException;
+    void apply(ObjectHabitus habitus) throws AbstractSchemaException;
 }

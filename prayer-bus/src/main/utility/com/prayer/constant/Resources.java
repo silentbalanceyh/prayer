@@ -25,6 +25,8 @@ public final class Resources { // NOPMD
     public static final Charset SYS_ENCODING;
     /** 系统使用的缓存信息 **/
     public static final String SYS_CACHE_CLS;
+    /** 系统的Schema对应的Rules的文件夹 **/
+    public static final String SYS_RULES;
 
     // Database Configuration ================================
     /** 数据库模式：SQL/NOSQL **/
@@ -115,6 +117,8 @@ public final class Resources { // NOPMD
         SYS_ENCODING = Charset.forName(LOADER.getString("system.en.encoding"));
         // Cache
         SYS_CACHE_CLS = LOADER.getString("system.cache.manager");
+        // Schema Rules
+        SYS_RULES = LOADER.getString("system.schema.rules");
         /**
          * 数据库模式，默认为SQL模式，也可以为NOSQL模式
          */
