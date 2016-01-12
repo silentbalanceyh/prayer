@@ -28,6 +28,10 @@ public final class UnsupportRule extends AbstractRule implements Rule {
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    /** **/
+    public static Rule create(final String rule) {
+        return new UnsupportRule(rule);
+    }
     // ~ Constructors ========================================
     /** 私有构造函数 **/
     @PostValidateThis

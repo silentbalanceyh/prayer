@@ -1,5 +1,6 @@
 package com.prayer.schema.workflow;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  * @see
  */
+@Ignore
 public class _00SystemVerifyTestCase extends AbstractSchemaTestCase {    // NOPMD
     // ~ Static Fields =======================================
     /** **/

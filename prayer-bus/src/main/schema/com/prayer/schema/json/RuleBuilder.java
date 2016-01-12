@@ -16,6 +16,7 @@ import com.prayer.constant.Symbol;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.schema.json.rule.JsonTypeRule;
+import com.prayer.schema.json.rule.PatternRule;
 import com.prayer.schema.json.rule.RequiredRule;
 import com.prayer.schema.json.rule.UnsupportRule;
 import com.prayer.util.io.PropertyKit;
@@ -95,29 +96,42 @@ public final class RuleBuilder {
     // ~ Rule Building =======================================
     /**
      * E10001
+     * 
      * @param file
      * @return
      */
     public static Rule required(@NotNull @NotEmpty @NotBlank final String file) {
-        return instance(RequiredRule.class.getName(), file);
+        return RequiredRule.create(file);
     }
 
     /**
      * E10002
+     * 
      * @param file
      * @return
      */
     public static Rule jtype(@NotNull @NotEmpty @NotBlank final String file) {
-        return instance(JsonTypeRule.class.getName(), file);
+        return JsonTypeRule.create(file);
     }
 
     /**
      * E10017
+     * 
      * @param file
      * @return
      */
     public static Rule unsupport(@NotNull @NotEmpty @NotBlank final String file) {
-        return instance(UnsupportRule.class.getName(), file);
+        return UnsupportRule.create(file);
+    }
+
+    /**
+     * E10003
+     * 
+     * @param file
+     * @return
+     */
+    public static Rule pattern(@NotNull @NotEmpty @NotBlank final String file) {
+        return PatternRule.create(file);
     }
 
     // ~ Constructors ========================================

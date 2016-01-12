@@ -2,6 +2,7 @@ package com.prayer.schema.json.violater;
 
 import java.util.Set;
 
+import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
@@ -41,7 +42,7 @@ public final class RequiredViolater implements Violater {
      * 验证当前一条Rule的信息
      */
     @Override
-    public RequiredAttrMissingException violate(@NotNull final ObjectHabitus habitus) {
+    public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         /**
          * 解析Rule获取期望值
          */
@@ -50,7 +51,7 @@ public final class RequiredViolater implements Violater {
         /**
          * 最终返回值
          */
-        RequiredAttrMissingException error = null;
+        AbstractSchemaException error = null;
         for (final Object expected : expectes) {
             /**
              * 只检查字符串类型，因为是Required Missing
@@ -58,7 +59,7 @@ public final class RequiredViolater implements Violater {
             if (null != expected && String.class == expected.getClass()) {
                 final String attr = expected.toString();
                 if (!fields.contains(attr)) {
-                    error = new RequiredAttrMissingException(getClass(), attr);
+                    error = new RequiredAttrMissingException(getClass(), this.rule.position() + " -> " + attr);
                 }
             }
         }

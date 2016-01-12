@@ -34,6 +34,15 @@ public class UnsupportAttrException extends AbstractSchemaException {
         super(clazz, -10017, toStr(sets));
     }
 
+    /**
+     * 
+     * @param clazz
+     * @param unsupported
+     */
+    public UnsupportAttrException(final Class<?> clazz, final String unsupported) {
+        super(clazz, -10017, unsupported);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**

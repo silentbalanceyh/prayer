@@ -26,11 +26,16 @@ public final class RequiredRule extends AbstractRule implements Rule {
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    /** **/
+    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
+        return new RequiredRule(rule);
+    }
+
     // ~ Constructors ========================================
     /** 私有构造函数 **/
     @PostValidateThis
-    private RequiredRule(@NotNull @NotEmpty @NotBlank final String rule) {
-        super(rule,Names.RULE_REQ);
+    private RequiredRule(final String rule) {
+        super(rule, Names.RULE_REQ);
     }
 
     // ~ Abstract Methods ====================================
@@ -40,7 +45,7 @@ public final class RequiredRule extends AbstractRule implements Rule {
      * @return
      */
     @Override
-    public Logger getLogger(){
+    public Logger getLogger() {
         return LOGGER;
     }
     // ~ Methods =============================================

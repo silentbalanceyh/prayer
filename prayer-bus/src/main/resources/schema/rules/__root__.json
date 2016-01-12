@@ -1,4 +1,5 @@
 {
+    "debug":"__root__",
     "required":{
         "value":[
             "__meta__",

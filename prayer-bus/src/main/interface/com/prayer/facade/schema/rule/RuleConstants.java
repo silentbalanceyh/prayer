@@ -17,11 +17,15 @@ public interface RuleConstants {
         String RULE_JTYPE = "jtype";
         /** 10017 Unsupported = All = Required + Supported **/
         String RULE_OPT = "optional";
+        /** 10003 Pattern **/
+        String RULE_PTN = "pattern";
     }
 
     /** Rule对应的配置文件名 **/
     interface FileConfig { // NOPMD
         /** **/
         String CFG_ROOT = "__root__";
+        /** **/
+        String CFG_META = "__meta__";
     }
 }

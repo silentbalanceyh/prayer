@@ -11,39 +11,37 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
-
 /**
  * 
  * @author Lang
  *
  */
 @Guarded
-public final class JsonTypeRule extends AbstractRule implements Rule {
+public final class PatternRule extends AbstractRule implements Rule{
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(JsonTypeRule.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatternRule.class);
     // ~ Instance Fields =====================================
-    /** **/
-    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
-        return new JsonTypeRule(rule);
-    }
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    /** **/
+    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
+        return new PatternRule(rule);
+    }
     // ~ Constructors ========================================
     /** 私有构造函数 **/
     @PostValidateThis
-    private JsonTypeRule(final String rule) {
-        super(rule,Names.RULE_JTYPE);
+    public PatternRule(final String rule){
+        super(rule, Names.RULE_PTN);
     }
-
+    
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**
      * 
-     * @return
      */
     @Override
-    public Logger getLogger() {
+    public Logger getLogger(){
         return LOGGER;
     }
     // ~ Methods =============================================

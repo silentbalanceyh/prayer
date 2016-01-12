@@ -1,7 +1,10 @@
 package com.prayer.schema.json.violater;
 
+import static com.prayer.util.Converter.toStr;
+
 import java.util.Set;
 
+import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
 import com.prayer.exception.schema.UnsupportAttrException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
@@ -14,7 +17,7 @@ import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
 /**
- * 
+ * Error 10017 ：UnsupportAttrException
  * @author Lang
  *
  */
@@ -39,7 +42,7 @@ public final class UnsupportViolater implements Violater {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public UnsupportAttrException violate(@NotNull final ObjectHabitus habitus) {
+    public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         /**
          * 解析Rule的期望值
          */
@@ -48,7 +51,7 @@ public final class UnsupportViolater implements Violater {
         /**
          * 最终返回结果
          */
-        UnsupportAttrException error = null;
+        AbstractSchemaException error = null;
         for (final Object expected : expectes) {
             fields.remove(expected);
         }
@@ -56,7 +59,7 @@ public final class UnsupportViolater implements Violater {
          * 最终的fields的尺寸应该为0，不可以大于0
          */
         if (Constants.ZERO < fields.size()) {
-            error = new UnsupportAttrException(getClass(), fields);
+            error = new UnsupportAttrException(getClass(), this.rule.position() + " -> " + toStr(fields));
         }
         return error;
     }

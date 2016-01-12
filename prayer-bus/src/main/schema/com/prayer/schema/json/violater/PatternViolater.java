@@ -1,15 +1,16 @@
 package com.prayer.schema.json.violater;
 
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.constant.Symbol;
-import com.prayer.exception.schema.JsonTypeConfusedException;
+import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
-import com.prayer.util.reflection.Instance;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;
@@ -17,17 +18,10 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
-/**
- * Error 10002: JsonTypeConfusedException
- * 
- * @author Lang
- *
- */
 @Guarded
-public class JTypeViolater implements Violater {
+public final class PatternViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    /** Violater和Rule绑定，一个Violater只能有一个Rule **/
     @NotNull
     private transient final Rule rule;
 
@@ -36,52 +30,48 @@ public class JTypeViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public JTypeViolater(@NotNull final Rule rule) {
+    public PatternViolater(@NotNull final Rule rule) {
         this.rule = rule;
     }
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /**
-     * 验证当前这条Rule的Json类型信息
-     */
+    /** **/
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
-        final ConcurrentMap<String, Class<?>> types = habitus.typeMap();
-        final ConcurrentMap<String, Class<?>> expectes = this.prepareExpected();
-        /**
-         * 最终返回值
-         */
+        final Set<String> fields = habitus.fields();
+        final ConcurrentMap<String, Pattern> expectes = this.prepareExpected();
+        /** **/
         AbstractSchemaException error = null;
-        for (final String expected : expectes.keySet()) {
-            /**
-             * 如果包含则检查，没有包含则表示可选属性可能未出现
-             */
-            if (types.keySet().contains(expected)) {
-                if (types.get(expected) != expectes.get(expected)) {
-                    error = new JsonTypeConfusedException(getClass(), this.rule.position() + " -> " + expected);
+        for (final String field : fields) {
+            if (StringKit.isNonNil(field)) {
+                final Pattern pattern = expectes.get(field);
+                final Matcher matcher = pattern.matcher(habitus.get(field));
+                if (!matcher.matches()) {
+                    error = new PatternNotMatchException(getClass(), this.rule.position() + " -> " + field,
+                            habitus.get(field), pattern.toString());
                 }
             }
         }
         return error;
     }
-
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private ConcurrentMap<String, Class<?>> prepareExpected() {
+
+    private ConcurrentMap<String, Pattern> prepareExpected() {
         final JsonObject expectes = rule.getRule().getJsonObject(R_VALUE);
-        final String pkg = JsonObject.class.getPackage().getName();
-        final ConcurrentMap<String, Class<?>> retJMap = new ConcurrentHashMap<>();
+        final ConcurrentMap<String, Pattern> retPMap = new ConcurrentHashMap<>();
         for (final String field : expectes.fieldNames()) {
             if (StringKit.isNonNil(field)) {
-                final Class<?> clazz = Instance.clazz(pkg + Symbol.DOT + expectes.getString(field));
-                if (null != clazz) {
-                    retJMap.put(field, clazz);
+                final Pattern pattern = Pattern.compile(expectes.getString(field));
+                if (null != pattern) {
+                    retPMap.put(field, pattern);
                 }
             }
         }
-        return retJMap;
+        return retPMap;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

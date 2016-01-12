@@ -13,4 +13,11 @@ public interface Rule extends RuleConstants {
      * 获取当前Rule的信息
      */
     JsonObject getRule();
+
+    /**
+     * 获取当前Rule操作的节点信息
+     * 
+     * @return
+     */
+    String position();
 }

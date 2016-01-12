@@ -30,6 +30,10 @@ public abstract class AbstractRule {
     /** **/
     @NotNull
     private transient JsonObject config;
+
+    /** **/
+    private transient String position;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -60,6 +64,9 @@ public abstract class AbstractRule {
         if (null != content) {
             try {
                 final JsonObject rules = new JsonObject(content);
+                if (rules.containsKey("debug")) {
+                    this.position = rules.getString("debug");
+                }
                 config = rules.getJsonObject(name);
                 // 必须包含Value节点
                 if (!config.containsKey(RuleConstants.R_VALUE)) {
@@ -77,8 +84,16 @@ public abstract class AbstractRule {
      * 
      * @return
      */
-    public JsonObject getRule(){
+    public JsonObject getRule() {
         return this.config;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public String position() {
+        return this.position;
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
