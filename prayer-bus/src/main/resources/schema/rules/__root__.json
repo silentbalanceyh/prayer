@@ -5,5 +5,18 @@
             "__keys__",
             "__fields__"
         ]
+    },
+    "jtype":{
+        "value":{
+            "__meta__":"JsonObject",
+            "__keys__":"JsonArray",
+            "__fields__":"JsonArray",
+            "__indexes__":"JsonArray"
+        }
+    },
+    "optional":{
+        "value":[
+            "__indexes__"
+        ]
     }
 }

@@ -2,7 +2,8 @@ package com.prayer.schema.json.violater;
 
 import java.util.Set;
 
-import com.prayer.exception.schema.RequiredAttrMissingException;
+import com.prayer.constant.Constants;
+import com.prayer.exception.schema.UnsupportAttrException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
@@ -13,13 +14,12 @@ import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
 /**
- * Error 10001: RequiredAttrMissingException
  * 
  * @author Lang
  *
  */
 @Guarded
-public final class RequiredViolater implements Violater {
+public final class UnsupportViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** Violater和Rule绑定死，一个Vialoter只能有一个Rule **/
@@ -31,39 +31,36 @@ public final class RequiredViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public RequiredViolater(@NotNull final Rule rule) {
+    public UnsupportViolater(@NotNull final Rule rule) {
         this.rule = rule;
     }
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /**
-     * 验证当前一条Rule的信息
-     */
+    /** **/
     @Override
-    public RequiredAttrMissingException violate(@NotNull final ObjectHabitus habitus) {
+    public UnsupportAttrException violate(@NotNull final ObjectHabitus habitus) {
         /**
-         * 解析Rule获取期望值
+         * 解析Rule的期望值
          */
         final JsonArray expectes = rule.getRule().getJsonArray(R_VALUE);
         final Set<String> fields = habitus.fields();
         /**
-         * 最终返回值
+         * 最终返回结果
          */
-        RequiredAttrMissingException error = null;
+        UnsupportAttrException error = null;
         for (final Object expected : expectes) {
-            /**
-             * 只检查字符串类型，因为是Required Missing
-             */
-            if (null != expected && String.class == expected.getClass()) {
-                final String attr = expected.toString();
-                if (!fields.contains(attr)) {
-                    error = new RequiredAttrMissingException(getClass(), attr);
-                }
-            }
+            fields.remove(expected);
+        }
+        /**
+         * 最终的fields的尺寸应该为0，不可以大于0
+         */
+        if (Constants.ZERO < fields.size()) {
+            error = new UnsupportAttrException(getClass(), fields);
         }
         return error;
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

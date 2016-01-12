@@ -4,12 +4,14 @@ import com.prayer.base.exception.AbstractSchemaException;
 
 /**
  * 规则接口，基本规则接口
+ * 
  * @author Lang
  *
  */
-public interface Ruler {
+public interface Ruler extends RuleConstants {
     /**
      * 将某种规则用于当前的node节点，如果不合法则抛出异常，合法则返回true
+     * 
      * @param node
      * @param rule
      * @return

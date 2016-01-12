@@ -18,19 +18,19 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class RequiredRule extends AbstractRule implements Rule {
+public final class JsonTypeRule extends AbstractRule implements Rule {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(RequiredRule.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonTypeRule.class);
     // ~ Instance Fields =====================================
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** 私有构造函数 **/
     @PostValidateThis
-    private RequiredRule(@NotNull @NotEmpty @NotBlank final String rule) {
-        super(rule,Names.RULE_REQ);
+    private JsonTypeRule(@NotNull @NotEmpty @NotBlank final String rule) {
+        super(rule,Names.RULE_JTYPE);
     }
 
     // ~ Abstract Methods ====================================
@@ -40,7 +40,7 @@ public final class RequiredRule extends AbstractRule implements Rule {
      * @return
      */
     @Override
-    public Logger getLogger(){
+    public Logger getLogger() {
         return LOGGER;
     }
     // ~ Methods =============================================

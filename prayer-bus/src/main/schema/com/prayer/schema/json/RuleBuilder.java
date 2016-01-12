@@ -12,9 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Resources;
+import com.prayer.constant.Symbol;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.rule.JsonTypeRule;
 import com.prayer.schema.json.rule.RequiredRule;
+import com.prayer.schema.json.rule.UnsupportRule;
 import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.NotBlank;
@@ -36,6 +39,10 @@ public final class RuleBuilder {
     private static final ConcurrentMap<Class<?>, Class<?>> BIND_MAP = new ConcurrentHashMap<>();
     /** 设置BIND_MAP **/
     private static final PropertyKit LOADER = new PropertyKit(Resources.SYS_RULES + "bind.properties");
+    /** Rule包信息 **/
+    private static final String PKG_RULE = "com.prayer.schema.json.rule";
+    /** Violater包信息 **/
+    private static final String PKG_VIOLATER = "com.prayer.schema.json.violater";
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -47,11 +54,21 @@ public final class RuleBuilder {
          */
         for (final Object item : bindData.keySet()) {
             if (null != item) {
-                final String keyStr = item.toString();
+                // 先提取Properties
+                String keyStr = item.toString();
+                String valueStr = bindData.getProperty(keyStr);
+                // 处理Key
+                if (keyStr.indexOf(Symbol.DOT) < 0) {
+                    keyStr = PKG_RULE + Symbol.DOT + keyStr;
+                }
                 final Class<?> key = clazz(keyStr);
-                final Class<?> value = clazz(bindData.getProperty(keyStr));
+                // 处理Value
+                if (valueStr.indexOf(Symbol.DOT) < 0) {
+                    valueStr = PKG_VIOLATER + Symbol.DOT + valueStr;
+                }
+                final Class<?> value = clazz(valueStr);
                 if (null != key && null != value) {
-                    debug(LOGGER,"[BIND] " + key.getName() + " -> " + value.getName());
+                    debug(LOGGER, "[BIND] " + key.getName() + " -> " + value.getName());
                     BIND_MAP.put(key, value);
                 }
             }
@@ -59,14 +76,6 @@ public final class RuleBuilder {
     }
 
     // ~ Static Methods ======================================
-    /**
-     * 
-     * @param file
-     * @return
-     */
-    public static Rule required(@NotNull @NotEmpty @NotBlank final String file) {
-        return instance(RequiredRule.class.getName(), file);
-    }
 
     /**
      * 
@@ -81,6 +90,34 @@ public final class RuleBuilder {
             violater = instance(target, rule);
         }
         return violater;
+    }
+
+    // ~ Rule Building =======================================
+    /**
+     * E10001
+     * @param file
+     * @return
+     */
+    public static Rule required(@NotNull @NotEmpty @NotBlank final String file) {
+        return instance(RequiredRule.class.getName(), file);
+    }
+
+    /**
+     * E10002
+     * @param file
+     * @return
+     */
+    public static Rule jtype(@NotNull @NotEmpty @NotBlank final String file) {
+        return instance(JsonTypeRule.class.getName(), file);
+    }
+
+    /**
+     * E10017
+     * @param file
+     * @return
+     */
+    public static Rule unsupport(@NotNull @NotEmpty @NotBlank final String file) {
+        return instance(UnsupportRule.class.getName(), file);
     }
 
     // ~ Constructors ========================================

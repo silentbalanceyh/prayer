@@ -37,6 +37,7 @@ public class JObjectHabitus extends JsonObject implements ObjectHabitus {
         this.data = data;
         this.types = calculate(data);
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**
@@ -44,14 +45,15 @@ public class JObjectHabitus extends JsonObject implements ObjectHabitus {
      * @return
      */
     @Override
-    public ConcurrentMap<String,Class<?>> typeMap(){
+    public ConcurrentMap<String, Class<?>> typeMap() {
         return this.types;
     }
+
     /**
      *  
      */
     @Override
-    public Set<String> fields(){
+    public Set<String> fields() {
         return this.data.fieldNames();
     }
     // ~ Methods =============================================
