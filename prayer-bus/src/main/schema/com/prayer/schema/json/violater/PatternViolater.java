@@ -18,6 +18,12 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
+/**
+ * Error 10003 : PatternNotMatchException
+ * 
+ * @author Lang
+ *
+ */
 @Guarded
 public final class PatternViolater implements Violater {
     // ~ Static Fields =======================================
@@ -46,10 +52,13 @@ public final class PatternViolater implements Violater {
         for (final String field : fields) {
             if (StringKit.isNonNil(field)) {
                 final Pattern pattern = expectes.get(field);
-                final Matcher matcher = pattern.matcher(habitus.get(field));
-                if (!matcher.matches()) {
-                    error = new PatternNotMatchException(getClass(), this.rule.position() + " -> " + field,
-                            habitus.get(field), pattern.toString());
+                // 没有对应的Pattern设置，则直接不匹配，Skip掉
+                if (null != pattern) {
+                    final Matcher matcher = pattern.matcher(habitus.get(field));
+                    if (!matcher.matches()) {
+                        error = new PatternNotMatchException(getClass(), this.rule.position() + " -> " + field,
+                                habitus.get(field), pattern.toString());
+                    }
                 }
             }
         }

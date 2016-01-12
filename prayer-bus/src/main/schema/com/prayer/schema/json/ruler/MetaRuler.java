@@ -1,8 +1,13 @@
 package com.prayer.schema.json.ruler;
 
+import static com.prayer.util.Converter.fromStr;
+
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.SystemEnum.Category;
+import com.prayer.constant.SystemEnum.Mapping;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
+import com.prayer.facade.schema.verifier.Attributes;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -55,10 +60,28 @@ public final class MetaRuler implements Ruler {
         // seqinit -> [0-9]+,
         // seqstep -> [0-9]+
         RulerHelper.applyPattern(habitus, FileConfig.CFG_META);
+        /** 2.4.根据Category分流操作 **/
+        applyDispatcher(habitus);
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    private void applyDispatcher(final ObjectHabitus habitus) throws AbstractSchemaException {
+        final Category category = fromStr(Category.class, habitus.get(Attributes.M_CATEGORY));
+        final Mapping mapping = fromStr(Mapping.class, habitus.get(Attributes.M_MAPPING));
+        // Category, Mapping
+        switch (category) {
+        case RELATION: {
+            verifyCRelation(habitus);
+        }
+            break;
+        }
+    }
+
+    private void verifyCRelation(final ObjectHabitus habitus) throws AbstractSchemaException {
+        /** (7.1.1) 2.4.1 category == RELATION **/
+        RulerHelper.applyExclude(habitus, FileConfig.CFG_M_REL);
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

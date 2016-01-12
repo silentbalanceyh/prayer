@@ -23,6 +23,31 @@ public final class RulerHelper {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
+     * Error10004 -- 不包含属性验证
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyExclude(@NotNull final ObjectHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.exclude(file);
+        sharedApply(habitus,rule);
+    }
+
+    /**
+     * Error10004 -- 必须同时存在的属性
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyExisting(@NotNull final ObjectHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.existing(file);
+        sharedApply(habitus, rule);
+    }
+
+    /**
      * Error10003 -- 值是否符合Pattern
      * 
      * @param habitus

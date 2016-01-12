@@ -18,24 +18,23 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class JsonTypeRule extends AbstractRule implements Rule {
+public final class ExcludeRule extends AbstractRule implements Rule{
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(JsonTypeRule.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExcludeRule.class);
     // ~ Instance Fields =====================================
     /** **/
     public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
-        return new JsonTypeRule(rule);
+        return new ExcludeRule(rule);
     }
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** 私有构造函数 **/
     @PostValidateThis
-    private JsonTypeRule(final String rule) {
-        super(rule,Names.RULE_JTYPE);
+    private ExcludeRule(final String rule) {
+        super(rule, Names.RULE_EXD);
     }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/

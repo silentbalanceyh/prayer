@@ -8,7 +8,7 @@
         "mapping":"DIRECT",
         "policy":"GUID",
         "subkey":"subkey",
-        "subtable":"subtable"
+        "subtable":"SEC_TABLE"
     },
     "__keys__":[
     ],

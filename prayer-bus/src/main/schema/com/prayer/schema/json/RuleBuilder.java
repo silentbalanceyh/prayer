@@ -15,6 +15,8 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.rule.ExcludeRule;
+import com.prayer.schema.json.rule.ExistingRule;
 import com.prayer.schema.json.rule.JsonTypeRule;
 import com.prayer.schema.json.rule.PatternRule;
 import com.prayer.schema.json.rule.RequiredRule;
@@ -133,7 +135,23 @@ public final class RuleBuilder {
     public static Rule pattern(@NotNull @NotEmpty @NotBlank final String file) {
         return PatternRule.create(file);
     }
-
+    /**
+     * E10004
+     * @param file
+     * @return
+     */
+    public static Rule exclude(@NotNull @NotEmpty @NotBlank final String file){
+        return ExcludeRule.create(file);
+    }
+    
+    /**
+     * E10004
+     * @param file
+     * @return
+     */
+    public static Rule existing(@NotNull @NotEmpty @NotBlank final String file){
+        return ExistingRule.create(file);
+    }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

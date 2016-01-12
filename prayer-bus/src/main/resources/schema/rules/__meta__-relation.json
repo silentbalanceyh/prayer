@@ -1,0 +1,23 @@
+{
+    "debug":"__meta__ ( category = RELATION )",
+    "exclude":{
+        "value":[
+            "subkey",
+            "subtable"
+        ]
+    },
+    "in":{
+        "value":{
+            "mapping":[
+                "DIRECT"
+            ]
+        }
+    },
+    "notin":{
+        "value":{
+            "policy":[
+                "ASSIGNED"
+            ]
+        }
+    }
+}
