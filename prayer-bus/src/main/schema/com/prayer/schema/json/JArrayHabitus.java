@@ -62,10 +62,10 @@ public class JArrayHabitus implements ArrayHabitus {
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override
-    public ObjectHabitus get(@NotNull final JsonObject filter) {
+    public List<ObjectHabitus> get(@NotNull final JsonObject filter) {
+        final List<ObjectHabitus> retList = new ArrayList<>();
         final JsonArray data = this.raw.copy();
         final int size = data.size();
-        final JsonObject retData = new JsonObject();
         for (int idx = 0; idx < size; idx++) {
             final JsonObject item = data.getJsonObject(idx);
             boolean isMatch = true;
@@ -77,11 +77,10 @@ public class JArrayHabitus implements ArrayHabitus {
                 }
             }
             if (isMatch) {
-                retData.mergeIn(item);
-                break;
+                retList.add(new JObjectHabitus(item));
             }
         }
-        return new JObjectHabitus(retData);
+        return retList;
     }
 
     /** **/

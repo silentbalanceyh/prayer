@@ -1,5 +1,7 @@
 package com.prayer.schema.json.ruler;
 
+import java.util.List;
+
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.schema.rule.ArrayHabitus;
@@ -77,8 +79,10 @@ public final class PKeysRuler implements ArrayRuler {
     private void verifyPKSpecification(final ArrayHabitus habitus) throws AbstractSchemaException {
         final JsonObject filter = new JsonObject();
         filter.put(Attributes.F_PK, true);
-        final ObjectHabitus data = habitus.get(filter);
-        this.ruler.apply(data);
+        final List<ObjectHabitus> data = habitus.get(filter);
+        for (final ObjectHabitus item : data) {
+            this.ruler.apply(item);
+        }
     }
 
     private void applyDispatcher(final ArrayHabitus habitus) throws AbstractSchemaException {

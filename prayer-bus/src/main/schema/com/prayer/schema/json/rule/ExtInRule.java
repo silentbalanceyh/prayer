@@ -3,7 +3,6 @@ package com.prayer.schema.json.rule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.schema.rule.AbstractRule;
 import com.prayer.facade.schema.rule.Rule;
 
 import net.sf.oval.constraint.NotBlank;
@@ -12,28 +11,33 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
- * 因为In可以扩展，所以没有final
+ * 扩展的In功能
+ * 
  * @author Lang
  *
  */
 @Guarded
-public class InRule extends AbstractRule implements Rule {
+public final class ExtInRule extends InRule {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExcludeRule.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExtInRule.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
     public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
-        return new InRule(rule);
+        return new ExtInRule(rule);
     }
 
     // ~ Constructors ========================================
-    /** 构造函数可以继承 **/
-    protected InRule(final String rule) {
-        super(rule, Names.RULE_IN);
+    /**
+     * 继承父类的构造函数
+     * 
+     * @param rule
+     */
+    private ExtInRule(final String rule) {
+        super(rule);
     }
 
     // ~ Abstract Methods ====================================

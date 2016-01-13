@@ -141,6 +141,20 @@ public final class RulerHelper {
     }
 
     /**
+     * 扩展的In方式，多一个参数
+     * 
+     * @param habitus
+     * @param file
+     * @param addtional
+     * @throws AbstractSchemaException
+     */
+    public static void applyIn(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file,
+            @NotNull final JsonObject addtional) throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.extin(file);
+        sharedApply(wrapperHabitus(habitus, addtional), rule);
+    }
+
+    /**
      * Error10004 -- 不包含属性验证
      * 
      * @param habitus
@@ -222,6 +236,16 @@ public final class RulerHelper {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private static ObjectHabitus wrapperHabitus(final ObjectHabitus habitus, final JsonObject addtional) {
+        // 内部初始化
+        final JsonObject data = new JsonObject();
+        data.put(RuleConstants.R_DATA, habitus.getRaw());
+        if (null != addtional) {
+            data.put(RuleConstants.R_ADDT, addtional);
+        }
+        return new JObjectHabitus(data);
+    }
 
     private static ObjectHabitus wrapperHabitus(final ArrayHabitus habitus, final JsonObject addtional) {
         // 内部初始化

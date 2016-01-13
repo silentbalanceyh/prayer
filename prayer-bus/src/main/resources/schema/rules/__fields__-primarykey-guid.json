@@ -1,0 +1,15 @@
+{
+    "debug":"__meta__ ( policy = GUID )",
+    "in":{
+        "value":{
+            "type":{
+                "values":
+                [
+                    "StringType"
+                ],
+                "error":"PKColumnTypePolicyException",
+                "arguments":["policy","type"]
+            }
+        }
+    }
+}

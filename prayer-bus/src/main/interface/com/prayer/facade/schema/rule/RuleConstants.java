@@ -77,6 +77,13 @@ public interface RuleConstants {
         String CFG_M_PIOG = "__meta__-policy-increment-og";
         /** **/
         String CFG_M_PI = "__meta__-policy-increment";
+
+        /** PK Increment **/
+        String CFG_FPI = "__fields__-primarykey-increment";
+        /** PK GUID **/
+        String CFG_FPG = "__fields__-primarykey-guid";
+        /** PK Other **/
+        String CFG_FPC = "__fields__-primarykey-common";
     }
 
     /** **/

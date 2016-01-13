@@ -25,7 +25,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class InViolater implements Violater {
+public class InViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -50,19 +50,32 @@ public final class InViolater implements Violater {
         AbstractSchemaException error = null;
         for (final String expected : expectes.keySet()) {
             final String literal = habitus.get(expected);
-            if (StringKit.isNonNil(literal)) {
-                final JsonArray values = expectes.get(expected);
-                if (!values.contains(literal)) {
-                    error = new InvalidValueException(getClass(), this.rule.position() + " -> " + expected, values.encode(), literal, Flag.FLAG_IN);
-                }
+            final JsonArray values = expectes.get(expected);
+            if (!inValues(values, literal)) {
+                error = new InvalidValueException(getClass(), this.rule.position() + " -> " + expected, values.encode(),
+                        literal, Flag.FLAG_IN);
             }
         }
         return error;
     }
 
     // ~ Methods =============================================
-    // ~ Private Methods =====================================
+    protected boolean inValues(final JsonArray values, final String literal) {
+        boolean ret = true;
+        if (StringKit.isNonNil(literal) && !values.contains(literal)) {
+            ret = false;
+        }
+        return ret;
+    }
+    /**
+     * 获取扩展的Rule
+     * @return
+     */
+    protected JsonObject getRule(){
+        return this.rule.getRule();
+    }
 
+    // ~ Private Methods =====================================
     private ConcurrentMap<String, JsonArray> prepareExpected() {
         final JsonObject expectes = rule.getRule().getJsonObject(R_VALUE);
         final ConcurrentMap<String, JsonArray> retIMap = new ConcurrentHashMap<>();

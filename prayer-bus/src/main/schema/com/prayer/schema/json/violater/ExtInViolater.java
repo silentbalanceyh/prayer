@@ -3,6 +3,8 @@ package com.prayer.schema.json.violater;
 import static com.prayer.util.reflection.Instance.instance;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
@@ -10,37 +12,35 @@ import com.prayer.constant.Symbol;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
-import com.prayer.schema.json.rule.MostRule;
+import com.prayer.schema.json.rule.ExtInRule;
 import com.prayer.util.entity.stream.StreamList;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
- * 最多出现次数
  * 
  * @author Lang
  *
  */
 @Guarded
-public final class MostViolater implements Violater {
+public final class ExtInViolater extends InViolater implements Violater {
+
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    /** **/
-    @NotNull
-    private transient final Rule rule;
-
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    @PostValidateThis
-    public MostViolater(@NotNull @InstanceOfAny(MostRule.class) final Rule rule) {
-        this.rule = rule;
+    /**
+     * 
+     * @param rule
+     */
+    public ExtInViolater(@NotNull @InstanceOfAny(ExtInRule.class) final Rule rule) {
+        super(rule);
     }
 
     // ~ Abstract Methods ====================================
@@ -48,18 +48,19 @@ public final class MostViolater implements Violater {
     /** **/
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
-        /** **/
-        final JsonArray data = habitus.getRaw().getJsonArray(R_DATA);
+        /** 从原始数据中拿到Data **/
+        final JsonObject data = habitus.getRaw().getJsonObject(R_DATA);
         final JsonObject addtional = habitus.getRaw().getJsonObject(R_ADDT);
-        final JsonArray expectes = this.rule.getRule().getJsonArray(R_VALUE);
-        /** **/
+        /** 读取规范 **/
+        final ConcurrentMap<String, JsonObject> expectes = this.prepareExpected();
         AbstractSchemaException error = null;
-        final int size = expectes.size();
-        for (int pos = 0; pos < size; pos++) {
-            final JsonObject expected = expectes.getJsonObject(pos);
-            if (!verifyOccurs(data, expected)) {
-                final String errorCls = expected.getString("error");
-                final List<String> arguments = StreamList.toList(expected.getJsonArray("arguments"));
+        for (final String expected : expectes.keySet()) {
+            final String literal = data.getString(expected);
+            final JsonObject specification = expectes.get(expected);
+            final JsonArray values = specification.getJsonArray("values");
+            if (!inValues(values, literal)) {
+                final String errorCls = specification.getString("error");
+                final List<String> arguments = StreamList.toList(specification.getJsonArray("arguments"));
                 error = getError(errorCls, arguments, addtional);
             }
         }
@@ -83,37 +84,20 @@ public final class MostViolater implements Violater {
         return instance(fullCls, args);
     }
 
-    private boolean verifyOccurs(final JsonArray data, final JsonObject expected) {
-        /** 获取配置数据 **/
-        final int mostOccurs = expected.getInteger("occurs");
-        final JsonObject filters = expected.getJsonObject("filter");
-        boolean ret = true;
-        /** 开始比较 **/
-        final int size = data.size();
-        int actualOccurs = 0;
-        for (int pos = 0; pos < size; pos++) {
-            final JsonObject item = data.getJsonObject(pos);
-            /** 遍历整个Filter **/
-            boolean isMatch = true;
-            for (final String field : filters.fieldNames()) {
-                final Object exp = filters.getValue(field);
-                final Object actual = item.getValue(field);
-                if (null == exp || null == actual || !exp.equals(actual)) {
-                    isMatch = false;
-                    break;
+    private ConcurrentMap<String, JsonObject> prepareExpected() {
+        final JsonObject rules = this.getRule().getJsonObject(R_VALUE);
+        final ConcurrentMap<String, JsonObject> retMap = new ConcurrentHashMap<>();
+        for (final String field : rules.fieldNames()) {
+            if (StringKit.isNonNil(field)) {
+                final JsonObject specification = rules.getJsonObject(field);
+                if (null != specification) {
+                    retMap.put(field, specification);
                 }
             }
-            /** 当前数据项通过了Filter的设置 **/
-            if (isMatch) {
-                actualOccurs++;
-            }
         }
-        /** 只要actualOccurs超过了least Occurs则直接返回true **/
-        if (mostOccurs < actualOccurs) {
-            ret = false;
-        }
-        return ret;
+        return retMap;
     }
+    // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 
 }

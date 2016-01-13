@@ -28,7 +28,7 @@ public interface ArrayHabitus {
      * @param filer
      * @return
      */
-    ObjectHabitus get(JsonObject filter);
+    List<ObjectHabitus> get(JsonObject filter);
     /**
      * 因为JsonArray常用，所以必须获取Raw
      * @return
