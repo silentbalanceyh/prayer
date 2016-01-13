@@ -22,21 +22,21 @@ public class _001RequiredVerifierTestCase extends AbstractVerifierTestCase {
     /** **/
     @Test(expected = RequiredAttrMissingException.class)
     public void testP001Fields10001() throws AbstractException {
-        this.importFile("P001root-fields10001.json");
+        this.testImport("P001root-fields10001.json");
         failure("[E10001] Required Attr missing! -> __fields__ ");
     }
     
     /** **/
     @Test(expected = RequiredAttrMissingException.class)
     public void testP001Keys10001() throws AbstractException {
-        this.importFile("P001root-keys10001.json");
+        this.testImport("P001root-keys10001.json");
         failure("[E10001] Required Attr missing! -> __keys__ ");
     }
     
     /** **/
     @Test(expected = RequiredAttrMissingException.class)
     public void testP001Metas10001() throws AbstractException {
-        this.importFile("P001root-meta10001.json");
+        this.testImport("P001root-meta10001.json");
         failure("[E10001] Required Attr missing! -> __meta__ ");
     }
     // ~ Private Methods =====================================

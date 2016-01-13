@@ -26,7 +26,7 @@ public class _0052PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP005Meta10003Namespace1() throws AbstractException {
-        importFile("P005meta-namespace10003-1.json");
+        testImport("P005meta-namespace10003-1.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> namespace. (1) ");
     }
 
@@ -37,7 +37,7 @@ public class _0052PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP005Meta10003Namespace2() throws AbstractException {
-        importFile("P005meta-namespace10003-2.json");
+        testImport("P005meta-namespace10003-2.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> namespace. (2) ");
     }
 
@@ -48,7 +48,7 @@ public class _0052PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP005Meta10003Namespace3() throws AbstractException {
-        importFile("P005meta-namespace10003-3.json");
+        testImport("P005meta-namespace10003-3.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> namespace. (3) ");
     }
 
@@ -59,7 +59,7 @@ public class _0052PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP005Meta10003Category1() throws AbstractException {
-        importFile("P005meta-category10003-1.json");
+        testImport("P005meta-category10003-1.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> category. (1) ");
     }
     // ~ Methods =============================================

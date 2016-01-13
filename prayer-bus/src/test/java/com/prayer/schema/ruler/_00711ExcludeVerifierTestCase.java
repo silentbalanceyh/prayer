@@ -26,7 +26,7 @@ public class _00711ExcludeVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = OptionalAttrMorEException.class)
     public void testP00711Meta10004RelationExisting1() throws AbstractException {
-        importFile("P00711meta-categoryRELATION10004-1.json");
+        testImport("P00711meta-categoryRELATION10004-1.json");
         failure("[E10004] The attributes mustn't exist ! ( subkey, subtable -> subkey) (1)");
     }
     /**
@@ -35,7 +35,7 @@ public class _00711ExcludeVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = OptionalAttrMorEException.class)
     public void testP00711Meta10004RelationExisting2() throws AbstractException {
-        importFile("P00711meta-categoryRELATION10004-2.json");
+        testImport("P00711meta-categoryRELATION10004-2.json");
         failure("[E10004] The attributes mustn't exist ! ( subkey, subtable -> subtable) (2)");
     }
     // ~ Private Methods =====================================

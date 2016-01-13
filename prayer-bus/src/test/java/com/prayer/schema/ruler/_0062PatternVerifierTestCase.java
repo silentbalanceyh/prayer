@@ -25,7 +25,7 @@ public class _0062PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP0061Meta10003Policy1() throws AbstractException {
-        importFile("P006meta-policy10003-1.json");
+        testImport("P006meta-policy10003-1.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> policy. (1) ");
     }
 
@@ -36,7 +36,7 @@ public class _0062PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP0061Meta10003Table1() throws AbstractException {
-        importFile("P006meta-table10003-1.json");
+        testImport("P006meta-table10003-1.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> table. (1) ");
     }
 
@@ -47,7 +47,7 @@ public class _0062PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP0061Meta10003Table2() throws AbstractException {
-        importFile("P006meta-table10003-2.json");
+        testImport("P006meta-table10003-2.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> table. (2) ");
     }
     /**
@@ -57,7 +57,7 @@ public class _0062PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP0061Meta10003Table3() throws AbstractException {
-        importFile("P006meta-table10003-3.json");
+        testImport("P006meta-table10003-3.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> table. (3) ");
     }
     // ~ Methods =============================================

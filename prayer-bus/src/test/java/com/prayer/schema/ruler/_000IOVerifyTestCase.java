@@ -23,13 +23,13 @@ public class _000IOVerifyTestCase extends AbstractVerifierTestCase {
     /** **/
     @Test(expected = ResourceIOException.class)
     public void testP000System20002() throws AbstractException {
-        this.importFile("P000json20003.json");
+        this.testImport("P000json20003.json");
         failure("[E20002] ResourceIOException !");
     }
     /** **/
     @Test(expected = JsonParserException.class)
     public void testP000System20003() throws AbstractException {
-        this.importFile("P000json20003.txt");
+        this.testImport("P000json20003.txt");
         failure("[E20003] JsonParserException !");
     }
     // ~ Private Methods =====================================

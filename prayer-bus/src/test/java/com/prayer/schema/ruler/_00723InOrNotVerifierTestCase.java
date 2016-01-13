@@ -26,7 +26,7 @@ public class _00723InOrNotVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = InvalidValueException.class)
     public void testP00723Meta10005EPartialValue1() throws AbstractException {
-        importFile("P00723meta-mappingE-PARTIAL10005-1.json");
+        testImport("P00723meta-mappingE-PARTIAL10005-1.json");
         failure("[E10005] Meta ( category = RELATION && mapping = PARTIAL ) attribute policy must be ASSIGNED (1)");
     }
     // ~ Private Methods =====================================

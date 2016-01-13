@@ -20,7 +20,7 @@ public class _0042UnsupportVerifierTestCase extends AbstractVerifierTestCase{
     /** **/
     @Test(expected = UnsupportAttrException.class)
     public void testP004Meta10002Attr() throws AbstractException {
-        this.importFile("P004meta-attr10002.json");
+        this.testImport("P004meta-attr10002.json");
         failure("[E10017] Unsupport Attr occurs !");
     }
     // ~ Methods =============================================

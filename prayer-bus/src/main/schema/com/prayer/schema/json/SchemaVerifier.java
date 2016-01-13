@@ -6,9 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.facade.schema.rule.ArrayHabitus;
+import com.prayer.facade.schema.rule.ArrayRuler;
+import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.facade.schema.verifier.Verifier;
+import com.prayer.schema.json.ruler.ContainerRuler;
+import com.prayer.schema.json.ruler.FieldRuler;
 import com.prayer.schema.json.ruler.MetaRuler;
 import com.prayer.schema.json.ruler.RootRuler;
 
@@ -50,6 +55,10 @@ public class SchemaVerifier implements Verifier {
              * 2.验证Meta节点
              */
             verifyMeta(data);
+            /**
+             * 3.验证Fields节点
+             */
+            verifyFields(data);
         } catch (AbstractSchemaException ex) {
             peError(LOGGER, ex);
             error = ex;
@@ -59,11 +68,23 @@ public class SchemaVerifier implements Verifier {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
+    private void verifyFields(final JsonObject data) throws AbstractSchemaException {
+        /**
+         * 3.Field节点的基本验证
+         */
+        final ArrayHabitus habitus = new JArrayHabitus(data.getJsonArray(Attributes.R_FIELDS), Attributes.R_FIELDS);
+        // 设置内置的Ruler，每个JsonObject必须满足
+        final Ruler ruler = new FieldRuler();
+        // 设置外围容器的Ruler，每个Container必备
+        final ArrayRuler container = new ContainerRuler(ruler);
+        container.apply(habitus);
+    }
+
     private void verifyMeta(final JsonObject data) throws AbstractSchemaException {
         /**
          * 2.Meta节点的基本验证
          */
-        final JObjectHabitus habitus = new JObjectHabitus(data.getJsonObject(Attributes.R_META));
+        final ObjectHabitus habitus = new JObjectHabitus(data.getJsonObject(Attributes.R_META));
         final Ruler ruler = new MetaRuler();
         ruler.apply(habitus);
     }
@@ -72,7 +93,7 @@ public class SchemaVerifier implements Verifier {
         /**
          * 1.Root节点的验证
          */
-        final JObjectHabitus habitus = new JObjectHabitus(data);
+        final ObjectHabitus habitus = new JObjectHabitus(data);
         final Ruler ruler = new RootRuler();
         ruler.apply(habitus);
     }

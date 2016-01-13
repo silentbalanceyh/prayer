@@ -26,7 +26,7 @@ public class _00712InOrNotVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = InvalidValueException.class)
     public void testP00712Meta10005RelationValue1() throws AbstractException {
-        importFile("P00712meta-mappingRELATION10005-1.json");
+        testImport("P00712meta-mappingRELATION10005-1.json");
         failure("[E10005] Meta ( category = RELATION ) attribute mapping must be DIRECT (1)");
     }
     /**
@@ -35,7 +35,7 @@ public class _00712InOrNotVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = InvalidValueException.class)
     public void testP00713Meta10005RelationValue2() throws AbstractException {
-        importFile("P00713meta-mappingRELATION10005-2.json");
+        testImport("P00713meta-mappingRELATION10005-2.json");
         failure("[E10005] Meta ( category = RELATION ) attribute policy mustn't be ASSIGNED (1)");
     }
     // ~ Private Methods =====================================

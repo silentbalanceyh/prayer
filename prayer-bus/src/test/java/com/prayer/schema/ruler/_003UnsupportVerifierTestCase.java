@@ -21,7 +21,7 @@ public class _003UnsupportVerifierTestCase extends AbstractVerifierTestCase {
     /** **/
     @Test(expected = UnsupportAttrException.class)
     public void testP003Unsupport10017() throws AbstractException {
-        this.importFile("P003root-fields10017.json");
+        this.testImport("P003root-fields10017.json");
         failure("[E10017] Unsupport Attr occurs ! ");
     }
     // ~ Methods =============================================

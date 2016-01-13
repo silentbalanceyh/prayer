@@ -26,7 +26,7 @@ public class _00731ExcludeVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = OptionalAttrMorEException.class)
     public void testP00731Meta10004EDirectExisting1() throws AbstractException {
-        importFile("P00731meta-mappingE-DIRECT10004-1.json");
+        testImport("P00731meta-mappingE-DIRECT10004-1.json");
         failure("[E10004] The attributes mustn't exist ! ( subkey, subtable -> subkey) (1)");
     }
     /**
@@ -35,7 +35,7 @@ public class _00731ExcludeVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = OptionalAttrMorEException.class)
     public void testP00731Meta10004EDirectExisting2() throws AbstractException {
-        importFile("P00731meta-mappingE-DIRECT10004-2.json");
+        testImport("P00731meta-mappingE-DIRECT10004-2.json");
         failure("[E10004] The attributes mustn't exist ! ( subkey, subtable -> subtable) (2)");
     }
     // ~ Private Methods =====================================

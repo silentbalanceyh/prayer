@@ -69,7 +69,7 @@ public class _00745ColumnVerifierTestCase extends AbstractVerifierTestCase {
                 ret = this.connection.executeBatch("CREATE TABLE TST_SUB_ROLE( K_ID1 VARCHAR(236) );");
             }
             if (Constants.RC_SUCCESS == ret) {
-                importFile("P00745meta-mappingE-COMBINATED10028-1.json");
+                testImport("P00745meta-mappingE-COMBINATED10028-1.json");
                 failure("[E10028] Column of table does not exist! ");
             }
         }

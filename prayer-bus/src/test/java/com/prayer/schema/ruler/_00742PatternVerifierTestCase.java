@@ -26,7 +26,7 @@ public class _00742PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP00742Meta10005ECombinatedValue1() throws AbstractException {
-        importFile("P00742meta-mappingE-COMBINATED10003-1.json");
+        testImport("P00742meta-mappingE-COMBINATED10003-1.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> subtable. (1) ");
     }
     /**
@@ -35,7 +35,7 @@ public class _00742PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP00742Meta10005ECombinatedValue2() throws AbstractException {
-        importFile("P00742meta-mappingE-COMBINATED10003-2.json");
+        testImport("P00742meta-mappingE-COMBINATED10003-2.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> subtable. (2) ");
     }
     /**
@@ -44,7 +44,7 @@ public class _00742PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP00742Meta10005ECombinatedValue3() throws AbstractException {
-        importFile("P00742meta-mappingE-COMBINATED10003-3.json");
+        testImport("P00742meta-mappingE-COMBINATED10003-3.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> subtable. (3) ");
     }
     // ~ Private Methods =====================================

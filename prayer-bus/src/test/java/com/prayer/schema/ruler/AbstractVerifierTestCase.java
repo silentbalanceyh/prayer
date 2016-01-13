@@ -55,7 +55,7 @@ public class AbstractVerifierTestCase {
     }
 
     /** **/
-    protected Schema importFile(final String file) throws AbstractSystemException, AbstractSchemaException {
+    protected Schema testImport(final String file) throws AbstractSystemException, AbstractSchemaException {
         /**
          * 1.基本验证：AbstractSystemException
          */

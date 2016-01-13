@@ -53,6 +53,10 @@ public interface RuleConstants {
         String CFG_M_ED = "__meta__-entity-direct";
         /** **/
         String CFG_M_EC = "__meta__-entity-combinated";
+        /** Oracle/PgSQL专用Rule **/
+        String CFG_M_PIOG = "__meta__-policy-increment-og";
+        /** **/
+        String CFG_M_PI = "__meta__-policy-increment";
     }
 
     /** **/

@@ -4,13 +4,14 @@ import org.junit.Test;
 
 import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.schema.JsonTypeConfusedException;
+import com.prayer.exception.schema.ZeroLengthException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class _002JTypeVerifierTestCase extends AbstractVerifierTestCase {
+public class _012ContainerTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -18,25 +19,34 @@ public class _002JTypeVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Test(expected = JsonTypeConfusedException.class)
-    public void testP002Fields10002() throws AbstractException {
-        this.testImport("P002root-fields10002.json");
-        failure("[E10002] Json Type confused for __fields__ ");
+    /**
+     * 
+     * @throws AbstractException
+     */
+    @Test(expected = ZeroLengthException.class)
+    public void testP012Fields1Attr10006() throws AbstractException {
+        testImport("fields/P012fields-attr10006-1.json");
+        failure("[E10006] Fields -> length ==> Attribute length is 0 (Zero) but it shouldn't be !");
     }
 
-    /** **/
+    /**
+     * 
+     * @throws AbstractException
+     */
     @Test(expected = JsonTypeConfusedException.class)
-    public void testP002Keys10002() throws AbstractException {
-        this.testImport("P002root-keys10002.json");
-        failure("[E10002] Json Type confused for __keys__ ");
+    public void testP013Fields1Attr10002() throws AbstractException {
+        testImport("fields/P013fields-attr10002-1.json");
+        failure("[E10002] Fields ==> Every element of __fields__ node must be Json Object !");
     }
 
-    /** **/
+    /**
+     * 
+     * @throws AbstractException
+     */
     @Test(expected = JsonTypeConfusedException.class)
-    public void testP002Meta10002() throws AbstractException {
-        this.testImport("P002root-meta10002.json");
-        failure("[E10002] Json Type confused for __meta__ ");
+    public void testP013Fields2Attr10002() throws AbstractException {
+        testImport("fields/P013fields-attr10002-2.json");
+        failure("[E10002] Fields ==> Every element of __fields__ node must be Json Object !");
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

@@ -1,5 +1,6 @@
 package com.prayer.base.schema.rule;
 
+import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.jvmError;
 
 import org.slf4j.Logger;
@@ -69,12 +70,15 @@ public abstract class AbstractRule {
                 }
                 config = rules.getJsonObject(name);
                 // 必须包含Value节点
-                if (!config.containsKey(RuleConstants.R_VALUE)) {
+                if (null != config && !config.containsKey(RuleConstants.R_VALUE)) {
                     config = null;
                 }
             } catch (DecodeException ex) {
                 jvmError(getLogger(), ex);
             }
+        }
+        if (null == config) {
+            debug(getLogger(), " Rule: " + name + " does not exist in content: " + content);
         }
         return config;
     }

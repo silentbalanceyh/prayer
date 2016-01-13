@@ -25,7 +25,7 @@ public class _0061PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP0061Meta10003Id1() throws AbstractException {
-        importFile("P006meta-id10003-1.json");
+        testImport("P006meta-id10003-1.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> identifier. (1) ");
     }
 
@@ -36,7 +36,7 @@ public class _0061PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP0061Meta10003Id2() throws AbstractException {
-        importFile("P006meta-id10003-2.json");
+        testImport("P006meta-id10003-2.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> identifier. (2) ");
     }
 
@@ -47,7 +47,7 @@ public class _0061PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP0061Meta10003Id3() throws AbstractException {
-        importFile("P006meta-id10003-3.json");
+        testImport("P006meta-id10003-3.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> identifier. (3) ");
     }
 
@@ -58,7 +58,7 @@ public class _0061PatternVerifierTestCase extends AbstractVerifierTestCase {
      */
     @Test(expected = PatternNotMatchException.class)
     public void testP0061Meta10003Mapping1() throws AbstractException {
-        importFile("P006meta-mapping10003-1.json");
+        testImport("P006meta-mapping10003-1.json");
         failure("[E10003] Pattern are not matching ! __meta__ -> mapping. (1) ");
     }
     // ~ Methods =============================================

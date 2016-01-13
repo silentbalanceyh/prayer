@@ -3,15 +3,14 @@ package com.prayer.schema.ruler;
 import org.junit.Test;
 
 import com.prayer.base.exception.AbstractException;
-import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.exception.schema.DuplicatedTablesException;
+import com.prayer.exception.schema.OptionalAttrMorEException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class _00743DiffVerifierTestCase extends AbstractVerifierTestCase {
+public class _0101ExistingTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -20,14 +19,17 @@ public class _00743DiffVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    /**
-     * 
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = DuplicatedTablesException.class)
-    public void testP00743Meta10020ECombinatedValue4() throws AbstractException {
-        testImport("P00743meta-mappingE-COMBINATED10020-1.json");
-        failure("[E10003] Tow duplicated values ! __meta__ -> (table, subtable). (1) ");
+    /** **/
+    @Test(expected = OptionalAttrMorEException.class)
+    public void testP010Meta10004PolicyIncrement1() throws AbstractException {
+        testImport("P010meta-policyINCREMENT10004-1.json");
+        failure("[E10004] The attributes must exist ! ( seqinit, seqstep ) (1)");
+    }
+    /** **/
+    @Test(expected = OptionalAttrMorEException.class)
+    public void testP010Meta10004PolicyIncrement2() throws AbstractException {
+        testImport("P010meta-policyINCREMENT10004-2.json");
+        failure("[E10004] The attributes must exist ! ( seqinit, seqstep ) (2)");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

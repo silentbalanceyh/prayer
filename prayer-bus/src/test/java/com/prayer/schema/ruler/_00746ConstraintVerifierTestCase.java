@@ -69,7 +69,7 @@ public class _00746ConstraintVerifierTestCase extends AbstractVerifierTestCase {
                 ret = this.connection.executeBatch("CREATE TABLE TST_SUB_ROLE1( K_ID VARCHAR(236) );");
             }
             if (Constants.RC_SUCCESS == ret) {
-                importFile("P00746meta-mappingE-COMBINATED10029-1.json");
+                testImport("P00746meta-mappingE-COMBINATED10029-1.json");
                 failure("[E10029] Database Constraints Error for subtable, subkey ! ");
             }
         }

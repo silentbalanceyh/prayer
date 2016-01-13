@@ -1,34 +1,35 @@
-package com.prayer.schema.ruler;
+package com.prayer.schema.json.ruler;
 
-import org.junit.Test;
-
-import com.prayer.base.exception.AbstractException;
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.exception.schema.DuplicatedTablesException;
+import com.prayer.facade.schema.rule.ObjectHabitus;
+import com.prayer.facade.schema.rule.Ruler;
+
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
+ * Field节点的规则器
  * 
  * @author Lang
  *
  */
-public class _00743DiffVerifierTestCase extends AbstractVerifierTestCase {
+@Guarded
+public final class FieldRuler implements Ruler {
+
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    @Override
+    public void apply(@NotNull final ObjectHabitus habitus) throws AbstractSchemaException {
+        // TODO Auto-generated method stub
+
+    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    /**
-     * 
-     * @throws AbstractSchemaException
-     */
-    @Test(expected = DuplicatedTablesException.class)
-    public void testP00743Meta10020ECombinatedValue4() throws AbstractException {
-        testImport("P00743meta-mappingE-COMBINATED10020-1.json");
-        failure("[E10003] Tow duplicated values ! __meta__ -> (table, subtable). (1) ");
-    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

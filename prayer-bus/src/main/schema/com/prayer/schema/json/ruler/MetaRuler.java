@@ -3,11 +3,15 @@ package com.prayer.schema.json.ruler;
 import static com.prayer.util.Converter.fromStr;
 
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.DBConstants;
+import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.Category;
 import com.prayer.constant.SystemEnum.Mapping;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
+import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -47,6 +51,7 @@ public final class MetaRuler implements Ruler {
         // Optional: subtable, subkey, seqname, seqstep, seqinit, status
         RulerHelper.applyUnsupport(habitus, FileConfig.CFG_META);
         /** 2.3.验证Pattern值的信息 **/
+        // Error-10003
         // name -> [A-Z]{1}[A-Za-z0-9]+,
         // namespace -> [a-z]+(\\.[a-z]+)*,
         // category -> (ENTITY|RELATION){1},
@@ -94,6 +99,28 @@ public final class MetaRuler implements Ruler {
         }
             break;
         }
+        // 仅检查INCREMENT
+        final MetaPolicy policy = fromStr(MetaPolicy.class, habitus.get(Attributes.M_POLICY));
+        if(MetaPolicy.INCREMENT == policy){
+            // policy == INCREMENT
+            verifyIncrement(habitus);
+        }
+    }
+    
+    /** policy == INCREMENT **/
+    private void verifyIncrement(final ObjectHabitus habitus) throws AbstractSchemaException{
+        /** (8) 2.4.5 SeqName for Oracle/PgSQL **/
+        if(StringKit.equals(Resources.DB_CATEGORY, DBConstants.CATEGORY_ORACLE)
+                || StringKit.equals(Resources.DB_CATEGORY, DBConstants.CATEGORY_PGSQL)){
+            /** (9.2.1) 2.4.5.1. 使用Sequence的情况，必须校验seqname是否存在 **/
+            // Required : seqname
+            RulerHelper.applyExisting(habitus, FileConfig.CFG_M_PIOG);
+            /** 【SKIP】(9.2.2) seqname格式，在2.3中已验证 **/
+        }
+        /** (10) 如果Increment验证seqinit，seqstep是否同时存在 **/
+        // Required : seqinit, seqstep
+        RulerHelper.applyExisting(habitus, FileConfig.CFG_M_PI);
+        /** 【SKIP】(11) 在2.3中已验证 **/
     }
 
     /** category = ENTITY && mapping = COMBINATED **/
@@ -101,7 +128,7 @@ public final class MetaRuler implements Ruler {
         /** (7.4.1) 2.4.4.1 **/
         // Required : subkey, subtable
         RulerHelper.applyExisting(habitus, FileConfig.CFG_M_EC);
-        /** (7.4.2) 2.4.4.2 Patterns，在2.3中会校验 **/
+        /** 【SKIP】(7.4.2) 2.4.4.2 Patterns，在2.3中会校验 **/
         /** (7.4.3) 2.4.4.3 Not Same **/
         // Not Same : table, subtable
         RulerHelper.applyDiff(habitus, FileConfig.CFG_M_EC);

@@ -30,7 +30,7 @@ public class _00744TableVerifierTestCase extends AbstractVerifierTestCase {
     public void testP00744Meta10027ECombinatedTable() throws AbstractException {
         // TODO: 目前只有SQL模式才检查
         if (Resources.DB_MODE.equals(DBConstants.MODE_SQL)) {
-            importFile("P00744meta-mappingE-COMBINATED10027-1.json");
+            testImport("P00744meta-mappingE-COMBINATED10027-1.json");
             failure("[E10027] Table does not exist! ");
         }
     }
