@@ -46,6 +46,8 @@ public interface RuleConstants {
         /** **/
         String CFG_META = "__meta__";
         /** **/
+        String CFG_FIELD = "__fields__";
+        /** **/
         String CFG_M_REL = "__meta__-relation";
         /** **/
         String CFG_M_EP = "__meta__-entity-partial";

@@ -21,11 +21,13 @@
     [
         {
             "name":"uniqueId",
-            "columnName":"PID",
-            "columnType":"VARCHAR"
+            "type":"StringType",
+            "columnName":"S_NAME",
+            "columnType":"STRING1"
         },
         {
-            "columnName":"NAME",
+            "name":"name",
+            "type":"StringType",
             "columnType":"VARCHAR"
         }
     ]

@@ -23,12 +23,15 @@ public interface ObjectHabitus {
      * @return
      */
     ConcurrentMap<String, Class<?>> typeMap();
+
     /**
      * 获取某个Field的值，String格式
+     * 
      * @param field
      * @return
      */
     String get(String field);
+
     /**
      * Reset，创建Raw Data的拷贝
      */

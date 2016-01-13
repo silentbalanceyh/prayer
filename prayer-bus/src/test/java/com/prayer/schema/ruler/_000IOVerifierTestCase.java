@@ -11,7 +11,7 @@ import com.prayer.exception.system.ResourceIOException;
  * @author Lang
  *
  */
-public class _000IOVerifyTestCase extends AbstractVerifierTestCase {
+public class _000IOVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

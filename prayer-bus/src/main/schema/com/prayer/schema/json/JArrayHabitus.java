@@ -1,7 +1,12 @@
 package com.prayer.schema.json;
 
+import static com.prayer.util.debug.Log.debug;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.JsonTypeConfusedException;
@@ -23,6 +28,8 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class JArrayHabitus implements ArrayHabitus {
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(JArrayHabitus.class);
     // ~ Instance Fields =====================================
     /** 维持一个拷贝，防止变更 **/
     private transient final JsonArray raw;
@@ -62,6 +69,7 @@ public class JArrayHabitus implements ArrayHabitus {
     /** **/
     @Override
     public ObjectHabitus get(@Min(0) int pos) {
+        debug(LOGGER, "[AE] Get element of " + this.name + " at postion [" + pos + "]");
         return this.data.get(pos);
     }
 
@@ -85,7 +93,8 @@ public class JArrayHabitus implements ArrayHabitus {
                 this.data.add(habitus);
             } else {
                 // 1.初始化内置异常：10002
-                this.error = new JsonTypeConfusedException(getClass(), "Array: " + this.name + "[" + pos + "] = " + value);
+                this.error = new JsonTypeConfusedException(getClass(),
+                        "Array: " + this.name + "[" + pos + "] = " + value);
                 break;
             }
         }

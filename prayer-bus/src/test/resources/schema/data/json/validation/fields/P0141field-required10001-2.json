@@ -20,7 +20,7 @@
     "__fields__": 
     [
         {
-            "name":"uniqueId",
+            "type":"StringType",
             "columnName":"PID",
             "columnType":"VARCHAR"
         },
