@@ -16,7 +16,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class ContainerRuler implements ArrayRuler {
+public class FContainerRuler implements ArrayRuler {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
@@ -29,7 +29,7 @@ public class ContainerRuler implements ArrayRuler {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public ContainerRuler(@NotNull final Ruler ruler) {
+    public FContainerRuler(@NotNull final Ruler ruler) {
         this.ruler = ruler;
     }
 
@@ -49,6 +49,11 @@ public class ContainerRuler implements ArrayRuler {
             final ObjectHabitus item = habitus.get(idx);
             this.ruler.apply(item);
         }
+        /** 3.2.检查Duplicated的配置 **/
+        // Error 10007/10008
+        // name
+        // columnName
+        RulerHelper.applyDuplicated(habitus, FileConfig.CFG_FIELD);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

@@ -6,52 +6,38 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.schema.rule.AbstractRule;
 import com.prayer.facade.schema.rule.Rule;
 
-import io.vertx.core.json.JsonArray;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
- * 不支持属性表
  * 
  * @author Lang
  *
  */
 @Guarded
-public final class UnsupportRule extends AbstractRule implements Rule {
+public final class DuplicatedRule extends AbstractRule implements Rule{
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(UnsupportRule.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(DuplicatedRule.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
-    public static Rule create(@NotNull @NotBlank @NotEmpty final String rule) {
-        return new UnsupportRule(rule);
+    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule){
+        return new DuplicatedRule(rule);
     }
     // ~ Constructors ========================================
-    /** 私有构造函数 **/
-    private UnsupportRule(final String rule) {
-        super(rule, Names.RULE_OPT);
-        /** 除了读取可选的属性以外，还需要将Required的加入，这样才可以计算Supported **/
-        final JsonArray required = readRule(rule, Names.RULE_REQ).getJsonArray(R_VALUE);
-        for (final Object item : required) {
-            if (item.getClass() == String.class) {
-                this.getRule().getJsonArray(R_VALUE).add(item);
-            }
-        }
+    /** **/
+    private DuplicatedRule(final String rule){
+        super(rule,Names.RULE_DUP);
     }
-
     // ~ Abstract Methods ====================================
-    // ~ Override Methods ====================================
-    /**
-     * 
-     * @return
-     */
+    // ~ Overide Methods =====================================
+    /** **/
     @Override
-    public Logger getLogger() {
+    public Logger getLogger(){
         return LOGGER;
     }
     // ~ Methods =============================================

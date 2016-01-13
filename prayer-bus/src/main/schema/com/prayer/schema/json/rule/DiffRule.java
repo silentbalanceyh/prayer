@@ -10,7 +10,6 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -31,7 +30,6 @@ public final class DiffRule extends AbstractRule implements Rule {
     }
     // ~ Constructors ========================================
     /** **/
-    @PostValidateThis
     private DiffRule(final String rule){
         super(rule, Names.RULE_DIFF);
     }

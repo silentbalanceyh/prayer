@@ -10,7 +10,6 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 /**
  * 
  * @author Lang
@@ -30,7 +29,6 @@ public final class PatternRule extends AbstractRule implements Rule{
     }
     // ~ Constructors ========================================
     /** 私有构造函数 **/
-    @PostValidateThis
     public PatternRule(final String rule){
         super(rule, Names.RULE_PTN);
     }

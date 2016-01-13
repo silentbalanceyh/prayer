@@ -58,6 +58,11 @@ public class JObjectHabitus implements ObjectHabitus {
     public Set<String> fields() {
         return this.data.fieldNames();
     }
+    /** **/
+    @Override
+    public JsonObject getRaw(){
+        return this.raw.copy();
+    }
 
     /** **/
     @Override

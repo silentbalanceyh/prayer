@@ -3,6 +3,8 @@ package com.prayer.facade.schema.rule;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
+import io.vertx.core.json.JsonObject;
+
 /**
  * 当前Json节点的状态接口，用于封装读取到的JsonObject对象
  * 
@@ -31,6 +33,11 @@ public interface ObjectHabitus {
      * @return
      */
     String get(String field);
+    /**
+     * 获取某个Field的Raw Data
+     * @return
+     */
+    JsonObject getRaw();
 
     /**
      * Reset，创建Raw Data的拷贝

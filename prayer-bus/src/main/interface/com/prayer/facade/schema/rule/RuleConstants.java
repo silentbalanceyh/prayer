@@ -10,6 +10,8 @@ import com.prayer.constant.Constants;
 public interface RuleConstants {
     /** 每一个Rule必须的Value节点value **/
     String R_VALUE = "value";
+    /** JsonArray -> JsonObject的转换 **/
+    String R_DATA = "data";
 
     /** Rule的名称 **/
     interface Names { // NOPMD
@@ -37,6 +39,8 @@ public interface RuleConstants {
         String RULE_DB_COL = "db.column";
         /** 10029 约束是否合法 **/
         String RULE_DB_CT = "db.constraint";
+        /** 10007/10008 两种Duplicated **/
+        String RULE_DUP = "duplicated";
     }
 
     /** Rule对应的配置文件名 **/

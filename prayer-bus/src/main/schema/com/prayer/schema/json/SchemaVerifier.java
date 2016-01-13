@@ -12,7 +12,7 @@ import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.facade.schema.verifier.Verifier;
-import com.prayer.schema.json.ruler.ContainerRuler;
+import com.prayer.schema.json.ruler.FContainerRuler;
 import com.prayer.schema.json.ruler.FieldRuler;
 import com.prayer.schema.json.ruler.MetaRuler;
 import com.prayer.schema.json.ruler.RootRuler;
@@ -76,7 +76,7 @@ public class SchemaVerifier implements Verifier {
         // 设置内置的Ruler，每个JsonObject必须满足
         final Ruler ruler = new FieldRuler();
         // 设置外围容器的Ruler，每个Container必备
-        final ArrayRuler container = new ContainerRuler(ruler);
+        final ArrayRuler container = new FContainerRuler(ruler);
         container.apply(habitus);
     }
 

@@ -10,7 +10,6 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -33,7 +32,6 @@ public final class DBTableRule extends AbstractRule implements Rule {
 
     // ~ Constructors ========================================
     /** **/
-    @PostValidateThis
     private DBTableRule(final String rule) {
         super(rule, Names.RULE_DB_TB);
     }

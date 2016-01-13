@@ -65,6 +65,11 @@ public class JArrayHabitus implements ArrayHabitus {
     public List<ObjectHabitus> objects() {
         return this.data;
     }
+    /** 返回原始数据的拷贝，防止修改 **/
+    @Override
+    public JsonArray getRaw(){
+        return this.raw.copy();
+    }
 
     /** **/
     @Override

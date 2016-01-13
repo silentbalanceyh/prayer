@@ -1,11 +1,15 @@
 package com.prayer.schema.json.ruler;
 
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
+import com.prayer.facade.schema.rule.RuleConstants;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.JObjectHabitus;
 import com.prayer.schema.json.RuleBuilder;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -23,27 +27,47 @@ public final class RulerHelper {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
-     * Error10029 -- 数据库中约束对不对
+     * Error10007/10008 -- 检查Duplicated的Column以及Name
+     * 
      * @param habitus
      * @param file
      * @throws AbstractSchemaException
      */
-    public static void applyDBConstraint(@NotNull final ObjectHabitus habitus, 
-            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException{
+    public static void applyDuplicated(@NotNull final ArrayHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.duplicated(file);
+        // 内部初始化
+        final JsonObject data = new JsonObject();
+        data.put(RuleConstants.R_DATA, habitus.getRaw());
+        sharedApply(new JObjectHabitus(data), rule);
+    }
+
+    /**
+     * Error10029 -- 数据库中约束对不对
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyDBConstraint(@NotNull final ObjectHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
         final Rule rule = RuleBuilder.dbconstraint(file);
         sharedApply(habitus, rule);
     }
+
     /**
      * Error10028 -- 数据库的某张表中的列是否存在
+     * 
      * @param habitus
      * @param file
      * @throws AbstractSchemaException
      */
-    public static void applyDBColumn(@NotNull final ObjectHabitus habitus, 
-            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException{
+    public static void applyDBColumn(@NotNull final ObjectHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
         final Rule rule = RuleBuilder.dbcolumn(file);
         sharedApply(habitus, rule);
     }
+
     /**
      * Error10027 -- 数据库中表不存在
      * 
