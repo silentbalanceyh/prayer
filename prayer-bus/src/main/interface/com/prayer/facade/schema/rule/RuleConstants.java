@@ -82,8 +82,10 @@ public interface RuleConstants {
         String CFG_FPI = "__fields__-primarykey-increment";
         /** PK GUID **/
         String CFG_FPG = "__fields__-primarykey-guid";
-        /** PK Other **/
-        String CFG_FPC = "__fields__-primarykey-common";
+        /** PK Collection **/
+        String CFG_FPC = "__fields__-primarykey-collect";
+        /** PK Assigned **/
+        String CFG_FPA = "__fields__-primarykey-assigned";
     }
 
     /** **/

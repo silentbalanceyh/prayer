@@ -1,11 +1,12 @@
 {
-    "debug":"__meta__ ( policy = INCREMENT )",
+    "debug":"__meta__ ( policy = ASSIGNED )",
     "in":{
         "value":{
             "type":{
                 "values":[
                     "IntType",
-                    "LongType"
+                    "LongType",
+                    "StringType"
                 ],
                 "error":"PKColumnTypePolicyException",
                 "arguments":[

@@ -1,5 +1,6 @@
 package com.prayer.schema.old.workflow;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import com.prayer.exception.schema.PKUniqueConflictException;
  * @author Lang
  * @see
  */
+@Ignore
 public class _09FieldsKey1TestCase extends AbstractSchemaTestCase { // NOPMD
     // ~ Static Fields =======================================
     /** **/

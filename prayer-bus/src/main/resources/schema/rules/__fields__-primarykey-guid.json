@@ -3,12 +3,32 @@
     "in":{
         "value":{
             "type":{
-                "values":
-                [
+                "values":[
                     "StringType"
                 ],
                 "error":"PKColumnTypePolicyException",
-                "arguments":["policy","type"]
+                "arguments":[
+                    "policy",
+                    "type"
+                ]
+            },
+            "nullable":{
+                "values":[
+                    "false"
+                ],
+                "error":"PKNullableConflictException",
+                "arguments":[
+                    "name"
+                ]
+            },
+            "unique":{
+                "values":[
+                    "true"
+                ],
+                "error":"PKUniqueConflictException",
+                "arguments":[
+                    "name"
+                ]
             }
         }
     }

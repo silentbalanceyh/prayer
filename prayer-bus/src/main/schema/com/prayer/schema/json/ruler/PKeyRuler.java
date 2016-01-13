@@ -51,8 +51,11 @@ public final class PKeyRuler implements Ruler {
         } else if (MetaPolicy.INCREMENT == this.policy) {
             /** (18.2.2.2) 4.3.1.2 INCREMENT **/
             RulerHelper.applyIn(habitus, FileConfig.CFG_FPI, addtional);
+        } else if (MetaPolicy.ASSIGNED == this.policy) {
+            /** (18.2.2.3 && 18.1.2) 4.3.1.3 ASSIGNED **/
+            RulerHelper.applyIn(habitus, FileConfig.CFG_FPA, addtional);
         } else {
-            /** (18.2.2.3 && 18.1.2) 4.3.1.3 ASSIGNED / COLLECTION **/
+            /** (18.2.2.3 && 18.1.2) 4.3.1.3 COLLECTION **/
             RulerHelper.applyIn(habitus, FileConfig.CFG_FPC, addtional);
         }
     }
@@ -60,10 +63,10 @@ public final class PKeyRuler implements Ruler {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     private JsonObject getAddtional(final ObjectHabitus habitus) {
-        final String type = habitus.get(Attributes.F_TYPE);
         final JsonObject addtional = new JsonObject();
         addtional.put("policy", this.policy.toString());
-        addtional.put("type", type);
+        addtional.put("type", habitus.get(Attributes.F_TYPE));
+        addtional.put("name", habitus.get(Attributes.F_NAME));
         return addtional;
     }
     // ~ Get/Set =============================================

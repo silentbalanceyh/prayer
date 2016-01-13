@@ -55,13 +55,16 @@ public final class ExtInViolater extends InViolater implements Violater {
         final ConcurrentMap<String, JsonObject> expectes = this.prepareExpected();
         AbstractSchemaException error = null;
         for (final String expected : expectes.keySet()) {
-            final String literal = data.getString(expected);
-            final JsonObject specification = expectes.get(expected);
-            final JsonArray values = specification.getJsonArray("values");
-            if (!inValues(values, literal)) {
-                final String errorCls = specification.getString("error");
-                final List<String> arguments = StreamList.toList(specification.getJsonArray("arguments"));
-                error = getError(errorCls, arguments, addtional);
+            final Object value = data.getValue(expected);
+            if (null != value) {
+                final String literal = value.toString();
+                final JsonObject specification = expectes.get(expected);
+                final JsonArray values = specification.getJsonArray("values");
+                if (!inValues(values, literal)) {
+                    final String errorCls = specification.getString("error");
+                    final List<String> arguments = StreamList.toList(specification.getJsonArray("arguments"));
+                    error = getError(errorCls, arguments, addtional);
+                }
             }
         }
         return error;
