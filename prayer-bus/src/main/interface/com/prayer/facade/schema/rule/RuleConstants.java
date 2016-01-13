@@ -13,23 +13,30 @@ public interface RuleConstants {
 
     /** Rule的名称 **/
     interface Names { // NOPMD
-        /** 10001 Required **/
+        /** 10001 Required 必要属性丢失 **/
         String RULE_REQ = "required";
-        /** 10002 JsonType **/
+        /** 10002 JsonType Json类型不对，必须是JsonObject或JsonArray **/
         String RULE_JTYPE = "jtype";
-        /** 10017 Unsupported = All = Required + Supported **/
+        /** 10017 Unsupported = All - Required - Optional 出现了不支持的属性 **/
         String RULE_OPT = "optional";
-        /** 10003 Pattern **/
+        /** 10003 Pattern 正则表达式，存在属性值不符合 **/
         String RULE_PTN = "pattern";
-        /** 10004 Exclude **/
+        /** 10004 Exclude 某些属性不可以出现 **/
         String RULE_EXD = "exclude";
-        /** 10005 In **/
-        String RULE_IN = "in";
-        /** 10005 Not In **/
-        String RULE_NIN = "notin";
-        
-        /** 10004 Existing **/
+        /** 10004 Existing 属性必须同时出现 **/
         String RULE_EST = "existing";
+        /** 10005 In 属性的值必须在某些合法值中 **/
+        String RULE_IN = "in";
+        /** 10005 Not In 属性的值不能在某些非合法值中 **/
+        String RULE_NIN = "notin";
+        /** 10020 两个属性值不可相同 **/
+        String RULE_DIFF = "diff";
+        /** 10027 Table是否在Business数据库中存在 **/
+        String RULE_DB_TB = "db.table";
+        /** 10028 Column是否在Business数据库中存在 **/
+        String RULE_DB_COL = "db.column";
+        /** 10029 约束是否合法 **/
+        String RULE_DB_CT = "db.constraint";
     }
 
     /** Rule对应的配置文件名 **/
@@ -47,8 +54,9 @@ public interface RuleConstants {
         /** **/
         String CFG_M_EC = "__meta__-entity-combinated";
     }
+
     /** **/
-    interface Flag{ // NOPMD
+    interface Flag { // NOPMD
         /** **/
         String FLAG_IN = Constants.EMPTY_STR;
         /** **/

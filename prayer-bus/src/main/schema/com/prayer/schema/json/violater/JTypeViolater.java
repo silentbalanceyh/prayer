@@ -26,7 +26,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class JTypeViolater implements Violater {
+public final class JTypeViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** Violater和Rule绑定，一个Violater只能有一个Rule **/

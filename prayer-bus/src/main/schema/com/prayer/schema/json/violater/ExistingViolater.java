@@ -23,7 +23,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class ExistingViolater implements Violater {
+public final class ExistingViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -56,7 +56,8 @@ public class ExistingViolater implements Violater {
                 final Object value = item.getValue(idx);
                 // 必须同时存在才行，既然有item则已经过滤了item为空的清空，一旦判断则必须存在
                 if (!fields.contains(value)) {
-                    error = new OptionalAttrMorEException(getClass(), item.getString(idx), "Existing");
+                    error = new OptionalAttrMorEException(getClass(),
+                            this.rule.position() + " -> " + item.getString(idx), "Missing");
                     break;
                 }
             }

@@ -15,6 +15,9 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.rule.DBColumnRule;
+import com.prayer.schema.json.rule.DBTableRule;
+import com.prayer.schema.json.rule.DiffRule;
 import com.prayer.schema.json.rule.ExcludeRule;
 import com.prayer.schema.json.rule.ExistingRule;
 import com.prayer.schema.json.rule.InRule;
@@ -169,6 +172,31 @@ public final class RuleBuilder {
      */
     public static Rule notin(@NotNull @NotEmpty @NotBlank final String file){
         return NotInRule.create(file);
+    }
+    /**
+     * E10020
+     * @param file
+     * @return
+     */
+    public static Rule diff(@NotNull @NotEmpty @NotBlank final String file){
+        return DiffRule.create(file);
+    }
+    
+    /**
+     * E10027
+     * @param file
+     * @return
+     */
+    public static Rule dbtable(@NotNull @NotEmpty @NotBlank final String file){
+        return DBTableRule.create(file);
+    }
+    /**
+     * E10028
+     * @param file
+     * @return
+     */
+    public static Rule dbcolumn(@NotNull @NotEmpty @NotBlank final String file){
+        return DBColumnRule.create(file);
     }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

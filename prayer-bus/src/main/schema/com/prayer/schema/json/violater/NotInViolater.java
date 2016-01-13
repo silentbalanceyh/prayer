@@ -24,7 +24,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class NotInViolater implements Violater {
+public final class NotInViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/

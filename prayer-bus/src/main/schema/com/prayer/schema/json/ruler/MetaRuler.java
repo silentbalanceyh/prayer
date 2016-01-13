@@ -88,6 +88,7 @@ public final class MetaRuler implements Ruler {
                 break;
             }
         }
+            break;
         case RELATION: {
             verifyCRelation(habitus);
         }
@@ -98,8 +99,18 @@ public final class MetaRuler implements Ruler {
     /** category = ENTITY && mapping = COMBINATED **/
     private void verifyCEntityCombinated(final ObjectHabitus habitus) throws AbstractSchemaException {
         /** (7.4.1) 2.4.4.1 **/
-        // Forbidden : subkey, subtable
-        RulerHelper.applyExclude(habitus, FileConfig.CFG_M_EC);
+        // Required : subkey, subtable
+        RulerHelper.applyExisting(habitus, FileConfig.CFG_M_EC);
+        /** (7.4.2) 2.4.4.2 Patterns，在2.3中会校验 **/
+        /** (7.4.3) 2.4.4.3 Not Same **/
+        // Not Same : table, subtable
+        RulerHelper.applyDiff(habitus, FileConfig.CFG_M_EC);
+        /** (7.4.4) 2.4.4.4 Table Does Not Exist **/
+        // Db Table : subtable
+        RulerHelper.applyDBTable(habitus, FileConfig.CFG_M_EC);
+        /** (7.4.5) 2.4.4.5 Column Does Not Exist **/
+        // Db Column : subkey
+        RulerHelper.applyDBColumn(habitus, FileConfig.CFG_M_EC);
     }
 
     /** category = ENTITY && mapping = DIRECT **/

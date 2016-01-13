@@ -1,9 +1,37 @@
 {
     "debug":"__meta__ ( category = ENTITY && mapping = COMBINATED )",
-    "exclude":{
+    "existing":{
         "value":[
-            "subkey",
+            [
+                "subkey",
+                "subtable"
+            ]
+        ]
+    },
+    "diff":{
+        "value":{
+            "subtable":"table"
+        }
+    },
+    "db.table":{
+        "value":[
             "subtable"
+        ]
+    },
+    "db.column":{
+        "value":[
+            {
+                "table":"subtable",
+                "column":"subkey"
+            }
+        ]
+    },
+    "db.constraint":{
+        "value":[
+            {
+                "table":"subtable",
+                "column":"subkey"
+            }
         ]
     }
 }

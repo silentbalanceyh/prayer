@@ -1,15 +1,14 @@
 package com.prayer.schema.json.violater;
 
-import java.util.Set;
-
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.exception.schema.OptionalAttrMorEException;
+import com.prayer.exception.schema.DuplicatedTablesException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
-import com.prayer.schema.json.rule.ExcludeRule;
+import com.prayer.schema.json.rule.DiffRule;
+import com.prayer.util.string.StringKit;
 
-import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -21,7 +20,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class ExcludeViolater implements Violater {
+public final class DiffViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -33,7 +32,7 @@ public final class ExcludeViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public ExcludeViolater(@NotNull @InstanceOfAny(ExcludeRule.class) final Rule rule) {
+    public DiffViolater(@NotNull @InstanceOfAny(DiffRule.class) final Rule rule) {
         this.rule = rule;
     }
 
@@ -43,20 +42,28 @@ public final class ExcludeViolater implements Violater {
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         /** **/
-        final Set<String> fields = habitus.fields();
-        final JsonArray excluded = this.rule.getRule().getJsonArray(R_VALUE);
-        /** 遍历所有排除的属性 **/
+        final JsonObject diffMap = this.rule.getRule().getJsonObject(R_VALUE);
+        /** **/
         AbstractSchemaException error = null;
-        for (final Object item : excluded) {
-            if (null != item && String.class == item.getClass()) {
-                if (fields.contains(item)) {
-                    error = new OptionalAttrMorEException(getClass(), this.rule.position() + " -> " + item.toString(), "Existing");
-                    break;
+        for (final String source : diffMap.fieldNames()) {
+            // Source Key不可以为null
+            if (null != source) {
+                final String target = diffMap.getString(source);
+                // Target Key不可以为null
+                if (null != target) {
+                    final String sourceValue = habitus.get(source);
+                    final String targetValue = habitus.get(target);
+                    // 两个属性的值不可以相同
+                    if (StringKit.isNonNil(sourceValue) && StringKit.isNonNil(targetValue)
+                            && StringKit.equals(sourceValue, targetValue)) {
+                        error = new DuplicatedTablesException(getClass(), this.rule.position() + " ==> " + source, target);
+                    }
                 }
             }
         }
         return error;
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

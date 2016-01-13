@@ -23,7 +23,44 @@ public final class RulerHelper {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
+     * Error10028 -- 数据库的某张表中的列是否存在
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyDBColumn(@NotNull final ObjectHabitus habitus, 
+            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException{
+        final Rule rule = RuleBuilder.dbcolumn(file);
+        sharedApply(habitus, rule);
+    }
+    /**
+     * Error10027 -- 数据库中表不存在
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyDBTable(@NotNull final ObjectHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.dbtable(file);
+        sharedApply(habitus, rule);
+    }
+
+    /**
+     * Error10020 -- 两个值不可以相等
+     * 
+     * @param habitus
+     * @param file
+     */
+    public static void applyDiff(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
+            throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.diff(file);
+        sharedApply(habitus, rule);
+    }
+
+    /**
      * Error10005 -- 值不能在提供的范围内
+     * 
      * @param habitus
      * @param file
      * @throws AbstractSchemaException

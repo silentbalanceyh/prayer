@@ -1,13 +1,16 @@
 package com.prayer.schema.json.violater;
 
-import java.util.Set;
+import static com.prayer.constant.Accessors.validator;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.exception.schema.OptionalAttrMorEException;
+import com.prayer.constant.MemoryPool;
+import com.prayer.constant.Resources;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
-import com.prayer.schema.json.rule.ExcludeRule;
+import com.prayer.facade.schema.verifier.DataValidator;
+import com.prayer.schema.json.rule.DBTableRule;
 
 import io.vertx.core.json.JsonArray;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -21,9 +24,12 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class ExcludeViolater implements Violater {
+public final class DBTableViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
+    /** **/
+    @NotNull
+    private transient final DataValidator validator;
     /** **/
     @NotNull
     private transient final Rule rule;
@@ -33,8 +39,9 @@ public final class ExcludeViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public ExcludeViolater(@NotNull @InstanceOfAny(ExcludeRule.class) final Rule rule) {
+    public DBTableViolater(@NotNull @InstanceOfAny(DBTableRule.class) final Rule rule) {
         this.rule = rule;
+        this.validator = reservoir(MemoryPool.POOL_VALIDATOR, Resources.DB_CATEGORY, validator());
     }
 
     // ~ Abstract Methods ====================================
@@ -43,23 +50,24 @@ public final class ExcludeViolater implements Violater {
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         /** **/
-        final Set<String> fields = habitus.fields();
-        final JsonArray excluded = this.rule.getRule().getJsonArray(R_VALUE);
-        /** 遍历所有排除的属性 **/
+        final JsonArray tables = this.rule.getRule().getJsonArray(R_VALUE);
+        /** **/
         AbstractSchemaException error = null;
-        for (final Object item : excluded) {
-            if (null != item && String.class == item.getClass()) {
-                if (fields.contains(item)) {
-                    error = new OptionalAttrMorEException(getClass(), this.rule.position() + " -> " + item.toString(), "Existing");
+        for (final Object value : tables) {
+            if (null != value && String.class == value.getClass()) {
+                final String table = value.toString();
+                error = this.validator.verifyTable(table);
+                /** 不为空时已经有异常抛出，则这个时候直接跳出循环 **/
+                if (null != error) {
                     break;
                 }
             }
         }
         return error;
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
 }
