@@ -24,6 +24,7 @@ import com.prayer.schema.json.rule.ExcludeRule;
 import com.prayer.schema.json.rule.ExistingRule;
 import com.prayer.schema.json.rule.InRule;
 import com.prayer.schema.json.rule.JTypeRule;
+import com.prayer.schema.json.rule.LeastRule;
 import com.prayer.schema.json.rule.NotInRule;
 import com.prayer.schema.json.rule.PatternRule;
 import com.prayer.schema.json.rule.RequiredRule;
@@ -215,6 +216,14 @@ public final class RuleBuilder {
      */
     public static Rule duplicated(@NotNull @NotEmpty @NotBlank final String file){
         return DuplicatedRule.create(file);
+    }
+    /**
+     * 
+     * @param file
+     * @return
+     */
+    public static Rule least(@NotNull @NotEmpty @NotBlank final String file){
+        return LeastRule.create(file);
     }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

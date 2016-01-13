@@ -16,7 +16,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class FContainerRuler implements ArrayRuler {
+public class FieldsRuler implements ArrayRuler {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
@@ -29,7 +29,7 @@ public class FContainerRuler implements ArrayRuler {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public FContainerRuler(@NotNull final Ruler ruler) {
+    public FieldsRuler(@NotNull final Ruler ruler) {
         this.ruler = ruler;
     }
 

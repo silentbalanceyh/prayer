@@ -46,9 +46,10 @@ public final class MetaRuler implements Ruler {
         RulerHelper.applyRequired(habitus, FileConfig.CFG_META);
         /** 2.2.验证不支持的属性 **/
         // Error-10017:
-        // Required: name, namespace, category, table, identifier, mapping,
-        // policy
-        // Optional: subtable, subkey, seqname, seqstep, seqinit, status
+        // Required:
+        // name, namespace, category, table, identifier, mapping, policy
+        // Optional:
+        // subtable, subkey, seqname, seqstep, seqinit, status
         RulerHelper.applyUnsupport(habitus, FileConfig.CFG_META);
         /** 2.3.验证Pattern值的信息 **/
         // Error-10003
@@ -101,17 +102,17 @@ public final class MetaRuler implements Ruler {
         }
         // 仅检查INCREMENT
         final MetaPolicy policy = fromStr(MetaPolicy.class, habitus.get(Attributes.M_POLICY));
-        if(MetaPolicy.INCREMENT == policy){
+        if (MetaPolicy.INCREMENT == policy) {
             // policy == INCREMENT
             verifyIncrement(habitus);
         }
     }
-    
+
     /** policy == INCREMENT **/
-    private void verifyIncrement(final ObjectHabitus habitus) throws AbstractSchemaException{
+    private void verifyIncrement(final ObjectHabitus habitus) throws AbstractSchemaException {
         /** (8) 2.4.5 SeqName for Oracle/PgSQL **/
-        if(StringKit.equals(Resources.DB_CATEGORY, DBConstants.CATEGORY_ORACLE)
-                || StringKit.equals(Resources.DB_CATEGORY, DBConstants.CATEGORY_PGSQL)){
+        if (StringKit.equals(Resources.DB_CATEGORY, DBConstants.CATEGORY_ORACLE)
+                || StringKit.equals(Resources.DB_CATEGORY, DBConstants.CATEGORY_PGSQL)) {
             /** (9.2.1) 2.4.5.1. 使用Sequence的情况，必须校验seqname是否存在 **/
             // Required : seqname
             RulerHelper.applyExisting(habitus, FileConfig.CFG_M_PIOG);

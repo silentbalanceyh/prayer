@@ -1,5 +1,6 @@
 package com.prayer.schema.old.workflow;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import com.prayer.exception.schema.PatternNotMatchException;
  * @author Lang
  * @see
  */
+@Ignore
 public class _08FieldsAttr2TestCase extends AbstractSchemaTestCase { // NOPMD
     // ~ Static Fields =======================================
     /** **/

@@ -27,6 +27,23 @@ public final class RulerHelper {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyLeast(@NotNull final ArrayHabitus habitus, @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
+            throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.least(file);
+        // 内部初始化
+        final JsonObject data = new JsonObject();
+        data.put(RuleConstants.R_DATA, habitus.getRaw());
+        data.put(RuleConstants.R_ADDT, addtional);
+        final ObjectHabitus input = new JObjectHabitus(data);
+        sharedApply(input, rule);
+    }
+
+    /**
      * Error10007/10008 -- 检查Duplicated的Column以及Name
      * 
      * @param habitus
@@ -39,7 +56,8 @@ public final class RulerHelper {
         // 内部初始化
         final JsonObject data = new JsonObject();
         data.put(RuleConstants.R_DATA, habitus.getRaw());
-        sharedApply(new JObjectHabitus(data), rule);
+        final ObjectHabitus input = new JObjectHabitus(data);
+        sharedApply(input, rule);
     }
 
     /**

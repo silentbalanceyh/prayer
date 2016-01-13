@@ -8,6 +8,30 @@
             "columnType"
         ]
     },
+    "optional":{
+        "value":[
+            "pattern",
+            "validator",
+            "length",
+            "datetime",
+            "dateformat",
+            "precision",
+            "unit",
+            "maxLength",
+            "minLength",
+            "max",
+            "min",
+            "primarykey",
+            "unique",
+            "subtable",
+            "foreignkey",
+            "nullable",
+            "columnName",
+            "columnType",
+            "refTable",
+            "refId"
+        ]
+    },
     "pattern":{
         "value":{
             "name":"[A-Za-z]{1}[A-Za-z0-9]+",

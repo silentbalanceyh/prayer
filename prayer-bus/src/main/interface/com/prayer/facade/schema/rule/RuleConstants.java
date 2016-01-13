@@ -12,6 +12,8 @@ public interface RuleConstants {
     String R_VALUE = "value";
     /** JsonArray -> JsonObject的转换 **/
     String R_DATA = "data";
+    /** JsonArray -> JsonObject的转换 **/
+    String R_ADDT = "addtional";
 
     /** Rule的名称 **/
     interface Names { // NOPMD
@@ -39,8 +41,10 @@ public interface RuleConstants {
         String RULE_DB_COL = "db.column";
         /** 10029 约束是否合法 **/
         String RULE_DB_CT = "db.constraint";
-        /** 10007/10008 两种Duplicated **/
+        /** 【Array】10007/10008 两种Duplicated **/
         String RULE_DUP = "duplicated";
+        /** 【Array】最少出现规则 **/
+        String RULE_LST = "least";
     }
 
     /** Rule对应的配置文件名 **/
@@ -51,6 +55,8 @@ public interface RuleConstants {
         String CFG_META = "__meta__";
         /** **/
         String CFG_FIELD = "__fields__";
+        /** **/
+        String CFG_FPK = "__fields__-primarykey";
         /** **/
         String CFG_M_REL = "__meta__-relation";
         /** **/

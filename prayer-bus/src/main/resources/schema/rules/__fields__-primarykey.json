@@ -1,0 +1,15 @@
+{
+    "debug":"__fields__ -> primarykey",
+    "least":{
+        "value":[
+            {
+                "occurs":1,
+                "filter":{
+                    "primarykey":true
+                },
+                "error":"PKMissingException",
+                "arguments":["table"]
+            }
+        ]
+    }
+}

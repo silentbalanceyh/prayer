@@ -30,12 +30,23 @@ public final class FieldRuler implements Ruler {
         // Error-10001: __fields__ -> columnName
         // Error-10001: __fields__ -> columnType
         RulerHelper.applyRequired(habitus, FileConfig.CFG_FIELD);
-        /** 3.1.2 验证Required属性的Pattern **/
+        /** 3.1.2 验证Unsupport属性 **/
+        // Error-10017
+        // Required:
+        // name, type, columnName, columnType
+        // Optional:
+        // pattern, validator, length, datetime, dateformat, precision, unit,
+        // maxLength, minLength, max, min, primarykey, unique, subtable,
+        // foreignkey, nullable, columnName, columnType, refTable, refId
+        RulerHelper.applyUnsupport(habitus, FileConfig.CFG_FIELD);
+        /** 3.1.3 验证Required属性的Pattern **/
         // Error-10003
         // name -> [A-Za-z]{1}[A-Za-z0-9]+
-        // type -> (BooleanType|IntType|LongType|DecimalType|DateType|StringType|JsonType|XmlType|ScriptType|BinaryType)
+        // type ->
+        // (BooleanType|IntType|LongType|DecimalType|DateType|StringType|JsonType|XmlType|ScriptType|BinaryType)
         // columnName -> [A-Z]{1,3}\\_[A-Z]{1}[A-Z\\_0-9]*
-        // columnType -> BOOLEAN|INT|LONG|DECIMAL|DATE|STRING|JSON|XML|SCRIPT|BINARY)[0-9]*
+        // columnType ->
+        // BOOLEAN|INT|LONG|DECIMAL|DATE|STRING|JSON|XML|SCRIPT|BINARY)[0-9]*
         RulerHelper.applyPattern(habitus, FileConfig.CFG_FIELD);
     }
     // ~ Abstract Methods ====================================
