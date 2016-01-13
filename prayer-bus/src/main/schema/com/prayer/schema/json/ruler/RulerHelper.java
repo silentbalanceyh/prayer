@@ -23,6 +23,17 @@ public final class RulerHelper {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
+     * Error10029 -- 数据库中约束对不对
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyDBConstraint(@NotNull final ObjectHabitus habitus, 
+            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException{
+        final Rule rule = RuleBuilder.dbconstraint(file);
+        sharedApply(habitus, rule);
+    }
+    /**
      * Error10028 -- 数据库的某张表中的列是否存在
      * @param habitus
      * @param file

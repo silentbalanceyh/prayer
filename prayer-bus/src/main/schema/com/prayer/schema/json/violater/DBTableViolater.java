@@ -11,6 +11,7 @@ import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.schema.json.rule.DBTableRule;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonArray;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -55,11 +56,14 @@ public final class DBTableViolater implements Violater {
         AbstractSchemaException error = null;
         for (final Object value : tables) {
             if (null != value && String.class == value.getClass()) {
-                final String table = value.toString();
-                error = this.validator.verifyTable(table);
-                /** 不为空时已经有异常抛出，则这个时候直接跳出循环 **/
-                if (null != error) {
-                    break;
+                final String tAttr = value.toString();
+                if (StringKit.isNonNil(tAttr)) {
+                    final String table = habitus.get(tAttr);
+                    error = this.validator.verifyTable(table);
+                    /** 不为空时已经有异常抛出，则这个时候直接跳出循环 **/
+                    if (null != error) {
+                        break;
+                    }
                 }
             }
         }

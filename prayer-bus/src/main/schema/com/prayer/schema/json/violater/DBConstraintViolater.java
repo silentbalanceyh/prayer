@@ -10,7 +10,7 @@ import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.facade.schema.verifier.DataValidator;
-import com.prayer.schema.json.rule.DBColumnRule;
+import com.prayer.schema.json.rule.DBConstraintRule;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonArray;
@@ -26,7 +26,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class DBColumnViolater implements Violater {
+public final class DBConstraintViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -41,7 +41,7 @@ public final class DBColumnViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public DBColumnViolater(@NotNull @InstanceOfAny(DBColumnRule.class) final Rule rule) {
+    public DBConstraintViolater(@NotNull @InstanceOfAny(DBConstraintRule.class) final Rule rule) {
         this.rule = rule;
         this.validator = reservoir(MemoryPool.POOL_VALIDATOR, Resources.DB_CATEGORY, validator());
     }
@@ -65,7 +65,7 @@ public final class DBColumnViolater implements Violater {
                     final String table = habitus.get(tAttr);
                     final String column = habitus.get(cAttr);
                     if (StringKit.isNonNil(table) && StringKit.isNonNil(column)) {
-                        error = this.validator.verifyColumn(table, column);
+                        error = this.validator.verifyConstraint(table, column);
                         /** 不为空时已经有异常抛出，则这个时候直接跳出循环 **/
                         if (null != error) {
                             break;
