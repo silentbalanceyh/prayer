@@ -14,6 +14,7 @@ import com.prayer.base.exception.AbstractSchemaException;
  *
  */
 @Guarded
+@Deprecated
 final class SubRelEnsurer implements InternalEnsurer {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================

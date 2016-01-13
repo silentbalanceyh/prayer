@@ -24,6 +24,7 @@ import net.sf.oval.guard.PreValidateThis;
  * @see
  */
 @Guarded
+@Deprecated
 final class MetaEnsurer implements InternalEnsurer {
     // ~ Static Fields =======================================
     /** Meta Required **/

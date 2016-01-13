@@ -45,6 +45,7 @@ import net.sf.oval.guard.Pre;
  * @see
  */
 @Guarded
+@Deprecated
 public class CommunionImporter implements OldImporter {
     // ~ Static Fields =======================================
     /** **/

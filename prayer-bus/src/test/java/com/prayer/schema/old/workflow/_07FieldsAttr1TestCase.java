@@ -1,20 +1,22 @@
 package com.prayer.schema.old.workflow;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.JsonTypeConfusedException;
-import com.prayer.exception.schema.ZeroLengthException;
 import com.prayer.exception.schema.PatternNotMatchException;
 import com.prayer.exception.schema.RequiredAttrMissingException;
+import com.prayer.exception.schema.ZeroLengthException;
 
 /**
  * 
  * @author Lang
  * @see
  */
+@Ignore
 public class _07FieldsAttr1TestCase extends AbstractSchemaTestCase { // NOPMD
     // ~ Static Fields =======================================
     /** **/

@@ -22,6 +22,7 @@ import com.prayer.base.exception.AbstractSchemaException;
  * @see
  */
 @Guarded
+@Deprecated
 final class FieldsEnsurer implements InternalEnsurer {
     // ~ Static Fields =======================================
     /** **/

@@ -38,6 +38,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
+@Deprecated
 final class CrossEnsurer implements InternalEnsurer { // NOPMD
     // ~ Static Fields =======================================
     /** **/

@@ -8,6 +8,7 @@ import com.prayer.base.exception.AbstractSchemaException;
  * @author Lang
  *
  */
+@Deprecated
 interface InternalEnsurer {
     /**
      * 主验证方法

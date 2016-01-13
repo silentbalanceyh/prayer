@@ -49,6 +49,7 @@ import net.sf.oval.guard.Pre;
  * @see
  */
 @Guarded
+@Deprecated
 final class JObjectValidator {
     // ~ Static Fields =======================================
     /** **/

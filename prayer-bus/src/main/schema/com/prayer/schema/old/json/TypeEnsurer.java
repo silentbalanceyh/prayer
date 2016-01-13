@@ -25,6 +25,7 @@ import com.prayer.util.string.StringKit;
  *
  */
 @Guarded
+@Deprecated
 final class TypeEnsurer implements InternalEnsurer {
     // ~ Static Fields =======================================
     /** **/

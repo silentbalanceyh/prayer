@@ -22,8 +22,8 @@
         {
             "name":"_uniqueId",
             "type":"StringType",
-            "columnName":"PID",
-            "columnType":"VARCHAR"
+            "columnName":"S_NAME",
+            "columnType":"STRING1"
         }
     ]
 }

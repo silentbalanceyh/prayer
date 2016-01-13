@@ -48,6 +48,7 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
+@Deprecated
 final class JArrayValidator { // NOPMD
     // ~ Static Fields =======================================
     /** **/

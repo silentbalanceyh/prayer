@@ -24,6 +24,7 @@ import net.sf.oval.guard.PreValidateThis;
  * @see
  */
 @Guarded
+@Deprecated
 final class GenericEnsurer implements ExternalEnsurer { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================

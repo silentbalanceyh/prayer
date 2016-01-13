@@ -22,8 +22,8 @@
         {
             "name":"uni>queId",
             "type":"StringType",
-            "columnName":"PID",
-            "columnType":"VARCHAR"
+            "columnName":"S_NAME",
+            "columnType":"STRING1"
         }
     ]
 }

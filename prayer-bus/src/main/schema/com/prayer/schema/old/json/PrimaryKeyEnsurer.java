@@ -33,6 +33,7 @@ import net.sf.oval.guard.PreValidateThis;
  * @see
  */
 @Guarded
+@Deprecated
 final class PrimaryKeyEnsurer implements InternalEnsurer {    // NOPMD
     // ~ Static Fields =======================================
     /** **/

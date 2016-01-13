@@ -34,6 +34,7 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
+@Deprecated
 final class ForeignKeyEnsurer implements InternalEnsurer {
     // ~ Static Fields =======================================
     /** **/
