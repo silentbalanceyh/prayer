@@ -1,48 +1,46 @@
-package com.prayer.schema.json.rule;
+package com.prayer.schema.old.workflow;
 
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.schema.rule.AbstractRule;
-import com.prayer.facade.schema.rule.Rule;
-
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
+import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.exception.schema.UnsupportAttrException;
 
 /**
  * 
  * @author Lang
  *
  */
-@Guarded
-public final class ExcludeRule extends AbstractRule implements Rule{
+public class _13TypeSupport1TestCase extends AbstractSchemaTestCase {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExcludeRule.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(_13TypeSupport1TestCase.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /** **/
-    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
-        return new ExcludeRule(rule);
-    }
     // ~ Constructors ========================================
-    /** 私有构造函数 **/
-    @PostValidateThis
-    private ExcludeRule(final String rule) {
-        super(rule, Names.RULE_EXD);
-    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
+    /**
+     * 
+     */
     @Override
     public Logger getLogger() {
         return LOGGER;
     }
+
     // ~ Methods =============================================
+    /**
+     * 
+     * @throws AbstractSchemaException
+     */
+    @Test(expected = UnsupportAttrException.class)
+    public void testP24Fields1Support10017() throws AbstractSchemaException {
+        testImport("types/P024field-Type1STRING-Support10017-1.json",
+                "[E10017] Fields ==> (Failure) There is unexpected exception!");
+    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

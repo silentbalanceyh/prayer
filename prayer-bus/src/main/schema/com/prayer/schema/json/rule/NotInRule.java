@@ -18,28 +18,28 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class ExcludeRule extends AbstractRule implements Rule{
+public final class NotInRule extends AbstractRule implements Rule {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExcludeRule.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotInRule.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
-    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
-        return new ExcludeRule(rule);
+    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule){
+        return new NotInRule(rule);
     }
     // ~ Constructors ========================================
-    /** 私有构造函数 **/
+    /*** **/
     @PostValidateThis
-    private ExcludeRule(final String rule) {
-        super(rule, Names.RULE_EXD);
+    private NotInRule(final String rule){
+        super(rule,Names.RULE_NIN);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public Logger getLogger() {
+    public Logger getLogger(){
         return LOGGER;
     }
     // ~ Methods =============================================

@@ -17,7 +17,9 @@ import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.schema.json.rule.ExcludeRule;
 import com.prayer.schema.json.rule.ExistingRule;
-import com.prayer.schema.json.rule.JsonTypeRule;
+import com.prayer.schema.json.rule.InRule;
+import com.prayer.schema.json.rule.JTypeRule;
+import com.prayer.schema.json.rule.NotInRule;
 import com.prayer.schema.json.rule.PatternRule;
 import com.prayer.schema.json.rule.RequiredRule;
 import com.prayer.schema.json.rule.UnsupportRule;
@@ -113,7 +115,7 @@ public final class RuleBuilder {
      * @return
      */
     public static Rule jtype(@NotNull @NotEmpty @NotBlank final String file) {
-        return JsonTypeRule.create(file);
+        return JTypeRule.create(file);
     }
 
     /**
@@ -151,6 +153,22 @@ public final class RuleBuilder {
      */
     public static Rule existing(@NotNull @NotEmpty @NotBlank final String file){
         return ExistingRule.create(file);
+    }
+    /**
+     * E10005
+     * @param file
+     * @return
+     */
+    public static Rule in(@NotNull @NotEmpty @NotBlank final String file){
+        return InRule.create(file);
+    }
+    /**
+     * E10005
+     * @param file
+     * @return
+     */
+    public static Rule notin(@NotNull @NotEmpty @NotBlank final String file){
+        return NotInRule.create(file);
     }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

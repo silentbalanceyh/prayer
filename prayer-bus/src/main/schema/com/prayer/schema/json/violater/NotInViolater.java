@@ -1,35 +1,33 @@
 package com.prayer.schema.json.violater;
 
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.exception.schema.PatternNotMatchException;
+import com.prayer.constant.Constants;
+import com.prayer.exception.schema.InvalidValueException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
-import com.prayer.schema.json.rule.PatternRule;
+import com.prayer.schema.json.rule.NotInRule;
 import com.prayer.util.string.StringKit;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
-
 /**
- * Error 10003 : PatternNotMatchException
  * 
  * @author Lang
  *
  */
 @Guarded
-public final class PatternViolater implements Violater {
+public class NotInViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
+    /** **/
     @NotNull
     private transient final Rule rule;
 
@@ -38,7 +36,7 @@ public final class PatternViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public PatternViolater(@NotNull @InstanceOfAny(PatternRule.class) final Rule rule) {
+    public NotInViolater(@NotNull @InstanceOfAny(NotInRule.class) final Rule rule) {
         this.rule = rule;
     }
 
@@ -47,42 +45,34 @@ public final class PatternViolater implements Violater {
     /** **/
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
-        final Set<String> fields = habitus.fields();
-        final ConcurrentMap<String, Pattern> expectes = this.prepareExpected();
-        /** **/
+        final ConcurrentMap<String, JsonArray> expectes = this.prepareExpected();
         AbstractSchemaException error = null;
-        for (final String field : fields) {
-            if (StringKit.isNonNil(field)) {
-                final Pattern pattern = expectes.get(field);
-                // 没有对应的Pattern设置，则直接不匹配，Skip掉
-                if (null != pattern) {
-                    final Matcher matcher = pattern.matcher(habitus.get(field));
-                    if (!matcher.matches()) {
-                        error = new PatternNotMatchException(getClass(), this.rule.position() + " -> " + field,
-                                habitus.get(field), pattern.toString());
-                    }
+        for (final String expected : expectes.keySet()) {
+            final String literal = habitus.get(expected);
+            if (StringKit.isNonNil(literal)) {
+                final JsonArray values = expectes.get(expected);
+                if (values.contains(literal)) {
+                    error = new InvalidValueException(getClass(), this.rule.position() + " -> " + expected, values.encode(), literal, Flag.FLAG_NIN);
                 }
             }
         }
         return error;
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private ConcurrentMap<String, Pattern> prepareExpected() {
+    private ConcurrentMap<String, JsonArray> prepareExpected() {
         final JsonObject expectes = rule.getRule().getJsonObject(R_VALUE);
-        final ConcurrentMap<String, Pattern> retPMap = new ConcurrentHashMap<>();
+        final ConcurrentMap<String, JsonArray> retIMap = new ConcurrentHashMap<>();
         for (final String field : expectes.fieldNames()) {
             if (StringKit.isNonNil(field)) {
-                final Pattern pattern = Pattern.compile(expectes.getString(field));
-                if (null != pattern) {
-                    retPMap.put(field, pattern);
+                final JsonArray values = expectes.getJsonArray(field);
+                if (null != values && Constants.ZERO < values.size()) {
+                    retIMap.put(field, values);
                 }
             }
         }
-        return retPMap;
+        return retIMap;
     }
-    // ~ Get/Set =============================================
-    // ~ hashCode,equals,toString ============================
-
 }

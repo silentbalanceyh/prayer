@@ -1,4 +1,4 @@
-package com.prayer.schema.workflow;
+package com.prayer.schema.old.workflow;
 
 import org.junit.Test;
 import org.slf4j.Logger;

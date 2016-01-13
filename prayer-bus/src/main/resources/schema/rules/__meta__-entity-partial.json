@@ -1,0 +1,19 @@
+{
+    "debug":"__meta__ ( category = ENTITY && mapping = PARTIAL )",
+    "exclude":{
+        "value":[
+            "subkey",
+            "subtable",
+            "seqname",
+            "seqstep",
+            "seqinit"
+        ]
+    },
+    "in":{
+        "value":{
+            "policy":[
+                "ASSIGNED"
+            ]
+        }
+    }
+}

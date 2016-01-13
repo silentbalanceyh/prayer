@@ -10,8 +10,10 @@ import com.prayer.exception.schema.UnsupportAttrException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.rule.UnsupportRule;
 
 import io.vertx.core.json.JsonArray;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -34,7 +36,7 @@ public final class UnsupportViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public UnsupportViolater(@NotNull final Rule rule) {
+    public UnsupportViolater(@NotNull @InstanceOfAny(UnsupportRule.class) final Rule rule) {
         this.rule = rule;
     }
 

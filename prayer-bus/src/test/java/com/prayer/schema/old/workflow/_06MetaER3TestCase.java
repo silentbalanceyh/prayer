@@ -1,4 +1,4 @@
-package com.prayer.schema.workflow;
+package com.prayer.schema.old.workflow;
 
 import static com.prayer.constant.Accessors.validator;
 import static com.prayer.util.reflection.Instance.singleton;

@@ -71,6 +71,14 @@ public final class MetaRuler implements Ruler {
         final Mapping mapping = fromStr(Mapping.class, habitus.get(Attributes.M_MAPPING));
         // Category, Mapping
         switch (category) {
+        case ENTITY: {
+            // Mapping
+            switch (mapping) {
+            case PARTIAL: {
+                verifyCEntityPartial(habitus);
+            }
+            }
+        }
         case RELATION: {
             verifyCRelation(habitus);
         }
@@ -78,9 +86,23 @@ public final class MetaRuler implements Ruler {
         }
     }
 
+    /** category = ENTITY && mapping = PARTIAL **/
+    private void verifyCEntityPartial(final ObjectHabitus habitus) throws AbstractSchemaException {
+        /** (7.2.1 && 7.2.2) 2.4.2.1 **/
+        // Forbidden : subkey, subtable, seqname, seqinit, seqstep
+        RulerHelper.applyExclude(habitus, FileConfig.CFG_M_EP);
+        /** (7.2.3) 2.4.2.2 policy in ASSIGNED **/
+        RulerHelper.applyIn(habitus, FileConfig.CFG_M_EP);
+    }
+
+    /** category = RELATION **/
     private void verifyCRelation(final ObjectHabitus habitus) throws AbstractSchemaException {
-        /** (7.1.1) 2.4.1 category == RELATION **/
+        /** (7.1.1) 2.4.1.1 subkey, subtable forbidden **/
         RulerHelper.applyExclude(habitus, FileConfig.CFG_M_REL);
+        /** (7.1.2) 2.4.1.2 mapping in DIRECT **/
+        RulerHelper.applyIn(habitus, FileConfig.CFG_M_REL);
+        /** (7.1.3) 2.4.1.3 policy not in ASSIGNED **/
+        RulerHelper.applyNotIn(habitus, FileConfig.CFG_M_REL);
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

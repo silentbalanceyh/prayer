@@ -72,7 +72,10 @@ public class JObjectHabitus implements ObjectHabitus {
         final Class<?> type = this.types.get(field);
         String literal = null;
         if (JsonObject.class != type && JsonArray.class != type) {
-            literal = this.data.getString(field);
+            final Object value = this.data.getValue(field);
+            if (null != value) {
+                literal = value.toString();
+            }
         }
         return literal;
     }

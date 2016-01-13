@@ -23,7 +23,33 @@ public final class RulerHelper {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
+     * Error10005 -- 值不能在提供的范围内
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyNotIn(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
+            throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.notin(file);
+        sharedApply(habitus, rule);
+    }
+
+    /**
+     * Error10005 -- 值必须在范围内的验证
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyIn(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
+            throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.in(file);
+        sharedApply(habitus, rule);
+    }
+
+    /**
      * Error10004 -- 不包含属性验证
+     * 
      * @param habitus
      * @param file
      * @throws AbstractSchemaException
@@ -31,7 +57,7 @@ public final class RulerHelper {
     public static void applyExclude(@NotNull final ObjectHabitus habitus,
             @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
         final Rule rule = RuleBuilder.exclude(file);
-        sharedApply(habitus,rule);
+        sharedApply(habitus, rule);
     }
 
     /**

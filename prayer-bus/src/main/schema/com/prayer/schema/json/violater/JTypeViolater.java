@@ -9,10 +9,12 @@ import com.prayer.exception.schema.JsonTypeConfusedException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.rule.JTypeRule;
 import com.prayer.util.reflection.Instance;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -36,7 +38,7 @@ public class JTypeViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public JTypeViolater(@NotNull final Rule rule) {
+    public JTypeViolater(@NotNull @InstanceOfAny(JTypeRule.class) final Rule rule) {
         this.rule = rule;
     }
 

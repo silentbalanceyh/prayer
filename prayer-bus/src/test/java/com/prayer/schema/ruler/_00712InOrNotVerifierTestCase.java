@@ -4,14 +4,14 @@ import org.junit.Test;
 
 import com.prayer.base.exception.AbstractException;
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.exception.schema.OptionalAttrMorEException;
+import com.prayer.exception.schema.InvalidValueException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class _0071ExcludeVerifierTestCase extends AbstractVerifierTestCase {
+public class _00712InOrNotVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -24,19 +24,19 @@ public class _0071ExcludeVerifierTestCase extends AbstractVerifierTestCase {
      * 
      * @throws AbstractSchemaException
      */
-    @Test(expected = OptionalAttrMorEException.class)
-    public void testP00711Meta10004RelationExisting1() throws AbstractException {
-        importFile("P00711meta-categoryRELATION10004-1.json");
-        failure("[E10004] The attributes mustn't exist ! ( subkey, subtable -> subkey) (1)");
+    @Test(expected = InvalidValueException.class)
+    public void testP00712Meta10005RelationValue1() throws AbstractException {
+        importFile("P00712meta-mappingRELATION10005-1.json");
+        failure("[E10005] Meta ( category = RELATION ) attribute mapping must be DIRECT (1)");
     }
     /**
      * 
      * @throws AbstractSchemaException
      */
-    @Test(expected = OptionalAttrMorEException.class)
-    public void testP00711Meta10004RelationExisting2() throws AbstractException {
-        importFile("P00711meta-categoryRELATION10004-2.json");
-        failure("[E10004] The attributes mustn't exist ! ( subkey, subtable -> subtable) (2)");
+    @Test(expected = InvalidValueException.class)
+    public void testP00713Meta10005RelationValue2() throws AbstractException {
+        importFile("P00713meta-mappingRELATION10005-2.json");
+        failure("[E10005] Meta ( category = RELATION ) attribute policy mustn't be ASSIGNED (1)");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

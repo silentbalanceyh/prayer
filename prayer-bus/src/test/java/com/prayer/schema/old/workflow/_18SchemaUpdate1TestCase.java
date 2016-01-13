@@ -1,4 +1,4 @@
-package com.prayer.schema.workflow; // NOPMD
+package com.prayer.schema.old.workflow; // NOPMD
 
 import static com.prayer.util.debug.Log.info;
 import static org.junit.Assert.assertTrue;

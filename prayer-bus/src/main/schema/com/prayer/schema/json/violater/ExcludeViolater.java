@@ -7,8 +7,10 @@ import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.rule.ExcludeRule;
 
 import io.vertx.core.json.JsonArray;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -31,7 +33,7 @@ public class ExcludeViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public ExcludeViolater(@NotNull final Rule rule) {
+    public ExcludeViolater(@NotNull @InstanceOfAny(ExcludeRule.class) final Rule rule) {
         this.rule = rule;
     }
 
@@ -48,7 +50,7 @@ public class ExcludeViolater implements Violater {
         for (final Object item : excluded) {
             if (null != item && String.class == item.getClass()) {
                 if (fields.contains(item)) {
-                    error = new OptionalAttrMorEException(getClass(), item.toString(), "Existing");
+                    error = new OptionalAttrMorEException(getClass(), this.rule.position() + " -> " + item.toString(), "Existing");
                     break;
                 }
             }

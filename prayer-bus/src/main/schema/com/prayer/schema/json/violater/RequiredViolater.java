@@ -7,8 +7,10 @@ import com.prayer.exception.schema.RequiredAttrMissingException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.rule.RequiredRule;
 
 import io.vertx.core.json.JsonArray;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -32,7 +34,7 @@ public final class RequiredViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public RequiredViolater(@NotNull final Rule rule) {
+    public RequiredViolater(@NotNull @InstanceOfAny(RequiredRule.class) final Rule rule) {
         this.rule = rule;
     }
 

@@ -9,8 +9,10 @@ import com.prayer.exception.schema.OptionalAttrMorEException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.rule.ExistingRule;
 
 import io.vertx.core.json.JsonArray;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -33,7 +35,7 @@ public class ExistingViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public ExistingViolater(@NotNull final Rule rule) {
+    public ExistingViolater(@NotNull @InstanceOfAny(ExistingRule.class) final Rule rule) {
         this.rule = rule;
     }
 
