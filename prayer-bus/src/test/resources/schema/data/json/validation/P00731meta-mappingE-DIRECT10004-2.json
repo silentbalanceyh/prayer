@@ -7,7 +7,7 @@
         "identifier":"sys.sec.role",
         "mapping":"DIRECT",
         "policy":"GUID",
-        "subtable":"subtable"
+        "subtable":"SEC_TABLE"
     },
     "__keys__":[
     ],

@@ -42,6 +42,10 @@ public interface RuleConstants {
         String CFG_M_REL = "__meta__-relation";
         /** **/
         String CFG_M_EP = "__meta__-entity-partial";
+        /** **/
+        String CFG_M_ED = "__meta__-entity-direct";
+        /** **/
+        String CFG_M_EC = "__meta__-entity-combinated";
     }
     /** **/
     interface Flag{ // NOPMD

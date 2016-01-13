@@ -77,6 +77,15 @@ public final class MetaRuler implements Ruler {
             case PARTIAL: {
                 verifyCEntityPartial(habitus);
             }
+                break;
+            case DIRECT: {
+                verifyCEntityDirect(habitus);
+            }
+                break;
+            case COMBINATED: {
+                verifyCEntityCombinated(habitus);
+            }
+                break;
             }
         }
         case RELATION: {
@@ -84,6 +93,20 @@ public final class MetaRuler implements Ruler {
         }
             break;
         }
+    }
+
+    /** category = ENTITY && mapping = COMBINATED **/
+    private void verifyCEntityCombinated(final ObjectHabitus habitus) throws AbstractSchemaException {
+        /** (7.4.1) 2.4.4.1 **/
+        // Forbidden : subkey, subtable
+        RulerHelper.applyExclude(habitus, FileConfig.CFG_M_EC);
+    }
+
+    /** category = ENTITY && mapping = DIRECT **/
+    private void verifyCEntityDirect(final ObjectHabitus habitus) throws AbstractSchemaException {
+        /** (7.3.1) 2.4.3.1 **/
+        // Forbidden : subkey, subtable
+        RulerHelper.applyExclude(habitus, FileConfig.CFG_M_ED);
     }
 
     /** category = ENTITY && mapping = PARTIAL **/

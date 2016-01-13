@@ -1,0 +1,9 @@
+{
+    "debug":"__meta__ ( category = ENTITY && mapping = COMBINATED )",
+    "exclude":{
+        "value":[
+            "subkey",
+            "subtable"
+        ]
+    }
+}
