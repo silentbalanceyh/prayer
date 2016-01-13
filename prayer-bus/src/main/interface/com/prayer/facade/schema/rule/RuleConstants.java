@@ -12,6 +12,8 @@ public interface RuleConstants {
     String R_VALUE = "value";
     /** JsonArray -> JsonObject的转换 **/
     String R_DATA = "data";
+    /** **/
+    String R_RULE = "rule";
     /** JsonArray -> JsonObject的转换 **/
     String R_ADDT = "addtional";
 
@@ -45,6 +47,8 @@ public interface RuleConstants {
         String RULE_DUP = "duplicated";
         /** 【Array】最少出现规则 **/
         String RULE_LST = "least";
+        /** 【Array】最多出现规则 **/
+        String RULE_MST = "most";
     }
 
     /** Rule对应的配置文件名 **/
@@ -57,6 +61,10 @@ public interface RuleConstants {
         String CFG_FIELD = "__fields__";
         /** **/
         String CFG_FPK = "__fields__-primarykey";
+        /** **/
+        String CFG_FPK_COL = "__fields__-primarykey-collection";
+        /** **/
+        String CFG_FPK_NCOL = "__fields__-primarykey-noncollection";
         /** **/
         String CFG_M_REL = "__meta__-relation";
         /** **/

@@ -32,15 +32,22 @@ public final class RulerHelper {
      * @param file
      * @throws AbstractSchemaException
      */
-    public static void applyLeast(@NotNull final ArrayHabitus habitus, @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
-            throws AbstractSchemaException {
+    public static void applyMost(@NotNull final ArrayHabitus habitus, @NotNull @NotBlank @NotEmpty final String file,
+            @NotNull final JsonObject addtional) throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.most(file);
+        sharedApply(wrapperHabitus(habitus, addtional), rule);
+    }
+
+    /**
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyLeast(@NotNull final ArrayHabitus habitus, @NotNull @NotBlank @NotEmpty final String file,
+            @NotNull final JsonObject addtional) throws AbstractSchemaException {
         final Rule rule = RuleBuilder.least(file);
-        // 内部初始化
-        final JsonObject data = new JsonObject();
-        data.put(RuleConstants.R_DATA, habitus.getRaw());
-        data.put(RuleConstants.R_ADDT, addtional);
-        final ObjectHabitus input = new JObjectHabitus(data);
-        sharedApply(input, rule);
+        sharedApply(wrapperHabitus(habitus, addtional), rule);
     }
 
     /**
@@ -53,11 +60,7 @@ public final class RulerHelper {
     public static void applyDuplicated(@NotNull final ArrayHabitus habitus,
             @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
         final Rule rule = RuleBuilder.duplicated(file);
-        // 内部初始化
-        final JsonObject data = new JsonObject();
-        data.put(RuleConstants.R_DATA, habitus.getRaw());
-        final ObjectHabitus input = new JObjectHabitus(data);
-        sharedApply(input, rule);
+        sharedApply(wrapperHabitus(habitus, null), rule);
     }
 
     /**
@@ -219,6 +222,17 @@ public final class RulerHelper {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private static ObjectHabitus wrapperHabitus(final ArrayHabitus habitus, final JsonObject addtional) {
+        // 内部初始化
+        final JsonObject data = new JsonObject();
+        data.put(RuleConstants.R_DATA, habitus.getRaw());
+        if (null != addtional) {
+            data.put(RuleConstants.R_ADDT, addtional);
+        }
+        return new JObjectHabitus(data);
+    }
+
     /**
      * 
      * @param habitus

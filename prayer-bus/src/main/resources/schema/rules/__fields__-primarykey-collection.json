@@ -1,14 +1,15 @@
 {
-    "debug":"__fields__ -> primarykey ",
+    "debug":"__fields__ -> primarykey ( policy = COLLECTION )",
     "least":{
         "value":[
             {
-                "occurs":1,
+                "occurs":2,
                 "filter":{
                     "primarykey":true
                 },
-                "error":"PKMissingException",
+                "error":"PKPolicyConflictException",
                 "arguments":[
+                    "policy",
                     "table"
                 ]
             }

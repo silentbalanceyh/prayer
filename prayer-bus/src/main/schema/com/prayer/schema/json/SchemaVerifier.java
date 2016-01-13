@@ -17,7 +17,7 @@ import com.prayer.facade.schema.verifier.Verifier;
 import com.prayer.schema.json.ruler.FieldRuler;
 import com.prayer.schema.json.ruler.FieldsRuler;
 import com.prayer.schema.json.ruler.MetaRuler;
-import com.prayer.schema.json.ruler.PKRuler;
+import com.prayer.schema.json.ruler.PKeysRuler;
 import com.prayer.schema.json.ruler.RootRuler;
 
 import io.vertx.core.json.JsonObject;
@@ -85,7 +85,7 @@ public class SchemaVerifier implements Verifier {
         final MetaPolicy policy = fromStr(MetaPolicy.class, meta.getString(Attributes.M_POLICY));
         final String table = meta.getString(Attributes.M_TABLE);
         // 构造ArrayRuler
-        final ArrayRuler container = new PKRuler(table, policy);
+        final ArrayRuler container = new PKeysRuler(table, policy);
         container.apply(habitus);
     }
 
