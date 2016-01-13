@@ -62,12 +62,37 @@ public class JArrayHabitus implements ArrayHabitus {
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override
+    public ObjectHabitus get(@NotNull final JsonObject filter) {
+        final JsonArray data = this.raw.copy();
+        final int size = data.size();
+        final JsonObject retData = new JsonObject();
+        for (int idx = 0; idx < size; idx++) {
+            final JsonObject item = data.getJsonObject(idx);
+            boolean isMatch = true;
+            for (final String field : filter.fieldNames()) {
+                final Object value = filter.getValue(field);
+                final Object actual = item.getValue(field);
+                if (value == null || actual == null || !value.equals(actual)) {
+                    isMatch = false;
+                }
+            }
+            if (isMatch) {
+                retData.mergeIn(item);
+                break;
+            }
+        }
+        return new JObjectHabitus(retData);
+    }
+
+    /** **/
+    @Override
     public List<ObjectHabitus> objects() {
         return this.data;
     }
+
     /** 返回原始数据的拷贝，防止修改 **/
     @Override
-    public JsonArray getRaw(){
+    public JsonArray getRaw() {
         return this.raw.copy();
     }
 

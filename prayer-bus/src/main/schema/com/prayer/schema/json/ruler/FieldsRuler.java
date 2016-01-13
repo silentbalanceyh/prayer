@@ -6,6 +6,7 @@ import com.prayer.facade.schema.rule.ArrayRuler;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -29,7 +30,7 @@ public class FieldsRuler implements ArrayRuler {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public FieldsRuler(@NotNull final Ruler ruler) {
+    public FieldsRuler(@NotNull @InstanceOfAny(FieldRuler.class) final Ruler ruler) {
         this.ruler = ruler;
     }
 

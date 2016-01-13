@@ -4,9 +4,13 @@ import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ArrayRuler;
+import com.prayer.facade.schema.rule.ObjectHabitus;
+import com.prayer.facade.schema.rule.Ruler;
+import com.prayer.facade.schema.verifier.Attributes;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.AssertFieldConstraints;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -23,6 +27,8 @@ public final class PKeysRuler implements ArrayRuler {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
+    /** 对主键单键的验证 **/
+    private transient final Ruler ruler;
     /** 操作的表名，用于异常信息 **/
     @NotNull
     @NotEmpty
@@ -41,8 +47,10 @@ public final class PKeysRuler implements ArrayRuler {
      * @param policy
      */
     @PostValidateThis
-    public PKeysRuler(@AssertFieldConstraints("table") final String table,
+    public PKeysRuler(@NotNull @InstanceOfAny(PKeyRuler.class) final Ruler ruler,
+            @AssertFieldConstraints("table") final String table,
             @AssertFieldConstraints("policy") final MetaPolicy policy) {
+        this.ruler = ruler;
         this.table = table;
         this.policy = policy;
     }
@@ -60,9 +68,18 @@ public final class PKeysRuler implements ArrayRuler {
         verifyPKMissing(habitus);
         /** 4.2.执行Dispatcher功能 **/
         applyDispatcher(habitus);
+        /** 4.3.执行单个主键的验证功能 **/
+        verifyPKSpecification(habitus);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private void verifyPKSpecification(final ArrayHabitus habitus) throws AbstractSchemaException {
+        final JsonObject filter = new JsonObject();
+        filter.put(Attributes.F_PK, true);
+        final ObjectHabitus data = habitus.get(filter);
+        this.ruler.apply(data);
+    }
 
     private void applyDispatcher(final ArrayHabitus habitus) throws AbstractSchemaException {
         /** 4.2.0.分流操作，顶层检查Policy **/
