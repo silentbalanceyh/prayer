@@ -10,7 +10,7 @@ import com.prayer.exception.schema.PatternNotMatchException;
  * @author Lang
  *
  */
-public class _142PatternVerifierTestCase extends AbstractVerifierTestCase {
+public class _0143PatternVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -24,9 +24,9 @@ public class _142PatternVerifierTestCase extends AbstractVerifierTestCase {
      * @throws AbstractException
      */
     @Test(expected = PatternNotMatchException.class)
-    public void testP0142Fields1name10003() throws AbstractException {
-        testImport("fields/P0142field-name10003-1.json");
-        failure("[E10003] Fields -> name ==> (Failure) Attribute 'name' does not match pattern! ");
+    public void testP0142Fields1columnName10003() throws AbstractException {
+        testImport("fields/P0142field-columnName10003-1.json");
+        failure("[E10003] Fields -> columnName ==> (Failure) Attribute 'columnName' does not match pattern! ");
     }
 
     /**
@@ -34,9 +34,9 @@ public class _142PatternVerifierTestCase extends AbstractVerifierTestCase {
      * @throws AbstractException
      */
     @Test(expected = PatternNotMatchException.class)
-    public void testP0142Fields2name10003() throws AbstractException {
-        testImport("fields/P0142field-name10003-2.json");
-        failure("[E10003] Fields -> name ==> (Failure) Attribute 'name' does not match pattern! ");
+    public void testP0142Fields2columnName10003() throws AbstractException {
+        testImport("fields/P0142field-columnName10003-2.json");
+        failure("[E10003] Fields -> columnName ==> (Failure) Attribute 'columnName' does not match pattern! ");
     }
 
     /**
@@ -44,9 +44,9 @@ public class _142PatternVerifierTestCase extends AbstractVerifierTestCase {
      * @throws AbstractException
      */
     @Test(expected = PatternNotMatchException.class)
-    public void testP0142Fields3name10003() throws AbstractException {
-        testImport("fields/P0142field-name10003-3.json");
-        failure("[E10003] Fields -> name ==> (Failure) Attribute 'name' does not match pattern! ");
+    public void testP0142Fields3columnName10003() throws AbstractException {
+        testImport("fields/P0142field-columnName10003-3.json");
+        failure("[E10003] Fields -> columnName ==> (Failure) Attribute 'columnName' does not match pattern! ");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
