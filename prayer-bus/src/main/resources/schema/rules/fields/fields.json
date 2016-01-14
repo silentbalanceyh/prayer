@@ -41,15 +41,19 @@
         }
     },
     "duplicated":{
-        "value":[
-            {
-                "field":"name",
-                "target":-10007
+        "value":{
+            "name":{
+                "error":"DuplicatedAttrException",
+                "arguments":[
+                    "position"
+                ]
             },
-            {
-                "field":"columnName",
-                "target":-10008
+            "columnName":{
+                "error":"DuplicatedColumnException",
+                "arguments":[
+                    "position"
+                ]
             }
-        ]
+        }
     }
 }

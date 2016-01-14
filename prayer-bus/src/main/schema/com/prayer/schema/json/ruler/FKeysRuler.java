@@ -10,7 +10,10 @@ import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
 
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -27,6 +30,11 @@ public final class FKeysRuler implements ArrayRuler {
     /** 对外键单键验证的Ruler **/
     @NotNull
     private transient final Ruler ruler;
+    /** 当前表的信息，用于外键是否需要判断当前引用表的信息 **/
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    private transient final String table;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -37,8 +45,10 @@ public final class FKeysRuler implements ArrayRuler {
      * @param table
      */
     @PostValidateThis
-    public FKeysRuler(@NotNull @InstanceOfAny(FKeyRuler.class) final Ruler ruler) {
+    public FKeysRuler(@NotNull @InstanceOfAny(FKeyRuler.class) final Ruler ruler,
+            @AssertFieldConstraints("table") final String table) {
         this.ruler = ruler;
+        this.table = table;
     }
 
     // ~ Abstract Methods ====================================
@@ -50,6 +60,8 @@ public final class FKeysRuler implements ArrayRuler {
         habitus.ensure();
         /** 6.1.检查Array中foreignkey = true 的单键异常 **/
         verifyFKSpecification(habitus);
+        /** 6.2.检查外键是否出现了重复引用，两键引用同一张表 **/
+
     }
 
     // ~ Methods =============================================
@@ -62,6 +74,12 @@ public final class FKeysRuler implements ArrayRuler {
         for (final ObjectHabitus item : data) {
             this.ruler.apply(item);
         }
+    }
+
+    private JsonObject getAddtional(final ObjectHabitus habitus) {
+        final JsonObject addtional = new JsonObject();
+        addtional.put(Attributes.M_TABLE, this.table);
+        return addtional;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

@@ -1,16 +1,19 @@
 package com.prayer.schema.json.violater;
 
+import static com.prayer.util.reflection.Instance.instance;
+
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
-import com.prayer.exception.schema.DuplicatedAttrException;
-import com.prayer.exception.schema.DuplicatedColumnException;
+import com.prayer.constant.Symbol;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.schema.json.rule.DuplicatedRule;
+import com.prayer.util.entity.stream.StreamList;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -47,33 +50,47 @@ public final class DuplicatedViolater implements Violater {
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         /** **/
-        final JsonArray expectes = this.rule.getRule().getJsonArray(R_VALUE);
+        final JsonObject expectes = this.rule.getRule().getJsonObject(R_VALUE);
         final JsonArray data = habitus.getRaw().getJsonArray(R_DATA);
+        final JsonObject addtional = habitus.getRaw().getJsonObject(R_ADDT);
         /** **/
         AbstractSchemaException error = null;
-        final int size = expectes.size();
-        for (int idx = 0; idx < size; idx++) {
-            final JsonObject expected = expectes.getJsonObject(idx);
-            final String field = expected.getString("field");
+
+        for (final String field : expectes.fieldNames()) {
+            final JsonObject expected = expectes.getJsonObject(field);
             // 验证Duplicated的信息
             final int retIdx = verifyDuplicated(data, field);
             if (Constants.RANGE != retIdx) {
-                final int errorCode = expected.getInteger("target");
-                // 获取出现Duplicated的位置信息
-                final String position = this.rule.position() + " -> [" + retIdx + "] " + field + " = "
-                        + data.getJsonObject(retIdx).getString(field);
-                // 根据target处理最终返回的Error
-                if (errorCode == -10007) {
-                    error = new DuplicatedAttrException(getClass(), position);
-                } else if (errorCode == -10008) {
-                    error = new DuplicatedColumnException(getClass(), position);
+                final String errorCls = expected.getString("error");
+                final List<String> arguments = StreamList.toList(expected.getJsonArray("arguments"));
+                if (!arguments.isEmpty() && Constants.ZERO < arguments.size()
+                        && arguments.get(Constants.IDX).equals("position")) {
+                    final String fieldStr = data.getJsonObject(retIdx).getString(field);
+                    final String formated = this.rule.position() + " -> [" + retIdx + "] " + field + " = " + fieldStr;
+                    addtional.put("position", formated);
                 }
+                error = getError(errorCls, arguments, addtional);
             }
         }
         return error;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private AbstractSchemaException getError(final String errorCls, final List<String> arguments,
+            final JsonObject addtional) {
+        final String fullCls = "com.prayer.exception.schema" + Symbol.DOT + errorCls;
+        final Object[] args = new Object[arguments.size() + 1];
+        // 第一个参数为当前的类
+        args[Constants.IDX] = getClass();
+        for (int idx = 1; idx < args.length; idx++) {
+            // 注意arguments的offset偏移量
+            final String field = arguments.get(idx - 1);
+            final Object value = addtional.getValue(field);
+            args[idx] = value;
+        }
+        return instance(fullCls, args);
+    }
 
     private int verifyDuplicated(final JsonArray data, final String field) {
         int ret = -1;

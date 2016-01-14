@@ -38,5 +38,10 @@
                 ]
             }
         }
+    },
+    "db.table":{
+        "value":[
+            "refTable"
+        ]
     }
 }

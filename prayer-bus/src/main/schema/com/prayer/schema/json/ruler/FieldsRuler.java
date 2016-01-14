@@ -6,6 +6,7 @@ import com.prayer.facade.schema.rule.ArrayRuler;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -52,7 +53,7 @@ public class FieldsRuler implements ArrayRuler {
         // Error 10007/10008
         // name
         // columnName
-        RulerHelper.applyDuplicated(habitus, FileConfig.CFG_FIELD);
+        RulerHelper.applyDuplicated(habitus, FileConfig.CFG_FIELD, new JsonObject());
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

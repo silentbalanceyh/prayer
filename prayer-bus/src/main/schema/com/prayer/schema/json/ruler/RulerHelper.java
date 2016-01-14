@@ -58,9 +58,10 @@ public final class RulerHelper {
      * @throws AbstractSchemaException
      */
     public static void applyDuplicated(@NotNull final ArrayHabitus habitus,
-            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
+            @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
+                    throws AbstractSchemaException {
         final Rule rule = RuleBuilder.duplicated(file);
-        sharedApply(wrapperHabitus(habitus, null), rule);
+        sharedApply(wrapperHabitus(habitus, addtional), rule);
     }
 
     /**

@@ -95,7 +95,7 @@ public class SchemaVerifier implements Verifier {
          */
         final ArrayHabitus habitus = this.getFields(data);
         final Ruler ruler = new FKeyRuler(this.getMeta(data, Attributes.M_TABLE));
-        final ArrayRuler container = new FKeysRuler(ruler);
+        final ArrayRuler container = new FKeysRuler(ruler, this.getMeta(data, Attributes.M_TABLE));
         container.apply(habitus);
     }
 

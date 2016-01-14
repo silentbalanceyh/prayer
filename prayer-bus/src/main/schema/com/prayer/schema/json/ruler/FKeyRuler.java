@@ -51,9 +51,42 @@ public final class FKeyRuler implements Ruler {
         /** (21.1/2) 6.1.3. 检查Foreign Key的类型是否正确 **/
         final JsonObject addtional = this.getAddtional(habitus);
         RulerHelper.applyIn(habitus, FileConfig.CFG_FFK, addtional);
+        /** (21.3) 分流检查外键的表值 **/
+        if (skipDbCheck(habitus)) {
+            /** (21.3.2) 6.1.4. 直接从Schema中检查 **/
+            applySchemaRule(habitus);
+        } else {
+            /** (21.3.1) 6.1.5. Database检查 **/
+            applyDatabaseRule(habitus);
+        }
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private void applySchemaRule(final ObjectHabitus habitus) throws AbstractSchemaException {
+
+    }
+
+    private void applyDatabaseRule(final ObjectHabitus habitus) throws AbstractSchemaException {
+
+    }
+
+    /**
+     * 是否跳过DB检查规则，如果当前定义表和refTable相同则跳过，走自定义外键检查流程
+     * 
+     * @param habitus
+     * @return
+     */
+    private boolean skipDbCheck(final ObjectHabitus habitus) {
+        boolean ret = false;
+        final String refTable = habitus.get(Attributes.F_REF_TABLE);
+        if (refTable.equals(this.table)) {
+            ret = true;
+        } else {
+            ret = false;
+        }
+        return ret;
+    }
 
     private JsonObject getAddtional(final ObjectHabitus habitus) {
         final JsonObject addtional = new JsonObject();
