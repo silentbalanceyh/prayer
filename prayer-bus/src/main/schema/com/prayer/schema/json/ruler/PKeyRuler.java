@@ -64,9 +64,9 @@ public final class PKeyRuler implements Ruler {
     // ~ Private Methods =====================================
     private JsonObject getAddtional(final ObjectHabitus habitus) {
         final JsonObject addtional = new JsonObject();
-        addtional.put("policy", this.policy.toString());
-        addtional.put("type", habitus.get(Attributes.F_TYPE));
-        addtional.put("name", habitus.get(Attributes.F_NAME));
+        addtional.put(Attributes.M_POLICY, this.policy.toString());
+        addtional.put(Attributes.F_TYPE, habitus.get(Attributes.F_TYPE));
+        addtional.put(Attributes.F_NAME, habitus.get(Attributes.F_NAME));
         return addtional;
     }
     // ~ Get/Set =============================================

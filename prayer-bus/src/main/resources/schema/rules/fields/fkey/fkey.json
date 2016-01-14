@@ -10,8 +10,33 @@
     },
     "pattern":{
         "value":{
-            "refTable":"refTable":"[A-Z]{2,4}\\_[A-Z\\_0-9]*",
+            "refTable":"[A-Z]{2,4}\\_[A-Z\\_0-9]*",
             "refId":"[A-Z]{1,3}\\_[A-Z]{1}[A-Z\\_0-9]*"
+        }
+    },
+    "in":{
+        "value":{
+            "type":{
+                "values":[
+                    "IntType",
+                    "LongType",
+                    "StringType"
+                ],
+                "error":"FKAttrTypeException",
+                "arguments":[
+                    "name",
+                    "type"
+                ]
+            },
+            "columnType":{
+                "values":[
+                    "(INT|LONG|STRING)[0-9]*"
+                ],
+                "error":"FKColumnTypeException",
+                "arguments":[
+                    "columnType"
+                ]
+            }
         }
     }
 }

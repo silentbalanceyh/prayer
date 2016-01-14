@@ -5,6 +5,8 @@ import static com.prayer.util.reflection.Instance.instance;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
@@ -60,7 +62,8 @@ public final class ExtInViolater extends InViolater implements Violater {
                 final String literal = value.toString();
                 final JsonObject specification = expectes.get(expected);
                 final JsonArray values = specification.getJsonArray("values");
-                if (!inValues(values, literal)) {
+
+                if (!inPatterns(values, literal) && !inValues(values, literal)) {
                     final String errorCls = specification.getString("error");
                     final List<String> arguments = StreamList.toList(specification.getJsonArray("arguments"));
                     error = getError(errorCls, arguments, addtional);
@@ -69,8 +72,29 @@ public final class ExtInViolater extends InViolater implements Violater {
         }
         return error;
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    /**
+     * 支持正则表达式的In语句，扩展In的Rule才支持正则表达式语法
+     * 
+     * @param patterns
+     * @param literal
+     * @return
+     */
+    private boolean inPatterns(final JsonArray patterns, final String literal) {
+        boolean isMatch = true;
+        final int size = patterns.size();
+        for (int pos = 0; pos < size; pos++) {
+            final Pattern pattern = Pattern.compile(patterns.getString(pos));
+            final Matcher matcher = pattern.matcher(literal);
+            if (!matcher.matches()) {
+                isMatch = false;
+                break;
+            }
+        }
+        return isMatch;
+    }
 
     private AbstractSchemaException getError(final String errorCls, final List<String> arguments,
             final JsonObject addtional) {
