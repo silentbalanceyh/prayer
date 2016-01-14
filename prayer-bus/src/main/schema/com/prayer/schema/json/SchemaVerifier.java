@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.constant.SystemEnum.Mapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ArrayRuler;
@@ -20,6 +21,7 @@ import com.prayer.schema.json.ruler.MetaRuler;
 import com.prayer.schema.json.ruler.PKeyRuler;
 import com.prayer.schema.json.ruler.PKeysRuler;
 import com.prayer.schema.json.ruler.RootRuler;
+import com.prayer.schema.json.ruler.SubsRuler;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
@@ -67,6 +69,10 @@ public class SchemaVerifier implements Verifier {
              * 4.验证主键
              */
             verifyPKey(data);
+            /**
+             * 5.验证SubKey
+             */
+            verifySubs(data);
         } catch (AbstractSchemaException ex) {
             peError(LOGGER, ex);
             error = ex;
@@ -76,6 +82,19 @@ public class SchemaVerifier implements Verifier {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private void verifySubs(final JsonObject data) throws AbstractSchemaException {
+        /**
+         * 5.针对Mapping的特殊情况，必须处理subtable和subkey
+         */
+        final ArrayHabitus habitus = new JArrayHabitus(data.getJsonArray(Attributes.R_FIELDS), Attributes.R_FIELDS);
+        final JsonObject meta = data.getJsonObject(Attributes.R_META);
+        final Mapping mapping = fromStr(Mapping.class, meta.getString(Attributes.M_MAPPING));
+        // 构造ArrayRuler
+        final ArrayRuler container = new SubsRuler(mapping);
+        container.apply(habitus);
+    }
+
     private void verifyPKey(final JsonObject data) throws AbstractSchemaException {
         /**
          * 4.验证主键

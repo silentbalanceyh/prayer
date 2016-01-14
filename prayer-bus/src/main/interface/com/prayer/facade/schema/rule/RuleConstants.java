@@ -59,20 +59,23 @@ public interface RuleConstants {
         String CFG_META = "__meta__";
         /** **/
         String CFG_FIELD = "__fields__";
-        /** **/
-        String CFG_FPK = "__fields__-primarykey";
-        /** **/
-        String CFG_FPK_COL = "__fields__-primarykey-collection";
-        /** **/
-        String CFG_FPK_NCOL = "__fields__-primarykey-noncollection";
+
         /** **/
         String CFG_M_REL = "__meta__-relation";
+        
         /** **/
         String CFG_M_EP = "__meta__-entity-partial";
         /** **/
         String CFG_M_ED = "__meta__-entity-direct";
         /** **/
         String CFG_M_EC = "__meta__-entity-combinated";
+        
+        /** **/
+        String CFG_FPK = "__fields__-primarykey";
+        /** **/
+        String CFG_FPK_COL = "__fields__-primarykey-collection";
+        /** **/
+        String CFG_FPK_NCOL = "__fields__-primarykey-noncollection";
         /** Oracle/PgSQL专用Rule **/
         String CFG_M_PIOG = "__meta__-policy-increment-og";
         /** **/
@@ -86,6 +89,9 @@ public interface RuleConstants {
         String CFG_FPC = "__fields__-primarykey-collect";
         /** PK Assigned **/
         String CFG_FPA = "__fields__-primarykey-assigned";
+        
+        /** SubRel **/
+        String CFG_SUB = "__fields__-subs";
     }
 
     /** **/
