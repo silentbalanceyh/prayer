@@ -15,6 +15,8 @@ import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.facade.schema.verifier.Verifier;
+import com.prayer.schema.json.ruler.FKeyRuler;
+import com.prayer.schema.json.ruler.FKeysRuler;
 import com.prayer.schema.json.ruler.FieldRuler;
 import com.prayer.schema.json.ruler.FieldsRuler;
 import com.prayer.schema.json.ruler.MetaRuler;
@@ -73,6 +75,10 @@ public class SchemaVerifier implements Verifier {
              * 5.验证SubKey
              */
             verifySubs(data);
+            /**
+             * 6.验证ForeignKey
+             */
+            verifyFKey(data);
         } catch (AbstractSchemaException ex) {
             peError(LOGGER, ex);
             error = ex;
@@ -83,14 +89,22 @@ public class SchemaVerifier implements Verifier {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
+    private void verifyFKey(final JsonObject data) throws AbstractSchemaException {
+        /**
+         * 6.验证外键的特殊情况，如果有外键才会验证
+         */
+        final ArrayHabitus habitus = this.getFields(data);
+        final Ruler ruler = new FKeyRuler(this.getMeta(data, Attributes.M_TABLE));
+        final ArrayRuler container = new FKeysRuler(ruler);
+        container.apply(habitus);
+    }
+
     private void verifySubs(final JsonObject data) throws AbstractSchemaException {
         /**
          * 5.针对Mapping的特殊情况，必须处理subtable和subkey
          */
-        final ArrayHabitus habitus = new JArrayHabitus(data.getJsonArray(Attributes.R_FIELDS), Attributes.R_FIELDS);
-        final JsonObject meta = data.getJsonObject(Attributes.R_META);
-        final Mapping mapping = fromStr(Mapping.class, meta.getString(Attributes.M_MAPPING));
-        // 构造ArrayRuler
+        final ArrayHabitus habitus = this.getFields(data);
+        final Mapping mapping = fromStr(Mapping.class, this.getMeta(data, Attributes.M_MAPPING));
         final ArrayRuler container = new SubsRuler(mapping);
         container.apply(habitus);
     }
@@ -99,14 +113,10 @@ public class SchemaVerifier implements Verifier {
         /**
          * 4.验证主键
          */
-        final ArrayHabitus habitus = new JArrayHabitus(data.getJsonArray(Attributes.R_FIELDS), Attributes.R_FIELDS);
-        // 构造Ruler的参数
-        final JsonObject meta = data.getJsonObject(Attributes.R_META);
-        final MetaPolicy policy = fromStr(MetaPolicy.class, meta.getString(Attributes.M_POLICY));
-        final String table = meta.getString(Attributes.M_TABLE);
-        // 构造ArrayRuler
+        final ArrayHabitus habitus = this.getFields(data);
+        final MetaPolicy policy = fromStr(MetaPolicy.class, this.getMeta(data, Attributes.M_POLICY));
         final Ruler ruler = new PKeyRuler(policy);
-        final ArrayRuler container = new PKeysRuler(ruler, table, policy);
+        final ArrayRuler container = new PKeysRuler(ruler, this.getMeta(data, Attributes.M_TABLE), policy);
         container.apply(habitus);
     }
 
@@ -114,10 +124,8 @@ public class SchemaVerifier implements Verifier {
         /**
          * 3.Field节点的基本验证
          */
-        final ArrayHabitus habitus = new JArrayHabitus(data.getJsonArray(Attributes.R_FIELDS), Attributes.R_FIELDS);
-        // 设置内置的Ruler，每个JsonObject必须满足
+        final ArrayHabitus habitus = this.getFields(data);
         final Ruler ruler = new FieldRuler();
-        // 设置外围容器的Ruler，每个Container必备
         final ArrayRuler container = new FieldsRuler(ruler);
         container.apply(habitus);
     }
@@ -138,6 +146,17 @@ public class SchemaVerifier implements Verifier {
         final ObjectHabitus habitus = new JObjectHabitus(data);
         final Ruler ruler = new RootRuler();
         ruler.apply(habitus);
+    }
+
+    /** 获取Fields对应的数据 **/
+    private ArrayHabitus getFields(final JsonObject data) {
+        return new JArrayHabitus(data.getJsonArray(Attributes.R_FIELDS), Attributes.R_FIELDS);
+    }
+
+    /** 获取Meta中某个键值下的String值 **/
+    private String getMeta(final JsonObject data, final String key) {
+        final JsonObject meta = data.getJsonObject(Attributes.R_META);
+        return meta.getString(key);
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

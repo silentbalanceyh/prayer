@@ -104,8 +104,10 @@ public class JArrayHabitus implements ArrayHabitus {
 
     /** **/
     @Override
-    public AbstractSchemaException getError() {
-        return this.error;
+    public void ensure() throws AbstractSchemaException{
+        if(null != this.error){
+            throw this.error;
+        }
     }
 
     /** **/

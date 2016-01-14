@@ -1,11 +1,15 @@
 package com.prayer.schema.json.ruler;
 
+import java.util.List;
+
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ArrayRuler;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
+import com.prayer.facade.schema.verifier.Attributes;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -17,20 +21,23 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class FieldsRuler implements ArrayRuler {
-
+public final class FKeysRuler implements ArrayRuler {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    /** 因为Container中的每一个元素只能为JsonObject，所以每个JsonObject必须使用同样的Ruler来处理 **/
+    /** 对外键单键验证的Ruler **/
     @NotNull
     private transient final Ruler ruler;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
+    /**
+     * 
+     * @param ruler
+     * @param table
+     */
     @PostValidateThis
-    public FieldsRuler(@NotNull @InstanceOfAny(FieldRuler.class) final Ruler ruler) {
+    public FKeysRuler(@NotNull @InstanceOfAny(FKeyRuler.class) final Ruler ruler) {
         this.ruler = ruler;
     }
 
@@ -39,23 +46,23 @@ public class FieldsRuler implements ArrayRuler {
     /** **/
     @Override
     public void apply(@NotNull final ArrayHabitus habitus) throws AbstractSchemaException {
-        /** 3.0.优先处理ArrayHabitus中的容器异常：10002/10006 **/
+        /** 6.0.优先处理ArrayHabitus中的容器异常：10002/10006 **/
         habitus.ensure();
-        /** 3.1.处理容器中的每一个元素，无交叉验证，可并行 **/
-        final int size = habitus.objects().size();
-        for (int idx = 0; idx < size; idx++) {
-            // TODO: 这里不可以使用Foreach，因为需要从系统中读取Idx并生成对应的Debug日志
-            final ObjectHabitus item = habitus.get(idx);
-            this.ruler.apply(item);
-        }
-        /** 3.2.检查Duplicated的配置 **/
-        // Error 10007/10008
-        // name
-        // columnName
-        RulerHelper.applyDuplicated(habitus, FileConfig.CFG_FIELD);
+        /** 6.1.检查Array中foreignkey = true 的单键异常 **/
+        verifyFKSpecification(habitus);
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    /** 外键单键检查 **/
+    private void verifyFKSpecification(final ArrayHabitus habitus) throws AbstractSchemaException {
+        final JsonObject filter = new JsonObject();
+        filter.put(Attributes.F_FK, true);
+        final List<ObjectHabitus> data = habitus.get(filter);
+        for (final ObjectHabitus item : data) {
+            this.ruler.apply(item);
+        }
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

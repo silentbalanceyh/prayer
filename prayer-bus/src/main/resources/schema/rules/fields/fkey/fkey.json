@@ -1,0 +1,17 @@
+{
+    "debug":"__fields__ ( foreignkey = true )",
+    "existing":{
+        "value":[
+            [
+                "refId",
+                "refTable"
+            ]
+        ]
+    },
+    "pattern":{
+        "value":{
+            "refTable":"refTable":"[A-Z]{2,4}\\_[A-Z\\_0-9]*",
+            "refId":"[A-Z]{1,3}\\_[A-Z]{1}[A-Z\\_0-9]*"
+        }
+    }
+}

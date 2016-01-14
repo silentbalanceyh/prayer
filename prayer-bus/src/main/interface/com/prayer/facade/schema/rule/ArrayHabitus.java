@@ -40,8 +40,8 @@ public interface ArrayHabitus {
      **/
     void reset();
     /**
-     * 返回Array中Internal Error
-     * @return
+     * 调用Ensure方法以保证当前ArrayHabitus初始化成功，检查Error
+     * @throws AbstractSchemaException
      */
-    AbstractSchemaException getError();
+    void ensure() throws AbstractSchemaException;
 }

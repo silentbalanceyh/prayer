@@ -30,6 +30,7 @@ public final class PKeysRuler implements ArrayRuler {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 对主键单键的验证 **/
+    @NotNull
     private transient final Ruler ruler;
     /** 操作的表名，用于异常信息 **/
     @NotNull
@@ -63,9 +64,7 @@ public final class PKeysRuler implements ArrayRuler {
     @Override
     public void apply(@NotNull final ArrayHabitus habitus) throws AbstractSchemaException {
         /** 4.0.优先处理ArrayHabitus中的容器异常：10002/10006 **/
-        if (null != habitus.getError()) {
-            throw habitus.getError();
-        }
+        habitus.ensure();
         /** 4.1.检查Array中是否包含了 primarykey = true **/
         verifyPKMissing(habitus);
         /** 4.2.执行Dispatcher功能 **/

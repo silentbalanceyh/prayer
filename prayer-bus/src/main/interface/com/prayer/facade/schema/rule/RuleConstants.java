@@ -53,45 +53,53 @@ public interface RuleConstants {
 
     /** Rule对应的配置文件名 **/
     interface FileConfig { // NOPMD
-        /** **/
-        String CFG_ROOT = "__root__";
-        /** **/
-        String CFG_META = "__meta__";
-        /** **/
-        String CFG_FIELD = "__fields__";
+        /** Root节点配置 **/
+        String CFG_ROOT = "root/data";
+        
+        // ~ Meta =============================================
+        /** Meta定义部分 **/
+        String CFG_META = "meta/meta";
+        
+        /** Category = RELATION **/
+        String CFG_M_REL = "meta/relation-data";
+        
+        /** Category = ENTITY, Mapping = COMBINATED **/
+        String CFG_M_EC = "meta/mapping/combinated";
+        /** Category = ENTITY, Mapping = DIRECT **/
+        String CFG_M_ED = "meta/mapping/direct";
+        /** Category = ENTITY, Mapping = PARTIAL **/
+        String CFG_M_EP = "meta/mapping/partial";
+        
+        /** Policy = INCREMENT, seqnam必须，Oracle/PgSQL常用Rule **/
+        String CFG_M_PIOG = "meta/increment/sequence";
+        /** Policy = INCREMENT, seqname非必须，MySQL/SQLServer类型常用Rule **/
+        String CFG_M_PI = "meta/increment/identity";
+        
+        // ~ Fields ===========================================
+        /** Field定义部分 **/
+        String CFG_FIELD = "fields/fields";
 
-        /** **/
-        String CFG_M_REL = "__meta__-relation";
-        
-        /** **/
-        String CFG_M_EP = "__meta__-entity-partial";
-        /** **/
-        String CFG_M_ED = "__meta__-entity-direct";
-        /** **/
-        String CFG_M_EC = "__meta__-entity-combinated";
-        
-        /** **/
-        String CFG_FPK = "__fields__-primarykey";
-        /** **/
-        String CFG_FPK_COL = "__fields__-primarykey-collection";
-        /** **/
-        String CFG_FPK_NCOL = "__fields__-primarykey-noncollection";
-        /** Oracle/PgSQL专用Rule **/
-        String CFG_M_PIOG = "__meta__-policy-increment-og";
-        /** **/
-        String CFG_M_PI = "__meta__-policy-increment";
+        /** Primary Key 基本验证 **/
+        String CFG_FPK = "fields/pkey/pkey";
+        /** COLLECTION类型验证 **/
+        String CFG_FPK_COL = "fields/pkey/col";
+        /** 非COLLECTION类型验证 **/
+        String CFG_FPK_NCOL = "fields/pkey/ncol";
 
         /** PK Increment **/
-        String CFG_FPI = "__fields__-primarykey-increment";
+        String CFG_FPI = "fields/pkey/policy/increment";
         /** PK GUID **/
-        String CFG_FPG = "__fields__-primarykey-guid";
+        String CFG_FPG = "fields/pkey/policy/guid";
         /** PK Collection **/
-        String CFG_FPC = "__fields__-primarykey-collect";
+        String CFG_FPC = "fields/pkey/policy/collection";
         /** PK Assigned **/
-        String CFG_FPA = "__fields__-primarykey-assigned";
+        String CFG_FPA = "fields/pkey/policy/assigned";
         
         /** SubRel **/
-        String CFG_SUB = "__fields__-subs";
+        String CFG_SUB = "fields/subs/subs";
+        
+        /** Foreign Key **/
+        String CFG_FFK = "fields/fkey/fkey";
     }
 
     /** **/
