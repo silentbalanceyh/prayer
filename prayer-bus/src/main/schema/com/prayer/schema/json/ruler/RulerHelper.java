@@ -51,6 +51,18 @@ public final class RulerHelper {
     }
 
     /**
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyLeast(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
+            throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.least(file);
+        sharedApply(habitus, rule);
+    }
+
+    /**
      * Error10007/10008 -- 检查Duplicated的Column以及Name
      * 
      * @param habitus
@@ -102,14 +114,16 @@ public final class RulerHelper {
         final Rule rule = RuleBuilder.dbtable(file);
         sharedApply(habitus, rule);
     }
+
     /**
      * Error100030 -- 数据库中字段类型
+     * 
      * @param habitus
      * @param file
      * @throws AbstractSchemaException
      */
-    public static void applyDBType(@NotNull final ObjectHabitus habitus,
-            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
+    public static void applyDBType(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
+            throws AbstractSchemaException {
         final Rule rule = RuleBuilder.dbtype(file);
         sharedApply(habitus, rule);
     }

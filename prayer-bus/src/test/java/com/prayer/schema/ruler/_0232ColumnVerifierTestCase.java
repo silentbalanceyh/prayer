@@ -15,17 +15,17 @@ import com.prayer.exception.schema.BTColumnNotExistingException;
  * @author Lang
  *
  */
-public class _00745ColumnVerifierTestCase extends AbstractVerifierTestCase {
+public class _0232ColumnVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     @After
     public void setDown() {
-        // For testP019Subtable1Rel10013();
         // 如果存在该表就删除
         this.purgeTable("TST_SUB_ROLE");
     }
@@ -35,17 +35,17 @@ public class _00745ColumnVerifierTestCase extends AbstractVerifierTestCase {
      * @throws AbstractSchemaException
      */
     @Test(expected = BTColumnNotExistingException.class)
-    public void testP00745Meta10028ECombinatedColumn() throws AbstractException {
+    public void testP23FKey1Target10028() throws AbstractException {
         // TODO: 目前只有SQL模式才检查
         if (Resources.DB_MODE.equals(DBConstants.MODE_SQL)) {
             int ret = Constants.RC_FAILURE;
-            // 创建临时子表
+            // 创建子表，防止10027
             if (null != validator().verifyTable("TST_SUB_ROLE")) {
-                ret = this.connection().executeBatch("CREATE TABLE TST_SUB_ROLE( K_ID1 VARCHAR(236) );");
+                ret = this.connection().executeBatch("CREATE TABLE TST_SUB_ROLE( K_ID VARCHAR(236) );");
             }
             if (Constants.RC_SUCCESS == ret) {
-                testImport("P00745meta-mappingE-COMBINATED10028-1.json");
-                failure("[E10028] Column of table does not exist! ");
+                testImport("rels/P0213field-FkCType10028-1.json");
+                failure("[E10028] Target column does not exist, please verify the result!");
             }
         }
     }

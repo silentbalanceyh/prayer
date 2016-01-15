@@ -8,44 +8,39 @@ import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.DBConstants;
 import com.prayer.constant.Resources;
-import com.prayer.exception.schema.BTColumnNotExistingException;
+import com.prayer.exception.schema.BKeyConstraintInvalidException;
 
-/**
- * 
- * @author Lang
- *
- */
-public class _00745ColumnVerifierTestCase extends AbstractVerifierTestCase {
+public class _0233ConstraintVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     @After
     public void setDown() {
-        // For testP019Subtable1Rel10013();
         // 如果存在该表就删除
-        this.purgeTable("TST_SUB_ROLE");
+        this.purgeTable("TST_SUB_ROLE1");
     }
 
     /**
      * 
      * @throws AbstractSchemaException
      */
-    @Test(expected = BTColumnNotExistingException.class)
-    public void testP00745Meta10028ECombinatedColumn() throws AbstractException {
+    @Test(expected = BKeyConstraintInvalidException.class)
+    public void testP23FKey1Target10029() throws AbstractException {
         // TODO: 目前只有SQL模式才检查
         if (Resources.DB_MODE.equals(DBConstants.MODE_SQL)) {
             int ret = Constants.RC_FAILURE;
-            // 创建临时子表
-            if (null != validator().verifyTable("TST_SUB_ROLE")) {
-                ret = this.connection().executeBatch("CREATE TABLE TST_SUB_ROLE( K_ID1 VARCHAR(236) );");
+            // 创建子表，防止10027
+            if (null != validator().verifyTable("TST_SUB_ROLE1")) {
+                ret = this.connection().executeBatch("CREATE TABLE TST_SUB_ROLE1( R_ID VARCHAR(236) );");
             }
             if (Constants.RC_SUCCESS == ret) {
-                testImport("P00745meta-mappingE-COMBINATED10028-1.json");
-                failure("[E10028] Column of table does not exist! ");
+                testImport("rels/P0213field-FkCType10029-1.json");
+                failure("[E10029] Target column constraint is invalid please verify the result!");
             }
         }
     }

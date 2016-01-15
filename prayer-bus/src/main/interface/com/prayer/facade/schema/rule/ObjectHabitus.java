@@ -55,6 +55,20 @@ public interface ObjectHabitus {
     JsonObject addtional();
 
     /**
+     * 获取Object额外的filter
+     * 
+     * @return
+     */
+    JsonObject filter();
+
+    /**
+     * 设置Filter的信息
+     * 
+     * @param filter
+     */
+    void filter(final JsonObject filter);
+
+    /**
      * Reset，创建Raw Data的拷贝
      */
     void reset();

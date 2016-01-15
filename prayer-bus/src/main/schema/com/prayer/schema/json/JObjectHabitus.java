@@ -27,9 +27,10 @@ public class JObjectHabitus implements ObjectHabitus {
     // ~ Instance Fields =====================================
     /** 维持一个拷贝，防止变更 **/
     private transient final JsonObject raw;
-
     /** **/
     private transient JsonObject data;
+    /** 设置Filter信息 **/
+    private transient JsonObject filter;
     /** **/
     private transient ConcurrentMap<String, Class<?>> types;
 
@@ -132,9 +133,22 @@ public class JObjectHabitus implements ObjectHabitus {
 
     /** **/
     @Override
+    public JsonObject filter() {
+        return this.filter;
+    }
+
+    /** **/
+    @Override
+    public void filter(@NotNull final JsonObject filter) {
+        this.filter = filter;
+    }
+
+    /** **/
+    @Override
     public void reset() {
         this.data = this.raw.copy();
         this.types = calculate(this.data);
+        this.filter = null;
     }
 
     /** **/

@@ -3,8 +3,10 @@ package com.prayer.schema.json.ruler;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ObjectHabitus;
+import com.prayer.facade.schema.rule.RuleConstants;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
+import com.prayer.schema.json.JObjectHabitus;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.AssertFieldConstraints;
@@ -69,7 +71,10 @@ public final class FKeyRuler implements Ruler {
     // ~ Private Methods =====================================
 
     private void applySchemaRule(final ObjectHabitus habitus) throws AbstractSchemaException {
-
+        /** (21.3.2.1) 6.1.4.1. 因为引用了本表信息，所以这里不需要考虑这种情况，直接SKIP **/
+        /** (21.3.2.2) 6.1.4.2. 验证外键对应的字段是否存在，在Json中查找是否包含了R_REF_ID的字段 **/
+        final ObjectHabitus complexHabitus = schema(habitus);
+        RulerHelper.applyLeast(complexHabitus, FileConfig.CFG_FFK);
     }
 
     private void applyDatabaseRule(final ObjectHabitus habitus) throws AbstractSchemaException {
@@ -85,6 +90,20 @@ public final class FKeyRuler implements Ruler {
         /** (21.3.1.4) 6.1.5.4. 验证外键在数据库中的类型是否匹配 **/
         // Db Table : refTable, refId, columnType
         RulerHelper.applyDBType(habitus, FileConfig.CFG_FFK);
+    }
+
+    /**
+     * 获取Schema的新ObjectHabitus
+     * 
+     * @param habitus
+     * @return
+     */
+    private ObjectHabitus schema(final ObjectHabitus habitus) {
+        final JsonObject data = new JsonObject();
+        data.put(RuleConstants.R_DATA, this.fields.data());
+        data.put(RuleConstants.R_ADDT, this.getAddtional(habitus));
+        final ObjectHabitus ret = new JObjectHabitus(data);
+        return ret;
     }
 
     /**
@@ -109,6 +128,7 @@ public final class FKeyRuler implements Ruler {
         addtional.put(Attributes.F_NAME, habitus.get(Attributes.F_NAME));
         addtional.put(Attributes.F_TYPE, habitus.get(Attributes.F_TYPE));
         addtional.put(Attributes.F_COL_TYPE, habitus.get(Attributes.F_COL_TYPE));
+        addtional.put(Attributes.M_TABLE, this.table);
         return addtional;
     }
     // ~ Get/Set =============================================

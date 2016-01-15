@@ -1,13 +1,21 @@
 package com.prayer.schema.ruler;
 
+import static com.prayer.util.reflection.Instance.reservoir;
+import static com.prayer.util.reflection.Instance.singleton;
 import static org.junit.Assert.fail;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.constant.Accessors;
+import com.prayer.constant.MemoryPool;
+import com.prayer.constant.Resources;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
 import com.prayer.facade.kernel.Schema;
+import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.facade.schema.verifier.Verifier;
+import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.schema.json.SchemaVerifier;
 import com.prayer.util.io.IOKit;
 
@@ -68,6 +76,23 @@ public class AbstractVerifierTestCase {
             throw error;
         }
         return null;
+    }
+
+    /** **/
+    protected DataValidator validator() {
+        return reservoir(MemoryPool.POOL_VALIDATOR, Resources.DB_CATEGORY, Accessors.validator());
+    }
+
+    /** **/
+    protected JdbcConnection connection() {
+        return singleton(RecordConnImpl.class);
+    }
+
+    /** 删除表 **/
+    protected void purgeTable(final String table) {
+        if (null == validator().verifyTable(table)) {
+            this.connection().executeBatch("DROP TABLE " + table + ";");
+        }
     }
 
     /** **/
