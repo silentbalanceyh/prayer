@@ -6,12 +6,14 @@
                 "occurs":1,
                 "filter":{
                     "primarykey":true
-                },
-                "error":"PKMissingException",
-                "arguments":[
-                    "table"
-                ]
+                }
             }
-        ]
+        ],
+        "error":{
+            "name":"PKMissingException",
+            "arguments":[
+                "table"
+            ]
+        }
     }
 }

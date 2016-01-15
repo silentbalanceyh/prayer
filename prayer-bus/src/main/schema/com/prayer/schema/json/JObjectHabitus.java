@@ -1,13 +1,15 @@
 package com.prayer.schema.json;
 
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.facade.schema.rule.ObjectHabitus;
+import com.prayer.facade.schema.rule.RuleConstants;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -49,19 +51,83 @@ public class JObjectHabitus implements ObjectHabitus {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public ConcurrentMap<String, Class<?>> typeMap() {
+    public ConcurrentMap<String, Class<?>> types() {
         return this.types;
     }
 
     /** **/
     @Override
-    public Set<String> fields() {
-        return this.data.fieldNames();
+    public ConcurrentMap<String, Object> values() {
+        final ConcurrentMap<String, Object> valueMap = new ConcurrentHashMap<>();
+        /** 进行Data的计算 **/
+        JsonObject iterateData = this.data.copy();
+        if (iterateData.containsKey(RuleConstants.R_DATA)) {
+            final Object item = iterateData.getValue(RuleConstants.R_DATA);
+            if (JsonObject.class == item.getClass()) {
+                iterateData = iterateData.getJsonObject(RuleConstants.R_DATA);
+            }
+        }
+        /** 遍历最终拿到的Data **/
+        for (final String field : iterateData.fieldNames()) {
+            if (StringKit.isNonNil(field)) {
+                valueMap.put(field, iterateData.getValue(field));
+            }
+        }
+        return valueMap;
     }
+
+    /**
+     * 获取节点中的数据，双返回
+     * 
+     * @param clazz
+     * @return
+     */
+    @Override
+    @InstanceOfAny({ JsonObject.class, JsonArray.class })
+    @SuppressWarnings("unchecked")
+    public <T> T data() {
+        T data = null;
+        final JsonObject raw = this.data.copy();
+        if (raw.containsKey(RuleConstants.R_DATA)) {
+            final Object value = raw.getValue(RuleConstants.R_DATA);
+            if (null != value) {
+                if (JsonObject.class == value.getClass()) {
+                    data = (T) raw.getJsonObject(RuleConstants.R_DATA);
+                } else if (JsonArray.class == value.getClass()) {
+                    data = (T) raw.getJsonArray(RuleConstants.R_DATA);
+                }
+            }
+        } else {
+            data = (T) raw;
+        }
+        return data;
+    }
+
     /** **/
     @Override
-    public JsonObject getRaw(){
-        return this.raw.copy();
+    public JsonObject addtional() {
+        JsonObject data = this.data.copy();
+        JsonObject addtional = new JsonObject();
+        if (data.containsKey(RuleConstants.R_ADDT)) {
+            final Object item = data.getValue(RuleConstants.R_ADDT);
+            if (JsonObject.class == item.getClass()) {
+                addtional = data.getJsonObject(RuleConstants.R_ADDT);
+            }
+        }
+        return addtional;
+    }
+
+    /** **/
+    @Override
+    public JsonArray fields() {
+        final JsonArray fieldArr = new JsonArray();
+        /** 这里生成的fieldArr一定不会重复，因为this.data.fieldNames()的返回值是Set<String> **/
+        for (final String field : this.data.fieldNames()) {
+            if (StringKit.isNonNil(field)) {
+                fieldArr.add(field);
+            }
+        }
+        return fieldArr;
     }
 
     /** **/

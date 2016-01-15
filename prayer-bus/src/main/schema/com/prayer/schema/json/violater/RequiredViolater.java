@@ -1,9 +1,7 @@
 package com.prayer.schema.json.violater;
 
-import java.util.Set;
-
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.exception.schema.RequiredAttrMissingException;
+import com.prayer.base.schema.AbstractViolater;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
@@ -22,7 +20,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class RequiredViolater implements Violater {
+public final class RequiredViolater extends AbstractViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** Violater和Rule绑定死，一个Vialoter只能有一个Rule **/
@@ -49,21 +47,18 @@ public final class RequiredViolater implements Violater {
          * 解析Rule获取期望值
          */
         final JsonArray expectes = rule.getRule().getJsonArray(R_VALUE);
-        final Set<String> fields = habitus.fields();
+        final JsonArray fields = habitus.fields();
         /**
          * 最终返回值
          */
         AbstractSchemaException error = null;
-        for (final Object expected : expectes) {
-            /**
-             * 只检查字符串类型，因为是Required Missing
-             */
-            if (null != expected && String.class == expected.getClass()) {
-                final String attr = expected.toString();
-                if (!fields.contains(attr)) {
-                    error = new RequiredAttrMissingException(getClass(), this.rule.position() + " -> " + attr);
-                }
-            }
+        /**
+         * fields中必须包含所有expectes的元素，即required的基础条件
+         */
+        final Object attr = VHelper.calculate(fields, expectes, VCondition::nin);
+        if (null != attr) {
+            final Object[] arguments = new Object[] { this.rule.position() + " -> " + attr };
+            error = this.error(rule, arguments, null);
         }
         return error;
     }

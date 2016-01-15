@@ -2,32 +2,34 @@
     "debug":"__meta__ ( policy = ASSIGNED )",
     "in":{
         "value":{
+            "type":[
+                "IntType",
+                "LongType",
+                "StringType"
+            ],
+            "nullable":[
+                "false"
+            ],
+            "unique":[
+                "true"
+            ]
+        },
+        "errors":{
             "type":{
-                "values":[
-                    "IntType",
-                    "LongType",
-                    "StringType"
-                ],
-                "error":"PKColumnTypePolicyException",
+                "name":"PKColumnTypePolicyException",
                 "arguments":[
                     "policy",
                     "type"
                 ]
             },
             "nullable":{
-                "values":[
-                    "false"
-                ],
-                "error":"PKNullableConflictException",
+                "name":"PKNullableConflictException",
                 "arguments":[
                     "name"
                 ]
             },
             "unique":{
-                "values":[
-                    "true"
-                ],
-                "error":"PKUniqueConflictException",
+                "name":"PKUniqueConflictException",
                 "arguments":[
                     "name"
                 ]

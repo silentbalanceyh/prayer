@@ -6,13 +6,15 @@
                 "occurs":2,
                 "filter":{
                     "primarykey":true
-                },
-                "error":"PKPolicyConflictException",
-                "arguments":[
-                    "policy",
-                    "table"
-                ]
+                }
             }
-        ]
+        ],
+        "error":{
+            "name":"PKPolicyConflictException",
+            "arguments":[
+                "policy",
+                "table"
+            ]
+        }
     }
 }

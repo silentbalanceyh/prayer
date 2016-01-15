@@ -7,13 +7,19 @@
             "seqname",
             "seqstep",
             "seqinit"
-        ]
+        ],
+        "error":{
+            "name":"OptionalAttrMorEException"
+        }
     },
     "in":{
         "value":{
             "policy":[
                 "ASSIGNED"
             ]
+        },
+        "error":{
+            "name":"InvalidValueException"
         }
     }
 }

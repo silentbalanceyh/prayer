@@ -137,10 +137,10 @@ public final class MetaRuler implements Ruler {
         // Db Table : subtable
         RulerHelper.applyDBTable(habitus, FileConfig.CFG_M_EC);
         /** (7.4.5) 2.4.4.5 Column Does Not Exist **/
-        // Db Column : subkey
+        // Db Column : subtable, subkey
         RulerHelper.applyDBColumn(habitus, FileConfig.CFG_M_EC);
         /** (7.4.6) 2.4.4.6 Constraint OK ? **/
-        // Db Column : subkey
+        // Db Column : subtable, subkey
         RulerHelper.applyDBConstraint(habitus, FileConfig.CFG_M_EC);
     }
 

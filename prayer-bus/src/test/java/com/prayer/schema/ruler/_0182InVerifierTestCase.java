@@ -10,7 +10,7 @@ import com.prayer.exception.schema.PKColumnTypePolicyException;
  * @author Lang
  *
  */
-public class _0182ExtInVerifierTestCase extends AbstractVerifierTestCase {
+public class _0182InVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     private static final String E10012_STR = "[E10012] Fields ==> primary key type conflicts! ";
 

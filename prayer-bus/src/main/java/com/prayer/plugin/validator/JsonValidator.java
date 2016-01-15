@@ -19,7 +19,7 @@ import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.Pre;
 
 /**
- * Internal Format：Json格式验证器
+ * Internal Extractor：Json格式验证器
  * 
  * @author Lang
  *

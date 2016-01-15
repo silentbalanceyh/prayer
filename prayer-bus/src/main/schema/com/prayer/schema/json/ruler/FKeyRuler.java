@@ -47,16 +47,16 @@ public final class FKeyRuler implements Ruler {
         // Required: refId, refTable
         RulerHelper.applyExisting(habitus, FileConfig.CFG_FFK);
         /** (20.2) 6.1.2. 检查refId和refTable的格式对不对 **/
-        RulerHelper.applyPattern(habitus, FileConfig.CFG_FFK);
-        /** (21.1/2) 6.1.3. 检查Foreign Key的类型是否正确 **/
         final JsonObject addtional = this.getAddtional(habitus);
+        RulerHelper.applyPattern(habitus, FileConfig.CFG_FFK, addtional);
+        /** (21.1) 6.1.3. 检查Foreign Key的类型是否正确 **/
         RulerHelper.applyIn(habitus, FileConfig.CFG_FFK, addtional);
         /** (21.3) 分流检查外键的表值 **/
         if (skipDbCheck(habitus)) {
-            /** (21.3.2) 6.1.4. 直接从Schema中检查 **/
+            /** (21.3.2) 6.1.5. 直接从Schema中检查 **/
             applySchemaRule(habitus);
         } else {
-            /** (21.3.1) 6.1.5. Database检查 **/
+            /** (21.3.1) 6.1.6. Database检查 **/
             applyDatabaseRule(habitus);
         }
     }
@@ -68,7 +68,15 @@ public final class FKeyRuler implements Ruler {
     }
 
     private void applyDatabaseRule(final ObjectHabitus habitus) throws AbstractSchemaException {
-
+        /** (21.3.1.1) 验证外键表是否存在 **/
+        // Db Table : refTable
+        RulerHelper.applyDBTable(habitus, FileConfig.CFG_FFK);
+        /** (21.3.1.2) 验证外键表对应的字段是否存在 **/
+        // Db Table : refTable, refId
+        RulerHelper.applyDBColumn(habitus, FileConfig.CFG_FFK);
+        /** (21.3.1.3) 验证外键对应字段的约束是OK的 **/
+        // Db Table : refTable, refId
+        RulerHelper.applyDBConstraint(habitus, FileConfig.CFG_FFK);
     }
 
     /**

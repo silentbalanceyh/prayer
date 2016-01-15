@@ -1,12 +1,7 @@
 package com.prayer.schema.json.violater;
 
-import static com.prayer.util.Converter.toStr;
-
-import java.util.Set;
-
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.constant.Constants;
-import com.prayer.exception.schema.UnsupportAttrException;
+import com.prayer.base.schema.AbstractViolater;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
@@ -20,11 +15,12 @@ import net.sf.oval.guard.PostValidateThis;
 
 /**
  * Error 10017 ：UnsupportAttrException
+ * 
  * @author Lang
  *
  */
 @Guarded
-public final class UnsupportViolater implements Violater {
+public final class UnsupportViolater extends AbstractViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** Violater和Rule绑定死，一个Vialoter只能有一个Rule **/
@@ -49,19 +45,18 @@ public final class UnsupportViolater implements Violater {
          * 解析Rule的期望值
          */
         final JsonArray expectes = rule.getRule().getJsonArray(R_VALUE);
-        final Set<String> fields = habitus.fields();
+        final JsonArray fields = habitus.fields();
         /**
          * 最终返回结果
          */
         AbstractSchemaException error = null;
-        for (final Object expected : expectes) {
-            fields.remove(expected);
-        }
         /**
-         * 最终的fields的尺寸应该为0，不可以大于0
+         * expectes为所有支持的元素，则必须包含所有fields中出现过的元素
          */
-        if (Constants.ZERO < fields.size()) {
-            error = new UnsupportAttrException(getClass(), this.rule.position() + " -> " + toStr(fields));
+        final Object attr = VHelper.calculate(expectes, fields, VCondition::nin);
+        if (null != attr) {
+            final Object[] arguments = new Object[] { this.rule.position() + " -> " + attr };
+            error = this.error(rule, arguments, null);
         }
         return error;
     }

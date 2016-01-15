@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.prayer.facade.entity.Attributes;
-import com.prayer.facade.entity.BeanGet;
-import com.prayer.facade.entity.BeanSet;
 import com.prayer.facade.entity.Entity;
+import com.prayer.facade.fun.entity.BeanGet;
+import com.prayer.facade.fun.entity.BeanSet;
 import com.prayer.util.entity.bits.BitsBasic;
 import com.prayer.util.entity.stream.StreamBasic;
 import com.prayer.util.entity.stream.StreamClass;

@@ -6,16 +6,24 @@
                 "subkey",
                 "subtable"
             ]
-        ]
+        ],
+        "error":{
+            "name":"OptionalAttrMorEException"
+        }
     },
     "diff":{
         "value":{
             "subtable":"table"
+        },
+        "error":{
+            "name":"DuplicatedTablesException"
         }
     },
     "db.table":{
         "value":[
-            "subtable"
+            {
+                "table":"subtable"
+            }
         ]
     },
     "db.column":{

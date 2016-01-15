@@ -1,4 +1,4 @@
-package com.prayer.base.schema.rule;
+package com.prayer.base.schema;
 
 import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.jvmError;

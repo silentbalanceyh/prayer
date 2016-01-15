@@ -6,10 +6,11 @@
                 "occurs":1,
                 "filter":{
                     "subtable":true
-                },
-                "error":"SubtableWrongException",
-                "arguments":[]
+                }
             }
-        ]
+        ],
+        "error":{
+            "name":"SubtableWrongException"
+        }
     }
 }

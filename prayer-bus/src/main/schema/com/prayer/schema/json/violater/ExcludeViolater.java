@@ -1,9 +1,7 @@
 package com.prayer.schema.json.violater;
 
-import java.util.Set;
-
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.exception.schema.OptionalAttrMorEException;
+import com.prayer.base.schema.AbstractViolater;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
@@ -21,7 +19,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class ExcludeViolater implements Violater {
+public final class ExcludeViolater extends AbstractViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -43,17 +41,14 @@ public final class ExcludeViolater implements Violater {
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         /** **/
-        final Set<String> fields = habitus.fields();
+        final JsonArray fields = habitus.fields();
         final JsonArray excluded = this.rule.getRule().getJsonArray(R_VALUE);
         /** 遍历所有排除的属性 **/
         AbstractSchemaException error = null;
-        for (final Object item : excluded) {
-            if (null != item && String.class == item.getClass()) {
-                if (fields.contains(item)) {
-                    error = new OptionalAttrMorEException(getClass(), this.rule.position() + " -> " + item.toString(), "Existing");
-                    break;
-                }
-            }
+        final Object value = VHelper.calculate(fields, excluded, VCondition::in);
+        if (null != value) {
+            final Object[] arguments = new Object[] { this.rule.position() + " -> " + value.toString(), "Existing" };
+            error = this.error(rule, arguments, null);
         }
         return error;
     }

@@ -5,7 +5,10 @@
             "__meta__",
             "__keys__",
             "__fields__"
-        ]
+        ],
+        "error":{
+            "name":"RequiredAttrMissingException"
+        }
     },
     "jtype":{
         "value":{
@@ -13,11 +16,17 @@
             "__keys__":"JsonArray",
             "__fields__":"JsonArray",
             "__indexes__":"JsonArray"
+        },
+        "error":{
+            "name":"JsonTypeConfusedException"
         }
     },
     "optional":{
         "value":[
             "__indexes__"
-        ]
+        ],
+        "error":{
+            "name":"UnsupportAttrException"
+        }
     }
 }

@@ -23,7 +23,7 @@ import net.sf.oval.constraint.Size;
 import net.sf.oval.guard.Guarded;
 
 /**
- * Internal Format：Script格式验证器
+ * Internal Extractor：Script格式验证器
  * 
  * @author Lang
  *

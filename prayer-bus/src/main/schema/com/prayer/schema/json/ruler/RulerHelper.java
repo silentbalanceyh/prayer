@@ -137,8 +137,7 @@ public final class RulerHelper {
      */
     public static void applyIn(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
             throws AbstractSchemaException {
-        final Rule rule = RuleBuilder.in(file);
-        sharedApply(habitus, rule);
+        applyIn(habitus, file, new JsonObject());
     }
 
     /**
@@ -151,7 +150,7 @@ public final class RulerHelper {
      */
     public static void applyIn(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file,
             @NotNull final JsonObject addtional) throws AbstractSchemaException {
-        final Rule rule = RuleBuilder.extin(file);
+        final Rule rule = RuleBuilder.in(file);
         sharedApply(wrapperHabitus(habitus, addtional), rule);
     }
 
@@ -190,8 +189,14 @@ public final class RulerHelper {
      */
     public static void applyPattern(@NotNull final ObjectHabitus habitus,
             @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
+        applyPattern(habitus, file, new JsonObject());
+    }
+
+    public static void applyPattern(@NotNull final ObjectHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
+                    throws AbstractSchemaException {
         final Rule rule = RuleBuilder.pattern(file);
-        sharedApply(habitus, rule);
+        sharedApply(wrapperHabitus(habitus, addtional), rule);
     }
 
     /**
@@ -241,7 +246,8 @@ public final class RulerHelper {
     private static ObjectHabitus wrapperHabitus(final ObjectHabitus habitus, final JsonObject addtional) {
         // 内部初始化
         final JsonObject data = new JsonObject();
-        data.put(RuleConstants.R_DATA, habitus.getRaw());
+        final JsonObject raw = habitus.data();
+        data.put(RuleConstants.R_DATA, raw);
         if (null != addtional) {
             data.put(RuleConstants.R_ADDT, addtional);
         }
@@ -251,7 +257,7 @@ public final class RulerHelper {
     private static ObjectHabitus wrapperHabitus(final ArrayHabitus habitus, final JsonObject addtional) {
         // 内部初始化
         final JsonObject data = new JsonObject();
-        data.put(RuleConstants.R_DATA, habitus.getRaw());
+        data.put(RuleConstants.R_DATA, habitus.data());
         if (null != addtional) {
             data.put(RuleConstants.R_ADDT, addtional);
         }

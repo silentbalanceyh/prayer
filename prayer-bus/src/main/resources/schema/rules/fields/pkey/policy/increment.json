@@ -2,31 +2,33 @@
     "debug":"__meta__ ( policy = INCREMENT )",
     "in":{
         "value":{
+            "type":[
+                "IntType",
+                "LongType"
+            ],
+            "nullable":[
+                "false"
+            ],
+            "unique":[
+                "true"
+            ]
+        },
+        "errors":{
             "type":{
-                "values":[
-                    "IntType",
-                    "LongType"
-                ],
-                "error":"PKColumnTypePolicyException",
+                "name":"PKColumnTypePolicyException",
                 "arguments":[
                     "policy",
                     "type"
                 ]
             },
             "nullable":{
-                "values":[
-                    "false"
-                ],
-                "error":"PKNullableConflictException",
+                "name":"PKNullableConflictException",
                 "arguments":[
                     "name"
                 ]
             },
             "unique":{
-                "values":[
-                    "true"
-                ],
-                "error":"PKUniqueConflictException",
+                "name":"PKUniqueConflictException",
                 "arguments":[
                     "name"
                 ]

@@ -3,15 +3,14 @@ package com.prayer.schema.ruler;
 import org.junit.Test;
 
 import com.prayer.base.exception.AbstractException;
-import com.prayer.exception.schema.PKNullableConflictException;
-import com.prayer.exception.schema.PKUniqueConflictException;
+import com.prayer.exception.schema.PKPolicyConflictException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class _0183ExtInVerifierTestCase extends AbstractVerifierTestCase {
+public class _0181MostVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -19,26 +18,26 @@ public class _0183ExtInVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    // ~ Methods =============================================
     /**
      * 
      * @throws AbstractException
      */
-    @Test(expected = PKUniqueConflictException.class)
-    public void testP0183KeyUnique10025() throws AbstractException {
-        testImport("keys/P0183field-unique10025-1.json");
-        failure("[E10025] Keys ==> Primary key unique must be true.");
+    @Test(expected = PKPolicyConflictException.class)
+    public void testP0181Fields1PKeyPolicy10011() throws AbstractException {
+        testImport("keys/P0181field-pKEYpolicy10011-1.json");
+        failure("[E10011] Fields -> primarykey ==> (Failure) Attribute 'primarykey' does not match the policy definition! ");
     }
 
     /**
      * 
      * @throws AbstractException
      */
-    @Test(expected = PKNullableConflictException.class)
-    public void testP0184KeyNullable10025() throws AbstractException {
-        testImport("keys/P0184field-nullable10026-1.json");
-        failure("[E10026] Keys ==> Primary key unique must be true.");
+    @Test(expected = PKPolicyConflictException.class)
+    public void testP0181Fields2PKeyPolicy10011() throws AbstractException {
+        testImport("keys/P0181field-pKEYpolicy10011-2.json");
+        failure("[E10011] Fields -> primarykey ==> (Failure) Attribute 'primarykey' does not match the policy definition! ");
     }
-    // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode);failure(equals);failure(toString ============================

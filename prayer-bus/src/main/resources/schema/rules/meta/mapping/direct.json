@@ -4,6 +4,9 @@
         "value":[
             "subkey",
             "subtable"
-        ]
+        ],
+        "error":{
+            "name":"OptionalAttrMorEException"
+        }
     }
 }

@@ -6,7 +6,10 @@
             "type",
             "columnName",
             "columnType"
-        ]
+        ],
+        "error":{
+            "name":"RequiredAttrMissingException"
+        }
     },
     "optional":{
         "value":[
@@ -38,21 +41,22 @@
             "type":"(BooleanType|IntType|LongType|DecimalType|DateType|StringType|JsonType|XmlType|ScriptType|BinaryType)",
             "columnName":"[A-Z]{1,3}\\_[A-Z]{1}[A-Z\\_0-9]*",
             "columnType":"(BOOLEAN|INT|LONG|DECIMAL|DATE|STRING|JSON|XML|SCRIPT|BINARY)[0-9]*"
+        },
+        "error":{
+            "name":"PatternNotMatchException"
         }
     },
     "duplicated":{
-        "value":{
+        "value":[
+            "name",
+            "columnName"
+        ],
+        "errors":{
             "name":{
-                "error":"DuplicatedAttrException",
-                "arguments":[
-                    "position"
-                ]
+                "name":"DuplicatedAttrException"
             },
             "columnName":{
-                "error":"DuplicatedColumnException",
-                "arguments":[
-                    "position"
-                ]
+                "name":"DuplicatedColumnException"
             }
         }
     }

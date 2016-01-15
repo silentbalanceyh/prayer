@@ -4,13 +4,19 @@
         "value":[
             "subkey",
             "subtable"
-        ]
+        ],
+        "error":{
+            "name":"OptionalAttrMorEException"
+        }
     },
     "in":{
         "value":{
             "mapping":[
                 "DIRECT"
             ]
+        },
+        "error":{
+            "name":"InvalidValueException"
         }
     },
     "notin":{
@@ -18,6 +24,9 @@
             "policy":[
                 "ASSIGNED"
             ]
+        },
+        "error":{
+            "name":"InvalidValueException"
         }
     }
 }

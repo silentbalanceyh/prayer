@@ -22,7 +22,6 @@ import com.prayer.schema.json.rule.DiffRule;
 import com.prayer.schema.json.rule.DuplicatedRule;
 import com.prayer.schema.json.rule.ExcludeRule;
 import com.prayer.schema.json.rule.ExistingRule;
-import com.prayer.schema.json.rule.ExtInRule;
 import com.prayer.schema.json.rule.InRule;
 import com.prayer.schema.json.rule.JTypeRule;
 import com.prayer.schema.json.rule.LeastRule;
@@ -169,14 +168,6 @@ public final class RuleBuilder {
      */
     public static Rule in(@NotNull @NotEmpty @NotBlank final String file){
         return InRule.create(file);
-    }
-    /**
-     * 扩展In
-     * @param file
-     * @return
-     */
-    public static Rule extin(@NotNull @NotEmpty @NotBlank final String file){
-        return ExtInRule.create(file);
     }
     /**
      * E10005

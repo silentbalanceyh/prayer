@@ -1,19 +1,15 @@
 package com.prayer.schema.json.violater;
 
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.constant.Constants;
-import com.prayer.exception.schema.InvalidValueException;
+import com.prayer.base.schema.AbstractViolater;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.schema.json.rule.InRule;
-import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -25,7 +21,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class InViolater implements Violater {
+public final class InViolater extends AbstractViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -46,48 +42,34 @@ public class InViolater implements Violater {
     /** **/
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
-        final ConcurrentMap<String, JsonArray> expectes = this.prepareExpected();
+        /** 准备数据 **/
+        final ConcurrentMap<String, JsonArray> expectes = this.preparedMap(rule, this::extract);
+        final ConcurrentMap<String, Object> values = habitus.values();
+
         AbstractSchemaException error = null;
-        for (final String expected : expectes.keySet()) {
-            final String literal = habitus.get(expected);
-            final JsonArray values = expectes.get(expected);
-            if (!inValues(values, literal)) {
-                error = new InvalidValueException(getClass(), this.rule.position() + " -> " + expected, values.encode(),
-                        literal, Flag.FLAG_IN);
-            }
+        /**
+         * 先检查in是否OK，如果为null表示OK，已经存在，则不进行Patterns匹配
+         */
+        String key = VHelper.calculate(values, expectes, VCondition::nin);
+        if (null != key) {
+            /**
+             * 操作失败，直接返回Error
+             */
+            final Object[] arguments = new Object[] { this.rule.position() + " -> " + key, expectes.get(key).encode(),
+                    habitus.get(key), Flag.FLAG_IN };
+            error = this.error(rule, arguments, habitus.addtional(), key);
         }
         return error;
     }
 
     // ~ Methods =============================================
-    protected boolean inValues(final JsonArray values, final String literal) {
-        boolean ret = true;
-        if (StringKit.isNonNil(literal) && !values.contains(literal)) {
-            ret = false;
-        }
-        return ret;
-    }
-    /**
-     * 获取扩展的Rule
-     * @return
-     */
-    protected JsonObject getRule(){
-        return this.rule.getRule();
-    }
-
     // ~ Private Methods =====================================
-    private ConcurrentMap<String, JsonArray> prepareExpected() {
-        final JsonObject expectes = rule.getRule().getJsonObject(R_VALUE);
-        final ConcurrentMap<String, JsonArray> retIMap = new ConcurrentHashMap<>();
-        for (final String field : expectes.fieldNames()) {
-            if (StringKit.isNonNil(field)) {
-                final JsonArray values = expectes.getJsonArray(field);
-                if (null != values && Constants.ZERO < values.size()) {
-                    retIMap.put(field, values);
-                }
-            }
+    private JsonArray extract(final Object value) {
+        JsonArray array = null;
+        if (JsonArray.class == value.getClass()) {
+            array = (JsonArray) value;
         }
-        return retIMap;
+        return array;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

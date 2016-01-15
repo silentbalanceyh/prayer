@@ -16,6 +16,10 @@ public interface RuleConstants {
     String R_RULE = "rule";
     /** JsonArray -> JsonObject的转换 **/
     String R_ADDT = "addtional";
+    /** Error **/
+    String R_ERROR = "error";
+    /** Error Group **/
+    String R_ERRORS = "errors";
 
     /** Rule的名称 **/
     interface Names { // NOPMD
@@ -37,18 +41,22 @@ public interface RuleConstants {
         String RULE_NIN = "notin";
         /** 10020 两个属性值不可相同 **/
         String RULE_DIFF = "diff";
-        /** 10027 Table是否在Business数据库中存在 **/
-        String RULE_DB_TB = "db.table";
-        /** 10028 Column是否在Business数据库中存在 **/
-        String RULE_DB_COL = "db.column";
-        /** 10029 约束是否合法 **/
-        String RULE_DB_CT = "db.constraint";
+
         /** 【Array】10007/10008 两种Duplicated **/
         String RULE_DUP = "duplicated";
         /** 【Array】最少出现规则 **/
         String RULE_LST = "least";
         /** 【Array】最多出现规则 **/
         String RULE_MST = "most";
+        
+        /** 10027 Table是否在Business数据库中存在 **/
+        String RULE_DB_TB = "db.table";
+        /** 10028 Column是否在Business数据库中存在 **/
+        String RULE_DB_COL = "db.column";
+        /** 10029 约束是否合法 **/
+        String RULE_DB_CT = "db.constraint";
+        /** 10030 列的类型问题 **/
+        String RULE_DB_T = "db.type";
     }
 
     /** Rule对应的配置文件名 **/

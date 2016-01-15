@@ -6,7 +6,7 @@ import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.schema.FKAttrTypeException;
 import com.prayer.exception.schema.FKColumnTypeException;
 
-public class _021ExtInVerifierTestCase extends AbstractVerifierTestCase {
+public class _021InVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

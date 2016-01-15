@@ -1,50 +1,32 @@
-package com.prayer.schema.json.rule;
+package com.prayer.schema.json.violater;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.facade.schema.rule.ObjectHabitus;
+import com.prayer.facade.schema.rule.Violater;
 
-import com.prayer.base.schema.AbstractRule;
-import com.prayer.facade.schema.rule.Rule;
-
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-
 /**
  * 
  * @author Lang
  *
  */
 @Guarded
-public final class DBTableRule extends AbstractRule implements Rule {
+public class DBTypeViolater implements Violater{
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(DBTableRule.class);
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /** **/
-    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
-        return new DBTableRule(rule);
-    }
-
     // ~ Constructors ========================================
-    /** **/
-    private DBTableRule(final String rule) {
-        super(rule, Names.RULE_DB_TB);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
     @Override
-    public Logger getLogger() {
-        return LOGGER;
+    public AbstractSchemaException violate(ObjectHabitus habitus) {
+        // TODO Auto-generated method stub
+        return null;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

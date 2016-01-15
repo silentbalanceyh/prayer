@@ -9,7 +9,10 @@
             "identifier",
             "mapping",
             "policy"
-        ]
+        ],
+        "error":{
+            "name":"RequiredAttrMissingException"
+        }
     },
     "optional":{
         "value":[
@@ -19,7 +22,10 @@
             "seqstep",
             "seqinit",
             "status"
-        ]
+        ],
+        "error":{
+            "name":"UnsupportAttrException"
+        }
     },
     "pattern":{
         "value":{
@@ -35,6 +41,9 @@
             "seqname":"SEQ_[A-Z\\_0-9]*",
             "seqinit":"[0-9]+",
             "seqstep":"[0-9]+"
+        },
+        "error":{
+            "name":"PatternNotMatchException"
         }
     }
 }

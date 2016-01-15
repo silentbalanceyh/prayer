@@ -2,23 +2,25 @@
     "debug":"__meta__ ( policy = COLLECTION )",
     "in":{
         "value":{
+            "type":[
+                "IntType",
+                "LongType",
+                "StringType"
+            ],
+            "nullable":[
+                "false"
+            ]
+        },
+        "errors":{
             "type":{
-                "values":[
-                    "IntType",
-                    "LongType",
-                    "StringType"
-                ],
-                "error":"PKColumnTypePolicyException",
+                "name":"PKColumnTypePolicyException",
                 "arguments":[
                     "policy",
                     "type"
                 ]
             },
             "nullable":{
-                "values":[
-                    "false"
-                ],
-                "error":"PKNullableConflictException",
+                "name":"PKNullableConflictException",
                 "arguments":[
                     "name"
                 ]

@@ -6,6 +6,9 @@
                 "seqinit",
                 "seqstep"
             ]
-        ]
+        ],
+        "error":{
+            "name":"OptionalAttrMorEException"
+        }
     }
 }

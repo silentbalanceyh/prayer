@@ -91,7 +91,7 @@ public class JArrayHabitus implements ArrayHabitus {
 
     /** 返回原始数据的拷贝，防止修改 **/
     @Override
-    public JsonArray getRaw() {
+    public JsonArray data() {
         return this.raw.copy();
     }
 

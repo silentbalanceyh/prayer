@@ -33,7 +33,7 @@ public interface ArrayHabitus {
      * 因为JsonArray常用，所以必须获取Raw
      * @return
      */
-    JsonArray getRaw();
+    JsonArray data();
 
     /**
      * Reset 创建Raw Data的拷贝
