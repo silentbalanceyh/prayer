@@ -67,7 +67,7 @@ final class VCondition {
         return !match(value, pattern);
     }
     /**
-     * 互斥运算
+     * 根据Filter获取次数限制，查找满足filter的values，最多多少次，实际次数不能大于等于occurs
      * @param config
      * @param values
      * @return
@@ -92,7 +92,7 @@ final class VCondition {
         return mediater(config, values, fun);
     }
     /**
-     * 根据Filter获取次数限制，查找满足filter的values，最少多少次，实际次数不能小于occurs
+     * 根据Filter获取次数限制，查找满足filter的values，最少多少次，实际次数不能小于等于occurs
      * 
      * @param filter
      * @param patterns

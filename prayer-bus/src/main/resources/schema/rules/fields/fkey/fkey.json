@@ -47,5 +47,37 @@
                 "type"
             ]
         }
+    },
+    "db.table":{
+        "value":[
+            {
+                "table":"refTable"
+            }
+        ]
+    },
+    "db.column":{
+        "value":[
+            {
+                "table":"refTable",
+                "column":"refId"
+            }
+        ]
+    },
+    "db.constraint":{
+        "value":[
+            {
+                "table":"refTable",
+                "column":"refId"
+            }
+        ]
+    },
+    "db.type":{
+        "value":[
+            {
+                "table":"refTable",
+                "column":"refId",
+                "type":"columnType"
+            }
+        ]
     }
 }

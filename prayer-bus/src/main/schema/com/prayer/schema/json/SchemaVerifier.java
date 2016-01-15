@@ -94,7 +94,7 @@ public class SchemaVerifier implements Verifier {
          * 6.验证外键的特殊情况，如果有外键才会验证
          */
         final ArrayHabitus habitus = this.getFields(data);
-        final Ruler ruler = new FKeyRuler(this.getMeta(data, Attributes.M_TABLE));
+        final Ruler ruler = new FKeyRuler(this.getMeta(data, Attributes.M_TABLE),this.getFields(data));
         final ArrayRuler container = new FKeysRuler(ruler, this.getMeta(data, Attributes.M_TABLE));
         container.apply(habitus);
     }

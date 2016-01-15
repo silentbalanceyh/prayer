@@ -102,6 +102,17 @@ public final class RulerHelper {
         final Rule rule = RuleBuilder.dbtable(file);
         sharedApply(habitus, rule);
     }
+    /**
+     * Error100030 -- 数据库中字段类型
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyDBType(@NotNull final ObjectHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.dbtype(file);
+        sharedApply(habitus, rule);
+    }
 
     /**
      * Error10020 -- 两个值不可以相等

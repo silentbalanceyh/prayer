@@ -18,6 +18,7 @@ import com.prayer.facade.schema.rule.Violater;
 import com.prayer.schema.json.rule.DBColumnRule;
 import com.prayer.schema.json.rule.DBConstraintRule;
 import com.prayer.schema.json.rule.DBTableRule;
+import com.prayer.schema.json.rule.DBTypeRule;
 import com.prayer.schema.json.rule.DiffRule;
 import com.prayer.schema.json.rule.DuplicatedRule;
 import com.prayer.schema.json.rule.ExcludeRule;
@@ -209,6 +210,14 @@ public final class RuleBuilder {
      */
     public static Rule dbconstraint(@NotNull @NotEmpty @NotBlank final String file){
         return DBConstraintRule.create(file);
+    }
+    /**
+     * E10030
+     * @param file
+     * @return
+     */
+    public static Rule dbtype(@NotNull @NotEmpty @NotBlank final String file){
+        return DBTypeRule.create(file);
     }
     /**
      * E10007/10008

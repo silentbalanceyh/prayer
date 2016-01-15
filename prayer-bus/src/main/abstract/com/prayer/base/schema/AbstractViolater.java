@@ -149,13 +149,10 @@ public abstract class AbstractViolater {
             final JsonObject addtional, final String field) {
         /** 1.从元数据Rule中读取Error **/
         final JsonObject errorConfig = this.getErrorConfig(rule, field);
-        /** 2.提取error配置中的数据 **/
+        /** 2.提取error配置中的class数据 **/
         final String errorCls = "com.prayer.exception.schema" + Symbol.DOT + errorConfig.getString("name");
-        /** 3.构造第一参数 **/
+        /** 3.构造第一参数：第一个参数通过getClass()获得，一般为Error的第一参数，所有的异常统一规范 **/
         JsonArray preparedArgs = new JsonArray();
-        // 1.第一个参数通过getClass()获得，一般为Error的第一参数，所有的异常统一规范
-        // 2.其次先添加arguments中存在的参数
-        // 3.再判断preparedArgs中是否有值，有值的话，将这些值作为addtional的key对待从addtional中提取参数
         final List<Object> args = new ArrayList<>();
         args.add(getClass());
         /** 4.从ErrorConfig中提取模式 **/
@@ -164,13 +161,13 @@ public abstract class AbstractViolater {
             append = errorConfig.getBoolean("append");
         }
         if (errorConfig.containsKey("arguments")) {
-            /** 3.1.1.如果有arguments参数，则查看append模式，如果为true则先添加arguments函数参数 **/
+            /** 4.1.1.如果有arguments参数，则查看append模式，如果为true则先添加arguments函数参数 **/
             if (append) {
                 for (final Object argument : arguments) {
                     args.add(argument);
                 }
             }
-            /** 3.1.2.如果append为false则直接以arguments节点中的参数为准 **/
+            /** 4.1.2.如果append为false则直接以arguments节点中的参数为准 **/
             preparedArgs = errorConfig.getJsonArray("arguments");
             if (!preparedArgs.isEmpty() && null != addtional) {
                 for (final Object preparedArg : preparedArgs) {
@@ -180,12 +177,12 @@ public abstract class AbstractViolater {
                 }
             }
         } else {
-            /** 3.2.如果不包含arguments节点，则直接添加arguments函数参数，这个时候addtional失效 **/
+            /** 4.2.如果不包含arguments节点，则直接添加arguments函数参数，这个时候addtional失效 **/
             for (final Object argument : arguments) {
                 args.add(argument);
             }
         }
-        /** 4.参数处理完成过后，直接构造 **/
+        /** 5.参数处理完成过后，直接构造最终的Exception **/
         return instance(errorCls, args.toArray());
     }
 

@@ -74,12 +74,6 @@ public final class FKeysRuler implements ArrayRuler {
             this.ruler.apply(item);
         }
     }
-
-    private JsonObject getAddtional(final ObjectHabitus habitus) {
-        final JsonObject addtional = new JsonObject();
-        addtional.put(Attributes.M_TABLE, this.table);
-        return addtional;
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

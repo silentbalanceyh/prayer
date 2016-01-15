@@ -1,6 +1,7 @@
 package com.prayer.schema.json.ruler;
 
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
@@ -28,14 +29,18 @@ public final class FKeyRuler implements Ruler {
     @NotEmpty
     @NotBlank
     private transient final String table;
+    /** **/
+    @NotNull
+    private transient final ArrayHabitus fields;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public FKeyRuler(@AssertFieldConstraints("table") final String table) {
+    public FKeyRuler(@AssertFieldConstraints("table") final String table, @NotNull final ArrayHabitus fields) {
         this.table = table;
+        this.fields = fields;
     }
 
     // ~ Abstract Methods ====================================
@@ -53,10 +58,10 @@ public final class FKeyRuler implements Ruler {
         RulerHelper.applyIn(habitus, FileConfig.CFG_FFK, addtional);
         /** (21.3) 分流检查外键的表值 **/
         if (skipDbCheck(habitus)) {
-            /** (21.3.2) 6.1.5. 直接从Schema中检查 **/
+            /** (21.3.2) 6.1.4. 直接从Schema中检查 **/
             applySchemaRule(habitus);
         } else {
-            /** (21.3.1) 6.1.6. Database检查 **/
+            /** (21.3.1) 6.1.5. Database检查 **/
             applyDatabaseRule(habitus);
         }
     }
@@ -68,15 +73,18 @@ public final class FKeyRuler implements Ruler {
     }
 
     private void applyDatabaseRule(final ObjectHabitus habitus) throws AbstractSchemaException {
-        /** (21.3.1.1) 验证外键表是否存在 **/
+        /** (21.3.1.1) 6.1.5.1. 验证外键表是否存在 **/
         // Db Table : refTable
         RulerHelper.applyDBTable(habitus, FileConfig.CFG_FFK);
-        /** (21.3.1.2) 验证外键表对应的字段是否存在 **/
+        /** (21.3.1.2) 6.1.5.2. 验证外键表对应的字段是否存在 **/
         // Db Table : refTable, refId
         RulerHelper.applyDBColumn(habitus, FileConfig.CFG_FFK);
-        /** (21.3.1.3) 验证外键对应字段的约束是OK的 **/
+        /** (21.3.1.3) 6.1.5.3. 验证外键对应字段的约束是OK的 **/
         // Db Table : refTable, refId
         RulerHelper.applyDBConstraint(habitus, FileConfig.CFG_FFK);
+        /** (21.3.1.4) 6.1.5.4. 验证外键在数据库中的类型是否匹配 **/
+        // Db Table : refTable, refId, columnType
+        RulerHelper.applyDBType(habitus, FileConfig.CFG_FFK);
     }
 
     /**
