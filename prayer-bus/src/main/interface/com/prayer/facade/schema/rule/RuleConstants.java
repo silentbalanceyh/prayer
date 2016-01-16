@@ -48,6 +48,8 @@ public interface RuleConstants {
         String RULE_LST = "least";
         /** 【Array】最多出现规则 **/
         String RULE_MST = "most";
+        /** 【Array】唯一记录规则 **/
+        String RULE_UNQ = "unique";
         
         /** 10027 Table是否在Business数据库中存在 **/
         String RULE_DB_TB = "db.table";

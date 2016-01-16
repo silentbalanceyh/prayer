@@ -12,26 +12,27 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
- * 最少出现次数规则
+ * 只能出现一次的规则，复杂规则，主要用于Array类型，根据查询条件获取唯一记录，如果出现2次以上则视为越界
+ * most + least ( occurs = 1 ) 的组合，但比most和least的规则更为专一和复杂，不替换原始的most和least
  * @author Lang
  *
  */
 @Guarded
-public final class LeastRule extends AbstractRule implements Rule {
+public final class UniqueRule extends AbstractRule implements Rule {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(LeastRule.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UniqueRule.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
     public static Rule create(@NotNull @NotEmpty @NotBlank final String rule){
-        return new LeastRule(rule);
+        return new UniqueRule(rule);
     }
     // ~ Constructors ========================================
     /** **/
-    private LeastRule(final String rule){
-        super(rule, Names.RULE_LST);
+    private UniqueRule(final String rule){
+        super(rule,Names.RULE_UNQ);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

@@ -1,5 +1,6 @@
 /target/
 /.settings/
+/.idea/
 /*.project
 /*.lock
 .externalToolBuilders
@@ -7,3 +8,6 @@
 *.project
 *.classpath
 .settings
+
+.idea
+*.iml

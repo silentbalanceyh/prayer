@@ -3,4 +3,7 @@
 /*.classpath
 /*.project
 /.settings/
+/.idea/
+/*.iml
 .externalToolBuilders
+*.iml
