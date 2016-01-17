@@ -1,11 +1,17 @@
-package com.prayer.schema.json.ruler;
+package com.prayer.schema.json.violater;
 
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.base.schema.AbstractViolater;
 import com.prayer.facade.schema.rule.ObjectHabitus;
-import com.prayer.facade.schema.rule.Ruler;
+import com.prayer.facade.schema.rule.Rule;
+import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.rule.JETypeRule;
 
+import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -13,31 +19,32 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class KeyRuler implements Ruler {
-
+public final class JETypeViolater extends AbstractViolater implements Violater{
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
+    /** **/
+    @NotNull
+    private transient final Rule rule;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    @PostValidateThis
+    public JETypeViolater(@NotNull @InstanceOfAny(JETypeRule.class) final Rule rule){
+        this.rule = rule;
+    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public void apply(@NotNull final ObjectHabitus habitus) throws AbstractSchemaException {
-        /** 8.1.1.验证Required属性 **/
-        RulerHelper.applyRequired(habitus, FileConfig.CFG_KEY);
-        /** 8.1.2.验证columns的类型 **/
-        RulerHelper.applyJType(habitus, FileConfig.CFG_KEY);
-        /** 8.1.3.验证不支持属性 **/
-        RulerHelper.applyUnsupport(habitus, FileConfig.CFG_KEY);
-        /** 8.1.4.验证Patterns **/
-        RulerHelper.applyPattern(habitus, FileConfig.CFG_KEY);
-        /** 8.1.6.Key中包含了Array类型的元素，对Array的长度限制 **/
-        RulerHelper.applyLength(habitus, FileConfig.CFG_KEY);
-        /** 8.1.5.Key中包含了Array类型的元素，对Array的每个元素的Json类型限制 **/
-        RulerHelper.applyJEType(habitus, FileConfig.CFG_KEY);
+    public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
+        final JsonObject data = habitus.data();
+        System.out.println(data.encode());
+        // TODO Auto-generated method stub
+        return null;
     }
+    
+    
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

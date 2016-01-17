@@ -53,7 +53,6 @@ public final class JTypeViolater extends AbstractViolater implements Violater {
          * 最终返回值
          */
         AbstractSchemaException error = null;
-
         final String key = VHelper.calculate(types, expectes, this::wrong);
         if (null != key) {
             final Object[] arguments = new Object[] { this.rule.position() + " -> " + key };

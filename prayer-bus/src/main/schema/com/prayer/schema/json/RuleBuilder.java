@@ -24,8 +24,10 @@ import com.prayer.schema.json.rule.DuplicatedRule;
 import com.prayer.schema.json.rule.ExcludeRule;
 import com.prayer.schema.json.rule.ExistingRule;
 import com.prayer.schema.json.rule.InRule;
+import com.prayer.schema.json.rule.JETypeRule;
 import com.prayer.schema.json.rule.JTypeRule;
 import com.prayer.schema.json.rule.LeastRule;
+import com.prayer.schema.json.rule.LengthRule;
 import com.prayer.schema.json.rule.MostRule;
 import com.prayer.schema.json.rule.NotInRule;
 import com.prayer.schema.json.rule.PatternRule;
@@ -124,6 +126,22 @@ public final class RuleBuilder {
      */
     public static Rule required(@NotNull @NotEmpty @NotBlank final String file) {
         return RequiredRule.create(file);
+    }
+    /**
+     * 
+     * @param file
+     * @return
+     */
+    public static Rule length(@NotNull @NotEmpty @NotBlank final String file){
+        return LengthRule.create(file);
+    }
+    /**
+     * 
+     * @param file
+     * @return
+     */
+    public static Rule jetype(@NotNull @NotEmpty @NotBlank final String file){
+        return JETypeRule.create(file);
     }
 
     /**

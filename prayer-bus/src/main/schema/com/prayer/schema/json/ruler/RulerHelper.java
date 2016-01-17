@@ -245,6 +245,30 @@ public final class RulerHelper {
     }
 
     /**
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyJEType(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
+            throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.jetype(file);
+        sharedApply(habitus, rule);
+    }
+
+    /**
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyLength(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
+            throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.length(file);
+        sharedApply(habitus, rule);
+    }
+
+    /**
      * Error10017 -- 不支持的属性的操作
      * 
      * @param habitus

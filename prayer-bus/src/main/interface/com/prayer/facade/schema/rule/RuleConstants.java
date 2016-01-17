@@ -50,6 +50,10 @@ public interface RuleConstants {
         /** 10020 两个属性值不可相同 **/
         String RULE_DIFF = "diff";
 
+        /** 【Array】10002 JsonType Json类型不对，但针对数组中的元素 **/
+        String RULE_JETYPE = "jetype";
+        /** 【Array】10006 Array的长度判断 **/
+        String RULE_LEN = "length";
         /** 【Array】10007/10008 两种Duplicated **/
         String RULE_DUP = "duplicated";
         /** 【Array】最少出现规则 **/
@@ -125,6 +129,9 @@ public interface RuleConstants {
         
         /** Type Folder **/
         String CFG_TYPE = "type/";
+        
+        /** Keys **/
+        String CFG_KEY = "keys/keys";
     }
 
     /** **/
