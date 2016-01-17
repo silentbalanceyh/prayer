@@ -15,13 +15,15 @@ import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.facade.schema.verifier.Verifier;
-import com.prayer.schema.json.ruler.FKeyRuler;
-import com.prayer.schema.json.ruler.FKeysRuler;
 import com.prayer.schema.json.ruler.FieldRuler;
 import com.prayer.schema.json.ruler.FieldsRuler;
+import com.prayer.schema.json.ruler.ForeignRuler;
+import com.prayer.schema.json.ruler.ForeignsRuler;
+import com.prayer.schema.json.ruler.KeyRuler;
+import com.prayer.schema.json.ruler.KeysRuler;
 import com.prayer.schema.json.ruler.MetaRuler;
-import com.prayer.schema.json.ruler.PKeyRuler;
-import com.prayer.schema.json.ruler.PKeysRuler;
+import com.prayer.schema.json.ruler.PrimaryRuler;
+import com.prayer.schema.json.ruler.PrimarysRuler;
 import com.prayer.schema.json.ruler.RootRuler;
 import com.prayer.schema.json.ruler.SubsRuler;
 import com.prayer.schema.json.ruler.TypesRuler;
@@ -71,7 +73,7 @@ public class SchemaVerifier implements Verifier {
             /**
              * 4.验证主键
              */
-            verifyPKey(data);
+            verifyPrimaryKeys(data);
             /**
              * 5.验证SubKey
              */
@@ -79,11 +81,15 @@ public class SchemaVerifier implements Verifier {
             /**
              * 6.验证ForeignKey
              */
-            verifyFKey(data);
+            verifyForeignKeys(data);
             /**
              * 7.验证Type
              */
             verifyType(data);
+            /**
+             * 8.验证Keys
+             */
+            verifyKeys(data);
         } catch (AbstractSchemaException ex) {
             peError(LOGGER, ex);
             error = ex;
@@ -93,7 +99,17 @@ public class SchemaVerifier implements Verifier {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    
+
+    private void verifyKeys(final JsonObject data) throws AbstractSchemaException {
+        /**
+         * 8.验证Keys的规范
+         */
+        final ArrayHabitus habitus = this.getKeys(data);
+        final Ruler ruler = new KeyRuler();
+        final ArrayRuler container = new KeysRuler(ruler);
+        container.apply(habitus);
+    }
+
     private void verifyType(final JsonObject data) throws AbstractSchemaException {
         /**
          * 7.验证字段类型
@@ -103,13 +119,13 @@ public class SchemaVerifier implements Verifier {
         container.apply(habitus);
     }
 
-    private void verifyFKey(final JsonObject data) throws AbstractSchemaException {
+    private void verifyForeignKeys(final JsonObject data) throws AbstractSchemaException {
         /**
          * 6.验证外键的特殊情况，如果有外键才会验证
          */
         final ArrayHabitus habitus = this.getFields(data);
-        final Ruler ruler = new FKeyRuler(this.getMeta(data, Attributes.M_TABLE),this.getFields(data));
-        final ArrayRuler container = new FKeysRuler(ruler, this.getMeta(data, Attributes.M_TABLE));
+        final Ruler ruler = new ForeignRuler(this.getMeta(data, Attributes.M_TABLE), this.getFields(data));
+        final ArrayRuler container = new ForeignsRuler(ruler, this.getMeta(data, Attributes.M_TABLE));
         container.apply(habitus);
     }
 
@@ -123,14 +139,14 @@ public class SchemaVerifier implements Verifier {
         container.apply(habitus);
     }
 
-    private void verifyPKey(final JsonObject data) throws AbstractSchemaException {
+    private void verifyPrimaryKeys(final JsonObject data) throws AbstractSchemaException {
         /**
          * 4.验证主键
          */
         final ArrayHabitus habitus = this.getFields(data);
         final MetaPolicy policy = fromStr(MetaPolicy.class, this.getMeta(data, Attributes.M_POLICY));
-        final Ruler ruler = new PKeyRuler(policy);
-        final ArrayRuler container = new PKeysRuler(ruler, this.getMeta(data, Attributes.M_TABLE), policy);
+        final Ruler ruler = new PrimaryRuler(policy);
+        final ArrayRuler container = new PrimarysRuler(ruler, this.getMeta(data, Attributes.M_TABLE), policy);
         container.apply(habitus);
     }
 
@@ -162,9 +178,15 @@ public class SchemaVerifier implements Verifier {
         ruler.apply(habitus);
     }
 
+    // ~ Basic Info ==========================================
     /** 获取Fields对应的数据 **/
     private ArrayHabitus getFields(final JsonObject data) {
         return new JArrayHabitus(data.getJsonArray(Attributes.R_FIELDS), Attributes.R_FIELDS);
+    }
+
+    /** 获取Keys对应的数据 **/
+    private ArrayHabitus getKeys(final JsonObject data) {
+        return new JArrayHabitus(data.getJsonArray(Attributes.R_KEYS), Attributes.R_KEYS);
     }
 
     /** 获取Meta中某个键值下的String值 **/

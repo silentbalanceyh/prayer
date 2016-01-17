@@ -16,7 +16,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class PKeyRuler implements Ruler {
+public final class PrimaryRuler implements Ruler {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -27,7 +27,7 @@ public final class PKeyRuler implements Ruler {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public PKeyRuler(@NotNull final MetaPolicy policy) {
+    public PrimaryRuler(@NotNull final MetaPolicy policy) {
         this.policy = policy;
     }
 

@@ -25,7 +25,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class PKeysRuler implements ArrayRuler {
+public final class PrimarysRuler implements ArrayRuler {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
@@ -50,7 +50,7 @@ public final class PKeysRuler implements ArrayRuler {
      * @param policy
      */
     @PostValidateThis
-    public PKeysRuler(@NotNull @InstanceOfAny(PKeyRuler.class) final Ruler ruler,
+    public PrimarysRuler(@NotNull @InstanceOfAny(PrimaryRuler.class) final Ruler ruler,
             @AssertFieldConstraints("table") final String table,
             @AssertFieldConstraints("policy") final MetaPolicy policy) {
         this.ruler = ruler;

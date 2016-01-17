@@ -22,7 +22,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class FKeyRuler implements Ruler {
+public final class ForeignRuler implements Ruler {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
@@ -40,7 +40,7 @@ public final class FKeyRuler implements Ruler {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public FKeyRuler(@AssertFieldConstraints("table") final String table, @NotNull final ArrayHabitus fields) {
+    public ForeignRuler(@AssertFieldConstraints("table") final String table, @NotNull final ArrayHabitus fields) {
         this.table = table;
         this.fields = fields;
     }

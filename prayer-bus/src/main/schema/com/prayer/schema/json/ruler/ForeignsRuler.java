@@ -24,7 +24,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class FKeysRuler implements ArrayRuler {
+public final class ForeignsRuler implements ArrayRuler {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 对外键单键验证的Ruler **/
@@ -45,7 +45,7 @@ public final class FKeysRuler implements ArrayRuler {
      * @param table
      */
     @PostValidateThis
-    public FKeysRuler(@NotNull @InstanceOfAny(FKeyRuler.class) final Ruler ruler,
+    public ForeignsRuler(@NotNull @InstanceOfAny(ForeignRuler.class) final Ruler ruler,
             @AssertFieldConstraints("table") final String table) {
         this.ruler = ruler;
         this.table = table;
