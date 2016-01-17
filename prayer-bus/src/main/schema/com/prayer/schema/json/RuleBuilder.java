@@ -30,6 +30,7 @@ import com.prayer.schema.json.rule.MostRule;
 import com.prayer.schema.json.rule.NotInRule;
 import com.prayer.schema.json.rule.PatternRule;
 import com.prayer.schema.json.rule.RequiredRule;
+import com.prayer.schema.json.rule.UniqueRule;
 import com.prayer.schema.json.rule.UnsupportRule;
 import com.prayer.util.io.PropertyKit;
 
@@ -106,6 +107,15 @@ public final class RuleBuilder {
     }
 
     // ~ Rule Building =======================================
+    
+    /**
+     * 
+     * @param file
+     * @return
+     */
+    public static Rule unique(@NotNull @NotEmpty @NotBlank final String file){
+        return UniqueRule.create(file);
+    }
     /**
      * E10001
      * 

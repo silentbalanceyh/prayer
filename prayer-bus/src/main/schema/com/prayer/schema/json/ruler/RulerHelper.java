@@ -217,11 +217,31 @@ public final class RulerHelper {
         applyPattern(habitus, file, new JsonObject());
     }
 
+    /**
+     * 
+     * @param habitus
+     * @param file
+     * @param addtional
+     * @throws AbstractSchemaException
+     */
     public static void applyPattern(@NotNull final ObjectHabitus habitus,
             @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
                     throws AbstractSchemaException {
         final Rule rule = RuleBuilder.pattern(file);
         sharedApply(wrapperHabitus(habitus, addtional), rule);
+    }
+
+    /**
+     * 
+     * @param habitus
+     * @param file
+     * @param addtional
+     * @throws AbstractSchemaException
+     */
+    public static void applyUnique(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
+            throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.unique(file);
+        sharedApply(habitus, rule);
     }
 
     /**

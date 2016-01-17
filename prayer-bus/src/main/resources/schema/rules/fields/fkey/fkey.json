@@ -1,5 +1,12 @@
 {
     "debug":"__fields__ ( foreignkey = true )",
+    "unique":{
+        "value":[
+            {
+                "filter":{}
+            }
+        ]
+    },
     "existing":{
         "value":[
             [

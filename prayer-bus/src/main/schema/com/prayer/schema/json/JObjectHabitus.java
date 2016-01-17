@@ -45,6 +45,10 @@ public class JObjectHabitus implements ObjectHabitus {
     public JObjectHabitus(@NotNull final JsonObject data) {
         this.raw = data.copy();
         // 统一操作，通过Reset的过程创建节点拷贝，每次Apply时会reset
+        /**
+         * 仅仅在对象构造的时候设置filter，Reset不会重新构造filter
+         */
+        this.filter = null;
         this.reset();
     }
 
@@ -148,7 +152,6 @@ public class JObjectHabitus implements ObjectHabitus {
     public void reset() {
         this.data = this.raw.copy();
         this.types = calculate(this.data);
-        this.filter = null;
     }
 
     /** **/

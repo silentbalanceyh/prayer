@@ -75,15 +75,17 @@ public abstract class AbstractViolater {
      * @return
      */
     protected Set<JsonArray> preparedArraySet(final Rule rule) {
-        final JsonArray expectes = rule.getRule().getJsonArray(RuleConstants.R_VALUE);
         final Set<JsonArray> ret = new HashSet<>();
-        final int size = expectes.size();
-        for (int idx = 0; idx < size; idx++) {
-            final Object item = expectes.getValue(idx);
-            if (null != item && JsonArray.class == item.getClass()) {
-                final JsonArray value = expectes.getJsonArray(idx);
-                if (!value.isEmpty()) {
-                    ret.add(value);
+        if (null != rule.getRule() && rule.getRule().containsKey(RuleConstants.R_VALUE)) {
+            final JsonArray expectes = rule.getRule().getJsonArray(RuleConstants.R_VALUE);
+            final int size = expectes.size();
+            for (int idx = 0; idx < size; idx++) {
+                final Object item = expectes.getValue(idx);
+                if (null != item && JsonArray.class == item.getClass()) {
+                    final JsonArray value = expectes.getJsonArray(idx);
+                    if (!value.isEmpty()) {
+                        ret.add(value);
+                    }
                 }
             }
         }
@@ -99,24 +101,26 @@ public abstract class AbstractViolater {
      */
     protected <T> ConcurrentMap<String, T> preparedMap(final Rule rule, final Extractor<T> fun) {
         /** 1.从元数据Rule中读取JsonObject **/
-        final JsonObject expectes = rule.getRule().getJsonObject(RuleConstants.R_VALUE);
         final ConcurrentMap<String, T> retMap = new ConcurrentHashMap<>();
-        for (final String field : expectes.fieldNames()) {
-            if (StringKit.isNonNil(field)) {
-                /** 2.如果可以取到对应的field数据 **/
-                final Object value = expectes.getValue(field);
-                if (null != value) {
-                    if (null != fun) {
-                        /** 2.1.使用Format函数直接执行Format **/
-                        final T instance = fun.extract(value);
-                        if (null != instance) {
+        if (null != rule.getRule() && rule.getRule().containsKey(RuleConstants.R_VALUE)) {
+            final JsonObject expectes = rule.getRule().getJsonObject(RuleConstants.R_VALUE);
+            for (final String field : expectes.fieldNames()) {
+                if (StringKit.isNonNil(field)) {
+                    /** 2.如果可以取到对应的field数据 **/
+                    final Object value = expectes.getValue(field);
+                    if (null != value) {
+                        if (null != fun) {
+                            /** 2.1.使用Format函数直接执行Format **/
+                            final T instance = fun.extract(value);
+                            if (null != instance) {
+                                retMap.put(field, instance);
+                            }
+                        } else {
+                            /** 2.2.直接提取 **/
+                            @SuppressWarnings("unchecked")
+                            final T instance = (T) value;
                             retMap.put(field, instance);
                         }
-                    } else {
-                        /** 2.2.直接提取 **/
-                        @SuppressWarnings("unchecked")
-                        final T instance = (T) value;
-                        retMap.put(field, instance);
                     }
                 }
             }

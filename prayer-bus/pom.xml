@@ -74,6 +74,10 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+        </dependency>
         <!-- ScriptRunner -->
         <dependency>
             <groupId>org.mybatis</groupId>
