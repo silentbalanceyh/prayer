@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esotericsoftware.reflectasm.ConstructorAccess;
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 
@@ -156,14 +155,17 @@ public final class Instance { // NOPMD
         }
         return ret;
     }
+
     /**
      * 获取泛型T，重载，用于返回第一个（常用）
+     * 
      * @param clazz
      * @return
      */
-    public static Class<?> genericT(final Class<?> clazz){
-        return genericT(clazz,Constants.IDX);
+    public static Class<?> genericT(final Class<?> clazz) {
+        return genericT(clazz, Constants.IDX);
     }
+
     /**
      * 获取泛型信息，传入的索引值用于获取多个
      * 
@@ -290,21 +292,16 @@ public final class Instance { // NOPMD
 
     private static <T> T construct(final Class<?> clazz, final Object... params) {
         T ret = null;
-        if (0 < params.length) {
-            final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-            for (final Constructor<?> constructor : constructors) {
-                // 参数长度不匹配，直接略过
-                if (params.length != constructor.getParameterTypes().length) {
-                    continue;
-                }
-                ret = construct(constructor, params);
-                if (null != ret) {
-                    break;
-                }
+        final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+        for (final Constructor<?> constructor : constructors) {
+            // 参数长度不匹配，直接略过
+            if (params.length != constructor.getParameterTypes().length) {
+                continue;
             }
-        } else {
-            final ConstructorAccess<?> access = ConstructorAccess.get(clazz);
-            ret = (T) access.newInstance();
+            ret = construct(constructor, params);
+            if (null != ret) {
+                break;
+            }
         }
         return ret;
     }
