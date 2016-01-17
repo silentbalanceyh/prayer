@@ -9,7 +9,7 @@ import com.prayer.exception.schema.JTColumnNotExistingException;
 import com.prayer.exception.schema.JTColumnTypeInvalidException;
 
 /** **/
-public class _0235SchemaVerifierTestCase extends AbstractVerifierTestCase {
+public class _0225SchemaVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -23,7 +23,7 @@ public class _0235SchemaVerifierTestCase extends AbstractVerifierTestCase {
      * @throws AbstractException
      */
     @Test(expected = JTColumnNotExistingException.class)
-    public void testP23FKey1Target10031() throws AbstractException {
+    public void testP22FKey1Target10031() throws AbstractException {
         testImport("rels/P0213field-FkCType10031-1.json");
         failure("[E10031] Target column does not exist in schema file);failure( please verify the result!");
     }
@@ -33,7 +33,7 @@ public class _0235SchemaVerifierTestCase extends AbstractVerifierTestCase {
      * @throws AbstractException
      */
     @Test(expected = JKeyConstraintInvalidException.class)
-    public void testP23FKey1Target10032() throws AbstractException {
+    public void testP22FKey1Target10032() throws AbstractException {
         testImport("rels/P0213field-FkCType10032-1.json");
         failure("[E10032] Target column constraint is invalid in schema file);failure( please verify the result!");
     }
@@ -43,7 +43,7 @@ public class _0235SchemaVerifierTestCase extends AbstractVerifierTestCase {
      * @throws AbstractException
      */
     @Test(expected = JTColumnTypeInvalidException.class)
-    public void testP23FKey1Target10033() throws AbstractException {
+    public void testP22FKey1Target10033() throws AbstractException {
         testImport("rels/P0213field-FkCType10033-1.json");
         failure("[E10033] Target column data type is invalid in schema file);failure( please verify the result!");
     }
@@ -53,7 +53,7 @@ public class _0235SchemaVerifierTestCase extends AbstractVerifierTestCase {
      * @throws AbstractException
      */
     @Test(expected = FKReferenceSameException.class)
-    public void testP23FKey1Target10034() throws AbstractException {
+    public void testP22FKey1Target10034() throws AbstractException {
         testImport("rels/P0213field-FkCType10034-1.json");
         failure("[E10033] Target column data type is invalid in schema file);failure( please verify the result!");
     }

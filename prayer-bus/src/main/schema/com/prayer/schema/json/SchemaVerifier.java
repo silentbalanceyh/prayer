@@ -24,6 +24,7 @@ import com.prayer.schema.json.ruler.PKeyRuler;
 import com.prayer.schema.json.ruler.PKeysRuler;
 import com.prayer.schema.json.ruler.RootRuler;
 import com.prayer.schema.json.ruler.SubsRuler;
+import com.prayer.schema.json.ruler.TypesRuler;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
@@ -79,6 +80,10 @@ public class SchemaVerifier implements Verifier {
              * 6.验证ForeignKey
              */
             verifyFKey(data);
+            /**
+             * 7.验证Type
+             */
+            verifyType(data);
         } catch (AbstractSchemaException ex) {
             peError(LOGGER, ex);
             error = ex;
@@ -88,6 +93,15 @@ public class SchemaVerifier implements Verifier {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    
+    private void verifyType(final JsonObject data) throws AbstractSchemaException {
+        /**
+         * 7.验证字段类型
+         */
+        final ArrayHabitus habitus = this.getFields(data);
+        final ArrayRuler container = new TypesRuler();
+        container.apply(habitus);
+    }
 
     private void verifyFKey(final JsonObject data) throws AbstractSchemaException {
         /**

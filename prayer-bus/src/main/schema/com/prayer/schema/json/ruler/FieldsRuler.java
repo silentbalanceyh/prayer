@@ -18,7 +18,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class FieldsRuler implements ArrayRuler {
+public final class FieldsRuler implements ArrayRuler {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
