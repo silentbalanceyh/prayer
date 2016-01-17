@@ -3,14 +3,14 @@ package com.prayer.schema.ruler;
 import org.junit.Test;
 
 import com.prayer.base.exception.AbstractException;
-import com.prayer.exception.schema.PatternNotMatchException;
+import com.prayer.exception.schema.OptionalAttrMorEException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class _0102PatternTestCase extends AbstractVerifierTestCase {
+public class _0101ExistingVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -20,16 +20,16 @@ public class _0102PatternTestCase extends AbstractVerifierTestCase {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /** **/
-    @Test(expected = PatternNotMatchException.class)
-    public void testP011Meta10005PolicyIncrement1() throws AbstractException {
-        testImport("P011meta-policyINCREMENT10003-1.json");
-        failure("[E10003] Pattern are not matching ! __meta__ -> seqinit. (1) ");
+    @Test(expected = OptionalAttrMorEException.class)
+    public void testP010Meta10004PolicyIncrement1() throws AbstractException {
+        testImport("P010meta-policyINCREMENT10004-1.json");
+        failure("[E10004] The attributes must exist ! ( seqinit, seqstep ) (1)");
     }
     /** **/
-    @Test(expected = PatternNotMatchException.class)
-    public void testP011Meta10005PolicyIncrement2() throws AbstractException {
-        testImport("P011meta-policyINCREMENT10003-2.json");
-        failure("[E10003] Pattern are not matching ! __meta__ -> seqstep. (1) ");
+    @Test(expected = OptionalAttrMorEException.class)
+    public void testP010Meta10004PolicyIncrement2() throws AbstractException {
+        testImport("P010meta-policyINCREMENT10004-2.json");
+        failure("[E10004] The attributes must exist ! ( seqinit, seqstep ) (2)");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

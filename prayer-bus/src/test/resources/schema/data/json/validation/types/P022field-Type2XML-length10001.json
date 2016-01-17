@@ -31,16 +31,15 @@
         {
             "name": "name",
             "type": "XmlType",
-            "columnName": "R_NAME",
-            "columnType": "STRING",
-            "primarykey": false
+            "columnType": "STRING"
         },
 
         {
             "name": "code",
             "type": "StringType",
             "columnName": "R_CODE",
-            "columnType": "STRING"
+            "columnType": "STRING",
+            "length":256
         },
 
         {

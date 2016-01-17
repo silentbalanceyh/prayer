@@ -3,14 +3,14 @@ package com.prayer.schema.ruler;
 import org.junit.Test;
 
 import com.prayer.base.exception.AbstractException;
-import com.prayer.exception.schema.OptionalAttrMorEException;
+import com.prayer.exception.schema.UnsupportAttrException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class _0201ExistingTestCase extends AbstractVerifierTestCase {
+public class _0233UnsupportVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -18,25 +18,14 @@ public class _0201ExistingTestCase extends AbstractVerifierTestCase {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-
     /**
      * 
      * @throws AbstractException
      */
-    @Test(expected = OptionalAttrMorEException.class)
-    public void testP0201FKey1Rel10004() throws AbstractException {
-        testImport("rels/P0201field-FK10004-1.json");
-        failure("[E10004] Fields -> ( foreignkey = true ) ==> (Failure) One of optional attributes 'refId);failure(refTable' missed! ");
-    }
-
-    /**
-     * 
-     * @throws AbstractException
-     */
-    @Test(expected = OptionalAttrMorEException.class)
-    public void testP0201FKey2Rel10004() throws AbstractException {
-        testImport("rels/P0201field-FK10004-2.json");
-        failure("[E10004] Fields -> ( foreignkey = true ) ==> (Failure) One of optional attributes 'refId);failure(refTable' missed! ");
+    @Test(expected = UnsupportAttrException.class)
+    public void testP23Fields1Support10017() throws AbstractException {
+        testImport("types/P024field-Type1STRING-Support10017-1.json");
+        failure("[E10017] Fields ==> (Failure) There is unexpected exception!");
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

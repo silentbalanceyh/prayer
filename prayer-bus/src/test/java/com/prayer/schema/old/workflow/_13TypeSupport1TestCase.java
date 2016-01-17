@@ -1,5 +1,6 @@
 package com.prayer.schema.old.workflow;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import com.prayer.exception.schema.UnsupportAttrException;
  * @author Lang
  *
  */
+@Ignore
 public class _13TypeSupport1TestCase extends AbstractSchemaTestCase {    // NOPMD
     // ~ Static Fields =======================================
     /** **/

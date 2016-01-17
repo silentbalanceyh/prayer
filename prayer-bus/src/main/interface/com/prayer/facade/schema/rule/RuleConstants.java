@@ -122,6 +122,9 @@ public interface RuleConstants {
         String CFG_FFKH = "fields/fkey/fkey-helper";
         /** Foreign Key Duplicated **/
         String CFG_FFKD = "fields/fkey/fkey-dup";
+        
+        /** Type Folder **/
+        String CFG_TYPE = "type/";
     }
 
     /** **/

@@ -11,7 +11,7 @@ import com.prayer.exception.schema.ZeroLengthException;
  * @author Lang
  *
  */
-public class _012ContainerTestCase extends AbstractVerifierTestCase {
+public class _012ContainerVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

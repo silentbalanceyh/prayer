@@ -1,53 +1,44 @@
 {
-    "__meta__": 
-    {
-        "name": "Role",
-        "namespace": "com.prayer.mod.sec",
-        "category": "ENTITY",
-        "table": "SEC_ROLE",
-        "identifier": "sys.sec.role",
-        "mapping": "DIRECT",
-        "policy": "GUID",
-        "seqinit": 1,
-        "seqstep": 1
+    "__meta__":{
+        "name":"Role",
+        "namespace":"com.prayer.mod.sec",
+        "category":"ENTITY",
+        "table":"SEC_ROLE",
+        "identifier":"sys.sec.role",
+        "mapping":"DIRECT",
+        "policy":"GUID",
+        "seqinit":1,
+        "seqstep":1
     },
-
-    "__keys__": 
-    [
+    "__keys__":[
         
     ],
-
-    "__fields__": 
-    [
+    "__fields__":[
         {
-            "name": "uniqueId",
-            "type": "StringType",
-            "columnName": "R_ID",
-            "columnType": "STRING",
-            "length": 256,
-            "primarykey": true
+            "name":"uniqueId",
+            "type":"StringType",
+            "columnName":"R_ID",
+            "columnType":"STRING",
+            "length":256,
+            "primarykey":true
         },
-
         {
-            "name": "name",
-            "type": "XmlType",
-            "columnName": "R_NAME",
-            "columnType": "STRING",
-            "primarykey": false
+            "name":"name",
+            "type":"JsonType",
+            "columnName":"R_NAME"
         },
-
         {
-            "name": "code",
-            "type": "StringType",
-            "columnName": "R_CODE",
-            "columnType": "STRING"
+            "name":"code",
+            "type":"StringType",
+            "columnName":"R_CODE",
+            "columnType":"STRING",
+            "length":256
         },
-
         {
-            "name": "roleId",
-            "type": "XmlType",
-            "columnName": "R_ROLE_ID",
-            "columnType": "LONG"
+            "name":"roleId",
+            "type":"XmlType",
+            "columnName":"R_ROLE_ID",
+            "columnType":"LONG"
         }
     ]
 }
