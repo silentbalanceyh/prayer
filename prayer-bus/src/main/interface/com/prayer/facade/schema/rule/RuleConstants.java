@@ -21,6 +21,14 @@ public interface RuleConstants {
     /** Error Group **/
     String R_ERRORS = "errors";
 
+    /** FIlters的信息 **/
+    interface Filters {
+        /** Filter **/
+        String FILTER = "filter";
+        /** Occurs **/
+        String OCCURS = "occurs";
+    }
+
     /** Rule的名称 **/
     interface Names { // NOPMD
         /** 10001 Required 必要属性丢失 **/
@@ -50,7 +58,7 @@ public interface RuleConstants {
         String RULE_MST = "most";
         /** 【Array】唯一记录规则 **/
         String RULE_UNQ = "unique";
-        
+
         /** 10027 Table是否在Business数据库中存在 **/
         String RULE_DB_TB = "db.table";
         /** 10028 Column是否在Business数据库中存在 **/
@@ -65,26 +73,26 @@ public interface RuleConstants {
     interface FileConfig { // NOPMD
         /** Root节点配置 **/
         String CFG_ROOT = "root/data";
-        
+
         // ~ Meta =============================================
         /** Meta定义部分 **/
         String CFG_META = "meta/meta";
-        
+
         /** Category = RELATION **/
         String CFG_M_REL = "meta/relation-data";
-        
+
         /** Category = ENTITY, Mapping = COMBINATED **/
         String CFG_M_EC = "meta/mapping/combinated";
         /** Category = ENTITY, Mapping = DIRECT **/
         String CFG_M_ED = "meta/mapping/direct";
         /** Category = ENTITY, Mapping = PARTIAL **/
         String CFG_M_EP = "meta/mapping/partial";
-        
+
         /** Policy = INCREMENT, seqnam必须，Oracle/PgSQL常用Rule **/
         String CFG_M_PIOG = "meta/increment/sequence";
         /** Policy = INCREMENT, seqname非必须，MySQL/SQLServer类型常用Rule **/
         String CFG_M_PI = "meta/increment/identity";
-        
+
         // ~ Fields ===========================================
         /** Field定义部分 **/
         String CFG_FIELD = "fields/fields";
@@ -104,12 +112,16 @@ public interface RuleConstants {
         String CFG_FPC = "fields/pkey/policy/collection";
         /** PK Assigned **/
         String CFG_FPA = "fields/pkey/policy/assigned";
-        
+
         /** SubRel **/
         String CFG_SUB = "fields/subs/subs";
-        
+
         /** Foreign Key **/
         String CFG_FFK = "fields/fkey/fkey";
+        /** Foreign Key Helper **/
+        String CFG_FFKH = "fields/fkey/fkey-helper";
+        /** Foreign Key Duplicated **/
+        String CFG_FFKD = "fields/fkey/fkey-dup";
     }
 
     /** **/

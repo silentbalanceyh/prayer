@@ -21,11 +21,10 @@ public class FKReferenceSameException extends AbstractSchemaException {
     /**
      * 
      * @param clazz
-     * @param fkName
-     * @param table
+     * @param foreignKey
      */
-    public FKReferenceSameException(final Class<?> clazz, final String fkName, final String table) {
-        super(clazz, -10034, fkName, table);
+    public FKReferenceSameException(final Class<?> clazz, final String foreignKey) {
+        super(clazz, -10034, foreignKey);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

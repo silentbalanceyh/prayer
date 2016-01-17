@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.prayer.facade.fun.schema.Occurs;
+import com.prayer.facade.schema.rule.RuleConstants;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -66,8 +67,10 @@ final class VCondition {
     public static boolean unmatch(@NotNull final Object value, @NotNull final Pattern pattern) {
         return !match(value, pattern);
     }
+
     /**
      * 根据Filter获取次数限制，查找满足filter的values，最多多少次，实际次数不能大于等于occurs
+     * 
      * @param config
      * @param values
      * @return
@@ -78,6 +81,7 @@ final class VCondition {
         };
         return mediater(config, values, fun);
     }
+
     /**
      * 根据Filter获取次数限制，查找满足filter的values，最多多少次，实际次数不能大于occurs
      * 
@@ -91,6 +95,7 @@ final class VCondition {
         };
         return mediater(config, values, fun);
     }
+
     /**
      * 根据Filter获取次数限制，查找满足filter的values，最少多少次，实际次数不能小于等于occurs
      * 
@@ -126,9 +131,23 @@ final class VCondition {
      * @param patterns
      * @return
      */
-    public static boolean counter(@NotNull final JsonObject config, @NotNull final JsonArray values) {
+    public static boolean eq(@NotNull final JsonObject config, @NotNull final JsonArray values) {
         final Occurs fun = (int occurs, int actualOccurs) -> {
             return actualOccurs == occurs;
+        };
+        return mediater(config, values, fun);
+    }
+
+    /**
+     * 根据Filter获取次数限制，查找满足filter的values，最少多少次，实际次数必须是期望次数
+     * 
+     * @param filter
+     * @param patterns
+     * @return
+     */
+    public static boolean neq(@NotNull final JsonObject config, @NotNull final JsonArray values) {
+        final Occurs fun = (int occurs, int actualOccurs) -> {
+            return actualOccurs != occurs;
         };
         return mediater(config, values, fun);
     }
@@ -241,9 +260,9 @@ final class VCondition {
      * @return
      */
     private static boolean mediater(final JsonObject config, final JsonArray values, final Occurs fun) {
-        final int occurs = config.getInteger("occurs");
+        final int occurs = config.getInteger(RuleConstants.Filters.OCCURS);
         // 用于Least，Most，Counter的判断
-        final JsonObject filters = config.getJsonObject("filter");
+        final JsonObject filters = config.getJsonObject(RuleConstants.Filters.FILTER);
         final int actualOccurs = occurs(filters, values);
         return fun.occurs(occurs, actualOccurs);
     }

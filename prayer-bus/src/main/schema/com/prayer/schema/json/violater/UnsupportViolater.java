@@ -44,7 +44,7 @@ public final class UnsupportViolater extends AbstractViolater implements Violate
         /**
          * 解析Rule的期望值
          */
-        final JsonArray expectes = rule.getRule().getJsonArray(R_VALUE);
+        final JsonArray expectes = rule.getRule();
         final JsonArray fields = habitus.fields();
         /**
          * 最终返回结果

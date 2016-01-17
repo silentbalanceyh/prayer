@@ -39,7 +39,8 @@ public final class UnsupportRule extends AbstractRule implements Rule {
         final JsonArray required = readRule(rule, Names.RULE_REQ).getJsonArray(R_VALUE);
         for (final Object item : required) {
             if (item.getClass() == String.class) {
-                this.getRule().getJsonArray(R_VALUE).add(item);
+                final JsonArray addAttr = this.getRule();
+                addAttr.add(item);
             }
         }
     }

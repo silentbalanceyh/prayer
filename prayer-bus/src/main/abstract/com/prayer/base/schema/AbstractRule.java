@@ -15,7 +15,9 @@ import com.prayer.facade.schema.rule.RuleConstants;
 import com.prayer.util.io.IOKit;
 
 import io.vertx.core.json.DecodeException;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -95,11 +97,50 @@ public abstract class AbstractRule {
 
     // ~ Methods =============================================
     /**
+     * 读取节点中的R_VALUE的值
      * 
      * @return
      */
-    public JsonObject getRule() {
-        return this.config;
+    @InstanceOfAny({ JsonObject.class, JsonArray.class })
+    @NotNull
+    @SuppressWarnings("unchecked")
+    public <T> T getRule() {
+        T rule = null;
+        if (null != this.config && this.config.containsKey(RuleConstants.R_VALUE)) {
+            final Object value = this.config.getValue(RuleConstants.R_VALUE);
+            if (null != value) {
+                if (JsonObject.class == value.getClass()) {
+                    rule = (T) this.config.getJsonObject(RuleConstants.R_VALUE);
+                } else if (JsonArray.class == value.getClass()) {
+                    rule = (T) this.config.getJsonArray(RuleConstants.R_VALUE);
+                }
+            }
+        }
+        return rule;
+    }
+
+    /**
+     * 读取节点中的Error或Errors信息
+     * 
+     * @return
+     */
+    @InstanceOfAny({ JsonObject.class })
+    public JsonObject getError(final String field) {
+        JsonObject errors = new JsonObject();
+        /**
+         * 1.先从系统中读取Error信息
+         */
+        errors = this.config.getJsonObject(RuleConstants.R_ERROR);
+        /**
+         * 2.如果没有读取到Error配置，则尝试从Errros中读取
+         */
+        if (null == errors) {
+            errors = this.config.getJsonObject(RuleConstants.R_ERRORS);
+            if (null != errors) {
+                errors = errors.getJsonObject(field);
+            }
+        }
+        return errors;
     }
 
     /**

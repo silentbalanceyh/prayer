@@ -151,7 +151,7 @@ final class ForeignKeyEnsurer implements InternalEnsurer {
 
             final String table = node.path(Attributes.F_REF_TABLE).asText();
             if (fkSet.contains(table)) {
-                this.error = new FKReferenceSameException(getClass(), node.path(Attributes.F_REF_ID).asText(), table);
+                this.error = new FKReferenceSameException(getClass(), node.path(Attributes.F_REF_ID).asText());
             }else{
                 // 不包含就加进去
                 fkSet.add(table);

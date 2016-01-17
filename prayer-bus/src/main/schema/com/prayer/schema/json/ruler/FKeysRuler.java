@@ -61,6 +61,7 @@ public final class FKeysRuler implements ArrayRuler {
         /** 6.1.检查Array中foreignkey = true 的单键异常 **/
         verifyFKSpecification(habitus);
         /** 6.2.检查外键是否出现了重复引用，两键引用同一张表 **/
+        RulerHelper.applyDuplicated(habitus, FileConfig.CFG_FFKD, new JsonObject());
     }
 
     // ~ Methods =============================================

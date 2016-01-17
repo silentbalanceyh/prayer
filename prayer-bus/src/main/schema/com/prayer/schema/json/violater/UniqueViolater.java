@@ -2,6 +2,7 @@ package com.prayer.schema.json.violater;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.schema.AbstractViolater;
+import com.prayer.constant.Constants;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
@@ -13,26 +14,29 @@ import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
+
 /**
  * 
  * @author Lang
  *
  */
 @Guarded
-public final class UniqueViolater extends AbstractViolater implements Violater{
+public final class UniqueViolater extends AbstractViolater implements Violater {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
     private transient final Rule rule;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public UniqueViolater(@NotNull @InstanceOfAny(UniqueRule.class) final Rule rule){
+    public UniqueViolater(@NotNull @InstanceOfAny(UniqueRule.class) final Rule rule) {
         this.rule = rule;
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
@@ -43,14 +47,34 @@ public final class UniqueViolater extends AbstractViolater implements Violater{
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         /** 提取各种数据 **/
-        final JsonArray data = habitus.data();
-        final JsonObject filter = habitus.filter();
         final JsonObject addtional = habitus.addtional();
-        System.out.println(habitus.hashCode());
-        System.out.println(data);
-        System.out.println(filter);
-        System.out.println(addtional);
-        return null;
+        final JsonArray data = habitus.data();
+        final JsonArray filters = this.mergeFilters(habitus.filter());
+        /** **/
+        AbstractSchemaException error = null;
+        final JsonObject ret = VHelper.calculate(data, filters, VCondition::neq);
+        if (null != ret) {
+            error = this.error(rule, new Object[] {}, addtional, extractField(ret, null));
+        }
+        return error;
     }
 
+    /** Unique Fule的特殊方法，合并Filter，和Least以及Most做法相同 **/
+    private JsonArray mergeFilters(final JsonObject dynamicFilter) {
+        final JsonArray filters = this.rule.getRule();
+        /** 格式化每一个Filters **/
+        final int size = filters.size();
+        for (int pos = 0; pos < size; pos++) {
+            final Object item = filters.getValue(pos);
+            if (null != item && JsonObject.class == item.getClass()) {
+                final JsonObject filter = filters.getJsonObject(pos);
+                if (filter.containsKey(Filters.FILTER)
+                        && JsonObject.class == filter.getValue(Filters.FILTER).getClass()) {
+                    filter.getJsonObject(Filters.FILTER).mergeIn(dynamicFilter);
+                }
+                filter.put(Filters.OCCURS, Constants.ONE);
+            }
+        }
+        return filters;
+    }
 }

@@ -3,9 +3,34 @@
     "unique":{
         "value":[
             {
-                "filter":{}
+                "error":"ERR_COLUMN",
+                "filter":{
+                    
+                }
+            },
+            {
+                "error":"ERR_PK",
+                "filter":{
+                    "primarykey":true
+                }
             }
-        ]
+        ],
+        "errors":{
+            "ERR_COLUMN":{
+                "name":"JTColumnNotExistingException",
+                "arguments":[
+                    "table",
+                    "columnName"
+                ]
+            },
+            "ERR_PK":{
+                "name":"JKeyConstraintInvalidException",
+                "arguments":[
+                    "table",
+                    "columnName"
+                ]
+            }
+        }
     },
     "existing":{
         "value":[

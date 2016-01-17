@@ -73,6 +73,7 @@ public final class FKeyRuler implements Ruler {
     private void applySchemaRule(final ObjectHabitus habitus) throws AbstractSchemaException {
         /** (21.3.2.1) 6.1.4.1. 因为引用了本表信息，所以这里不需要考虑这种情况，直接SKIP **/
         /** (21.3.2.2) 6.1.4.2. 验证外键对应的字段是否存在，在Json中查找是否包含了R_REF_ID的字段 **/
+        /** (21.3.2.3) 6.1.4.3. 验证外键字段的约束是否OK **/
         final ObjectHabitus complexHabitus = wrapperHabitus(habitus);
         /** 动态Filter在程序中构造，静态的Filter则直接在Violater中处理 **/
         {
@@ -80,7 +81,16 @@ public final class FKeyRuler implements Ruler {
             filter.put(Attributes.F_COL_NAME, habitus.get(Attributes.F_REF_ID));
             complexHabitus.filter(filter);
         }
+        // TODO: 验证Schema过程中暂时不考虑Schema中引用Unique键的情况，因为Unique带有默认值，原来也不验证
         RulerHelper.applyUnique(complexHabitus, FileConfig.CFG_FFK);
+        /** (21.3.2.4) 6.1.4.4. 验证外键字段的类型是否OK **/
+        {
+            final JsonObject filter = new JsonObject();
+            filter.put(Attributes.F_COL_NAME, habitus.get(Attributes.F_REF_ID));
+            filter.put(Attributes.F_TYPE, habitus.get(Attributes.F_TYPE));
+            complexHabitus.filter(filter);
+        }
+        RulerHelper.applyUnique(complexHabitus, FileConfig.CFG_FFKH);
     }
 
     private void applyDatabaseRule(final ObjectHabitus habitus) throws AbstractSchemaException {
@@ -100,9 +110,8 @@ public final class FKeyRuler implements Ruler {
 
     private JsonObject getAddtional(final ObjectHabitus habitus) {
         final JsonObject addtional = new JsonObject();
-        addtional.put(Attributes.F_NAME, habitus.get(Attributes.F_NAME));
-        addtional.put(Attributes.F_TYPE, habitus.get(Attributes.F_TYPE));
         addtional.put(Attributes.F_COL_TYPE, habitus.get(Attributes.F_COL_TYPE));
+        addtional.put(Attributes.F_COL_NAME, habitus.get(Attributes.F_COL_NAME));
         addtional.put(Attributes.M_TABLE, this.table);
         return addtional;
     }

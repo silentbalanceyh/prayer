@@ -3,6 +3,7 @@ package com.prayer.schema.ruler;
 import org.junit.Test;
 
 import com.prayer.base.exception.AbstractException;
+import com.prayer.exception.schema.FKReferenceSameException;
 import com.prayer.exception.schema.JKeyConstraintInvalidException;
 import com.prayer.exception.schema.JTColumnNotExistingException;
 import com.prayer.exception.schema.JTColumnTypeInvalidException;
@@ -44,6 +45,16 @@ public class _0235SchemaVerifierTestCase extends AbstractVerifierTestCase {
     @Test(expected = JTColumnTypeInvalidException.class)
     public void testP23FKey1Target10033() throws AbstractException {
         testImport("rels/P0213field-FkCType10033-1.json");
+        failure("[E10033] Target column data type is invalid in schema file);failure( please verify the result!");
+    }
+    
+    /**
+     * 
+     * @throws AbstractException
+     */
+    @Test(expected = FKReferenceSameException.class)
+    public void testP23FKey1Target10034() throws AbstractException {
+        testImport("rels/P0213field-FkCType10034-1.json");
         failure("[E10033] Target column data type is invalid in schema file);failure( please verify the result!");
     }
     // ~ Private Methods =====================================

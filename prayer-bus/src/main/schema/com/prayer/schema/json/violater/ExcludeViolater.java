@@ -42,7 +42,7 @@ public final class ExcludeViolater extends AbstractViolater implements Violater 
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         /** **/
         final JsonArray fields = habitus.fields();
-        final JsonArray excluded = this.rule.getRule().getJsonArray(R_VALUE);
+        final JsonArray excluded = this.rule.getRule();
         /** 遍历所有排除的属性 **/
         AbstractSchemaException error = null;
         final Object value = VHelper.calculate(fields, excluded, VCondition::in);

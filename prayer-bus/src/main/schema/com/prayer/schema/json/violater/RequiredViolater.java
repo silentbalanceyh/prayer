@@ -46,7 +46,7 @@ public final class RequiredViolater extends AbstractViolater implements Violater
         /**
          * 解析Rule获取期望值
          */
-        final JsonArray expectes = rule.getRule().getJsonArray(R_VALUE);
+        final JsonArray expectes = rule.getRule();
         final JsonArray fields = habitus.fields();
         /**
          * 最终返回值

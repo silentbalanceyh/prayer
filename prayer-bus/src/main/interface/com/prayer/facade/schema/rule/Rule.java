@@ -12,7 +12,12 @@ public interface Rule extends RuleConstants {
     /**
      * 获取当前Rule的信息
      */
-    JsonObject getRule();
+    <T> T getRule();
+    /**
+     * 获取当前Rule的Error信息
+     * @return
+     */
+    JsonObject getError(String field);
 
     /**
      * 获取当前Rule操作的节点信息

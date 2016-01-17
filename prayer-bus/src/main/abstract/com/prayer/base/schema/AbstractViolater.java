@@ -57,7 +57,7 @@ public abstract class AbstractViolater {
      * @return
      */
     protected List<VDatabase> preparedDatabase(final Rule rule, final ObjectHabitus habitus) {
-        final JsonArray expectes = rule.getRule().getJsonArray(RuleConstants.R_VALUE);
+        final JsonArray expectes = rule.getRule();
         final List<VDatabase> databases = new ArrayList<>();
         for (final Object value : expectes) {
             if (null != value && JsonObject.class == value.getClass()) {
@@ -76,8 +76,8 @@ public abstract class AbstractViolater {
      */
     protected Set<JsonArray> preparedArraySet(final Rule rule) {
         final Set<JsonArray> ret = new HashSet<>();
-        if (null != rule.getRule() && rule.getRule().containsKey(RuleConstants.R_VALUE)) {
-            final JsonArray expectes = rule.getRule().getJsonArray(RuleConstants.R_VALUE);
+        if (null != rule.getRule()) {
+            final JsonArray expectes = rule.getRule();
             final int size = expectes.size();
             for (int idx = 0; idx < size; idx++) {
                 final Object item = expectes.getValue(idx);
@@ -102,8 +102,8 @@ public abstract class AbstractViolater {
     protected <T> ConcurrentMap<String, T> preparedMap(final Rule rule, final Extractor<T> fun) {
         /** 1.从元数据Rule中读取JsonObject **/
         final ConcurrentMap<String, T> retMap = new ConcurrentHashMap<>();
-        if (null != rule.getRule() && rule.getRule().containsKey(RuleConstants.R_VALUE)) {
-            final JsonObject expectes = rule.getRule().getJsonObject(RuleConstants.R_VALUE);
+        if (null != rule.getRule()) {
+            final JsonObject expectes = rule.getRule();
             for (final String field : expectes.fieldNames()) {
                 if (StringKit.isNonNil(field)) {
                     /** 2.如果可以取到对应的field数据 **/
@@ -199,6 +199,20 @@ public abstract class AbstractViolater {
         return reservoir(MemoryPool.POOL_VALIDATOR, Resources.DB_CATEGORY, Accessors.validator());
     }
 
+    /**
+     * 
+     * @param result
+     * @param field
+     * @return
+     */
+    protected String extractField(@NotNull final JsonObject result, final String field) {
+        String fieldName = null;
+        if (result.containsKey(RuleConstants.R_ERROR)) {
+            fieldName = result.getString(RuleConstants.R_ERROR);
+        }
+        return fieldName;
+    }
+
     // ~ Private Methods =====================================
     /**
      * 读取Error的配置
@@ -208,21 +222,10 @@ public abstract class AbstractViolater {
      * @return
      */
     private JsonObject getErrorConfig(@NotNull final Rule rule, final String field) {
-        /**
-         * 直接从Rule之下读取error节点，这个时候可以从name中拿到对应信息
-         */
-        JsonObject config = rule.getRule().getJsonObject(RuleConstants.R_ERROR);
+        JsonObject config = rule.getError(field);
+        /** 日志记录 **/
         if (null == config) {
-            /**
-             * 没有读到的时候，尝试从errors中读取，这个时候不同的规则使用不同的方式读取
-             */
-            config = rule.getRule().getJsonObject(RuleConstants.R_ERRORS);
-            if (null != config) {
-                config = config.getJsonObject(field);
-                if (null == config) {
-                    Log.error(LOGGER, "[ERROR] Error Configuration Missing, please check your rule file first.");
-                }
-            }
+            Log.error(LOGGER, "[ERROR] Error Configuration Missing, please check your rule file first.");
         }
         return config;
     }

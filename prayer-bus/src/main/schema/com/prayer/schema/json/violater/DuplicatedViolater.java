@@ -41,7 +41,7 @@ public final class DuplicatedViolater extends AbstractViolater implements Violat
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         /** **/
-        final JsonArray configs = this.rule.getRule().getJsonArray(R_VALUE);
+        final JsonArray configs = this.rule.getRule();
         final JsonArray data = habitus.data();
         /** **/
         AbstractSchemaException error = null;
