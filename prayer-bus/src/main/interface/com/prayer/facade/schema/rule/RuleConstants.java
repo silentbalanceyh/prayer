@@ -52,8 +52,10 @@ public interface RuleConstants {
 
         /** 【Array】10002 JsonType Json类型不对，但针对数组中的元素 **/
         String RULE_JETYPE = "jetype";
-        /** 【Array】10006 Array的长度判断 **/
-        String RULE_LEN = "length";
+        /** 【Array】 Array的长度判断，最小的length必须是多少 **/
+        String RULE_LEN_MIN = "minlength";
+        /** 【Array】 Array的长度判断，最大的length必须是多少 **/
+        String RULE_LEN_MAX = "maxlength";
         /** 【Array】10007/10008 两种Duplicated **/
         String RULE_DUP = "duplicated";
         /** 【Array】最少出现规则 **/
@@ -126,12 +128,14 @@ public interface RuleConstants {
         String CFG_FFKH = "fields/fkey/fkey-helper";
         /** Foreign Key Duplicated **/
         String CFG_FFKD = "fields/fkey/fkey-dup";
-        
+
         /** Type Folder **/
         String CFG_TYPE = "type/";
-        
+
         /** Keys **/
         String CFG_KEY = "keys/keys";
+        /** Multi **/
+        String CFG_KEY_M = "keys/multi";
     }
 
     /** **/

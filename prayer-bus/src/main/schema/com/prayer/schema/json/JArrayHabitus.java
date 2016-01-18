@@ -98,14 +98,15 @@ public class JArrayHabitus implements ArrayHabitus {
     /** **/
     @Override
     public ObjectHabitus get(@Min(0) int pos) {
-        debug(LOGGER, "[AE] Get element of " + this.name + " at postion [" + pos + "]");
-        return this.data.get(pos);
+        final ObjectHabitus habitus = this.data.get(pos);
+        debug(LOGGER, "[AE] Get element of " + this.name + " at postion [" + pos + "], Value = " + habitus.data());
+        return habitus;
     }
 
     /** **/
     @Override
-    public void ensure() throws AbstractSchemaException{
-        if(null != this.error){
+    public void ensure() throws AbstractSchemaException {
+        if (null != this.error) {
             throw this.error;
         }
     }

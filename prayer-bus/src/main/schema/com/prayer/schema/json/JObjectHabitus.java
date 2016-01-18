@@ -156,16 +156,23 @@ public class JObjectHabitus implements ObjectHabitus {
 
     /** **/
     @Override
-    public String get(@NotNull @NotBlank @NotEmpty final String field) {
-        final Class<?> type = this.types.get(field);
-        String literal = null;
-        if (JsonObject.class != type && JsonArray.class != type) {
-            final Object value = this.data.getValue(field);
-            if (null != value) {
-                literal = value.toString();
-            }
-        }
-        return literal;
+    public Object get(@NotNull @NotBlank @NotEmpty final String field) {
+        return this.values().get(field);
+//        String literal = null;
+//        if (JsonObject.class != type && JsonArray.class != type) {
+//            final Object value = this.data.getValue(field);
+//            if (null != value) {
+//                literal = value.toString();
+//            }
+//        } else {
+//            final Object value = this.data.getValue(field);
+//            if (null != value) {
+//                if (JsonObject.class == type) {
+//                    
+//                }
+//            }
+//        }
+//        return literal;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

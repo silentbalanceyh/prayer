@@ -7,7 +7,6 @@ import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 
 import io.vertx.core.json.JsonObject;
-import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -31,8 +30,8 @@ public final class FieldsRuler implements ArrayRuler {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public FieldsRuler(@NotNull @InstanceOfAny(FieldRuler.class) final Ruler ruler) {
-        this.ruler = ruler;
+    public FieldsRuler() {
+        this.ruler = new FieldRuler();
     }
 
     // ~ Abstract Methods ====================================

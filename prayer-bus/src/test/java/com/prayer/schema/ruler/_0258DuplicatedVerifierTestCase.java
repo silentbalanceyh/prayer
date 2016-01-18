@@ -10,7 +10,7 @@ import com.prayer.exception.schema.DuplicatedKeyException;
  * @author Lang
  *
  */
-public class _0256DuplicatedVerifierTestCase extends AbstractVerifierTestCase {
+public class _0258DuplicatedVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

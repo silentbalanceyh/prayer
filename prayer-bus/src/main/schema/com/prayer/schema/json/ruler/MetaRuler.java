@@ -73,8 +73,8 @@ public final class MetaRuler implements Ruler {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     private void applyDispatcher(final ObjectHabitus habitus) throws AbstractSchemaException {
-        final Category category = fromStr(Category.class, habitus.get(Attributes.M_CATEGORY));
-        final Mapping mapping = fromStr(Mapping.class, habitus.get(Attributes.M_MAPPING));
+        final Category category = fromStr(Category.class, habitus.get(Attributes.M_CATEGORY).toString());
+        final Mapping mapping = fromStr(Mapping.class, habitus.get(Attributes.M_MAPPING).toString());
         // Category, Mapping
         switch (category) {
         case ENTITY: {
@@ -101,7 +101,7 @@ public final class MetaRuler implements Ruler {
             break;
         }
         // 仅检查INCREMENT
-        final MetaPolicy policy = fromStr(MetaPolicy.class, habitus.get(Attributes.M_POLICY));
+        final MetaPolicy policy = fromStr(MetaPolicy.class, habitus.get(Attributes.M_POLICY).toString());
         if (MetaPolicy.INCREMENT == policy) {
             // policy == INCREMENT
             verifyIncrement(habitus);

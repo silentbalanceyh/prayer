@@ -27,7 +27,8 @@ import com.prayer.schema.json.rule.InRule;
 import com.prayer.schema.json.rule.JETypeRule;
 import com.prayer.schema.json.rule.JTypeRule;
 import com.prayer.schema.json.rule.LeastRule;
-import com.prayer.schema.json.rule.LengthRule;
+import com.prayer.schema.json.rule.MaxLengthRule;
+import com.prayer.schema.json.rule.MinLengthRule;
 import com.prayer.schema.json.rule.MostRule;
 import com.prayer.schema.json.rule.NotInRule;
 import com.prayer.schema.json.rule.PatternRule;
@@ -132,9 +133,19 @@ public final class RuleBuilder {
      * @param file
      * @return
      */
-    public static Rule length(@NotNull @NotEmpty @NotBlank final String file){
-        return LengthRule.create(file);
+    public static Rule minlength(@NotNull @NotEmpty @NotBlank final String file){
+        return MinLengthRule.create(file);
     }
+    /**
+     * 
+     * @param file
+     * @return
+     */
+    public static Rule maxlength(@NotNull @NotEmpty @NotBlank final String file){
+        return MaxLengthRule.create(file);
+    }
+    
+    
     /**
      * 
      * @param file

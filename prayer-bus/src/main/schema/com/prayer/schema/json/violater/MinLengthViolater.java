@@ -8,7 +8,7 @@ import com.prayer.base.schema.AbstractViolater;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
-import com.prayer.schema.json.rule.LengthRule;
+import com.prayer.schema.json.rule.MinLengthRule;
 
 import io.vertx.core.json.JsonArray;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -22,7 +22,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class LengthViolater extends AbstractViolater implements Violater {
+public final class MinLengthViolater extends AbstractViolater implements Violater {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
@@ -35,7 +35,7 @@ public final class LengthViolater extends AbstractViolater implements Violater {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public LengthViolater(@NotNull @InstanceOfAny(LengthRule.class) final Rule rule) {
+    public MinLengthViolater(@NotNull @InstanceOfAny(MinLengthRule.class) final Rule rule) {
         this.rule = rule;
     }
 
@@ -46,13 +46,12 @@ public final class LengthViolater extends AbstractViolater implements Violater {
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         final ConcurrentMap<String, Integer> fieldLen = this.extractData(habitus);
         final ConcurrentMap<String, Integer> expectes = this.preparedMap(rule, this::extract);
-
         AbstractSchemaException error = null;
         final String key = VExecutor.map(fieldLen, expectes, VCondition::lt);
         if (null != key) {
             final Object[] arguments = new Object[] { this.rule.position() + " -> " + key };
             // 别忘记传第四参数
-            error = this.error(rule, arguments, null, key);
+            error = this.error(rule, arguments, habitus.addtional(), key);
         }
         return error;
     }

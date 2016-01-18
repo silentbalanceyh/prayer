@@ -15,14 +15,10 @@ import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.facade.schema.verifier.Verifier;
-import com.prayer.schema.json.ruler.FieldRuler;
 import com.prayer.schema.json.ruler.FieldsRuler;
-import com.prayer.schema.json.ruler.ForeignRuler;
 import com.prayer.schema.json.ruler.ForeignsRuler;
-import com.prayer.schema.json.ruler.KeyRuler;
 import com.prayer.schema.json.ruler.KeysRuler;
 import com.prayer.schema.json.ruler.MetaRuler;
-import com.prayer.schema.json.ruler.PrimaryRuler;
 import com.prayer.schema.json.ruler.PrimarysRuler;
 import com.prayer.schema.json.ruler.RootRuler;
 import com.prayer.schema.json.ruler.SubsRuler;
@@ -105,8 +101,7 @@ public class SchemaVerifier implements Verifier {
          * 8.验证Keys的规范
          */
         final ArrayHabitus habitus = this.getKeys(data);
-        final Ruler ruler = new KeyRuler();
-        final ArrayRuler container = new KeysRuler(ruler);
+        final ArrayRuler container = new KeysRuler();
         container.apply(habitus);
     }
 
@@ -124,8 +119,7 @@ public class SchemaVerifier implements Verifier {
          * 6.验证外键的特殊情况，如果有外键才会验证
          */
         final ArrayHabitus habitus = this.getFields(data);
-        final Ruler ruler = new ForeignRuler(this.getMeta(data, Attributes.M_TABLE), this.getFields(data));
-        final ArrayRuler container = new ForeignsRuler(ruler, this.getMeta(data, Attributes.M_TABLE));
+        final ArrayRuler container = new ForeignsRuler(habitus, this.getMeta(data, Attributes.M_TABLE));
         container.apply(habitus);
     }
 
@@ -134,8 +128,7 @@ public class SchemaVerifier implements Verifier {
          * 5.针对Mapping的特殊情况，必须处理subtable和subkey
          */
         final ArrayHabitus habitus = this.getFields(data);
-        final Mapping mapping = fromStr(Mapping.class, this.getMeta(data, Attributes.M_MAPPING));
-        final ArrayRuler container = new SubsRuler(mapping);
+        final ArrayRuler container = new SubsRuler(fromStr(Mapping.class, this.getMeta(data, Attributes.M_MAPPING)));
         container.apply(habitus);
     }
 
@@ -144,9 +137,8 @@ public class SchemaVerifier implements Verifier {
          * 4.验证主键
          */
         final ArrayHabitus habitus = this.getFields(data);
-        final MetaPolicy policy = fromStr(MetaPolicy.class, this.getMeta(data, Attributes.M_POLICY));
-        final Ruler ruler = new PrimaryRuler(policy);
-        final ArrayRuler container = new PrimarysRuler(ruler, this.getMeta(data, Attributes.M_TABLE), policy);
+        final ArrayRuler container = new PrimarysRuler(this.getMeta(data, Attributes.M_TABLE),
+                fromStr(MetaPolicy.class, this.getMeta(data, Attributes.M_POLICY)));
         container.apply(habitus);
     }
 
@@ -155,8 +147,7 @@ public class SchemaVerifier implements Verifier {
          * 3.Field节点的基本验证
          */
         final ArrayHabitus habitus = this.getFields(data);
-        final Ruler ruler = new FieldRuler();
-        final ArrayRuler container = new FieldsRuler(ruler);
+        final ArrayRuler container = new FieldsRuler();
         container.apply(habitus);
     }
 

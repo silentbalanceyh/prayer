@@ -17,22 +17,22 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class LengthRule extends AbstractRule implements Rule{
+public final class MinLengthRule extends AbstractRule implements Rule{
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(LengthRule.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MinLengthRule.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
     public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
-        return new LengthRule(rule);
+        return new MinLengthRule(rule);
     }
 
     // ~ Constructors ========================================
     /** 私有构造函数 **/
-    private LengthRule(final String rule) {
-        super(rule, Names.RULE_LEN);
+    private MinLengthRule(final String rule) {
+        super(rule, Names.RULE_LEN_MIN);
     }
 
     // ~ Abstract Methods ====================================

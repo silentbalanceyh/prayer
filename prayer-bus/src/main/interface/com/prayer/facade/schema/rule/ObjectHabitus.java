@@ -40,12 +40,12 @@ public interface ObjectHabitus {
     <T> T data();
 
     /**
-     * 获取某个Field的值，String格式
+     * 获取某个Field的值
      * 
      * @param field
      * @return
      */
-    String get(String field);
+    Object get(String field);
 
     /**
      * 获取Addtional信息

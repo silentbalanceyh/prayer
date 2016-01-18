@@ -42,14 +42,14 @@ public class VDatabase {
         if (config.containsKey("table")) {
             final String attr = config.getString("table");
             if (StringKit.isNonNil(attr)) {
-                this.table = habitus.get(attr);
+                this.table = habitus.get(attr).toString();
             }
         }
         // 读取Column
         if (config.containsKey("column")) {
             final String attr = config.getString("column");
             if (StringKit.isNonNil(attr)) {
-                this.column = habitus.get(attr);
+                this.column = habitus.get(attr).toString();
             }
         }
         // 读取type

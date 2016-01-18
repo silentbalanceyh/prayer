@@ -11,7 +11,6 @@ import com.prayer.facade.schema.verifier.Attributes;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.AssertFieldConstraints;
-import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -45,9 +44,9 @@ public final class ForeignsRuler implements ArrayRuler {
      * @param table
      */
     @PostValidateThis
-    public ForeignsRuler(@NotNull @InstanceOfAny(ForeignRuler.class) final Ruler ruler,
+    public ForeignsRuler(@NotNull final ArrayHabitus habitus,
             @AssertFieldConstraints("table") final String table) {
-        this.ruler = ruler;
+        this.ruler = new ForeignRuler(table,habitus);
         this.table = table;
     }
 

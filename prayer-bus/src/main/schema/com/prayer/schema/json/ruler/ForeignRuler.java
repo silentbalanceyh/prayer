@@ -138,7 +138,7 @@ public final class ForeignRuler implements Ruler {
      */
     private boolean skipDbCheck(final ObjectHabitus habitus) {
         boolean ret = false;
-        final String refTable = habitus.get(Attributes.F_REF_TABLE);
+        final String refTable = habitus.get(Attributes.F_REF_TABLE).toString();
         if (refTable.equals(this.table)) {
             ret = true;
         } else {

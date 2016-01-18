@@ -12,7 +12,6 @@ import com.prayer.facade.schema.verifier.Attributes;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.AssertFieldConstraints;
-import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -50,10 +49,9 @@ public final class PrimarysRuler implements ArrayRuler {
      * @param policy
      */
     @PostValidateThis
-    public PrimarysRuler(@NotNull @InstanceOfAny(PrimaryRuler.class) final Ruler ruler,
-            @AssertFieldConstraints("table") final String table,
+    public PrimarysRuler(@AssertFieldConstraints("table") final String table,
             @AssertFieldConstraints("policy") final MetaPolicy policy) {
-        this.ruler = ruler;
+        this.ruler = new PrimaryRuler(policy);
         this.table = table;
         this.policy = policy;
     }

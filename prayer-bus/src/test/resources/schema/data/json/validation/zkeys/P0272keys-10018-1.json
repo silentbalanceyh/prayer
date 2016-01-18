@@ -31,8 +31,7 @@
             "multi": false,
             "columns": 
             [
-                "R_NAME",
-                "R_CODE"
+                "R_NAME"
             ]
         }
     ],

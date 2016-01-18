@@ -27,7 +27,7 @@
             "name":"JsonTypeConfusedException"
         }
     },
-    "length":{
+    "minlength":{
         "value":{
             "columns":1
         },

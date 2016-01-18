@@ -53,7 +53,7 @@ public final class TypesRuler implements ArrayRuler {
                 final JsonObject data = (JsonObject) value;
                 final ObjectHabitus field = new JObjectHabitus(data);
                 /** 2.构造Internal的Ruler **/
-                final DataType type = DataType.fromString(field.get(Attributes.F_TYPE));
+                final DataType type = DataType.fromString(field.get(Attributes.F_TYPE).toString());
                 if (null != type) {
                     Ruler ruler = TYPE_RULER.get(type);
                     if (null == ruler) {

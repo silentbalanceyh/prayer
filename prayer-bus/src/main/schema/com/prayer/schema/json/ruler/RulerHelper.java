@@ -260,12 +260,28 @@ public final class RulerHelper {
      * 
      * @param habitus
      * @param file
+     * @param addtional
      * @throws AbstractSchemaException
      */
-    public static void applyLength(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
-            throws AbstractSchemaException {
-        final Rule rule = RuleBuilder.length(file);
-        sharedApply(habitus, rule);
+    public static void applyMinLength(@NotNull final ObjectHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
+                    throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.minlength(file);
+        sharedApply(wrapperHabitus(habitus, addtional), rule);
+    }
+
+    /**
+     * 
+     * @param habitus
+     * @param file
+     * @param addtional
+     * @throws AbstractSchemaException
+     */
+    public static void applyMaxLength(@NotNull final ObjectHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
+                    throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.maxlength(file);
+        sharedApply(wrapperHabitus(habitus, addtional), rule);
     }
 
     /**

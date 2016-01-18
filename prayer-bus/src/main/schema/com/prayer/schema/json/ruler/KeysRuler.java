@@ -8,7 +8,6 @@ import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.schema.json.JObjectHabitus;
 
 import io.vertx.core.json.JsonObject;
-import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -30,8 +29,8 @@ public final class KeysRuler implements ArrayRuler {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public KeysRuler(@NotNull @InstanceOfAny(KeyRuler.class) final Ruler ruler) {
-        this.ruler = ruler;
+    public KeysRuler() {
+        this.ruler = new KeyRuler();
     }
 
     // ~ Abstract Methods ====================================
