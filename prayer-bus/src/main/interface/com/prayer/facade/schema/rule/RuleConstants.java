@@ -136,6 +136,13 @@ public interface RuleConstants {
         String CFG_KEY = "keys/keys";
         /** Multi **/
         String CFG_KEY_M = "keys/multi";
+        
+        /** PrimaryKey **/
+        String CFG_KPK = "keys/pk";
+        /** UniqueKey **/
+        String CFG_KUK = "keys/uk";
+        /** ForeignKey **/
+        String CFG_KFK = "keys/fk";
     }
 
     /** **/
