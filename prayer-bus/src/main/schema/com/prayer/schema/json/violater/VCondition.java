@@ -25,6 +25,42 @@ final class VCondition {
 
     // ~ Static Methods ======================================
     /**
+     * 大于等于算法
+     * @param left
+     * @param right
+     * @return
+     */
+    public static boolean get(@NotNull final Integer left, @NotNull final Integer right){
+        return left >= right;
+    }
+    /**
+     * 大于算法
+     * @param left
+     * @param right
+     * @return
+     */
+    public static boolean gt(@NotNull final Integer left, @NotNull final Integer right){
+        return left > right;
+    }
+    /**
+     * 小于算法
+     * @param left
+     * @param right
+     * @return
+     */
+    public static boolean lt(@NotNull final Integer left, @NotNull final Integer right){
+        return left < right;
+    }
+    /**
+     * 小于等于算法
+     * @param left
+     * @param right
+     * @return
+     */
+    public static boolean let(@NotNull final Integer left, @NotNull final Integer right){
+        return left <= right;
+    }
+    /**
      * 不相等算法
      * 
      * @param left

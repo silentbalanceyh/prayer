@@ -10,7 +10,7 @@ import com.prayer.exception.schema.JsonTypeConfusedException;
  * @author Lang
  *
  */
-public class _0254JTypeVerifierTestCase extends AbstractVerifierTestCase {
+public class _0255JTypeVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

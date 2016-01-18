@@ -32,7 +32,7 @@ public final class LengthRule extends AbstractRule implements Rule{
     // ~ Constructors ========================================
     /** 私有构造函数 **/
     private LengthRule(final String rule) {
-        super(rule, Names.RULE_JETYPE);
+        super(rule, Names.RULE_LEN);
     }
 
     // ~ Abstract Methods ====================================
