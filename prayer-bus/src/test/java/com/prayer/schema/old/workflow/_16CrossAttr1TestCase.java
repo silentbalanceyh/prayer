@@ -4,6 +4,7 @@ import static com.prayer.constant.Accessors.validator;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import com.prayer.facade.schema.verifier.DataValidator;
  * @author Lang
  *
  */
+@Ignore
 public class _16CrossAttr1TestCase extends AbstractSchemaTestCase { // NOPMD
     // ~ Static Fields =======================================
     /** **/

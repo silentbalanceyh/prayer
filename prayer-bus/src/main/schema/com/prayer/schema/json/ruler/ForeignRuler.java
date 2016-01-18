@@ -126,8 +126,7 @@ public final class ForeignRuler implements Ruler {
         final JsonObject data = new JsonObject();
         data.put(RuleConstants.R_DATA, this.fields.data());
         data.put(RuleConstants.R_ADDT, this.getAddtional(habitus));
-        final ObjectHabitus ret = new JObjectHabitus(data);
-        return ret;
+        return new JObjectHabitus(data);
     }
 
     /**

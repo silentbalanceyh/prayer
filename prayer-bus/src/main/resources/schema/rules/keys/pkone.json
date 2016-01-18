@@ -1,0 +1,16 @@
+{
+    "debug":"__keys__ ( category = PrimaryKey )",
+    "most":{
+        "value":[
+            {
+                "occurs":1,
+                "filter":{
+                    "category":"PrimaryKey"
+                }
+            }
+        ],
+        "error":{
+            "name":"PKNotOnlyOneException"
+        }
+    }
+}

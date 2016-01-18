@@ -36,13 +36,15 @@ public final class KeysRuler implements ArrayRuler {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     @Override
-    public void apply(ArrayHabitus habitus) throws AbstractSchemaException {
+    public void apply(@NotNull final ArrayHabitus habitus) throws AbstractSchemaException {
         /** 8.0.优先处理habitus中的容器异常：10002/10006 **/
         habitus.ensure();
         /** 8.1.处理Keys的单独属性 **/
         verifyKeySpecification(habitus);
         /** 8.2.处理Duplicated属性 **/
         RulerHelper.applyDuplicated(habitus, FileConfig.CFG_KEY, new JsonObject());
+        /** 8.3.处理PK唯一 **/
+        RulerHelper.applyMost(habitus, FileConfig.CFG_KPKO, new JsonObject());
     }
 
     // ~ Methods =============================================

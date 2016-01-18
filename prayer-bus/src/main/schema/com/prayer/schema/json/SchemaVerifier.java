@@ -15,6 +15,7 @@ import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.facade.schema.verifier.Verifier;
+import com.prayer.schema.json.ruler.CrossRuler;
 import com.prayer.schema.json.ruler.FieldsRuler;
 import com.prayer.schema.json.ruler.ForeignsRuler;
 import com.prayer.schema.json.ruler.KeysRuler;
@@ -86,6 +87,10 @@ public class SchemaVerifier implements Verifier {
              * 8.验证Keys
              */
             verifyKeys(data);
+            /**
+             * 9.Cross验证
+             */
+            verifyCross(data);
         } catch (AbstractSchemaException ex) {
             peError(LOGGER, ex);
             error = ex;
@@ -95,6 +100,17 @@ public class SchemaVerifier implements Verifier {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private void verifyCross(final JsonObject data) throws AbstractSchemaException {
+        /**
+         * 9.Cross验证
+         */
+        final ArrayHabitus fields = this.getFields(data);
+        final ArrayHabitus keys = this.getKeys(data);
+        final ObjectHabitus habitus = new JObjectHabitus(data.getJsonObject(Attributes.R_META));
+        final Ruler ruler = new CrossRuler(keys, fields);
+        ruler.apply(habitus);
+    }
 
     private void verifyKeys(final JsonObject data) throws AbstractSchemaException {
         /**

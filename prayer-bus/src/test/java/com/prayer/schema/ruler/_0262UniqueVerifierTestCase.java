@@ -1,42 +1,31 @@
-package com.prayer.exception.schema;
+package com.prayer.schema.ruler;
 
-import com.prayer.base.exception.AbstractSchemaException;
+import org.junit.Test;
+
+import com.prayer.base.exception.AbstractException;
+import com.prayer.exception.schema.ColumnsMissingException;
 
 /**
- * 【Checked】Error-10022：keys中的PK定义multi必须匹配__meta__中的PK Policy，否则冲突
  * 
  * @author Lang
  *
  */
-public class MultiForPKPolicyException extends AbstractSchemaException {
+public class _0262UniqueVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 3368737553974375913L;
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /**
-     * 
-     * @param clazz
-     * @param policy
-     * @param isMulti
-     */
-    public MultiForPKPolicyException(final Class<?> clazz, final String policy) {
-        super(clazz, -10022, policy);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**
      * 
+     * @throws AbstractException
      */
-    @Override
-    public int getErrorCode() {
-        return -10022;
+    @Test(expected = ColumnsMissingException.class)
+    public void testP34Cross1Spec10023() throws AbstractException {
+        testImport("zkeys/P034cross-10023-1.json");
+        failure("[E10023] Cross ==> (Failure) Column missing in '__fields__' definition.");
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

@@ -1,0 +1,19 @@
+{
+    "debug":"__meta__ -> ( policy != COLLECTION )",
+    "unique":{
+        "value":[
+            {
+                "filter":{
+                    "category":"PrimaryKey",
+                    "multi":false
+                }
+            }
+        ],
+        "error":{
+            "name":"MultiForPKPolicyException",
+            "arguments":[
+                "policy"
+            ]
+        }
+    }
+}

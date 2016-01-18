@@ -46,6 +46,7 @@ public final class KeyRuler implements Ruler {
         applyMulti(habitus);
         /** 8.1.7.Key Names验证 **/
         applyKeyNames(habitus);
+        
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

@@ -136,13 +136,24 @@ public interface RuleConstants {
         String CFG_KEY = "keys/keys";
         /** Multi **/
         String CFG_KEY_M = "keys/multi";
-        
+
         /** PrimaryKey **/
         String CFG_KPK = "keys/pk";
+        /** PrimaryKey Only One **/
+        String CFG_KPKO = "keys/pkone";
         /** UniqueKey **/
         String CFG_KUK = "keys/uk";
         /** ForeignKey **/
         String CFG_KFK = "keys/fk";
+
+        /** Cross ( policy = COLLECTION ) **/
+        String CFG_CPMT = "cross/policy/multit";
+        /** Cross ( policy != COLLECTION ) **/
+        String CFG_CPMN = "cross/policy/multin";
+        /** Column **/
+        String CFG_CCOL = "cross/column";
+        /** Attribute **/
+        String CFG_CATT = "cross/attrs";
     }
 
     /** **/

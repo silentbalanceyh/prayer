@@ -26,12 +26,11 @@ public class WrongTimeAttrException extends AbstractSchemaException {
      * @param attr
      * @param value
      * @param expected
-     * @param actual
      * @param keyCategory
      */
-    public WrongTimeAttrException(final Class<?> clazz, final String attr, final String value, final String expected,
-            final String actual, final String keyCategory) {
-        super(clazz, -10024, attr, value, expected, actual, keyCategory);
+    public WrongTimeAttrException(final Class<?> clazz, final String attr,final String expected,
+            final String keyCategory) {
+        super(clazz, -10024, attr, expected, keyCategory);
     }
 
     // ~ Abstract Methods ====================================

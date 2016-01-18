@@ -187,6 +187,8 @@ public abstract class AbstractViolater {
                 args.add(argument);
             }
         }
+        System.out.println(errorCls);
+        System.out.println(args);
         /** 5.参数处理完成过后，直接构造最终的Exception **/
         return instance(errorCls, args.toArray());
     }
