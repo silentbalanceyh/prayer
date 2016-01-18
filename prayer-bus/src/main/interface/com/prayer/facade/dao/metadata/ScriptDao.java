@@ -1,7 +1,7 @@
 package com.prayer.facade.dao.metadata;
 
 import com.prayer.facade.accessor.MetaAccessor;
-import com.prayer.model.vertx.PEScript;
+import com.prayer.model.meta.vertx.PEScript;
 
 /**
  * 

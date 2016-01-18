@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.kernel.Expression;
+import com.prayer.model.meta.vertx.PEAddress;
 import com.prayer.model.query.Restrictions;
 import com.prayer.model.type.StringType;
-import com.prayer.model.vertx.PEAddress;
 
 /**
  * 

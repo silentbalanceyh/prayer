@@ -17,9 +17,9 @@ import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.database.PEField;
-import com.prayer.model.kernel.GenericRecord;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.GenericSchema;
+import com.prayer.model.meta.database.PEField;
 
 import jodd.util.StringUtil;
 

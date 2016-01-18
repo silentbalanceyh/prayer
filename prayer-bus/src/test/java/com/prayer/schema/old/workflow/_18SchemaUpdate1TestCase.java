@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.dao.metadata.SchemaDao;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
 import com.prayer.schema.old.json.CommunionImporter;
 
 /**

@@ -1,6 +1,6 @@
 package com.prayer.facade.bus.deploy;
 
-import com.prayer.model.vertx.PEAddress;
+import com.prayer.model.meta.vertx.PEAddress;
 
 /**
  * 

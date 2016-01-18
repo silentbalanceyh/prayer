@@ -19,8 +19,10 @@ import com.prayer.AbstractRDaoTestTool;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.database.PEField;
-import com.prayer.model.database.PEKey;
+import com.prayer.model.crucial.GenericSchema;
+import com.prayer.model.crucial.SchemaExpander;
+import com.prayer.model.meta.database.PEField;
+import com.prayer.model.meta.database.PEKey;
 
 /**
  * 

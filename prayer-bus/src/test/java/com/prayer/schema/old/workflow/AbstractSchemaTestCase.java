@@ -14,7 +14,7 @@ import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.OldImporter;
 import com.prayer.facade.schema.Serializer;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.schema.old.CommunionSerializer;
 import com.prayer.schema.old.json.CommunionImporter;

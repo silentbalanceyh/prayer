@@ -15,7 +15,7 @@ import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.facade.bus.deploy.UriDPService;
-import com.prayer.model.vertx.PEUri;
+import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.util.io.JsonKit;
 
 import io.vertx.core.http.HttpMethod;

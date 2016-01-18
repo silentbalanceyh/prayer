@@ -27,8 +27,8 @@ import com.prayer.facade.kernel.Record;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.OldImporter;
 import com.prayer.facade.schema.verifier.DataValidator;
-import com.prayer.model.kernel.GenericRecord;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.GenericSchema;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.schema.old.json.CommunionImporter;
 

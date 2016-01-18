@@ -10,7 +10,7 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.SchemaService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
 
 import jodd.util.StringUtil;
 

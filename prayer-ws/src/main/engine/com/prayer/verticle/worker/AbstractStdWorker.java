@@ -7,7 +7,7 @@ import com.prayer.bus.impl.oob.ConfigSevImpl;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.PEAddress;
+import com.prayer.model.meta.vertx.PEAddress;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;

@@ -3,7 +3,7 @@ package com.prayer.facade.dao.metadata;
 import java.util.List;
 
 import com.prayer.facade.accessor.MetaAccessor;
-import com.prayer.model.vertx.PEUri;
+import com.prayer.model.meta.vertx.PEUri;
 
 import io.vertx.core.http.HttpMethod;
 

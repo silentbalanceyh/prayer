@@ -16,7 +16,7 @@ import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.exception.web.JSScriptEngineException;
 import com.prayer.facade.bus.BasicAuthService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericRecord;
+import com.prayer.model.crucial.GenericRecord;
 import com.prayer.util.bus.Interruptor;
 
 import io.vertx.core.json.JsonArray;

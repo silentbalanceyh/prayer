@@ -18,10 +18,10 @@ import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.model.database.PEField;
-import com.prayer.model.database.PEKey;
-import com.prayer.model.database.PEMeta;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
+import com.prayer.model.meta.database.PEField;
+import com.prayer.model.meta.database.PEKey;
+import com.prayer.model.meta.database.PEMeta;
 import com.prayer.schema.old.json.CommunionImporter;
 import com.prayer.util.io.JsonKit;
 

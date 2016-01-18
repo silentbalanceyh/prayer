@@ -41,7 +41,7 @@ public interface Transducer {
          * @return
          */
         public static Transducer get(){
-            return singleton("com.prayer.model.kernel.ValueTransducer");
+            return singleton("com.prayer.model.crucial.ValueTransducer");
         }
     }
 }

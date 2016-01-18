@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.bus.AbstractSevImpl;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.facade.bus.RecordService;
-import com.prayer.model.kernel.GenericRecord;
+import com.prayer.model.crucial.GenericRecord;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

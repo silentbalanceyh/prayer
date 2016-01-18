@@ -21,7 +21,7 @@ import com.prayer.facade.dao.Builder;
 import com.prayer.facade.dao.metadata.SchemaDao;
 import com.prayer.facade.schema.OldImporter;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
 import com.prayer.schema.old.json.CommunionImporter;
 
 import net.sf.oval.constraint.InstanceOfAny;

@@ -10,7 +10,7 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.BasicAuthService;
 import com.prayer.facade.bus.SchemaService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
 import com.prayer.util.io.IOKit;
 
 import io.vertx.core.json.JsonArray;

@@ -1,7 +1,7 @@
 package com.prayer.base.plugin;
 
-import com.prayer.model.database.PEField;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
+import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.DataType;
 import com.prayer.util.reflection.Instance;
 

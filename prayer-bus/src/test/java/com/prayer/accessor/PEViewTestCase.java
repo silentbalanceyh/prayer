@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.kernel.Expression;
-import com.prayer.model.database.PEView;
+import com.prayer.model.meta.database.PEView;
 import com.prayer.model.query.Restrictions;
 import com.prayer.model.type.StringType;
 

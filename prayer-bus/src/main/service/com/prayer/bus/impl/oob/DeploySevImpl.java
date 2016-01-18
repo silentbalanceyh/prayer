@@ -24,8 +24,8 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.system.DeploymentException;
 import com.prayer.facade.bus.DeployService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericSchema;
-import com.prayer.model.vertx.PEUri;
+import com.prayer.model.crucial.GenericSchema;
+import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.PropertyKit;
 

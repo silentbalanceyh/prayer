@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.kernel.builder.AbstractBUPTestCase;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
 
 /**
  * 

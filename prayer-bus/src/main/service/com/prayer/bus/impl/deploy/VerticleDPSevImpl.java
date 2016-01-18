@@ -13,7 +13,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.deploy.VerticleDPService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.PEVerticle;
+import com.prayer.model.meta.vertx.PEVerticle;
 import com.prayer.util.bus.ResultExtractor;
 import com.prayer.util.io.JsonKit;
 

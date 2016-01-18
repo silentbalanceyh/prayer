@@ -19,6 +19,8 @@ import com.prayer.exception.validator.PrecisionFailureException;
 import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.GenericSchema;
 import com.prayer.plugin.validator.MobileValidator;
 
 /**

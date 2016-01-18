@@ -16,7 +16,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.PEUri;
+import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
 import com.prayer.model.web.StatusCode;

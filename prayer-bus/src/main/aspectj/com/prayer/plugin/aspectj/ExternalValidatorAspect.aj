@@ -9,7 +9,7 @@ import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.database.PEField;
+import com.prayer.model.meta.database.PEField;
 
 /**
  * 外部验证器：调用自定义验证Validator验证Record中的字段

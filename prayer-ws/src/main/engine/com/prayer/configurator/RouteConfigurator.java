@@ -17,7 +17,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.PERoute;
+import com.prayer.model.meta.vertx.PERoute;
 import com.prayer.util.web.Interruptor;
 
 import io.vertx.core.Handler;

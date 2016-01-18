@@ -16,7 +16,7 @@ import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.kernel.Transducer.V;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.type.DataType;
 
 import io.vertx.core.json.JsonArray;

@@ -30,10 +30,10 @@ import com.prayer.exception.database.NullableAlterException;
 import com.prayer.exception.database.UniqueAddException;
 import com.prayer.exception.database.UniqueAlterException;
 import com.prayer.facade.schema.Referencer;
-import com.prayer.model.database.PEField;
-import com.prayer.model.database.PEKey;
-import com.prayer.model.kernel.FKReferencer;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.FKReferencer;
+import com.prayer.model.crucial.GenericSchema;
+import com.prayer.model.meta.database.PEField;
+import com.prayer.model.meta.database.PEKey;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOfAny;

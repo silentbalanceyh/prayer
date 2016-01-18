@@ -8,12 +8,12 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.bus.ConfigService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.PEAddress;
-import com.prayer.model.vertx.PERoute;
-import com.prayer.model.vertx.PERule;
-import com.prayer.model.vertx.PEScript;
-import com.prayer.model.vertx.PEUri;
-import com.prayer.model.vertx.PEVerticle;
+import com.prayer.model.meta.vertx.PEAddress;
+import com.prayer.model.meta.vertx.PERoute;
+import com.prayer.model.meta.vertx.PERule;
+import com.prayer.model.meta.vertx.PEScript;
+import com.prayer.model.meta.vertx.PEUri;
+import com.prayer.model.meta.vertx.PEVerticle;
 import com.prayer.util.bus.ResultExtractor;
 
 import io.vertx.core.http.HttpMethod;

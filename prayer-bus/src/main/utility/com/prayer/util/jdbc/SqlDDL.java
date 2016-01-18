@@ -11,8 +11,8 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.KeyCategory;
-import com.prayer.model.database.PEField;
-import com.prayer.model.database.PEKey;
+import com.prayer.model.meta.database.PEField;
+import com.prayer.model.meta.database.PEKey;
 import com.prayer.util.io.PropertyKit;
 import com.prayer.util.string.StringKit;
 

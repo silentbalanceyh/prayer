@@ -2,7 +2,7 @@ package com.prayer.facade.schema;
 
 import java.util.List;
 
-import com.prayer.model.kernel.FKReferencer;
+import com.prayer.model.crucial.FKReferencer;
 
 /**
  * 用于处理Foreign Key的Referencer

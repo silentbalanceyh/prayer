@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.model.vertx.PEUri;
+import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.util.reflection.Instance;
 import com.prayer.util.string.StringKit;
 

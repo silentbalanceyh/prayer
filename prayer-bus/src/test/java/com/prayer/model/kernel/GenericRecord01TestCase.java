@@ -16,6 +16,8 @@ import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.type.StringType;
 
 import net.sf.oval.exception.ConstraintsViolatedException;

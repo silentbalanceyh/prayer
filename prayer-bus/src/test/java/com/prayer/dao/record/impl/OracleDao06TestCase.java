@@ -21,8 +21,8 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.kernel.GenericRecord;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.type.LongType;
 
 import jodd.util.StringUtil;

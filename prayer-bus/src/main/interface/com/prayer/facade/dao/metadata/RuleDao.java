@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.accessor.MetaAccessor;
-import com.prayer.model.vertx.PERule;
+import com.prayer.model.meta.vertx.PERule;
 
 /**
  * 

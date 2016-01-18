@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.dao.impl.builder.MsSqlBuilder;
 import com.prayer.kernel.builder.AbstractBCPTestCase;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
 
 /**
  * 

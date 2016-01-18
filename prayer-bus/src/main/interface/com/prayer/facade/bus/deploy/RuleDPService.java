@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.PERule;
-import com.prayer.model.vertx.PEUri;
+import com.prayer.model.meta.vertx.PERule;
+import com.prayer.model.meta.vertx.PEUri;
 
 /**
  * 

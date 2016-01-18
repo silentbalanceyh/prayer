@@ -7,19 +7,19 @@
         <setting name="defaultExecutorType" value="REUSE" />
     </settings>
     <typeAliases>
-        <typeAlias type="com.prayer.model.vertx.PEScript" alias="Script" />
-        <typeAlias type="com.prayer.model.vertx.PEAddress" alias="Address" />
-        <typeAlias type="com.prayer.model.vertx.PERoute" alias="Route" />
-        <typeAlias type="com.prayer.model.vertx.PERule" alias="Rule" />
-        <typeAlias type="com.prayer.model.vertx.PEUri" alias="Uri" />
-        <typeAlias type="com.prayer.model.vertx.PEVerticle" alias="Verticle" />
-        <typeAlias type="com.prayer.model.database.PEField" alias="Field" />
-        <typeAlias type="com.prayer.model.database.PEIndex" alias="Index" />
-        <typeAlias type="com.prayer.model.database.PEKey" alias="Key" />
-        <typeAlias type="com.prayer.model.database.PEMeta" alias="Meta" />
-        <typeAlias type="com.prayer.model.database.PETrigger" alias="Trigger" />
-        <typeAlias type="com.prayer.model.database.PEVColumn" alias="VColumn" />
-        <typeAlias type="com.prayer.model.database.PEView" alias="View" />
+        <typeAlias type="com.prayer.model.meta.vertx.PEScript" alias="Script" />
+        <typeAlias type="com.prayer.model.meta.vertx.PEAddress" alias="Address" />
+        <typeAlias type="com.prayer.model.meta.vertx.PERoute" alias="Route" />
+        <typeAlias type="com.prayer.model.meta.vertx.PERule" alias="Rule" />
+        <typeAlias type="com.prayer.model.meta.vertx.PEUri" alias="Uri" />
+        <typeAlias type="com.prayer.model.meta.vertx.PEVerticle" alias="Verticle" />
+        <typeAlias type="com.prayer.model.meta.database.PEField" alias="Field" />
+        <typeAlias type="com.prayer.model.meta.database.PEIndex" alias="Index" />
+        <typeAlias type="com.prayer.model.meta.database.PEKey" alias="Key" />
+        <typeAlias type="com.prayer.model.meta.database.PEMeta" alias="Meta" />
+        <typeAlias type="com.prayer.model.meta.database.PETrigger" alias="Trigger" />
+        <typeAlias type="com.prayer.model.meta.database.PEVColumn" alias="VColumn" />
+        <typeAlias type="com.prayer.model.meta.database.PEView" alias="View" />
     </typeAliases>
     <environments default="H2Environment">
         <environment id="H2Environment">

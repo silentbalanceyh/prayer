@@ -12,6 +12,8 @@ import com.prayer.Assistant;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.crucial.GenericSchema;
+import com.prayer.model.crucial.SchemaLocator;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 

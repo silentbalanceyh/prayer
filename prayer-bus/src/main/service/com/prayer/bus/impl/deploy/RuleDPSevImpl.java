@@ -17,8 +17,8 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.deploy.RuleDPService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.vertx.PERule;
-import com.prayer.model.vertx.PEUri;
+import com.prayer.model.meta.vertx.PERule;
+import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.util.bus.ResultExtractor;
 import com.prayer.util.io.JsonKit;
 

@@ -2,7 +2,7 @@ package com.prayer.facade.dao.metadata;
 
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.system.DataLoadingException;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
 
 /**
  * 

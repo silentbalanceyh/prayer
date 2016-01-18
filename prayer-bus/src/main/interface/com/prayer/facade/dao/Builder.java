@@ -2,7 +2,7 @@ package com.prayer.facade.dao;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Symbol;
-import com.prayer.model.kernel.GenericSchema;
+import com.prayer.model.crucial.GenericSchema;
 
 /**
  * 元数据构造表的接口

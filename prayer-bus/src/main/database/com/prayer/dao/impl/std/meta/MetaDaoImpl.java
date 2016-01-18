@@ -13,7 +13,7 @@ import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
-import com.prayer.model.kernel.MetaRecord;
+import com.prayer.model.crucial.MetaRecord;
 import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.InstanceOf;
