@@ -48,7 +48,7 @@ public final class NotInViolater extends AbstractViolater implements Violater {
         /**
          * 直接检查Not In，如果为null表示并没有包含，则直接Skip
          */
-        String key = VHelper.calculate(values, expectes, VCondition::in);
+        String key = VExecutor.map(values, expectes, VCondition::in);
         if (null != key) {
             final Object[] arguments = new Object[] { this.rule.position() + " -> " + key, expectes.get(key).encode(),
                     habitus.get(key), Flag.FLAG_NIN };

@@ -25,6 +25,7 @@ import com.prayer.facade.schema.rule.RuleConstants;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.schema.json.violater.VDatabase;
 import com.prayer.util.debug.Log;
+import com.prayer.util.reflection.Instance;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonArray;
@@ -211,6 +212,29 @@ public abstract class AbstractViolater {
             fieldName = result.getString(RuleConstants.R_ERROR);
         }
         return fieldName;
+    }
+    /**
+     * 
+     * @param value
+     * @return
+     */
+    protected Class<?> extractClass(final Object value){
+        Class<?> clazz = null;
+        if(null != value){
+            String cls = null;
+            final String literal = value.toString();
+            switch(literal){
+            case "JsonArray":
+            case "JsonObject":{
+                cls = JsonObject.class.getPackage().getName() + Symbol.DOT + literal;
+            }break;
+            default:{
+                cls = String.class.getPackage().getName() + Symbol.DOT + literal;
+            }
+            }
+            clazz = Instance.clazz(cls);
+        }
+        return clazz;
     }
 
     // ~ Private Methods =====================================

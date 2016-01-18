@@ -1,6 +1,5 @@
 package com.prayer.schema.json.violater;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
@@ -21,7 +20,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class VHelper {
+final class VExecutor {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -35,7 +34,7 @@ final class VHelper {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static <T> T calculate(@NotNull final JsonArray valueArr, @NotNull final JsonArray expected,
+    public static <T> T execute(@NotNull final JsonArray valueArr, @NotNull final JsonArray expected,
             @NotNull final Condition<T, JsonArray> fun) {
         T ret = null;
         for (final Object value : expected) {
@@ -58,7 +57,7 @@ final class VHelper {
      * @param fun
      * @return 返回第二个key
      */
-    public static <V> String[] calculate(@NotNull final ConcurrentMap<String, V> valueMap,
+    public static <V> String[] execute(@NotNull final ConcurrentMap<String, V> valueMap,
             @NotNull @Size(min = 2, max = 2) final String[] keys, @NotNull final Condition<V, V> fun) {
         String[] retKey = null;
         if (Constants.TWO == keys.length && VCondition.neq(keys[Constants.IDX], keys[Constants.ONE])) {
@@ -73,8 +72,9 @@ final class VHelper {
         return retKey;
     }
 
+    // ~ 四个规范方法 ======================================
     /**
-     * 两个Map之间的计算，单个元素使用 Object <-> Object
+     * 两个Map之间的计算，单个元素使用 Object <-> Object ( One To One )
      * 
      * @param valueMap
      * @param expectedMap
@@ -84,13 +84,13 @@ final class VHelper {
     // 1.遍历expectedMap，提取key
     // 2.如果expectedMap中的key在valueMap中存在，则使用fun检查两个map中同一个key对应的值
     // 3.如果fun返回true则表示有错误返回key，否则返回null
-    public static <V, E> String calculate(@NotNull final ConcurrentMap<String, V> valueMap,
+    public static <V, E> String map(@NotNull final ConcurrentMap<String, V> valueMap,
             @NotNull final ConcurrentMap<String, E> expectedMap, @NotNull final Condition<V, E> fun) {
         String retKey = null;
         for (final String key : expectedMap.keySet()) {
             if (valueMap.containsKey(key)) {
                 /** 检查reKey是否为null，不为null就跳出循环，已经捕捉到Exception **/
-                if (null != (retKey = dispatcher(key, valueMap.get(key), expectedMap.get(key), fun))) {
+                if (null != (retKey = execute(key, valueMap.get(key), expectedMap.get(key), fun))) {
                     break;
                 }
             }
@@ -99,66 +99,70 @@ final class VHelper {
     }
 
     /**
-     * 内置分流函数
+     * Many -> Many
      * 
-     * @param key
-     * @param value
-     * @param expected
+     * @param valueMap
+     * @param expectedMap
      * @param fun
      * @return
      */
-    @SuppressWarnings("unchecked")
-    private static <V, E, EV, NE> String dispatcher(@NotNull @NotBlank @NotEmpty final String key, final V value,
-            final E expected, @NotNull final Condition<V, E> fun) {
+    public static <V, E> String matrix(@NotNull final ConcurrentMap<String, List<V>> valueMap,
+            @NotNull final ConcurrentMap<String, List<E>> expectedMap, @NotNull final Condition<V, E> fun) {
         String retKey = null;
-        /** 两个值不为null时检查 **/
-        if (null != value && null != expected) {
-            if (value instanceof List && expected instanceof List) {
-                // V -> List<V>, E -> List<E>
-                final Condition<EV, NE> function = (Condition<EV, NE>) fun;
-                final List<EV> values = transfer(value);
-                final List<NE> expectes = transfer(expected);
-                retKey = calculate(key, values, expectes, function);
-            } else if (!(value instanceof List) && expected instanceof List) {
-                // E -> List<E>
-                final Condition<V, NE> function = (Condition<V, NE>) fun;
-                final List<NE> expectes = transfer(expected);
-                retKey = calculate(key, value, expectes, function);
-            } else if (value instanceof List && !(expected instanceof List)) {
-                // V -> List<V>
-                final Condition<EV, E> function = (Condition<EV, E>) fun;
-                final List<EV> values = transfer(value);
-                retKey = calculate(key, values, expected, function);
-            } else {
-                // No Transfer
-                retKey = calculate(key, value, expected, fun);
+        for (final String key : expectedMap.keySet()) {
+            if (valueMap.containsKey(key)) {
+                if (null != (retKey = execute(key, valueMap.get(key), expectedMap.get(key), fun))) {
+                    break;
+                }
             }
         }
         return retKey;
     }
 
     /**
-     * 内置运算，T -> List<I>的过程
+     * One -> Many
      * 
-     * @param instance
+     * @param valueMap
+     * @param expectedMap
+     * @param fun
      * @return
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private static <T, I> List<I> transfer(final T instance) {
-        final List<I> ret = new ArrayList<>();
-        if (instance instanceof List) {
-            for (final Object item : ((List) instance)) {
-                if (null != item) {
-                    final I target = (I) item;
-                    ret.add(target);
+    public static <V, E> String radiate(@NotNull final ConcurrentMap<String, V> valueMap,
+            @NotNull final ConcurrentMap<String, List<E>> expectedMap, @NotNull final Condition<V, E> fun) {
+        String retKey = null;
+        for (final String key : expectedMap.keySet()) {
+            if (valueMap.containsKey(key)) {
+                if (null != (retKey = execute(key, valueMap.get(key), expectedMap.get(key), fun))) {
+                    break;
                 }
             }
         }
-        return ret;
+        return retKey;
     }
 
     /**
-     * 内置运算：List<V> -> List<E>
+     * Many -> One
+     * 
+     * @param valueMap
+     * @param expectedMap
+     * @param fun
+     * @return
+     */
+    public static <V, E> String focalize(@NotNull final ConcurrentMap<String, List<V>> valueMap,
+            @NotNull final ConcurrentMap<String, E> expectedMap, @NotNull final Condition<V, E> fun) {
+        String retKey = null;
+        for (final String key : expectedMap.keySet()) {
+            if (valueMap.containsKey(key)) {
+                if (null != (retKey = execute(key, valueMap.get(key), expectedMap.get(key), fun))) {
+                    break;
+                }
+            }
+        }
+        return retKey;
+    }
+
+    /**
+     * Many -> Many
      * 
      * @param key
      * @param value
@@ -166,7 +170,7 @@ final class VHelper {
      * @param fun
      * @return
      */
-    private static <V, E> String calculate(@NotNull @NotBlank @NotEmpty final String key, @NotNull final List<V> value,
+    private static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final List<V> value,
             @NotNull final List<E> expected, @NotNull final Condition<V, E> fun) {
         String retKey = null;
         outer: for (final V vItem : value) {
@@ -183,7 +187,7 @@ final class VHelper {
     }
 
     /**
-     * 内置运算：List<V> -> E
+     * Many -> One
      * 
      * @param key
      * @param value
@@ -191,11 +195,11 @@ final class VHelper {
      * @param fun
      * @return
      */
-    private static <V, E> String calculate(@NotNull @NotBlank @NotEmpty final String key, @NotNull final List<V> value,
+    private static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final List<V> value,
             @NotNull final E expected, @NotNull final Condition<V, E> fun) {
         String retKey = null;
-        for (final V item : value) {
-            if (null != item) {
+        for (final V vItem : value) {
+            if (null != vItem && fun.condition(vItem, expected)) {
                 retKey = key;
                 break;
             }
@@ -204,27 +208,7 @@ final class VHelper {
     }
 
     /**
-     * 内置运算：V -> List<E>
-     * 
-     * @param value
-     * @param expected
-     * @param fun
-     * @return
-     */
-    private static <V, E> String calculate(@NotNull @NotBlank @NotEmpty final String key, @NotNull final V value,
-            @NotNull final List<E> expected, @NotNull final Condition<V, E> fun) {
-        String retKey = null;
-        for (final E item : expected) {
-            if (null != item && fun.condition(value, item)) {
-                retKey = key;
-                break;
-            }
-        }
-        return retKey;
-    }
-
-    /**
-     * 内置运算：V -> E
+     * One -> One
      * 
      * @param key
      * @param value
@@ -232,7 +216,7 @@ final class VHelper {
      * @param fun
      * @return
      */
-    private static <V, E> String calculate(@NotNull @NotBlank @NotEmpty final String key, @NotNull final V value,
+    private static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final V value,
             @NotNull final E expected, @NotNull final Condition<V, E> fun) {
         String retKey = null;
         if (fun.condition(value, expected)) {
@@ -242,18 +226,21 @@ final class VHelper {
     }
 
     /**
+     * One -> Many
      * 
-     * @param valueMap
-     * @param expectedMap
+     * @param key
+     * @param value
+     * @param expected
      * @param fun
      * @return
      */
-    public static <V, E> String calculateCollection(@NotNull final ConcurrentMap<String, List<V>> valueMap,
-            @NotNull final ConcurrentMap<String, List<E>> expectedMap, @NotNull final Condition<V, E> fun) {
+    private static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final V value,
+            @NotNull final List<E> expected, @NotNull final Condition<V, E> fun) {
         String retKey = null;
-        for (final String key : expectedMap.keySet()) {
-            if (valueMap.containsKey(key)) {
-
+        for (final E eItem : expected) {
+            if (null != eItem && fun.condition(value, eItem)) {
+                retKey = key;
+                break;
             }
         }
         return retKey;
@@ -266,7 +253,7 @@ final class VHelper {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private VHelper() {
+    private VExecutor() {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

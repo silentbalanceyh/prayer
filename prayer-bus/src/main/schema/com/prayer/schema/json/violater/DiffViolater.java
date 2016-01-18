@@ -50,7 +50,7 @@ public final class DiffViolater extends AbstractViolater implements Violater {
         /** **/
         AbstractSchemaException error = null;
         for (final String[] rule : rules) {
-            final String[] keys = VHelper.calculate(values, rule, VCondition::eq);
+            final String[] keys = VExecutor.execute(values, rule, VCondition::eq);
             if (null != keys) {
                 final Object[] arguments = new Object[] { this.rule.position() + " ==> " + keys[Constants.IDX],
                         keys[Constants.ONE] };

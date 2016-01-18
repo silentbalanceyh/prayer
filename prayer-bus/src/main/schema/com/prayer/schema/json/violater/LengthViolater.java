@@ -48,7 +48,7 @@ public final class LengthViolater extends AbstractViolater implements Violater {
         final ConcurrentMap<String, Integer> expectes = this.preparedMap(rule, this::extract);
 
         AbstractSchemaException error = null;
-        final String key = VHelper.calculate(fieldLen, expectes, VCondition::lt);
+        final String key = VExecutor.map(fieldLen, expectes, VCondition::lt);
         if (null != key) {
             final Object[] arguments = new Object[] { this.rule.position() + " -> " + key };
             // 别忘记传第四参数

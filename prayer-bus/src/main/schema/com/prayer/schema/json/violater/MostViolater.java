@@ -48,7 +48,7 @@ public final class MostViolater extends AbstractViolater implements Violater {
         final JsonArray filters = this.rule.getRule();
         /** **/
         AbstractSchemaException error = null;
-        final JsonObject ret = VHelper.calculate(data, filters, VCondition::leastRepel);
+        final JsonObject ret = VExecutor.execute(data, filters, VCondition::leastRepel);
         if (null != ret) {
             error = this.error(rule, new Object[] {}, addtional);
         }

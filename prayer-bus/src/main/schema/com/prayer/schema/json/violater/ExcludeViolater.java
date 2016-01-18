@@ -45,7 +45,7 @@ public final class ExcludeViolater extends AbstractViolater implements Violater 
         final JsonArray excluded = this.rule.getRule();
         /** 遍历所有排除的属性 **/
         AbstractSchemaException error = null;
-        final Object value = VHelper.calculate(fields, excluded, VCondition::in);
+        final Object value = VExecutor.execute(fields, excluded, VCondition::in);
         if (null != value) {
             final Object[] arguments = new Object[] { this.rule.position() + " -> " + value.toString(), "Existing" };
             error = this.error(rule, arguments, null);

@@ -51,7 +51,7 @@ public final class ExistingViolater extends AbstractViolater implements Violater
             /**
              * fields中必须包含所有expect的元素
              */
-            final Object attr = VHelper.calculate(fields, expected, VCondition::nin);
+            final Object attr = VExecutor.execute(fields, expected, VCondition::nin);
             if (null != attr) {
                 final Object[] arguments = new Object[] { this.rule.position() + " -> " + attr, "Missing" };
                 error = this.error(rule, arguments, null);

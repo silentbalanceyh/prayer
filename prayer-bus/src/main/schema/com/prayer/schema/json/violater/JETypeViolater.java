@@ -7,15 +7,12 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.schema.AbstractViolater;
-import com.prayer.constant.Symbol;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.schema.json.rule.JETypeRule;
-import com.prayer.util.reflection.Instance;
 
 import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -49,10 +46,10 @@ public final class JETypeViolater extends AbstractViolater implements Violater {
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         final ConcurrentMap<String, List<Class<?>>> types = this.extractData(habitus);
-        final ConcurrentMap<String, Class<?>> expectes = this.preparedMap(rule, this::extract);
+        final ConcurrentMap<String, Class<?>> expectes = this.preparedMap(rule, this::extractClass);
 
         AbstractSchemaException error = null;
-        final String key = VHelper.calculate(types, expectes, VCondition::neq);
+        final String key = VExecutor.focalize(types, expectes, VCondition::neq);
         if (null != key) {
             final Object[] arguments = new Object[] { this.rule.position() + " -> " + key };
             error = this.error(rule, arguments, null);
@@ -87,15 +84,6 @@ public final class JETypeViolater extends AbstractViolater implements Violater {
             }
         }
         return ret;
-    }
-
-    private Class<?> extract(final Object value) {
-        Class<?> clazz = null;
-        if (null != value) {
-            final String cls = JsonObject.class.getPackage().getName() + Symbol.DOT + value.toString();
-            clazz = Instance.clazz(cls);
-        }
-        return clazz;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

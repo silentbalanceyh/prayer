@@ -123,6 +123,13 @@ public final class SystemEnum { // NOPMD
         JADE, // Jade模板引擎
         HTML // 纯的HTML结构，Dynamic无用
     }
+    /** 容器计算模型 **/
+    public static enum RuleContainer{
+        ONE_TO_ONE,
+        ONE_TO_MANY,
+        MANY_TO_ONE,
+        MANY_TO_MANY
+    }
 
     // ~ Constructors ========================================
     private SystemEnum() {

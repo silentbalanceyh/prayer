@@ -42,6 +42,8 @@ public final class KeysRuler implements ArrayRuler {
         habitus.ensure();
         /** 8.1.处理Keys的单独属性 **/
         verifyKeySpecification(habitus);
+        /** 8.2.处理Duplicated属性 **/
+        RulerHelper.applyDuplicated(habitus, FileConfig.CFG_KEY, new JsonObject());
     }
 
     // ~ Methods =============================================

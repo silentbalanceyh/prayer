@@ -52,7 +52,7 @@ public final class UniqueViolater extends AbstractViolater implements Violater {
         final JsonArray filters = this.mergeFilters(habitus.filter());
         /** **/
         AbstractSchemaException error = null;
-        final JsonObject ret = VHelper.calculate(data, filters, VCondition::neq);
+        final JsonObject ret = VExecutor.execute(data, filters, VCondition::neq);
         if (null != ret) {
             error = this.error(rule, new Object[] {}, addtional, extractField(ret, null));
         }

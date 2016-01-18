@@ -45,7 +45,7 @@ public final class DuplicatedViolater extends AbstractViolater implements Violat
         final JsonArray data = habitus.data();
         /** **/
         AbstractSchemaException error = null;
-        final String ret = VHelper.calculate(data, configs, VCondition::duplicated);
+        final String ret = VExecutor.execute(data, configs, VCondition::duplicated);
         if (null != ret) {
             final Object[] arguments = new Object[] { this.rule.position() + " -> " + ret };
             // **：记得传第四参数

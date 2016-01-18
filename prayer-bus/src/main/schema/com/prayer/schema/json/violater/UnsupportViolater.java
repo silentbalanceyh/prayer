@@ -53,7 +53,7 @@ public final class UnsupportViolater extends AbstractViolater implements Violate
         /**
          * expectes为所有支持的元素，则必须包含所有fields中出现过的元素
          */
-        final Object attr = VHelper.calculate(expectes, fields, VCondition::nin);
+        final Object attr = VExecutor.execute(expectes, fields, VCondition::nin);
         if (null != attr) {
             final Object[] arguments = new Object[] { this.rule.position() + " -> " + attr };
             error = this.error(rule, arguments, null);

@@ -50,7 +50,7 @@ public final class InViolater extends AbstractViolater implements Violater {
         /**
          * 先检查in是否OK，如果为null表示OK，已经存在，则不进行Patterns匹配
          */
-        String key = VHelper.calculate(values, expectes, VCondition::nin);
+        String key = VExecutor.map(values, expectes, VCondition::nin);
         if (null != key) {
             /**
              * 操作失败，直接返回Error

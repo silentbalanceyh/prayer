@@ -55,7 +55,7 @@ public final class RequiredViolater extends AbstractViolater implements Violater
         /**
          * fields中必须包含所有expectes的元素，即required的基础条件
          */
-        final Object attr = VHelper.calculate(fields, expectes, VCondition::nin);
+        final Object attr = VExecutor.execute(fields, expectes, VCondition::nin);
         if (null != attr) {
             final Object[] arguments = new Object[] { this.rule.position() + " -> " + attr };
             error = this.error(rule, arguments, null);

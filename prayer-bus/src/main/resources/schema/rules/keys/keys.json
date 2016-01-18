@@ -21,7 +21,7 @@
     },
     "jetype":{
         "value":{
-            "columns":"JsonObject"
+            "columns":"String"
         },
         "error":{
             "name":"JsonTypeConfusedException"
@@ -53,6 +53,16 @@
         },
         "error":{
             "name":"PatternNotMatchException"
+        }
+    },
+    "duplicated":{
+        "value":[
+            "name"
+        ],
+        "errors":{
+            "name":{
+                "name":"DuplicatedKeyException"
+            }
         }
     }
 }
