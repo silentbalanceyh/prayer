@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.constant.Accessors;
+import com.prayer.constant.DBConstants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.exception.system.JsonParserException;
@@ -90,8 +91,11 @@ public class AbstractVerifierTestCase {
 
     /** 删除表 **/
     protected void purgeTable(final String table) {
-        if (null == validator().verifyTable(table)) {
-            this.connection().executeBatch("DROP TABLE " + table + ";");
+        // TODO: 目前只有SQL模式才检查
+        if (Resources.DB_MODE.equals(DBConstants.MODE_SQL)) {
+            if (null == validator().verifyTable(table)) {
+                this.connection().executeBatch("DROP TABLE " + table + ";");
+            }
         }
     }
 

@@ -60,7 +60,7 @@
             "name":"muk1",
             "type":"StringType",
             "columnType":"STRING1",
-            "unique":false,
+            "unique":true,
             "nullable":false,
             "length":256
         },
@@ -69,7 +69,7 @@
             "name":"muk2",
             "type":"StringType",
             "columnType":"STRING1",
-            "unique":false,
+            "unique":true,
             "nullable":false,
             "length":256
         },

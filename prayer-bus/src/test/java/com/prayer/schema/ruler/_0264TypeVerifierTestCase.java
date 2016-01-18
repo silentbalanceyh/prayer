@@ -11,7 +11,7 @@ import com.prayer.constant.Resources;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 
 /** **/
-public class _0224TypeVerifierTestCase extends AbstractVerifierTestCase {
+public class _0264TypeVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -19,11 +19,10 @@ public class _0224TypeVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    // ~ Methods =============================================
     @After
     public void setDown() {
         // 如果存在该表就删除
-        this.purgeTable("TST_SUB_ROLE2");
+        this.purgeTable("TST_SUB_TST1");
     }
 
     /**
@@ -31,20 +30,21 @@ public class _0224TypeVerifierTestCase extends AbstractVerifierTestCase {
      * @throws AbstractSchemaException
      */
     @Test(expected = BTColumnTypeInvalidException.class)
-    public void testP232FKey1Target10030() throws AbstractException {
+    public void testP35Cross5Attr10030() throws AbstractException {
         // TODO: 目前只有SQL模式才检查
         if (Resources.DB_MODE.equals(DBConstants.MODE_SQL)) {
             int ret = Constants.RC_FAILURE;
             // 创建子表，防止10027
-            if (null != validator().verifyTable("TST_SUB_ROLE2")) {
-                ret = this.connection().executeBatch("CREATE TABLE TST_SUB_ROLE2( R_ID BIGINT PRIMARY KEY );");
+            if (null != validator().verifyTable("TST_SUB_TST1")) {
+                ret = this.connection().executeBatch("CREATE TABLE TST_SUB_TST1( K_ID BIGINT PRIMARY KEY );");
             }
             if (Constants.RC_SUCCESS == ret) {
-                testImport("rels/P0213field-FkCType10030-1.json");
+                testImport("zkeys/P035cross-10024-5.json");
                 failure("[E10030] Target column data type is invalid please verify the result!");
             }
         }
     }
+    // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

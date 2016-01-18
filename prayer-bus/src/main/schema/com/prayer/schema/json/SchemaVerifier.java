@@ -91,6 +91,12 @@ public class SchemaVerifier implements Verifier {
              * 9.Cross验证
              */
             verifyCross(data);
+            /**
+             * 10.Index的验证，仅仅包含了该节点的时候验证
+             */
+            if (data.containsKey(Attributes.R_INDEXES)) {
+                verifyIndexes(data);
+            }
         } catch (AbstractSchemaException ex) {
             peError(LOGGER, ex);
             error = ex;
@@ -100,6 +106,10 @@ public class SchemaVerifier implements Verifier {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private void verifyIndexes(final JsonObject data) throws AbstractSchemaException {
+        // TODO: __indexes__
+    }
 
     private void verifyCross(final JsonObject data) throws AbstractSchemaException {
         /**

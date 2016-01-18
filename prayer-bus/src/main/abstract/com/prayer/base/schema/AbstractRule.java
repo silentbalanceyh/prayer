@@ -3,9 +3,6 @@ package com.prayer.base.schema;
 import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.jvmError;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import org.slf4j.Logger;
 
 import com.prayer.constant.Constants;
@@ -32,8 +29,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public abstract class AbstractRule {
     // ~ Static Fields =======================================
-    /** **/
-    private static final ConcurrentMap<String, JsonObject> RULE_MAP = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     /** **/
     private transient JsonObject config;
@@ -71,12 +66,7 @@ public abstract class AbstractRule {
         JsonObject config = null;
         if (null != content) {
             try {
-                JsonObject rules = RULE_MAP.get(file);
-                if (null == rules) {
-                    rules = new JsonObject(content);
-                    debug(getLogger(), "[RULE] " + file);
-                    RULE_MAP.put(file, rules);
-                }
+                JsonObject rules = new JsonObject(content);
                 if (rules.containsKey("debug")) {
                     this.position = rules.getString("debug");
                 }

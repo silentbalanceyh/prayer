@@ -57,10 +57,34 @@ public final class CrossRuler implements Ruler {
         applyColumns();
         /** 9.3. 验证属性的次数是否匹配 **/
         applyAttrTimes(habitus);
+        /** 9.4. 验证最后SubType的类型 **/
+        applySubType(habitus);
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private void applySubType(final ObjectHabitus habitus) throws AbstractSchemaException {
+        /** 查找Column类型 **/
+        final List<ObjectHabitus> objects = this.fields.objects();
+        String colType = "";
+        for (final ObjectHabitus item : objects) {
+
+            Boolean isPK = false;
+            if (null != item.get(Attributes.F_PK)) {
+                isPK = Boolean.parseBoolean(item.get(Attributes.F_PK).toString());
+            }
+            if (isPK) {
+                colType = item.get(Attributes.F_COL_TYPE).toString();
+            }
+        }
+        /** 转换ObjectHabitus **/
+        final JsonObject data = new JsonObject();
+        data.put("type", colType);
+        data.put(Attributes.M_SUB_TABLE, habitus.get(Attributes.M_SUB_TABLE).toString());
+        data.put(Attributes.M_SUB_KEY, habitus.get(Attributes.M_SUB_KEY).toString());
+        RulerHelper.applyDBType(new JObjectHabitus(data), FileConfig.CFG_CDBT);
+    }
 
     // ~ Attributes ==========================================
     private void applyAttrTimes(final ObjectHabitus habitus) throws AbstractSchemaException {
@@ -71,6 +95,7 @@ public final class CrossRuler implements Ruler {
             for (final Object column : columns) {
                 if (null != column) {
                     final ObjectHabitus complexHabitus = wrapperHabitus(column.toString(), category, columns.size());
+
                     RulerHelper.applyUnique(complexHabitus, FileConfig.CFG_CATT);
                 }
             }
@@ -105,7 +130,7 @@ public final class CrossRuler implements Ruler {
             ret = "foreignkey";
             break;
         case UniqueKey:
-            ret = "uniquekey";
+            ret = "unique";
             break;
         }
         return ret;

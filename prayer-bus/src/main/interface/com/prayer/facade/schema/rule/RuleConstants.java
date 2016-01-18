@@ -154,6 +154,8 @@ public interface RuleConstants {
         String CFG_CCOL = "cross/column";
         /** Attribute **/
         String CFG_CATT = "cross/attrs";
+        /** Attribute **/
+        String CFG_CDBT = "cross/dbtype";
     }
 
     /** **/
