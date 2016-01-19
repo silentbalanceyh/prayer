@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.KeyCategory;
-import com.prayer.facade.entity.Entity;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEIndex;
@@ -58,13 +58,6 @@ public final class JsonSchema implements Schema {
     @Override
     public Set<String> getColumns() {
         return this.fields.values().stream().map(PEField::getColumnName).collect(Collectors.toSet());
-    }
-
-    /** **/
-    @Override
-    public PEField getColumn(@NotNull @NotBlank @NotEmpty String column) {
-        return this.fields.values().stream().filter(field -> StringKit.equals(field.getColumnName(), column))
-                .collect(Collectors.toList()).get(Constants.IDX);
     }
 
     /** **/
@@ -121,7 +114,7 @@ public final class JsonSchema implements Schema {
 
     /** 从Schema中读取PEMeta **/
     @Override
-    public Entity meta() {
+    public PEMeta meta() {
         return this.meta;
     }
 
@@ -135,7 +128,7 @@ public final class JsonSchema implements Schema {
 
     /** 从Schema中读取PEKey集合 **/
     @Override
-    public Entity[] keys() {
+    public PEKey[] keys() {
         return this.keys.values().toArray(new PEKey[] {});
     }
 
@@ -153,7 +146,7 @@ public final class JsonSchema implements Schema {
 
     /** 从Schema中读取PEField集合 **/
     @Override
-    public Entity[] fields() {
+    public PEField[] fields() {
         return this.fields.values().toArray(new PEField[] {});
     }
 
@@ -174,6 +167,37 @@ public final class JsonSchema implements Schema {
     @Override
     public String identifier() {
         return this.identifier;
+    }
+
+    /** Table **/
+    @Override
+    public String getTable() {
+        return this.meta.getTable();
+    }
+
+    /** Policy **/
+    @Override
+    public MetaPolicy getPolicy() {
+        return this.meta.getPolicy();
+    }
+
+    /** 所有字段名集合 **/
+    @Override
+    public Set<String> fieldNames() {
+        return this.fields.values().stream().map(PEField::getName).collect(Collectors.toSet());
+    }
+
+    /** **/
+    @Override
+    public PEField getColumn(@NotNull @NotBlank @NotEmpty final String column) {
+        return this.fields.values().stream().filter(field -> StringKit.equals(field.getColumnName(), column))
+                .collect(Collectors.toList()).get(Constants.IDX);
+    }
+
+    /** **/
+    @Override
+    public PEField getField(@NotNull @NotBlank @NotEmpty final String field) {
+        return this.fields.get(field);
     }
 
     // ~ Methods =============================================

@@ -57,7 +57,7 @@ import net.sf.oval.guard.PostValidateThis;
  */
 @Guarded
 @SuppressWarnings("unchecked")
-public abstract class AbstractMDaoImpl <T extends AbstractEntity, ID extends Serializable> implements RecordDao { // NOPMD
+public abstract class AbstractMDaoImpl <T extends AbstractEntity<String>, ID extends Serializable> implements RecordDao { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -75,7 +75,7 @@ public abstract class AbstractMDaoImpl <T extends AbstractEntity, ID extends Ser
 
     // ~ Abstract Methods ====================================
     /** Overwrite by sub class **/
-    public abstract MetaAccessor<T, ID> getDao();
+    public abstract MetaAccessor getDao();
 
     /** Entity **/
     public abstract T newT();

@@ -58,15 +58,10 @@ public final class SchemaDaoImpl implements SchemaDao {
         } else {
             accessor(PEMeta.class).insert(schema.meta());
         }
-        /** 3.删除之前的Keys和Fields **/
-        {
-            accessor(PEKey.class).deleteList(condition(schema));
-            accessor(PEField.class).deleteList(condition(schema));
-        }
-        /** 4.插入Keys和Fields **/
+        /** 3.插入Keys和Fields **/
         accessor(PEKey.class).insert(schema.keys());
         accessor(PEField.class).insert(schema.fields());
-        /** 5.如果没有任何异常抛出则可直接插入成功 **/
+        /** 4.如果没有任何异常抛出则可直接插入成功 **/
         return schema;
     }
 
@@ -131,16 +126,33 @@ public final class SchemaDaoImpl implements SchemaDao {
     /** 执行save之前的准备工作 **/
     private boolean completeData(final Schema schema) throws AbstractTransactionException {
         boolean isUpdate = false;
-        /** 1.判断schema的Id信息 **/
-        Serializable metaId = schema.totem();
-        if (null == metaId) {
+        /** 1.判断是Insert还是Update **/
+        assert (null != schema.identifier()) : "";
+        final Schema selected = this.get(schema.identifier());
+        Serializable metaId = null;
+        if (null == selected) {
             debug(LOGGER, "[SCH] Go to creating process...");
-            metaId = schema.totem(uuid());
+            /** 2.1.1.判断schema的Id信息 **/
+            metaId = schema.totem();
+            if (null == metaId) {
+                metaId = schema.totem(uuid());
+            }
+            isUpdate = false;
         } else {
             debug(LOGGER, "[SCH] Go to updating process...");
+            /** 2.2.1.删除之前的Keys和Fields **/
+            {
+                accessor(PEKey.class).deleteList(condition(selected));
+                accessor(PEField.class).deleteList(condition(selected));
+            }
+            /** 2.2.2.使用selected作为最新的metaId **/
+            metaId = selected.totem();
+            // 将Selected中的数据同步到传入的Schema里
+            schema.totem(metaId);
             isUpdate = true;
         }
-        /** 2.刷新所有Keys，Fields对应的MetaId **/
+
+        /** 3.刷新所有Keys，Fields对应的MetaId **/
         schema.synchronize(metaId);
         return isUpdate;
     }

@@ -18,7 +18,7 @@ import com.prayer.facade.schema.Schema;
  * @author Lang
  *
  */
-public class SchemaDaoTestCase {
+public class SchemaUpdateTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -30,7 +30,7 @@ public class SchemaDaoTestCase {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public SchemaDaoTestCase() {
+    public SchemaUpdateTestCase() {
         this.importer = singleton(CommuneImporter.class);
         this.dao = singleton(SchemaDaoImpl.class);
     }
@@ -39,41 +39,30 @@ public class SchemaDaoTestCase {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /**
-     * 创建Schema的方法
-     */
-    @Test
-    public void testSchemaSave() throws AbstractException {
-        /** 1.Schema基础操作 **/
-        final Schema schema = this.importer.readFrom("/schema/system/data/json/role.json");
-        if (null != schema) {
-            /** 2.插入新的Schema **/
-            final Schema inserted = this.dao.save(schema);
-            assertEquals(schema, inserted);
-            /** 3.删除插入的Schema **/
-            this.dao.delete(inserted.identifier());
-        } else {
-            fail("[ERR] Importing met error.");
-        }
-    }
-
-    /**
-     * 读取Schema的方法
      * 
-     * @throws AbstractException
      */
     @Test
-    public void testSchemaGet() throws AbstractException {
+    public void testSchemaUpdate() throws AbstractException {
         /** 1.Schema基础操作 **/
-        final Schema schema = this.importer.readFrom("/schema/system/data/json/role.json");
-        if (null != schema) {
-            /** 2.从系统中读取Schema **/
-            final Schema inserted = this.dao.save(schema);
-            final Schema selected = this.dao.get(schema.identifier());
-            assertEquals(inserted, selected);
-            /** 3.删除插入的Schema **/
+        final Schema oldSchema = this.importer.readFrom("/schema/data/json/validation/P012meta-schema1-from.json");
+        if (null != oldSchema) {
+            /** 2.插入一条新的Schema **/
+            final Schema inserted = this.dao.save(oldSchema);
+            assertEquals(oldSchema, inserted);
+            /** 3.读取一条新的Schema **/
+            final Schema newSchema = this.importer.readFrom("/schema/data/json/validation/P012meta-schema1-to.json");
+            if (null != newSchema) {
+                final Schema updated = this.dao.save(newSchema);
+                /** 4.从系统中读取最新的Schema **/
+                final Schema selected = this.dao.get(newSchema.identifier());
+                assertEquals(selected, updated);
+            } else {
+                fail("[ERR] Importing met error.(NEW)");
+            }
+            /** 5.删除系统中的数据 **/
             this.dao.delete(inserted.identifier());
         } else {
-            fail("[ERR] Importing met error.");
+            fail("[ERR] Importing met error.(OLD)");
         }
     }
     // ~ Private Methods =====================================

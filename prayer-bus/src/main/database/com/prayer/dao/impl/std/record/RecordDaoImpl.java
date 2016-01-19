@@ -14,7 +14,7 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -60,7 +60,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @InstanceOf(Record.class)
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record insert(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+    public Record insert(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
             throws AbstractDatabaseException {
         return this.dao.insert(record);
     }
@@ -71,7 +71,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @InstanceOf(Record.class)
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record update(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+    public Record update(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
             throws AbstractDatabaseException {
         return this.dao.update(record);
     }
@@ -82,7 +82,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @InstanceOf(Record.class)
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record selectById(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
+    public Record selectById(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
             @NotNull @InstanceOf(Value.class) final Value<?> uniqueId) throws AbstractDatabaseException {
         return this.dao.selectById(record, uniqueId);
     }
@@ -93,7 +93,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @InstanceOf(Record.class)
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record selectById(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
+    public Record selectById(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
             @NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException {
         return this.dao.selectById(record, uniqueIds);
     }
@@ -103,7 +103,7 @@ public class RecordDaoImpl implements RecordDao {
      */
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public boolean delete(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+    public boolean delete(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
             throws AbstractDatabaseException {
         return this.dao.delete(record);
     }
@@ -115,7 +115,7 @@ public class RecordDaoImpl implements RecordDao {
      */
     @Override
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public boolean purge(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+    public boolean purge(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
             throws AbstractDatabaseException{
         return this.dao.purge(record);
     }
@@ -132,7 +132,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @NotNull
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public List<Record> queryByFilter(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
+    public List<Record> queryByFilter(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params,
             @InstanceOf(Expression.class) final Expression filters) throws AbstractDatabaseException {
         return this.dao.queryByFilter(record, columns, params, filters);
@@ -151,7 +151,7 @@ public class RecordDaoImpl implements RecordDao {
     @Override
     @NotNull
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public List<Record> queryByFilter(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
+    public List<Record> queryByFilter(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params,
             @InstanceOf(Expression.class) final Expression filters,
             @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders) throws AbstractDatabaseException {
@@ -173,7 +173,7 @@ public class RecordDaoImpl implements RecordDao {
     @NotNull
     @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<Long, List<Record>> queryByPage(
-            @NotNull @InstanceOfAny(GenericRecord.class) final Record record, @NotNull final String[] columns,
+            @NotNull @InstanceOfAny(DataRecord.class) final Record record, @NotNull final String[] columns,
             final List<Value<?>> params, final @InstanceOf(Expression.class) Expression filters,
             @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders,
             @NotNull @InstanceOfAny(Pager.class) final Pager pager) throws AbstractDatabaseException {

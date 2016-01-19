@@ -18,7 +18,7 @@ import com.prayer.facade.bus.DataService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.record.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.util.bus.RecordSerializer;
 import com.prayer.util.io.IOKit;
 
@@ -58,7 +58,7 @@ public class DataSevImpl implements DataService, OOBPaths {
         final ServiceResult<Boolean> result = new ServiceResult<>();
         try {
             // 1.只针对GenericRecord
-            final Record record = instance(GenericRecord.class.getName(), identifier);
+            final Record record = instance(DataRecord.class.getName(), identifier);
             // 2.有了这个record过后就可以了，里面会得到schema信息
             this.dao.purge(record);
         } catch (AbstractDatabaseException ex) {
@@ -92,7 +92,7 @@ public class DataSevImpl implements DataService, OOBPaths {
                     final Object item = data.getValue(idx);
                     if (JsonObject.class == item.getClass()) {
                         // 6.将JsonObject序列化成对应的对象
-                        final Record record = this.serializer.encloseRecord(identifier, GenericRecord.class,
+                        final Record record = this.serializer.encloseRecord(identifier, DataRecord.class,
                                 data.getJsonObject(idx));
                         this.dao.insert(record);
                     }

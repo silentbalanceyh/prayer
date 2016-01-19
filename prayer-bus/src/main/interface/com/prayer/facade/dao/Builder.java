@@ -2,7 +2,7 @@ package com.prayer.facade.dao;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Symbol;
-import com.prayer.model.crucial.GenericSchema;
+import com.prayer.facade.schema.Schema;
 
 /**
  * 元数据构造表的接口
@@ -10,7 +10,7 @@ import com.prayer.model.crucial.GenericSchema;
  * @author Lang
  *
  */
-public interface Builder extends Symbol{
+public interface Builder extends Symbol {
     /**
      * 创建数据表
      * 
@@ -30,7 +30,7 @@ public interface Builder extends Symbol{
      * 
      * @param schema
      */
-    boolean syncTable(GenericSchema schema);
+    boolean syncTable(Schema schema);
 
     /**
      * 删除数据表
@@ -38,8 +38,10 @@ public interface Builder extends Symbol{
      * @param schema
      */
     boolean purgeTable();
+
     /**
      * 获取执行步骤中的Exception
+     * 
      * @return
      */
     AbstractDatabaseException getError();

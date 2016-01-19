@@ -56,7 +56,6 @@ public class ImporterTestCase {
     public void testImporting() throws AbstractException {
         final Schema expected = this.getSchema();
         final Schema actual = this.importer.readFrom("/importer/serializer/role.json");
-        expected.equals(actual);
         debug(LOGGER, actual.toString());
         assertEquals(expected, actual);
     }

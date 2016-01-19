@@ -1,8 +1,9 @@
-package com.prayer.bus.impl.std;
+package com.prayer.bus.impl.schema;
 
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.reservoir;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,15 +15,16 @@ import com.prayer.constant.Accessors;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
+import com.prayer.dao.impl.schema.CommuneImporter;
+import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.dao.Builder;
+import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
-import com.prayer.facade.schema.OldImporter;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericSchema;
-import com.prayer.schema.old.json.CommunionImporter;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
@@ -53,7 +55,7 @@ public class SchemaSevImpl implements SchemaService {
     /** **/
     @PostValidateThis
     public SchemaSevImpl() {
-        // this.dao = singleton(SchemaDaoImpl.class);
+        this.dao = singleton(SchemaDaoImpl.class);
     }
 
     // ~ Abstract Methods ====================================
@@ -64,18 +66,14 @@ public class SchemaSevImpl implements SchemaService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<GenericSchema> syncSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
-        final OldImporter oldImporter = this.getImporter(filePath);
-        final ServiceResult<GenericSchema> result = new ServiceResult<>();
+    public ServiceResult<Schema> syncSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
+        final Importer importer = reservoir(MemoryPool.POOL_IMPORTER, filePath, CommuneImporter.class, filePath);
+        final ServiceResult<Schema> result = new ServiceResult<>();
         try {
-            // 1.读取filePath -> AbstractSystemException
-            oldImporter.readSchema();
-            // 2.验证Schema文件流程
-            oldImporter.ensureSchema();
-            // 3.转换Schema文件
-            final GenericSchema schema = oldImporter.transformSchema();
-            // 4.因为importer中已经检查过，所以不需要再检查
-            oldImporter.syncSchema(schema);
+            /** 1.读取Schema信息，从Json到H2中 **/
+            final Schema schema = importer.readFrom(filePath);
+            /** 2.将读取到的schema存如到H2 Database中 **/
+            this.dao.save(schema);
             // 5.成功代码
             result.success(schema);
             info(LOGGER, InfoKey.INF_DP_STEP1, filePath, Resources.META_CATEGORY);
@@ -99,18 +97,18 @@ public class SchemaSevImpl implements SchemaService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<GenericSchema> syncMetadata(@NotNull final GenericSchema schema) {
+    public ServiceResult<Schema> syncMetadata(@NotNull final Schema schema) {
         // 使用池化单件模式，每一个ID的Schema拥有一个Builder
-        final Builder builder = reservoir(MemoryPool.POOL_BUILDER, schema.getIdentifier(), Accessors.builder(), schema);
+        final Builder builder = reservoir(MemoryPool.POOL_BUILDER, schema.identifier(), Accessors.builder(), schema);
         if (builder.existTable()) {
             builder.syncTable(schema);
         } else {
             builder.createTable();
         }
         // 如果有错误则getError()就不是null值则会导致Build异常
-        final ServiceResult<GenericSchema> result = new ServiceResult<>();
+        final ServiceResult<Schema> result = new ServiceResult<>();
         if (null == builder.getError()) {
-            info(LOGGER, InfoKey.INF_DP_STEP2, schema.getIdentifier(), Resources.META_CATEGORY, Resources.DB_CATEGORY);
+            info(LOGGER, InfoKey.INF_DP_STEP2, schema.identifier(), Resources.META_CATEGORY, Resources.DB_CATEGORY);
             result.success(schema);
         } else {
             result.failure(builder.getError());
@@ -122,13 +120,18 @@ public class SchemaSevImpl implements SchemaService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<GenericSchema> findSchema(@NotNull @NotEmpty @NotBlank final String identifier) {
-        final GenericSchema schema = this.dao.getById(identifier);
-        final ServiceResult<GenericSchema> result = new ServiceResult<>();
-        if (null == schema) {
-            result.failure(new SchemaNotFoundException(getClass(), identifier));
-        } else {
-            result.success(schema);
+    public ServiceResult<Schema> findSchema(@NotNull @NotEmpty @NotBlank final String identifier) {
+        final ServiceResult<Schema> result = new ServiceResult<>();
+        try {
+            final Schema schema = this.dao.get(identifier);
+            if (null == schema) {
+                result.failure(new SchemaNotFoundException(getClass(), identifier));
+            } else {
+                result.success(schema);
+            }
+        } catch (AbstractTransactionException ex) {
+            peError(LOGGER, ex);
+            result.failure(ex);
         }
         return result;
     }
@@ -140,7 +143,7 @@ public class SchemaSevImpl implements SchemaService {
     public ServiceResult<Boolean> removeSchema(@NotNull @NotEmpty @NotBlank final String identifier) {
         final ServiceResult<Boolean> result = new ServiceResult<>();
         try {
-            final Boolean ret = this.dao.deleteById(identifier);
+            final Boolean ret = this.dao.delete(identifier);
             result.success(ret);
         } catch (AbstractTransactionException ex) {
             peError(LOGGER, ex);
@@ -151,19 +154,6 @@ public class SchemaSevImpl implements SchemaService {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    /**
-     * 注意Importer本身的刷新流程，根据文件路径刷新了filePath
-     **/
-    private OldImporter getImporter(final String filePath) {
-        OldImporter oldImporter = MemoryPool.POOL_IMPORTER.get(filePath);
-        if (null == oldImporter) {
-            oldImporter = reservoir(MemoryPool.POOL_IMPORTER, filePath, CommunionImporter.class, filePath);
-        } else {
-            oldImporter.refreshSchema(filePath);
-        }
-        return oldImporter;// instance(CommunionImporter.class.getName(),
-                        // filePath);
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

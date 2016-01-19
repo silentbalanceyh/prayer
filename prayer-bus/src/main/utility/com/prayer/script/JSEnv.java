@@ -10,7 +10,7 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -56,7 +56,7 @@ public class JSEnv implements Serializable {
         if (Constants.ZERO == ids.length) {
             refR = this.record;
         } else if (Constants.ZERO < ids.length) {
-            refR = new GenericRecord(ids[Constants.ZERO]);
+            refR = new DataRecord(ids[Constants.ZERO]);
         }
         return refR;
     }

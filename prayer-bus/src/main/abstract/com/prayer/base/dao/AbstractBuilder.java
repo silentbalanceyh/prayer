@@ -17,7 +17,7 @@ import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.facade.dao.Builder;
 import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.model.crucial.GenericSchema;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
@@ -52,8 +52,8 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
     private transient final List<String> sqlLines;
     /** Metadata对象 **/
     @NotNull
-    @InstanceOfAny(GenericSchema.class)
-    private transient final GenericSchema schema; // NOPMD
+    @InstanceOf(Schema.class)
+    private transient final Schema schema; // NOPMD
     /** 构建过程中的Error信息 **/
     private transient AbstractDatabaseException error;
 
@@ -65,8 +65,8 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @param schema
      */
     @PostValidateThis
-    public AbstractBuilder(@AssertFieldConstraints("schema") final GenericSchema schema) {
-        this.context = reservoir(MemoryPool.POOL_JDBC, schema.getIdentifier(), RecordConnImpl.class);
+    public AbstractBuilder(@AssertFieldConstraints("schema") final Schema schema) {
+        this.context = reservoir(MemoryPool.POOL_JDBC, schema.identifier(), RecordConnImpl.class);
         this.sqlLines = new ArrayList<>();
         this.schema = schema;
     }
@@ -262,8 +262,8 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
     @Pre(expr = "_this.schema != null", lang = Constants.LANG_GROOVY)
     protected String getTable() {
         String table = null;
-        if (null != this.schema.getMeta()) {
-            table = this.schema.getMeta().getTable();
+        if (null != this.schema.meta()) {
+            table = this.schema.getTable();
         }
         return table;
     }
@@ -280,7 +280,7 @@ public abstract class AbstractBuilder implements Builder { // NOPMD
      * @return the schema
      */
     @NotNull
-    protected GenericSchema getSchema() {
+    protected Schema getSchema() {
         return schema;
     }
 

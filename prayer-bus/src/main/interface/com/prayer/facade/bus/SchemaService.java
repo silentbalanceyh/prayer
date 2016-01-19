@@ -1,7 +1,7 @@
 package com.prayer.facade.bus;
 
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericSchema;
 
 /**
  * 
@@ -11,32 +11,40 @@ import com.prayer.model.crucial.GenericSchema;
 public interface SchemaService {
     /**
      * Json文件 -> H2 Database
-     * 1. Add Schema
-     * 2. Save Schema
+     * 
      * @param filePath
      * @return
      */
-    ServiceResult<GenericSchema> syncSchema(String filePath);
+    // 1. 从JSON文件中读取Schema
+    // 2. 将读取到的Schema插入到H2 Database中
+    ServiceResult<Schema> syncSchema(String filePath);
+
     /**
      * H2 Database -> SQL Database
-     * 1. Add Metadata
-     * 2. Save Metadata
+     * 
      * @param schema
      * @return
      */
-    ServiceResult<GenericSchema> syncMetadata(GenericSchema schema);
+    // 1. 传入Schema同步数据从H2 Database到SQL Database中
+    // 2. 同步成功过后返回同步的Schema
+    ServiceResult<Schema> syncMetadata(Schema schema);
+
     /**
      * 从H2 Databsase中读取Schema定义信息
+     * 
      * @param identifier
      * @return
      */
-    ServiceResult<GenericSchema> findSchema(final String identifier);
+    // 1. 根据identifier读取Schema信息
+    ServiceResult<Schema> findSchema(String identifier);
+
     /**
      * 从H2 Database中删除Schema定义信息
-     * 1.删除H2 Database中的数据
-     * 2.删除数据库中的数据
+     * 
      * @param identifier
      * @return
      */
-    ServiceResult<Boolean> removeSchema(final String identifier);
+    // 1. 删除H2 Database的数据
+    // 2. 删除数据库中的表数据
+    ServiceResult<Boolean> removeSchema(String identifier);
 }

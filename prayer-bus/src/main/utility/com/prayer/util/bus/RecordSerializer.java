@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.bus.impl.std.SchemaSevImpl;
+import com.prayer.bus.impl.schema.SchemaSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.SchemaService;

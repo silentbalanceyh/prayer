@@ -8,7 +8,7 @@ import com.prayer.bus.impl.deploy.RuleDPSevImpl;
 import com.prayer.bus.impl.deploy.ScriptDPSevImpl;
 import com.prayer.bus.impl.deploy.UriDPSevImpl;
 import com.prayer.bus.impl.deploy.VerticleDPSevImpl;
-import com.prayer.bus.impl.std.SchemaSevImpl;
+import com.prayer.bus.impl.schema.SchemaSevImpl;
 import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.bus.deploy.AddressDPService;
 import com.prayer.facade.bus.deploy.RouteDPService;

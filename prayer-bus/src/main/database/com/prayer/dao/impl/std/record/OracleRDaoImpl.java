@@ -24,7 +24,7 @@ import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.record.Record;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.util.exception.Interrupter.Policy;
 import com.prayer.util.exception.Interrupter.PrimaryKey;
@@ -273,7 +273,7 @@ final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
 	 * @throws AbstractDatabaseException
 	 */
 	private boolean oracleInsert(
-			@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+			@NotNull @InstanceOfAny(DataRecord.class) final Record record)
 			throws AbstractDatabaseException {
 		// ERR：检查主键定义
 		PrimaryKey.interrupt(getClass(), record.identifier(), record.idschema()

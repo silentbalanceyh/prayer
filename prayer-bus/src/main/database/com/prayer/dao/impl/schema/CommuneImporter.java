@@ -51,9 +51,13 @@ public final class CommuneImporter implements Importer {
         /** 1.从路径中读取数据 **/
         final JsonObject data = this.readData(path);
         /** 2.验证这个Schema **/
-        this.verifier.verify(data);
+        AbstractSchemaException error = this.verifier.verify(data);
+        Schema schema = null;
+        if (null == error) {
+            schema = SchemaBuilder.create().build(data);
+        }
         /** 3.Schema的验证通过，直接构造Schema **/
-        return SchemaBuilder.create().build(data);
+        return schema;
     }
     // ~ Private Methods =====================================
 

@@ -1,6 +1,11 @@
 package com.prayer.base.plugin;
 
-import com.prayer.model.crucial.GenericSchema;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.prayer.constant.Constants;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.DataType;
 import com.prayer.util.reflection.Instance;
@@ -17,6 +22,7 @@ public abstract class AbstractValidatorAspect { // NOPMD
             DataType.SCRIPT };
     /** 数值类型 **/
     protected static final DataType[] T_NUMBER = new DataType[] { DataType.INT, DataType.LONG };
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -26,10 +32,12 @@ public abstract class AbstractValidatorAspect { // NOPMD
     // ~ Methods =============================================
     /** **/
     protected PEField getField(final Object instance, final String field) {
-        final GenericSchema schema = Instance.field(instance, "_schema");
+        final Schema schema = Instance.field(instance, "_schema");
         PEField fieldSchema = null;
         if (null != schema && null != field) {
-            fieldSchema = schema.getFields().get(field);
+            final List<PEField> fields = Arrays.asList(schema.fields());
+            fieldSchema = fields.stream().filter(item -> item.getName().equals(field)).collect(Collectors.toList())
+                    .get(Constants.IDX);
         }
         return fieldSchema;
     }

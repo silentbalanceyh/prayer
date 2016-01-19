@@ -27,7 +27,7 @@ import com.prayer.exception.database.NullableAlterException;
 import com.prayer.exception.database.UniqueAddException;
 import com.prayer.exception.database.UniqueAlterException;
 import com.prayer.facade.kernel.Referencer;
-import com.prayer.model.crucial.GenericSchema;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.crucial.schema.FKReferencer;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
@@ -36,6 +36,7 @@ import com.prayer.model.type.DataType;
 import com.prayer.util.jdbc.SqlDDL;
 import com.prayer.util.string.StringKit;
 
+import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -66,7 +67,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public MsSqlBuilder(@NotNull @InstanceOfAny(GenericSchema.class) final GenericSchema schema) {
+    public MsSqlBuilder(@NotNull @InstanceOf(Schema.class) final Schema schema) {
         super(schema);
         /**
          * 固定类型引用，调用了父类构造函数过后，Referencer就可以直接被初始化了
@@ -178,7 +179,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
      */
     @Override
     @PreValidateThis
-    public boolean syncTable(@NotNull final GenericSchema schema) {
+    public boolean syncTable(@NotNull final Schema schema) {
         final boolean exist = this.existTable();
         if (exist) {
             final String sql = this.genUpdateSql(schema);
@@ -212,7 +213,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private String genUpdateSql(final GenericSchema schema) {
+    private String genUpdateSql(final Schema schema) {
         // 1.清除SQL行
         this.getSqlLines().clear();
         // 没有表存在的时候：Fix Issue: Invalid object name 'XXXXX'.
@@ -261,8 +262,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         }
         // 6.添加约束
         {
-            final Collection<PEKey> keys = schema.getKeys().values();
-            for (final PEKey key : keys) {
+            for (final PEKey key : schema.keys()) {
                 if (KeyCategory.ForeignKey == key.getCategory()) {
                     final Iterator<String> columns = key.getColumns().iterator();
                     /**
@@ -291,7 +291,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     }
 
     private void genAlterColumnLines(final ConcurrentMap<StatusFlag, Collection<String>> statusMap,
-            final GenericSchema schema, final long rows) {
+            final Schema schema, final long rows) {
         final Collection<String> columns = statusMap.get(StatusFlag.UPDATE);
         for (final String column : columns) {
             final PEField field = schema.getColumn(column);
@@ -317,7 +317,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     }
 
     private void genAddColumnLines(final ConcurrentMap<StatusFlag, Collection<String>> statusMap,
-            final GenericSchema schema, final long rows) {
+            final Schema schema, final long rows) {
         final Collection<String> columns = statusMap.get(StatusFlag.ADD);
         for (final String column : columns) {
             final PEField field = schema.getColumn(column);
@@ -339,7 +339,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         }
     }
 
-    private ConcurrentMap<StatusFlag, Collection<String>> getStatusMap(final GenericSchema schema) {
+    private ConcurrentMap<StatusFlag, Collection<String>> getStatusMap(final Schema schema) {
         // 获取新列集合
         final Collection<String> newColumns = schema.getColumns();
         // 获取旧列集合
@@ -361,8 +361,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         }
         // 2.字段定义行
         {
-            final Collection<PEField> fields = this.getSchema().getFields().values();
-            for (final PEField field : fields) {
+            for (final PEField field : this.getSchema().fields()) {
                 if (!field.isPrimaryKey()) {
                     addSqlLine(this.genColumnLine(field));
                     // this.getSqlLines().add(this.genColumnLine(field));
@@ -371,8 +370,7 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
         }
         // 3.添加Unique/Primary Key约束
         {
-            final Collection<PEKey> keys = this.getSchema().getKeys().values();
-            for (final PEKey key : keys) {
+            for (final PEKey key : this.getSchema().keys()) {
                 /**
                  * INCREMENT已经在前边生成过主键行了，不需要重新生成
                  */
@@ -392,9 +390,9 @@ public class MsSqlBuilder extends AbstractBuilder implements SqlSegment { // NOP
     }
 
     private void genPrimaryKeyLines() {
-        final MetaPolicy policy = this.getSchema().getMeta().getPolicy();
+        final MetaPolicy policy = this.getSchema().meta().getPolicy();
         if (MetaPolicy.INCREMENT == policy) {
-            addSqlLine(this.genIdentityLine(this.getSchema().getMeta()));
+            addSqlLine(this.genIdentityLine(this.getSchema().meta()));
             // this.getSqlLines().add(this.genIdentityLine(getSchema().getMeta()));
         } else if (MetaPolicy.COLLECTION == policy) {
             final List<PEField> pkFields = this.getSchema().getPrimaryKeys();

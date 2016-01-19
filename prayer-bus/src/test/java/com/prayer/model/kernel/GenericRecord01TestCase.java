@@ -16,7 +16,7 @@ import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.type.StringType;
 
@@ -53,7 +53,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Override
     protected Class<?> getTarget() {
-        return GenericRecord.class;
+        return DataRecord.class;
     }
 
     /** **/
@@ -82,28 +82,28 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05073MConstructor() {
-        new GenericRecord(null);
+        new DataRecord(null);
         failure(TST_OVAL);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05074MConstructor() {
-        new GenericRecord("");
+        new DataRecord("");
         failure(TST_OVAL);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05075MConstructor() {
-        new GenericRecord("   ");
+        new DataRecord("   ");
         failure(TST_OVAL);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05076Mcolumn() throws AbstractDatabaseException{
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.column(null);
         failure(TST_OVAL);
     }
@@ -111,7 +111,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05077Mcolumn() throws AbstractDatabaseException{
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.column("");
         failure(TST_OVAL);
     }
@@ -119,7 +119,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05078Mcolumn() throws AbstractDatabaseException{
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.column("  ");
         failure(TST_OVAL);
     }
@@ -127,7 +127,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05079Mget() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.get(null);
         failure(TST_OVAL);
     }
@@ -135,7 +135,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05080Mget() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.get("");
         failure(TST_OVAL);
     }
@@ -143,7 +143,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05081Mget() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.get("  ");
         failure(TST_OVAL);
     }
@@ -151,7 +151,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05082Mset() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.set(null, "");
         failure(TST_OVAL);
     }
@@ -159,7 +159,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05083Mset() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.set("", "");
         failure(TST_OVAL);
     }
@@ -167,7 +167,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05084Mset() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.set("   ", "");
         failure(TST_OVAL);
     }
@@ -175,7 +175,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05085Mset() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.set(null, STR_VAL);
         failure(TST_OVAL);
     }
@@ -183,7 +183,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05086Mset() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.set("", STR_VAL);
         failure(TST_OVAL);
     }
@@ -191,28 +191,28 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
     public void testE05087Mset() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.set("   ", STR_VAL);
         failure(TST_OVAL);
     }
     /** **/
     @Test(expected = FieldInvalidException.class)
     public void testE05088Mset() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.set("ukxx88", STR_VAL);
         failure(TST_PR);
     }
     /** **/
     @Test(expected = FieldInvalidException.class)
     public void testE05089Mset() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.set("ukxx89", "");
         failure(TST_PR);
     }
     /** **/
     @Test(expected = FieldInvalidException.class)
     public void testE05090Mget() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.get("ukxx89");
         failure(TST_PR);
     }
@@ -220,7 +220,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Test(expected = ColumnInvalidException.class)
     public void testE05091Mcolumn() throws AbstractDatabaseException {
-        final Record record = new GenericRecord(IDENTIFIER);
+        final Record record = new DataRecord(IDENTIFIER);
         record.column("XXX");
         failure(TST_PR);
     }

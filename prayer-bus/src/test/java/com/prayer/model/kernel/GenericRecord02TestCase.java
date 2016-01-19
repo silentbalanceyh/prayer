@@ -19,7 +19,7 @@ import com.prayer.exception.validator.PrecisionFailureException;
 import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.facade.record.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.crucial.GenericSchema;
 import com.prayer.plugin.validator.MobileValidator;
 
@@ -52,7 +52,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Override
     protected Class<?> getTarget() {
-        return GenericRecord.class;
+        return DataRecord.class;
     }
 
     /** **/
@@ -76,7 +76,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = PatternFailureException.class)
     public void testT05059Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("uk1", "Ruler");
         } else {
             throw new PatternFailureException(getClass(), "Ruler", "uk1", null);
@@ -87,7 +87,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = NotNullFailureException.class)
     public void testT05060Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("uk1", "");
         } else {
             throw new NotNullFailureException(getClass(), "uk1");
@@ -98,7 +98,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = LengthFailureException.class)
     public void testT05061Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("muk1", "tst");
         } else {
             throw new LengthFailureException(getClass(), "Skip", "muk1", "NONE", "tst");
@@ -109,7 +109,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = LengthFailureException.class)
     public void testT05062Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("muk1", "lang.yu@hp.com");
         } else {
             throw new LengthFailureException(getClass(), "Skip", "muk1", "NONE", "lang.yu@hp.com");
@@ -120,7 +120,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = RangeFailureException.class)
     public void testT05063Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tint", "2");
         } else {
             throw new RangeFailureException(getClass(), "Skip", "tint", "NONE", "2");
@@ -131,7 +131,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = RangeFailureException.class)
     public void testT05064Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tint", "20000");
         } else {
             throw new RangeFailureException(getClass(), "Skip", "tint", "NONE", "20000");
@@ -142,7 +142,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = RangeFailureException.class)
     public void testT05065Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tlong", "2");
         } else {
             throw new RangeFailureException(getClass(), "Skip", "tlong", "NONE", "2");
@@ -153,7 +153,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = RangeFailureException.class)
     public void testT05066Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tlong", "223");
         } else {
             throw new RangeFailureException(getClass(), "Skip", "tlong", "NONE", "223");
@@ -164,7 +164,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = PrecisionFailureException.class)
     public void testT05067Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tdecimal", "781111211.34");
         } else {
             throw new PrecisionFailureException(getClass(), "tdecimal", "NONE", "NONE", "781111211.34");
@@ -175,7 +175,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = PrecisionFailureException.class)
     public void testT05068Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tdecimal", "73.3");
         } else {
             throw new PrecisionFailureException(getClass(), "tdecimal", "NONE", "NONE", "73.3");
@@ -186,7 +186,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     @Test(expected = CustomValidatorException.class)
     public void testT05069Mset() throws AbstractDatabaseException {
         if (Resources.DB_V_ENABLED) {
-            final Record record = instance(GenericRecord.class.getName(), IDENTIFIER);
+            final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tstring", "15922611448");
         } else {
             throw new CustomValidatorException(getClass(), MobileValidator.class.getName());

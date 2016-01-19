@@ -22,15 +22,13 @@ import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.Builder;
 import com.prayer.facade.dao.RecordDao;
+import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.record.Record;
-import com.prayer.facade.schema.OldImporter;
 import com.prayer.facade.schema.verifier.DataValidator;
-import com.prayer.model.crucial.GenericRecord;
-import com.prayer.model.crucial.GenericSchema;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
-import com.prayer.schema.old.json.CommunionImporter;
 
 import jodd.util.StringUtil;
 
@@ -44,7 +42,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     /** **/
     protected static final String BUILDER_FILE = "/schema/data/json/database/";
     /** **/
-    private static final ConcurrentMap<String, OldImporter> I_POOLS = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Importer> I_POOLS = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     /** **/
     private transient SchemaDao dao;
@@ -181,7 +179,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     /** **/
     protected Record getRecord(final String identifier) {
         this.recordDao = singleton(RecordDaoImpl.class);
-        final Record record = instance(GenericRecord.class.getName(), identifier);
+        final Record record = instance(DataRecord.class.getName(), identifier);
         for(final String field: record.fields().keySet()){
             try {
                 record.set(field, Assistant.generate(record.fields().get(field),false));

@@ -18,7 +18,7 @@ import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.type.StringType;
 
@@ -56,7 +56,7 @@ public class MsSqlDao05TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Override
     protected Class<?> getTarget() {
-        return GenericRecord.class;
+        return DataRecord.class;
     }
 
     /** **/

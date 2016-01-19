@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.bus.impl.std.SchemaSevImpl;
+import com.prayer.bus.impl.schema.SchemaSevImpl;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
@@ -17,7 +17,7 @@ import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.record.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.meta.database.PEField;
 
@@ -83,7 +83,7 @@ public abstract class AbstractRDaoTestTool extends AbstractTestTool {
 
     /** **/
     protected Record getRecord(final String identifier) {
-        final Record record = instance(GenericRecord.class.getName(), identifier);
+        final Record record = instance(DataRecord.class.getName(), identifier);
         for (final String field : record.fields().keySet()) {
             try {
                 record.set(field, Assistant.generate(record.fields().get(field), false));

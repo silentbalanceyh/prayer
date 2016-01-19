@@ -11,15 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
+import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.kernel.Transducer.V;
-import com.prayer.facade.record.Record;
 import com.prayer.facade.kernel.Value;
+import com.prayer.facade.record.Record;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.StringType;
@@ -41,10 +43,10 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
-public class GenericRecord implements Record { // NOPMD
+public class DataRecord implements Record { // NOPMD
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenericRecord.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataRecord.class);
     /** 前置条件 **/
     private static final String PRE_SCHEMA_CON = "_this._schema != null && _this.data != null";
     /** **/
@@ -57,7 +59,10 @@ public class GenericRecord implements Record { // NOPMD
     private transient final String _identifier; // NOPMD
     /** 和当前Record绑定的Schema引用 **/
     @NotNull
-    private transient GenericSchema _schema; // NOPMD
+    private transient Schema _schema; // NOPMD
+    /** 访问H2的Schema数据层接口 **/
+    @NotNull
+    private transient SchemaDao dao;
     /** 当前Record中的数据 **/
     @NotNull
     private transient final ConcurrentMap<String, Value<?>> data;
@@ -70,11 +75,11 @@ public class GenericRecord implements Record { // NOPMD
      * @param _identifier
      */
     @PostValidateThis
-    public GenericRecord(@AssertFieldConstraints(RULE_ID) final String identifier) {
+    public DataRecord(@AssertFieldConstraints(RULE_ID) final String identifier) {
         this._identifier = identifier.trim();
         try {
-            this._schema = SchemaLocator.getSchema(identifier.trim());
-        } catch (AbstractSystemException ex) {
+            this._schema = this.dao.get(identifier);
+        } catch (AbstractTransactionException ex) {
             this._schema = null; // NOPMD
             peError(LOGGER, ex);
         }
@@ -147,7 +152,7 @@ public class GenericRecord implements Record { // NOPMD
     @InstanceOfAny(MetaPolicy.class)
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public MetaPolicy policy() {
-        return this._schema.getMeta().getPolicy();
+        return this._schema.getPolicy();
     }
 
     /** 获取表名 **/
@@ -155,7 +160,7 @@ public class GenericRecord implements Record { // NOPMD
     @NotNull
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public String table() {
-        return this._schema.getMeta().getTable();
+        return this._schema.getTable();
     }
 
     /** **/
@@ -174,7 +179,7 @@ public class GenericRecord implements Record { // NOPMD
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public String toColumn(@AssertFieldConstraints(RULE_ID) final String field) throws AbstractDatabaseException {
         this.verifyField(field);
-        final PEField column = this._schema.getFields().get(field);
+        final PEField column = this._schema.getField(field);
         return column.getColumnName();
     }
 
@@ -217,8 +222,8 @@ public class GenericRecord implements Record { // NOPMD
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, DataType> fields() {
         final ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
-        for (final String name : this._schema.getFields().keySet()) {
-            retMap.put(name, this._schema.getFields().get(name).getType());
+        for (final String name : this._schema.fieldNames()) {
+            retMap.put(name, this._schema.getField(name).getType());
         }
         return retMap;
     }
@@ -230,9 +235,8 @@ public class GenericRecord implements Record { // NOPMD
     @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, DataType> columnTypes() {
         final ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
-        for (final String name : this._schema.getFields().keySet()) {
-            retMap.put(this._schema.getFields().get(name).getColumnName(),
-                    this._schema.getFields().get(name).getType());
+        for (final String name : this._schema.fieldNames()) {
+            retMap.put(this._schema.getField(name).getColumnName(), this._schema.getField(name).getType());
         }
         return retMap;
     }
@@ -241,13 +245,13 @@ public class GenericRecord implements Record { // NOPMD
     // ~ Private Methods =====================================
 
     private Value<?> createValue(final String name, final String value) throws AbstractDatabaseException {
-        final DataType type = this._schema.getFields().get(name).getType();
+        final DataType type = this._schema.getField(name).getType();
         return V.get().getValue(type, value);
     }
 
     private void verifyField(final String name) throws AbstractDatabaseException {
-        if (!this._schema.getFields().containsKey(name)) {
-            throw new FieldInvalidException(getClass(), name, this._schema.getIdentifier());
+        if (!this._schema.fieldNames().contains(name)) {
+            throw new FieldInvalidException(getClass(), name, this._schema.identifier());
         }
     }
 
@@ -278,6 +282,6 @@ public class GenericRecord implements Record { // NOPMD
     /** **/
     @Override
     public String seqname() {
-        return this._schema.getMeta().getSeqName();
+        return this._schema.meta().getSeqName();
     }
 }

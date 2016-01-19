@@ -20,7 +20,7 @@ import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.type.LongType;
 
@@ -58,7 +58,7 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Override
     protected Class<?> getTarget() {
-        return GenericRecord.class;
+        return DataRecord.class;
     }
 
     /** **/

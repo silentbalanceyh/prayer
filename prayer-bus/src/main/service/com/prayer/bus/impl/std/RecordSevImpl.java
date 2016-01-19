@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.bus.AbstractSevImpl;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.facade.bus.RecordService;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -28,7 +28,7 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
     // ~ Constructors ========================================
     /** **/
     public RecordSevImpl() {
-        super(RecordDaoImpl.class, GenericRecord.class);
+        super(RecordDaoImpl.class, DataRecord.class);
     }
 
     // ~ Abstract Methods ====================================

@@ -16,7 +16,7 @@ import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.exception.web.JSScriptEngineException;
 import com.prayer.facade.bus.BasicAuthService;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.util.bus.Interruptor;
 
 import io.vertx.core.json.JsonArray;
@@ -42,7 +42,7 @@ public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthServic
     // ~ Constructors ========================================
     /** **/
     public BasicAuthSevImpl() {
-        super(RecordDaoImpl.class, GenericRecord.class);
+        super(RecordDaoImpl.class, DataRecord.class);
     }
 
     // ~ Abstract Methods ====================================

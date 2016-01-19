@@ -22,7 +22,7 @@ import com.prayer.facade.kernel.Value;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.record.Record;
 import com.prayer.model.bus.OrderBy;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.util.exception.Interrupter.PrimaryKey;
@@ -77,7 +77,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
      * @param record
      * @throws AbstractDatabaseException
      */
-    protected boolean sharedUpdate(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+    protected boolean sharedUpdate(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
             throws AbstractDatabaseException {
         // ERR：检查主键定义
         PrimaryKey.interrupt(getClass(), record.identifier(), record.idschema().size());
@@ -112,7 +112,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
      * @param record
      * @throws AbstractDatabaseException
      */
-    protected boolean sharedInsert(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+    protected boolean sharedInsert(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
             throws AbstractDatabaseException {
         // ERR：检查主键定义
         PrimaryKey.interrupt(getClass(), record.identifier(), record.idschema().size());
@@ -156,7 +156,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
      * @throws AbstractDatabaseException
      */
     @NotNull
-    protected List<Record> sharedSelect(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
+    protected List<Record> sharedSelect(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
             @NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
         // 1.生成Expression所需要的主键Where子句列，验证查询条件是否主键列
         final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
@@ -181,7 +181,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
      * @throws AbstractDatabaseException
      */
     @NotNull
-    protected List<Record> sharedSelect(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
+    protected List<Record> sharedSelect(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params, final Expression filters)
                     throws AbstractDatabaseException {
         return sharedSelect(record, columns, params, filters, null);
@@ -199,7 +199,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
      * @throws AbstractDatabaseException
      */
     @NotNull
-    protected List<Record> sharedSelect(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
+    protected List<Record> sharedSelect(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params,
             @InstanceOf(Expression.class) final Expression filters, @InstanceOfAny(OrderBy.class) final OrderBy orders)
                     throws AbstractDatabaseException {
@@ -220,7 +220,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
      * @return
      * @throws AbstractDatabaseException
      */
-    protected boolean sharedDelete(@NotNull @InstanceOfAny(GenericRecord.class) final Record record,
+    protected boolean sharedDelete(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
             @NotNull final ConcurrentMap<String, Value<?>> paramMap) throws AbstractDatabaseException {
         // 1.获取JDBC访问器
         final JdbcConnection jdbc = this.getContext(record.identifier());
@@ -244,7 +244,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
      * @param record
      * @return
      */
-    protected boolean sharedPurge(@NotNull @InstanceOfAny(GenericRecord.class) final Record record)
+    protected boolean sharedPurge(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
             throws AbstractDatabaseException {
         // 1.获取JDBC访问器
         final JdbcConnection jdbc = this.getContext(record.identifier());

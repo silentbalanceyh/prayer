@@ -2,7 +2,6 @@ package com.prayer.facade.schema;
 
 import java.io.Serializable;
 
-import com.prayer.facade.entity.Entity;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
 import com.prayer.model.meta.database.PEMeta;
@@ -41,21 +40,21 @@ interface SchemaMeta {
      * 
      * @return
      */
-    Entity meta();
+    PEMeta meta();
 
     /**
      * 从Schema中抽取List<PEKey>
      * 
      * @return
      */
-    Entity[] keys();
+    PEKey[] keys();
 
     /**
      * 从Schema中抽取List<PEField>
      * 
      * @return
      */
-    Entity[] fields();
+    PEField[] fields();
 
     /**
      * 设置Schema中的Meta信息

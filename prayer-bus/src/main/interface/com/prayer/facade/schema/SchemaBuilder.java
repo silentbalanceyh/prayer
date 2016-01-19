@@ -21,14 +21,6 @@ interface SchemaBuilder {
     Set<String> getColumns();
 
     /**
-     * 根据列名获取PEField
-     * 
-     * @param column
-     * @return
-     */
-    PEField getColumn(String column);
-
-    /**
      * 获取主键的Schema，有可能是多个主键
      * 
      * @return

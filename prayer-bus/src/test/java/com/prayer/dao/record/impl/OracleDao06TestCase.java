@@ -21,7 +21,7 @@ import com.prayer.facade.record.Record;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericRecord;
+import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.type.LongType;
 
@@ -58,7 +58,7 @@ public class OracleDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Override
     protected Class<?> getTarget() {
-        return GenericRecord.class;
+        return DataRecord.class;
     }
 
     /** **/

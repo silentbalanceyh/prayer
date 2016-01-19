@@ -10,6 +10,7 @@ import com.prayer.base.pool.AbstractJdbcPool;
 import com.prayer.bus.impl.std.ServiceHelper;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.dao.Builder;
+import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
@@ -27,6 +28,8 @@ public interface MemoryPool { // NOPMD
     ConcurrentMap<String, MetaAccessor> POOL_ACCESSOR = new ConcurrentHashMap<>();
     /** Metadata Builder Pool **/
     ConcurrentMap<String, Builder> POOL_BUILDER = new ConcurrentHashMap<>();
+    /** Importer的池化操作 **/
+    ConcurrentMap<String, Importer> POOL_IMPORTER = new ConcurrentHashMap<>();
     /** 连接池，用于传统数据库和H2之间的切换 **/
     ConcurrentMap<String, AbstractJdbcPool> POOL_CONPOOL = new ConcurrentHashMap<>();
     /** JDBC的Context的延迟池化技术 **/
