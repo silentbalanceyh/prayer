@@ -2,9 +2,6 @@ package com.prayer.dao.impl.schema;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.facade.dao.schema.Serializer;
@@ -53,13 +50,13 @@ public final class SchemaBuilder {
      * @throws AbstractSystemException
      */
     public Schema build(@NotNull final JsonObject data) throws AbstractSystemException {
-        final JsonSchema schema = new JsonSchema();
+        final Schema schema = new JsonSchema();
         /** 1.构造Meta **/
-        schema.setMeta(this.transferMeta(data));
+        schema.meta(this.transferMeta(data));
         /** 2.构造Keys **/
-        schema.setKeys(this.transferKeys(data));
+        schema.keys(this.transferKeys(data));
         /** 3.构造Fields **/
-        schema.setFields(this.transferFields(data));
+        schema.fields(this.transferFields(data));
         /** 4.构造Indexes **/
         // TODO: Index的构造
         return schema;
@@ -87,24 +84,20 @@ public final class SchemaBuilder {
     // ~ Functional Interface ================================
     // ~ Private Methods =====================================
 
-    private ConcurrentMap<String, PEField> transferFields(final JsonObject data) throws AbstractSystemException {
-        final ConcurrentMap<String, PEField> retMap = new ConcurrentHashMap<>();
+    private PEField[] transferFields(final JsonObject data) throws AbstractSystemException {
+        PEField[] fields = new PEField[] {};
         if (data.containsKey(Attributes.R_FIELDS)) {
-            for (final PEField field : this.serializer.transferFields(data.getJsonArray(Attributes.R_FIELDS))) {
-                retMap.put(field.getName(), field);
-            }
+            fields = this.serializer.transferFields(data.getJsonArray(Attributes.R_FIELDS)).toArray(fields);
         }
-        return retMap;
+        return fields;
     }
 
-    private ConcurrentMap<String, PEKey> transferKeys(final JsonObject data) throws AbstractSystemException {
-        final ConcurrentMap<String, PEKey> retMap = new ConcurrentHashMap<>();
+    private PEKey[] transferKeys(final JsonObject data) throws AbstractSystemException {
+        PEKey[] keys = new PEKey[] {};
         if (data.containsKey(Attributes.R_KEYS)) {
-            for (final PEKey key : this.serializer.transferKeys(data.getJsonArray(Attributes.R_KEYS))) {
-                retMap.put(key.getName(), key);
-            }
+            keys = this.serializer.transferKeys(data.getJsonArray(Attributes.R_KEYS)).toArray(keys);
         }
-        return retMap;
+        return keys;
     }
 
     private PEMeta transferMeta(final JsonObject data) throws AbstractSystemException {

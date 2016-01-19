@@ -1,6 +1,5 @@
 package com.prayer.facade.dao.schema;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.facade.schema.Schema;
@@ -18,12 +17,4 @@ public interface Importer {
      * @return
      */
     Schema readFrom(String path) throws AbstractSchemaException,AbstractSystemException;
-
-    /**
-     * 将一个Schema信息
-     * 
-     * @param schema
-     * @return
-     */
-    Schema syncSchema(Schema schema) throws AbstractDatabaseException;
 }

@@ -58,11 +58,19 @@ public final class CrossRuler implements Ruler {
         /** 9.3. 验证属性的次数是否匹配 **/
         applyAttrTimes(habitus);
         /** 9.4. 验证最后SubType的类型 **/
-        applySubType(habitus);
+        if (checkSubType(habitus)) {
+            applySubType(habitus);
+        }
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private boolean checkSubType(final ObjectHabitus habitus) {
+        final Object table = habitus.get(Attributes.M_SUB_TABLE);
+        final Object key = habitus.get(Attributes.M_SUB_KEY);
+        return null != table && null != key;
+    }
 
     private void applySubType(final ObjectHabitus habitus) throws AbstractSchemaException {
         /** 查找Column类型 **/

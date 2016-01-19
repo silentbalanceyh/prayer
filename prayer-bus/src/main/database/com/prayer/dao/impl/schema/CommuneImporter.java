@@ -55,12 +55,6 @@ public final class CommuneImporter implements Importer {
         /** 3.Schema的验证通过，直接构造Schema **/
         return SchemaBuilder.create().build(data);
     }
-
-    @Override
-    public Schema syncSchema(Schema schema) {
-        // TODO Auto-generated method stub
-        return null;
-    }
     // ~ Private Methods =====================================
 
     private JsonObject readData(final String file) throws AbstractSystemException {

@@ -4,16 +4,19 @@ import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.debug.Log.debug;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.accessor.impl.MetaAccessorImpl;
 import com.prayer.base.exception.AbstractTransactionException;
+import com.prayer.constant.Constants;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.dao.schema.SchemaDao;
-import com.prayer.facade.kernel.Expression;
+import com.prayer.facade.entity.Entity;
 import com.prayer.facade.schema.Schema;
+import com.prayer.model.crucial.schema.JsonSchema;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
 import com.prayer.model.meta.database.PEMeta;
@@ -68,9 +71,26 @@ public final class SchemaDaoImpl implements SchemaDao {
     }
 
     @Override
-    public Schema get(String identifier) throws AbstractTransactionException {
-        // TODO Auto-generated method stub
-        return null;
+    public Schema get(@NotNull @NotEmpty @NotBlank final String identifier) throws AbstractTransactionException {
+        /** 1.根据identifier从系统中读取PEMeta **/
+        final List<Entity> metaList = accessor(PEMeta.class).queryList(condition(identifier));
+        Schema schema = null;
+        if (!metaList.isEmpty() && Constants.ONE == metaList.size()) {
+            schema = new JsonSchema();
+            final Entity entity = metaList.get(Constants.IDX);
+            if (null != entity) {
+                /** 2.设置JsonSchema的Meta部分 **/
+                schema.meta(new PEMeta(entity.toJson()));
+                final String whereSql = condition(entity);
+                /** 3.设置Keys部分 **/
+                final List<Entity> keys = accessor(PEKey.class).queryList(whereSql);
+                schema.keys(keys.toArray(new PEKey[] {}));
+                /** 4.设置Fields部分 **/
+                final List<Entity> fields = accessor(PEField.class).queryList(whereSql);
+                schema.fields(fields.toArray(new PEField[] {}));
+            }
+        }
+        return schema;
     }
 
     /** **/
@@ -84,15 +104,23 @@ public final class SchemaDaoImpl implements SchemaDao {
             accessor(PEField.class).deleteList(condition(schema));
         }
         /** 3.删除Meta **/
-        accessor(PEMeta.class).deleteById(identifier);
+        accessor(PEMeta.class).deleteById(schema.totem());
         return true;
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
+    private String condition(final Entity entity) {
+        return Restrictions.eq("R_META_ID", new StringType(entity.id().toString())).toSql();
+    }
+
     private String condition(final Schema schema) {
         return Restrictions.eq("R_META_ID", new StringType(schema.totem().toString())).toSql();
+    }
+
+    private String condition(final String identifier) {
+        return Restrictions.eq("S_GLOBAL_ID", new StringType(identifier)).toSql();
     }
 
     /** **/
