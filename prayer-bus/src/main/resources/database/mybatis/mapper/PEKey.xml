@@ -85,6 +85,11 @@
             DELETE FROM SYS_KEYS
         ]]>
     </delete>
+    <delete id="deleteList" parameterType="String">
+        <![CDATA[
+            DELETE FROM SYS_KEYS WHERE ${where}
+        ]]>
+    </delete>
     <select id="count" resultType="java.lang.Long">
         <![CDATA[
             SELECT COUNT(K_ID) FROM SYS_KEYS

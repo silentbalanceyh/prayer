@@ -1,8 +1,7 @@
 package com.prayer.facade.dao.schema;
 
 import com.prayer.base.exception.AbstractTransactionException;
-import com.prayer.exception.system.DataLoadingException;
-import com.prayer.model.crucial.GenericSchema;
+import com.prayer.facade.schema.Schema;
 
 /**
  * 
@@ -11,30 +10,29 @@ import com.prayer.model.crucial.GenericSchema;
  */
 public interface SchemaDao {
     /**
+     * 创建以及更新Schema信息
      * 
      * @param schema
      * @return
-     * @throws DataLoadingException
+     * @throws AbstractTransactionException
      */
-    GenericSchema create(GenericSchema schema) throws AbstractTransactionException;
+    Schema save(Schema schema) throws AbstractTransactionException;
+
     /**
-     * 
-     * @param schema
-     * @return
-     * @throws DataLoadingException
-     */
-    GenericSchema synchronize(GenericSchema schema) throws AbstractTransactionException;
-    /**
+     * 根据identifier读取Schema信息
      * 
      * @param identifier
      * @return
+     * @throws AbstractTransactionException
      */
-    GenericSchema getById(String identifier);
+    Schema get(String identifier) throws AbstractTransactionException;
+
     /**
+     * 根据identifier删除Schema信息
      * 
      * @param identifier
      * @return
-     * @throws DataLoadingException
+     * @throws AbstractTransactionException
      */
-    boolean deleteById(String identifier) throws AbstractTransactionException;
+    boolean delete(String identifier) throws AbstractTransactionException;
 }

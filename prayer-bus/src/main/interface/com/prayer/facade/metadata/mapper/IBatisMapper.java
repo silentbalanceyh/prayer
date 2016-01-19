@@ -59,7 +59,8 @@ public interface IBatisMapper<T, ID> { // NOPMD
     List<T> selectAll();
 
     /**
-     * @param category 动态SQL参数，判断元数据信息
+     * @param category
+     *            动态SQL参数，判断元数据信息
      * @param order
      * @param size
      * @param start
@@ -88,4 +89,11 @@ public interface IBatisMapper<T, ID> { // NOPMD
      * @return
      */
     List<T> queryList(@Param("where") String whereClause);
+
+    /**
+     * 
+     * @param whereClause
+     * @return
+     */
+    boolean deleteList(@Param("where") String whereClause);
 }

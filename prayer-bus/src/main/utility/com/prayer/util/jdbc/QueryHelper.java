@@ -18,8 +18,8 @@ import org.slf4j.LoggerFactory;
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.kernel.Expression;
-import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
+import com.prayer.facade.record.Record;
 import com.prayer.model.query.Restrictions;
 
 import net.sf.oval.constraint.InstanceOf;

@@ -104,6 +104,11 @@
             DELETE FROM EVX_ROUTE
         ]]>
     </delete>
+    <delete id="deleteList" parameterType="String">
+        <![CDATA[
+            DELETE FROM EVX_ROUTE WHERE ${where}
+        ]]>
+    </delete>
     <select id="count" resultType="java.lang.Long">
         <![CDATA[
             SELECT COUNT(K_ID) FROM EVX_ROUTE

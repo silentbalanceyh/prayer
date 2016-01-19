@@ -198,7 +198,11 @@
             DELETE FROM SYS_FIELDS
         ]]>
     </delete>
-
+    <delete id="deleteList" parameterType="String">
+        <![CDATA[
+            DELETE FROM SYS_FIELDS WHERE ${where}
+        ]]>
+    </delete>
     <select id="count" resultType="java.lang.Long">
         <![CDATA[
             SELECT COUNT(K_ID) FROM SYS_FIELDS

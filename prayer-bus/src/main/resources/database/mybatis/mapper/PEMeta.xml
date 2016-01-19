@@ -137,7 +137,11 @@
             DELETE FROM SYS_META
         ]]>
     </delete>
-
+    <delete id="deleteList" parameterType="String">
+        <![CDATA[
+            DELETE FROM SYS_META WHERE ${where}
+        ]]>
+    </delete>
     <select id="count" resultType="java.lang.Long">
         <![CDATA[
             SELECT COUNT(K_ID) FROM SYS_META

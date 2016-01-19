@@ -1,8 +1,8 @@
 package com.prayer.util.bus;
 
 import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.facade.kernel.Record;
 import com.prayer.facade.kernel.Value;
+import com.prayer.facade.record.Record;
 import com.prayer.model.type.DataType;
 
 import jodd.util.StringUtil;

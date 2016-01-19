@@ -16,7 +16,7 @@ import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.facade.bus.DataService;
 import com.prayer.facade.dao.RecordDao;
-import com.prayer.facade.kernel.Record;
+import com.prayer.facade.record.Record;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.crucial.GenericRecord;
 import com.prayer.util.bus.RecordSerializer;

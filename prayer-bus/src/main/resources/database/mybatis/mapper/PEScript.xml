@@ -71,6 +71,11 @@
             DELETE FROM ENG_SCRIPT
         ]]>
     </delete>
+    <delete id="deleteList" parameterType="String">
+        <![CDATA[
+            DELETE FROM ENG_SCRIPT WHERE ${where}
+        ]]>
+    </delete>
     <select id="count" resultType="java.lang.Long">
         <![CDATA[
             SELECT COUNT(K_ID) FROM ENG_SCRIPT

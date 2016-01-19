@@ -14,7 +14,7 @@ import net.sf.oval.guard.Guarded;
  * @author Lang
  *
  */
-@Guarded
+@Guarded                                                                                                                                                                      
 public class H2ConnImpl extends AbstractJdbcConnection{
     // ~ Static Fields =======================================
     /** **/

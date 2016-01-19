@@ -12,7 +12,7 @@ import javax.script.SimpleScriptContext;
 
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
-import com.prayer.facade.kernel.Record;
+import com.prayer.facade.record.Record;
 import com.prayer.util.bus.ClauseInjector;
 import com.prayer.util.string.StringKit;
 

@@ -106,7 +106,11 @@
             DELETE FROM SYS_VIEW
         ]]>
     </delete>
-
+    <delete id="deleteList" parameterType="String">
+        <![CDATA[
+            DELETE FROM SYS_VIEW WHERE ${where}
+        ]]>
+    </delete>
     <select id="count" resultType="java.lang.Long">
         <![CDATA[
             SELECT COUNT(K_ID) FROM SYS_VIEW

@@ -10,7 +10,7 @@ import java.util.Map;
 import com.prayer.base.exception.AbstractException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
-import com.prayer.facade.kernel.Record;
+import com.prayer.facade.record.Record;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

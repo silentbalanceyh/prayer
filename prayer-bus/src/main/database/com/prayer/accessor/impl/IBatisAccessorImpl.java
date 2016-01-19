@@ -12,9 +12,9 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
-import com.prayer.facade.accessor.IBatisMixer;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.entity.Entity;
+import com.prayer.facade.fun.accessor.IBatisMixer;
 import com.prayer.facade.metadata.mapper.IBatisMapper;
 
 import net.sf.oval.constraint.NotNull;
@@ -194,6 +194,17 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
         final List<Entity> entities = mapper.queryList(whereClause);
         this.helper.endQuery();
         return entities;
+    }
+
+    /**
+     * 按照WHERE子句删除对应的Entities
+     */
+    @Override
+    public boolean deleteList(final String whereClause) throws AbstractTransactionException {
+        final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
+        mapper.deleteList(whereClause);
+        this.helper.endTransaction();
+        return true;
     }
 
     /**

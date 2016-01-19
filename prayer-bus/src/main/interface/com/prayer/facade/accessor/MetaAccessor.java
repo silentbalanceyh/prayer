@@ -51,8 +51,10 @@ public interface MetaAccessor { // NOPMD
      * @throws AbstractTransactionException
      */
     boolean deleteById(Serializable uniqueId) throws AbstractTransactionException;
+
     /**
-     * 批量删除一个Entity 
+     * 批量删除一个Entity
+     * 
      * @param uniqueId
      * @return
      * @throws AbstractTransactionException
@@ -88,14 +90,7 @@ public interface MetaAccessor { // NOPMD
     List<Entity> getByPage(int index, int size, String orderBy);
 
     /**
-     * 提供WHERE子句，实现动态查询
-     * 
-     * @param where
-     * @return
-     */
-    List<Entity> queryList(String whereClause);
-
-    /**
+     * 返回所有的数据的统计
      * 
      * @return
      */
@@ -108,4 +103,19 @@ public interface MetaAccessor { // NOPMD
      */
     boolean purge() throws AbstractTransactionException;
 
+    /**
+     * 提供WHERE子句，实现动态查询
+     * 
+     * @param where
+     * @return
+     */
+    List<Entity> queryList(String whereClause);
+
+    /**
+     * 提供WHERE子句，实现动态删除
+     * 
+     * @param whereClause
+     * @return
+     */
+    boolean deleteList(String whereClause) throws AbstractTransactionException;
 }

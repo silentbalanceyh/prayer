@@ -106,7 +106,7 @@ public class MetaAccessorImpl implements MetaAccessor {
             throws AbstractTransactionException {
         return this.getAccessor().deleteById(uniqueId);
     }
-    
+
     /**
      * 
      * @param uniqueId
@@ -114,8 +114,7 @@ public class MetaAccessorImpl implements MetaAccessor {
      * @throws AbstractTransactionException
      */
     @Override
-    public boolean deleteById(@NotNull @MinSize(1) final Serializable... uniqueId)
-            throws AbstractTransactionException {
+    public boolean deleteById(@NotNull @MinSize(1) final Serializable... uniqueId) throws AbstractTransactionException {
         return this.getAccessor().deleteById(uniqueId);
     }
 
@@ -156,11 +155,24 @@ public class MetaAccessorImpl implements MetaAccessor {
 
     /**
      * 
+     * @param whereClause
+     * @return
      */
     @Override
     @InstanceOf(List.class)
     public List<Entity> queryList(@NotNull @NotBlank @NotEmpty final String whereClause) {
         return this.getAccessor().queryList(whereClause);
+    }
+
+    /**
+     * 
+     * @param whereClause
+     * @return
+     */
+    @Override
+    public boolean deleteList(@NotNull @NotBlank @NotEmpty final String whereClause)
+            throws AbstractTransactionException {
+        return this.getAccessor().deleteList(whereClause);
     }
 
     /**

@@ -11,8 +11,8 @@ import com.prayer.bus.impl.std.ServiceHelper;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.dao.Builder;
 import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
-import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.crucial.MetaConnector;
 
 /**
@@ -36,7 +36,7 @@ public interface MemoryPool { // NOPMD
     /** 数据源的Pool **/
     ConcurrentMap<String, DataSource> POOL_DATA_SOURCE = new ConcurrentHashMap<>();
     /** Schema的缓存信息 **/
-    ConcurrentMap<String, GenericSchema> POOL_SCHEMA = new ConcurrentHashMap<>();
+    ConcurrentMap<String, Schema> POOL_SCHEMA = new ConcurrentHashMap<>();
     /** KEY -> POOL 全局单例模式 **/
     ConcurrentMap<String, Object> POOL_OBJECT = new ConcurrentHashMap<>();
     /** 资源文件池 **/
