@@ -1,11 +1,11 @@
 package com.prayer.bus.impl.oob;
 
-import com.prayer.facade.dao.metadata.AddressDao;
-import com.prayer.facade.dao.metadata.RouteDao;
-import com.prayer.facade.dao.metadata.RuleDao;
-import com.prayer.facade.dao.metadata.ScriptDao;
-import com.prayer.facade.dao.metadata.UriDao;
-import com.prayer.facade.dao.metadata.VerticleDao;
+import com.prayer.facade.dao.schema.AddressDao;
+import com.prayer.facade.dao.schema.RouteDao;
+import com.prayer.facade.dao.schema.RuleDao;
+import com.prayer.facade.dao.schema.ScriptDao;
+import com.prayer.facade.dao.schema.UriDao;
+import com.prayer.facade.dao.schema.VerticleDao;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

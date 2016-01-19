@@ -69,7 +69,6 @@ public final class CrossRuler implements Ruler {
         final List<ObjectHabitus> objects = this.fields.objects();
         String colType = "";
         for (final ObjectHabitus item : objects) {
-
             Boolean isPK = false;
             if (null != item.get(Attributes.F_PK)) {
                 isPK = Boolean.parseBoolean(item.get(Attributes.F_PK).toString());
@@ -95,7 +94,6 @@ public final class CrossRuler implements Ruler {
             for (final Object column : columns) {
                 if (null != column) {
                     final ObjectHabitus complexHabitus = wrapperHabitus(column.toString(), category, columns.size());
-
                     RulerHelper.applyUnique(complexHabitus, FileConfig.CFG_CATT);
                 }
             }

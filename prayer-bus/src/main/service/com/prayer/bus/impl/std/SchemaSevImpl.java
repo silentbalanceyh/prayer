@@ -18,7 +18,7 @@ import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.dao.Builder;
-import com.prayer.facade.dao.metadata.SchemaDao;
+import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.OldImporter;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.crucial.GenericSchema;

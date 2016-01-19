@@ -1,5 +1,6 @@
-package com.prayer.facade.schema.verifier;
+package com.prayer.facade.schema;
 
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.facade.kernel.Schema;
@@ -24,5 +25,5 @@ public interface Importer {
      * @param schema
      * @return
      */
-    Schema syncSchema(Schema schema);
+    Schema syncSchema(Schema schema) throws AbstractDatabaseException;
 }

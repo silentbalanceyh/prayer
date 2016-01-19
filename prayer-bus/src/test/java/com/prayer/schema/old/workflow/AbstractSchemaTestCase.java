@@ -10,7 +10,7 @@ import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.facade.dao.metadata.SchemaDao;
+import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.OldImporter;
 import com.prayer.facade.schema.Serializer;

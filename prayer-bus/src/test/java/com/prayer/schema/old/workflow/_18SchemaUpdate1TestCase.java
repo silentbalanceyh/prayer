@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.dao.metadata.SchemaDao;
+import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.model.crucial.GenericSchema;
 import com.prayer.schema.old.json.CommunionImporter;
 

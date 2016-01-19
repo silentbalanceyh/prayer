@@ -22,7 +22,7 @@ import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.Builder;
 import com.prayer.facade.dao.RecordDao;
-import com.prayer.facade.dao.metadata.SchemaDao;
+import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.kernel.Record;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.OldImporter;

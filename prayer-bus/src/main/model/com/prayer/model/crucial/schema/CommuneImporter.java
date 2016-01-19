@@ -1,12 +1,13 @@
-package com.prayer.schema.json;
+package com.prayer.model.crucial.schema;
 
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
 import com.prayer.facade.kernel.Schema;
-import com.prayer.facade.schema.verifier.Importer;
+import com.prayer.facade.schema.Importer;
 import com.prayer.facade.schema.verifier.Verifier;
+import com.prayer.schema.json.SchemaVerifier;
 import com.prayer.util.io.IOKit;
 
 import io.vertx.core.json.DecodeException;
@@ -39,6 +40,7 @@ public final class CommuneImporter implements Importer {
     public CommuneImporter() {
         this.verifier = new SchemaVerifier();
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
@@ -50,8 +52,8 @@ public final class CommuneImporter implements Importer {
         final JsonObject data = this.readData(path);
         /** 2.验证这个Schema **/
         this.verifier.verify(data);
-
-        return null;
+        /** 3.Schema的验证通过，直接构造Schema **/
+        return SchemaBuilder.create().build(data);
     }
 
     @Override
