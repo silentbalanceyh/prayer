@@ -16,9 +16,9 @@ import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.record.Record;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.crucial.DataRecord;
-import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.meta.database.PEField;
 
 import jodd.util.StringUtil;
@@ -66,11 +66,11 @@ public abstract class AbstractRDaoTestTool extends AbstractTestTool {
     }
 
     /** 从Json到H2并且读取Metadata同步到对应数据库 **/
-    protected ServiceResult<GenericSchema> syncMetadata(final String filePath, final String identifier) {
-        ServiceResult<GenericSchema> finalRet = new ServiceResult<>();
+    protected ServiceResult<Schema> syncMetadata(final String filePath, final String identifier) {
+        ServiceResult<Schema> finalRet = new ServiceResult<>();
         if (this.isValidDB()) {
             // 基础数据
-            final ServiceResult<GenericSchema> syncRet = this.getService().syncSchema(DAO_DATA_PATH + filePath);
+            final ServiceResult<Schema> syncRet = this.getService().syncSchema(DAO_DATA_PATH + filePath);
             if (ResponseCode.SUCCESS == syncRet.getResponseCode()) {
                 finalRet = this.getService().syncMetadata(syncRet.getResult());
             } else {

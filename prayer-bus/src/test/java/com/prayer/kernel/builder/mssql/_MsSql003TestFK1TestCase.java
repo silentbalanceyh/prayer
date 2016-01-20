@@ -10,9 +10,10 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.base.exception.AbstractException;
 import com.prayer.dao.impl.builder.MsSqlBuilder;
+import com.prayer.facade.schema.Schema;
 import com.prayer.kernel.builder.AbstractBCPTestCase;
-import com.prayer.model.crucial.GenericSchema;
 
 /**
  * 
@@ -54,12 +55,12 @@ public class _MsSql003TestFK1TestCase extends AbstractBCPTestCase {    // NOPMD
     // ~ Methods =============================================
     /** **/
     @Before
-    public void setUp() {
+    public void setUp() throws AbstractException{
         if(null != this.getVerifier().verifyTable("TST_FKP003")){
             this.getContext().executeBatch("CREATE TABLE TST_FKP003( T_ID BIGINT PRIMARY KEY );");
         }
         this.beforeExecute("MsSqlP003TestFK1.json", "tst.mod.fk1");
-        final GenericSchema prepSchema = this.getService().getById("tst.mod.fk1");
+        final Schema prepSchema = this.getService().get("tst.mod.fk1");
         this.builder.syncTable(prepSchema);
     }
 

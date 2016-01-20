@@ -19,9 +19,9 @@ import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.crucial.DataRecord;
-import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.type.LongType;
 
 import jodd.util.StringUtil;
@@ -71,7 +71,7 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Before
     public void setUp() {
-        final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP002OpTestDAO6.json", IDENTIFIER);
+        final ServiceResult<Schema> ret = this.syncMetadata("MsSqlP002OpTestDAO6.json", IDENTIFIER);
         if (ResponseCode.FAILURE == ret.getResponseCode()) {
             failure(TST_PREP, ret.getErrorMessage());
         }

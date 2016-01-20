@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.facade.schema.Schema;
 import com.prayer.kernel.builder.AbstractBUPTestCase;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericSchema;
 
 /**
  * 
@@ -49,7 +49,7 @@ public class _MsSql004UpdateUK1TestCase extends AbstractBUPTestCase { // NOPMD
     /** **/
     @Test
     public void testDatabaseUpdate1() {
-        final ServiceResult<GenericSchema> ret = this.testUpdating("MsSqlP004Update1FromUK1.json",
+        final ServiceResult<Schema> ret = this.testUpdating("MsSqlP004Update1FromUK1.json",
                 "MsSqlP004Update1ToUK1.json", "[T] Update schema met errors !");
         assertEquals(ret.getErrorMessage(), ResponseCode.SUCCESS, ret.getResponseCode());
     }
@@ -57,7 +57,7 @@ public class _MsSql004UpdateUK1TestCase extends AbstractBUPTestCase { // NOPMD
     /** **/
     @Test
     public void testDatabaseUpdate2() {
-        final ServiceResult<GenericSchema> ret = this.testUpdating("MsSqlP004Update2FromUK2.json",
+        final ServiceResult<Schema> ret = this.testUpdating("MsSqlP004Update2FromUK2.json",
                 "MsSqlP004Update2ToUK2.json", "[T] Update schema met errors !");
         assertEquals(ret.getErrorMessage(), ResponseCode.SUCCESS, ret.getResponseCode());
     }

@@ -15,9 +15,9 @@ import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.crucial.DataRecord;
-import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.type.StringType;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -66,7 +66,7 @@ public class GenericRecord01TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Before
     public void setUp() {
-        final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP001TestDAO3.json", IDENTIFIER);
+        final ServiceResult<Schema> ret = this.syncMetadata("MsSqlP001TestDAO3.json", IDENTIFIER);
         if (ResponseCode.FAILURE == ret.getResponseCode()) {
             failure(TST_PREP, ret.getErrorMessage());
         }

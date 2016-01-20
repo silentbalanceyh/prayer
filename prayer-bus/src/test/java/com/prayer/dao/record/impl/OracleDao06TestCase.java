@@ -18,11 +18,11 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.bus.OrderBy;
 import com.prayer.model.bus.Pager;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.crucial.DataRecord;
-import com.prayer.model.crucial.GenericSchema;
 import com.prayer.model.type.LongType;
 
 import jodd.util.StringUtil;
@@ -71,7 +71,7 @@ public class OracleDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Before
     public void setUp() {
-        final ServiceResult<GenericSchema> ret = this.syncMetadata("OracleP002OpTestDAO6.json", IDENTIFIER);
+        final ServiceResult<Schema> ret = this.syncMetadata("OracleP002OpTestDAO6.json", IDENTIFIER);
         if (ResponseCode.FAILURE == ret.getResponseCode()) {
             failure(TST_PREP, ret.getErrorMessage());
         }

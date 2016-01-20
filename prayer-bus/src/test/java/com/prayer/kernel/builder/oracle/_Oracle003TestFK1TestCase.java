@@ -9,9 +9,10 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.base.exception.AbstractException;
 import com.prayer.dao.impl.builder.OracleBuilder;
+import com.prayer.facade.schema.Schema;
 import com.prayer.kernel.builder.AbstractBCPTestCase;
-import com.prayer.model.crucial.GenericSchema;
 
 /**
  * 
@@ -53,9 +54,9 @@ public class _Oracle003TestFK1TestCase extends AbstractBCPTestCase {    // NOPMD
     // ~ Methods =============================================
     /** **/
     @Before
-    public void setUp() {
+    public void setUp() throws AbstractException {
         this.beforeExecute("MsSqlP003TestFK1.json", "tst.mod.fk1");
-        final GenericSchema prepSchema = this.getService().getById("tst.mod.fk1");
+        final Schema prepSchema = this.getService().get("tst.mod.fk1");
         this.builder.syncTable(prepSchema);
     }
 

@@ -18,9 +18,9 @@ import com.prayer.exception.validator.PatternFailureException;
 import com.prayer.exception.validator.PrecisionFailureException;
 import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.facade.record.Record;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.bus.ServiceResult;
 import com.prayer.model.crucial.DataRecord;
-import com.prayer.model.crucial.GenericSchema;
 import com.prayer.plugin.validator.MobileValidator;
 
 /**
@@ -65,7 +65,7 @@ public class GenericRecord02TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Before
     public void setUp() {
-        final ServiceResult<GenericSchema> ret = this.syncMetadata("MsSqlP002OpTestDAO8.json", IDENTIFIER);
+        final ServiceResult<Schema> ret = this.syncMetadata("MsSqlP002OpTestDAO8.json", IDENTIFIER);
         if (ResponseCode.FAILURE == ret.getResponseCode()) {
             failure(TST_PREP, ret.getErrorMessage());
         }

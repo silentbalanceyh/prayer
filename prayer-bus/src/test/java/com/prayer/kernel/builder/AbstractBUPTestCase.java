@@ -9,8 +9,8 @@ import com.prayer.bus.impl.schema.SchemaSevImpl;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.bus.SchemaService;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.bus.ServiceResult;
-import com.prayer.model.crucial.GenericSchema;
 
 import jodd.util.StringUtil;
 
@@ -56,12 +56,12 @@ public abstract class AbstractBUPTestCase extends AbstractTestCase { // NOPMD
     }
 
     /** **/
-    protected ServiceResult<GenericSchema> testUpdating(final String fromPath, final String toPath,
+    protected ServiceResult<Schema> testUpdating(final String fromPath, final String toPath,
             final String errMsg) {
-        ServiceResult<GenericSchema> finalRet = new ServiceResult<>();
+        ServiceResult<Schema> finalRet = new ServiceResult<>();
         if (this.isValidDB()) {
             // From：基础数据
-            ServiceResult<GenericSchema> syncRet = this.getService().syncSchema(BUILDER_FILE + fromPath);
+            ServiceResult<Schema> syncRet = this.getService().syncSchema(BUILDER_FILE + fromPath);
             syncRet = this.getService().syncMetadata(syncRet.getResult());
             // To：第二次的数据，更新过后的数据
             if (ResponseCode.SUCCESS == syncRet.getResponseCode()) {
