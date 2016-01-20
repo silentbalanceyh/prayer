@@ -1,4 +1,4 @@
-package com.prayer.facade.dao;
+package com.prayer.facade.dao.builder;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Symbol;
@@ -10,7 +10,8 @@ import com.prayer.facade.schema.Schema;
  * @author Lang
  *
  */
-public interface Builder extends Symbol {
+@Deprecated
+public interface OldBuilder extends Symbol {
     /**
      * 创建数据表
      * 

@@ -44,13 +44,13 @@ public class SchemaUpdateTestCase {
     @Test
     public void testSchemaUpdate() throws AbstractException {
         /** 1.Schema基础操作 **/
-        final Schema oldSchema = this.importer.readFrom("/schema/data/json/validation/P012meta-schema1-from.json");
+        final Schema oldSchema = this.importer.read("/schema/data/json/validation/P012meta-schema1-from.json");
         if (null != oldSchema) {
             /** 2.插入一条新的Schema **/
             final Schema inserted = this.dao.save(oldSchema);
             assertEquals(oldSchema, inserted);
             /** 3.读取一条新的Schema **/
-            final Schema newSchema = this.importer.readFrom("/schema/data/json/validation/P012meta-schema1-to.json");
+            final Schema newSchema = this.importer.read("/schema/data/json/validation/P012meta-schema1-to.json");
             if (null != newSchema) {
                 final Schema updated = this.dao.save(newSchema);
                 /** 4.从系统中读取最新的Schema **/

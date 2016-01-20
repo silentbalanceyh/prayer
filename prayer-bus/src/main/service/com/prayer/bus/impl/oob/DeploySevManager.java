@@ -9,13 +9,13 @@ import com.prayer.bus.impl.deploy.ScriptDPSevImpl;
 import com.prayer.bus.impl.deploy.UriDPSevImpl;
 import com.prayer.bus.impl.deploy.VerticleDPSevImpl;
 import com.prayer.bus.impl.schema.SchemaSevImpl;
-import com.prayer.facade.bus.SchemaService;
 import com.prayer.facade.bus.deploy.AddressDPService;
 import com.prayer.facade.bus.deploy.RouteDPService;
 import com.prayer.facade.bus.deploy.RuleDPService;
 import com.prayer.facade.bus.deploy.ScriptDPService;
 import com.prayer.facade.bus.deploy.UriDPService;
 import com.prayer.facade.bus.deploy.VerticleDPService;
+import com.prayer.facade.bus.schema.SchemaService;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

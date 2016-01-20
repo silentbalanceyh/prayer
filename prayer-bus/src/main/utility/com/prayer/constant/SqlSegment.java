@@ -6,6 +6,7 @@ package com.prayer.constant;
  * @author Lang
  *
  */
+@Deprecated
 public interface SqlSegment { // NOPMD
 
 	// ~ SQL关键字 ==========================================

@@ -53,7 +53,7 @@ public final class JsonSchema implements Schema {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    // ~ Builder Methods =====================================
+    // ~ OldBuilder Methods =====================================
     /** **/
     @Override
     public Set<String> getColumns() {

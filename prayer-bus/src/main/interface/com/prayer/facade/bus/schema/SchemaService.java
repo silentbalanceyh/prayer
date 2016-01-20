@@ -1,4 +1,4 @@
-package com.prayer.facade.bus;
+package com.prayer.facade.bus.schema;
 
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.bus.ServiceResult;

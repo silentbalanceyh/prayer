@@ -1,7 +1,7 @@
 package com.prayer.schema.json.violater;
 
+import com.prayer.dao.impl.builder.SqlTypes;
 import com.prayer.facade.schema.rule.ObjectHabitus;
-import com.prayer.util.jdbc.SqlDDL;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;
@@ -56,7 +56,7 @@ public class VDatabase {
         if (config.containsKey("type")) {
             final String attr = config.getString("type");
             if (StringKit.isNonNil(attr)) {
-                this.type = SqlDDL.DB_TYPES.get(habitus.get(attr));
+                this.type = SqlTypes.get(habitus.get(attr));
             }
         }
     }

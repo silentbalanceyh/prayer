@@ -30,6 +30,8 @@ public interface Symbol {    // NOPMD
     char DOT = '.';
     /** 冒号 **/
     char COLON = ':';
+    /** 百分号 **/
+    char PERCENT = '%';
     /** 换行符 **/
     String NEW_LINE = "\n";
 }

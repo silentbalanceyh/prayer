@@ -12,7 +12,7 @@ import com.prayer.model.meta.database.PEKey;
  *
  */
 interface SchemaBuilder {
-    // ~ Builder Interface ====================================
+    // ~ OldBuilder Interface ====================================
     /**
      * 排序列出数据列，PK在最前边
      * 

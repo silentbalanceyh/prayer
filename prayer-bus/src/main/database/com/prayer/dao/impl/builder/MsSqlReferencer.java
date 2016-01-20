@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.facade.dao.builder.special.MsSqlWord;
 import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.model.crucial.schema.FKReferencer;
@@ -52,7 +53,7 @@ public final class MsSqlReferencer implements Referencer {
             @NotNull @NotEmpty @NotBlank final String column) {
         final String sql = MsSqlHelper.getSqlReferences(table, column);
         final List<ConcurrentMap<String, String>> records = this.context.select(sql,
-                new String[] { "CONSTRAINT_NAME", "TABLE_NAME", "COLUMN_NAME" });
+                new String[] { MsSqlWord.Metadata.CONSTRAINT, MsSqlWord.Metadata.TABLE, MsSqlWord.Metadata.COLUMN });
         final List<FKReferencer> retRefs = new ArrayList<>();
         for (final ConcurrentMap<String, String> item : records) {
             final FKReferencer ref = this.extractReference(item, table, column);
@@ -95,11 +96,11 @@ public final class MsSqlReferencer implements Referencer {
     private FKReferencer extractReference(final ConcurrentMap<String, String> record, final String table,
             final String column) {
         final FKReferencer refs = new FKReferencer();
-        refs.setName(record.get("CONSTRAINT_NAME"));
+        refs.setName(record.get(MsSqlWord.Metadata.CONSTRAINT));
         refs.setToTable(table);
         refs.setToColumn(column);
-        refs.setFromTable(record.get("TABLE_NAME"));
-        refs.setFromColumn(record.get("COLUMN_NAME"));
+        refs.setFromTable(record.get(MsSqlWord.Metadata.TABLE));
+        refs.setFromColumn(record.get(MsSqlWord.Metadata.COLUMN));
         return refs;
     }
     // ~ Get/Set =============================================

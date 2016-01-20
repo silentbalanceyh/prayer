@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.dao.impl.builder.MsSqlBuilder;
+import com.prayer.dao.impl.old.builder.MsSqlBuilder;
 import com.prayer.kernel.builder.AbstractBCPTestCase;
 
 /**
@@ -65,7 +65,7 @@ public class _MsSql001TestUK2TestCase extends AbstractBCPTestCase {    // NOPMD
         assertTrue("[T] Created Table Successfully ! Result = " + ret, ret);
         // Post
         if (ret) {
-            this.builder.purgeTable();
+            this.oldBuilder.purgeTable();
         }
     }
 

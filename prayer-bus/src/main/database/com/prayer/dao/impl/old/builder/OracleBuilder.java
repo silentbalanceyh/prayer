@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.builder; // NOPMD
+package com.prayer.dao.impl.old.builder; // NOPMD
 
 import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.info;

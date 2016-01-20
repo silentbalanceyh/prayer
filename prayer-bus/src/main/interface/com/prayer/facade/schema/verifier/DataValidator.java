@@ -42,9 +42,4 @@ public interface DataValidator {
      * @return
      */
     AbstractSchemaException verifyColumnType(String table, String column, String expectedType);
-    /**
-     * 清除当前数据库中所有的测试数据：TST开始的表结构
-     */
-    // TODO: 临时方法，因为DEV、TEST、PROD环境还没区分开
-    void purgeTestData();
 }

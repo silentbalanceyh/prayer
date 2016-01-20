@@ -1,8 +1,8 @@
 package com.prayer.model.query;
 
 import com.prayer.base.model.AbstractExpression;
-import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
+import com.prayer.facade.dao.builder.SQLWord;
 import com.prayer.facade.kernel.Expression;
 
 import net.sf.oval.constraint.NotBlank;
@@ -17,7 +17,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class ProjectionExpression extends AbstractExpression implements Expression, SqlSegment {
+final class ProjectionExpression extends AbstractExpression implements Expression, SQLWord {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -29,7 +29,7 @@ final class ProjectionExpression extends AbstractExpression implements Expressio
      * @return
      */
     public static ProjectionExpression or(final Expression left, final Expression right) { // NOPMD
-        return new ProjectionExpression(left, right, OR);
+        return new ProjectionExpression(left, right, Connector.OR);
     }
 
     /**
@@ -39,7 +39,7 @@ final class ProjectionExpression extends AbstractExpression implements Expressio
      * @return
      */
     public static ProjectionExpression and(final Expression left, final Expression right) {
-        return new ProjectionExpression(left, right, AND);
+        return new ProjectionExpression(left, right, Connector.AND);
     }
 
     // ~ Constructors ========================================

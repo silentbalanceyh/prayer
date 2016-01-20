@@ -26,6 +26,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
+@Deprecated
 public final class SqlDML implements SqlSegment, Symbol {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================

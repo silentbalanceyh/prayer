@@ -32,10 +32,11 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
+@Deprecated
 public final class SqlDDL implements SqlSegment, Symbol {
     // ~ Static Fields =======================================
     /** 数据库类型映射 **/
-    public static final ConcurrentMap<String, String> DB_TYPES = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, String> DB_TYPES = new ConcurrentHashMap<>();
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

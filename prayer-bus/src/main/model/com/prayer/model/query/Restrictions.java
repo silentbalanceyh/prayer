@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.constant.SqlSegment;
 import com.prayer.exception.database.ProjectionInvalidException;
+import com.prayer.facade.dao.builder.SQLWord;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 
@@ -22,7 +22,7 @@ import net.sf.oval.guard.Guarded;
  * @author Lang
  */
 @Guarded
-public final class Restrictions implements SqlSegment { // NOPMD
+public final class Restrictions implements SQLWord { // NOPMD
     // ~ Static Fields =======================================
 
     /** **/
@@ -44,7 +44,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression eq(@NotNull @NotBlank @NotEmpty final String column, @NotNull final Value<?> value) { // NOPMD
-        return new StandardExpression(column, EQUAL, value);
+        return new StandardExpression(column, Comparator.EQ, value);
     }
 
     /**
@@ -55,7 +55,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression eq(@NotNull @NotBlank @NotEmpty final String column) { // NOPMD
-        return new StandardExpression(column, EQUAL);
+        return new StandardExpression(column, Comparator.EQ);
     }
 
     /**
@@ -67,7 +67,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression neq(@NotNull @NotBlank @NotEmpty final String column, @NotNull final Value<?> value) { // NOPMD
-        return new StandardExpression(column, NOT_EQUAL, value);
+        return new StandardExpression(column, Comparator.NEQ, value);
     }
 
     /**
@@ -78,7 +78,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression neq(@NotNull @NotBlank @NotEmpty final String column) { // NOPMD
-        return new StandardExpression(column, NOT_EQUAL);
+        return new StandardExpression(column, Comparator.NEQ);
     }
 
     /**
@@ -90,7 +90,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression lt(@NotNull @NotBlank @NotEmpty final String column, @NotNull final Value<?> value) { // NOPMD
-        return new StandardExpression(column, LESS_THAN, value);
+        return new StandardExpression(column, Comparator.LT, value);
     }
 
     /**
@@ -101,7 +101,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression lt(@NotNull @NotBlank @NotEmpty final String column) { // NOPMD
-        return new StandardExpression(column, LESS_THAN);
+        return new StandardExpression(column, Comparator.LT);
     }
 
     /**
@@ -113,7 +113,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression le(@NotNull @NotBlank @NotEmpty final String column, @NotNull final Value<?> value) { // NOPMD
-        return new StandardExpression(column, LESS_EQ_THAN, value);
+        return new StandardExpression(column, Comparator.LET, value);
     }
 
     /**
@@ -124,7 +124,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression le(@NotNull @NotBlank @NotEmpty final String column) { // NOPMD
-        return new StandardExpression(column, LESS_EQ_THAN);
+        return new StandardExpression(column, Comparator.LET);
     }
 
     /**
@@ -136,7 +136,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression gt(@NotNull @NotBlank @NotEmpty final String column, @NotNull final Value<?> value) { // NOPMD
-        return new StandardExpression(column, GREATER_THAN, value);
+        return new StandardExpression(column, Comparator.GT, value);
     }
 
     /**
@@ -147,7 +147,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression gt(@NotNull @NotBlank @NotEmpty final String column) { // NOPMD
-        return new StandardExpression(column, GREATER_THAN);
+        return new StandardExpression(column, Comparator.GT);
     }
 
     /**
@@ -159,7 +159,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression ge(@NotNull @NotBlank @NotEmpty final String column, @NotNull final Value<?> value) { // NOPMD
-        return new StandardExpression(column, GREATER_EQ_THAN, value);
+        return new StandardExpression(column, Comparator.GET, value);
     }
 
     /**
@@ -170,7 +170,7 @@ public final class Restrictions implements SqlSegment { // NOPMD
      */
     @NotNull
     public static Expression ge(@NotNull @NotBlank @NotEmpty final String column) { // NOPMD
-        return new StandardExpression(column, GREATER_EQ_THAN);
+        return new StandardExpression(column, Comparator.GET);
     }
 
     /**

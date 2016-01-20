@@ -16,5 +16,5 @@ public interface Importer {
      * @param path
      * @return
      */
-    Schema readFrom(String path) throws AbstractSchemaException,AbstractSystemException;
+    Schema read(String path) throws AbstractSchemaException,AbstractSystemException;
 }

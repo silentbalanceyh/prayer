@@ -1,8 +1,8 @@
 package com.prayer.model.query;
 
 import com.prayer.base.model.AbstractExpression;
-import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
+import com.prayer.facade.dao.builder.SQLWord;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 
@@ -19,7 +19,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class LikeExpression extends AbstractExpression implements Expression, SqlSegment {
+public class LikeExpression extends AbstractExpression implements Expression, SQLWord {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -35,7 +35,7 @@ public class LikeExpression extends AbstractExpression implements Expression, Sq
     public LikeExpression(@NotNull @NotBlank @NotEmpty final String column,
             @NotNull @InstanceOf(Value.class) final Value<?> value,
             @NotNull @InstanceOfAny(MatchMode.class) final MatchMode matchMode) {
-        super(LIKE);
+        super(Comparator.LIKE);
         this.setLeft(new ColumnLeafNode(column));
         this.setRight(new ValueLeafNode(matchMode.toMatchString(value.literal())));
     }

@@ -34,6 +34,8 @@ public interface Constants { // NOPMD
     int ONE = 1;
     /** System value 0 **/
     int ZERO = 0;
+    /** 数据库影响0记录常量 **/
+    int NO_ROW = ZERO;
     /** 读取Buffer的开始值 **/
     int POS = ZERO;
     /** 索引的开始值 **/

@@ -1,8 +1,8 @@
 package com.prayer.model.query;
 
 import com.prayer.base.model.AbstractExpression;
-import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
+import com.prayer.facade.dao.builder.SQLWord;
 import com.prayer.facade.kernel.Expression;
 
 import net.sf.oval.constraint.NotBlank;
@@ -16,7 +16,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class NullableExpression extends AbstractExpression implements Expression, SqlSegment {
+final class NullableExpression extends AbstractExpression implements Expression, SQLWord {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -27,7 +27,7 @@ final class NullableExpression extends AbstractExpression implements Expression,
      * @return
      */
     public static NullableExpression getIsNull(@NotNull @NotBlank @NotEmpty final String column) {
-        final String operator = IS + Symbol.SPACE + NULL;
+        final String operator = Connector.IS + Symbol.SPACE + Comparator.NULL;
         return new NullableExpression(column, operator);
     }
 
@@ -37,7 +37,7 @@ final class NullableExpression extends AbstractExpression implements Expression,
      * @return
      */
     public static NullableExpression getIsNotNull(@NotNull @NotBlank @NotEmpty final String column) {
-        final String operator = IS + Symbol.SPACE + NOT + Symbol.SPACE + NULL;
+        final String operator = Connector.IS + Symbol.SPACE + Comparator.NOT + Symbol.SPACE + Comparator.NULL;
         return new NullableExpression(column, operator);
     }
 

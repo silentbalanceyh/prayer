@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.builder;
+package com.prayer.dao.impl.old.builder;
 
 import java.text.MessageFormat;
 

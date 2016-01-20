@@ -8,7 +8,7 @@ import com.prayer.AbstractTestCase;
 import com.prayer.bus.impl.schema.SchemaSevImpl;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.bus.SchemaService;
+import com.prayer.facade.bus.schema.SchemaService;
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.bus.ServiceResult;
 

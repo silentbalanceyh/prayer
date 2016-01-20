@@ -15,7 +15,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.StatusFlag;
-import com.prayer.facade.dao.Builder;
+import com.prayer.facade.dao.builder.OldBuilder;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.meta.database.PEField;
@@ -40,7 +40,8 @@ import net.sf.oval.guard.Pre;
  *
  */
 @Guarded
-public abstract class AbstractBuilder implements Builder { // NOPMD
+@Deprecated
+public abstract class AbstractBuilder implements OldBuilder { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 数据库连接 **/

@@ -13,7 +13,7 @@ import com.prayer.bus.impl.schema.SchemaSevImpl;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
-import com.prayer.facade.bus.SchemaService;
+import com.prayer.facade.bus.schema.SchemaService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.record.Record;
 import com.prayer.facade.schema.Schema;

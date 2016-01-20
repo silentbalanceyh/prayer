@@ -46,7 +46,7 @@ public final class CommuneImporter implements Importer {
     // ~ Methods =============================================
     /** 从系统中读取Schema **/
     @Override
-    public Schema readFrom(@NotNull @NotEmpty @NotBlank final String path)
+    public Schema read(@NotNull @NotEmpty @NotBlank final String path)
             throws AbstractSchemaException, AbstractSystemException {
         /** 1.从路径中读取数据 **/
         final JsonObject data = this.readData(path);

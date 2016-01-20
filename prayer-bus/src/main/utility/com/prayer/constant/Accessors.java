@@ -17,8 +17,8 @@ public final class Accessors {
     /** 默认的Accessor使用SQL **/
     private static final String DFT_META_ACCESSOR = "com.prayer.accessor.impl.IBatisAccessorImpl";
 
-    /** Builder 默认值 **/
-    private static final String DFT_DB_BUILDER = "com.prayer.dao.impl.builder.MsSqlBuilder";
+    /** OldBuilder 默认值 **/
+    private static final String DFT_DB_BUILDER = "com.prayer.dao.impl.old.builder.MsSqlBuilder";
     /** Ruler 默认值 **/
     private static final String DFT_DB_VALIDATOR = "com.prayer.dao.impl.builder.MsSqlValidator";
     /** Dao 默认值 **/

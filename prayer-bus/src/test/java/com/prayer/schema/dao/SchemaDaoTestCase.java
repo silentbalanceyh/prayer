@@ -44,7 +44,7 @@ public class SchemaDaoTestCase {
     @Test
     public void testSchemaSave() throws AbstractException {
         /** 1.Schema基础操作 **/
-        final Schema schema = this.importer.readFrom("/schema/system/data/json/role.json");
+        final Schema schema = this.importer.read("/schema/system/data/json/role.json");
         if (null != schema) {
             /** 2.插入新的Schema **/
             final Schema inserted = this.dao.save(schema);
@@ -64,7 +64,7 @@ public class SchemaDaoTestCase {
     @Test
     public void testSchemaGet() throws AbstractException {
         /** 1.Schema基础操作 **/
-        final Schema schema = this.importer.readFrom("/schema/system/data/json/role.json");
+        final Schema schema = this.importer.read("/schema/system/data/json/role.json");
         if (null != schema) {
             /** 2.从系统中读取Schema **/
             final Schema inserted = this.dao.save(schema);

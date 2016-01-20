@@ -19,7 +19,7 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
- * Schema Builder
+ * Schema OldBuilder
  * 
  * @author Lang
  *

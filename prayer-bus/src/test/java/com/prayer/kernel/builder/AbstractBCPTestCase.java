@@ -20,8 +20,8 @@ import com.prayer.dao.impl.schema.CommuneImporter;
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.dao.impl.std.record.RecordDaoImpl;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.facade.dao.Builder;
 import com.prayer.facade.dao.RecordDao;
+import com.prayer.facade.dao.builder.OldBuilder;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.pool.JdbcConnection;
@@ -50,7 +50,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     /** **/
     private transient RecordDao recordDao;
     /** **/
-    protected transient Builder builder;
+    protected transient OldBuilder oldBuilder;
     /** **/
     private transient final DataValidator verifier;
 
@@ -111,16 +111,16 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
             if (null == schema) {
                 this.executeNotMatch();
             } else {
-                this.builder = instance(getBuilder().getName(), schema);
+                this.oldBuilder = instance(getBuilder().getName(), schema);
             }
         }
     }
 
     /** **/
     protected void afterExecute() {
-        if (this.isValidDB() && null != this.builder) {
-            if (!this.builder.existTable()) {
-                this.builder.createTable();
+        if (this.isValidDB() && null != this.oldBuilder) {
+            if (!this.oldBuilder.existTable()) {
+                this.oldBuilder.createTable();
             }
         } else {
             this.executeNotMatch();
@@ -142,14 +142,14 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     /** **/
     protected boolean createTable() {
         boolean ret = false;
-        if (this.isValidDB() && null != this.builder) {
-            boolean exist = this.builder.existTable();
+        if (this.isValidDB() && null != this.oldBuilder) {
+            boolean exist = this.oldBuilder.existTable();
             if (exist) {
-                this.builder.purgeTable();
+                this.oldBuilder.purgeTable();
             }
-            exist = this.builder.existTable();
+            exist = this.oldBuilder.existTable();
             if (!exist) {
-                ret = this.builder.createTable();
+                ret = this.oldBuilder.createTable();
             }
         } else {
             this.executeNotMatch();
@@ -161,14 +161,14 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     /** **/
     protected boolean purgeTable() {
         boolean ret = false;
-        if (this.isValidDB() && null != this.builder) {
-            boolean exist = this.builder.existTable();
+        if (this.isValidDB() && null != this.oldBuilder) {
+            boolean exist = this.oldBuilder.existTable();
             if (!exist) {
-                this.builder.createTable();
+                this.oldBuilder.createTable();
             }
-            exist = this.builder.existTable();
+            exist = this.oldBuilder.existTable();
             if (exist) {
-                ret = this.builder.purgeTable();
+                ret = this.oldBuilder.purgeTable();
             }
         } else {
             this.executeNotMatch();
@@ -196,12 +196,12 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
     private Schema prepData(final String inputFile, final String globalId) {
         // this.importer = new CommunionImporter(BUILDER_FILE + inputFile);
         final String filePath = BUILDER_FILE + inputFile;
-        final Importer importer = reservoir(MemoryPool.POOL_IMPORTER, filePath, CommuneImporter.class, filePath);
+        final Importer importer = reservoir(MemoryPool.POOL_IMPORTER, filePath, CommuneImporter.class);
         // final OldImporter oldImporter = this.getImporter(BUILDER_FILE +
         // inputFile);
         Schema schema = null;
         try {
-            schema = importer.readFrom(filePath);
+            schema = importer.read(filePath);
             schema = this.dao.save(schema);
         } catch (SerializationException ex) {
             info(getLogger(), ex.getErrorMessage(), ex);
@@ -217,7 +217,7 @@ public abstract class AbstractBCPTestCase extends AbstractTestCase { // NOPMD
 
     private void executeNotMatch() {
         info(getLogger(), "[T] Database not match ! Expected: " + getDbCategory() + ", Actual: " + Resources.DB_CATEGORY
-                + " Or Builder is Null: " + (this.builder == null));
+                + " Or OldBuilder is Null: " + (this.oldBuilder == null));
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
