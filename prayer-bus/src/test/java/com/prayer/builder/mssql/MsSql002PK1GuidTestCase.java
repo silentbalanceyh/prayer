@@ -2,24 +2,26 @@ package com.prayer.builder.mssql;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractException;
 import com.prayer.builder.AbstractMsSqlBDTestCase;
-import com.prayer.facade.schema.Schema;
 
 /**
  * 
  * @author Lang
  *
  */
-public class _MsSql001UK1TestCase extends AbstractMsSqlBDTestCase {
+@FixMethodOrder(MethodSorters.DEFAULT)
+public class MsSql002PK1GuidTestCase extends AbstractMsSqlBDTestCase {
     // ~ Static Fields =======================================
 
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql001UK1TestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MsSql002PK1GuidTestCase.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -36,16 +38,16 @@ public class _MsSql001UK1TestCase extends AbstractMsSqlBDTestCase {
     // ~ Methods =============================================
     /** **/
     @Test
-    public void test001UK1Sync() throws AbstractException {
-        boolean ret = this.executeContainer(this::test001UK1);
+    public void test001PK2Sync() throws AbstractException {
+        boolean ret = this.executeSyncContainer("MsSqlP002TestPK1.json");
         assertTrue(ret);
     }
 
-    public void test001UK1() throws AbstractException {
-        /** 1.准备数据 **/
-        final Schema schema = this.prepare("MsSqlP001TestUK1.json");
-        /** 2.构建表数据 **/
-        this.builder().synchronize(schema);
+    /** **/
+    @Test
+    public void test002UK1Purge() throws AbstractException {
+        boolean ret = this.executePurgeContainer("MsSqlP002TestPK1.json");
+        assertTrue(ret);
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

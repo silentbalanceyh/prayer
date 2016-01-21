@@ -1,5 +1,7 @@
 package com.prayer.facade.dao.builder.line;
 
+import java.util.concurrent.ConcurrentMap;
+
 import com.prayer.model.crucial.schema.FKReferencer;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
@@ -22,7 +24,7 @@ public interface KeySaber {
      * @param field
      * @return
      */
-    String buildLine(PEKey key, PEField field);
+    String buildLine(PEKey key, ConcurrentMap<String,PEField> fieldMap);
     /**
      * FK另外一种模式
      * @param name

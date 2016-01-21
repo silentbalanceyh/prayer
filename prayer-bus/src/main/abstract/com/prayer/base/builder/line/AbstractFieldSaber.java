@@ -1,11 +1,18 @@
 package com.prayer.base.builder.line;
 
+import java.text.MessageFormat;
+import java.util.concurrent.ConcurrentMap;
+
+import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
+import com.prayer.dao.impl.builder.SqlTypes;
 import com.prayer.facade.dao.builder.SQLWord;
 import com.prayer.facade.dao.builder.line.FieldSaber;
 import com.prayer.model.meta.database.PEField;
 
 import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -25,11 +32,18 @@ public abstract class AbstractFieldSaber implements FieldSaber, SQLWord {
     // ~ Abstract Methods ====================================
     // ~ Type 包装器，子类必须实现，用于处理N和PS部分=========
     /**
+     * 精度匹配类型映射
      * 
-     * @param field
      * @return
      */
-    public abstract String type(PEField field);
+    public abstract ConcurrentMap<String, String> getPrecisionMap();
+
+    /**
+     * 长度匹配类型映射
+     * 
+     * @return
+     */
+    public abstract ConcurrentMap<String, String> getLengthMap();
 
     // ~ Override Methods ====================================
     // ~ Methods =============================================
@@ -52,6 +66,27 @@ public abstract class AbstractFieldSaber implements FieldSaber, SQLWord {
         return sql.toString();
     }
     // ~ Private Methods =====================================
+
+    private String type(@NotNull @NotBlank @NotEmpty final PEField field) {
+        final StringBuilder type = new StringBuilder();
+        // 1.获取原始类型
+        final String rawType = SqlTypes.get(field.getColumnType());
+        // 2.判断当前类型是否包含了括号
+        String actualType = rawType;
+        if (Constants.RANGE < rawType.indexOf('(')) {
+            actualType = rawType.split("(")[Constants.IDX];
+        }
+        // 3.是否添加Pattern
+        if (getPrecisionMap().containsKey(actualType)) {
+            type.append(
+                    MessageFormat.format(getPrecisionMap().get(actualType), field.getLength(), field.getPrecision()));
+        } else if (getLengthMap().containsKey(actualType)) {
+            type.append(MessageFormat.format(getLengthMap().get(actualType), field.getLength()));
+        } else {
+            type.append(actualType);
+        }
+        return type.toString();
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

@@ -5,6 +5,8 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
@@ -12,15 +14,20 @@ import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.dao.impl.builder.SqlDDLBuilder;
 import com.prayer.facade.dao.builder.Builder;
 import com.prayer.facade.dao.builder.SQLStatement;
+import com.prayer.facade.dao.builder.line.FieldSaber;
+import com.prayer.facade.dao.builder.line.KeySaber;
+import com.prayer.facade.fun.builder.AutoIncrement;
 import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.model.meta.database.PEField;
+import com.prayer.model.meta.database.PEKey;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.util.string.StringKit;
 
@@ -66,8 +73,14 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
     /** 日志记录器 **/
     public abstract Logger getLogger();
 
+    /** 字段处理器 **/
+    public abstract FieldSaber getFieldSaber();
+
+    /** 键处理器 **/
+    public abstract KeySaber getKeySaber();
+
     /** 自增长字段语句 **/
-    public abstract String getAutoIncrement(PEField primaryKey);
+    public abstract String buildIncrement(Schema schema);
 
     // ~ Override Methods =====================================
     /** **/
@@ -76,6 +89,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
         final boolean exist = this.exist(schema);
         // 表是否存在，不存在则执行Create，存在则执行Alter
         String sql = null;
+        debug(getLogger(), "[D] Table " + schema.getTable() + " does not exist. Result: exist = " + exist);
         if (exist) {
             sql = this.prepAlterSql(schema);
         } else {
@@ -114,7 +128,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
         /** 验证表是否存在 **/
         AbstractSchemaException error = this.getValidator().verifyTable(table);
         /** 如果error为空则表不存在 **/
-        return !(null == error);
+        return null == error;
     }
 
     private String prepAlterSql(final Schema schema) {
@@ -131,9 +145,63 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
      */
     private String prepCreateSql(final Schema schema) {
         final List<String> lines = new ArrayList<>();
-        /** 1.自增长定义行 **/
-
+        /** 1.主键构建定义 **/
+        {
+            this.buildPrimaryKey(lines, schema, this::buildIncrement);
+        }
+        /** 2.字段定义信息，去掉主键字段 **/
+        {
+            for (final PEField field : schema.fields()) {
+                if (!field.isPrimaryKey()) {
+                    addLine(lines, this.getFieldSaber().buildLine(field));
+                }
+            }
+        }
+        /** 3.添加Unique/Primary Key约束 **/
+        {
+            for (final PEKey key : schema.keys()) {
+                // buildLine(PEKey)仅针对UK和PK
+                addLine(lines, this.getKeySaber().buildLine(key));
+            }
+        }
+        /** 4.添加Foreign Key约束 **/
+        {
+            final ConcurrentMap<String, PEField> foreigns = this.extractForeignKey(schema);
+            for (final PEKey key : schema.getForeignKey()) {
+                addLine(lines, this.getKeySaber().buildLine(key, foreigns));
+            }
+        }
+        /** 5.生成最终的SQL语句 **/
         return builder.buildCreateTable(schema.getTable(), lines);
+    }
+
+    private ConcurrentMap<String, PEField> extractForeignKey(final Schema schema) {
+        final List<PEField> fields = schema.getForeignField();
+        final ConcurrentMap<String, PEField> map = new ConcurrentHashMap<>();
+        for (final PEField field : fields) {
+            map.put(field.getColumnName(), field);
+        }
+        return map;
+    }
+
+    private void addLine(final List<String> sqls, final String line) {
+        if (StringKit.isNonNil(line)) {
+            sqls.add(line);
+        }
+    }
+
+    private void buildPrimaryKey(final List<String> lines, final Schema schema, final AutoIncrement increment) {
+        final MetaPolicy policy = schema.getPolicy();
+        if (MetaPolicy.INCREMENT == policy) {
+            addLine(lines, increment.build(schema));
+        } else {
+            // 1.获取所有主键
+            final List<PEField> primarykeys = schema.getPrimaryKeys();
+            // 2.所有主键添加到lines中
+            for (final PEField primarykey : primarykeys) {
+                addLine(lines, this.getFieldSaber().buildLine(primarykey));
+            }
+        }
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

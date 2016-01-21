@@ -4,7 +4,10 @@ package com.prayer.base.builder.line;
  */
 
 import java.text.MessageFormat;
+import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.facade.dao.builder.SQLStatement;
@@ -53,24 +56,25 @@ public abstract class AbstractKeySaber implements KeySaber, SQLWord, SQLStatemen
     }
 
     /**
-     * 生成键定义行语句，外键处理
+     * 生成键定义行语句，外键处理，虽然目前不支持同表引用，但这个语句必须要设置
      */
     // ForeignKey
     // CONSTRAINT FK_NAME FOREIGN KEY (COLUMN) REFERENCES REF_TABLE(REF_ID)
-    public String buildLine(@NotNull @InstanceOfAny(PEKey.class) final PEKey key, final PEField field) {
+    public String buildLine(@NotNull @InstanceOfAny(PEKey.class) final PEKey key,
+            ConcurrentMap<String, PEField> fieldMap) {
         // 1.初始化缓冲区
         final StringBuilder sql = new StringBuilder();
-        // 2.生成列相关信息
-        final String columns = StringKit.join(key.getColumns(), Symbol.COMMA);
-        // 3.按照类型处理ForeignKey
-        if (null == field) {
-            // PK, UK
-            sql.append(this.buildLine(key));
-        } else {
-            // FK
-            if (KeyCategory.ForeignKey == key.getCategory()) {
-                sql.append(MessageFormat.format(CONSTRAING_FK, key.getName(), columns, field.getRefTable(),
-                        field.getRefId()));
+        if (KeyCategory.ForeignKey == key.getCategory()) {
+            // 2.获取Column列表
+            final List<String> columns = key.getColumns();
+            // 3.获取每一个外键列
+            if (Constants.ONE != columns.size()) {
+                final String column = columns.get(Constants.IDX);
+                if (StringKit.isNonNil(column) && fieldMap.containsKey(column)) {
+                    final PEField field = fieldMap.get(column);
+                    sql.append(MessageFormat.format(CONSTRAING_FK, key.getName(), StringKit.join(columns, Symbol.COMMA),
+                            field.getRefTable(), field.getRefId()));
+                }
             }
         }
         return sql.toString();

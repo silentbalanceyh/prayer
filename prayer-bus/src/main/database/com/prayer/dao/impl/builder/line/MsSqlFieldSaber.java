@@ -1,18 +1,11 @@
 package com.prayer.dao.impl.builder.line;
 
-import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.builder.line.AbstractFieldSaber;
-import com.prayer.constant.Constants;
-import com.prayer.dao.impl.builder.SqlTypes;
 import com.prayer.facade.dao.builder.special.MsSqlWord;
-import com.prayer.model.meta.database.PEField;
 
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -52,23 +45,13 @@ public class MsSqlFieldSaber extends AbstractFieldSaber implements MsSqlWord {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public String type(@NotNull @NotBlank @NotEmpty final PEField field) {
-        final StringBuilder type = new StringBuilder();
-        // 1.获取原始类型
-        final String rawType = SqlTypes.get(field.getColumnType());
-        // 2.判断当前类型是否包含了括号
-        String actualType = rawType;
-        if (Constants.RANGE < rawType.indexOf('(')) {
-            actualType = rawType.split("(")[Constants.IDX];
-        }
-        // 3.是否添加Pattern
-        type.append(actualType);
-        if (PRECISION_MAP.containsKey(actualType)) {
-            type.append(MessageFormat.format(PRECISION_MAP.get(actualType), field.getLength(), field.getPrecision()));
-        } else if (LENGTH_MAP.containsKey(actualType)) {
-            type.append(MessageFormat.format(LENGTH_MAP.get(actualType), field.getLength()));
-        }
-        return type.toString();
+    public ConcurrentMap<String,String> getPrecisionMap(){
+        return PRECISION_MAP;
+    }
+    /** **/
+    @Override
+    public ConcurrentMap<String,String> getLengthMap(){
+        return LENGTH_MAP;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
