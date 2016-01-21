@@ -1,4 +1,4 @@
-package com.prayer.kernel.builder.mssql;
+package com.prayer.old.builder.mssql;
 
 import static org.junit.Assert.assertTrue;
 
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.dao.impl.old.builder.MsSqlBuilder;
-import com.prayer.kernel.builder.AbstractBCPTestCase;
+import com.prayer.old.builder.AbstractBCPTestCase;
 
 /**
  * 

@@ -1,13 +1,16 @@
 package com.prayer.dao.impl.builder;
 
+import com.prayer.base.builder.AbstractBuilder;
 import com.prayer.facade.dao.builder.special.MsSqlStatement;
 
+import net.sf.oval.guard.Guarded;
 /**
  * 
  * @author Lang
  *
  */
-public class MsSqlLexicon implements MsSqlStatement{
+@Guarded
+public class MsSqlBuilder extends AbstractBuilder implements MsSqlStatement{
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -19,4 +22,5 @@ public class MsSqlLexicon implements MsSqlStatement{
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

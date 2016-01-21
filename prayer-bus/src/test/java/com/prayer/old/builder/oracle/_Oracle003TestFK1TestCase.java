@@ -1,18 +1,18 @@
-package com.prayer.kernel.builder.oracle;
+package com.prayer.old.builder.oracle;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
-import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractException;
 import com.prayer.dao.impl.old.builder.OracleBuilder;
-import com.prayer.kernel.builder.AbstractBCPTestCase;
+import com.prayer.facade.schema.Schema;
+import com.prayer.old.builder.AbstractBCPTestCase;
 
 /**
  * 
@@ -20,12 +20,12 @@ import com.prayer.kernel.builder.AbstractBCPTestCase;
  *
  */
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class _Oracle002TestPK2TestCase extends AbstractBCPTestCase {    // NOPMD
+public class _Oracle003TestFK1TestCase extends AbstractBCPTestCase {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final String DB_CATEGORY = "ORACLE";
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(_Oracle002TestPK2TestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(_Oracle003TestFK1TestCase.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -54,37 +54,38 @@ public class _Oracle002TestPK2TestCase extends AbstractBCPTestCase {    // NOPMD
     // ~ Methods =============================================
     /** **/
     @Before
-    public void setUp() {
-        this.beforeExecute("OracleP002TestPK2.json", "tst.mod.pk2");
+    public void setUp() throws AbstractException {
+        this.beforeExecute("MsSqlP003TestFK1.json", "tst.mod.fk1");
+        final Schema prepSchema = this.getService().get("tst.mod.fk1");
+        this.oldBuilder.syncTable(prepSchema);
     }
 
     /** **/
-    @Test
+    //@Test
     public void test001UKCreate() {
     	if (this.isValidDB()){
-            final boolean ret = this.createTable();
-            assertTrue("[T] Created Table Successfully ! Result = " + ret, ret);
-            // Post
-            if (ret) {
-                this.oldBuilder.purgeTable();
-            }
+        final boolean ret = this.createTable();
+        assertTrue("[T] Created Table Successfully ! Result = " + ret, ret);
+        // Post
+        if (ret) {
+            this.oldBuilder.purgeTable();
+        }
     	}
     }
 
     /** **/
-    @Test
+    //@Test
     public void test001UKPurge() {
     	if (this.isValidDB()){
-    	final boolean ret = this.purgeTable();
+        final boolean ret = this.purgeTable();
         assertTrue("[T] Purge Table Successfully ! Result = " + ret, ret);
-        }
+    	}
     }
 
     /** **/
     @After
-    public void setDown() throws AbstractDatabaseException{
+    public void setDown() {
         this.afterExecute();
-        this.pushData("tst.mod.pk2");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

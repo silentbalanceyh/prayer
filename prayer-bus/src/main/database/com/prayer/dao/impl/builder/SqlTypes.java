@@ -25,6 +25,9 @@ public final class SqlTypes {
     // ~ Static Fields =======================================
     /** 数据库类型映射 **/
     private static final ConcurrentMap<String,String> DB_TYPES = new ConcurrentHashMap<>();
+    
+    /** 数据库名称获取 **/
+    private static final PropertyKit LOADER = new PropertyKit(Resources.DB_CFG_FILE);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     /** 初始化数据类型映射表，直接根据Database填充 **/
@@ -50,6 +53,13 @@ public final class SqlTypes {
      */
     public static String get(@NotNull @NotEmpty @NotBlank final Object key){
         return DB_TYPES.get(key);
+    }
+    /**
+     * 数据库名称
+     * @return
+     */
+    public static String database(){
+        return LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
     }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

@@ -2,25 +2,24 @@ package com.prayer.bus.impl.schema;
 
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
-import static com.prayer.util.reflection.Instance.reservoir;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
-import com.prayer.constant.Accessors;
-import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
+import com.prayer.dao.impl.builder.MetadataBuilder;
 import com.prayer.dao.impl.schema.CommuneImporter;
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.bus.schema.SchemaService;
-import com.prayer.facade.dao.builder.OldBuilder;
+import com.prayer.facade.dao.builder.Builder;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
@@ -48,7 +47,12 @@ public class SchemaSevImpl implements SchemaService {
     /** 访问H2的Schema数据层接口 **/
     @NotNull
     private transient SchemaDao dao;
-
+    /** 访问传统数据库的Builder **/
+    @NotNull
+    private transient Builder builder;
+    /** 导入器 **/
+    @NotNull
+    private transient Importer importer;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -56,6 +60,8 @@ public class SchemaSevImpl implements SchemaService {
     @PostValidateThis
     public SchemaSevImpl() {
         this.dao = singleton(SchemaDaoImpl.class);
+        this.builder = singleton(MetadataBuilder.class);
+        this.importer = singleton(CommuneImporter.class);
     }
 
     // ~ Abstract Methods ====================================
@@ -67,7 +73,6 @@ public class SchemaSevImpl implements SchemaService {
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<Schema> syncSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
-        final Importer importer = reservoir(MemoryPool.POOL_IMPORTER, filePath, CommuneImporter.class);
         final ServiceResult<Schema> result = new ServiceResult<>();
         try {
             /** 1.读取Schema信息，从Json到H2中 **/
@@ -98,20 +103,13 @@ public class SchemaSevImpl implements SchemaService {
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<Schema> syncMetadata(@NotNull final Schema schema) {
-        // 使用池化单件模式，每一个ID的Schema拥有一个Builder
-        final OldBuilder oldBuilder = reservoir(MemoryPool.POOL_BUILDER, schema.identifier(), Accessors.builder(), schema);
-        if (oldBuilder.existTable()) {
-            oldBuilder.syncTable(schema);
-        } else {
-            oldBuilder.createTable();
-        }
-        // 如果有错误则getError()就不是null值则会导致Build异常
         final ServiceResult<Schema> result = new ServiceResult<>();
-        if (null == oldBuilder.getError()) {
-            info(LOGGER, InfoKey.INF_DP_STEP2, schema.identifier(), Resources.META_CATEGORY, Resources.DB_CATEGORY);
+        try{
+            this.builder.synchronize(schema);
             result.success(schema);
-        } else {
-            result.failure(oldBuilder.getError());
+        }catch(AbstractDatabaseException ex){
+            peError(LOGGER,ex);
+            result.failure(ex);
         }
         return result;
     }

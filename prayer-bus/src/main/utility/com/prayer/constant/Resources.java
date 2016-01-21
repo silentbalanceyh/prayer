@@ -90,6 +90,8 @@ public final class Resources { // NOPMD
     public static final String SEC_CFG_FILE;
     /** Web Config配置文件路径 **/
     public static final String WEB_CFG_FILE;
+    /** Database数据库名称 **/
+    public static final String DB_DATABASE;
 
     /** 默认不是从CONSOLE启动 **/
     public static boolean useConsole = Boolean.FALSE;
@@ -194,7 +196,8 @@ public final class Resources { // NOPMD
         // Meta Accessor Implementation
         META_ACCESSOR = LOADER.getString("database.accessor.impl");
         // Meta Initializer Implementation
-
+        final PropertyKit DB_LOADER = new PropertyKit(Resources.DB_CFG_FILE);
+        DB_DATABASE = DB_LOADER.getString(DB_CATEGORY + ".jdbc.database.name");
     }
 
     // ~ Constructors ========================================

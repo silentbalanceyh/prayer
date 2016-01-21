@@ -1,4 +1,4 @@
-package com.prayer.kernel.builder.mssql;
+package com.prayer.old.builder.mssql;
 
 import static org.junit.Assert.assertTrue;
 
@@ -10,9 +10,10 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.base.exception.AbstractException;
 import com.prayer.dao.impl.old.builder.MsSqlBuilder;
-import com.prayer.kernel.builder.AbstractBCPTestCase;
+import com.prayer.facade.schema.Schema;
+import com.prayer.old.builder.AbstractBCPTestCase;
 
 /**
  * 
@@ -20,12 +21,12 @@ import com.prayer.kernel.builder.AbstractBCPTestCase;
  *
  */
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class _MsSql002TestPK1TestCase extends AbstractBCPTestCase {    // NOPMD
+public class _MsSql003TestFK1TestCase extends AbstractBCPTestCase {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final String DB_CATEGORY = "MSSQL";
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql002TestPK1TestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql003TestFK1TestCase.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -54,8 +55,13 @@ public class _MsSql002TestPK1TestCase extends AbstractBCPTestCase {    // NOPMD
     // ~ Methods =============================================
     /** **/
     @Before
-    public void setUp() {
-        this.beforeExecute("MsSqlP002TestPK1.json", "tst.mod.pk1");
+    public void setUp() throws AbstractException{
+        if(null != this.getVerifier().verifyTable("TST_FKP003")){
+            this.getContext().executeBatch("CREATE TABLE TST_FKP003( T_ID BIGINT PRIMARY KEY );");
+        }
+        this.beforeExecute("MsSqlP003TestFK1.json", "tst.mod.fk1");
+        final Schema prepSchema = this.getService().get("tst.mod.fk1");
+        this.oldBuilder.syncTable(prepSchema);
     }
 
     /** **/
@@ -78,9 +84,8 @@ public class _MsSql002TestPK1TestCase extends AbstractBCPTestCase {    // NOPMD
 
     /** **/
     @After
-    public void setDown() throws AbstractDatabaseException{
+    public void setDown() {
         this.afterExecute();
-        this.pushData("tst.mod.pk1");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

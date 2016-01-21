@@ -1,4 +1,4 @@
-package com.prayer.kernel.builder.mssql;
+package com.prayer.old.builder.mssql;
 
 import static org.junit.Assert.assertTrue;
 
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.dao.impl.old.builder.MsSqlBuilder;
-import com.prayer.kernel.builder.AbstractBCPTestCase;
+import com.prayer.old.builder.AbstractBCPTestCase;
 
 /**
  * 
@@ -20,12 +20,13 @@ import com.prayer.kernel.builder.AbstractBCPTestCase;
  *
  */
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class _MsSql001TestUK1TestCase extends AbstractBCPTestCase {    // NOPMD
+public class _MsSql002TestPK1TestCase extends AbstractBCPTestCase {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final String DB_CATEGORY = "MSSQL";
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql001TestUK1TestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql002TestPK1TestCase.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -54,7 +55,7 @@ public class _MsSql001TestUK1TestCase extends AbstractBCPTestCase {    // NOPMD
     /** **/
     @Before
     public void setUp() {
-        this.beforeExecute("MsSqlP001TestUK1.json", "tst.mod.uk1");
+        this.beforeExecute("MsSqlP002TestPK1.json", "tst.mod.pk1");
     }
 
     /** **/
@@ -79,7 +80,7 @@ public class _MsSql001TestUK1TestCase extends AbstractBCPTestCase {    // NOPMD
     @After
     public void setDown() throws AbstractDatabaseException{
         this.afterExecute();
-        this.pushData("tst.mod.uk1");
+        this.pushData("tst.mod.pk1");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

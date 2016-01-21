@@ -10,9 +10,18 @@ public interface SQLStatement { // SQL语句模板
     String TB_CREATE = "CREATE TABLE {0} ( {1} )";
     /** 表删除语句 **/
     String TB_DROP = "DROP TABLE {0}";
-    /** 表更新语句 **/
-    String TB_ALTER = "ALTER TABLE {0} {1}";
-
+    
+    /** 表约束更新语句 **/
+    String ATBD_CONSTRAINT = "ALTER TABLE {0} DROP CONSTRAINT {1}";
+    /** 表约束添加语句 **/
+    String ATBA_CONSTRAINT = "ALTER TABLE {0} ADD {1}";
+    /** 表列添加语句 **/
+    String ATBA_COLUMN = "ALTER TABLE {0} ADD {1}";
+    /** 表列删除语句 **/
+    String ATBD_COLUMN = "ALTER TABLE {0} DROP COLUMN {1}";
+    /** 表列更新语句 **/
+    String ATBM_COLUMN = "ALTER TABLE {0} ALTER COLUMN {1}";
+    
     /** 表统计 **/
     String OP_COUNT = "SELECT COUNT(*) FROM {0}";
     /** 插入语句 **/

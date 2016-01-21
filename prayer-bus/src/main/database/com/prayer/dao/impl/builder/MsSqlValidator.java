@@ -5,8 +5,8 @@ import java.util.Locale;
 
 import com.prayer.base.builder.AbstractValidator;
 import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
 import com.prayer.facade.dao.builder.special.MsSqlStatement;
-import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.NotBlank;
@@ -20,7 +20,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class MsSqlValidator extends AbstractValidator implements DataValidator, MsSqlStatement {
+public final class MsSqlValidator extends AbstractValidator implements MsSqlStatement {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -31,28 +31,28 @@ public final class MsSqlValidator extends AbstractValidator implements DataValid
     /** 检查表是否存在的SQL语句 **/
     @Override
     protected String buildTableSQL(@NotNull @NotEmpty @NotBlank final String table) {
-        return MessageFormat.format(E_TABLE, this.getDatabase(), table);
+        return MessageFormat.format(E_TABLE, Resources.DB_DATABASE, table);
     }
 
     /** 检查表中列是否存在的SQL语句 **/
     @Override
     protected String buildColumnSQL(@NotNull @NotEmpty @NotBlank final String table,
             @NotNull @NotEmpty @NotBlank final String column) {
-        return MessageFormat.format(E_COLUMN, this.getDatabase(), table, column);
+        return MessageFormat.format(E_COLUMN, Resources.DB_DATABASE, table, column);
     }
 
     /** 检查表中列对应的外键约束是否匹配 **/
     @Override
     protected String buildConstraintSQL(@NotNull @NotEmpty @NotBlank final String table,
             @NotNull @NotEmpty @NotBlank final String column) {
-        return MessageFormat.format(E_FK_CHECK, this.getDatabase(), table, column);
+        return MessageFormat.format(E_FK_CHECK, Resources.DB_DATABASE, table, column);
     }
 
     /** 检查表中对应列的类型是否匹配 **/
     @Override
     protected String buildTypeSQL(@NotNull @NotEmpty @NotBlank final String table,
             @NotNull @NotEmpty @NotBlank final String column, @NotNull @NotEmpty @NotBlank final String type) {
-        return MessageFormat.format(E_FK_CHECK_TYPE, this.getDatabase(), table, column, type);
+        return MessageFormat.format(E_FK_CHECK_TYPE, Resources.DB_DATABASE, table, column, type);
     }
 
     /** 类型查看器 **/
@@ -60,7 +60,7 @@ public final class MsSqlValidator extends AbstractValidator implements DataValid
     protected String typeFilter(@NotNull @NotEmpty @NotBlank final String expectedType) {
         // 参数处理
         String type = Constants.EMPTY_STR;
-        if (0 < expectedType.indexOf('(')) {
+        if (Constants.RANGE < expectedType.indexOf('(')) {
             type = expectedType.split("(")[Constants.IDX];
             if (StringKit.isNonNil(type)) {
                 type = type.toLowerCase(Locale.getDefault());

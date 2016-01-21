@@ -1,18 +1,18 @@
-package com.prayer.kernel.builder.mssql;
+package com.prayer.old.builder.mssql;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.schema.Schema;
-import com.prayer.kernel.builder.AbstractBUPTestCase;
-import com.prayer.model.bus.ServiceResult;
+import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.dao.impl.old.builder.MsSqlBuilder;
+import com.prayer.old.builder.AbstractBCPTestCase;
 
 /**
  * 
@@ -20,13 +20,12 @@ import com.prayer.model.bus.ServiceResult;
  *
  */
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class _MsSql004UpdateUK1TestCase extends AbstractBUPTestCase { // NOPMD
+public class _MsSql001TestUK1TestCase extends AbstractBCPTestCase {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final String DB_CATEGORY = "MSSQL";
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql004UpdateUK1TestCase.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(_MsSql001TestUK1TestCase.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -45,27 +44,42 @@ public class _MsSql004UpdateUK1TestCase extends AbstractBUPTestCase { // NOPMD
         return DB_CATEGORY;
     }
 
+    /** **/
+    @Override
+    protected Class<?> getBuilder() {
+        return MsSqlBuilder.class;
+    }
+
     // ~ Methods =============================================
     /** **/
-    @Test
-    public void testDatabaseUpdate1() {
-        final ServiceResult<Schema> ret = this.testUpdating("MsSqlP004Update1FromUK1.json",
-                "MsSqlP004Update1ToUK1.json", "[T] Update schema met errors !");
-        assertEquals(ret.getErrorMessage(), ResponseCode.SUCCESS, ret.getResponseCode());
+    @Before
+    public void setUp() {
+        this.beforeExecute("MsSqlP001TestUK1.json", "tst.mod.uk1");
     }
-    
+
     /** **/
     @Test
-    public void testDatabaseUpdate2() {
-        final ServiceResult<Schema> ret = this.testUpdating("MsSqlP004Update2FromUK2.json",
-                "MsSqlP004Update2ToUK2.json", "[T] Update schema met errors !");
-        assertEquals(ret.getErrorMessage(), ResponseCode.SUCCESS, ret.getResponseCode());
+    public void test001UKCreate() {
+        final boolean ret = this.createTable();
+        assertTrue("[T] Created Table Successfully ! Result = " + ret, ret);
+        // Post
+        if (ret) {
+            this.oldBuilder.purgeTable();
+        }
+    }
+
+    /** **/
+    @Test
+    public void test001UKPurge() {
+        final boolean ret = this.purgeTable();
+        assertTrue("[T] Purge Table Successfully ! Result = " + ret, ret);
     }
 
     /** **/
     @After
-    public void setDown() {
-        // this.afterExecute();
+    public void setDown() throws AbstractDatabaseException{
+        this.afterExecute();
+        this.pushData("tst.mod.uk1");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

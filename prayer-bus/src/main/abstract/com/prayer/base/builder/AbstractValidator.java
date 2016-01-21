@@ -11,8 +11,8 @@ import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.pool.impl.jdbc.RecordConnImpl;
-import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
@@ -27,10 +27,8 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public abstract class AbstractValidator {
+public abstract class AbstractValidator implements DataValidator {
     // ~ Static Fields =======================================
-    /** 数据库名称获取 **/
-    private static final PropertyKit LOADER = new PropertyKit(Resources.DB_CFG_FILE);
     // ~ Instance Fields =====================================
     /** 数据库连接 **/
     @NotNull
@@ -64,10 +62,6 @@ public abstract class AbstractValidator {
 
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    /** 获取数据库名称 **/
-    protected String getDatabase() {
-        return LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
-    }
 
     /** 检查表是否存在 **/
     public AbstractSchemaException verifyTable(@NotNull @NotEmpty @NotBlank final String table) {

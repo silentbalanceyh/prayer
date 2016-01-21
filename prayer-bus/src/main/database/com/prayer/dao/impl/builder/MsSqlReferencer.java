@@ -1,21 +1,22 @@
 package com.prayer.dao.impl.builder;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.prayer.util.reflection.Instance.singleton;
+
+import java.text.MessageFormat;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.base.builder.AbstractReferencer;
+import com.prayer.dao.impl.builder.line.MsSqlKeySaber;
+import com.prayer.facade.dao.builder.line.KeySaber;
+import com.prayer.facade.dao.builder.special.MsSqlStatement;
 import com.prayer.facade.dao.builder.special.MsSqlWord;
-import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.model.crucial.schema.FKReferencer;
-import com.prayer.util.jdbc.SqlDDL;
 
-import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * SQL Server中处理Referencer的方法
@@ -24,85 +25,42 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public final class MsSqlReferencer implements Referencer {
+public final class MsSqlReferencer extends AbstractReferencer implements MsSqlStatement, MsSqlWord {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    /** 数据库连接 **/
-    @NotNull
-    @InstanceOf(JdbcConnection.class)
-    private transient final JdbcConnection context; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-
-    /**
-     * 
-     */
-    @PostValidateThis
-    public MsSqlReferencer(@NotNull final JdbcConnection context) {
-        this.context = context;
+    /** 使用传入连接构造 **/
+    public MsSqlReferencer(final JdbcConnection connection) {
+        super(connection);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-
-    /**
-     * 获取所有的引用集合
-     */
+    /** 读取SQL的语句 **/
     @Override
-    public List<FKReferencer> getReferences(@NotNull @NotEmpty @NotBlank final String table,
+    public String buildRefSQL(@NotNull @NotEmpty @NotBlank final String table,
             @NotNull @NotEmpty @NotBlank final String column) {
-        final String sql = MsSqlHelper.getSqlReferences(table, column);
-        final List<ConcurrentMap<String, String>> records = this.context.select(sql,
-                new String[] { MsSqlWord.Metadata.CONSTRAINT, MsSqlWord.Metadata.TABLE, MsSqlWord.Metadata.COLUMN });
-        final List<FKReferencer> retRefs = new ArrayList<>();
-        for (final ConcurrentMap<String, String> item : records) {
-            final FKReferencer ref = this.extractReference(item, table, column);
-            retRefs.add(ref);
-        }
-        return retRefs;
+        return MessageFormat.format(R_REFERENCES, table, column);
     }
 
-    /**
-     * 根据获取的Referencer列表获取删除其他表的FK约束的SQL语句
-     */
+    /** 获取当前的Saber **/
     @Override
-    public List<String> prepDropSql(@NotNull final List<FKReferencer> refs) {
-        final List<String> dropSqls = new ArrayList<>();
-        for (final FKReferencer ref : refs) {
-            final String dropSql = SqlDDL.dropCSSql(ref.getFromTable(), ref.getName());
-            dropSqls.add(dropSql);
-        }
-        return dropSqls;
+    public KeySaber getKeySaber() {
+        return singleton(MsSqlKeySaber.class);
     }
 
-    /**
-     * 根据获取的Referencer列表获取添加（修复）其他表的FK约束的SQL语句
-     */
+    /** 元数据映射表 **/
     @Override
-    public List<String> prepRecoverySql(@NotNull final List<FKReferencer> refs) {
-        final List<String> recoverySqls = new ArrayList<>();
-        for (final FKReferencer ref : refs) {
-            final List<String> columns = new ArrayList<>();
-            columns.add(ref.getFromColumn());
-            final String fkLine = SqlDDL.newFKSql(ref.getName(), columns, ref.getToTable(), ref.getToColumn());
-            final String lineSql = SqlDDL.addColSql(ref.getFromTable(), fkLine);
-            recoverySqls.add(lineSql);
-        }
-        return recoverySqls;
+    public ConcurrentMap<String, String> getMetadata() {
+        final ConcurrentMap<String, String> metaMap = new ConcurrentHashMap<>();
+        metaMap.put(CONSTRAINT, Metadata.CONSTRAINT);
+        metaMap.put(TABLE, Metadata.TABLE);
+        metaMap.put(COLUMN, Metadata.COLUMN);
+        return metaMap;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-
-    private FKReferencer extractReference(final ConcurrentMap<String, String> record, final String table,
-            final String column) {
-        final FKReferencer refs = new FKReferencer();
-        refs.setName(record.get(MsSqlWord.Metadata.CONSTRAINT));
-        refs.setToTable(table);
-        refs.setToColumn(column);
-        refs.setFromTable(record.get(MsSqlWord.Metadata.TABLE));
-        refs.setFromColumn(record.get(MsSqlWord.Metadata.COLUMN));
-        return refs;
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 
