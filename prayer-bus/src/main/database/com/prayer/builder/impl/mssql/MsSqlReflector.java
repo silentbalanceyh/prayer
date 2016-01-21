@@ -1,41 +1,47 @@
 package com.prayer.builder.impl.mssql;
 
-import static com.prayer.util.reflection.Instance.singleton;
-
 import com.prayer.facade.builder.reflector.Reflector;
-import com.prayer.facade.builder.special.MsSqlStatement;
 import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.fantasm.builder.AbstractRefresher;
+import com.prayer.facade.schema.Schema;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
+ * Schema的反向读取器，从数据库中读取相关信息生成Schema
  * 
  * @author Lang
  *
  */
 @Guarded
-public class MsSqlRefresher extends AbstractRefresher implements MsSqlStatement {
+public class MsSqlReflector implements Reflector {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
+    /** **/
+    @NotNull
+    private transient JdbcConnection connection;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /**
+     * 连接通过构造函数传递
      * 
      * @param connection
      */
-    public MsSqlRefresher(@NotNull final JdbcConnection connection) {
-        super(connection);
+    public MsSqlReflector(@NotNull final JdbcConnection connection) {
+        this.connection = connection;
     }
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** Schema的反向构造器 **/
+    /**
+     * 反向构造Schema
+     */
     @Override
-    public Reflector reflector() {
-        return singleton(MsSqlReflector.class, this.connection());
+    public Schema buildSchema() {
+        // TODO Auto-generated method stub
+        return null;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

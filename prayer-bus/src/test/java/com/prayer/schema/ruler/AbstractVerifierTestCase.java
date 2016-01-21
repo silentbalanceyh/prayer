@@ -8,7 +8,7 @@ import com.prayer.constant.Accessors;
 import com.prayer.constant.DBConstants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
-import com.prayer.database.pool.impl.jdbc.RecordConnImpl;
+import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
 import com.prayer.facade.pool.JdbcConnection;
@@ -86,7 +86,7 @@ public class AbstractVerifierTestCase {
 
     /** **/
     protected JdbcConnection connection() {
-        return singleton(RecordConnImpl.class);
+        return singleton(JdbcConnImpl.class);
     }
 
     /** 删除表 **/

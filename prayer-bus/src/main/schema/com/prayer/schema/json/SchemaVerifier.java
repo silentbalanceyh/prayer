@@ -92,7 +92,7 @@ public class SchemaVerifier implements Verifier {
              */
             verifyCross(data);
             /**
-             * 10.Index的验证，仅仅包含了该节点的时候验证
+             * 11.Index的验证，仅仅包含了该节点的时候验证
              */
             if (data.containsKey(Attributes.R_INDEXES)) {
                 verifyIndexes(data);

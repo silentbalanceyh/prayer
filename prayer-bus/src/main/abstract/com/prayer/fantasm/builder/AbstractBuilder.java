@@ -14,7 +14,7 @@ import com.prayer.builder.impl.util.SqlDDLBuilder;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.database.pool.impl.jdbc.RecordConnImpl;
+import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.builder.Builder;
 import com.prayer.facade.builder.Refresher;
 import com.prayer.facade.builder.SQLStatement;
@@ -59,7 +59,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
     /** **/
     @PostValidateThis
     public AbstractBuilder() {
-        this.connection = singleton(RecordConnImpl.class);
+        this.connection = singleton(JdbcConnImpl.class);
         this.builder = SqlDDLBuilder.create();
     }
 

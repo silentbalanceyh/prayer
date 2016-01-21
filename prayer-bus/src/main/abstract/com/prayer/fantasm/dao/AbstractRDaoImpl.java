@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.database.pool.impl.jdbc.RecordConnImpl;
+import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
@@ -66,7 +66,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
     protected JdbcConnection getContext(@NotNull @NotEmpty @NotBlank final String identifier) {
         JdbcConnection context = MemoryPool.POOL_JDBC.get(identifier);
         if (null == context) {
-            context = reservoir(MemoryPool.POOL_JDBC, identifier, RecordConnImpl.class);
+            context = reservoir(MemoryPool.POOL_JDBC, identifier, JdbcConnImpl.class);
         }
         return context;
     }

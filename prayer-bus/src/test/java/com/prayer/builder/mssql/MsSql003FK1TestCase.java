@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.builder.AbstractMsSqlBDTestCase;
 import com.prayer.constant.Accessors;
-import com.prayer.database.pool.impl.jdbc.RecordConnImpl;
+import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.fantasm.exception.AbstractException;
@@ -47,7 +47,7 @@ public class MsSql003FK1TestCase extends AbstractMsSqlBDTestCase {
     @BeforeClass
     public static void setUp() throws AbstractException {
         final DataValidator verifier = singleton(Accessors.validator());
-        final JdbcConnection connection = singleton(RecordConnImpl.class);
+        final JdbcConnection connection = singleton(JdbcConnImpl.class);
         if (null != verifier.verifyTable("TST_FKP003")) {
             connection.executeBatch("CREATE TABLE TST_FKP003( T_ID BIGINT PRIMARY KEY );");
         }
@@ -57,7 +57,7 @@ public class MsSql003FK1TestCase extends AbstractMsSqlBDTestCase {
     @AfterClass
     public static void setDown() throws AbstractException {
         final DataValidator verifier = singleton(Accessors.validator());
-        final JdbcConnection connection = singleton(RecordConnImpl.class);
+        final JdbcConnection connection = singleton(JdbcConnImpl.class);
         if (null == verifier.verifyTable("TST_FKP003")) {
             connection.executeBatch("DROP TABLE TST_FKP003;");
         }

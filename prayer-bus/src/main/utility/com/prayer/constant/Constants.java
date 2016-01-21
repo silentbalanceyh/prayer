@@ -26,6 +26,8 @@ public interface Constants { // NOPMD
         String SQL = "sql";
         /** JSON 后缀名 **/
         String JSON = "json";
+        /** Properties 后缀名 **/
+        String PROP = "properties";
     }
     // ~ System ==============================================
     /** System value 2 **/

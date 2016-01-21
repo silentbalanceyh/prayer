@@ -1,6 +1,7 @@
 package com.prayer.fantasm.builder;
 
 import com.prayer.facade.builder.Refresher;
+import com.prayer.facade.builder.reflector.Reflector;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
@@ -28,6 +29,8 @@ public abstract class AbstractRefresher implements Refresher {
         this.connection = connection;
     }
     // ~ Abstract Methods ====================================
+    /** 反向构造器 **/
+    public abstract Reflector reflector();
     // ~ Override Methods ====================================
     /** **/
     @Override

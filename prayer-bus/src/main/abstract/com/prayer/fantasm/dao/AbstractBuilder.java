@@ -14,7 +14,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.StatusFlag;
-import com.prayer.database.pool.impl.jdbc.RecordConnImpl;
+import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.builder.OldBuilder;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
@@ -67,7 +67,7 @@ public abstract class AbstractBuilder implements OldBuilder { // NOPMD
      */
     @PostValidateThis
     public AbstractBuilder(@AssertFieldConstraints("schema") final Schema schema) {
-        this.context = reservoir(MemoryPool.POOL_JDBC, schema.identifier(), RecordConnImpl.class);
+        this.context = reservoir(MemoryPool.POOL_JDBC, schema.identifier(), JdbcConnImpl.class);
         this.sqlLines = new ArrayList<>();
         this.schema = schema;
     }

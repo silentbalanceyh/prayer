@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.constant.SystemEnum.UACSource;
 import com.prayer.database.pool.impl.jdbc.H2ConnImpl;
-import com.prayer.database.pool.impl.jdbc.RecordConnImpl;
+import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.util.string.StringKit;
@@ -35,7 +35,7 @@ public class JdbcSwitcher {
     // ~ Constructors ========================================
     /** **/
     public JdbcSwitcher(){
-        this.dataContext = singleton(RecordConnImpl.class);
+        this.dataContext = singleton(JdbcConnImpl.class);
         this.h2Context = singleton(H2ConnImpl.class);
     }
     // ~ Abstract Methods ====================================
