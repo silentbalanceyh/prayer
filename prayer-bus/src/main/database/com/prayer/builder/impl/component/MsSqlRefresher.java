@@ -1,49 +1,31 @@
-package com.prayer.base.builder;
+package com.prayer.builder.impl.component;
 
-import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.facade.builder.Refresher;
+import com.prayer.base.builder.AbstractRefresher;
+import com.prayer.facade.builder.special.MsSqlStatement;
 import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.facade.schema.Schema;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-
 /**
- * 抽象层的Refresher
  * 
  * @author Lang
  *
  */
 @Guarded
-public abstract class AbstractRefresher implements Refresher {
+public class MsSqlRefresher extends AbstractRefresher implements MsSqlStatement{
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    /** 数据库连接 **/
-    private transient final JdbcConnection connection; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    public AbstractRefresher(@NotNull final JdbcConnection connection){
-        this.connection = connection;
+    public MsSqlRefresher(@NotNull final JdbcConnection connection){
+        super(connection);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public String buildAlterSQL(@NotNull final Schema schema) throws AbstractDatabaseException{
-        
-        return null;
-    }
     // ~ Methods =============================================
-    /**
-     * 读取JDBC数据库连接
-     * @return
-     */
-    protected JdbcConnection connection(){
-        return this.connection;
-    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

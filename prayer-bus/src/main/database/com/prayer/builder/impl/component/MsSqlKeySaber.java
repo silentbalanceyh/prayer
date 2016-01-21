@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.line;
+package com.prayer.builder.impl.component;
 
 import com.prayer.base.builder.line.AbstractKeySaber;
 

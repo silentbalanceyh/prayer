@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.line;
+package com.prayer.builder.impl.component;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

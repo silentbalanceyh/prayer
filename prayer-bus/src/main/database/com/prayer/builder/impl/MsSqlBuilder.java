@@ -8,10 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.builder.AbstractBuilder;
-import com.prayer.builder.impl.line.MsSqlFieldSaber;
-import com.prayer.builder.impl.line.MsSqlKeySaber;
+import com.prayer.builder.impl.component.MsSqlFieldSaber;
+import com.prayer.builder.impl.component.MsSqlKeySaber;
+import com.prayer.builder.impl.component.MsSqlReferencer;
+import com.prayer.builder.impl.component.MsSqlRefresher;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
+import com.prayer.facade.builder.Refresher;
 import com.prayer.facade.builder.line.FieldSaber;
 import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.builder.special.MsSqlStatement;
@@ -41,6 +44,11 @@ public class MsSqlBuilder extends AbstractBuilder implements MsSqlStatement, MsS
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    // ~ 需要访问数据库组件 ==================================
+    /*
+     * 对于需要访问数据库的组件，需要传入原始的Builder中数据库连接，
+     * 保持Builder与其所有的组件仅使用同一个连接对象就可以了。
+     */
     /** **/
     @Override
     public Referencer getReferencer() {
@@ -49,14 +57,15 @@ public class MsSqlBuilder extends AbstractBuilder implements MsSqlStatement, MsS
 
     /** **/
     @Override
-    public DataValidator getValidator() {
-        return singleton(MsSqlValidator.class);
+    public Refresher getRefresher() {
+        return singleton(MsSqlRefresher.class, this.getConnection());
     }
 
+    // ~ 不需要访问数据库的组件 ==============================
     /** **/
     @Override
-    public Logger getLogger() {
-        return LOGGER;
+    public DataValidator getValidator() {
+        return singleton(MsSqlValidator.class);
     }
 
     /** **/
@@ -71,6 +80,14 @@ public class MsSqlBuilder extends AbstractBuilder implements MsSqlStatement, MsS
         return singleton(MsSqlKeySaber.class);
     }
 
+    // ~ 日志组件 =============================================
+    /** **/
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
+    }
+
+    // ~ 自增长SQL语句 ========================================
     /** **/
     @Override
     public String buildIncrement(@NotNull final Schema schema) {

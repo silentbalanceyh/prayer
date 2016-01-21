@@ -14,10 +14,10 @@ import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.builder.impl.util.SqlDDLBuilder;
 import com.prayer.constant.Constants;
-import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.builder.Builder;
+import com.prayer.facade.builder.Refresher;
 import com.prayer.facade.builder.SQLStatement;
 import com.prayer.facade.builder.line.FieldSaber;
 import com.prayer.facade.builder.line.KeySaber;
@@ -78,6 +78,9 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
 
     /** 键处理器 **/
     public abstract KeySaber getKeySaber();
+    
+    /** 获取更新器 **/
+    public abstract Refresher getRefresher();
 
     /** 自增长字段语句 **/
     public abstract String buildIncrement(Schema schema);
@@ -91,7 +94,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
         String sql = null;
         debug(getLogger(), "[D] Table " + schema.getTable() + " does not exist. Result: exist = " + exist);
         if (exist) {
-            sql = this.prepAlterSql(schema);
+            sql = this.getRefresher().buildAlterSQL(schema);
         } else {
             sql = this.prepCreateSql(schema);
         }
@@ -130,17 +133,6 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
         /** 如果error为空则表不存在 **/
         return null == error;
     }
-    /**
-     * 更新表语句
-     * @param schema
-     * @return
-     */
-    private String prepAlterSql(final Schema schema) {
-        final List<String> lines = new ArrayList<>();
-        
-        return StringKit.join(lines, Symbol.SEMICOLON);
-    }
-
     /**
      * 创建表语句
      * 

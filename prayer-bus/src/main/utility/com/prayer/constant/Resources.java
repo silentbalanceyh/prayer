@@ -39,14 +39,6 @@ public final class Resources { // NOPMD
     /** JDBC配置文件路径 **/
     public static final String DB_CFG_FILE;
 
-    /** 数据库的Builder **/
-    public static final String DB_BUILDER;
-    /** 数据库访问Record的Dao实现 **/
-    public static final String DB_DAO;
-    /** 数据类型转换器 **/
-    public static final String DB_TRANSDUCER;
-    /** Builder过程的关于Target数据库的验证 **/
-    public static final String DB_VALIDATOR;
     /** 是否跳过最底层的字段的Validation过程 **/
     public static final boolean DB_V_ENABLED;
 
@@ -101,6 +93,17 @@ public final class Resources { // NOPMD
     public static final String DB_POOL;
     /** 底层元数据的实现访问器 **/
     public static final String META_ACCESSOR;
+
+    // 可配置的数据库组件 ====================================
+    /** 数据库的Builder **/
+    public static final String DB_BUILDER;
+    /** 数据库访问Record的Dao实现 **/
+    public static final String DB_DAO;
+    /** 数据类型转换器 **/
+    public static final String DB_TRANSDUCER;
+    /** Builder过程的关于Target数据库的验证 **/
+    public static final String DB_VALIDATOR;
+
     /**
      * Private singleton resource LOADER. *
      */
@@ -142,16 +145,9 @@ public final class Resources { // NOPMD
 
         DB_TYPES_FILE = LOADER.getString("database.mapping");
 
-        DB_BUILDER = LOADER.getString("database.meta.builder");
-
-        DB_VALIDATOR = LOADER.getString("database.meta.validator");
-
-        DB_DAO = LOADER.getString("database.dao");
-
-        DB_TRANSDUCER = LOADER.getString("database.dao.transducer");
-
         DB_V_ENABLED = LOADER.getBoolean("database.validation.skip");
 
+        // =================================================================
         // Open Source
         T_CFG_MYBATIS = LOADER.getString("mybatis.config.file");
 
@@ -195,6 +191,15 @@ public final class Resources { // NOPMD
         DB_POOL = LOADER.getString("database.pool.impl");
         // Meta Accessor Implementation
         META_ACCESSOR = LOADER.getString("database.accessor.impl");
+        // =====================================================
+        DB_BUILDER = LOADER.getString("database.meta.builder");
+
+        DB_VALIDATOR = LOADER.getString("database.meta.validator");
+
+        DB_DAO = LOADER.getString("database.dao");
+
+        DB_TRANSDUCER = LOADER.getString("database.dao.transducer");
+        // =====================================================
         // Meta Initializer Implementation
         final PropertyKit DB_LOADER = new PropertyKit(Resources.DB_CFG_FILE);
         DB_DATABASE = DB_LOADER.getString(DB_CATEGORY + ".jdbc.database.name");

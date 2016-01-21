@@ -17,15 +17,16 @@ public final class Accessors {
     /** 默认的Accessor使用SQL **/
     private static final String DFT_META_ACCESSOR = "com.prayer.accessor.impl.IBatisAccessorImpl";
 
-    /** OldBuilder 默认值 **/
+    /** Builder 默认值 **/
     private static final String DFT_DB_BUILDER = "com.prayer.builder.impl.MsSqlBuilder";
-    /** Ruler 默认值 **/
+    /** Validator 默认值 **/
     private static final String DFT_DB_VALIDATOR = "com.prayer.builder.impl.MsSqlValidator";
-    
+
     /** Dao 默认值 **/
     private static final String DFT_DB_DAO = "com.prayer.dao.impl.std.record.MsSqlRDaoImpl";
     /** Transverter默认值 **/
     private static final String DFT_DB_TRANS = "com.prayer.dao.impl.std.record.MsSqlTransducer";
+
     /** Cache默认值 **/
     private static final String DFT_SYS_CACHE = "com.prayer.model.cache.HazelcastManager";
     // ~ Instance Fields =====================================
@@ -44,6 +45,7 @@ public final class Accessors {
 
     /**
      * 获取元数据Accessor的实现方法
+     * 
      * @return
      */
     @NotNull
@@ -51,7 +53,7 @@ public final class Accessors {
         return null == Resources.META_ACCESSOR ? DFT_META_ACCESSOR : Resources.META_ACCESSOR;
     }
 
-    // ~ Old Configuration ===================================
+    // ~ Configuration ===================================
     /**
      * 缓存相关
      * 
@@ -60,6 +62,8 @@ public final class Accessors {
     public static String cache() {
         return null == Resources.SYS_CACHE_CLS ? DFT_SYS_CACHE : Resources.SYS_CACHE_CLS;
     }
+
+    // ~ Database Configuration =========================
 
     /**
      * 验证器相关信息
