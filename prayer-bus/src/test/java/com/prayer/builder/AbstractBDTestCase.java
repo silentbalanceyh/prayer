@@ -18,9 +18,7 @@ import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.dao.builder.Builder;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
-import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
-import com.prayer.pool.impl.jdbc.RecordConnImpl;
 
 /**
  * 
@@ -38,9 +36,6 @@ public abstract class AbstractBDTestCase {
     private transient Importer importer;
     /** Builder的构造器 **/
     private transient Builder builder;
-    /** Connection信息 **/
-    private transient JdbcConnection connection;
-
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -49,7 +44,6 @@ public abstract class AbstractBDTestCase {
         this.dao = singleton(SchemaDaoImpl.class);
         this.builder = singleton(MetadataBuilder.class);
         this.importer = singleton(CommuneImporter.class);
-        this.connection = singleton(RecordConnImpl.class);
     }
 
     // ~ Abstract Methods ====================================
@@ -111,6 +105,16 @@ public abstract class AbstractBDTestCase {
         }
         return ret;
     }
+    // ~ Component ===========================================
+    /**
+     * 获取Builder
+     * 
+     * @return
+     */
+    protected Builder builder() {
+        return this.builder;
+    }
+    // ~ Private Methods =====================================
 
     /**
      * 数据准备
@@ -118,7 +122,7 @@ public abstract class AbstractBDTestCase {
      * @param file
      * @return
      */
-    protected Schema prepare(final String file) {
+    private Schema prepare(final String file) {
         final String filePath = SCHEMA_FLD + file;
         Schema schema = null;
         try {
@@ -139,28 +143,11 @@ public abstract class AbstractBDTestCase {
     /**
      * 数据库不匹配
      */
-    protected void unMatch() {
+    private void unMatch() {
         debug(getLogger(),
                 "[T] Database not match ! Expected: " + getCategory() + ", Actual: " + Resources.DB_CATEGORY);
     }
 
-    /**
-     * 获取Builder
-     * 
-     * @return
-     */
-    protected Builder builder() {
-        return this.builder;
-    }
-
-    /**
-     * 
-     * @return
-     */
-    protected JdbcConnection connection() {
-        return this.connection;
-    }
-    // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 
