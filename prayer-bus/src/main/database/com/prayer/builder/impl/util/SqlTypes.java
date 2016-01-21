@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.builder;
+package com.prayer.builder.impl.util;
 
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;

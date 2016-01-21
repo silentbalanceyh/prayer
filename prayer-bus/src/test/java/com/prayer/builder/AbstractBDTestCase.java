@@ -10,12 +10,12 @@ import com.prayer.base.exception.AbstractException;
 import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.base.exception.AbstractTransactionException;
+import com.prayer.builder.impl.MetadataBuilder;
 import com.prayer.constant.Resources;
-import com.prayer.dao.impl.builder.MetadataBuilder;
 import com.prayer.dao.impl.schema.CommuneImporter;
 import com.prayer.dao.impl.schema.SchemaDaoImpl;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.facade.dao.builder.Builder;
+import com.prayer.facade.builder.Builder;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
@@ -36,6 +36,7 @@ public abstract class AbstractBDTestCase {
     private transient Importer importer;
     /** Builder的构造器 **/
     private transient Builder builder;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -65,7 +66,7 @@ public abstract class AbstractBDTestCase {
      * @return
      */
     protected boolean executeSyncContainer(final String file) {
-        boolean ret = false;
+        boolean ret = true;
         if (validDB()) {
             try {
                 final Schema schema = this.prepare(file);
@@ -77,7 +78,6 @@ public abstract class AbstractBDTestCase {
             }
         } else {
             this.unMatch();
-            ret = false;
         }
         return ret;
     }
@@ -89,7 +89,7 @@ public abstract class AbstractBDTestCase {
      * @return
      */
     protected boolean executePurgeContainer(final String file) {
-        boolean ret = false;
+        boolean ret = true;
         if (validDB()) {
             try {
                 final Schema schema = this.prepare(file);
@@ -101,10 +101,40 @@ public abstract class AbstractBDTestCase {
             }
         } else {
             this.unMatch();
-            ret = false;
         }
         return ret;
     }
+
+    /**
+     * 执行Container
+     * 
+     * @param fromFile
+     * @param toFile
+     * @return
+     */
+    protected boolean executeUpdateContainer(final String fromFile, final String toFile) {
+        boolean ret = true;
+        if (validDB()) {
+            try {
+                // 1.先执行创建
+                final Schema schema = this.prepare(fromFile);
+                this.builder().synchronize(schema);
+                // 2.再执行更新
+                final Schema updated = this.prepare(toFile);
+                this.builder().synchronize(updated);
+                // 3.最后Purge
+                this.builder().purge(updated);
+                ret = true;
+            } catch (AbstractException ex) {
+                peError(getLogger(), ex);
+                ret = false;
+            }
+        } else {
+            this.unMatch();
+        }
+        return ret;
+    }
+
     // ~ Component ===========================================
     /**
      * 获取Builder

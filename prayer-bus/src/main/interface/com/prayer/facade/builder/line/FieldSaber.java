@@ -1,4 +1,4 @@
-package com.prayer.facade.dao.builder.line;
+package com.prayer.facade.builder.line;
 
 import com.prayer.model.meta.database.PEField;
 

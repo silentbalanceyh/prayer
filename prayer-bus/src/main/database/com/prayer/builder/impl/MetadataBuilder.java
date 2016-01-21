@@ -1,10 +1,10 @@
-package com.prayer.dao.impl.builder;
+package com.prayer.builder.impl;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Accessors;
-import com.prayer.facade.dao.builder.Builder;
+import com.prayer.facade.builder.Builder;
 import com.prayer.facade.schema.Schema;
 
 import net.sf.oval.constraint.NotNull;

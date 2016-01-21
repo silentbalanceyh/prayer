@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.exception.database.ProjectionInvalidException;
-import com.prayer.facade.dao.builder.SQLWord;
+import com.prayer.facade.builder.SQLWord;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 

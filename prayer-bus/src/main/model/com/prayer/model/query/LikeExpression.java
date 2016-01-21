@@ -2,7 +2,7 @@ package com.prayer.model.query;
 
 import com.prayer.base.model.AbstractExpression;
 import com.prayer.constant.Symbol;
-import com.prayer.facade.dao.builder.SQLWord;
+import com.prayer.facade.builder.SQLWord;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 

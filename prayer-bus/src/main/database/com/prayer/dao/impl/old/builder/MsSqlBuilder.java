@@ -16,13 +16,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.dao.AbstractBuilder;
+import com.prayer.builder.impl.MsSqlReferencer;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.dao.impl.builder.MsSqlReferencer;
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
 import com.prayer.exception.database.UniqueAddException;

@@ -12,15 +12,15 @@ import org.slf4j.Logger;
 
 import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.builder.impl.util.SqlDDLBuilder;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.dao.impl.builder.SqlDDLBuilder;
-import com.prayer.facade.dao.builder.Builder;
-import com.prayer.facade.dao.builder.SQLStatement;
-import com.prayer.facade.dao.builder.line.FieldSaber;
-import com.prayer.facade.dao.builder.line.KeySaber;
+import com.prayer.facade.builder.Builder;
+import com.prayer.facade.builder.SQLStatement;
+import com.prayer.facade.builder.line.FieldSaber;
+import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.fun.builder.AutoIncrement;
 import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.pool.JdbcConnection;
@@ -96,8 +96,8 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
             sql = this.prepCreateSql(schema);
         }
         debug(getLogger(), DebugKey.INFO_SQL_STMT, sql);
-        final int respCode = this.connection.executeBatch(sql);
-        return Constants.RC_SUCCESS == respCode;
+        // final int respCode = this.connection.executeBatch(sql);
+        return false; // Constants.RC_SUCCESS == respCode;
     }
 
     /**
@@ -130,10 +130,14 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
         /** 如果error为空则表不存在 **/
         return null == error;
     }
-
+    /**
+     * 更新表语句
+     * @param schema
+     * @return
+     */
     private String prepAlterSql(final Schema schema) {
         final List<String> lines = new ArrayList<>();
-
+        
         return StringKit.join(lines, Symbol.SEMICOLON);
     }
 

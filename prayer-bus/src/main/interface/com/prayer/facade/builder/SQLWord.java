@@ -1,4 +1,4 @@
-package com.prayer.facade.dao.builder;
+package com.prayer.facade.builder;
 
 import com.prayer.constant.Symbol;
 

@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.builder;
+package com.prayer.builder.impl;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -8,14 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.builder.AbstractBuilder;
+import com.prayer.builder.impl.line.MsSqlFieldSaber;
+import com.prayer.builder.impl.line.MsSqlKeySaber;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
-import com.prayer.dao.impl.builder.line.MsSqlFieldSaber;
-import com.prayer.dao.impl.builder.line.MsSqlKeySaber;
-import com.prayer.facade.dao.builder.line.FieldSaber;
-import com.prayer.facade.dao.builder.line.KeySaber;
-import com.prayer.facade.dao.builder.special.MsSqlStatement;
-import com.prayer.facade.dao.builder.special.MsSqlWord;
+import com.prayer.facade.builder.line.FieldSaber;
+import com.prayer.facade.builder.line.KeySaber;
+import com.prayer.facade.builder.special.MsSqlStatement;
+import com.prayer.facade.builder.special.MsSqlWord;
 import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;

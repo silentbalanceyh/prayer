@@ -3,11 +3,11 @@ package com.prayer.base.builder.line;
 import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.builder.impl.util.SqlTypes;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
-import com.prayer.dao.impl.builder.SqlTypes;
-import com.prayer.facade.dao.builder.SQLWord;
-import com.prayer.facade.dao.builder.line.FieldSaber;
+import com.prayer.facade.builder.SQLWord;
+import com.prayer.facade.builder.line.FieldSaber;
 import com.prayer.model.meta.database.PEField;
 
 import net.sf.oval.constraint.InstanceOfAny;

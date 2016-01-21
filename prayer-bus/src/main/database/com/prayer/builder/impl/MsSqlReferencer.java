@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.builder;
+package com.prayer.builder.impl;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -7,10 +7,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.builder.AbstractReferencer;
-import com.prayer.dao.impl.builder.line.MsSqlKeySaber;
-import com.prayer.facade.dao.builder.line.KeySaber;
-import com.prayer.facade.dao.builder.special.MsSqlStatement;
-import com.prayer.facade.dao.builder.special.MsSqlWord;
+import com.prayer.builder.impl.line.MsSqlKeySaber;
+import com.prayer.facade.builder.line.KeySaber;
+import com.prayer.facade.builder.special.MsSqlStatement;
+import com.prayer.facade.builder.special.MsSqlWord;
 import com.prayer.facade.pool.JdbcConnection;
 
 import net.sf.oval.constraint.NotBlank;

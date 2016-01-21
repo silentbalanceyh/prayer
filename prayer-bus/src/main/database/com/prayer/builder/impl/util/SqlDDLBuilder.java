@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.builder;
+package com.prayer.builder.impl.util;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -6,7 +6,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import com.prayer.constant.Symbol;
-import com.prayer.facade.dao.builder.SQLStatement;
+import com.prayer.facade.builder.SQLStatement;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.NotBlank;

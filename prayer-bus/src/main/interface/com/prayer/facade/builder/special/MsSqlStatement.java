@@ -1,4 +1,4 @@
-package com.prayer.facade.dao.builder.special;
+package com.prayer.facade.builder.special;
 
 /**
  * 

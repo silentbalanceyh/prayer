@@ -1,10 +1,10 @@
-package com.prayer.dao.impl.builder.line;
+package com.prayer.builder.impl.line;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.base.builder.line.AbstractFieldSaber;
-import com.prayer.facade.dao.builder.special.MsSqlWord;
+import com.prayer.facade.builder.special.MsSqlWord;
 
 import net.sf.oval.guard.Guarded;
 
