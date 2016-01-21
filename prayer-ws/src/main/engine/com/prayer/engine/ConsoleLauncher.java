@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.prayer.base.exception.AbstractException;
-import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.console.AbstractConsole;
 import com.prayer.console.EngineConsole;
 import com.prayer.console.H2DatabaseShell;
@@ -15,6 +13,8 @@ import com.prayer.console.HazelcastConsole;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.system.StartUpArgsInvalidException;
+import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.util.io.IOKit;
 
 import io.vertx.core.json.JsonObject;

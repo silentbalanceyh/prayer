@@ -6,11 +6,11 @@ import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.base.builder.AbstractReferencer;
 import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.builder.special.MsSqlStatement;
 import com.prayer.facade.builder.special.MsSqlWord;
 import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.fantasm.builder.AbstractReferencer;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

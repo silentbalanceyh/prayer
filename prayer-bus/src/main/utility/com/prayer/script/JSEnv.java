@@ -8,8 +8,8 @@ import com.prayer.constant.Constants;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
-import com.prayer.model.bus.OrderBy;
-import com.prayer.model.bus.Pager;
+import com.prayer.model.business.OrderBy;
+import com.prayer.model.business.Pager;
 import com.prayer.model.crucial.DataRecord;
 
 import net.sf.oval.constraint.InstanceOf;

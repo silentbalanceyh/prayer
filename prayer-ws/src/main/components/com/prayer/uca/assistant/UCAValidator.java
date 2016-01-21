@@ -8,11 +8,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.base.exception.AbstractWebException;
 import com.prayer.exception.web.SpecialDataTypeException;
 import com.prayer.exception.web.ValidationFailureException;
 import com.prayer.facade.kernel.Value;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.JsonType;

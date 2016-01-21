@@ -9,15 +9,15 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.impl.oob.DataSevImpl;
-import com.prayer.bus.impl.oob.DeploySevImpl;
+import com.prayer.business.impl.oob.DataSevImpl;
+import com.prayer.business.impl.oob.DeploySevImpl;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
-import com.prayer.facade.bus.DataService;
-import com.prayer.facade.bus.DeployService;
+import com.prayer.facade.business.DataService;
+import com.prayer.facade.business.DeployService;
 import com.prayer.facade.schema.verifier.DataValidator;
-import com.prayer.model.bus.ServiceResult;
+import com.prayer.model.business.ServiceResult;
 
 /**
  * 

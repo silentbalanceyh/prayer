@@ -3,10 +3,10 @@ package com.prayer.model.meta.database;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.prayer.base.model.AbstractEntity;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.Status;
 import com.prayer.facade.entity.Attributes;
+import com.prayer.fantasm.model.AbstractEntity;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;

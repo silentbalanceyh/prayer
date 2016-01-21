@@ -1,6 +1,6 @@
 package com.prayer.exception.database;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 【Checked】-11018，在数据行超过1行的时候，不可以添加UNIQUE字段

@@ -3,8 +3,8 @@ package com.prayer.schema.json.rule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.schema.AbstractRule;
 import com.prayer.facade.schema.rule.Rule;
+import com.prayer.fantasm.schema.AbstractRule;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

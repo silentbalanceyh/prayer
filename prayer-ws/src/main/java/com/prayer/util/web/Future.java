@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.net.HttpHeaders;
-import com.prayer.base.exception.AbstractWebException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.web.BodyParamDecodingException;
@@ -17,6 +16,7 @@ import com.prayer.exception.web.MethodNotAllowedException;
 import com.prayer.exception.web.NotAuthorizationException;
 import com.prayer.exception.web.RequiredParamMissingException;
 import com.prayer.exception.web.UriSpecificationMissingException;
+import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.web.Responsor;
 import com.prayer.model.web.StatusCode;
 

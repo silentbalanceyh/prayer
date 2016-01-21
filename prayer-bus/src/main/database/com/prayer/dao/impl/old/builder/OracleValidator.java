@@ -4,16 +4,16 @@ import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.util.Locale;
 
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
+import com.prayer.database.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.verifier.DataValidator;
-import com.prayer.pool.impl.jdbc.RecordConnImpl;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOf;

@@ -1,6 +1,6 @@
 package com.prayer.exception.schema;
 
-import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
  * 当外键引用了当前Schema文件，列名不存在

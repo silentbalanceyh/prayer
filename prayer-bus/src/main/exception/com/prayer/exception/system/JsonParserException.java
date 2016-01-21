@@ -1,6 +1,6 @@
 package com.prayer.exception.system;
 
-import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.fantasm.exception.AbstractSystemException;
 
 /**
  * 【Checked】Error-20003：Json解析异常

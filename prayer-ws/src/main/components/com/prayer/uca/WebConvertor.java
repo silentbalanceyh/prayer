@@ -1,7 +1,7 @@
 package com.prayer.uca;
 
-import com.prayer.base.exception.AbstractWebException;
 import com.prayer.facade.kernel.Value;
+import com.prayer.fantasm.exception.AbstractWebException;
 
 import io.vertx.core.json.JsonObject;
 

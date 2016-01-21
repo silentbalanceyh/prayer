@@ -2,9 +2,9 @@ package com.prayer.schema.json.ruler;
 
 import java.util.Locale;
 
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.model.type.DataType;
 
 import net.sf.oval.constraint.NotNull;

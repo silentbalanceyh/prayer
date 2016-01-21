@@ -2,9 +2,9 @@ package com.prayer.model.type;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 类型：Xml格式

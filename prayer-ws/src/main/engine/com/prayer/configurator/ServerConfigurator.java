@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
-import com.prayer.pool.impl.jdbc.H2ConnImpl;
+import com.prayer.database.pool.impl.jdbc.H2ConnImpl;
 import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.http.HttpServerOptions;

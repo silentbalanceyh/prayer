@@ -17,11 +17,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.dao.JdbcTransducer.T;
 import com.prayer.facade.kernel.Value;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.IntType;
 import com.prayer.model.type.LongType;

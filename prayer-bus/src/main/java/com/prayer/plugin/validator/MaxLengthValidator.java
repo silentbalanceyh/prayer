@@ -2,10 +2,10 @@ package com.prayer.plugin.validator;
 
 import java.util.Arrays;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.exception.database.ValidatorConflictException;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
 
 import net.sf.oval.constraint.InstanceOf;

@@ -2,7 +2,7 @@ package com.prayer.facade.schema.rule;
 
 import java.util.List;
 
-import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

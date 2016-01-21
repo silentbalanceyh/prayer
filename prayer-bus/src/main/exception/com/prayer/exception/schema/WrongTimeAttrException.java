@@ -1,6 +1,6 @@
 package com.prayer.exception.schema;
 
-import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10024：特殊条件下key=value的出现次数必须固定而且对

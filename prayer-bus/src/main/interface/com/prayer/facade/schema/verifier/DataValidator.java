@@ -1,6 +1,6 @@
 package com.prayer.facade.schema.verifier;
 
-import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
  * 用于验证Schema的时候在Target数据库中操作数据的情况

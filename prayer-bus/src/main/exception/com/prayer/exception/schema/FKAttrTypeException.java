@@ -1,6 +1,6 @@
 package com.prayer.exception.schema;
 
-import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10014：外键定义类型冲突异常

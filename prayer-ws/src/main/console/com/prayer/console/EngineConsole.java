@@ -5,10 +5,10 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.configurator.VertxConfigurator;
 import com.prayer.console.commands.Command;
 import com.prayer.constant.Constants;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.string.StringKit;
 

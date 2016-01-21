@@ -1,6 +1,6 @@
 package com.prayer.builder.fun;
 
-import com.prayer.base.exception.AbstractException;
+import com.prayer.fantasm.exception.AbstractException;
 
 /** **/
 @FunctionalInterface

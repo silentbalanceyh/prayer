@@ -1,7 +1,7 @@
 package com.prayer.facade.dao.schema;
 
-import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.facade.schema.Schema;
+import com.prayer.fantasm.exception.AbstractTransactionException;
 
 /**
  * 

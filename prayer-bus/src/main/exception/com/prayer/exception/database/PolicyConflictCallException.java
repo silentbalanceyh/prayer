@@ -1,6 +1,6 @@
 package com.prayer.exception.database;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 调用方法出现了Policy不匹配的情况

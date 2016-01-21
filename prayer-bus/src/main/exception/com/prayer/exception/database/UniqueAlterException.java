@@ -1,6 +1,6 @@
 package com.prayer.exception.database;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * -11019，将一个字段改成UNIQUE

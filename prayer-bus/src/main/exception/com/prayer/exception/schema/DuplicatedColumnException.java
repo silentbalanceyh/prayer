@@ -1,6 +1,6 @@
 package com.prayer.exception.schema;
 
-import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10008：出现数据库列重复错误 <code>2.如果出现重复的数据库列则抛出该异常</code>

@@ -7,7 +7,6 @@ import java.text.MessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.builder.AbstractBuilder;
 import com.prayer.builder.impl.mssql.MsSqlFieldSaber;
 import com.prayer.builder.impl.mssql.MsSqlKeySaber;
 import com.prayer.builder.impl.mssql.MsSqlReferencer;
@@ -22,6 +21,7 @@ import com.prayer.facade.builder.special.MsSqlWord;
 import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
+import com.prayer.fantasm.builder.AbstractBuilder;
 import com.prayer.model.meta.database.PEField;
 
 import net.sf.oval.constraint.NotNull;

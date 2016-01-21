@@ -4,7 +4,7 @@ import static com.prayer.util.Converter.toStr;
 
 import java.util.Set;
 
-import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
  * 【Checked】Error-10017：不支持的属性异常

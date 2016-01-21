@@ -3,8 +3,8 @@ package com.prayer.facade.accessor;
 import java.io.Serializable;
 import java.util.List;
 
-import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.facade.entity.Entity;
+import com.prayer.fantasm.exception.AbstractTransactionException;
 
 /**
  * 泛型的Mapper，用于访问元数据所有的IBatisAccessor

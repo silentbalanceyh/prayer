@@ -6,12 +6,12 @@ import static com.prayer.util.reflection.Instance.singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.impl.std.BasicAuthSevImpl;
+import com.prayer.business.impl.std.BasicAuthSevImpl;
 import com.prayer.configurator.SecurityConfigurator;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.bus.BasicAuthService;
-import com.prayer.model.bus.ServiceResult;
+import com.prayer.facade.business.BasicAuthService;
+import com.prayer.model.business.ServiceResult;
 import com.prayer.model.web.JsonKey;
 import com.prayer.security.AuthConstants.BASIC;
 import com.prayer.security.provider.BasicProvider;

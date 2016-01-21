@@ -16,7 +16,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.dao.AbstractBuilder;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.SystemEnum.KeyCategory;
@@ -30,6 +29,7 @@ import com.prayer.exception.database.UniqueAddException;
 import com.prayer.exception.database.UniqueAlterException;
 import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.schema.Schema;
+import com.prayer.fantasm.dao.AbstractBuilder;
 import com.prayer.model.crucial.schema.FKReferencer;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;

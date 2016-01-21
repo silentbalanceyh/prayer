@@ -1,6 +1,6 @@
 package com.prayer.exception.validator;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * maxLength, minLength两个属性的异常信息

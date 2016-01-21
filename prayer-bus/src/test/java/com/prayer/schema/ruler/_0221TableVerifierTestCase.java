@@ -2,11 +2,11 @@ package com.prayer.schema.ruler;
 
 import org.junit.Test;
 
-import com.prayer.base.exception.AbstractException;
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.DBConstants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.schema.BTableNotExistingException;
+import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
  * 

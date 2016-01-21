@@ -13,9 +13,9 @@ import net.sf.oval.guard.Guarded;
 public final class Accessors {
     // ~ Static Fields =======================================
     /** 默认值 **/
-    private static final String DFT_DB_POOL = "com.prayer.pool.impl.jdbc.BoneCPPool";
+    private static final String DFT_DB_POOL = "com.prayer.database.pool.impl.jdbc.BoneCPPool";
     /** 默认的Accessor使用SQL **/
-    private static final String DFT_META_ACCESSOR = "com.prayer.accessor.impl.IBatisAccessorImpl";
+    private static final String DFT_META_ACCESSOR = "com.prayer.database.accessor.impl.IBatisAccessorImpl";
 
     /** Builder 默认值 **/
     private static final String DFT_DB_BUILDER = "com.prayer.builder.impl.MsSqlBuilder";

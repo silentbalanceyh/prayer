@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
@@ -25,6 +24,7 @@ import com.prayer.exception.system.MetaCounterException;
 import com.prayer.exception.system.MetaTypeWrongException;
 import com.prayer.exception.system.MetadataDefMissingException;
 import com.prayer.exception.system.SchemaNotFoundException;
+import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.DataType;
 import com.prayer.util.Converter;

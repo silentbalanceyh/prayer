@@ -2,8 +2,8 @@ package com.prayer.uca.convertor;
 
 import java.util.Locale;
 
-import com.prayer.base.exception.AbstractWebException;
 import com.prayer.facade.kernel.Value;
+import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.type.StringType;
 import com.prayer.uca.WebConvertor;
 import com.prayer.util.Encryptor;

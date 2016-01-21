@@ -1,6 +1,6 @@
 package com.prayer.facade.kernel;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 格式校验接口

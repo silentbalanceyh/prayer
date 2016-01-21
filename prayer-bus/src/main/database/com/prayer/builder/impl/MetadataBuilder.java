@@ -2,10 +2,10 @@ package com.prayer.builder.impl;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Accessors;
 import com.prayer.facade.builder.Builder;
 import com.prayer.facade.schema.Schema;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

@@ -3,12 +3,12 @@ package com.prayer.schema.json.ruler;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ArrayRuler;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.model.type.DataType;
 import com.prayer.schema.json.JObjectHabitus;
 

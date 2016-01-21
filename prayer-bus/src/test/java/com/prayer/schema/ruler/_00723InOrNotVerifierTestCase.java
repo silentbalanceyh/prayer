@@ -2,9 +2,9 @@ package com.prayer.schema.ruler;
 
 import org.junit.Test;
 
-import com.prayer.base.exception.AbstractException;
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.InvalidValueException;
+import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
  * 

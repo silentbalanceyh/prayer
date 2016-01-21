@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.facade.kernel.Value;
-import com.prayer.model.bus.Metadata;
+import com.prayer.model.business.Metadata;
 import com.prayer.model.type.DataType;
 
 /**

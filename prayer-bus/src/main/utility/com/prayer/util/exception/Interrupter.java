@@ -8,7 +8,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
@@ -22,6 +21,7 @@ import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.exception.database.PolicyNotSupportException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.meta.database.PEField;
 
 /**

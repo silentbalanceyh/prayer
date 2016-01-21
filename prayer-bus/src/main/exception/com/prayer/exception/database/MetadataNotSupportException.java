@@ -4,7 +4,7 @@ import static com.prayer.util.Converter.toStr;
 
 import java.util.Set;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 当前的Metadata Server不是SQL的，在初始化iBatis连接池时出错

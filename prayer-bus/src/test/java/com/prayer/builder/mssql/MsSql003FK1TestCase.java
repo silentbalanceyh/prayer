@@ -11,12 +11,12 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.builder.AbstractMsSqlBDTestCase;
 import com.prayer.constant.Accessors;
+import com.prayer.database.pool.impl.jdbc.RecordConnImpl;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.verifier.DataValidator;
-import com.prayer.pool.impl.jdbc.RecordConnImpl;
+import com.prayer.fantasm.exception.AbstractException;
 
 /**
  * 

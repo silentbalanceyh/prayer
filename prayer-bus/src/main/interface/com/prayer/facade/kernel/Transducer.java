@@ -2,7 +2,7 @@ package com.prayer.facade.kernel;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
 
 import io.vertx.core.json.JsonObject;

@@ -1,8 +1,8 @@
 package com.prayer.schema.json.ruler;
 
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

@@ -5,8 +5,6 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.base.plugin.AbstractValidatorAspect;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.validator.LengthFailureException;
@@ -17,6 +15,8 @@ import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.facade.kernel.Validator;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.fantasm.plugin.AbstractValidatorAspect;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.DataType;
 import com.prayer.util.string.StringKit;

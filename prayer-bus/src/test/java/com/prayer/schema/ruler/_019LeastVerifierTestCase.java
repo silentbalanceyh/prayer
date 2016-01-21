@@ -3,9 +3,9 @@ package com.prayer.schema.ruler;
 import org.junit.After;
 import org.junit.Test;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.constant.Constants;
 import com.prayer.exception.schema.SubtableWrongException;
+import com.prayer.fantasm.exception.AbstractException;
 
 public class _019LeastVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================

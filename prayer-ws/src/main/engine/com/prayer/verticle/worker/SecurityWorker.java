@@ -2,10 +2,10 @@ package com.prayer.verticle.worker;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.bus.impl.oob.ConfigSevImpl;
+import com.prayer.business.impl.oob.ConfigSevImpl;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.bus.ConfigService;
-import com.prayer.model.bus.ServiceResult;
+import com.prayer.facade.business.ConfigService;
+import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.vertx.PEAddress;
 import com.prayer.uca.consumer.BasicAuthConsumer;
 

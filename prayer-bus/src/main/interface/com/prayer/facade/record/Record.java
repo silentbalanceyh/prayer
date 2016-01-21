@@ -1,7 +1,7 @@
 package com.prayer.facade.record;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.kernel.Value;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * Record接口

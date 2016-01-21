@@ -1,9 +1,9 @@
 package com.prayer.schema.json.ruler;
 
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.SystemEnum.Mapping;
 import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ArrayRuler;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;

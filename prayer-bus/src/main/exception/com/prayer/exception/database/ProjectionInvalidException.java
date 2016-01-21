@@ -1,6 +1,6 @@
 package com.prayer.exception.database;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 使用AND和OR连接Expression时不可连接LeafNode

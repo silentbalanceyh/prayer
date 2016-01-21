@@ -1,6 +1,6 @@
 package com.prayer.builder.impl.mssql;
 
-import com.prayer.base.builder.line.AbstractKeySaber;
+import com.prayer.fantasm.builder.line.AbstractKeySaber;
 
 import net.sf.oval.guard.Guarded;
 

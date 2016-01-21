@@ -6,10 +6,6 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 
-import com.prayer.base.exception.AbstractException;
-import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.base.exception.AbstractSystemException;
-import com.prayer.base.exception.AbstractTransactionException;
 import com.prayer.builder.impl.MetadataBuilder;
 import com.prayer.constant.Resources;
 import com.prayer.dao.impl.schema.CommuneImporter;
@@ -19,6 +15,10 @@ import com.prayer.facade.builder.Builder;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
+import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSystemException;
+import com.prayer.fantasm.exception.AbstractTransactionException;
 
 /**
  * 

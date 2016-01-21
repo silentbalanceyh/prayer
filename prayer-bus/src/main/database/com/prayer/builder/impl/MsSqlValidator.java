@@ -3,10 +3,10 @@ package com.prayer.builder.impl;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import com.prayer.base.builder.AbstractValidator;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.facade.builder.special.MsSqlStatement;
+import com.prayer.fantasm.builder.AbstractValidator;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.NotBlank;

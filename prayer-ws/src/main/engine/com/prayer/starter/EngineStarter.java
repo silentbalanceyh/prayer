@@ -1,7 +1,7 @@
 package com.prayer.starter;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.engine.EngineLauncher;
+import com.prayer.fantasm.exception.AbstractException;
 
 /**
  * 

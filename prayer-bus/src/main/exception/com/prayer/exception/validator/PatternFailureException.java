@@ -1,6 +1,6 @@
 package com.prayer.exception.validator;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 验证pattern属性出错时的特殊异常

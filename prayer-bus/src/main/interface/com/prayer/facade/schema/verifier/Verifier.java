@@ -1,6 +1,6 @@
 package com.prayer.facade.schema.verifier;
 
-import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 import io.vertx.core.json.JsonObject;
 

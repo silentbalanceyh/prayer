@@ -15,11 +15,11 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.query.Restrictions;
 
 import net.sf.oval.constraint.InstanceOf;

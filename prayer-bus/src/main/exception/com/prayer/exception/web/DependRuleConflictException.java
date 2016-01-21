@@ -1,7 +1,7 @@
 package com.prayer.exception.web;
 
-import com.prayer.base.exception.AbstractWebException;
 import com.prayer.constant.SystemEnum.DependRule;
+import com.prayer.fantasm.exception.AbstractWebException;
 
 /**
  * 

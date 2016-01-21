@@ -1,6 +1,6 @@
 package com.prayer.exception.database;
 
-import com.prayer.base.exception.AbstractTransactionException;
+import com.prayer.fantasm.exception.AbstractTransactionException;
 
 /**
  * 

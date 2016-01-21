@@ -1,8 +1,8 @@
 package com.prayer.model.query;
 
-import com.prayer.base.model.AbstractExpression;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
+import com.prayer.fantasm.model.AbstractExpression;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

@@ -11,8 +11,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractWebException;
 import com.prayer.configurator.VerticleConfigurator;
+import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.handler.deploy.VerticleAsyncHandler;
 import com.prayer.util.web.Interruptor;
 

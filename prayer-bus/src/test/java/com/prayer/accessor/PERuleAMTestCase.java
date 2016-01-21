@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.kernel.Expression;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.model.query.Restrictions;
 import com.prayer.model.type.StringType;

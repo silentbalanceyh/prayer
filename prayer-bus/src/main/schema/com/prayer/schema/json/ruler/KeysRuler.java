@@ -1,10 +1,10 @@
 package com.prayer.schema.json.ruler;
 
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ArrayRuler;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.schema.json.JObjectHabitus;
 
 import io.vertx.core.json.JsonObject;

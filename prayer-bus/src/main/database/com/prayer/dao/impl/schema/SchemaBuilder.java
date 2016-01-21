@@ -2,11 +2,11 @@ package com.prayer.dao.impl.schema;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.facade.dao.schema.Serializer;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.Attributes;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.model.crucial.schema.JsonSchema;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;

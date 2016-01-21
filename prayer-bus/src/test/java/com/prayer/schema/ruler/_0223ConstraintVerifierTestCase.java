@@ -3,12 +3,12 @@ package com.prayer.schema.ruler;
 import org.junit.After;
 import org.junit.Test;
 
-import com.prayer.base.exception.AbstractException;
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.DBConstants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.schema.BKeyConstraintInvalidException;
+import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 public class _0223ConstraintVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================

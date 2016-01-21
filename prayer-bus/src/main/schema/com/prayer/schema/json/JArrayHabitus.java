@@ -8,11 +8,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.exception.schema.JsonTypeConfusedException;
 import com.prayer.exception.schema.ZeroLengthException;
 import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ObjectHabitus;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

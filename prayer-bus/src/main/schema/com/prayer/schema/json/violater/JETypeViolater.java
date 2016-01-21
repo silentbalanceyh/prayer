@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.base.schema.AbstractViolater;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.fantasm.schema.AbstractViolater;
 import com.prayer.schema.json.rule.JETypeRule;
 
 import io.vertx.core.json.JsonArray;

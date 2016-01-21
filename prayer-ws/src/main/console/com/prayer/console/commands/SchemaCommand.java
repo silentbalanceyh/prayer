@@ -6,11 +6,11 @@ import java.net.URL;
 
 import org.apache.commons.cli.CommandLine;
 
-import com.prayer.bus.impl.schema.SchemaSevImpl;
+import com.prayer.business.impl.schema.SchemaSevImpl;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.bus.schema.SchemaService;
-import com.prayer.model.bus.ServiceResult;
+import com.prayer.facade.business.schema.SchemaService;
+import com.prayer.model.business.ServiceResult;
 import com.prayer.model.crucial.GenericSchema;
 import com.prayer.util.io.IOKit;
 

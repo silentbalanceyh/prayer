@@ -2,11 +2,11 @@ package com.prayer.uca.validator;
 
 import java.text.MessageFormat;
 
-import com.prayer.base.exception.AbstractWebException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.facade.kernel.Value;
+import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.type.DataType;
 import com.prayer.uca.WebValidator;
 import com.prayer.uca.jdbc.JdbcSwitcher;

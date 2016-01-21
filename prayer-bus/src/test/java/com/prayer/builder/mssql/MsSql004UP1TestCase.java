@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.builder.AbstractMsSqlBDTestCase;
+import com.prayer.fantasm.exception.AbstractException;
 
 /**
  * 

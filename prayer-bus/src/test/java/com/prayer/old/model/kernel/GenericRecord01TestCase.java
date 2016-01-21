@@ -9,14 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractRDaoTestTool;
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.facade.schema.Schema;
-import com.prayer.model.bus.ServiceResult;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.model.business.ServiceResult;
 import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.type.StringType;
 

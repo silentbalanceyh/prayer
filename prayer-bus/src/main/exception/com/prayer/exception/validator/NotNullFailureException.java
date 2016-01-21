@@ -1,6 +1,6 @@
 package com.prayer.exception.validator;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * nullable为false的时候的验证失败异常，即不可为null，空串

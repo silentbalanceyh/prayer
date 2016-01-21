@@ -1,6 +1,6 @@
 package com.prayer.exception.system;
 
-import com.prayer.base.exception.AbstractSystemException;
+import com.prayer.fantasm.exception.AbstractSystemException;
 
 /**
  * 【Checked】Error-20002：系统资源读取IO异常

@@ -2,9 +2,9 @@ package com.prayer.schema.ruler;
 
 import org.junit.Test;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.schema.DuplicatedAttrException;
 import com.prayer.exception.schema.DuplicatedColumnException;
+import com.prayer.fantasm.exception.AbstractException;
 
 /**
  * 

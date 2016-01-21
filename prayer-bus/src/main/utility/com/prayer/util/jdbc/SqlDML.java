@@ -9,7 +9,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.facade.kernel.Expression;
-import com.prayer.model.bus.OrderBy;
+import com.prayer.model.business.OrderBy;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOf;

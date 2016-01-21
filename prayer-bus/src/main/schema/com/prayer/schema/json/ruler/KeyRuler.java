@@ -2,11 +2,11 @@ package com.prayer.schema.json.ruler;
 
 import static com.prayer.util.Converter.fromStr;
 
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;

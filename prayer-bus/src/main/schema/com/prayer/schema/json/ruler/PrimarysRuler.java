@@ -2,13 +2,13 @@ package com.prayer.schema.json.ruler;
 
 import java.util.List;
 
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.schema.rule.ArrayHabitus;
 import com.prayer.facade.schema.rule.ArrayRuler;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.AssertFieldConstraints;

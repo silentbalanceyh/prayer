@@ -12,8 +12,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractDatabaseException;
-import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
@@ -22,6 +20,8 @@ import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.kernel.Transducer.V;
 import com.prayer.facade.record.Record;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.StringType;

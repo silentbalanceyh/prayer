@@ -6,7 +6,6 @@ import static com.prayer.util.debug.Log.peError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractSchemaException;
 import com.prayer.constant.SystemEnum.Mapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.schema.rule.ArrayHabitus;
@@ -15,6 +14,7 @@ import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.facade.schema.verifier.Verifier;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.schema.json.ruler.CrossRuler;
 import com.prayer.schema.json.ruler.FieldsRuler;
 import com.prayer.schema.json.ruler.ForeignsRuler;

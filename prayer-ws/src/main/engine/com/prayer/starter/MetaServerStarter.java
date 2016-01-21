@@ -2,8 +2,8 @@ package com.prayer.starter;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.engine.H2DatabaseServer;
+import com.prayer.fantasm.exception.AbstractException;
 
 /**
  * H2 Database的单独启动类

@@ -15,12 +15,12 @@ import org.apache.ibatis.datasource.DataSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.DBConstants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.database.MetadataNotSupportException;
 import com.prayer.facade.pool.JdbcPool;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 将iBatis的连接池连接到BoneCP的连接池中，目前支持的JDBC数据库就H2，在整个Prayer中，只有元数据才会连接到iBatis

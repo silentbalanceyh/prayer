@@ -2,7 +2,7 @@ package com.prayer.facade.record;
 
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.base.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
 
 /**

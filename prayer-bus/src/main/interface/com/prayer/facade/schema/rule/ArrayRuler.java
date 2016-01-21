@@ -1,6 +1,6 @@
 package com.prayer.facade.schema.rule;
 
-import com.prayer.base.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
  * 规则接口，基本Array规则

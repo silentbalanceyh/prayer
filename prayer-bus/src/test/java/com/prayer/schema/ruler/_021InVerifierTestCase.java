@@ -2,9 +2,9 @@ package com.prayer.schema.ruler;
 
 import org.junit.Test;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.schema.FKAttrTypeException;
 import com.prayer.exception.schema.FKColumnTypeException;
+import com.prayer.fantasm.exception.AbstractException;
 
 public class _021InVerifierTestCase extends AbstractVerifierTestCase {
     // ~ Static Fields =======================================

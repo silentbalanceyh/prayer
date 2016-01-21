@@ -1,8 +1,8 @@
 package com.prayer.builder.impl.mssql;
 
-import com.prayer.base.builder.AbstractRefresher;
 import com.prayer.facade.builder.special.MsSqlStatement;
 import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.fantasm.builder.AbstractRefresher;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

@@ -2,9 +2,9 @@ package com.prayer.schema.ruler;
 
 import org.junit.Test;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.schema.JsonTypeConfusedException;
 import com.prayer.exception.schema.ZeroLengthException;
+import com.prayer.fantasm.exception.AbstractException;
 
 /**
  * 

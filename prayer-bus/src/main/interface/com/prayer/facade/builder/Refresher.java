@@ -1,7 +1,7 @@
 package com.prayer.facade.builder;
 
-import com.prayer.base.exception.AbstractDatabaseException;
 import com.prayer.facade.schema.Schema;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 

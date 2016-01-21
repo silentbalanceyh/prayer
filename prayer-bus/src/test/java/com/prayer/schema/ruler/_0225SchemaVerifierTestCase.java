@@ -2,11 +2,11 @@ package com.prayer.schema.ruler;
 
 import org.junit.Test;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.schema.FKReferenceSameException;
 import com.prayer.exception.schema.JKeyConstraintInvalidException;
 import com.prayer.exception.schema.JTColumnNotExistingException;
 import com.prayer.exception.schema.JTColumnTypeInvalidException;
+import com.prayer.fantasm.exception.AbstractException;
 
 /** **/
 public class _0225SchemaVerifierTestCase extends AbstractVerifierTestCase {

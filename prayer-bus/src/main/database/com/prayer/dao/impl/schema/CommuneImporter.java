@@ -1,12 +1,12 @@
 package com.prayer.dao.impl.schema;
 
-import com.prayer.base.exception.AbstractSchemaException;
-import com.prayer.base.exception.AbstractSystemException;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.Verifier;
+import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.schema.json.SchemaVerifier;
 import com.prayer.util.io.IOKit;
 

@@ -15,12 +15,12 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.impl.oob.DeploySevImpl;
+import com.prayer.business.impl.oob.DeploySevImpl;
 import com.prayer.configurator.ServerConfigurator;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.bus.DeployService;
-import com.prayer.model.bus.ServiceResult;
+import com.prayer.facade.business.DeployService;
+import com.prayer.model.business.ServiceResult;
 import com.prayer.util.Converter;
 
 import net.sf.oval.constraint.NotNull;

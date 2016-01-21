@@ -2,9 +2,9 @@ package com.prayer.schema.ruler;
 
 import org.junit.Test;
 
-import com.prayer.base.exception.AbstractException;
 import com.prayer.exception.schema.PKNullableConflictException;
 import com.prayer.exception.schema.PKUniqueConflictException;
+import com.prayer.fantasm.exception.AbstractException;
 
 /**
  * 

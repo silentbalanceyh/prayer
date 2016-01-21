@@ -7,12 +7,12 @@ import static com.prayer.util.reflection.Instance.singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.bus.impl.std.BasicAuthSevImpl;
+import com.prayer.business.impl.std.BasicAuthSevImpl;
 import com.prayer.constant.Constants;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.exception.web.MethodNotAllowedException;
-import com.prayer.facade.bus.BasicAuthService;
-import com.prayer.model.bus.ServiceResult;
+import com.prayer.facade.business.BasicAuthService;
+import com.prayer.model.business.ServiceResult;
 import com.prayer.model.web.Responsor;
 import com.prayer.model.web.StatusCode;
 import com.prayer.util.web.Extractor;

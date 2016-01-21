@@ -11,10 +11,10 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.exception.AbstractWebException;
 import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.SecurityMode;
+import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.security.AuthConstants;
 import com.prayer.util.io.PropertyKit;
 import com.prayer.util.web.Interruptor;
