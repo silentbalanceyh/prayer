@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.component;
+package com.prayer.builder.impl.mssql;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

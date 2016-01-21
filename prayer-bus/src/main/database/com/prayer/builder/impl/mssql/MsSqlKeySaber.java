@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.component;
+package com.prayer.builder.impl.mssql;
 
 import com.prayer.base.builder.line.AbstractKeySaber;
 

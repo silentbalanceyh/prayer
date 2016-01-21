@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.component;
+package com.prayer.builder.impl.mssql;
 
 import static com.prayer.util.reflection.Instance.singleton;
 

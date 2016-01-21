@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.component;
+package com.prayer.builder.impl.mssql;
 
 import com.prayer.base.builder.AbstractRefresher;
 import com.prayer.facade.builder.special.MsSqlStatement;
@@ -18,6 +18,10 @@ public class MsSqlRefresher extends AbstractRefresher implements MsSqlStatement{
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /**
+     * 
+     * @param connection
+     */
     public MsSqlRefresher(@NotNull final JdbcConnection connection){
         super(connection);
     }

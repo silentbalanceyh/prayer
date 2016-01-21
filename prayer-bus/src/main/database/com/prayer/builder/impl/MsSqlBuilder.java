@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.builder.AbstractBuilder;
-import com.prayer.builder.impl.component.MsSqlFieldSaber;
-import com.prayer.builder.impl.component.MsSqlKeySaber;
-import com.prayer.builder.impl.component.MsSqlReferencer;
-import com.prayer.builder.impl.component.MsSqlRefresher;
+import com.prayer.builder.impl.mssql.MsSqlFieldSaber;
+import com.prayer.builder.impl.mssql.MsSqlKeySaber;
+import com.prayer.builder.impl.mssql.MsSqlReferencer;
+import com.prayer.builder.impl.mssql.MsSqlRefresher;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.facade.builder.Refresher;
