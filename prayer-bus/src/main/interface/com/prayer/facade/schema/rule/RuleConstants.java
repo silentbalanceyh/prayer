@@ -73,6 +73,10 @@ public interface RuleConstants {
         String RULE_DB_CT = "db.constraint";
         /** 10030 列的类型问题 **/
         String RULE_DB_T = "db.type";
+        /** 10035 检查数据库级别的Mapping验证 **/
+        String RULE_DB_MAP = "db.mapping";
+        /** 10036 Mapping检查 **/
+        String RULE_DB_VTOR = "db.vector";
     }
 
     /** Rule对应的配置文件名 **/

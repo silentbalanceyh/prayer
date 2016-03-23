@@ -23,7 +23,7 @@
             "name": "uniqueId",
             "type": "LongType",
             "columnName": "R_ID",
-            "columnType": "STRING",
+            "columnType": "LONG",
             "primarykey": true
         },
 

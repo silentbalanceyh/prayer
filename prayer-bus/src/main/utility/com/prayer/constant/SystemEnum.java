@@ -7,6 +7,12 @@ package com.prayer.constant;
  * @see
  */
 public final class SystemEnum { // NOPMD
+    /** Mapping模式 **/
+    public static enum MappingMode {
+        COLLECTION, // 验证集合信息
+        MAPPING // 验证Mapping信息
+    }
+
     /** Index的操作对象类型 **/
     public static enum TargetType {
         VIEW, // 操作对象是视图
@@ -123,12 +129,10 @@ public final class SystemEnum { // NOPMD
         JADE, // Jade模板引擎
         HTML // 纯的HTML结构，Dynamic无用
     }
+
     /** 容器计算模型 **/
-    public static enum RuleContainer{
-        ONE_TO_ONE,
-        ONE_TO_MANY,
-        MANY_TO_ONE,
-        MANY_TO_MANY
+    public static enum RuleContainer {
+        ONE_TO_ONE, ONE_TO_MANY, MANY_TO_ONE, MANY_TO_MANY
     }
 
     // ~ Constructors ========================================

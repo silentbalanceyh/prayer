@@ -19,11 +19,13 @@ import com.prayer.facade.business.schema.SchemaService;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
+import com.prayer.facade.schema.verifier.Altimeter;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 import com.prayer.model.business.ServiceResult;
+import com.prayer.schema.json.SchemaAltimeter;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
@@ -53,6 +55,7 @@ public class SchemaSevImpl implements SchemaService {
     /** 导入器 **/
     @NotNull
     private transient Importer importer;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -77,9 +80,11 @@ public class SchemaSevImpl implements SchemaService {
         try {
             /** 1.读取Schema信息，从Json到H2中 **/
             final Schema schema = importer.read(filePath);
-            /** 2.将读取到的schema存如到H2 Database中 **/
+            /** 2.【Advanced验证】更新验证、约束合法验证流程 **/
+            final Altimeter altimeter = singleton(SchemaAltimeter.class, this.dao);
+            altimeter.verify(schema);
+            /** 3.将读取到的schema存如到H2 Database中 **/
             this.dao.save(schema);
-            // 5.成功代码
             result.success(schema);
             info(LOGGER, InfoKey.INF_DP_STEP1, filePath, Resources.META_CATEGORY);
         } catch (AbstractTransactionException ex) {
@@ -104,11 +109,11 @@ public class SchemaSevImpl implements SchemaService {
     @InstanceOfAny(ServiceResult.class)
     public ServiceResult<Schema> syncMetadata(@NotNull final Schema schema) {
         final ServiceResult<Schema> result = new ServiceResult<>();
-        try{
+        try {
             this.builder.synchronize(schema);
             result.success(schema);
-        }catch(AbstractDatabaseException ex){
-            peError(LOGGER,ex);
+        } catch (AbstractDatabaseException ex) {
+            peError(LOGGER, ex);
             result.failure(ex);
         }
         return result;

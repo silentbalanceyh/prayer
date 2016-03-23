@@ -31,7 +31,7 @@
             "name":"name",
             "type":"XmlType",
             "columnName":"R_NAME",
-            "columnType":"STRING",
+            "columnType":"STRING2",
             "primarykey":false
         },
         {

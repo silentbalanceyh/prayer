@@ -25,6 +25,7 @@ final class VExecutor {
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+
     /**
      * 单个元素和对应的expected中的运算，单个元素Object -> JsonArray
      * 
@@ -67,6 +68,91 @@ final class VExecutor {
                 retKey = keys;
             } else {
                 retKey = null;
+            }
+        }
+        return retKey;
+    }
+
+    /**
+     * Many -> Many
+     * 
+     * @param key
+     * @param value
+     * @param expected
+     * @param fun
+     * @return
+     */
+    public static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final List<V> value,
+            @NotNull final List<E> expected, @NotNull final Condition<V, E> fun) {
+        String retKey = null;
+        outer: for (final V vItem : value) {
+            if (null != vItem) {
+                for (final E eItem : expected) {
+                    if (null != eItem && fun.condition(vItem, eItem)) {
+                        retKey = key;
+                        break outer;
+                    }
+                }
+            }
+        }
+        return retKey;
+    }
+
+    /**
+     * Many -> One
+     * 
+     * @param key
+     * @param value
+     * @param expected
+     * @param fun
+     * @return
+     */
+    public static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final List<V> value,
+            @NotNull final E expected, @NotNull final Condition<V, E> fun) {
+        String retKey = null;
+        for (final V vItem : value) {
+            if (null != vItem && fun.condition(vItem, expected)) {
+                retKey = key;
+                break;
+            }
+        }
+        return retKey;
+    }
+
+    /**
+     * One -> One
+     * 
+     * @param key
+     * @param value
+     * @param expected
+     * @param fun
+     * @return
+     */
+    public static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final V value,
+            @NotNull final E expected, @NotNull final Condition<V, E> fun) {
+        String retKey = null;
+        if (fun.condition(value, expected)) {
+            retKey = key;
+        }
+        return retKey;
+    }
+
+    /**
+     * One -> Many
+     * 
+     * @param key
+     * @param value
+     * @param expected
+     * @param fun
+     * @return
+     */
+    public static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final V value,
+            @NotNull final List<E> expected, @NotNull final Condition<V, E> fun) {
+        String retKey = null;
+        for (final E eItem : expected) {
+            if (null != eItem && fun.condition(value, eItem)) {
+                retKey = key;
+                break;
             }
         }
         return retKey;
@@ -156,91 +242,6 @@ final class VExecutor {
                 if (null != (retKey = execute(key, valueMap.get(key), expectedMap.get(key), fun))) {
                     break;
                 }
-            }
-        }
-        return retKey;
-    }
-
-    /**
-     * Many -> Many
-     * 
-     * @param key
-     * @param value
-     * @param expected
-     * @param fun
-     * @return
-     */
-    private static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final List<V> value,
-            @NotNull final List<E> expected, @NotNull final Condition<V, E> fun) {
-        String retKey = null;
-        outer: for (final V vItem : value) {
-            if (null != vItem) {
-                for (final E eItem : expected) {
-                    if (null != eItem && fun.condition(vItem, eItem)) {
-                        retKey = key;
-                        break outer;
-                    }
-                }
-            }
-        }
-        return retKey;
-    }
-
-    /**
-     * Many -> One
-     * 
-     * @param key
-     * @param value
-     * @param expected
-     * @param fun
-     * @return
-     */
-    private static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final List<V> value,
-            @NotNull final E expected, @NotNull final Condition<V, E> fun) {
-        String retKey = null;
-        for (final V vItem : value) {
-            if (null != vItem && fun.condition(vItem, expected)) {
-                retKey = key;
-                break;
-            }
-        }
-        return retKey;
-    }
-
-    /**
-     * One -> One
-     * 
-     * @param key
-     * @param value
-     * @param expected
-     * @param fun
-     * @return
-     */
-    private static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final V value,
-            @NotNull final E expected, @NotNull final Condition<V, E> fun) {
-        String retKey = null;
-        if (fun.condition(value, expected)) {
-            retKey = key;
-        }
-        return retKey;
-    }
-
-    /**
-     * One -> Many
-     * 
-     * @param key
-     * @param value
-     * @param expected
-     * @param fun
-     * @return
-     */
-    private static <V, E> String execute(@NotNull @NotBlank @NotEmpty final String key, @NotNull final V value,
-            @NotNull final List<E> expected, @NotNull final Condition<V, E> fun) {
-        String retKey = null;
-        for (final E eItem : expected) {
-            if (null != eItem && fun.condition(value, eItem)) {
-                retKey = key;
-                break;
             }
         }
         return retKey;

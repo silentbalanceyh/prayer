@@ -73,8 +73,9 @@ public abstract class AbstractFieldSaber implements FieldSaber, SQLWord {
         final String rawType = SqlTypes.get(field.getColumnType());
         // 2.判断当前类型是否包含了括号
         String actualType = rawType;
-        if (Constants.RANGE < rawType.indexOf('(')) {
-            actualType = rawType.split("(")[Constants.IDX];
+        // 虽然(MAX)是SQL必须的，但对其他数据库不会产生任何影响
+        if (Constants.RANGE < rawType.indexOf(Symbol.BRACKET_SL) && !rawType.contains("(MAX)")) {
+            actualType = rawType.split(String.valueOf(Symbol.BRACKET_SL))[Constants.IDX];
         }
         // 3.是否添加Pattern
         if (getPrecisionMap().containsKey(actualType)) {

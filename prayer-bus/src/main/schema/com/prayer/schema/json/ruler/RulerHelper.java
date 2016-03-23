@@ -71,7 +71,7 @@ public final class RulerHelper {
      */
     public static void applyDuplicated(@NotNull final ArrayHabitus habitus,
             @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
-                    throws AbstractSchemaException {
+            throws AbstractSchemaException {
         final Rule rule = RuleBuilder.duplicated(file);
         sharedApply(wrapperHabitus(habitus, addtional), rule);
     }
@@ -226,7 +226,7 @@ public final class RulerHelper {
      */
     public static void applyPattern(@NotNull final ObjectHabitus habitus,
             @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
-                    throws AbstractSchemaException {
+            throws AbstractSchemaException {
         final Rule rule = RuleBuilder.pattern(file);
         sharedApply(wrapperHabitus(habitus, addtional), rule);
     }
@@ -265,7 +265,7 @@ public final class RulerHelper {
      */
     public static void applyMinLength(@NotNull final ObjectHabitus habitus,
             @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
-                    throws AbstractSchemaException {
+            throws AbstractSchemaException {
         final Rule rule = RuleBuilder.minlength(file);
         sharedApply(wrapperHabitus(habitus, addtional), rule);
     }
@@ -279,7 +279,7 @@ public final class RulerHelper {
      */
     public static void applyMaxLength(@NotNull final ObjectHabitus habitus,
             @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
-                    throws AbstractSchemaException {
+            throws AbstractSchemaException {
         final Rule rule = RuleBuilder.maxlength(file);
         sharedApply(wrapperHabitus(habitus, addtional), rule);
     }
@@ -319,6 +319,32 @@ public final class RulerHelper {
     public static void applyRequired(@NotNull final ObjectHabitus habitus,
             @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
         final Rule rule = RuleBuilder.required(file);
+        sharedApply(habitus, rule);
+    }
+
+    /**
+     * Mapping部分的验证
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyMapping(@NotNull final ObjectHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file) throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.mapping(file);
+        sharedApply(habitus, rule);
+    }
+
+    /**
+     * Vector部分的验证
+     * 
+     * @param habitus
+     * @param file
+     * @throws AbstractSchemaException
+     */
+    public static void applyVector(@NotNull final ObjectHabitus habitus, @NotNull @NotBlank @NotEmpty final String file)
+            throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.vector(file);
         sharedApply(habitus, rule);
     }
 

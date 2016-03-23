@@ -78,6 +78,23 @@ public final class Converter {
 
     /**
      * 
+     * @param array
+     * @return
+     */
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    public static String toStr(@NotNull final JsonArray array) {
+        final int length = array.size();
+        final String[] retArr = new String[length];
+        for (int idx = 0; idx < length; idx++) {
+            retArr[idx] = array.getString(idx);
+        }
+        return toStr(retArr);
+    }
+
+    /**
+     * 
      * @param setArr
      * @return
      */
@@ -130,9 +147,9 @@ public final class Converter {
             reader.close();
             retStr = new String(charArr);
         } catch (SQLException ex) {
-            jvmError(LOGGER,ex);
+            jvmError(LOGGER, ex);
         } catch (IOException ex) {
-            jvmError(LOGGER,ex);
+            jvmError(LOGGER, ex);
         }
         return retStr;
     }
@@ -149,7 +166,7 @@ public final class Converter {
         try {
             retEnum = Enum.valueOf(clazz, inputStr);
         } catch (IllegalArgumentException ex) {
-            jvmError(LOGGER,ex);
+            jvmError(LOGGER, ex);
         }
         return retEnum;
     }

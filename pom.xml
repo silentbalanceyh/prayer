@@ -30,7 +30,7 @@
         <http.component.version>4.5.1</http.component.version>
         <telnet.version>3.4</telnet.version>
         <!-- 【Latest】Vert.X库的版本 -->
-        <vertx.version>3.2.0</vertx.version>
+        <vertx.version>3.2.1</vertx.version>
         <netty.version>4.0.33.Final</netty.version>
         <hazelcast.version>3.5.4</hazelcast.version>
         <common.cli.version>1.3.1</common.cli.version>

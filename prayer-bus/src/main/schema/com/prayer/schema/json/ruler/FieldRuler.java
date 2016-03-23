@@ -48,6 +48,14 @@ public final class FieldRuler implements Ruler {
         // columnType ->
         // BOOLEAN|INT|LONG|DECIMAL|DATE|STRING|JSON|XML|SCRIPT|BINARY)[0-9]*
         RulerHelper.applyPattern(habitus, FileConfig.CFG_FIELD);
+        /** 3.1.4 只有字段级别才验证该信息 **/
+        // 主要判断当前系统中的fields是否符合其定义的类型规范
+        // 判断columnType是否合法，这部分根据不同的Database有所不同
+        RulerHelper.applyMapping(habitus, FileConfig.CFG_FIELD);
+
+        /** 3.1.5.验证当前字段的type是否符合columnType的定义，根据数据库类型有所不同 **/
+        // 验证Vector的Mapping是否冲突，主要是type和columnType
+        RulerHelper.applyVector(habitus, FileConfig.CFG_FIELD);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

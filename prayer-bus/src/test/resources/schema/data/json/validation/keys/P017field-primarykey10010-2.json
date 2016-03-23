@@ -21,7 +21,7 @@
     [
         {
             "name":"uniqueId",
-            "type":"StringType",
+            "type":"LongType",
             "columnName":"R_ID",
             "columnType":"LONG",
             "primarykey":false

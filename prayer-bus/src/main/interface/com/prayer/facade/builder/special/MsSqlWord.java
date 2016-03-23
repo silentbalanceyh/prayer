@@ -49,45 +49,47 @@ public interface MsSqlWord {
         String NTEXT = "NTEXT";
         /** 16.VARCHAR(MAX) **/
         String VARCHAR_MAX = "VARCHAR(MAX)";
+        /** 17.NVARCHAR(MAX) **/
+        String NVARCHAR_MAX = "NVARCHAR(MAX)";
 
         // 二进制类型============================
-        /** 17.BIT **/
+        /** 18.BIT **/
         String BIT = "BIT";
-        /** 18.BINARY **/
+        /** 19.BINARY **/
         String BINARY = "BINARY";
-        /** 19.VARBINARY **/
+        /** 20.VARBINARY **/
         String VARBINARY = "VARBINARY";
-        /** 20.VARBINARY(MAX) **/
+        /** 21.VARBINARY(MAX) **/
         String VARBINARY_MAX = "VARBINARY(MAX)";
-        /** 21.IMAGE **/
+        /** 22.IMAGE **/
         String IMAGE = "IMAGE";
 
         // 时间类型==============================
-        /** 22.SMALLDATETIME **/
+        /** 23.SMALLDATETIME **/
         String SMALLDATETIME = "SMALLDATETIME";
-        /** 23.DATE **/
+        /** 24.DATE **/
         String DATE = "DATE";
-        /** 24.DATETIME **/
+        /** 25.DATETIME **/
         String DATETIME = "DATETIME";
-        /** 25.DATETIME2 **/
+        /** 26.DATETIME2 **/
         String DATETIME2 = "DATETIME2";
-        /** 26.DATETIMEOFFSET **/
+        /** 27.DATETIMEOFFSET **/
         String DATETIMEOFFSET = "DATETIMEOFFSET";
-        /** 27.TIME **/
+        /** 28.TIME **/
         String TIME = "TIME";
-        /** 28.TIMESTAMP **/
+        /** 29.TIMESTAMP **/
         String TIMESTAMP = "TIMESTAMP";
 
         // 其他类型==============================
-        /** 29.XML **/
+        /** 30.XML **/
         String XML = "XML";
-        /** 30.GEOGRAPHY **/
+        /** 31.GEOGRAPHY **/
         String GEOGRAPHY = "GEOGRAPHY";
-        /** 31.GEOMETRY **/
+        /** 32.GEOMETRY **/
         String GEOMETRY = "GEOMETRY";
-        /** 32.HIERARCHYID **/
+        /** 33.HIERARCHYID **/
         String HIERARCHYID = "HIERARCHYID";
-        /** 33.UNIQUEIDENTIFIER **/
+        /** 34.UNIQUEIDENTIFIER **/
         String UNIQUEIDENTIFIER = "UNIQUEIDENTIFIER";
     }
 

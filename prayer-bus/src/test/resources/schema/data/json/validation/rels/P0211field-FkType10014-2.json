@@ -23,7 +23,7 @@
             "name": "uniqueId",
             "type": "LongType",
             "columnName": "R_ID",
-            "columnType": "STRING",
+            "columnType": "LONG",
             "primarykey": true
         },
 
@@ -46,7 +46,7 @@
             "name": "roleId",
             "type": "ScriptType",
             "columnName": "R_ROLE_ID",
-            "columnType": "LONG",
+            "columnType": "STRING2",
             "foreignkey": true,
             "refId":"R_ID",
             "refTable":"SEC_ROLE"

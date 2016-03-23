@@ -60,5 +60,24 @@
                 "name":"DuplicatedColumnException"
             }
         }
+    },
+    "db.mapping":{
+        "value":{
+            "check":true
+        },
+        "error":{
+            "name":"DBMappingConflictException",
+            "arguments":["columnType"]
+        }
+    },
+    "db.vector":{
+        "value":{
+            "check":true
+        },
+        "error":{
+            "name":"VectorWrongException",
+            "arguments":["type","columnType"],
+            "append":true
+        }
     }
 }

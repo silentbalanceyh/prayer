@@ -54,7 +54,7 @@
             "name": "roleId",
             "type": "XmlType",
             "columnName": "R_ROLE_ID",
-            "columnType": "LONG",
+            "columnType": "STRING2",
             "length": 4000
         }
     ]

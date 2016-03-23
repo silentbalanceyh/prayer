@@ -27,6 +27,7 @@ import com.prayer.schema.json.rule.InRule;
 import com.prayer.schema.json.rule.JETypeRule;
 import com.prayer.schema.json.rule.JTypeRule;
 import com.prayer.schema.json.rule.LeastRule;
+import com.prayer.schema.json.rule.MappingRule;
 import com.prayer.schema.json.rule.MaxLengthRule;
 import com.prayer.schema.json.rule.MinLengthRule;
 import com.prayer.schema.json.rule.MostRule;
@@ -35,6 +36,7 @@ import com.prayer.schema.json.rule.PatternRule;
 import com.prayer.schema.json.rule.RequiredRule;
 import com.prayer.schema.json.rule.UniqueRule;
 import com.prayer.schema.json.rule.UnsupportRule;
+import com.prayer.schema.json.rule.VectorRule;
 import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.NotBlank;
@@ -110,7 +112,22 @@ public final class RuleBuilder {
     }
 
     // ~ Rule Building =======================================
-    
+    /**
+     * 针对Vector的验证
+     * @param file
+     * @return
+     */
+    public static Rule vector(@NotNull @NotEmpty @NotBlank final String file){
+        return VectorRule.create(file);
+    }
+    /**
+     * 针对Mapping的验证
+     * @param file
+     * @return
+     */
+    public static Rule mapping(@NotNull @NotEmpty @NotBlank final String file){
+        return MappingRule.create(file);
+    }
     /**
      * 
      * @param file

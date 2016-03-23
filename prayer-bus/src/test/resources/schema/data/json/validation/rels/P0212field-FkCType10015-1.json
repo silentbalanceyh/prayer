@@ -23,7 +23,7 @@
             "name": "uniqueId",
             "type": "LongType",
             "columnName": "R_ID",
-            "columnType": "STRING",
+            "columnType": "LONG",
             "primarykey": true
         },
 
@@ -44,9 +44,10 @@
 
         {
             "name": "roleId",
-            "type": "LongType",
+            "type": "DateType",
             "columnName": "R_ROLE_ID",
-            "columnType": "XML",
+            "columnType": "DATE1",
+            "length":192,
             "foreignkey": true,
             "refId":"R_ID",
             "refTable":"SEC_ROLE"

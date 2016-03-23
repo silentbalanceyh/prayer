@@ -23,7 +23,7 @@
             "name":"uniqueId",
             "type":"DateType",
             "columnName":"R_ID",
-            "columnType":"LONG",
+            "columnType":"DATE2",
             "primarykey":true
         },
         {

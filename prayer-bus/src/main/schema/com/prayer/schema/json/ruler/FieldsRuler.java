@@ -53,6 +53,7 @@ public final class FieldsRuler implements ArrayRuler {
         // name
         // columnName
         RulerHelper.applyDuplicated(habitus, FileConfig.CFG_FIELD, new JsonObject());
+        
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

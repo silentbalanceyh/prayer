@@ -21,7 +21,7 @@
             "name": "uniqueId",
             "type": "StringType",
             "columnName": "R_ID",
-            "columnType": "LONG",
+            "columnType": "STRING",
             "primarykey": true
         },
 
