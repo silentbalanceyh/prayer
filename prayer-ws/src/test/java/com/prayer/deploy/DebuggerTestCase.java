@@ -48,7 +48,7 @@ public class DebuggerTestCase {
     // ~ hashCode,equals,toString ============================
     public static void main(String args[]) throws Exception {
         final SchemaService service = singleton(SchemaSevImpl.class);
-        final ServiceResult<GenericSchema> result = service.syncSchema("deploy/oob/schema/rel.resource.permission.json");
+        final ServiceResult<GenericSchema> result = service.importSchema("deploy/oob/schema/rel.resource.permission.json");
         if(ResponseCode.SUCCESS == result.getResponseCode()){
             service.syncMetadata(result.getResult());
         }

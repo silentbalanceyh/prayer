@@ -187,7 +187,7 @@ public class DeploySevImpl implements DeployService, OOBPaths { // NOPMD
                 if (jsonFiles.contains(fileName)) {
                     // 导入数据到H2的元数据数据库中
                     ServiceResult<GenericSchema> syncRet = this.manager.getSchemaService()
-                            .syncSchema(schemaFolder + "/" + fileName);
+                            .importSchema(schemaFolder + "/" + fileName);
                     if (ResponseCode.SUCCESS == syncRet.getResponseCode()) {
                         info(LOGGER, "7.Metadata Server (order = " + key + ",filename = " + fileName
                                 + ") importing successfully !");

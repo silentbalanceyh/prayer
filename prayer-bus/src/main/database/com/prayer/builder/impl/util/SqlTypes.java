@@ -44,6 +44,8 @@ public final class SqlTypes {
     private static final JsonArray DB_TYPE_SET = new JsonArray();
     /** 数据库可支持的映射 **/
     private static final ConcurrentMap<String, JsonArray> DB_SUPPORT_TYPES = new ConcurrentHashMap<>();
+    /** 数据库修改类型的向量表 **/
+    private static final ConcurrentMap<String, JsonArray> DB_REVERT_VECTORS = new ConcurrentHashMap<>();
     /** 数据库名称获取 **/
     private static final PropertyKit LOADER = new PropertyKit(Resources.DB_CFG_FILE);
     /** 数据库元数据访问 **/
@@ -101,6 +103,22 @@ public final class SqlTypes {
                 }
             }
         }
+        /** 4.系统使用的类型转换表 **/
+        final String rvectorFile = Resources.DB_TYPES_FILE + dao.getFile() + "/vectors" + Symbol.DOT
+                + Constants.EXTENSION.JSON;
+        try {
+            DB_REVERT_VECTORS.clear();
+            final String content = IOKit.getContent(rvectorFile);
+            final JsonObject vtTypes = new JsonObject(content);
+            for (final String field : vtTypes.fieldNames()) {
+                if (null != field) {
+                    final JsonArray values = vtTypes.getJsonArray(field);
+                    DB_REVERT_VECTORS.put(field, values);
+                }
+            }
+        } catch (DecodeException ex) {
+            jvmError(LOGGER, ex);
+        }
     }
 
     // ~ Static Methods ======================================
@@ -130,6 +148,16 @@ public final class SqlTypes {
      */
     public static JsonArray supports(final String key) {
         return DB_SUPPORT_TYPES.get(key);
+    }
+
+    /**
+     * 获取目标类型，得到可以转换成target的所有类型集合
+     * 
+     * @param target
+     * @return
+     */
+    public static JsonArray rvectors(final String target) {
+        return DB_REVERT_VECTORS.get(target);
     }
 
     /**

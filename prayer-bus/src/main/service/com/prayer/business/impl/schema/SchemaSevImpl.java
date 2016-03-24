@@ -21,6 +21,7 @@ import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.Altimeter;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.fantasm.exception.AbstractTransactionException;
@@ -75,12 +76,12 @@ public class SchemaSevImpl implements SchemaService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<Schema> syncSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
+    public ServiceResult<Schema> importSchema(@NotNull @NotEmpty @NotBlank final String filePath) {
         final ServiceResult<Schema> result = new ServiceResult<>();
         try {
             /** 1.读取Schema信息，从Json到H2中 **/
             final Schema schema = importer.read(filePath);
-            /** 2.【Advanced验证】更新验证、约束合法验证流程 **/
+            /** 2.【Advanced验证】主要验证变更：Schema的变更是否合法的验证 **/
             final Altimeter altimeter = singleton(SchemaAltimeter.class, this.dao);
             altimeter.verify(schema);
             /** 3.将读取到的schema存如到H2 Database中 **/
@@ -97,6 +98,9 @@ public class SchemaSevImpl implements SchemaService {
             peError(LOGGER, ex);
             result.error(ex);
         } catch (AbstractSchemaException ex) {
+            peError(LOGGER, ex);
+            result.failure(ex);
+        } catch (AbstractException ex) {
             peError(LOGGER, ex);
             result.failure(ex);
         }
@@ -123,7 +127,7 @@ public class SchemaSevImpl implements SchemaService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<Schema> findSchema(@NotNull @NotEmpty @NotBlank final String identifier) {
+    public ServiceResult<Schema> findById(@NotNull @NotEmpty @NotBlank final String identifier) {
         final ServiceResult<Schema> result = new ServiceResult<>();
         try {
             final Schema schema = this.dao.get(identifier);
@@ -143,7 +147,7 @@ public class SchemaSevImpl implements SchemaService {
     @Override
     @PreValidateThis
     @InstanceOfAny(ServiceResult.class)
-    public ServiceResult<Boolean> removeSchema(@NotNull @NotEmpty @NotBlank final String identifier) {
+    public ServiceResult<Boolean> removeById(@NotNull @NotEmpty @NotBlank final String identifier) {
         final ServiceResult<Boolean> result = new ServiceResult<>();
         try {
             final Boolean ret = this.dao.delete(identifier);

@@ -17,7 +17,7 @@ public interface SchemaService {
      */
     // 1. 从JSON文件中读取Schema
     // 2. 将读取到的Schema插入到H2 Database中
-    ServiceResult<Schema> syncSchema(String filePath);
+    ServiceResult<Schema> importSchema(String filePath);
 
     /**
      * H2 Database -> SQL Database
@@ -36,7 +36,7 @@ public interface SchemaService {
      * @return
      */
     // 1. 根据identifier读取Schema信息
-    ServiceResult<Schema> findSchema(String identifier);
+    ServiceResult<Schema> findById(String identifier);
 
     /**
      * 从H2 Database中删除Schema定义信息
@@ -46,5 +46,5 @@ public interface SchemaService {
      */
     // 1. 删除H2 Database的数据
     // 2. 删除数据库中的表数据
-    ServiceResult<Boolean> removeSchema(String identifier);
+    ServiceResult<Boolean> removeById(String identifier);
 }

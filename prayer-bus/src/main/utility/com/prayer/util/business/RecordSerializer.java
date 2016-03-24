@@ -65,7 +65,7 @@ public final class RecordSerializer {
     @Pre(expr = "_this.schemaSev != null", lang = Constants.LANG_GROOVY)
     public Schema extractSchema(@NotNull final JsonObject parameters) {
         final String identifier = parameters.getString(Constants.PARAM.ID);
-        final ServiceResult<Schema> schema = this.schemaSev.findSchema(identifier);
+        final ServiceResult<Schema> schema = this.schemaSev.findById(identifier);
         Schema ret = null;
         if (ResponseCode.SUCCESS == schema.getResponseCode()) {
             ret = schema.getResult();

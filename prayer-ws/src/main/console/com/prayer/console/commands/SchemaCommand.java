@@ -106,7 +106,7 @@ public class SchemaCommand extends AbstractCommand {
 
     private JsonObject syncSchema(final String file) {
         // Schema Json File --> H2 Database
-        ServiceResult<GenericSchema> ret = this.service.syncSchema(file);
+        ServiceResult<GenericSchema> ret = this.service.importSchema(file);
         final JsonObject retJson = new JsonObject();
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             // H2 Database --> SQL Server

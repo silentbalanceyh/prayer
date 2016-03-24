@@ -1,6 +1,7 @@
 package com.prayer.facade.schema.verifier;
 
 import com.prayer.facade.schema.Schema;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
@@ -14,5 +15,5 @@ public interface Altimeter {
      * @param data
      * @throws AbstractSchemaException
      */
-    void verify(Schema schema) throws AbstractSchemaException; 
+    void verify(Schema schema) throws AbstractException; 
 }

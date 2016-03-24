@@ -70,7 +70,7 @@ public abstract class AbstractRDaoTestTool extends AbstractTestTool {
         ServiceResult<Schema> finalRet = new ServiceResult<>();
         if (this.isValidDB()) {
             // 基础数据
-            final ServiceResult<Schema> syncRet = this.getService().syncSchema(DAO_DATA_PATH + filePath);
+            final ServiceResult<Schema> syncRet = this.getService().importSchema(DAO_DATA_PATH + filePath);
             if (ResponseCode.SUCCESS == syncRet.getResponseCode()) {
                 finalRet = this.getService().syncMetadata(syncRet.getResult());
             } else {
