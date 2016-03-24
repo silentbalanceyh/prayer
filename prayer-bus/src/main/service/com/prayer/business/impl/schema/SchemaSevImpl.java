@@ -26,7 +26,7 @@ import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 import com.prayer.model.business.ServiceResult;
-import com.prayer.schema.json.SchemaAltimeter;
+import com.prayer.schema.common.SchemaAltimeter;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;

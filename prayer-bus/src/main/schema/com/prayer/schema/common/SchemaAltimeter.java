@@ -1,4 +1,4 @@
-package com.prayer.schema.json;
+package com.prayer.schema.common;
 
 import com.prayer.exception.schema.IdentifierReferenceException;
 import com.prayer.facade.dao.schema.SchemaDao;

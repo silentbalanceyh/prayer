@@ -22,7 +22,7 @@ import com.prayer.facade.schema.verifier.Altimeter;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
-import com.prayer.schema.json.SchemaAltimeter;
+import com.prayer.schema.common.SchemaAltimeter;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
