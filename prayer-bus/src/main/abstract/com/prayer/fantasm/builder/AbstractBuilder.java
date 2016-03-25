@@ -89,15 +89,15 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
         final boolean exist = this.exist(schema);
         // 表是否存在，不存在则执行Create，存在则执行Alter
         String sql = null;
-        debug(getLogger(), "[D] Table " + schema.getTable() + " does not exist. Result: exist = " + exist);
+        debug(getLogger(), "[D] Table " + schema.getTable() + " existing status. Result: exist = " + exist);
         if (exist) {
             sql = this.getRefresher().buildAlterSQL(schema);
         } else {
             sql = this.prepCreateSql(schema);
         }
         debug(getLogger(), DebugKey.INFO_SQL_STMT, sql);
-        // final int respCode = this.connection.executeBatch(sql);
-        return false; // Constants.RC_SUCCESS == respCode;
+        final int respCode = this.connection.executeBatch(sql);
+        return Constants.RC_SUCCESS == respCode;
     }
 
     /**

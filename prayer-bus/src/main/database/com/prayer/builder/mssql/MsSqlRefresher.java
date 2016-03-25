@@ -2,9 +2,11 @@ package com.prayer.builder.mssql;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
+import com.prayer.builder.mssql.alter.MsSqlReferencer;
 import com.prayer.builder.mssql.alter.MsSqlReflector;
 import com.prayer.facade.builder.reflector.Reflector;
 import com.prayer.facade.builder.special.MsSqlStatement;
+import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.fantasm.builder.AbstractRefresher;
 
@@ -37,6 +39,11 @@ public class MsSqlRefresher extends AbstractRefresher implements MsSqlStatement 
     @Override
     public Reflector reflector() {
         return singleton(MsSqlReflector.class, this.connection());
+    }
+    /** 引用构造器 **/
+    @Override
+    public Referencer referencer(){
+        return singleton(MsSqlReferencer.class, this.connection());
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
