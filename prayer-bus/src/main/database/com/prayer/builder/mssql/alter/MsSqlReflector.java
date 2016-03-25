@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.mssql;
+package com.prayer.builder.mssql.alter;
 
 import com.prayer.facade.builder.reflector.Reflector;
 import com.prayer.facade.pool.JdbcConnection;

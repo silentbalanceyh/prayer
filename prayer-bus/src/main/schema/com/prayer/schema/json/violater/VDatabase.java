@@ -1,6 +1,6 @@
 package com.prayer.schema.json.violater;
 
-import com.prayer.builder.impl.util.SqlTypes;
+import com.prayer.builder.util.SqlTypes;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.util.string.StringKit;
 

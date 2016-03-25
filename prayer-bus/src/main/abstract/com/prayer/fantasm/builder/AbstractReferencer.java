@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.builder.impl.util.SqlDDLBuilder;
+import com.prayer.builder.util.SqlDDLBuilder;
 import com.prayer.constant.Constants;
 import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.kernel.Referencer;

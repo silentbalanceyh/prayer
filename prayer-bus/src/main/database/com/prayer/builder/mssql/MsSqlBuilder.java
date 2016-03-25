@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.mssql;
+package com.prayer.builder.mssql;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -7,6 +7,9 @@ import java.text.MessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.builder.mssql.part.MsSqlFieldSaber;
+import com.prayer.builder.mssql.part.MsSqlKeySaber;
+import com.prayer.builder.mssql.part.MsSqlValidator;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.facade.builder.Refresher;
@@ -14,7 +17,6 @@ import com.prayer.facade.builder.line.FieldSaber;
 import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.builder.special.MsSqlStatement;
 import com.prayer.facade.builder.special.MsSqlWord;
-import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.fantasm.builder.AbstractBuilder;
@@ -41,15 +43,6 @@ public class MsSqlBuilder extends AbstractBuilder implements MsSqlStatement, MsS
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ 需要访问数据库组件 ==================================
-    /*
-     * 对于需要访问数据库的组件，需要传入原始的Builder中数据库连接，
-     * 保持Builder与其所有的组件仅使用同一个连接对象就可以了。
-     */
-    /** **/
-    @Override
-    public Referencer getReferencer() {
-        return singleton(MsSqlReferencer.class, this.getConnection());
-    }
 
     /** **/
     @Override

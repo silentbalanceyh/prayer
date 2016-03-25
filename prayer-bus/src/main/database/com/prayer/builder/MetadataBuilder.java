@@ -1,4 +1,4 @@
-package com.prayer.builder.impl;
+package com.prayer.builder;
 
 import static com.prayer.util.reflection.Instance.singleton;
 

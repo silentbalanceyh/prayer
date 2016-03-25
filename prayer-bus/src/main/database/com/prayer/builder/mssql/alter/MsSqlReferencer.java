@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.mssql;
+package com.prayer.builder.mssql.alter;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.builder.mssql.part.MsSqlKeySaber;
 import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.builder.special.MsSqlStatement;
 import com.prayer.facade.builder.special.MsSqlWord;

@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
-import com.prayer.builder.impl.util.SqlDDLBuilder;
+import com.prayer.builder.util.SqlDDLBuilder;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
@@ -21,7 +21,6 @@ import com.prayer.facade.builder.SQLStatement;
 import com.prayer.facade.builder.line.FieldSaber;
 import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.fun.builder.AutoIncrement;
-import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
@@ -64,8 +63,6 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
     }
 
     // ~ Abstract Methods ====================================
-    /** 获取Referencer信息 **/
-    public abstract Referencer getReferencer();
 
     /** 判断当前表是否存在 **/
     public abstract DataValidator getValidator();

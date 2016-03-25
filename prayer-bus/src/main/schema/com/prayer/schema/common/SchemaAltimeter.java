@@ -1,6 +1,6 @@
 package com.prayer.schema.common;
 
-import com.prayer.builder.impl.util.SqlTypes;
+import com.prayer.builder.util.SqlTypes;
 import com.prayer.exception.schema.IdentifierReferenceException;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;

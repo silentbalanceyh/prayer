@@ -3,7 +3,7 @@ package com.prayer.fantasm.builder.line;
 import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.builder.impl.util.SqlTypes;
+import com.prayer.builder.util.SqlTypes;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.facade.builder.SQLWord;

@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.mssql;
+package com.prayer.builder.mssql.part;
 
 import java.text.MessageFormat;
 import java.util.Locale;

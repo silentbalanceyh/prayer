@@ -2,7 +2,7 @@ package com.prayer.schema.json.violater;
 
 import static com.prayer.util.Converter.toStr;
 
-import com.prayer.builder.impl.util.SqlTypes;
+import com.prayer.builder.util.SqlTypes;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;

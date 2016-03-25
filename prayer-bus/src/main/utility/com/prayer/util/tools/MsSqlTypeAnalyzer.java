@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.jolbox.bonecp.BoneCPDataSource;
-import com.prayer.builder.impl.util.SqlTypes;
+import com.prayer.builder.util.SqlTypes;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.util.io.PropertyKit;

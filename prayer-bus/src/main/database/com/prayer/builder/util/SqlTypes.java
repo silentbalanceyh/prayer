@@ -1,4 +1,4 @@
-package com.prayer.builder.impl.util;
+package com.prayer.builder.util;
 
 import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.reflection.Instance.singleton;

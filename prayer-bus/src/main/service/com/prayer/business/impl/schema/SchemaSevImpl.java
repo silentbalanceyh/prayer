@@ -7,7 +7,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.builder.impl.MetadataBuilder;
+import com.prayer.builder.MetadataBuilder;
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.dao.impl.schema.CommuneImporter;

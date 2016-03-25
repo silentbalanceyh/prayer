@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.builder.impl.mssql.MsSqlReferencer;
+import com.prayer.builder.mssql.alter.MsSqlReferencer;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
 import com.prayer.constant.SystemEnum.KeyCategory;
