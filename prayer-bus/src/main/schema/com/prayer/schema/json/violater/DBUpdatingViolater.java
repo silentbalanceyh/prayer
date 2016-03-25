@@ -1,12 +1,13 @@
 package com.prayer.schema.json.violater;
 
 import com.prayer.builder.impl.util.SqlTypes;
+import com.prayer.constant.Constants;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.fantasm.schema.AbstractViolater;
-import com.prayer.schema.json.rule.MappingRule;
+import com.prayer.schema.json.rule.DBUpdatingRule;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -16,16 +17,13 @@ import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
 
 /**
- * 固定验证，数据库类型验证、数据库Mapping验证，不可重用的特殊Rule
  * 
  * @author Lang
  *
  */
 @Guarded
-public final class MappingViolater extends AbstractViolater implements Violater {
+public final class DBUpdatingViolater extends AbstractViolater implements Violater {
     // ~ Static Fields =======================================
-    /** **/
-    private static final String COL_TYPE_KEY = "columnType";
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
@@ -36,7 +34,7 @@ public final class MappingViolater extends AbstractViolater implements Violater 
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public MappingViolater(@NotNull @InstanceOfAny(MappingRule.class) final Rule rule) {
+    public DBUpdatingViolater(@NotNull @InstanceOfAny(DBUpdatingRule.class) final Rule rule) {
         this.rule = rule;
     }
 
@@ -46,26 +44,38 @@ public final class MappingViolater extends AbstractViolater implements Violater 
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
         AbstractSchemaException error = null;
+
         final JsonObject checked = rule.getRule();
         if (null != checked && checked.getBoolean("check")) {
-            /** 验证columnType中的数据内容是否存在于DB的Type Mapping中 **/
-            final String value = SqlTypes.get(habitus.get(COL_TYPE_KEY));
-            final JsonArray types = SqlTypes.types();
-            boolean ret = VCondition.nin(value, types);
-            if (ret) {
-                final JsonObject addtional = new JsonObject();
-                /** 如果value为null获取原始值 **/
-                if (null == value) {
-                    addtional.put(COL_TYPE_KEY, habitus.get(COL_TYPE_KEY));
-                } else {
-                    addtional.put(COL_TYPE_KEY, value);
+            /** 1.抽取对应的规则 **/
+            final JsonObject addtional = habitus.addtional();
+            /** 2.遍历需要检查的Old Field中的数据 **/
+            final JsonArray fields = habitus.data();
+            final int size = fields.size();
+            for (int idx = 0; idx < size; idx++) {
+                /** 3.遍历每一个字段定义信息 **/
+                final JsonObject field = fields.getJsonObject(idx);
+                if (null != field) {
+                    /** 4.获取元数据信息 **/
+                    final JsonObject metadata = addtional.getJsonObject(field.getString("name"));
+                    final JsonArray expected = metadata.getJsonArray("types");
+                    final String value = SqlTypes.get(field.getString("columnType"));
+                    final boolean ret = VCondition.nin(value, expected);
+                    if (ret) {
+                        /** 5.单个检查流程 **/
+                        final Object[] args = new Object[3];
+                        args[Constants.IDX] = field.getString("name");
+                        args[Constants.ONE] = value;
+                        args[Constants.TWO] = metadata.getString("target");
+                        /** 6.初始化错误信息 **/
+                        error = this.error(rule, args, new JsonObject());
+                        break;
+                    }
                 }
-                error = this.error(rule, new Object[] {}, addtional);
             }
         }
         return error;
     }
-
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

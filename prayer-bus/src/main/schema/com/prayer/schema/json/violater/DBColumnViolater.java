@@ -38,9 +38,9 @@ public final class DBColumnViolater extends AbstractViolater implements Violater
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
     @Override
     public AbstractSchemaException violate(@NotNull final ObjectHabitus habitus) {
-        /** **/
         /** **/
         final List<VDatabase> databases = this.preparedDatabase(this.rule, habitus);
         /** **/

@@ -17,23 +17,22 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class DBColumnRule extends AbstractRule implements Rule {
+public class DBUpdatingRule extends AbstractRule implements Rule {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(DBColumnRule.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DBUpdatingRule.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
-    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
-        return new DBColumnRule(rule);
+    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule){
+        return new DBUpdatingRule(rule);
     }
-
     // ~ Constructors ========================================
     /** **/
-    private DBColumnRule(final String rule) {
-        super(rule, Names.RULE_DB_COL);
+    private DBUpdatingRule(final String rule) {
+        super(rule, Names.RULE_DB_CHG);
     }
 
     // ~ Abstract Methods ====================================

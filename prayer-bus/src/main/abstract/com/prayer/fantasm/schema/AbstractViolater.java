@@ -190,7 +190,14 @@ public abstract class AbstractViolater {
         /** 5.参数处理完成过后，直接构造最终的Exception **/
         return instance(errorCls, args.toArray());
     }
-
+    /*
+    private void argsConsole(Object[] programArgs, JsonObject addtional, final String field, final Object[] finalArgs){
+        System.out.println("App Input : " + programArgs);
+        System.out.println("Addtional : " + addtional);
+        System.out.println("Field : " + field);
+        System.out.println("Args : " + finalArgs);
+    }
+    */
     /**
      * 子类可用，获取DataValidator引用
      * 

@@ -77,6 +77,8 @@ public interface RuleConstants {
         String RULE_DB_MAP = "db.mapping";
         /** 10036 Mapping检查 **/
         String RULE_DB_VTOR = "db.vector";
+        /** 10037 Database类型改变 **/
+        String RULE_DB_CHG = "db.update";
     }
 
     /** Rule对应的配置文件名 **/
@@ -160,6 +162,9 @@ public interface RuleConstants {
         String CFG_CATT = "cross/attrs";
         /** Attribute **/
         String CFG_CDBT = "cross/dbtype";
+        
+        /** Updates **/
+        String CFG_UPS = "update/update";
     }
 
     /** **/

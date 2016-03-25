@@ -1,4 +1,4 @@
-package com.prayer.schema.json;
+package com.prayer.schema.common;
 
 import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.reflection.Instance.clazz;
@@ -15,6 +15,7 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.schema.json.rule.DBUpdatingRule;
 import com.prayer.schema.json.rule.DBColumnRule;
 import com.prayer.schema.json.rule.DBConstraintRule;
 import com.prayer.schema.json.rule.DBTableRule;
@@ -274,6 +275,14 @@ public final class RuleBuilder {
      */
     public static Rule dbtype(@NotNull @NotEmpty @NotBlank final String file){
         return DBTypeRule.create(file);
+    }
+    /**
+     * E10037
+     * @param file
+     * @return
+     */
+    public static Rule dbchanging(@NotNull @NotEmpty @NotBlank final String file){
+        return DBUpdatingRule.create(file);
     }
     /**
      * E10007/10008

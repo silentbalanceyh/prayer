@@ -6,8 +6,8 @@ import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.RuleConstants;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.schema.common.RuleBuilder;
 import com.prayer.schema.json.JObjectHabitus;
-import com.prayer.schema.json.RuleBuilder;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
@@ -73,6 +73,20 @@ public final class RulerHelper {
             @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
             throws AbstractSchemaException {
         final Rule rule = RuleBuilder.duplicated(file);
+        sharedApply(wrapperHabitus(habitus, addtional), rule);
+    }
+
+    /**
+     * Error10038 -- 检查数据库中字段更新
+     * 
+     * @param habitus
+     * @param file
+     * @param addtional
+     */
+    public static void applyDBUpdates(@NotNull final ArrayHabitus habitus,
+            @NotNull @NotBlank @NotEmpty final String file, @NotNull final JsonObject addtional)
+            throws AbstractSchemaException {
+        final Rule rule = RuleBuilder.dbchanging(file);
         sharedApply(wrapperHabitus(habitus, addtional), rule);
     }
 
