@@ -1,9 +1,16 @@
 package com.prayer.builder.mssql.alter;
 
-import com.prayer.facade.builder.reflector.Reflector;
-import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.facade.schema.Schema;
+import java.text.MessageFormat;
+import java.util.List;
 
+import com.prayer.facade.builder.reflector.Reflector;
+import com.prayer.facade.builder.special.MsSqlStatement;
+import com.prayer.facade.builder.special.MsSqlWord;
+import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.fantasm.builder.line.AbstractReflector;
+
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -14,13 +21,9 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class MsSqlReflector implements Reflector {
+public class MsSqlReflector extends AbstractReflector implements Reflector, MsSqlStatement, MsSqlWord {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    /** **/
-    @NotNull
-    private transient JdbcConnection connection;
-
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -30,18 +33,21 @@ public class MsSqlReflector implements Reflector {
      * @param connection
      */
     public MsSqlReflector(@NotNull final JdbcConnection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /**
-     * 反向构造Schema
-     */
-    @Override
-    public Schema buildSchema() {
-        // TODO Auto-generated method stub
-        return null;
+    /** 获取当前系统中对应的表所有的Constraints **/
+    public List<String> getConstraints(@NotNull @NotBlank @NotEmpty final String table) {
+        final String sql = MessageFormat.format(R_CONSTRAINTS, this.database(), table);
+        return this.connection().select(sql, Metadata.CONSTRAINT);
+    }
+
+    /** 获取当前系统中对应的所有Columns **/
+    public List<String> getColumns(@NotNull @NotBlank @NotEmpty final String table) {
+        final String sql = MessageFormat.format(R_COLUMNS, this.database(), table);
+        return this.connection().select(sql, Metadata.COLUMN);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

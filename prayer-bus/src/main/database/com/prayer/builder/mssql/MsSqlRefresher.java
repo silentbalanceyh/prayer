@@ -4,6 +4,10 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.builder.mssql.alter.MsSqlReferencer;
 import com.prayer.builder.mssql.alter.MsSqlReflector;
+import com.prayer.builder.mssql.part.MsSqlFieldSaber;
+import com.prayer.builder.mssql.part.MsSqlKeySaber;
+import com.prayer.facade.builder.line.FieldSaber;
+import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.builder.reflector.Reflector;
 import com.prayer.facade.builder.special.MsSqlStatement;
 import com.prayer.facade.kernel.Referencer;
@@ -44,6 +48,16 @@ public class MsSqlRefresher extends AbstractRefresher implements MsSqlStatement 
     @Override
     public Referencer referencer(){
         return singleton(MsSqlReferencer.class, this.connection());
+    }
+    /** 字段操作器 **/
+    @Override
+    public FieldSaber getFieldSaber() {
+        return singleton(MsSqlFieldSaber.class);
+    }
+    /** **/
+    @Override
+    public KeySaber getKeySaber(){
+        return singleton(MsSqlKeySaber.class);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

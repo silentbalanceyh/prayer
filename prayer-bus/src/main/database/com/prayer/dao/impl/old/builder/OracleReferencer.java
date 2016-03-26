@@ -50,7 +50,7 @@ public final class OracleReferencer implements Referencer {
     @Override
     public List<FKReferencer> getReferences(@NotNull @NotEmpty @NotBlank final String table,
             @NotNull @NotEmpty @NotBlank final String column) {
-        final String sql = MsSqlHelper.getSqlReferences(table, column);
+        final String sql = null; // MsSqlHelper.getSqlReferences(table, column);
         final List<ConcurrentMap<String, String>> records = this.context.select(sql,
                 new String[] { "CONSTRAINT_NAME", "TABLE_NAME", "COLUMN_NAME" });
         final List<FKReferencer> retRefs = new ArrayList<>();

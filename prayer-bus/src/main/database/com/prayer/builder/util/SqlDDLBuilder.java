@@ -139,6 +139,16 @@ public final class SqlDDLBuilder implements SQLStatement {
         return MessageFormat.format(SCHEMA_UNIQUE, table, column);
     }
 
+    /**
+     * 查看表中有多少数据，这个操作仅仅用于Builder
+     * 
+     * @param table
+     * @return
+     */
+    public String buildRowsSQL(@NotNull @NotBlank @NotEmpty final String table) {
+        return MessageFormat.format(OP_COUNT, table);
+    }
+
     // ~ Private Methods =====================================
     private SqlDDLBuilder() {
     }

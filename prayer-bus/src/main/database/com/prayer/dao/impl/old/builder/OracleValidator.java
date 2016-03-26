@@ -118,13 +118,6 @@ public final class OracleValidator implements DataValidator {
         }
         return error;
     }
-    /**
-     * 
-     */
-    @Override
-    public void purgeTestData(){
-        
-    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
