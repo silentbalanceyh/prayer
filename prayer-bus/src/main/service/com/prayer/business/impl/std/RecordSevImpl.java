@@ -3,7 +3,7 @@ package com.prayer.business.impl.std;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.impl.std.record.RecordDaoImpl;
+import com.prayer.dao.impl.data.DataRecordDalor;
 import com.prayer.facade.business.RecordService;
 import com.prayer.fantasm.business.AbstractSevImpl;
 import com.prayer.model.crucial.DataRecord;
@@ -28,7 +28,7 @@ public class RecordSevImpl extends AbstractSevImpl implements RecordService {
     // ~ Constructors ========================================
     /** **/
     public RecordSevImpl() {
-        super(RecordDaoImpl.class, DataRecord.class);
+        super(DataRecordDalor.class, DataRecord.class);
     }
 
     // ~ Abstract Methods ====================================

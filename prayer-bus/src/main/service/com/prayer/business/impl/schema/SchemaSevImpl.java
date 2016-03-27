@@ -11,7 +11,7 @@ import com.prayer.builder.MetadataBuilder;
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.dao.impl.schema.CommuneImporter;
-import com.prayer.dao.impl.schema.SchemaDaoImpl;
+import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.exception.system.SchemaNotFoundException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.builder.Builder;
@@ -63,7 +63,7 @@ public class SchemaSevImpl implements SchemaService {
     /** **/
     @PostValidateThis
     public SchemaSevImpl() {
-        this.dao = singleton(SchemaDaoImpl.class);
+        this.dao = singleton(SchemaDalor.class);
         this.builder = singleton(MetadataBuilder.class);
         this.importer = singleton(CommuneImporter.class);
     }

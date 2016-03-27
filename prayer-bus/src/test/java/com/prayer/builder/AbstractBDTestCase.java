@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import com.prayer.builder.MetadataBuilder;
 import com.prayer.constant.Resources;
 import com.prayer.dao.impl.schema.CommuneImporter;
-import com.prayer.dao.impl.schema.SchemaDaoImpl;
+import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.builder.Builder;
 import com.prayer.facade.dao.schema.Importer;
@@ -42,7 +42,7 @@ public abstract class AbstractBDTestCase {
     // ~ Constructors ========================================
     /** **/
     public AbstractBDTestCase() {
-        this.dao = singleton(SchemaDaoImpl.class);
+        this.dao = singleton(SchemaDalor.class);
         this.builder = singleton(MetadataBuilder.class);
         this.importer = singleton(CommuneImporter.class);
     }

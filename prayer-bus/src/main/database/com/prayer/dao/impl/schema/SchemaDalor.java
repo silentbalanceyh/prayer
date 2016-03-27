@@ -35,11 +35,11 @@ import net.sf.oval.guard.Guarded;
  */
 // TODO: 目前没有加入分布式事务处理，等到分布式事务处理可完成了过后则可以考虑设置事务级操作
 @Guarded
-public final class SchemaDaoImpl implements SchemaDao {
+public final class SchemaDalor implements SchemaDao {
     // ~ Static Fields =======================================
 
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaDalor.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

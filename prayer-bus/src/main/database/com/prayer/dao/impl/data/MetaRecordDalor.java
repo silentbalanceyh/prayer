@@ -1,11 +1,10 @@
-package com.prayer.dao.impl.std.record;
+package com.prayer.dao.impl.data;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Expression;
@@ -14,174 +13,129 @@ import com.prayer.facade.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
-import com.prayer.model.crucial.DataRecord;
+import com.prayer.model.crucial.MetaRecord;
+import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
-import net.sf.oval.guard.Pre;
 
 /**
- * 注意OVal验证了对象的实际类型，这个Dao只能针对GenericRecord类型
+ * 为了统一和RecordDao中的接口以及反射构造，MetaDao使用延迟加载方式
  * 
  * @author Lang
  *
  */
 @Guarded
-public class RecordDaoImpl implements RecordDao {
+public class MetaRecordDalor implements RecordDao {
     // ~ Static Fields =======================================
+    /** **/
+    private static final PropertyKit LOADER = new PropertyKit(MetaRecordDalor.class, Resources.OOB_SCHEMA_FILE);
     /** 前置验证条件 **/
-    private static final String DAO_EXPR = "_this.dao != null";
     // ~ Instance Fields =====================================
-    /** 抽象Dao **/
-    @NotNull
-    private transient final RecordDao dao;
+    /** **/
+    @InstanceOf(RecordDao.class)
+    private transient RecordDao dao;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    @PostValidateThis
-    public RecordDaoImpl() {
-        this.dao = singleton(Resources.DB_DAO);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /**
-     * 
-     * @param record
-     * @return
-     * @throws AbstractDatabaseException
-     */
+    /** **/
     @Override
     @InstanceOf(Record.class)
-    @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record insert(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
+    public Record insert(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
             throws AbstractDatabaseException {
+        this.initLazyDao(record);
         return this.dao.insert(record);
     }
 
-    /**
-     * 
-     */
+    /** **/
     @Override
     @InstanceOf(Record.class)
-    @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record update(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
+    public Record update(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
             throws AbstractDatabaseException {
+        this.initLazyDao(record);
         return this.dao.update(record);
     }
 
-    /**
-     * 
-     */
+    /** **/
     @Override
     @InstanceOf(Record.class)
-    @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record selectById(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
+    public Record selectById(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
             @NotNull @InstanceOf(Value.class) final Value<?> uniqueId) throws AbstractDatabaseException {
+        this.initLazyDao(record);
         return this.dao.selectById(record, uniqueId);
     }
 
-    /**
-     * 
-     */
+    /** **/
     @Override
     @InstanceOf(Record.class)
-    @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public Record selectById(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
+    public Record selectById(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
             @NotNull @MinSize(1) final ConcurrentMap<String, Value<?>> uniqueIds) throws AbstractDatabaseException {
+        this.initLazyDao(record);
         return this.dao.selectById(record, uniqueIds);
     }
-
-    /**
-     * 
-     */
+    /** **/
     @Override
-    @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public boolean delete(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
+    public boolean delete(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
             throws AbstractDatabaseException {
+        this.initLazyDao(record);
         return this.dao.delete(record);
     }
-    /**
-     * 
-     * @param record
-     * @return
-     * @throws AbstractDatabaseException
-     */
+    /** **/
     @Override
-    @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public boolean purge(@NotNull @InstanceOfAny(DataRecord.class) final Record record)
+    public boolean purge(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
             throws AbstractDatabaseException{
+        this.initLazyDao(record);
         return this.dao.purge(record);
     }
 
-    /**
-     * 
-     * @param record
-     * @param columns
-     * @param params
-     * @param filters
-     * @return
-     * @throws AbstractDatabaseException
-     */
+    /** **/
     @Override
     @NotNull
-    @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public List<Record> queryByFilter(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
+    public List<Record> queryByFilter(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params,
             @InstanceOf(Expression.class) final Expression filters) throws AbstractDatabaseException {
+        this.initLazyDao(record);
         return this.dao.queryByFilter(record, columns, params, filters);
     }
 
-    /**
-     * 
-     * @param record
-     * @param columns
-     * @param params
-     * @param filters
-     * @param orders
-     * @return
-     * @throws AbstractDatabaseException
-     */
+    /** **/
     @Override
     @NotNull
-    @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public List<Record> queryByFilter(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
+    public List<Record> queryByFilter(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params,
             @InstanceOf(Expression.class) final Expression filters,
             @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders) throws AbstractDatabaseException {
+        this.initLazyDao(record);
         return this.dao.queryByFilter(record, columns, params, filters, orders);
     }
 
-    /**
-     * 
-     * @param record
-     * @param columns
-     * @param params
-     * @param filters
-     * @param orders
-     * @param pager
-     * @return
-     * @throws AbstractDatabaseException
-     */
+    /** **/
     @Override
     @NotNull
-    @Pre(expr = DAO_EXPR, lang = Constants.LANG_GROOVY)
-    public ConcurrentMap<Long, List<Record>> queryByPage(
-            @NotNull @InstanceOfAny(DataRecord.class) final Record record, @NotNull final String[] columns,
-            final List<Value<?>> params, final @InstanceOf(Expression.class) Expression filters,
+    public ConcurrentMap<Long, List<Record>> queryByPage(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
+            @NotNull final String[] columns, final List<Value<?>> params,
+            @InstanceOf(Expression.class) final Expression filters,
             @NotNull @InstanceOfAny(OrderBy.class) final OrderBy orders,
             @NotNull @InstanceOfAny(Pager.class) final Pager pager) throws AbstractDatabaseException {
+        this.initLazyDao(record);
         return this.dao.queryByPage(record, columns, params, filters, orders, pager);
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    private RecordDao initLazyDao(final Record record) {
+        if (null == this.dao) {
+            this.dao = singleton(LOADER.getString(record.identifier() + ".dao.impl"));
+        }
+        return this.dao;
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

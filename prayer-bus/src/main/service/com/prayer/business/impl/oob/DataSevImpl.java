@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.dao.impl.std.record.RecordDaoImpl;
+import com.prayer.dao.impl.data.DataRecordDalor;
 import com.prayer.facade.business.DataService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.record.Record;
@@ -42,7 +42,7 @@ public class DataSevImpl implements DataService, OOBPaths {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeploySevImpl.class);
     // ~ Instance Fields =====================================
     /** **/
-    private transient final RecordDao dao = singleton(RecordDaoImpl.class);
+    private transient final RecordDao dao = singleton(DataRecordDalor.class);
     /** **/
     private transient final RecordSerializer serializer = singleton(RecordSerializer.class);
 

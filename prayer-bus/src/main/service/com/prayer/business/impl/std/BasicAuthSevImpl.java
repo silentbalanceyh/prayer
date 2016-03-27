@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.log.DebugKey;
-import com.prayer.dao.impl.std.record.RecordDaoImpl;
+import com.prayer.dao.impl.data.DataRecordDalor;
 import com.prayer.exception.web.JSScriptEngineException;
 import com.prayer.facade.business.BasicAuthService;
 import com.prayer.fantasm.business.AbstractSevImpl;
@@ -42,7 +42,7 @@ public class BasicAuthSevImpl extends AbstractSevImpl implements BasicAuthServic
     // ~ Constructors ========================================
     /** **/
     public BasicAuthSevImpl() {
-        super(RecordDaoImpl.class, DataRecord.class);
+        super(DataRecordDalor.class, DataRecord.class);
     }
 
     // ~ Abstract Methods ====================================

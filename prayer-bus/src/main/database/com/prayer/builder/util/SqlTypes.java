@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
-import com.prayer.dao.impl.std.database.MetadataDaoImpl;
+import com.prayer.dao.impl.data.MetadataDalor;
 import com.prayer.facade.dao.schema.MetadataDao;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.PropertyKit;
@@ -49,7 +49,7 @@ public final class SqlTypes {
     /** 数据库名称获取 **/
     private static final PropertyKit LOADER = new PropertyKit(Resources.DB_CFG_FILE);
     /** 数据库元数据访问 **/
-    private static final MetadataDao dao = singleton(MetadataDaoImpl.class);
+    private static final MetadataDao dao = singleton(MetadataDalor.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

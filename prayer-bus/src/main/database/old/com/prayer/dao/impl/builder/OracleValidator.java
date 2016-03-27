@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.old.builder;
+package old.com.prayer.dao.impl.builder;
 
 import static com.prayer.util.reflection.Instance.reservoir;
 

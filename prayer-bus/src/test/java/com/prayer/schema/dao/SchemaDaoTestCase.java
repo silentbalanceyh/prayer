@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import com.prayer.dao.impl.schema.CommuneImporter;
-import com.prayer.dao.impl.schema.SchemaDaoImpl;
+import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
@@ -32,7 +32,7 @@ public class SchemaDaoTestCase {
     /** **/
     public SchemaDaoTestCase() {
         this.importer = singleton(CommuneImporter.class);
-        this.dao = singleton(SchemaDaoImpl.class);
+        this.dao = singleton(SchemaDalor.class);
     }
 
     // ~ Abstract Methods ====================================

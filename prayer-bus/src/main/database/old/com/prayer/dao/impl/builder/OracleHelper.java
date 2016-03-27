@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.prayer.dao.impl.old.builder;
+package old.com.prayer.dao.impl.builder;
 
 import java.text.MessageFormat;
 

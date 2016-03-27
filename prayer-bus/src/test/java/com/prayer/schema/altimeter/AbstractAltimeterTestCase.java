@@ -12,7 +12,7 @@ import com.prayer.constant.DBConstants;
 import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.dao.impl.schema.CommuneImporter;
-import com.prayer.dao.impl.schema.SchemaDaoImpl;
+import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
@@ -53,7 +53,7 @@ public abstract class AbstractAltimeterTestCase {
     @PostValidateThis
     public AbstractAltimeterTestCase() {
         this.importer = singleton(CommuneImporter.class);
-        this.dao = singleton(SchemaDaoImpl.class);
+        this.dao = singleton(SchemaDalor.class);
     }
 
     // ~ Abstract Methods ====================================

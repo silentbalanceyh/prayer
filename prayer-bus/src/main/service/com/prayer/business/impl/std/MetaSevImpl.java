@@ -3,7 +3,7 @@ package com.prayer.business.impl.std;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.impl.std.meta.MetaDaoImpl;
+import com.prayer.dao.impl.data.MetaRecordDalor;
 import com.prayer.facade.business.MetaService;
 import com.prayer.fantasm.business.AbstractSevImpl;
 import com.prayer.model.crucial.MetaRecord;
@@ -26,7 +26,7 @@ public class MetaSevImpl extends AbstractSevImpl implements MetaService {
     // ~ Constructors ========================================
     /** **/
     public MetaSevImpl(){
-        super(MetaDaoImpl.class,MetaRecord.class);
+        super(MetaRecordDalor.class,MetaRecord.class);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

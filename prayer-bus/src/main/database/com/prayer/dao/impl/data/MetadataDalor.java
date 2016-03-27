@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.std.database;
+package com.prayer.dao.impl.data;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -20,7 +20,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class MetadataDaoImpl implements MetadataDao {
+public class MetadataDalor implements MetadataDao {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 数据库连接 **/
@@ -32,7 +32,7 @@ public class MetadataDaoImpl implements MetadataDao {
     // ~ Constructors ========================================
 
     /** Database连接 **/
-    public MetadataDaoImpl() {
+    public MetadataDalor() {
         this.connection = singleton(JdbcConnImpl.class);
     }
 

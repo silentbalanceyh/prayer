@@ -11,7 +11,7 @@ import java.util.Set;
 import com.prayer.business.impl.schema.SchemaSevImpl;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.dao.impl.std.record.RecordDaoImpl;
+import com.prayer.dao.impl.data.DataRecordDalor;
 import com.prayer.facade.business.schema.SchemaService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.record.Record;
@@ -46,7 +46,7 @@ public abstract class AbstractRDaoTestTool extends AbstractTestTool {
     public AbstractRDaoTestTool() {
         super();
         this.service = instance(SchemaSevImpl.class.getName());
-        this.recordDao = singleton(RecordDaoImpl.class);
+        this.recordDao = singleton(DataRecordDalor.class);
     }
 
     // ~ Abstract Methods ====================================

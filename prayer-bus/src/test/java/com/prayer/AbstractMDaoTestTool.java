@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.prayer.constant.Constants;
-import com.prayer.dao.impl.std.meta.MetaDaoImpl;
+import com.prayer.dao.impl.data.MetaRecordDalor;
 import com.prayer.exception.database.OperationNotSupportException;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Value;
@@ -47,7 +47,7 @@ public abstract class AbstractMDaoTestTool extends AbstractTestTool {
     /** **/
     public AbstractMDaoTestTool() {
         super();
-        this.dao = singleton(MetaDaoImpl.class);
+        this.dao = singleton(MetaRecordDalor.class);
     }
 
     // ~ Abstract Methods ====================================
