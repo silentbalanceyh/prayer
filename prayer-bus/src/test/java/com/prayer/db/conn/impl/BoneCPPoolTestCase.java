@@ -6,7 +6,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 
 import org.junit.Test;
 
-import com.prayer.AbstractTestCase;
+import com.prayer.AbstractUtilTool;
 import com.prayer.constant.Resources;
 import com.prayer.database.pool.impl.jdbc.BoneCPPool;
 import com.prayer.fantasm.pool.AbstractJdbcPool;
@@ -17,7 +17,7 @@ import com.prayer.fantasm.pool.AbstractJdbcPool;
  * @author Lang
  * @see
  */
-public class BoneCPPoolTestCase extends AbstractTestCase {
+public class BoneCPPoolTestCase extends AbstractUtilTool {
     // ~ Constructors ========================================
     /** **/
     public BoneCPPoolTestCase() {

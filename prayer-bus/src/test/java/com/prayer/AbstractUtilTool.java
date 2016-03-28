@@ -10,13 +10,14 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.util.io.PropertyKit;
 
 /**
+ * 处理Util的Test抽象类
  * @author Lang
  * @package com.prayer.test
- * @name AbstractTestCase
+ * @name AbstractUtilTool
  * @class com.prayer.test.AbstractTestCase
  * @see
  */
-public class AbstractTestCase {
+public class AbstractUtilTool {
     // ~ Static Fields =======================================
     /** **/
     protected static final ConcurrentMap<String, PropertyKit> OBJ_POOLS = new ConcurrentHashMap<>();
@@ -39,14 +40,14 @@ public class AbstractTestCase {
     /**
      * 抽象构造函数 *
      */
-    protected AbstractTestCase(final String targetName) {
+    protected AbstractUtilTool(final String targetName) {
         this.targetName = targetName;
         this.method = "EMPTY";
     }
     /**
      * 抽象构造函数
      */
-    protected AbstractTestCase(){
+    protected AbstractUtilTool(){
         this("EMPTY");
     }
 

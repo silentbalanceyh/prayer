@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.AbstractTestTool;
+import com.prayer.AbstractCommonTool;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 import com.prayer.model.type.IntType;
@@ -20,7 +20,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  *
  */
-public class Restrictions06GETestCase extends AbstractTestTool { // NOPMD
+public class Restrictions06GETestCase extends AbstractCommonTool { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(Restrictions06GETestCase.class);

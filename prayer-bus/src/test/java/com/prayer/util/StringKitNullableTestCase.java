@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.AbstractTestTool;
+import com.prayer.AbstractCommonTool;
 import com.prayer.util.string.StringKit;
 
 /**
@@ -15,7 +15,7 @@ import com.prayer.util.string.StringKit;
  * @author Lang
  *
  */
-public class StringKitNullableTestCase extends AbstractTestTool {    // NOPMD
+public class StringKitNullableTestCase extends AbstractCommonTool {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(StringKitNullableTestCase.class);

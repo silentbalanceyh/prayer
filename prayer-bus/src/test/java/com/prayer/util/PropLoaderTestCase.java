@@ -8,7 +8,7 @@ import java.util.Properties;
 
 import org.junit.Test;
 
-import com.prayer.AbstractTestCase;
+import com.prayer.AbstractUtilTool;
 import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -19,7 +19,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  * @see
  */
-public class PropLoaderTestCase extends AbstractTestCase implements
+public class PropLoaderTestCase extends AbstractUtilTool implements
         PropConstant {
     // ~ Constructors ========================================
     /**

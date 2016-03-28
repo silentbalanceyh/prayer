@@ -150,9 +150,13 @@ public class SchemaSevImpl implements SchemaService {
     public ServiceResult<Boolean> removeById(@NotNull @NotEmpty @NotBlank final String identifier) {
         final ServiceResult<Boolean> result = new ServiceResult<>();
         try {
-            final Boolean ret = this.dao.delete(identifier);
-            result.success(ret);
-        } catch (AbstractTransactionException ex) {
+            final Schema schema = this.dao.get(identifier);
+            if (null != schema) {
+                this.builder.purge(schema);
+            }
+            this.dao.delete(identifier);
+            result.success(Boolean.TRUE);
+        } catch (AbstractDatabaseException ex) {
             peError(LOGGER, ex);
             result.error(ex);
         }

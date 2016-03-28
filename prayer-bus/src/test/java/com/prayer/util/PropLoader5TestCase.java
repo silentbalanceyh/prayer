@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.prayer.AbstractTestCase;
+import com.prayer.AbstractUtilTool;
 import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -15,7 +15,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  * @see
  */
-public class PropLoader5TestCase extends AbstractTestCase implements
+public class PropLoader5TestCase extends AbstractUtilTool implements
         PropConstant {
     // ~ Constructors ========================================
     /**

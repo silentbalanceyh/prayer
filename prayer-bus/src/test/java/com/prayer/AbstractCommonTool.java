@@ -14,12 +14,12 @@ import com.prayer.util.io.PropertyKit;
  * @author Lang
  *
  */
-public abstract class AbstractTestTool implements ErrorKeys { // NOPMD
+public abstract class AbstractCommonTool implements ErrorKeys { // NOPMD
     // ~ Static Fields =======================================
     /**
      * Error property loader to read Error Message
      */
-    private static PropertyKit loader = new PropertyKit(AbstractTestTool.class, "/asserts.properties");
+    private static PropertyKit loader = new PropertyKit(AbstractCommonTool.class, "/asserts.properties");
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

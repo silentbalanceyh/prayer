@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.AbstractTestTool;
+import com.prayer.AbstractCommonTool;
 import com.prayer.Assistant;
 import com.prayer.util.string.StringKit;
 
@@ -20,7 +20,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  *
  */
-public class StringKitJoinTestCase extends AbstractTestTool {    // NOPMD
+public class StringKitJoinTestCase extends AbstractCommonTool {    // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(StringKitJoinTestCase.class);
