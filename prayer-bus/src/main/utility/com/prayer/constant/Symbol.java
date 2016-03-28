@@ -9,6 +9,8 @@ public interface Symbol {    // NOPMD
     char COMMA = ',';
     /** 分号 **/
     char SEMICOLON = ';';
+    /** 星号通配符 **/
+    char STAR = '*';
     // ~ 系统字符常量 =======================================
     /** 空白字符 **/
     char SPACE = ' ';

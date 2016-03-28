@@ -15,10 +15,10 @@ import com.prayer.constant.Symbol;
 import com.prayer.facade.builder.Refresher;
 import com.prayer.facade.builder.line.FieldSaber;
 import com.prayer.facade.builder.line.KeySaber;
-import com.prayer.facade.builder.special.MsSqlStatement;
-import com.prayer.facade.builder.special.MsSqlWord;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
+import com.prayer.facade.sql.special.MsSqlStatement;
+import com.prayer.facade.sql.special.MsSqlWord;
 import com.prayer.fantasm.builder.AbstractBuilder;
 import com.prayer.model.meta.database.PEField;
 

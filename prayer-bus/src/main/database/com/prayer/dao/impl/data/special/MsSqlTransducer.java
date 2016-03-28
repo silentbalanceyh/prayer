@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.std.record;
+package com.prayer.dao.impl.data.special;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

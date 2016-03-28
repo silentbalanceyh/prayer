@@ -1,4 +1,4 @@
-package com.prayer.facade.builder;
+package com.prayer.facade.sql;
 
 /**
  * 
@@ -10,7 +10,7 @@ public interface SQLStatement { // SQL语句模板
     String TB_CREATE = "CREATE TABLE {0} ( {1} );";
     /** 表删除语句 **/
     String TB_DROP = "DROP TABLE {0};";
-    
+
     /** 表约束更新语句 **/
     String ATBD_CONSTRAINT = "ALTER TABLE {0} DROP CONSTRAINT {1};";
     /** 表约束添加语句 **/
@@ -21,7 +21,7 @@ public interface SQLStatement { // SQL语句模板
     String ATBD_COLUMN = "ALTER TABLE {0} DROP COLUMN {1};";
     /** 表列更新语句 **/
     String ATBM_COLUMN = "ALTER TABLE {0} ALTER COLUMN {1};";
-    
+
     /** 表统计 **/
     String OP_COUNT = "SELECT COUNT(*) FROM {0}";
     /** 插入语句 **/
@@ -34,6 +34,10 @@ public interface SQLStatement { // SQL语句模板
     String OP_DELETE = "DELETE FROM {0}";
     /** WHERE子句，后边部分可以依靠Expression实现 **/
     String OP_WHERE = "WHERE {0}";
+    /** 赋值语句，在Update中常用 **/
+    String OP_ASSIGN = "{0} = {1}";
+    /** 排序语句 **/
+    String OP_ORDER_BY = "ORDER BY";
 
     /** 空值检测语句 **/
     String SCHEMA_NULL = "SELECT COUNT(*) FROM {0} WHERE {1} IS NULL";
@@ -46,6 +50,5 @@ public interface SQLStatement { // SQL语句模板
     String CONSTRAINT_PK = "CONSTRAINT {0} PRIMARY KEY ({1})";
     /** Foreign Key约束语句 **/
     String CONSTRAING_FK = "CONSTRAINT {0} FOREIGN KEY ({1}) REFERENCES {2}({3})";
-    
-    
+
 }

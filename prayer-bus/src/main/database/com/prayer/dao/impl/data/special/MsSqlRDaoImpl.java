@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.std.record;
+package com.prayer.dao.impl.data.special;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -10,14 +10,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
-import com.prayer.constant.SqlSegment;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.record.Record;
-import com.prayer.fantasm.dao.AbstractRDaoImpl;
+import com.prayer.facade.sql.SQLStatement;
+import com.prayer.facade.sql.SQLWord;
+import com.prayer.fantasm.dao.AbstractDataDalor;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
@@ -26,7 +27,6 @@ import com.prayer.util.exception.Interrupter.Policy;
 import com.prayer.util.exception.Interrupter.PrimaryKey;
 import com.prayer.util.exception.Interrupter.Response;
 import com.prayer.util.jdbc.QueryHelper;
-import com.prayer.util.jdbc.SqlDML;
 
 import jodd.util.StringUtil;
 
@@ -35,7 +35,7 @@ import jodd.util.StringUtil;
  * @author Lang
  *
  */
-final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
+final class MsSqlRDaoImpl extends AbstractDataDalor implements SQLWord { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -157,7 +157,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
         // 1.获取JDBC访问器
         final JdbcConnection jdbc = this.getContext(record.identifier());
         // 2.生成SQL Count语句
-        final String countSql = SqlDML.prepCountSQL(record.table(), filters);
+        final String countSql = this.builder().buildCount(record.table(), filters);
         // 3.返回Sql Count
         final Long count = jdbc.count(countSql);
         // 4.生成Page语句
@@ -219,7 +219,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
             retSql.append(Symbol.BRACKET_SL).append("SELECT").append(Symbol.SPACE).append("TOP").append(Symbol.SPACE);
             retSql.append(end).append(Symbol.SPACE).append("ROW_NUMBER()").append(Symbol.SPACE).append("OVER")
                     .append(Symbol.SPACE);
-            retSql.append(Symbol.BRACKET_SL).append(SqlSegment.ORDER_BY).append(Symbol.SPACE).append(orders.toSql())
+            retSql.append(Symbol.BRACKET_SL).append(SQLStatement.OP_ORDER_BY).append(Symbol.SPACE).append(orders.toSql())
                     .append(Symbol.BRACKET_SR);
             retSql.append(Symbol.SPACE).append(ROW).append(Symbol.COMMA);
             retSql.append(StringUtil.join(primaryKeys.toArray(Constants.T_STR_ARR), Symbol.COMMA)).append(Symbol.SPACE)
@@ -230,7 +230,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
         if (null == filters) {
             retSql.append(Symbol.SPACE).append("WHERE").append(Symbol.SPACE);
         } else {
-            retSql.append(Symbol.SPACE).append(MessageFormat.format(SqlSegment.TB_WHERE, filters.toSql()))
+            retSql.append(Symbol.SPACE).append(MessageFormat.format(SQLStatement.OP_WHERE, filters.toSql()))
                     .append(Symbol.SPACE);
         }
         // 5.最后一部分Where子句
@@ -241,7 +241,7 @@ final class MsSqlRDaoImpl extends AbstractRDaoImpl { // NOPMD
         }
         // 6.拼接最后一部分
         retSql.append(
-                StringUtil.join(lastWhere.toArray(Constants.T_STR_ARR), Symbol.SPACE + SqlSegment.AND + Symbol.SPACE));
+                StringUtil.join(lastWhere.toArray(Constants.T_STR_ARR), Symbol.SPACE + Connector.AND + Symbol.SPACE));
         return retSql.toString();
     }
     // ~ Get/Set =============================================

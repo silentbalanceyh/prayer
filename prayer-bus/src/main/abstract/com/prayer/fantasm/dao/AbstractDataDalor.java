@@ -25,9 +25,9 @@ import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.OrderBy;
 import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.meta.database.PEField;
+import com.prayer.sql.util.SqlDMLBuilder;
 import com.prayer.util.exception.Interrupter.PrimaryKey;
 import com.prayer.util.jdbc.QueryHelper;
-import com.prayer.util.jdbc.SqlDML;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -35,6 +35,7 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -42,12 +43,22 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
+public abstract class AbstractDataDalor implements RecordDao { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
+    /** 构造SQL语句构造器 **/
+    @NotNull
+    private transient final SqlDMLBuilder builder;
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    @PostValidateThis
+    public AbstractDataDalor() {
+        this.builder = SqlDMLBuilder.create();
+    }
+
     // ~ Abstract Methods ====================================
     /**
      * 获取Increment中需要过滤的ID列
@@ -91,7 +102,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         final Collection<String> columns = diff(record.columns(), pkCols);
         final List<Value<?>> updatedValues = QueryHelper.prepParam(record, pkCols.toArray(Constants.T_STR_ARR));
         // 5.SQL语句
-        final String sql = SqlDML.prepUpdateSQL(record.table(), columns, whereExpr);
+        final String sql = this.builder.buildUpdate(record.table(), columns, whereExpr);
         // 6.最终参数表，先添加基本参数，再添加主键
         paramValues.addAll(updatedValues);
         /**
@@ -183,7 +194,7 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
     @NotNull
     protected List<Record> sharedSelect(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params, final Expression filters)
-                    throws AbstractDatabaseException {
+            throws AbstractDatabaseException {
         return sharedSelect(record, columns, params, filters, null);
     }
 
@@ -202,11 +213,11 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
     protected List<Record> sharedSelect(@NotNull @InstanceOfAny(DataRecord.class) final Record record,
             @NotNull final String[] columns, final List<Value<?>> params,
             @InstanceOf(Expression.class) final Expression filters, @InstanceOfAny(OrderBy.class) final OrderBy orders)
-                    throws AbstractDatabaseException {
+            throws AbstractDatabaseException {
         // 1.获取JDBC访问器
         final JdbcConnection jdbc = this.getContext(record.identifier());
         // 2.生成SQL语句
-        final String sql = SqlDML.prepSelectSQL(record.table(), Arrays.asList(columns), filters, orders);
+        final String sql = builder.buildSelect(record.table(), Arrays.asList(columns), filters, orders);
         // 3.根据参数表生成查询结果集
         final String[] cols = columns.length > 0 ? columns : record.columns().toArray(Constants.T_STR_ARR);
         return QueryHelper.extractData(record, jdbc.select(sql, params, record.columnTypes(), cols));
@@ -228,7 +239,8 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         final Set<String> paramCols = new TreeSet<>(paramMap.keySet());
         final Expression whereExpr = QueryHelper.getAndExpr(paramCols);
         // 3.生成SQL语句
-        final String sql = SqlDML.prepDeleteSQL(record.table(), whereExpr);
+        final String sql = builder.buildDelete(record.table(), whereExpr); // SqlDML.prepDeleteSQL(record.table(),
+                                                                           // whereExpr);
         // 4.生成参数表
         final List<Value<?>> paramValues = new ArrayList<>();
         for (final String column : paramCols) {
@@ -249,11 +261,18 @@ public abstract class AbstractRDaoImpl implements RecordDao { // NOPMD
         // 1.获取JDBC访问器
         final JdbcConnection jdbc = this.getContext(record.identifier());
         // 2.生成SQL语句
-        final String sql = SqlDML.prepDeleteSQL(record.table(), null);
+        final String sql = builder.buildDelete(record.table(), null);
         // 3.执行，因为是Purge
         final int ret = jdbc.execute(sql, null);
         // 4.无数据的时候是0，有数据的时候是行数，和其他操作不同，因为Purge确实存在没有数据的情况
         return ret >= Constants.RC_SUCCESS;
+    }
+    /**
+     * 
+     * @return
+     */
+    protected SqlDMLBuilder builder(){
+        return this.builder;
     }
 
     // ~ Assistant Methods ===================================

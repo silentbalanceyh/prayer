@@ -1,4 +1,4 @@
-package com.prayer.facade.builder;
+package com.prayer.facade.sql;
 
 import com.prayer.constant.Symbol;
 

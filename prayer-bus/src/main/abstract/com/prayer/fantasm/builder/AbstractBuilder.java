@@ -10,24 +10,24 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
-import com.prayer.builder.util.SqlDDLBuilder;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.builder.Builder;
 import com.prayer.facade.builder.Refresher;
-import com.prayer.facade.builder.SQLStatement;
 import com.prayer.facade.builder.line.FieldSaber;
 import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.fun.builder.AutoIncrement;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
+import com.prayer.facade.sql.SQLStatement;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
+import com.prayer.sql.util.SqlDDLBuilder;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOf;

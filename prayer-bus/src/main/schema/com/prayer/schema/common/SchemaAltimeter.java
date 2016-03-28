@@ -1,6 +1,5 @@
 package com.prayer.schema.common;
 
-import com.prayer.builder.util.SqlTypes;
 import com.prayer.exception.schema.IdentifierReferenceException;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
@@ -14,6 +13,7 @@ import com.prayer.fantasm.schema.AbstractAltimeter;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.schema.json.JArrayHabitus;
 import com.prayer.schema.json.ruler.UpdatingRuler;
+import com.prayer.sql.util.SqlTypes;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

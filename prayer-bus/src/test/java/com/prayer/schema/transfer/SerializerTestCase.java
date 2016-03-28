@@ -50,7 +50,7 @@ public class SerializerTestCase {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    /** Meta Serializer **/
+    /** Meta Transferer **/
     @Test
     public void testMetaSerializer() {
         final JsonObject meta = this.getJson().getJsonObject(Attributes.R_META);
@@ -64,7 +64,7 @@ public class SerializerTestCase {
         }
     }
 
-    /** Keys Serializer **/
+    /** Keys Transferer **/
     @Test
     public void testKeysSerializer() {
         final JsonArray keys = this.getJson().getJsonArray(Attributes.R_KEYS);
@@ -84,7 +84,7 @@ public class SerializerTestCase {
         }
     }
 
-    /** Fields Serializer **/
+    /** Fields Transferer **/
     @Test
     public void testFieldsSerializer() {
         final JsonArray fields = this.getJson().getJsonArray(Attributes.R_FIELDS);

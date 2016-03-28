@@ -23,9 +23,9 @@ public final class Accessors {
     private static final String DFT_DB_VALIDATOR = "com.prayer.builder.MsSqlValidator";
 
     /** Dao 默认值 **/
-    private static final String DFT_DB_DAO = "com.prayer.dao.impl.std.record.MsSqlRDaoImpl";
+    private static final String DFT_DB_DAO = "old.com.prayer.dao.impl.std.record.MsSqlRDaoImpl";
     /** Transverter默认值 **/
-    private static final String DFT_DB_TRANS = "com.prayer.dao.impl.std.record.MsSqlTransducer";
+    private static final String DFT_DB_TRANS = "old.com.prayer.dao.impl.std.record.MsSqlTransducer";
 
     /** Cache默认值 **/
     private static final String DFT_SYS_CACHE = "com.prayer.model.cache.HazelcastManager";

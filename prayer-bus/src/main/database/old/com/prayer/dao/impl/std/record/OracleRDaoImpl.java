@@ -1,4 +1,4 @@
-package com.prayer.dao.impl.std.record;
+package old.com.prayer.dao.impl.std.record;
 
 import static com.prayer.util.Generator.uuid;
 
@@ -20,7 +20,7 @@ import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.record.Record;
-import com.prayer.fantasm.dao.AbstractRDaoImpl;
+import com.prayer.fantasm.dao.AbstractDataDalor;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
@@ -38,7 +38,7 @@ import com.prayer.util.jdbc.SqlDML;
  * @author Lang
  *
  */
-final class OracleRDaoImpl extends AbstractRDaoImpl { // NOPMD
+final class OracleRDaoImpl extends AbstractDataDalor { // NOPMD
 	// ~ Static Fields =======================================
 	/* get next seq value */
 	private final static String SQL_NEXT_SEQ = "SELECT {0}.NEXTVAL FROM DUAL";

@@ -1,4 +1,4 @@
-package com.prayer.facade.builder.special;
+package com.prayer.facade.sql.special;
 
 /**
  * SQL Server专用关键字

@@ -3,12 +3,12 @@ package com.prayer.fantasm.builder.line;
 import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.builder.util.SqlTypes;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
-import com.prayer.facade.builder.SQLWord;
 import com.prayer.facade.builder.line.FieldSaber;
+import com.prayer.facade.sql.SQLWord;
 import com.prayer.model.meta.database.PEField;
+import com.prayer.sql.util.SqlTypes;
 
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;

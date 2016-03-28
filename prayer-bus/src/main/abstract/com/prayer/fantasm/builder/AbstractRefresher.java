@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.builder.util.SqlDDLBuilder;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.StatusFlag;
@@ -29,6 +28,7 @@ import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.crucial.schema.FKReferencer;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
+import com.prayer.sql.util.SqlDDLBuilder;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.NotNull;
