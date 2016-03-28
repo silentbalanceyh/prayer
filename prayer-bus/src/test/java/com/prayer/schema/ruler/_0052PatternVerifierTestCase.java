@@ -10,7 +10,7 @@ import com.prayer.fantasm.exception.AbstractException;
  * @author Lang
  *
  */
-public class _0052PatternVerifierTestCase extends AbstractVerifierTestCase {
+public class _0052PatternVerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

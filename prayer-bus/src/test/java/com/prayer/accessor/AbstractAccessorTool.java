@@ -28,7 +28,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public abstract class AbstractAMTestCase<T> {
+public abstract class AbstractAccessorTool<T> {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
@@ -40,7 +40,7 @@ public abstract class AbstractAMTestCase<T> {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public AbstractAMTestCase() {
+    public AbstractAccessorTool() {
         this.genericT = genericT(getClass());
         if (null != this.genericT) {
             this.accessor = new MetaAccessorImpl(this.genericT);

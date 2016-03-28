@@ -11,7 +11,7 @@ import com.prayer.fantasm.exception.AbstractException;
  * @author Lang
  *
  */
-public class _0265MappingVerifierTestCase extends AbstractVerifierTestCase {
+public class _0265MappingVerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

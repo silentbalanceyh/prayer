@@ -17,7 +17,7 @@ import com.prayer.model.type.StringType;
  * @author Lang
  *
  */
-public class PETriggerAMTestCase extends AbstractAMTestCase<PETrigger> {
+public class PETriggerAMTestCase extends AbstractAccessorTool<PETrigger> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PETriggerAMTestCase.class);

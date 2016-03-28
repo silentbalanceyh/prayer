@@ -17,7 +17,7 @@ import com.prayer.model.type.StringType;
  * @author Lang
  *
  */
-public class PEMetaAMTestCase extends AbstractAMTestCase<PEMeta> {
+public class PEMetaAMTestCase extends AbstractAccessorTool<PEMeta> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PEMetaAMTestCase.class);

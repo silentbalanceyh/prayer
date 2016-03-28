@@ -11,7 +11,7 @@ import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /** **/
-public class _0224TypeVerifierTestCase extends AbstractVerifierTestCase {
+public class _0224TypeVerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

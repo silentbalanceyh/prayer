@@ -17,7 +17,7 @@ import com.prayer.model.type.StringType;
  * @author Lang
  *
  */
-public class PEKeyAMTestCase extends AbstractAMTestCase<PEKey> {
+public class PEKeyAMTestCase extends AbstractAccessorTool<PEKey> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PEKeyAMTestCase.class);

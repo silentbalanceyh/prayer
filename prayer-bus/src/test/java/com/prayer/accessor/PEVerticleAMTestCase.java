@@ -17,7 +17,7 @@ import com.prayer.model.type.StringType;
  * @author Lang
  *
  */
-public class PEVerticleAMTestCase extends AbstractAMTestCase<PEVerticle> {
+public class PEVerticleAMTestCase extends AbstractAccessorTool<PEVerticle> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PEVerticleAMTestCase.class);

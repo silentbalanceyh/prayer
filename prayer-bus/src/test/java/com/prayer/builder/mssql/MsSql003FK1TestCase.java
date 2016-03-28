@@ -11,7 +11,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.builder.AbstractMsSqlBDTestCase;
+import com.prayer.builder.AbstractMsSqlBuilderTestCase;
 import com.prayer.constant.Accessors;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.pool.JdbcConnection;
@@ -24,7 +24,7 @@ import com.prayer.fantasm.exception.AbstractException;
  *
  */
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class MsSql003FK1TestCase extends AbstractMsSqlBDTestCase {
+public class MsSql003FK1TestCase extends AbstractMsSqlBuilderTestCase {
     // ~ Static Fields =======================================
 
     /** **/

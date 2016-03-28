@@ -17,7 +17,7 @@ import com.prayer.model.type.StringType;
  * @author Lang
  *
  */
-public class PERouteAMTestCase extends AbstractAMTestCase<PERoute> {
+public class PERouteAMTestCase extends AbstractAccessorTool<PERoute> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PERouteAMTestCase.class);

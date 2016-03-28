@@ -10,7 +10,7 @@ import com.prayer.fantasm.exception.AbstractException;
  * @author Lang
  *
  */
-public class _0253PatternVerifierTestCase extends AbstractVerifierTestCase {
+public class _0253PatternVerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     /** **/
     private static final String ERR_MSG_10003 = "[E10003] keys ==> (Failure) Patterns do not match!";

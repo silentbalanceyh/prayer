@@ -19,13 +19,14 @@ import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.fantasm.exception.AbstractTransactionException;
+import com.prayer.util.string.StringKit;
 
 /**
  * 
  * @author Lang
  *
  */
-public abstract class AbstractBDTestCase {
+public abstract class AbstractBuilderTool {
     // ~ Static Fields =======================================
     /** **/
     protected static final String SCHEMA_FLD = "/schema/data/json/database/";
@@ -41,7 +42,7 @@ public abstract class AbstractBDTestCase {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public AbstractBDTestCase() {
+    public AbstractBuilderTool() {
         this.dao = singleton(SchemaDalor.class);
         this.builder = singleton(MetadataBuilder.class);
         this.importer = singleton(CommuneImporter.class);
@@ -52,13 +53,15 @@ public abstract class AbstractBDTestCase {
     protected abstract Logger getLogger();
 
     /** **/
-    protected abstract boolean validDB();
-
-    /** **/
     protected abstract String getCategory();
 
     // ~ Override Methods ====================================
     // ~ Methods =============================================
+    /** **/
+    protected boolean validDB() {
+        return StringKit.equals(getCategory(), Resources.DB_CATEGORY);
+    }
+
     /**
      * 执行Container
      * 
@@ -133,7 +136,7 @@ public abstract class AbstractBDTestCase {
                 peError(getLogger(), ex);
                 ret = false;
             }
-            
+
         } else {
             this.unMatch();
         }

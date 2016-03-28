@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.builder.AbstractMsSqlBDTestCase;
+import com.prayer.builder.AbstractMsSqlBuilderTestCase;
 import com.prayer.fantasm.exception.AbstractException;
 
 /**
@@ -14,7 +14,7 @@ import com.prayer.fantasm.exception.AbstractException;
  * @author Lang
  *
  */
-public class MsSql004UP1TestCase extends AbstractMsSqlBDTestCase {
+public class MsSql004UP1TestCase extends AbstractMsSqlBuilderTestCase {
     // ~ Static Fields =======================================
 
     /** **/

@@ -37,7 +37,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public abstract class AbstractAltimeterTestCase {
+public abstract class AbstractAltimeterTool {
     // ~ Static Fields =======================================
     /** Schema Root **/
     protected static final String SCHEMA_ROOT = "/schema/data/json/advanced/";
@@ -57,7 +57,7 @@ public abstract class AbstractAltimeterTestCase {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public AbstractAltimeterTestCase() {
+    public AbstractAltimeterTool() {
         this.importer = singleton(CommuneImporter.class);
         this.dao = singleton(SchemaDalor.class);
         this.builder = singleton(MetadataBuilder.class);

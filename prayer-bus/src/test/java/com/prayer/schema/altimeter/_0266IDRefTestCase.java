@@ -13,7 +13,7 @@ import com.prayer.fantasm.exception.AbstractException;
  * @author Lang
  *
  */
-public class _0266IDRefTestCase extends AbstractAltimeterTestCase {
+public class _0266IDRefTestCase extends AbstractAltimeterTool {
     // ~ Static Fields =======================================
 
     /** **/

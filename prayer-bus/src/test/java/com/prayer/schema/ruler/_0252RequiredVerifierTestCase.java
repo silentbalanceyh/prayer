@@ -10,7 +10,7 @@ import com.prayer.fantasm.exception.AbstractException;
  * @author Lang
  *
  */
-public class _0252RequiredVerifierTestCase extends AbstractVerifierTestCase {
+public class _0252RequiredVerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     /** **/
     private static final String ERR_MSG_10000 = "[E10001] Keys ==> (Failure) Required attributes missing!";

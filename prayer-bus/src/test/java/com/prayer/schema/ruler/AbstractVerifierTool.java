@@ -28,7 +28,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public class AbstractVerifierTestCase {
+public class AbstractVerifierTool {
     // ~ Static Fields =======================================
     /** **/
     protected static final String SCHEMA_ROOT = "/schema/data/json/validation/";

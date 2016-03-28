@@ -17,7 +17,7 @@ import com.prayer.model.type.StringType;
  * @author Lang
  *
  */
-public class PEUriAMTestCase extends AbstractAMTestCase<PEUri> {
+public class PEUriAMTestCase extends AbstractAccessorTool<PEUri> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PEUriAMTestCase.class);

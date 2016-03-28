@@ -17,7 +17,7 @@ import com.prayer.model.type.StringType;
  * @author Lang
  *
  */
-public class PEIndexAMTestCase extends AbstractAMTestCase<PEIndex> {
+public class PEIndexAMTestCase extends AbstractAccessorTool<PEIndex> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PEIndexAMTestCase.class);

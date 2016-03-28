@@ -15,7 +15,7 @@ import com.prayer.fantasm.exception.AbstractSchemaException;
  * @author Lang
  *
  */
-public class _0222ColumnVerifierTestCase extends AbstractVerifierTestCase {
+public class _0222ColumnVerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

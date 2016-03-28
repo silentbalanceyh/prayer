@@ -1,10 +1,6 @@
-package com.prayer;
-/**
- * Record，Record Dao部分的抽象测试用例
- * @author Lang
- *
- */
-public abstract class AbstractRecordTool {
+package com.prayer.schema.service;
+
+public class AbstractServiceTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

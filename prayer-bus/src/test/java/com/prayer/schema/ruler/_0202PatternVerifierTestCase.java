@@ -10,7 +10,7 @@ import com.prayer.fantasm.exception.AbstractException;
  * @author Lang
  *
  */
-public class _0202PatternVerifierTestCase extends AbstractVerifierTestCase {
+public class _0202PatternVerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     /** **/
     private static final String FK_PATTERN = "[E10003] Fields -> ( foreignkey = true ) ==> (Failure) One of optional attributes 'refId);failure(refTable' does not match the pattern! ";

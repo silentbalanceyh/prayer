@@ -13,7 +13,7 @@ import com.prayer.util.debug.Log;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
-public class PERuleTestCase extends AbstractEntityTestCase {
+public class PERuleTestCase extends AbstractEntityTool {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PERuleTestCase.class);

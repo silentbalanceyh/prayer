@@ -9,7 +9,7 @@ import com.prayer.exception.schema.JTColumnTypeInvalidException;
 import com.prayer.fantasm.exception.AbstractException;
 
 /** **/
-public class _0225SchemaVerifierTestCase extends AbstractVerifierTestCase {
+public class _0225SchemaVerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

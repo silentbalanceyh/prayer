@@ -17,7 +17,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public abstract class AbstractEntityTestCase {
+public abstract class AbstractEntityTool {
     // ~ Static Fields =======================================
     /** **/
     protected static String EMPTY_FILE = "/entity/empty.json";

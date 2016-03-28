@@ -17,7 +17,7 @@ import com.prayer.model.type.StringType;
  * @author Lang
  *
  */
-public class PEVColumnTestCase extends AbstractAMTestCase<PEVColumn> {
+public class PEVColumnTestCase extends AbstractAccessorTool<PEVColumn> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PEVColumnTestCase.class);

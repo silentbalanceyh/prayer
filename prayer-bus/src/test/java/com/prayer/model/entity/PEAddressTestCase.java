@@ -18,7 +18,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public class PEAddressTestCase extends AbstractEntityTestCase {
+public class PEAddressTestCase extends AbstractEntityTool {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PEAddressTestCase.class);

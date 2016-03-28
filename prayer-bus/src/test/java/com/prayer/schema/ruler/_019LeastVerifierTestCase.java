@@ -7,7 +7,7 @@ import com.prayer.constant.Constants;
 import com.prayer.exception.schema.SubtableWrongException;
 import com.prayer.fantasm.exception.AbstractException;
 
-public class _019LeastVerifierTestCase extends AbstractVerifierTestCase {
+public class _019LeastVerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

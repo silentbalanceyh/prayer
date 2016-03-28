@@ -10,7 +10,7 @@ import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 
-public class _0223ConstraintVerifierTestCase extends AbstractVerifierTestCase {
+public class _0223ConstraintVerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

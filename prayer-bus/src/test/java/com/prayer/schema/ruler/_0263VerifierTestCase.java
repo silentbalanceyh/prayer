@@ -10,7 +10,7 @@ import com.prayer.fantasm.exception.AbstractException;
  * @author Lang
  *
  */
-public class _0263VerifierTestCase extends AbstractVerifierTestCase {
+public class _0263VerifierTestCase extends AbstractVerifierTool {
     // ~ Static Fields =======================================
     /** **/
     private static final String ERR_MSG_10024 = "[E10024] Cross ==> (Failure) There is unexpected exception!";
