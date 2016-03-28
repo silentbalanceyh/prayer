@@ -136,7 +136,10 @@ public abstract class AbstractDataDalor implements RecordDao { // NOPMD
              */
             final PEField pkSchema = record.idschema().get(Constants.ZERO);
             // 父类方法，过滤掉主键传参
-            final String sql = QueryHelper.prepInsertSQL(record, getPKFilters(record).toArray(Constants.T_STR_ARR));
+            final Collection<String> columns = diff(record.columns(), getPKFilters(record));
+            final String sql = builder.buildInsert(record.table(), columns);
+            // QueryHelper.prepInsertSQL(record,
+            // getPKFilters(record).toArray(Constants.T_STR_ARR));
             final List<Value<?>> params = QueryHelper.prepParam(record,
                     getPKFilters(record).toArray(Constants.T_STR_ARR));
 
@@ -151,7 +154,8 @@ public abstract class AbstractDataDalor implements RecordDao { // NOPMD
             }
 
             // 父类方法，不过滤任何传参流程
-            final String sql = QueryHelper.prepInsertSQL(record, Constants.T_STR_ARR);
+            final String sql = builder.buildInsert(record.table(), record.columns());
+            // QueryHelper.prepInsertSQL(record, Constants.T_STR_ARR);
             final List<Value<?>> params = QueryHelper.prepParam(record, Constants.T_STR_ARR);
 
             jdbc.insert(sql, params, false, null);
@@ -267,11 +271,12 @@ public abstract class AbstractDataDalor implements RecordDao { // NOPMD
         // 4.无数据的时候是0，有数据的时候是行数，和其他操作不同，因为Purge确实存在没有数据的情况
         return ret >= Constants.RC_SUCCESS;
     }
+
     /**
      * 
      * @return
      */
-    protected SqlDMLBuilder builder(){
+    protected SqlDMLBuilder builder() {
         return this.builder;
     }
 

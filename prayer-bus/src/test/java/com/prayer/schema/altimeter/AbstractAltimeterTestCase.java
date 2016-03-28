@@ -24,6 +24,7 @@ import com.prayer.facade.schema.verifier.Altimeter;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.fantasm.exception.AbstractTransactionException;
 import com.prayer.schema.common.SchemaAltimeter;
 
 import net.sf.oval.constraint.NotNull;
@@ -129,11 +130,13 @@ public abstract class AbstractAltimeterTestCase {
     private void altimeterVerify(final String caseFolder) throws AbstractSchemaException {
         final String dataFile = SCHEMA_ROOT + caseFolder + "/data.json";
         String table = null;
+        String identifier = null;
         try {
             /** 1.读取Schema信息 **/
             final Schema schema = importer.read(dataFile);
             if (null != schema) {
                 table = schema.getTable();
+                identifier = schema.identifier();
                 /** 2.执行更新验证流程 **/
                 final Altimeter altimeter = singleton(SchemaAltimeter.class, this.dao);
                 /** 3.验证 **/
@@ -142,7 +145,16 @@ public abstract class AbstractAltimeterTestCase {
         } catch (AbstractException ex) {
             peError(getLogger(), ex);
             // 抛出异常之前就直接删除表信息
-            this.purgeTable(table);
+            {
+                this.purgeTable(table);
+                try {
+                    this.dao.delete(identifier);
+                    // 特殊的验证ID，准备数据中读取的
+                    this.dao.delete("tst.mod.dao101");
+                } catch (AbstractTransactionException ei) {
+                    peError(getLogger(), ei);
+                }
+            }
             if (ex instanceof AbstractSchemaException) {
                 throw (AbstractSchemaException) ex;
             }

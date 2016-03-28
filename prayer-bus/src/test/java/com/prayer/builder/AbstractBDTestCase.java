@@ -72,6 +72,7 @@ public abstract class AbstractBDTestCase {
                 final Schema schema = this.prepare(file);
                 this.builder().synchronize(schema);
                 ret = true;
+                this.dao.delete(schema.identifier());
             } catch (AbstractException ex) {
                 peError(getLogger(), ex);
                 ret = false;
@@ -95,6 +96,7 @@ public abstract class AbstractBDTestCase {
                 final Schema schema = this.prepare(file);
                 this.builder().purge(schema);
                 ret = true;
+                this.dao.delete(schema.identifier());
             } catch (AbstractException ex) {
                 peError(getLogger(), ex);
                 ret = false;
@@ -124,11 +126,14 @@ public abstract class AbstractBDTestCase {
                 this.builder().synchronize(updated);
                 // 3.最后Purge
                 this.builder().purge(updated);
+                // 4.Purge这个Schema
                 ret = true;
+                this.dao.delete(updated.identifier());
             } catch (AbstractException ex) {
                 peError(getLogger(), ex);
                 ret = false;
             }
+            
         } else {
             this.unMatch();
         }

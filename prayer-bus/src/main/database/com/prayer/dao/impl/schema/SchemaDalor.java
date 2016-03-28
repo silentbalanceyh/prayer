@@ -93,13 +93,15 @@ public final class SchemaDalor implements SchemaDao {
     public boolean delete(@NotNull @NotEmpty @NotBlank final String identifier) throws AbstractTransactionException {
         /** 1.根据Identifier删除数据 **/
         final Schema schema = this.get(identifier);
-        /** 2.删除Keys和Fields **/
-        {
-            accessor(PEKey.class).deleteList(condition(schema));
-            accessor(PEField.class).deleteList(condition(schema));
+        if (null != schema) {
+            /** 2.删除Keys和Fields **/
+            {
+                accessor(PEKey.class).deleteList(condition(schema));
+                accessor(PEField.class).deleteList(condition(schema));
+            }
+            /** 3.删除Meta **/
+            accessor(PEMeta.class).deleteById(schema.totem());
         }
-        /** 3.删除Meta **/
-        accessor(PEMeta.class).deleteById(schema.totem());
         return true;
     }
 

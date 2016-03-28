@@ -96,19 +96,6 @@ public final class QueryHelper {
     }
 
     /**
-     * 生成Insert语句
-     * 
-     * @param schema
-     * @param filters
-     * @return
-     */
-    @NotNull
-    public static String prepInsertSQL(@InstanceOf(Record.class) final Record record, final String... filters) {
-        final Collection<String> columns = diff(record.columns(), Arrays.asList(filters));
-        return SqlDML.prepInsertSQL(record.table(), columns);
-    }
-
-    /**
      * 生成Insert语句的参数表
      * 
      * @param record
