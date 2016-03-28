@@ -78,7 +78,7 @@ public final class Assistant { // NOPMD
             ret = new DecimalType(BigDecimal.valueOf(3.14));
             break;
         case BINARY:
-            ret = new BinaryType("lang.yu@hp.com".getBytes());
+            ret = new BinaryType("lang.yu@hpe.com".getBytes());
             break;
         default:
             break;
