@@ -59,12 +59,12 @@ public abstract class AbstractAltimeter {
     }
 
     /**
-     * 
+     * 返回null表示当前这个表存在
      * @param table
      * @return
      */
     protected boolean existTable(@NotNull @NotBlank @NotEmpty final String table) {
-        return null != this.validator().verifyTable(table);
+        return null == this.validator().verifyTable(table);
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

@@ -1,4 +1,4 @@
-package com.prayer.dao.record.impl;
+package old.com.prayer.dao.record.impl;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;

@@ -13,7 +13,7 @@
     "__keys__": 
     [
         {
-            "name": "PK_DAO1_ID",
+            "name": "PK_TST_DAO1_ALTI_DAO1_ID",
             "category": "PrimaryKey",
             "multi": false,
             "columns": 
@@ -23,7 +23,7 @@
         },
 
         {
-            "name": "UK_DAO1_UK1",
+            "name": "UK_TST_DAO1_ALTI_DAO1_UK1",
             "category": "UniqueKey",
             "multi": false,
             "columns": 
@@ -33,7 +33,7 @@
         },
 
         {
-            "name": "UK_DAO1_MUK1",
+            "name": "UK_TST_DAO1_ALTI_DAO1_MUK1",
             "category": "UniqueKey",
             "multi": true,
             "columns": 

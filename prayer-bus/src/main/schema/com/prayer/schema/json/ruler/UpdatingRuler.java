@@ -57,7 +57,8 @@ public final class UpdatingRuler implements ArrayRuler {
     @Override
     public void apply(@NotNull final ArrayHabitus habitus) throws AbstractSchemaException {
         /** 38.0. 先处理ArrayHabitus中的容器异常 **/
-        habitus.ensure();
+        // 更新的时候可以不进行容器验证，因为内容可能未出现更新，那么habitus中会没有任何元素信息，因为是更新，格式由程序生成，不会出问题
+        // habitus.ensure();
         /** 38.1. 验证DB Updating **/
         // Error 10038
         RulerHelper.applyDBUpdates(habitus, FileConfig.CFG_UPS, this.allowedTypes);

@@ -1,9 +1,10 @@
-package com.prayer.dao.record.impl;
+package old.com.prayer.dao.record.impl;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,18 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractRDaoTestTool;
-import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.exception.database.PolicyConflictCallException;
-import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.model.crucial.DataRecord;
-import com.prayer.model.type.LongType;
+import com.prayer.model.type.StringType;
 
 import jodd.util.StringUtil;
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -32,16 +31,16 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  *
  */
-public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
+public class MsSqlDao07TestCase extends AbstractRDaoTestTool { // NOPMD
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlDao06TestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlDao07TestCase.class);
     /** **/
     private static final String DB_CATEGORY = "MSSQL";
     /** **/
-    private static final String IDENTIFIER = "tst.mod.dao6";
+    private static final String IDENTIFIER = "tst.mod.dao7";
     /** **/
-    private static final Value<?> V_ID = new LongType("-1");
+    private static final Value<?> V_ID = new StringType("ID");
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -71,7 +70,7 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     /** **/
     @Before
     public void setUp() {
-        final ServiceResult<Schema> ret = this.syncMetadata("MsSqlP002OpTestDAO6.json", IDENTIFIER);
+        final ServiceResult<Schema> ret = this.syncMetadata("MsSqlP002OpTestDAO7.json", IDENTIFIER);
         if (ResponseCode.FAILURE == ret.getResponseCode()) {
             failure(TST_PREP, ret.getErrorMessage());
         }
@@ -79,7 +78,7 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05099Minsert() throws AbstractDatabaseException {
+    public void testE05103Minsert() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             this.getRecordDao().insert(null);
             failure(message(TST_OVAL));
@@ -88,7 +87,7 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
 
     /** **/
     @Test
-    public void testT05040Minsert() throws AbstractDatabaseException {
+    public void testT05054Minsert() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             final Record before = this.getRecord(IDENTIFIER);
             final Record after = this.getRecordDao().insert(before);
@@ -103,7 +102,7 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
      * 非法调用：this.getRecordDao().selectById(before, null);
      **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05100MselectById() throws AbstractDatabaseException {
+    public void testE05104MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             this.getRecordDao().selectById(null, V_ID);
             failure(message(TST_OVAL));
@@ -112,7 +111,7 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05101MselectById() throws AbstractDatabaseException {
+    public void testE05105MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             final Record before = this.getRecord(IDENTIFIER);
             this.getRecordDao().selectById(before, new ConcurrentHashMap<>());
@@ -121,8 +120,8 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     }
 
     /** **/
-    @Test(expected = PolicyConflictCallException.class)
-    public void testT05050MselectById() throws AbstractDatabaseException {
+    @Test
+    public void testT05055MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据
             final Record before = this.getRecord(IDENTIFIER);
@@ -141,18 +140,15 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
     }
 
     /** **/
-    @Test(expected = CustomValidatorException.class)
-    public void testT05051MselectById() throws AbstractDatabaseException {
-        if (!Resources.DB_V_ENABLED) {
-            throw new CustomValidatorException(getClass(), "SKIP Custom Validation.");
-        }
+    @Test(expected = PolicyConflictCallException.class)
+    public void testT05056MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据
             final Record before = this.getRecord(IDENTIFIER);
             final Record after = this.getRecordDao().insert(before);
             final MetaPolicy policy = after.policy();
             // 只有非COLLECTION才能调用其中一个方法
-            if (MetaPolicy.COLLECTION != policy) {
+            if (MetaPolicy.COLLECTION == policy) {
                 final Value<?> uniqueId = after.idKV().values().iterator().next();
                 if (null != uniqueId) { // NOPMD
                     final Record selectR = this.getRecordDao().selectById(after, uniqueId);
@@ -168,10 +164,9 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
             }
         }
     }
-
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05102Mupdate() throws AbstractDatabaseException {
+    public void testE05106Mupdate() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             this.getRecordDao().update(null);
             failure(message(TST_OVAL));
@@ -180,7 +175,7 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
 
     /** **/
     @Test
-    public void testT05052Mupdate() throws AbstractDatabaseException {
+    public void testT05057Mupdate() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据
             final Record before = this.getRecord(IDENTIFIER);
@@ -198,14 +193,17 @@ public class MsSqlDao06TestCase extends AbstractRDaoTestTool { // NOPMD
             this.getRecordDao().delete(updateR);
         }
     }
-
     /** **/
     @Test
-    public void testT05053MselectById() throws AbstractDatabaseException {
+    public void testT05058MselectById() throws AbstractDatabaseException {
         if (this.isValidDB()) {
             // 准备数据
             final Record before = this.getRecord(IDENTIFIER);
-            final Record selectR = this.getRecordDao().selectById(before, V_ID);
+            final ConcurrentMap<String,Value<?>> ids = before.idKV();
+            for(final String key: ids.keySet()){
+                ids.put(key, V_ID);
+            }
+            final Record selectR = this.getRecordDao().selectById(before, ids);
             assertNull(message(TST_NULL), selectR);
         }
     }

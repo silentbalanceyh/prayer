@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 
 import org.slf4j.Logger;
 
+import com.prayer.builder.MetadataBuilder;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.DBConstants;
 import com.prayer.constant.MemoryPool;
@@ -14,6 +15,7 @@ import com.prayer.constant.Resources;
 import com.prayer.dao.impl.schema.CommuneImporter;
 import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
+import com.prayer.facade.builder.Builder;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.pool.JdbcConnection;
@@ -45,6 +47,9 @@ public abstract class AbstractAltimeterTestCase {
     /** Schema数据访问层 **/
     @NotNull
     private transient SchemaDao dao;
+    /** 对于后期验证重要 **/
+    @NotNull
+    private transient Builder builder;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -54,6 +59,7 @@ public abstract class AbstractAltimeterTestCase {
     public AbstractAltimeterTestCase() {
         this.importer = singleton(CommuneImporter.class);
         this.dao = singleton(SchemaDalor.class);
+        this.builder = singleton(MetadataBuilder.class);
     }
 
     // ~ Abstract Methods ====================================
@@ -107,6 +113,10 @@ public abstract class AbstractAltimeterTestCase {
             final Schema schema = importer.read(dataFile);
             /** 2.不执行Advanced验证导入H2 **/
             this.dao.save(schema);
+            /** 3.Prepared最后一步是刷Schema到Database中 **/
+            if (null != this.validator().verifyTable(schema.getTable())) {
+                this.builder.synchronize(schema);
+            }
             result = true;
         } catch (AbstractException ex) {
             peError(getLogger(), ex);
@@ -118,10 +128,12 @@ public abstract class AbstractAltimeterTestCase {
     /** **/
     private void altimeterVerify(final String caseFolder) throws AbstractSchemaException {
         final String dataFile = SCHEMA_ROOT + caseFolder + "/data.json";
+        String table = null;
         try {
             /** 1.读取Schema信息 **/
             final Schema schema = importer.read(dataFile);
             if (null != schema) {
+                table = schema.getTable();
                 /** 2.执行更新验证流程 **/
                 final Altimeter altimeter = singleton(SchemaAltimeter.class, this.dao);
                 /** 3.验证 **/
@@ -129,6 +141,8 @@ public abstract class AbstractAltimeterTestCase {
             }
         } catch (AbstractException ex) {
             peError(getLogger(), ex);
+            // 抛出异常之前就直接删除表信息
+            this.purgeTable(table);
             if (ex instanceof AbstractSchemaException) {
                 throw (AbstractSchemaException) ex;
             }
