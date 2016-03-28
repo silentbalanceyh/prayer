@@ -1,4 +1,4 @@
-package com.prayer;
+package com.prayer.tools;
 
 public class DebugTester {
     // ~ Static Fields =======================================
