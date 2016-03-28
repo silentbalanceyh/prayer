@@ -1,12 +1,11 @@
 package com.prayer.util;
 
-import static com.prayer.util.reflection.Instance.reservoir;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.slf4j.Logger;
 
-import com.prayer.AbstractUtilTool;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.AbstractCommonTool;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 /**
@@ -15,25 +14,23 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  * @see
  */
-public class PropLoader5TestCase extends AbstractUtilTool implements
-        PropConstant {
+public class PropLoader5TestCase extends AbstractCommonTool {
     // ~ Constructors ========================================
-    /**
-     * 
-     */
-    public PropLoader5TestCase() {
-        super(PropertyKit.class.getName());
-        loader = reservoir(OBJ_POOLS, getClass().getName(), PropertyKit.class,
-                TEST_FILE);
+    /** 获取当前类的日志器 **/
+    protected Logger getLogger() {
+        return null;
     }
 
+    /** 获取被测试类类名 **/
+    protected Class<?> getTarget() {
+        return null;
+    }
     // ~ Methods =============================================
     /**
      * 
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetLong1() {
-        setMethod(M_GET_LONG);
         final long ret = this.getLoader().getLong(null);
         failure(ret);
     }
@@ -42,7 +39,6 @@ public class PropLoader5TestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetLong2() {
-        setMethod(M_GET_LONG);
         final long ret = this.getLoader().getLong("");
         failure(ret);
     }
@@ -51,7 +47,6 @@ public class PropLoader5TestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetLong3() {
-        setMethod(M_GET_LONG);
         final long ret = this.getLoader().getLong("   ");
         failure(ret);
     }
@@ -60,18 +55,16 @@ public class PropLoader5TestCase extends AbstractUtilTool implements
      */
     @Test
     public void testGetLong4() {
-        setMethod(M_GET_LONG);
         final long ret = this.getLoader().getLong("x.test");
-        assertEquals(getPosition(),-1,ret);
+        assertEquals(-1,ret);
     }
     /**
      * 
      */
     @Test
     public void testGetLong5() {
-        setMethod(M_GET_LONG);
         final long ret = this.getLoader().getLong("test.longexp");
-        assertEquals(getPosition(),-1,ret);
+        assertEquals(-1,ret);
     }
     
     /**
@@ -79,9 +72,8 @@ public class PropLoader5TestCase extends AbstractUtilTool implements
      */
     @Test
     public void testGetLong6() {
-        setMethod(M_GET_LONG);
         final long ret = this.getLoader().getLong("test.long");
-        assertEquals(getPosition(),20150109L,ret);
+        assertEquals(20150109L,ret);
     }
     // ~ Private Methods =====================================
 }

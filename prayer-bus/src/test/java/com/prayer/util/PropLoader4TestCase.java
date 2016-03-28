@@ -1,30 +1,30 @@
 package com.prayer.util;
 
-import static com.prayer.util.reflection.Instance.reservoir;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.slf4j.Logger;
 
-import com.prayer.AbstractUtilTool;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.AbstractCommonTool;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
+
 /**
  * 
  *
  * @author Lang
  * @see
  */
-public class PropLoader4TestCase extends AbstractUtilTool implements
-        PropConstant {
+public class PropLoader4TestCase extends AbstractCommonTool {
     // ~ Constructors ========================================
-    /**
-     * 
-     */
-    public PropLoader4TestCase() {
-        super(PropertyKit.class.getName());
-        loader = reservoir(OBJ_POOLS, getClass().getName(), PropertyKit.class,
-                TEST_FILE);
+    /** 获取当前类的日志器 **/
+    protected Logger getLogger() {
+        return null;
+    }
+
+    /** 获取被测试类类名 **/
+    protected Class<?> getTarget() {
+        return null;
     }
 
     // ~ Methods =============================================
@@ -33,55 +33,53 @@ public class PropLoader4TestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetInt1() {
-        setMethod(M_GET_INT);
         final int ret = this.getLoader().getInt(null);
         failure(ret);
     }
+
     /**
      * 
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetInt2() {
-        setMethod(M_GET_INT);
         final int ret = this.getLoader().getInt("");
         failure(ret);
     }
+
     /**
      * 
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetInt3() {
-        setMethod(M_GET_INT);
         final int ret = this.getLoader().getInt("   ");
         failure(ret);
     }
+
     /**
      * 
      */
     @Test
     public void testGetInt4() {
-        setMethod(M_GET_INT);
         final int ret = this.getLoader().getInt("x.test");
-        assertEquals(getPosition(),-1,ret);
+        assertEquals(-1, ret);
     }
+
     /**
      * 
      */
     @Test
     public void testGetInt5() {
-        setMethod(M_GET_INT);
         final int ret = this.getLoader().getInt("test.intexp");
-        assertEquals(getPosition(),-1,ret);
+        assertEquals(-1, ret);
     }
-    
+
     /**
      * 
      */
     @Test
     public void testGetInt6() {
-        setMethod(M_GET_INT);
         final int ret = this.getLoader().getInt("test.int");
-        assertEquals(getPosition(),2015,ret);
+        assertEquals(2015, ret);
     }
     // ~ Private Methods =====================================
 }

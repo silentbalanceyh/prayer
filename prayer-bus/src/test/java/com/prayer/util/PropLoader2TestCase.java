@@ -1,13 +1,12 @@
 package com.prayer.util;
 
-import static com.prayer.util.reflection.Instance.reservoir;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
+import org.slf4j.Logger;
 
-import com.prayer.AbstractUtilTool;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.AbstractCommonTool;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 
@@ -17,16 +16,16 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  * @see
  */
-public class PropLoader2TestCase extends AbstractUtilTool implements
-        PropConstant {
+public class PropLoader2TestCase extends AbstractCommonTool {
     // ~ Constructors ========================================
-    /**
-     * 
-     */
-    public PropLoader2TestCase() {
-        super(PropertyKit.class.getName());
-        loader = reservoir(OBJ_POOLS, getClass().getName(), PropertyKit.class,
-                TEST_FILE);
+    /** 获取当前类的日志器 **/
+    protected Logger getLogger() {
+        return null;
+    }
+
+    /** 获取被测试类类名 **/
+    protected Class<?> getTarget() {
+        return null;
     }
 
     // ~ Methods =============================================
@@ -35,7 +34,6 @@ public class PropLoader2TestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetString1() {
-        setMethod(M_GET_STRING);
         final String ret = this.getLoader().getString(null);
         failure(ret);
     }
@@ -45,7 +43,6 @@ public class PropLoader2TestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetString2() {
-        setMethod(M_GET_STRING);
         final String ret = this.getLoader().getString("");
         failure(ret);
     }
@@ -55,7 +52,6 @@ public class PropLoader2TestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetString3() {
-        setMethod(M_GET_STRING);
         final String ret = this.getLoader().getString("   ");
         failure(ret);
     }
@@ -65,9 +61,8 @@ public class PropLoader2TestCase extends AbstractUtilTool implements
      */
     @Test
     public void testGetString4() {
-        setMethod(M_GET_STRING);
         final String ret = this.getLoader().getString("x.test");
-        assertNull(getPosition(), ret);
+        assertNull(ret);
     }
 
     /**
@@ -75,9 +70,8 @@ public class PropLoader2TestCase extends AbstractUtilTool implements
      */
     @Test
     public void testGetString5() {
-        setMethod(M_GET_STRING);
         final String ret = this.getLoader().getString("test.null");
-        assertNull(getPosition(), ret);
+        assertNull(ret);
     }
 
     /**
@@ -85,9 +79,8 @@ public class PropLoader2TestCase extends AbstractUtilTool implements
      */
     @Test
     public void testGetString6() {
-        setMethod(M_GET_STRING);
         final String ret = this.getLoader().getString("test.str");
-        assertEquals(getPosition(), "Hello Lang Yu", ret);
+        assertEquals("Hello Lang Yu", ret);
     }
 
     // ~ Private Methods =====================================

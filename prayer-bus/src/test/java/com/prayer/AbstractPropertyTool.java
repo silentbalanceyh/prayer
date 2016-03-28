@@ -13,11 +13,11 @@ import com.prayer.util.io.PropertyKit;
  * 处理Util的Test抽象类
  * @author Lang
  * @package com.prayer.test
- * @name AbstractUtilTool
+ * @name AbstractPropertyTool
  * @class com.prayer.test.AbstractTestCase
  * @see
  */
-public class AbstractUtilTool {
+public abstract class AbstractPropertyTool {
     // ~ Static Fields =======================================
     /** **/
     protected static final ConcurrentMap<String, PropertyKit> OBJ_POOLS = new ConcurrentHashMap<>();
@@ -40,14 +40,14 @@ public class AbstractUtilTool {
     /**
      * 抽象构造函数 *
      */
-    protected AbstractUtilTool(final String targetName) {
+    protected AbstractPropertyTool(final String targetName) {
         this.targetName = targetName;
         this.method = "EMPTY";
     }
     /**
      * 抽象构造函数
      */
-    protected AbstractUtilTool(){
+    protected AbstractPropertyTool(){
         this("EMPTY");
     }
 

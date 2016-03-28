@@ -1,13 +1,12 @@
 package com.prayer.util;
 
-import static com.prayer.util.reflection.Instance.reservoir;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.slf4j.Logger;
 
-import com.prayer.AbstractUtilTool;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.AbstractCommonTool;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 /**
@@ -16,16 +15,16 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  * @see
  */
-public class PropLoader3TestCase extends AbstractUtilTool implements
-        PropConstant {
+public class PropLoader3TestCase extends AbstractCommonTool {
     // ~ Constructors ========================================
-    /**
-     * 
-     */
-    public PropLoader3TestCase() {
-        super(PropertyKit.class.getName());
-        loader = reservoir(OBJ_POOLS, getClass().getName(), PropertyKit.class,
-                TEST_FILE);
+    /** 获取当前类的日志器 **/
+    protected Logger getLogger() {
+        return null;
+    }
+
+    /** 获取被测试类类名 **/
+    protected Class<?> getTarget() {
+        return null;
     }
     // ~ Methods =============================================
     /**
@@ -33,7 +32,6 @@ public class PropLoader3TestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetBoolean1(){
-        setMethod(M_GET_BOOLEAN);
         final boolean ret = this.getLoader().getBoolean(null);
         failure(ret);
     }
@@ -42,7 +40,6 @@ public class PropLoader3TestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetBoolean2(){
-        setMethod(M_GET_BOOLEAN);
         final boolean ret = this.getLoader().getBoolean("");
         failure(ret);
     }
@@ -51,7 +48,6 @@ public class PropLoader3TestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetBoolean3(){
-        setMethod(M_GET_BOOLEAN);
         final boolean ret = this.getLoader().getBoolean("   ");
         failure(ret);
     }
@@ -60,18 +56,16 @@ public class PropLoader3TestCase extends AbstractUtilTool implements
      */
     @Test
     public void testGetBoolean4(){
-        setMethod(M_GET_BOOLEAN);
         final boolean ret = this.getLoader().getBoolean("x.test");
-        assertFalse(getPosition(),ret);
+        assertFalse(ret);
     }
     /**
      * 
      */
     @Test
     public void testGetBoolean5(){
-        setMethod(M_GET_BOOLEAN);
         final boolean ret = this.getLoader().getBoolean("test.boolean1");
-        assertTrue(getPosition(),ret);
+        assertTrue(ret);
     }
     
     /**
@@ -79,9 +73,8 @@ public class PropLoader3TestCase extends AbstractUtilTool implements
      */
     @Test
     public void testGetBoolean6(){
-        setMethod(M_GET_BOOLEAN);
         final boolean ret = this.getLoader().getBoolean("test.boolean2");
-        assertFalse(getPosition(),ret);
+        assertFalse(ret);
     }
     
     /**
@@ -89,9 +82,8 @@ public class PropLoader3TestCase extends AbstractUtilTool implements
      */
     @Test
     public void testGetBoolean7(){
-        setMethod(M_GET_BOOLEAN);
         final boolean ret = this.getLoader().getBoolean("test.boolean3");
-        assertFalse(getPosition(),ret);
+        assertFalse(ret);
     }
     // ~ hashCode,equals,toString ============================
 }

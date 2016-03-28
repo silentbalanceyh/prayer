@@ -1,14 +1,14 @@
 package com.prayer.util;
 
-import static com.prayer.util.reflection.Instance.reservoir;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Properties;
 
 import org.junit.Test;
+import org.slf4j.Logger;
 
-import com.prayer.AbstractUtilTool;
+import com.prayer.AbstractCommonTool;
 import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -19,16 +19,16 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  * @see
  */
-public class PropLoaderTestCase extends AbstractUtilTool implements
-        PropConstant {
+public class PropLoaderTestCase extends AbstractCommonTool {
     // ~ Constructors ========================================
-    /**
-     * 
-     */
-    public PropLoaderTestCase() {
-        super(PropertyKit.class.getName());
-        loader = reservoir(OBJ_POOLS, getClass().getName(), PropertyKit.class,
-                TEST_FILE);
+    /** 获取当前类的日志器 **/
+    protected Logger getLogger() {
+        return null;
+    }
+
+    /** 获取被测试类类名 **/
+    protected Class<?> getTarget() {
+        return null;
     }
 
     // ~ Methods =============================================
@@ -37,11 +37,9 @@ public class PropLoaderTestCase extends AbstractUtilTool implements
      */
     @Test
     public void testPropLoader1() {
-        setMethod("Constructor!");
-        final PropertyKit instance = new PropertyKit(getClass(),
-                TEST_FILE);// singleton(PropertyKit.class,getClass(),TEST_FILE);
+        final PropertyKit instance = new PropertyKit(getClass(), "/proploader.properties");// singleton(PropertyKit.class,getClass(),TEST_FILE);
 
-        assertNotNull(getPosition(), instance);
+        assertNotNull(instance);
     }
 
     /**
@@ -51,10 +49,8 @@ public class PropLoaderTestCase extends AbstractUtilTool implements
      */
     @Test
     public void testPropLoader2() {
-        setMethod("Constructor!");
-        final PropertyKit instance = new PropertyKit(getClass(),
-                "x.properties");// singleton(PropertyKit.class,getClass(),"x.properties");
-        assertNotNull(getPosition(), instance.getProp());
+        final PropertyKit instance = new PropertyKit(getClass(), "x.properties");// singleton(PropertyKit.class,getClass(),"x.properties");
+        assertNotNull(instance.getProp());
     }
 
     /**
@@ -62,9 +58,8 @@ public class PropLoaderTestCase extends AbstractUtilTool implements
      */
     @Test
     public void testGetProp1() {
-        setMethod(M_GET_PROP1);
         final Properties prop = this.getLoader().getProp();
-        assertNotNull(getPosition(), prop);
+        assertNotNull(prop);
     }
 
     /**
@@ -72,10 +67,9 @@ public class PropLoaderTestCase extends AbstractUtilTool implements
      */
     @Test
     public void testGetProp2() {
-        setMethod(M_GET_PROP2);
-        final Properties prop = this.getLoader().getProp(TEST_FILE);
+        final Properties prop = this.getLoader().getProp("/proploader.properties");
         final Properties prop1 = this.getLoader().getProp();
-        assertEquals(getPosition(), prop, prop1);
+        assertEquals(prop, prop1);
     }
 
     /**
@@ -83,7 +77,6 @@ public class PropLoaderTestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetProp3() {
-        setMethod(M_GET_PROP2);
         final Properties prop = this.getLoader().getProp(null);
         failure(prop);
     }
@@ -93,7 +86,6 @@ public class PropLoaderTestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetProp4() {
-        setMethod(M_GET_PROP2);
         final Properties prop = this.getLoader().getProp("");
         failure(prop);
     }
@@ -103,7 +95,6 @@ public class PropLoaderTestCase extends AbstractUtilTool implements
      */
     @Test(expected = ConstraintsViolatedException.class)
     public void testGetProp5() {
-        setMethod(M_GET_PROP2);
         final Properties prop = this.getLoader().getProp("   ");
         failure(prop);
     }

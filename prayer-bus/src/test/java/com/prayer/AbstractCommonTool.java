@@ -1,8 +1,11 @@
 package com.prayer;
 
+import static com.prayer.util.reflection.Instance.reservoir;
 import static org.junit.Assert.fail;
 
 import java.text.MessageFormat;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
@@ -17,15 +20,23 @@ import com.prayer.util.io.PropertyKit;
 public abstract class AbstractCommonTool implements ErrorKeys { // NOPMD
     // ~ Static Fields =======================================
     /**
-     * Error property loader to read Error Message
+     * Error property ASSERT_LOADER to read Error Message
      */
-    private static PropertyKit loader = new PropertyKit(AbstractCommonTool.class, "/asserts.properties");
-
+    private static PropertyKit ASSERT_LOADER = new PropertyKit(AbstractCommonTool.class, "/asserts.properties");
+    /** **/
+    protected static final ConcurrentMap<String, PropertyKit> OBJ_POOLS = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
+    /** **/
+    private transient PropertyKit loader;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
 
     // ~ Constructors ========================================
+    /** **/
+    public AbstractCommonTool() {
+        loader = reservoir(OBJ_POOLS, getClass().getName(), PropertyKit.class, "/proploader.properties");
+    }
+
     // ~ Abstract Methods ====================================
     /** 获取当前类的日志器 **/
     protected abstract Logger getLogger();
@@ -51,7 +62,7 @@ public abstract class AbstractCommonTool implements ErrorKeys { // NOPMD
         if (null != clazz) {
             message.append(" Class -> ").append(clazz.getName()).append(" |");
         }
-        message.append(' ').append(MessageFormat.format(loader.getString(messageKey), params));
+        message.append(' ').append(MessageFormat.format(ASSERT_LOADER.getString(messageKey), params));
         return message.toString();
     }
 
@@ -77,6 +88,20 @@ public abstract class AbstractCommonTool implements ErrorKeys { // NOPMD
     /** 一般用于异常测试，异常如果没有抛出来则手动设置failure **/
     protected void failure(final String messageKey, final Object... params) {
         fail(message(messageKey, params));
+    }
+
+    /** **/
+    protected void failure(final Object object) {
+        fail("[TEST] Class -> " + getClass() + ", Message -> " + object);
+    }
+    
+    /**
+     * 获取资源加载器
+     * 
+     * @return
+     */
+    protected PropertyKit getLoader() {
+        return loader;
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
