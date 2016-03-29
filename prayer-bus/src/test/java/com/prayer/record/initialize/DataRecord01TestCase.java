@@ -4,7 +4,7 @@ package com.prayer.record.initialize;
  * @author Lang
  *
  */
-public class DataRecord01TestCase {
+public class DataRecord01TestCase extends AbstractRecordTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -16,5 +16,4 @@ public class DataRecord01TestCase {
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
 }

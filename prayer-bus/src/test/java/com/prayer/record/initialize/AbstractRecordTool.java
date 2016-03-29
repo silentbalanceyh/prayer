@@ -3,9 +3,11 @@ package com.prayer.record.initialize;
 import static com.prayer.util.reflection.Instance.instance;
 
 import com.prayer.business.impl.schema.SchemaSevImpl;
+import com.prayer.constant.Resources;
 import com.prayer.facade.business.schema.SchemaService;
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.business.ServiceResult;
+import com.prayer.util.string.StringKit;
 
 /**
  * Record，Record Dao部分的抽象测试用例
@@ -28,12 +30,14 @@ public abstract class AbstractRecordTool {
         this.service = instance(SchemaSevImpl.class);
     }
     // ~ Abstract Methods ====================================
-    /** 判断DB是否合法 **/
-    public abstract boolean isValidDB();
-    
-    public abstract String getDbCategory();
+    /** 当前数据库类型 **/
+    public abstract String getCategory();
     // ~ Override Methods ====================================
     // ~ Methods =============================================
+    /** **/
+    protected boolean validDB() {
+        return StringKit.equals(getCategory(), Resources.DB_CATEGORY);
+    }
     /** **/
     protected SchemaService getService(){
         return this.service;
