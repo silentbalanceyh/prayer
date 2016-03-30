@@ -86,7 +86,7 @@ public final class SqlDMLBuilder implements SQLStatement {
         }
         // 3.使用模板构造参数语句
         final String colPart = StringKit.join(columns, Symbol.COMMA);
-        final String valPart = StringKit.join(columns, Symbol.COMMA);
+        final String valPart = StringKit.join(params, Symbol.COMMA);
         return MessageFormat.format(OP_INSERT, table, colPart, valPart);
     }
 
