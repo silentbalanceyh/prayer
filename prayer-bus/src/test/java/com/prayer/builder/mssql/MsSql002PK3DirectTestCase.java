@@ -8,7 +8,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.builder.AbstractMsSqlBuilderTestCase;
+import com.prayer.builder.AbstractMsSqlBuilderTool;
 import com.prayer.fantasm.exception.AbstractException;
 
 /**
@@ -17,7 +17,7 @@ import com.prayer.fantasm.exception.AbstractException;
  *
  */
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class MsSql002PK3DirectTestCase extends AbstractMsSqlBuilderTestCase {
+public class MsSql002PK3DirectTestCase extends AbstractMsSqlBuilderTool {
     // ~ Static Fields =======================================
 
     /** **/

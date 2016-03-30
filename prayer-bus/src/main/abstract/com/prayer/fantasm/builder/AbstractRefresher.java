@@ -242,16 +242,22 @@ public abstract class AbstractRefresher implements Refresher {
         {
             for (final PEKey key : schema.keys()) {
                 // buildLine(PEKey)仅针对PK和UK
-                final String sql = builder.buildAddConstraint(table, this.getKeySaber().buildLine(key));
-                sqlLines.add(sql);
+                final String keyPart = this.getKeySaber().buildLine(key);
+                if (StringKit.isNonNil(keyPart)) {
+                    final String sql = builder.buildAddConstraint(table, keyPart);
+                    sqlLines.add(sql);
+                }
             }
         }
         /** 3.外键约束 **/
         {
             final ConcurrentMap<String, PEField> foreigns = this.extractForeignKey(schema);
             for (final PEKey key : schema.getForeignKey()) {
-                final String sql = builder.buildAddConstraint(table, this.getKeySaber().buildLine(key, foreigns));
-                sqlLines.add(sql);
+                final String keyPart = this.getKeySaber().buildLine(key, foreigns);
+                if (StringKit.isNonNil(keyPart)) {
+                    final String sql = builder.buildAddConstraint(table, keyPart);
+                    sqlLines.add(sql);
+                }
             }
         }
         return sqlLines;

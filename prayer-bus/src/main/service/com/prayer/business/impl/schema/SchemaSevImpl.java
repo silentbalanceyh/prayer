@@ -12,7 +12,7 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.dao.impl.schema.CommuneImporter;
 import com.prayer.dao.impl.schema.SchemaDalor;
-import com.prayer.exception.system.SchemaNotFoundException;
+import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.builder.Builder;
 import com.prayer.facade.business.schema.SchemaService;

@@ -1,6 +1,7 @@
 package com.prayer.model.crucial; // NOPMD
 
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Constants;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.dao.schema.SchemaDao;
@@ -77,6 +79,7 @@ public class DataRecord implements Record { // NOPMD
     @PostValidateThis
     public DataRecord(@AssertFieldConstraints(RULE_ID) final String identifier) {
         this._identifier = identifier.trim();
+        this.dao = singleton(SchemaDalor.class);
         try {
             this._schema = this.dao.get(identifier);
         } catch (AbstractTransactionException ex) {

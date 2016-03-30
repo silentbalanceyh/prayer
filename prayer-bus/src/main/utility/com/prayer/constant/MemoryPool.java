@@ -13,7 +13,6 @@ import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.fantasm.pool.AbstractJdbcPool;
-import com.prayer.model.crucial.MetaConnector;
 
 /**
  * 静态变量统一管理
@@ -44,7 +43,7 @@ public interface MemoryPool { // NOPMD
     /** 资源文件池 **/
     ConcurrentMap<String, Properties> POOL_PROP = new ConcurrentHashMap<>();
     /** Metadata Connector 全局单例模式 **/
-    ConcurrentMap<String, MetaConnector> POOL_CONNECTOR = new ConcurrentHashMap<>();
+    // ConcurrentMap<String, Meta> POOL_CONNECTOR = new ConcurrentHashMap<>();
     /** Service Helper 全局单例模式 **/
     ConcurrentMap<String, ServiceHelper> POOL_SEV_HELPER = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================

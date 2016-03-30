@@ -1,28 +1,33 @@
-package com.prayer.exception.system;
+package com.prayer.exception.database;
 
-import com.prayer.fantasm.exception.AbstractSystemException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
- * 【Checked】Error-20006：Schema在系统中不存在
  * 
  * @author Lang
  *
  */
-public class SchemaNotFoundException extends AbstractSystemException {
+public class MetaCounterException extends AbstractDatabaseException {
     // ~ Static Fields =======================================
-
     /**
      * 
      */
-    private static final long serialVersionUID = -2587298477734592516L;
+    private static final long serialVersionUID = -1441142395594333769L;
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    public SchemaNotFoundException(final Class<?> clazz, final String identifier) {
-        super(clazz, -20006, identifier);
+    /**
+     * 
+     * @param clazz
+     * @param field
+     * @param type
+     * @param typeCount
+     */
+    public MetaCounterException(final Class<?> clazz, final Integer fieldCount, final String type,
+            final Integer typeCount) {
+        super(clazz, -11023, fieldCount, type, typeCount);
     }
 
     // ~ Abstract Methods ====================================
@@ -30,10 +35,11 @@ public class SchemaNotFoundException extends AbstractSystemException {
     /** **/
     @Override
     public int getErrorCode() {
-        return -20006;
+        return -11023;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

@@ -1,44 +1,42 @@
-package com.prayer.builder.mssql;
+package com.prayer.exception.database;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.prayer.builder.AbstractMsSqlBuilderTool;
-import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class MsSql004UP2TestCase extends AbstractMsSqlBuilderTool {
+public class MetaTypeWrongException extends AbstractDatabaseException {
+    
     // ~ Static Fields =======================================
-
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(MsSql004UP2TestCase.class);
-
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7844836777950191569L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /**
+     * 
+     * @param clazz
+     * @param type
+     * @param key
+     * @param file
+     */
+    public MetaTypeWrongException(final Class<?> clazz, final String type, final String file, final String key) {
+        super(clazz, -11022, type, key, file);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public Logger getLogger() {
-        return LOGGER;
+    public int getErrorCode() {
+        return -11022;
     }
     // ~ Methods =============================================
-
-    /** **/
-    @Test
-    public void test001UP2Updated() throws AbstractException {
-        boolean ret = this.executeUpdateContainer("MsSqlP004Update2FromUK2.json", "MsSqlP004Update2ToUK2.json");
-        assertTrue(ret);
-    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

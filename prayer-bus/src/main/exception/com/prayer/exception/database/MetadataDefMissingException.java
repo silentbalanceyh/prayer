@@ -1,19 +1,18 @@
-package com.prayer.exception.system;
+package com.prayer.exception.database;
 
-import com.prayer.fantasm.exception.AbstractSystemException;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class MetaTypeWrongException extends AbstractSystemException {
-    
+public class MetadataDefMissingException extends AbstractDatabaseException{
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = 7844836777950191569L;
+    private static final long serialVersionUID = 3123459193285312461L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -21,20 +20,18 @@ public class MetaTypeWrongException extends AbstractSystemException {
     /**
      * 
      * @param clazz
-     * @param type
-     * @param key
      * @param file
+     * @param key
      */
-    public MetaTypeWrongException(final Class<?> clazz, final String type, final String file, final String key) {
-        super(clazz, -20011, type, key, file);
+    public MetadataDefMissingException(final Class<?> clazz, final String file, final String key){
+        super(clazz, -11021, file, key);
     }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public int getErrorCode() {
-        return -20011;
+    public int getErrorCode(){
+        return -11021;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

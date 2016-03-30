@@ -2,7 +2,9 @@ package com.prayer.model.crucial; // NOPMD
 
 import static com.prayer.util.Calculator.index;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.reservoir;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -17,11 +19,10 @@ import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
-import com.prayer.facade.kernel.Value;
 import com.prayer.facade.kernel.Transducer.V;
+import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
-import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.StringType;
@@ -49,8 +50,11 @@ public class MetaRecord implements Record { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaRecord.class);
+    /** **/
+    private static final ConcurrentMap<String, MetaRaw> META_MAP = new ConcurrentHashMap<>();
+
     /** 前置条件 **/
-    private static final String PRE_CONNECTOR_CON = "_this._connector != null";
+    private static final String PRE_M_READER_CON = "_this.raw != null";
     /** 数据前置条件 **/
     private static final String PRE_DATA_CON = "_this.data != null";
     /** **/
@@ -61,9 +65,9 @@ public class MetaRecord implements Record { // NOPMD
     @NotBlank
     @NotEmpty
     private transient final String _identifier; // NOPMD
-    /** Metadata 连接器 **/
+    /** Meta信息读取器 **/
     @NotNull
-    private transient MetaConnector _connector; // NOPMD
+    private transient final MetaRaw raw;
     /** 当前Record中的数据 **/
     private transient final ConcurrentMap<String, Value<?>> data;
 
@@ -77,14 +81,10 @@ public class MetaRecord implements Record { // NOPMD
     @PostValidateThis
     public MetaRecord(@AssertFieldConstraints(RULE_ID) final String identifier) {
         // 1.连接操作
-        try {
-            this._connector = MetaConnector.connect(identifier);
-        } catch (AbstractSystemException ex) {
-            this._connector = null; // NOPMD
-            peError(LOGGER,ex);
-        }
-        // 连接成功
-        this._identifier = this._connector.identifier();
+        this._identifier = identifier;
+        // 2.Meta的Serializer池化处理
+        this.raw = reservoir(META_MAP, identifier, MetaRaw.class, identifier);
+        // 3.数据Map信息
         this.data = new ConcurrentHashMap<>();
     }
 
@@ -96,16 +96,36 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     @NotNull
     @InstanceOfAny(MetaPolicy.class)
-    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
+    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public MetaPolicy policy() {
-        return this.connector().policy();
+        MetaPolicy policy = null;
+        try {
+            policy = this.raw.readPolicy();
+        } catch (AbstractDatabaseException ex) {
+            peError(LOGGER, ex);
+        }
+        return policy;
+    }
+
+    /** **/
+    @Override
+    @NotNull
+    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
+    public String table() {
+        String table = null;
+        try {
+            table = this.raw.readTable();
+        } catch (AbstractDatabaseException ex) {
+            peError(LOGGER, ex);
+        }
+        return table;
     }
 
     /** **/
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
+    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, Value<?>> idKV() throws AbstractDatabaseException {
         final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
         for (final PEField field : this.idschema()) {
@@ -117,7 +137,7 @@ public class MetaRecord implements Record { // NOPMD
                     retMap.put(field.getColumnName(), this.column(field.getColumnName()));
                 }
             } catch (AbstractDatabaseException ex) {
-                peError(LOGGER,ex);
+                peError(LOGGER, ex);
             }
         }
         return retMap;
@@ -127,15 +147,21 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
+    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public List<PEField> idschema() {
-        return this.connector().idschema();
+        List<PEField> schemata = new ArrayList<>();
+        try{
+            schemata = MetaHelper.extractIds(this.raw);
+        }catch(AbstractDatabaseException ex){
+            peError(LOGGER,ex);
+        }
+        return schemata;
     }
 
     /** **/
     @Override
     @InstanceOf(Value.class)
-    @Pre(expr = PRE_DATA_CON + " && " + PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
+    @Pre(expr = PRE_DATA_CON + " && " + PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public Value<?> column(final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
         final String field = this.toField(column);
@@ -145,29 +171,30 @@ public class MetaRecord implements Record { // NOPMD
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
-    public String table() {
-        return this.connector().table();
-    }
-
-    /** **/
-    @Override
-    @NotNull
-    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
+    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public Set<String> columns() {
         // 注意Column的顺序，这里使用的是TreeSet
         final Set<String> retSet = new TreeSet<>();
-        final Set<String> oldCols = this.connector().columns().keySet();
-        retSet.addAll(oldCols);
+        try {
+            retSet.addAll(this.raw.readColumns());
+        } catch (AbstractDatabaseException ex) {
+            peError(LOGGER, ex);
+        }
         return retSet;
     }
 
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
+    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, DataType> columnTypes() {
-        return this.connector().columns();
+        ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
+        try {
+            retMap = MetaHelper.extractColumnTypes(this.raw);
+        } catch (AbstractDatabaseException ex) {
+            peError(LOGGER, ex);
+        }
+        return retMap;
     }
 
     /** **/
@@ -185,7 +212,8 @@ public class MetaRecord implements Record { // NOPMD
     public void set(@AssertFieldConstraints(RULE_ID) final String name, final String value)
             throws AbstractDatabaseException {
         this.verifyField(name);
-        final DataType type = this.connector().fields().get(name);
+        final int idx = index(this.raw.readNames(), name);
+        final DataType type = this.raw.readTypes().get(idx);
         final Value<?> wrapperValue = V.get().getValue(type, value);
         this.set(name, wrapperValue);
     }
@@ -204,33 +232,33 @@ public class MetaRecord implements Record { // NOPMD
      */
     @Override
     @NotNull
-    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
+    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public String identifier() {
-        return this.connector().identifier();
+        return this._identifier;
     }
 
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
+    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public String toField(final String column) throws AbstractDatabaseException {
         // 1.检查Column是否存在
         this.verifyColumn(column);
         // 2.获取Field
-        final int idx = index(this.connector().getColumnList(), column);
-        return -1 == idx ? Constants.EMPTY_STR : this.connector().getFieldList().get(idx);
+        final int idx = index(this.raw.readColumns(), column);
+        return -1 == idx ? Constants.EMPTY_STR : this.raw.readNames().get(idx);
     }
 
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
+    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public String toColumn(final String field) throws AbstractDatabaseException {
         // 1.检查Field是否存在
         this.verifyField(field);
         // 2.获取Column
-        final int idx = index(this.connector().getFieldList(), field);
-        return -1 == idx ? Constants.EMPTY_STR : this.connector().getColumnList().get(idx);
+        final int idx = index(this.raw.readNames(), field);
+        return -1 == idx ? Constants.EMPTY_STR : this.raw.readColumns().get(idx);
     }
 
     /**
@@ -239,25 +267,27 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_CONNECTOR_CON, lang = Constants.LANG_GROOVY)
+    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, DataType> fields() {
-        return this.connector().fields();
+        ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
+        try {
+            retMap = MetaHelper.extractTypes(this.raw);
+        } catch (AbstractDatabaseException ex) {
+            peError(LOGGER, ex);
+        }
+        return retMap;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private MetaConnector connector() {
-        return this._connector;
-    }
-
     private void verifyField(final String name) throws AbstractDatabaseException {
-        if (!this.connector().fields().keySet().contains(name)) {
-            throw new FieldInvalidException(getClass(), name, this._connector.identifier());
+        if (!this.raw.readNames().contains(name)) {
+            throw new FieldInvalidException(getClass(), name, this._identifier);
         }
     }
 
     private void verifyColumn(final String column) throws AbstractDatabaseException {
-        if (!this.connector().columns().keySet().contains(column)) {
+        if (!this.raw.readColumns().contains(column)) {
             throw new ColumnInvalidException(getClass(), column, this.table());
         }
     }
@@ -274,15 +304,15 @@ public class MetaRecord implements Record { // NOPMD
                 final String value = null == this.column(col) ? "" : this.column(col).toString();
                 retStr.append(col).append(" : ").append(value).append(Symbol.COMMA);
             } catch (AbstractDatabaseException ex) {
-                peError(LOGGER,ex);
+                peError(LOGGER, ex);
             }
         }
         return retStr.toString();
     }
 
-    /** **/
+    /** Sequence Name返回null，因为Metadata只能是GUID，无Seq Name名称 **/
     @Override
     public String seqname() {
-        return this.connector().seqname();
+        return null;
     }
 }

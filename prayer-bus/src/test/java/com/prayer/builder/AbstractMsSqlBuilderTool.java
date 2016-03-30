@@ -1,39 +1,25 @@
-package com.prayer.exception.system;
+package com.prayer.builder;
 
-import com.prayer.fantasm.exception.AbstractSystemException;
+import com.prayer.constant.DBConstants;
 
 /**
  * 
  * @author Lang
  *
  */
-public class MetadataDefMissingException extends AbstractSystemException{
+public abstract class AbstractMsSqlBuilderTool extends AbstractBuilderTool {
     // ~ Static Fields =======================================
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 3123459193285312461L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /**
-     * 
-     * @param clazz
-     * @param file
-     * @param key
-     */
-    public MetadataDefMissingException(final Class<?> clazz, final String file, final String key){
-        super(clazz, -20010, file, key);
-    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public int getErrorCode(){
-        return -20010;
-    }
     // ~ Methods =============================================
+    /** **/
+    protected String getCategory() {
+        return DBConstants.CATEGORY_MSSQL;
+    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

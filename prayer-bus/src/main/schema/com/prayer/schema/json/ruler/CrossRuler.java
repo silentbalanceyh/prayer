@@ -99,10 +99,23 @@ public final class CrossRuler implements Ruler {
         for (final ObjectHabitus item : objects) {
             final JsonArray columns = (JsonArray) item.get(Attributes.K_COLUMNS);
             final KeyCategory category = fromStr(KeyCategory.class, item.get(Attributes.K_CATEGORY).toString());
-            for (final Object column : columns) {
-                if (null != column) {
-                    final ObjectHabitus complexHabitus = wrapperHabitus(column.toString(), category, columns.size());
-                    RulerHelper.applyUnique(complexHabitus, FileConfig.CFG_CATT);
+            final boolean multi = (boolean) item.get(Attributes.K_MULTI);
+            /**
+             * 如果multi为true，那么PrimaryKey应该全部都是true，ForeignKey则是不支持多字段主键
+             */
+            if (multi && KeyCategory.UniqueKey == category) {
+                /**
+                 * 如果Multi为true，那么PrimaryKey有所不同，因为可支持UniqueKey可支持重复，
+                 * 那么多Unique的情况是不考虑的
+                 */
+                continue;
+            } else {
+                for (final Object column : columns) {
+                    if (null != column) {
+                        final ObjectHabitus complexHabitus = wrapperHabitus(column.toString(), category,
+                                columns.size());
+                        RulerHelper.applyUnique(complexHabitus, FileConfig.CFG_CATT);
+                    }
                 }
             }
         }
