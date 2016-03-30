@@ -162,7 +162,7 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     @InstanceOf(Value.class)
     @Pre(expr = PRE_DATA_CON + " && " + PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
-    public Value<?> column(final String column) throws AbstractDatabaseException {
+    public Value<?> column(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
         final String field = this.toField(column);
         return this.get(field);
@@ -241,7 +241,7 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     @NotNull
     @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
-    public String toField(final String column) throws AbstractDatabaseException {
+    public String toField(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         // 1.检查Column是否存在
         this.verifyColumn(column);
         // 2.获取Field
@@ -253,7 +253,7 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     @NotNull
     @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
-    public String toColumn(final String field) throws AbstractDatabaseException {
+    public String toColumn(@AssertFieldConstraints(RULE_ID) final String field) throws AbstractDatabaseException {
         // 1.检查Field是否存在
         this.verifyField(field);
         // 2.获取Column
