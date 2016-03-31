@@ -105,6 +105,7 @@ public class MultiBigInteger implements Topic {
              */
             if (!matcher.matches()) {
                 ret = false;
+                break;
             }
         }
         return ret;

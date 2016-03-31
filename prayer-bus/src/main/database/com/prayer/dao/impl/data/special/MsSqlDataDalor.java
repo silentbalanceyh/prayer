@@ -35,7 +35,7 @@ import jodd.util.StringUtil;
  * @author Lang
  *
  */
-final class MsSqlRDaoImpl extends AbstractDataDalor implements SQLWord { // NOPMD
+final class MsSqlDataDalor extends AbstractDataDalor implements SQLWord { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
