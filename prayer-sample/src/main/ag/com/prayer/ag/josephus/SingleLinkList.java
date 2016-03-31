@@ -50,7 +50,8 @@ public class SingleLinkList<T> {
     /**
      * 将Current移动到Tail前一个
      */
-    public void removeCurrent() {
+    public T removeCurrent() {
+        T value = null;
         if (this.head != this.tail) {
             final SingleNode<T> cur = this.current;
             // Header移开，防止空指针
@@ -65,7 +66,9 @@ public class SingleLinkList<T> {
             cur.setNext(null);
             // 需要转移Current
             this.current = this.current.getNext();
+            value = cur.getValue();
         }
+        return value;
     }
 
     /**
@@ -154,7 +157,6 @@ public class SingleLinkList<T> {
             System.out.print(" ");
             tempCur = tempCur.getNext();
         } while (this.head != tempCur);
-        System.out.println();
     }
     // ~ Private Methods =====================================
 

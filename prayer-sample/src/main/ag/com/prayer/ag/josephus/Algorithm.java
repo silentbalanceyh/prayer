@@ -32,7 +32,9 @@ final class Algorithm {
             for (int idxj = 0; idxj < width; idxj++) {
                 list.moveNext();
             }
-            list.removeCurrent();
+            final int value = list.removeCurrent();
+            System.out.print(" -> Removed : " + value);
+            System.out.println();
         }
         return String.valueOf(list.getCurrent());
 
