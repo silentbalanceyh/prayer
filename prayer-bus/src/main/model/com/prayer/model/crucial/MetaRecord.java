@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
-import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
@@ -150,10 +149,10 @@ public class MetaRecord implements Record { // NOPMD
     @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public List<PEField> idschema() {
         List<PEField> schemata = new ArrayList<>();
-        try{
+        try {
             schemata = MetaHelper.extractIds(this.raw);
-        }catch(AbstractDatabaseException ex){
-            peError(LOGGER,ex);
+        } catch (AbstractDatabaseException ex) {
+            peError(LOGGER, ex);
         }
         return schemata;
     }
@@ -298,11 +297,19 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     public String toString() {
         final StringBuilder retStr = new StringBuilder(100);
-        retStr.append("======================> : Data (Meta) ");
+        retStr.append("======================> : Data (Record)");
+        // 1.当前Record的ID：
+        retStr.append(this.identifier());
         for (final String col : this.columns()) {
             try {
+                // 2.当前Record的<Field:Column>=<Value:DataType>
+                final String field = this.toField(col);
+                retStr.append('<').append(field).append(':').append(col).append('>');
+                retStr.append('=');
+                final int idx = index(this.raw.readNames(), field);
+                final DataType type = this.raw.readTypes().get(idx);
                 final String value = null == this.column(col) ? "" : this.column(col).toString();
-                retStr.append(col).append(" : ").append(value).append(Symbol.COMMA);
+                retStr.append('<').append(value).append(':').append(type).append(">,");
             } catch (AbstractDatabaseException ex) {
                 peError(LOGGER, ex);
             }

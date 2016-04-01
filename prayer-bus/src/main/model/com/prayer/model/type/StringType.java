@@ -81,7 +81,7 @@ public class StringType implements Value<String> {
      */
     @Override
     public String literal() {
-        return null == this.value ? "null": this.value.toString();
+        return null == this.value ? "null" : this.value.toString();
     }
 
     // ~ Methods =============================================
@@ -136,6 +136,10 @@ public class StringType implements Value<String> {
         final StringType other = (StringType) obj;
         if (value == null) {
             if (other.value != null) {
+                return false;
+            }
+        } else if (other.value == null) {
+            if (this.value != null) {
                 return false;
             }
         } else if (!value.toString().equals(other.value.toString())) {

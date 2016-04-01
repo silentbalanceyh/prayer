@@ -14,7 +14,7 @@ public interface Constants { // NOPMD
     // ~ Static Fields =======================================
     /** 全局统一属性ID信息 **/
     // TODO: 这里改动过后可能很多地方无法通过编译
-    String PID = "id";
+    String PID = "uniqueId";
 
     /** OVol 默认脚本 **/
     String LANG_GROOVY = "groovy";

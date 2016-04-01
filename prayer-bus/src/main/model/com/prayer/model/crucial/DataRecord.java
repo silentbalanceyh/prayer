@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
-import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.exception.database.ColumnInvalidException;
@@ -271,10 +270,17 @@ public class DataRecord implements Record { // NOPMD
     public String toString() {
         final StringBuilder retStr = new StringBuilder(100);
         retStr.append("======================> : Data (Record)");
+        // 1.当前Record的ID：
+        retStr.append(this.identifier());
         for (final String col : this.columns()) {
             try {
+                // 2.当前Record的<Field:Column>=<Value:DataType>
+                final String field = this.toField(col);
+                retStr.append('<').append(field).append(':').append(col).append('>');
+                retStr.append('=');
+                final DataType type = this._schema.getField(field).getType();
                 final String value = null == this.column(col) ? "" : this.column(col).toString();
-                retStr.append(col).append(" : ").append(value).append(Symbol.COMMA);
+                retStr.append('<').append(value).append(':').append(type).append(">,");
             } catch (AbstractDatabaseException ex) {
                 peError(LOGGER, ex);
             }
