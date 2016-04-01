@@ -5,7 +5,7 @@
     "requiredParam":[
         "name"
     ],
-    "globalId":"sec.role2",
+    "identifier":"sec.role2",
     "address":"messageAddress2",
     "script":"sec.test",
     "returnFilters":[

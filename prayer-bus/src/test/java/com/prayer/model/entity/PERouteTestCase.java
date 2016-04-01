@@ -1,6 +1,7 @@
 package com.prayer.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -47,10 +48,8 @@ public class PERouteTestCase extends AbstractEntityTool {
     public void testFromJson() {
         final JsonObject expected = this.readData("/entity/peroute/route.json");
         final PERoute actual = this.getInstance("/entity/peroute/route.json");
-        System.out.println(expected);
-        System.out.println(actual);
-        // Compare
-        assertEquals(expected.encode(), actual.toString());
+     // Compare
+        assertTrue(expected.equals(actual.toJson()));
     }
 
     /**

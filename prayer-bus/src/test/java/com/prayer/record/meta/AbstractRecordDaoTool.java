@@ -107,8 +107,6 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
     protected boolean testInsert(final Evaluator evaluator) throws AbstractDatabaseException {
         final Record before = this.createRecord(identifier());
         final Record after = this.getDao().insert(before);
-        System.out.println(before);
-        System.out.println(after);
         final boolean ret = RecordKit.equal(before, after);
         evaluator.evalTrue(message(TST_TF, Boolean.TRUE), ret);
         // 删除刚刚插入的数据
@@ -142,8 +140,6 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
         if (null != uniqueId) { // NOPMD
             final Record selectR = this.getDao().selectById(after, uniqueId);
             // 检查最终结果
-            System.out.println(before);
-            System.out.println(selectR);
             ret = RecordKit.equal(after, selectR);
             evaluator.evalTrue(message(TST_TF, Boolean.TRUE), ret);
             // 检查完成，删除插入信息

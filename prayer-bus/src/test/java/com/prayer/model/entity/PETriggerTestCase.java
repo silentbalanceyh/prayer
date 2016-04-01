@@ -1,6 +1,7 @@
 package com.prayer.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import com.prayer.util.debug.Log;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
+
 /**
  * 
  * @author Lang
@@ -49,7 +51,7 @@ public class PETriggerTestCase extends AbstractEntityTool {
         final JsonObject expected = this.readData("/entity/petrigger/trigger.json");
         final PETrigger actual = this.getInstance("/entity/petrigger/trigger.json");
         // Compare
-        assertEquals(expected.encode(), actual.toString());
+        assertTrue(expected.equals(actual.toJson()));
     }
 
     /** **/

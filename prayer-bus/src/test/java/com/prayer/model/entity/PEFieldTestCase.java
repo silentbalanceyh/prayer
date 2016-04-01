@@ -1,6 +1,7 @@
 package com.prayer.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -49,7 +50,7 @@ public class PEFieldTestCase extends AbstractEntityTool {
         final JsonObject expected = this.readData("/entity/pefield/field.json");
         final PEField actual = this.getInstance("/entity/pefield/field.json");
         // Compare
-        assertEquals(expected.encode(), actual.toString());
+        assertTrue(expected.equals(actual.toJson()));
     }
 
     /** **/

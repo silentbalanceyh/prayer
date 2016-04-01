@@ -7,7 +7,7 @@
         "name",
         "code"
     ],
-    "globalId":"sec.role",
+    "identifier":"sec.role",
     "address":"messageAddress",
     "script":"sec.test",
     "returnFilters":[

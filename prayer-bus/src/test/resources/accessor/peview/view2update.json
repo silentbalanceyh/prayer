@@ -2,7 +2,7 @@
     "status":"SYSTEM",
     "name":"SecXView",
     "namespace":"com.prayer.engine.security",
-    "globalId":"sec.role",
+    "identifier":"sec.role",
     "category":"MSSQL",
     "view":"V_SELECTTT",
     "statement":"SELECT * FROM SEC_ROLE",

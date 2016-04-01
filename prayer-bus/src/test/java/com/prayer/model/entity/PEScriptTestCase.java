@@ -1,6 +1,7 @@
 package com.prayer.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -32,15 +33,15 @@ public class PEScriptTestCase extends AbstractEntityTool {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public PEScript getInstance(final String file){
+    public PEScript getInstance(final String file) {
         PEScript instance = null;
-        if(null == file){
+        if (null == file) {
             instance = new PEScript();
-        }else{
+        } else {
             final JsonObject data = this.readData(file);
             instance = new PEScript(data);
         }
-        Log.debug(LOGGER,instance.toString());
+        Log.debug(LOGGER, instance.toString());
         return instance;
     }
     // ~ Methods =============================================
@@ -53,7 +54,7 @@ public class PEScriptTestCase extends AbstractEntityTool {
         final JsonObject expected = this.readData("/entity/pescript/script.json");
         final PEScript actual = this.getInstance("/entity/pescript/script.json");
         // Compare
-        assertEquals(expected.encode(), actual.toString());
+        assertTrue(expected.equals(actual.toJson()));
     }
 
     /**

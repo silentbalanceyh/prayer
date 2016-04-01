@@ -3,7 +3,7 @@
     "status":"USER",
     "name":"SecView",
     "namespace":"com.prayer.engine.security",
-    "globalId":"sec.role",
+    "identifier":"sec.role",
     "category":"ORACLE",
     "view":"V_SELECT",
     "statement":"SELECT * FROM SEC_ROLE",

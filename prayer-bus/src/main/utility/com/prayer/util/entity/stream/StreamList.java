@@ -36,7 +36,7 @@ public final class StreamList {
         final List<T> data = fun.get();
         if (null != data) {
             final JsonArray value = fromList(data);
-            if (0 < value.size()) {
+            if (null != value) {
                 json.put(key, value);
             }
         }
@@ -86,8 +86,6 @@ public final class StreamList {
                 final JsonArray value = new JsonArray(data);
                 list = toList(value);
                 fun.set(list);
-            } else {
-                fun.set(list);
             }
         } catch (IndexOutOfBoundsException ex) {
             jvmError(LOGGER, ex);
@@ -96,6 +94,7 @@ public final class StreamList {
         }
         return pos;
     }
+
     /**
      * 
      * @param data

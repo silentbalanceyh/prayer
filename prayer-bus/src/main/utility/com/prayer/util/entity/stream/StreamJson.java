@@ -33,9 +33,7 @@ public final class StreamJson {
     public static void writeField(final JsonObject json, final String key, final BeanGet<JsonObject> fun) {
         final JsonObject data = fun.get();
         if (null != data) {
-            if (!data.isEmpty()) {
-                json.put(key, data);
-            }
+            json.put(key, data);
         }
     }
 
@@ -75,8 +73,6 @@ public final class StreamJson {
             final JsonObject value = new JsonObject();
             if (Constants.ZERO < bytesData.length) {
                 value.mergeIn(new JsonObject(data));
-                fun.set(value);
-            } else {
                 fun.set(value);
             }
         } catch (IndexOutOfBoundsException ex) {

@@ -43,6 +43,12 @@ public abstract class AbstractEntityTool {
         final JsonObject json = new JsonObject();
         if (null != content) {
             json.mergeIn(new JsonObject(content));
+            // Fix id -> uniqueId
+            if(json.containsKey("id")){
+               final Object value = json.getValue("id");
+               json.put(Constants.PID, value);
+               json.remove("id");
+            }
         }
         return json;
     }

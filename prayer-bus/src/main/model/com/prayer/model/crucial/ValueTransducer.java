@@ -2,6 +2,7 @@ package com.prayer.model.crucial;
 
 import java.math.BigDecimal;
 
+import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.facade.kernel.Transducer;
 import com.prayer.facade.kernel.Value;
@@ -87,15 +88,19 @@ public final class ValueTransducer implements Transducer { // NOPMD
         }
             break;
         case JSON: {
-            final String value = data.getString(field);
-            ret = new JsonType(value);
+            final Object value = data.getValue(field);
+            if (null != value) {
+                ret = new JsonType(value.toString());
+            } else {
+                ret = new JsonType(Constants.EMPTY_JOBJ);
+            }
         }
             break;
         default: {
             final Object value = data.getValue(field);
             if (null != value) {
                 ret = new StringType(value.toString());
-            }else{
+            } else {
                 ret = new StringType(null);
             }
         }

@@ -3,6 +3,7 @@ package com.prayer.fantasm.dao; // NOPMD
 import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.clazz;
+import static com.prayer.util.reflection.Instance.reservoir;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Constants;
+import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
@@ -252,7 +254,7 @@ public abstract class AbstractMetaDalor<ID extends Serializable> implements Reco
     private MetaAccessor getDao(final String identifier) {
         final PropertyKit LOADER = new PropertyKit(getClass(), Resources.OOB_SCHEMA_FILE);
         final String clsName = LOADER.getString(identifier + ".instance");
-        return singleton(Accessors.accessor(), clazz(clsName));
+        return reservoir(MemoryPool.POOL_ACCESSOR, clsName, clazz(Accessors.accessor()), clazz(clsName));
     }
 
     private String buildPager(final Record record, final String[] columns, final Expression filters,

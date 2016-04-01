@@ -3,7 +3,7 @@
     "uri":"/api/sec/role",
     "method":"POST",
     "paramType":"QUERY",
-    "globalId":"sec.role",
+    "identifier":"sec.role",
     "address":"messageAddress",
     "script":"sec.test",
     "returnFilters":[

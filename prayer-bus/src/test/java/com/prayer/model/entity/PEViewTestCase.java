@@ -1,6 +1,7 @@
 package com.prayer.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import com.prayer.util.debug.Log;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
+
 /**
  * 
  * @author Lang
@@ -48,8 +50,10 @@ public class PEViewTestCase extends AbstractEntityTool {
     public void testFromJson() {
         final JsonObject expected = this.readData("/entity/peview/view.json");
         final PEView actual = this.getInstance("/entity/peview/view.json");
+        System.out.println(expected.encodePrettily());
+        System.out.println(actual.toJson().encodePrettily());
         // Compare
-        assertEquals(expected.encode(), actual.toString());
+        assertTrue(expected.equals(actual.toJson()));
     }
 
     /** **/

@@ -52,7 +52,7 @@ public class KeyDaoTestCase extends AbstractRecordDaoTool {
     protected ConcurrentMap<String, Value<?>> specValues() {
         final ConcurrentMap<String, Value<?>> data = new ConcurrentHashMap<>();
         data.put("category",new StringType(Assistant.randArray("PrimaryKey","ForeignKey","UniqueKey")));
-        final JsonArray array = new JsonArray("[{\"column\":\"columnForTest\"}]");
+        final JsonArray array = new JsonArray("[]");
         data.put("columns", new StringType(array.encode()));
         data.put("refMetaId", new StringType(null));
         return data;

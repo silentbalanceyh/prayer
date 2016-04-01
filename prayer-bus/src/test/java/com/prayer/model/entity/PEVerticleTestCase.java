@@ -1,6 +1,7 @@
 package com.prayer.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -31,15 +32,15 @@ public class PEVerticleTestCase extends AbstractEntityTool {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public PEVerticle getInstance(final String file){
+    public PEVerticle getInstance(final String file) {
         PEVerticle instance = null;
-        if(null == file){
+        if (null == file) {
             instance = new PEVerticle();
-        }else{
+        } else {
             final JsonObject data = this.readData(file);
             instance = new PEVerticle(data);
         }
-        Log.debug(LOGGER,instance.toString());
+        Log.debug(LOGGER, instance.toString());
         return instance;
     }
 
@@ -50,7 +51,7 @@ public class PEVerticleTestCase extends AbstractEntityTool {
         final JsonObject expected = this.readData("/entity/peverticle/verticle.json");
         final PEVerticle actual = this.getInstance("/entity/peverticle/verticle.json");
         // Compare
-        assertEquals(expected.encode(), actual.toString());
+        assertTrue(expected.equals(actual.toJson()));
     }
 
     /** **/

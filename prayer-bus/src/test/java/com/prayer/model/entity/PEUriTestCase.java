@@ -1,6 +1,7 @@
 package com.prayer.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -45,7 +46,7 @@ public class PEUriTestCase extends AbstractEntityTool {
         final JsonObject expected = this.readData("/entity/peuri/uri.json");
         final PEUri actual = this.getInstance("/entity/peuri/uri.json");
         // Compare
-        assertEquals(expected.encode(), actual.toString());
+        assertTrue(expected.equals(actual.toJson()));
     }
 
     /** **/

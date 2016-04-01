@@ -1,6 +1,7 @@
 package com.prayer.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -51,7 +52,7 @@ public class PEAddressTestCase extends AbstractEntityTool {
         final JsonObject expected = this.readData("/entity/peaddress/address.json");
         final PEAddress actual = this.getInstance("/entity/peaddress/address.json");
         // Compare
-        assertEquals(expected.encode(), actual.toString());
+        assertTrue(expected.equals(actual.toJson()));
     }
 
     /**
@@ -62,7 +63,7 @@ public class PEAddressTestCase extends AbstractEntityTool {
         final JsonObject expected = this.readData("/entity/peaddress/address1.json");
         final PEAddress actual = this.getInstance("/entity/peaddress/address1.json");
         // Compare
-        assertEquals(expected, actual.toJson());
+        assertTrue(expected.equals(actual.toJson()));
     }
 
     /**

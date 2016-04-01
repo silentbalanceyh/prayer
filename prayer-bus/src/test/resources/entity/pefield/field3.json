@@ -6,7 +6,7 @@
     "validator":"com.prayer.model.entity.clazz.EntityHandler",
     "length":126,
     "datetime":"STRING",
-    "dateformat":"yyyy-MM-dd HH:mm:ss",
+    "dateFormat":"yyyy-MM-dd HH:mm:ss",
     "precision":2,
     "unit":"￥",
     "maxLength":120,

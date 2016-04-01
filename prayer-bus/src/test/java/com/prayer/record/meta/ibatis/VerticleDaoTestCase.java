@@ -16,6 +16,7 @@ import com.prayer.model.entity.clazz.EntityHandler;
 import com.prayer.model.type.StringType;
 import com.prayer.record.meta.AbstractRecordDaoTool;
 
+import io.vertx.core.json.JsonArray;
 import net.sf.oval.exception.ConstraintsViolatedException;
 
 /**
@@ -51,6 +52,9 @@ public class VerticleDaoTestCase extends AbstractRecordDaoTool {
     protected ConcurrentMap<String, Value<?>> specValues() {
         final ConcurrentMap<String, Value<?>> data = new ConcurrentHashMap<>();
         data.put("name", new StringType(EntityHandler.class.getName()));
+        final JsonArray array = new JsonArray("[]");
+        data.put("isolatedClasses", new StringType(array.encode()));
+        data.put("extraCp", new StringType(array.encode()));
         return data;
     }
     // ~ Methods =============================================
