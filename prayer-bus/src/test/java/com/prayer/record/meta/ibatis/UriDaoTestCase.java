@@ -1,17 +1,23 @@
 package com.prayer.record.meta.ibatis;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.Assistant;
 import com.prayer.exception.database.OperationNotSupportException;
+import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.model.entity.clazz.EntityHandler;
+import com.prayer.model.type.StringType;
 import com.prayer.record.meta.AbstractRecordDaoTool;
 
+import io.vertx.core.json.JsonArray;
 import net.sf.oval.exception.ConstraintsViolatedException;
 
 /**
@@ -40,6 +46,18 @@ public class UriDaoTestCase extends AbstractRecordDaoTool {
     @Override
     protected Logger getLogger() {
         return LOGGER;
+    }
+    /** **/
+    @Override
+    protected ConcurrentMap<String, Value<?>> specValues() {
+        final ConcurrentMap<String, Value<?>> data = new ConcurrentHashMap<>();
+        data.put("paramType",new StringType(Assistant.randArray("QUERY","FORM","BODY","CUSTOM")));
+        data.put("method",new StringType(Assistant.randArray("OPTIONS","GET","HEAD","POST","PUT","DELETE","TRACE","CONNECT","PATCH")));
+        data.put("sender", new StringType(EntityHandler.class.getName()));
+        final JsonArray array = new JsonArray("[]");
+        data.put("requiredParam",new StringType(array.encode()));
+        data.put("returnFilters",new StringType(array.encode()));
+        return data;
     }
     // ~ Methods =============================================
 

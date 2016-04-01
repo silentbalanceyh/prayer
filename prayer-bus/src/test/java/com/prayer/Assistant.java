@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -148,6 +149,17 @@ public final class Assistant { // NOPMD
             }
         }
         return retStr.toString();
+    }
+    /**
+     * 
+     * @param values
+     * @return
+     */
+    public static String randArray(final String... values){
+        final int length = values.length;
+        final Random rand = new Random();
+        final int index = rand.nextInt(length - 1);
+        return values[index];
     }
 
     // ~ Constructors ========================================

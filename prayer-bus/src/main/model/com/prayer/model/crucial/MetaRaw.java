@@ -15,7 +15,6 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.database.MetaCounterException;
 import com.prayer.exception.database.MetaTypeWrongException;
 import com.prayer.exception.database.MetadataDefMissingException;
-import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
 import com.prayer.util.io.PropertyKit;

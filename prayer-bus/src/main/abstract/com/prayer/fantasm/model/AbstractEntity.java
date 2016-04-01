@@ -159,12 +159,12 @@ public abstract class AbstractEntity<ID extends Serializable> implements Entity,
 
     /** 从JsonObject中读取数据 **/
     protected void readBoolean(final JsonObject json, final String key, final BeanSet<Boolean> fun) {
-        StreamBasic.readField(json, key, fun, boolean.class);
+        StreamBasic.readField(json, key, fun, Boolean.class);
     }
 
     /** 从Buffer中读取数据 **/
     protected int readBoolean(int pos, final Buffer buffer, final BeanSet<Boolean> fun) {
-        return StreamBasic.readField(buffer, pos, fun, boolean.class);
+        return StreamBasic.readField(buffer, pos, fun, Boolean.class);
     }
 
     // ~ Long Serialization Method ========================

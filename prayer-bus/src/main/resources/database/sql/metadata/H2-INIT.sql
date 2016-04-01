@@ -78,9 +78,9 @@ CREATE TABLE SYS_FIELDS(
 		CHECK(C_LENGTH >= 0),
 	C_DATETIME CHAR(6)							-- STRING | TIMER
 		CHECK(C_DATETIME='STRING' OR C_DATETIME='TIMER'),
-	C_DATEFORMAT VARCHAR(32),					-- 时间格式的pattern
+	C_DATEFORMAT VARCHAR(36),					-- 时间格式的pattern
 	C_PRECISION SMALLINT(16),					-- 浮点数精度描述
-	C_UNIT VARCHAR(32),							-- 当前数据的单位描述
+	C_UNIT VARCHAR(36),							-- 当前数据的单位描述
 	C_MAX_LENGTH INT							-- 当前字符串最大长度
 		CHECK(C_MAX_LENGTH >= -1),
 	C_MIN_LENGTH INT							-- 当前字符串最小长度

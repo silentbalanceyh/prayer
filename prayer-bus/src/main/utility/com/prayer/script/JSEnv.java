@@ -8,6 +8,7 @@ import com.prayer.constant.Constants;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
 import com.prayer.model.crucial.DataRecord;
@@ -56,7 +57,11 @@ public class JSEnv implements Serializable {
         if (Constants.ZERO == ids.length) {
             refR = this.record;
         } else if (Constants.ZERO < ids.length) {
-            refR = new DataRecord(ids[Constants.ZERO]);
+            try{
+                refR = new DataRecord(ids[Constants.ZERO]);
+            }catch(AbstractDatabaseException ex){
+                
+            }
         }
         return refR;
     }

@@ -92,8 +92,12 @@ public final class ValueTransducer implements Transducer { // NOPMD
         }
             break;
         default: {
-            final String value = data.getString(field);
-            ret = new StringType(value);
+            final Object value = data.getValue(field);
+            if (null != value) {
+                ret = new StringType(value.toString());
+            }else{
+                ret = new StringType(null);
+            }
         }
             break;
         }

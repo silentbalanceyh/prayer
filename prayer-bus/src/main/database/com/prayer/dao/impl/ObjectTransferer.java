@@ -18,6 +18,7 @@ import com.prayer.fantasm.model.AbstractEntity;
 import com.prayer.model.crucial.MetaRaw;
 import com.prayer.model.crucial.MetaRecord;
 import com.prayer.model.type.DataType;
+import com.prayer.util.business.JsonTrier;
 import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.json.JsonArray;
@@ -41,6 +42,7 @@ public final class ObjectTransferer implements Transferer {
     // ~ Static Fields =======================================
     /** 元数据资源文件 **/
     private static final PropertyKit LOADER = new PropertyKit(MetaRaw.class, Resources.OOB_SCHEMA_FILE);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -51,7 +53,8 @@ public final class ObjectTransferer implements Transferer {
      * 只转换Entity类型，即Metadata部分
      */
     @Override
-    public <T extends AbstractEntity<String>> T toEntity(@NotNull @InstanceOfAny(MetaRecord.class) final Record record) throws AbstractDatabaseException {
+    public <T extends AbstractEntity<String>> T toEntity(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
+            throws AbstractDatabaseException {
         T ret = this.extractCls(record);
         final JsonObject data = this.fromRecord(record);
         final Entity entity = ret.fromJson(data);
@@ -108,7 +111,9 @@ public final class ObjectTransferer implements Transferer {
             if (null == record.get(field)) {
                 data.put(field, Constants.EMPTY_STR);
             } else {
-                data.put(field, record.get(field).literal());
+                // Fix JsonArray为null的问题
+                final String literal = record.get(field).literal();
+                JsonTrier.putTried(data, field, literal);
             }
         }
         return data;
@@ -131,10 +136,10 @@ public final class ObjectTransferer implements Transferer {
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    
-    private <T extends AbstractEntity<String>> T extractCls(final Record record){
+
+    private <T extends AbstractEntity<String>> T extractCls(final Record record) {
         T ret = null;
-        if(null != record && null != record.identifier()){
+        if (null != record && null != record.identifier()) {
             final String clsName = LOADER.getString(record.identifier() + ".instance");
             ret = instance(clsName);
         }

@@ -1,17 +1,22 @@
 package com.prayer.record.meta.ibatis;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.Assistant;
 import com.prayer.exception.database.OperationNotSupportException;
+import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.model.type.StringType;
 import com.prayer.record.meta.AbstractRecordDaoTool;
 
+import io.vertx.core.json.JsonArray;
 import net.sf.oval.exception.ConstraintsViolatedException;
 
 /**
@@ -40,6 +45,17 @@ public class KeyDaoTestCase extends AbstractRecordDaoTool {
     @Override
     protected Logger getLogger() {
         return LOGGER;
+    }
+    
+    /** **/
+    @Override
+    protected ConcurrentMap<String, Value<?>> specValues() {
+        final ConcurrentMap<String, Value<?>> data = new ConcurrentHashMap<>();
+        data.put("category",new StringType(Assistant.randArray("PrimaryKey","ForeignKey","UniqueKey")));
+        final JsonArray array = new JsonArray("[{\"column\":\"columnForTest\"}]");
+        data.put("columns", new StringType(array.encode()));
+        data.put("refMetaId", new StringType(null));
+        return data;
     }
     // ~ Methods =============================================
 

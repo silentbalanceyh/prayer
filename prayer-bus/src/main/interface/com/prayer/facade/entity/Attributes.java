@@ -96,7 +96,7 @@ public interface Attributes {
 
     String REQUIRED_PARAM = "requiredParam";
 
-    String GLOBAL_ID = "globalId";
+    String GLOBAL_ID = "identifier";
 
     String ADDRESS = "address";
 
@@ -110,7 +110,7 @@ public interface Attributes {
 
     String STATUS = "status";
 
-    String IDENTIFIER = "identifier";
+    String IDENTIFIER = GLOBAL_ID;
 
     String MAPPING = "mapping";
 
@@ -139,7 +139,7 @@ public interface Attributes {
 
     String DATE_TIME = "datetime";
 
-    String DATE_FORMAT = "dateformat";
+    String DATE_FORMAT = "dateFormat";
 
     String PRECISION = "precision";
 

@@ -60,7 +60,7 @@ public class PEField extends AbstractEntity<String> { // NOPMD
     private DateMode datetime;
     /** C_DATEFORMAT：时间格式Pattern **/
     @JsonProperty(DATE_FORMAT)
-    private String dateFormat;
+    private String dateformat;
     /** C_PRECISION：浮点数精度描述 **/
     @JsonProperty(PRECISION)
     private int precision;
@@ -368,15 +368,15 @@ public class PEField extends AbstractEntity<String> { // NOPMD
      * @return the dateFormat
      */
     public String getDateFormat() {
-        return dateFormat;
+        return dateformat;
     }
 
     /**
      * @param dateFormat
      *            the dateFormat to set
      */
-    public void setDateFormat(final String dateFormat) {
-        this.dateFormat = dateFormat;
+    public void setDateFormat(final String dateformat) {
+        this.dateformat = dateformat;
     }
 
     /**
