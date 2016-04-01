@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import com.prayer.AbstractCommonTool;
 import com.prayer.Assistant;
 import com.prayer.dao.impl.data.MetaRecordDalor;
-import com.prayer.dao.impl.data.entity.ScriptMetaDalor;
+import com.prayer.dao.impl.data.entity.PEEntityDalor;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
@@ -51,7 +51,7 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
     /** **/
     @Override
     protected Class<?> getTarget() {
-        return ScriptMetaDalor.class;
+        return PEEntityDalor.class;
     }
 
     // ~ Methods =============================================

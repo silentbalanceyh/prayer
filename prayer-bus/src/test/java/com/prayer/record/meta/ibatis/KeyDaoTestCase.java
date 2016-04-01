@@ -19,10 +19,10 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * @author Lang
  *
  */
-public class IBatisScriptDaoTestCase extends AbstractRecordDaoTool {
+public class KeyDaoTestCase extends AbstractRecordDaoTool {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(IBatisScriptDaoTestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KeyDaoTestCase.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -33,7 +33,7 @@ public class IBatisScriptDaoTestCase extends AbstractRecordDaoTool {
     /** **/
     @Override
     protected String identifier() {
-        return "meta-script";
+        return "meta-key";
     }
 
     /** **/

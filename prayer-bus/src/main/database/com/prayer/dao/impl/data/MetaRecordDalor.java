@@ -1,11 +1,11 @@
 package com.prayer.dao.impl.data;
 
+import static com.prayer.util.reflection.Instance.singleton;
+
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.MemoryPool;
-import com.prayer.constant.Resources;
+import com.prayer.dao.impl.data.entity.PEEntityDalor;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
@@ -14,8 +14,6 @@ import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
 import com.prayer.model.crucial.MetaRecord;
-import com.prayer.util.io.PropertyKit;
-import com.prayer.util.reflection.Instance;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -32,13 +30,11 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class MetaRecordDalor implements RecordDao {
     // ~ Static Fields =======================================
-    /** **/
-    private static final PropertyKit LOADER = new PropertyKit(MetaRecordDalor.class, Resources.OOB_SCHEMA_FILE);
     /** 前置验证条件 **/
     // ~ Instance Fields =====================================
     /** **/
     @InstanceOf(RecordDao.class)
-    private transient RecordDao dao;
+    private transient RecordDao dao = singleton(PEEntityDalor.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -134,8 +130,7 @@ public class MetaRecordDalor implements RecordDao {
     // ~ Private Methods =====================================
     private RecordDao initLazyDao(final Record record) {
         if (null == this.dao) {
-            this.dao = Instance.reservoir(MemoryPool.META_RDAO, record.identifier(),
-                    LOADER.getString(record.identifier() + ".dao.impl"), Constants.T_OBJ_ARR);
+            this.dao = singleton(PEEntityDalor.class);
         }
         return this.dao;
     }

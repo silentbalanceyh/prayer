@@ -32,7 +32,6 @@ import com.prayer.facade.sql.SQLStatement;
 import com.prayer.facade.util.Transferer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractTransactionException;
-import com.prayer.fantasm.model.AbstractEntity;
 import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
 import com.prayer.model.crucial.MetaRecord;
@@ -59,8 +58,7 @@ import net.sf.oval.guard.PostValidateThis;
  */
 @Guarded
 @SuppressWarnings("unchecked")
-public abstract class AbstractMetaDalor<T extends AbstractEntity<String>, ID extends Serializable>
-        implements RecordDao { // NOPMD
+public abstract class AbstractMetaDalor<ID extends Serializable> implements RecordDao { // NOPMD
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 转换器 **/
@@ -100,14 +98,11 @@ public abstract class AbstractMetaDalor<T extends AbstractEntity<String>, ID ext
         final PEField pkSchema = record.idschema().get(Constants.ZERO);
         record.set(pkSchema.getName(), uuid());
         // 4.将Record数据转换成H2 Model
-        final T entity = this.transferer().toEntity(record);
+        final Entity entity = this.transferer().toEntity(record);
         // 5.插入数据
-        T ret = null;
+        Entity ret = null;
         try {
-            final Entity inserted = this.getDao(record.identifier()).insert(entity);
-            if (null != inserted) {
-                ret = (T) inserted;
-            }
+            ret = this.getDao(record.identifier()).insert(entity);
         } catch (AbstractTransactionException ex) {
             peError(getLogger(), ex);
             Response.interrupt(getClass(), false);
@@ -128,7 +123,7 @@ public abstract class AbstractMetaDalor<T extends AbstractEntity<String>, ID ext
         // 1.获取ID值
         final ID recordId = (ID) uniqueId.getValue();
         // 2.从数据库中获取T Entity
-        final T ret = (T) this.getDao(record.identifier()).getById(recordId);
+        final Entity ret = this.getDao(record.identifier()).getById(recordId);
         // 3.将获取到的数据执行转换
         return this.transferer().fromEntity(record.identifier(), ret);
     }
@@ -169,11 +164,11 @@ public abstract class AbstractMetaDalor<T extends AbstractEntity<String>, ID ext
         // ERR: Policy Support
         Policy.interrupt(getClass(), MetaPolicy.GUID, record.policy());
         // 1.将Record数据转换成H2 Model
-        final T entity = this.transferer().toEntity(record);
+        final Entity entity = this.transferer().toEntity(record);
         // 2.直接插入
-        T retT = null;
+        Entity retT = null;
         try {
-            retT = (T) this.getDao(record.identifier()).update(entity);
+            retT = this.getDao(record.identifier()).update(entity);
         } catch (AbstractTransactionException ex) {
             peError(getLogger(), ex);
             Response.interrupt(getClass(), false);
