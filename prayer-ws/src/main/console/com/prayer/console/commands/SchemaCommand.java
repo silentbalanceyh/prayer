@@ -6,7 +6,7 @@ import java.net.URL;
 
 import org.apache.commons.cli.CommandLine;
 
-import com.prayer.business.impl.schema.SchemaSevImpl;
+import com.prayer.business.impl.schema.SchemaBllor;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.business.schema.SchemaService;
@@ -50,7 +50,7 @@ public class SchemaCommand extends AbstractCommand {
     @PostValidateThis
     public SchemaCommand() {
         super();
-        this.service = singleton(SchemaSevImpl.class);
+        this.service = singleton(SchemaBllor.class);
         this.helper = singleton(JdbcHelper.class);
     }
 

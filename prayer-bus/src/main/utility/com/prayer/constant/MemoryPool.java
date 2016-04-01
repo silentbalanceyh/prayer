@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import com.prayer.business.impl.std.ServiceHelper;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.builder.Builder;
+import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
@@ -24,6 +25,8 @@ public interface MemoryPool { // NOPMD
     // ~ Static Fields =======================================
     /** Accessor Pool **/
     ConcurrentMap<String, MetaAccessor> POOL_ACCESSOR = new ConcurrentHashMap<>();
+    /** Record Dao用于访问元数据 **/
+    ConcurrentMap<String, RecordDao> META_RDAO = new ConcurrentHashMap<>();
     /** Metadata OldBuilder Pool **/
     ConcurrentMap<String, Builder> POOL_BUILDER = new ConcurrentHashMap<>();
     /** Importer的池化操作 **/

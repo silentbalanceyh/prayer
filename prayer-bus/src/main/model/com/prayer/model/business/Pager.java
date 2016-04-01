@@ -1,8 +1,13 @@
 package com.prayer.model.business;
 
+import static com.prayer.util.reflection.Instance.singleton;
+
 import java.io.Serializable;
 
+import com.prayer.business.impl.pre.IntegerEnsurer;
 import com.prayer.constant.Constants;
+import com.prayer.facade.entity.Ensurer;
+import com.prayer.fantasm.exception.AbstractException;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.Min;
@@ -33,6 +38,10 @@ public class Pager implements Serializable {
      */
     @Min(1)
     private transient Integer pageSize = 10;
+    /**
+     * 
+     */
+    private transient Ensurer<JsonObject, Integer> ensurer = singleton(IntegerEnsurer.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -41,7 +50,7 @@ public class Pager implements Serializable {
      * @param pageJson
      * @return
      */
-    public static Pager create(@NotNull final JsonObject pageJson) {
+    public static Pager create(@NotNull final JsonObject pageJson) throws AbstractException {
         return new Pager(pageJson);
     }
 
@@ -59,8 +68,9 @@ public class Pager implements Serializable {
         this.pageSize = pageSize;
     }
 
-    private Pager(final JsonObject pageJson) {
-        this(pageJson.getInteger(Constants.PARAM.PAGE.PAGE_INDEX), pageJson.getInteger(Constants.PARAM.PAGE.PAGE_SIZE));
+    private Pager(final JsonObject pageJson) throws AbstractException {
+        this.pageIndex = this.ensurer.ensureRequired(pageJson, Constants.PARAM.PAGE.PAGE_INDEX);
+        this.pageSize = this.ensurer.ensureRequired(pageJson, Constants.PARAM.PAGE.PAGE_SIZE);
     }
 
     // ~ Abstract Methods ====================================

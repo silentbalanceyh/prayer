@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.business.impl.schema.SchemaSevImpl;
+import com.prayer.business.impl.schema.SchemaBllor;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.kernel.Transducer.V;
@@ -50,7 +50,7 @@ public final class RecordSerializer {
     /** **/
     @PostValidateThis
     RecordSerializer() {
-        this.schemaSev = singleton(SchemaSevImpl.class);
+        this.schemaSev = singleton(SchemaBllor.class);
     }
 
     // ~ Abstract Methods ====================================

@@ -6,18 +6,19 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-import org.h2.engine.MetaRecord;
-
 import com.prayer.constant.Constants;
+import com.prayer.constant.Resources;
 import com.prayer.facade.entity.Entity;
-import com.prayer.facade.fun.entity.Entitier;
 import com.prayer.facade.kernel.Transducer.V;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.facade.util.Transferer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.model.AbstractEntity;
+import com.prayer.model.crucial.MetaRaw;
+import com.prayer.model.crucial.MetaRecord;
 import com.prayer.model.type.DataType;
+import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -38,6 +39,8 @@ import net.sf.oval.guard.Guarded;
 @SuppressWarnings("unchecked")
 public final class ObjectTransferer implements Transferer {
     // ~ Static Fields =======================================
+    /** 元数据资源文件 **/
+    private static final PropertyKit LOADER = new PropertyKit(MetaRaw.class, Resources.OOB_SCHEMA_FILE);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -48,9 +51,8 @@ public final class ObjectTransferer implements Transferer {
      * 只转换Entity类型，即Metadata部分
      */
     @Override
-    public <T extends AbstractEntity<String>> T toEntity(@NotNull @InstanceOfAny(MetaRecord.class) final Record record,
-            @NotNull final Entitier fun) throws AbstractDatabaseException {
-        T ret = fun.instance();
+    public <T extends AbstractEntity<String>> T toEntity(@NotNull @InstanceOfAny(MetaRecord.class) final Record record) throws AbstractDatabaseException {
+        T ret = this.extractCls(record);
         final JsonObject data = this.fromRecord(record);
         final Entity entity = ret.fromJson(data);
         if (null == entity) {
@@ -129,6 +131,15 @@ public final class ObjectTransferer implements Transferer {
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    
+    private <T extends AbstractEntity<String>> T extractCls(final Record record){
+        T ret = null;
+        if(null != record && null != record.identifier()){
+            final String clsName = LOADER.getString(record.identifier() + ".instance");
+            ret = instance(clsName);
+        }
+        return ret;
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

@@ -24,6 +24,7 @@ import net.sf.oval.guard.Guarded;
 
 /** **/
 @Guarded
+@Deprecated
 public final class Interruptor { // NOPMD
     // ~ Static Fields =======================================
     /** **/

@@ -42,10 +42,10 @@ import net.sf.oval.guard.PreValidateThis;
  *
  */
 @Guarded
-public class SchemaSevImpl implements SchemaService {
+public class SchemaBllor implements SchemaService {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaSevImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaBllor.class);
     // ~ Instance Fields =====================================
     /** 访问H2的Schema数据层接口 **/
     @NotNull
@@ -62,7 +62,7 @@ public class SchemaSevImpl implements SchemaService {
     // ~ Constructors ========================================
     /** **/
     @PostValidateThis
-    public SchemaSevImpl() {
+    public SchemaBllor() {
         this.dao = singleton(SchemaDalor.class);
         this.builder = singleton(MetadataBuilder.class);
         this.importer = singleton(CommuneImporter.class);

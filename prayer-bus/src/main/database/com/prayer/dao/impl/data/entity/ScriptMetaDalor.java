@@ -1,24 +1,30 @@
-package com.prayer.record.data;
+package com.prayer.dao.impl.data.entity;
 
-import com.prayer.constant.DBConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.prayer.fantasm.dao.AbstractMetaDalor;
+import com.prayer.model.meta.vertx.PEScript;
 
 /**
  * 
  * @author Lang
  *
  */
-public abstract class AbstractMsSqlDaoTool extends AbstractRecordDaoTool {
+public class ScriptMetaDalor extends AbstractMetaDalor<PEScript,String> {
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptMetaDalor.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
+    /** 日志器 **/
     @Override
-    protected String getCategory() {
-        return DBConstants.CATEGORY_MSSQL;
+    public Logger getLogger() {
+        return LOGGER;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.prayer.business.impl.schema.SchemaSevImpl;
+import com.prayer.business.impl.schema.SchemaBllor;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.data.DataRecordDalor;

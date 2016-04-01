@@ -8,7 +8,7 @@ import com.prayer.business.impl.deploy.RuleDPSevImpl;
 import com.prayer.business.impl.deploy.ScriptDPSevImpl;
 import com.prayer.business.impl.deploy.UriDPSevImpl;
 import com.prayer.business.impl.deploy.VerticleDPSevImpl;
-import com.prayer.business.impl.schema.SchemaSevImpl;
+import com.prayer.business.impl.schema.SchemaBllor;
 import com.prayer.facade.business.deploy.AddressDPService;
 import com.prayer.facade.business.deploy.RouteDPService;
 import com.prayer.facade.business.deploy.RuleDPService;
@@ -64,7 +64,7 @@ class DeploySevManager {
         this.ruleService = singleton(RuleDPSevImpl.class);
         this.addressService = singleton(AddressDPSevImpl.class);
         this.scriptService = singleton(ScriptDPSevImpl.class);
-        this.schemaService = singleton(SchemaSevImpl.class);
+        this.schemaService = singleton(SchemaBllor.class);
     }
 
     // ~ Abstract Methods ====================================

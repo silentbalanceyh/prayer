@@ -1,10 +1,10 @@
-package com.prayer.record;
+package com.prayer.record.initialize;
 
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.instance;
 
 import com.prayer.AbstractCommonTool;
-import com.prayer.business.impl.schema.SchemaSevImpl;
+import com.prayer.business.impl.schema.SchemaBllor;
 import com.prayer.constant.Resources;
 import com.prayer.facade.business.schema.SchemaService;
 import com.prayer.facade.schema.Schema;
@@ -30,7 +30,7 @@ public abstract class AbstractRecordTool extends AbstractCommonTool {
     // ~ Constructors ========================================
     /** **/
     public AbstractRecordTool() {
-        this.service = instance(SchemaSevImpl.class);
+        this.service = instance(SchemaBllor.class);
     }
 
     // ~ Abstract Methods ====================================

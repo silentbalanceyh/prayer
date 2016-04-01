@@ -1,7 +1,6 @@
 package com.prayer.facade.util;
 
 import com.prayer.facade.entity.Entity;
-import com.prayer.facade.fun.entity.Entitier;
 import com.prayer.facade.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.model.AbstractEntity;
@@ -23,7 +22,7 @@ public interface Transferer {
      * @return
      * @throws AbstractDatabaseException
      */
-    <T extends AbstractEntity<String>> T toEntity(Record record, Entitier fun) throws AbstractDatabaseException;
+    <T extends AbstractEntity<String>> T toEntity(Record record) throws AbstractDatabaseException;
 
     /**
      * 【Metadata】将Entity转换成Record

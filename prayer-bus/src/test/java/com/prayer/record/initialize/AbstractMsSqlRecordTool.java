@@ -1,4 +1,4 @@
-package com.prayer.record.data;
+package com.prayer.record.initialize;
 
 import com.prayer.constant.DBConstants;
 
@@ -7,7 +7,7 @@ import com.prayer.constant.DBConstants;
  * @author Lang
  *
  */
-public abstract class AbstractMsSqlDaoTool extends AbstractRecordDaoTool {
+public abstract class AbstractMsSqlRecordTool extends AbstractRecordTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -16,7 +16,6 @@ public abstract class AbstractMsSqlDaoTool extends AbstractRecordDaoTool {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
-    @Override
     protected String getCategory() {
         return DBConstants.CATEGORY_MSSQL;
     }

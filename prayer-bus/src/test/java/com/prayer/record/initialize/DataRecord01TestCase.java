@@ -18,7 +18,6 @@ import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.type.StringType;
-import com.prayer.record.AbstractMsSqlRecordTool;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 

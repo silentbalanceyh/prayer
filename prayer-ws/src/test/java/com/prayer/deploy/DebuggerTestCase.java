@@ -4,7 +4,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import org.junit.Test;
 
-import com.prayer.business.impl.schema.SchemaSevImpl;
+import com.prayer.business.impl.schema.SchemaBllor;
 import com.prayer.business.impl.std.BasicAuthSevImpl;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.business.BasicAuthService;
@@ -47,7 +47,7 @@ public class DebuggerTestCase {
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
     public static void main(String args[]) throws Exception {
-        final SchemaService service = singleton(SchemaSevImpl.class);
+        final SchemaService service = singleton(SchemaBllor.class);
         final ServiceResult<GenericSchema> result = service.importSchema("deploy/oob/schema/rel.resource.permission.json");
         if(ResponseCode.SUCCESS == result.getResponseCode()){
             service.syncMetadata(result.getResult());

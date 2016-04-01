@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.AbstractCommonTool;
 import com.prayer.Assistant;
-import com.prayer.business.impl.schema.SchemaSevImpl;
+import com.prayer.business.impl.schema.SchemaBllor;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.impl.data.DataRecordDalor;
@@ -52,7 +52,7 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
     // ~ Constructors ========================================
     /** **/
     public AbstractRecordDaoTool() {
-        this.service = singleton(SchemaSevImpl.class);
+        this.service = singleton(SchemaBllor.class);
         this.dao = singleton(DataRecordDalor.class);
     }
 
@@ -62,6 +62,11 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
 
     // ~ Override Methods ====================================
     // ~ Methods =============================================
+    /** **/
+    @Override
+    protected Class<?> getTarget() {
+        return DataRecordDalor.class;
+    }
     /** 当前访问的Database是否匹配 **/
     protected boolean isValidDB() {
         return StringUtil.equals(getCategory(), Resources.DB_CATEGORY);
@@ -93,7 +98,7 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
         return ret;
     }
 
-    /** **/
+    /** 更新Record **/
     protected void updateRecord(final Record record) {
         // ID不可更新
         final List<PEField> keys = record.idschema();

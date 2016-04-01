@@ -1,13 +1,15 @@
-package com.prayer.record.data;
+package com.prayer.business.impl.pre;
 
-import com.prayer.constant.DBConstants;
+import com.prayer.fantasm.business.pre.AbstractEnsurer;
+
+import io.vertx.core.json.JsonObject;
 
 /**
  * 
  * @author Lang
  *
  */
-public abstract class AbstractMsSqlDaoTool extends AbstractRecordDaoTool {
+public class IntegerEnsurer extends AbstractEnsurer<Integer>{
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -15,10 +17,12 @@ public abstract class AbstractMsSqlDaoTool extends AbstractRecordDaoTool {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
+    /**
+     * 
+     */
     @Override
-    protected String getCategory() {
-        return DBConstants.CATEGORY_MSSQL;
+    protected Integer extractValue(final JsonObject data, final String attr){
+        return data.getInteger(attr);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

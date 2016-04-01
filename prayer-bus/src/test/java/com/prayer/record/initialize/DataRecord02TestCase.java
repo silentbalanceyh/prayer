@@ -21,7 +21,6 @@ import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.model.crucial.DataRecord;
 import com.prayer.plugin.validator.MobileValidator;
-import com.prayer.record.AbstractMsSqlRecordTool;
 
 /**
  * 

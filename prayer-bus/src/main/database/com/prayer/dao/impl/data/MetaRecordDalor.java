@@ -1,10 +1,10 @@
 package com.prayer.dao.impl.data;
 
-import static com.prayer.util.reflection.Instance.singleton;
-
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.Constants;
+import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Expression;
@@ -15,6 +15,7 @@ import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
 import com.prayer.model.crucial.MetaRecord;
 import com.prayer.util.io.PropertyKit;
+import com.prayer.util.reflection.Instance;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -79,6 +80,7 @@ public class MetaRecordDalor implements RecordDao {
         this.initLazyDao(record);
         return this.dao.selectById(record, uniqueIds);
     }
+
     /** **/
     @Override
     public boolean delete(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
@@ -86,10 +88,11 @@ public class MetaRecordDalor implements RecordDao {
         this.initLazyDao(record);
         return this.dao.delete(record);
     }
+
     /** **/
     @Override
     public boolean purge(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
-            throws AbstractDatabaseException{
+            throws AbstractDatabaseException {
         this.initLazyDao(record);
         return this.dao.purge(record);
     }
@@ -131,7 +134,8 @@ public class MetaRecordDalor implements RecordDao {
     // ~ Private Methods =====================================
     private RecordDao initLazyDao(final Record record) {
         if (null == this.dao) {
-            this.dao = singleton(LOADER.getString(record.identifier() + ".dao.impl"));
+            this.dao = Instance.reservoir(MemoryPool.META_RDAO, record.identifier(),
+                    LOADER.getString(record.identifier() + ".dao.impl"), Constants.T_OBJ_ARR);
         }
         return this.dao;
     }
