@@ -18,6 +18,7 @@ import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
+import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.facade.kernel.Transducer.V;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
@@ -78,11 +79,14 @@ public class MetaRecord implements Record { // NOPMD
      * @param identifier
      */
     @PostValidateThis
-    public MetaRecord(@AssertFieldConstraints(RULE_ID) final String identifier) {
+    public MetaRecord(@AssertFieldConstraints(RULE_ID) final String identifier) throws AbstractDatabaseException {
         // 1.连接操作
         this._identifier = identifier;
         // 2.Meta的Serializer池化处理
         this.raw = reservoir(META_MAP, identifier, MetaRaw.class, identifier);
+        if (null == this.raw) {
+            throw new SchemaNotFoundException(getClass(), identifier);
+        }
         // 3.数据Map信息
         this.data = new ConcurrentHashMap<>();
     }

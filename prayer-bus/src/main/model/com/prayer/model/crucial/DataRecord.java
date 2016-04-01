@@ -16,6 +16,7 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
+import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.kernel.Transducer.V;
 import com.prayer.facade.kernel.Value;
@@ -76,7 +77,7 @@ public class DataRecord implements Record { // NOPMD
      * @param _identifier
      */
     @PostValidateThis
-    public DataRecord(@AssertFieldConstraints(RULE_ID) final String identifier) {
+    public DataRecord(@AssertFieldConstraints(RULE_ID) final String identifier) throws AbstractDatabaseException{
         this._identifier = identifier.trim();
         this.dao = singleton(SchemaDalor.class);
         try {
@@ -84,6 +85,9 @@ public class DataRecord implements Record { // NOPMD
         } catch (AbstractTransactionException ex) {
             this._schema = null; // NOPMD
             peError(LOGGER, ex);
+        }
+        if(null == this._schema){
+            throw new SchemaNotFoundException(getClass(),identifier);
         }
         this.data = new ConcurrentHashMap<>();
     }

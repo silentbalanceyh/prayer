@@ -9,6 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.database.MetaCounterException;
@@ -17,7 +18,6 @@ import com.prayer.exception.database.MetadataDefMissingException;
 import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
-import com.prayer.util.Converter;
 import com.prayer.util.io.PropertyKit;
 import com.prayer.util.string.StringKit;
 
@@ -56,11 +56,9 @@ public final class MetaRaw {
     private transient final List<String> columns = new ArrayList<>();
     /** **/
     private transient final List<String> ids = new ArrayList<>();
-    
+
     /** **/
     private transient String table;
-    /** **/
-    private transient MetaPolicy policy;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -86,17 +84,19 @@ public final class MetaRaw {
     // ~ Methods =============================================
 
     // ~ Items Reading =======================================
-    
-    public List<String> readIds() throws AbstractDatabaseException{
-        if(this.ids.isEmpty()){
-            this.ids.addAll(Arrays.asList(LOADER.getArray(this.identifier + ".ids")));
-            if(this.ids.isEmpty()){
-                throw new SchemaNotFoundException(getClass(),this.identifier);
-            }
-        }
+
+    public List<String> readIds() throws AbstractDatabaseException {
+//        if (this.ids.isEmpty()) {
+//            this.ids.addAll(Arrays.asList(LOADER.getArray(this.identifier + ".ids")));
+//            if (this.ids.isEmpty()) {
+//                throw new SchemaNotFoundException(getClass(), this.identifier);
+//            }
+//        }
+        // TODO：暂时固定uniqueId
+        this.ids.add(Constants.PID);
         return this.ids;
     }
-    
+
     /** **/
     public List<String> readNames() throws AbstractDatabaseException {
         if (this.names.isEmpty()) {
@@ -166,15 +166,16 @@ public final class MetaRaw {
      * @return
      */
     public MetaPolicy readPolicy() throws AbstractDatabaseException {
-        if (null == this.policy) {
-            final String propKey = this.identifier + ".meta.policy";
-            final String policy = LOADER.getString(propKey);
-            if (StringKit.isNil(policy)) {
-                throw new MetadataDefMissingException(getClass(), Resources.OOB_SCHEMA_FILE, propKey);
-            }
-            this.policy = Converter.fromStr(MetaPolicy.class, policy);
-        }
-        return this.policy;
+        /*
+         * if (null == this.policy) { final String propKey = this.identifier +
+         * ".meta.policy"; final String policy = LOADER.getString(propKey); if
+         * (StringKit.isNil(policy)) { throw new
+         * MetadataDefMissingException(getClass(), Resources.OOB_SCHEMA_FILE,
+         * propKey); } this.policy = Converter.fromStr(MetaPolicy.class,
+         * policy); }
+         */
+        // TODO: 目前仅仅支持GUID
+        return MetaPolicy.GUID;
     }
 
     // ~ Private Methods =====================================

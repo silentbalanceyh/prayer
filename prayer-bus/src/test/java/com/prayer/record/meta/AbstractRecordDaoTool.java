@@ -1,12 +1,13 @@
 package com.prayer.record.meta;
 
 import static com.prayer.util.debug.Log.peError;
-import static com.prayer.util.reflection.Instance.instance;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
@@ -54,6 +55,11 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
         return PEEntityDalor.class;
     }
 
+    /** 特殊值 **/
+    protected ConcurrentMap<String, Value<?>> specValues() {
+        return new ConcurrentHashMap<String, Value<?>>();
+    }
+
     // ~ Methods =============================================
     /** **/
     protected RecordDao getDao() {
@@ -61,15 +67,17 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
     }
 
     /** 创建一个Record **/
-    protected Record createRecord(final String identifier) {
-        final Record record = instance(MetaRecord.class, identifier);
-        for (final String field : record.fields().keySet()) {
-            try {
+    protected Record createRecord(final String identifier) throws AbstractDatabaseException {
+        final Record record = new MetaRecord(identifier);
+        try {
+            for (final String field : record.fields().keySet()) {
                 record.set(field, Assistant.generate(record.fields().get(field), false));
-            } catch (AbstractDatabaseException ex) {
-                peError(getLogger(), ex);
             }
+            this.injectSpecValue(record);
+        } catch (AbstractDatabaseException ex) {
+            peError(getLogger(), ex);
         }
+
         return record;
     }
 
@@ -82,14 +90,15 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
             ids.add(key.getName());
         }
         // 和添加不同，存在一个判断
-        for (final String field : record.fields().keySet()) {
-            try {
+        try {
+            for (final String field : record.fields().keySet()) {
                 if (!ids.contains(field)) {
                     record.set(field, Assistant.generate(record.fields().get(field), true));
                 }
-            } catch (AbstractDatabaseException ex) {
-                peError(getLogger(), ex);
             }
+            this.injectSpecValue(record);
+        } catch (AbstractDatabaseException ex) {
+            peError(getLogger(), ex);
         }
     }
 
@@ -139,8 +148,7 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
     }
 
     /** **/
-    protected boolean testInvalidSelect(final Evaluator evaluator)
-            throws AbstractDatabaseException {
+    protected boolean testInvalidSelect(final Evaluator evaluator) throws AbstractDatabaseException {
         // 准备数据
         final Record before = this.createRecord(identifier());
         final Record selectR = this.getDao().selectById(before, V_ID);
@@ -150,9 +158,10 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
         // 检查完成，删除插入数据
         return ret;
     }
+
     /** **/
-    protected boolean testUnsupport(final Evaluator evaulator) throws AbstractDatabaseException{
-     // 准备数据
+    protected boolean testUnsupport(final Evaluator evaulator) throws AbstractDatabaseException {
+        // 准备数据
         final Record before = this.createRecord(identifier());
         final Record after = this.getDao().insert(before);
         // 调用select
@@ -165,6 +174,16 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
         return true;
     }
     // ~ Private Methods =====================================
+
+    private void injectSpecValue(final Record record) throws AbstractDatabaseException {
+        final ConcurrentMap<String,Value<?>> data = this.specValues();
+        for(final String field: data.keySet()){
+            final Value<?> value = data.get(field);
+            if(null != value){
+                record.set(field, value);
+            }
+        }
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

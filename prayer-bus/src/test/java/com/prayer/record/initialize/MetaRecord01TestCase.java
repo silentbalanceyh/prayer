@@ -32,6 +32,7 @@ public class MetaRecord01TestCase extends AbstractCommonTool {
     private static final String IDENTIFIER = "meta-script";
     /** **/
     private static final Value<?> STR_VAL = new StringType("");
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -49,31 +50,31 @@ public class MetaRecord01TestCase extends AbstractCommonTool {
     protected Class<?> getTarget() {
         return MetaRecord.class;
     }
+
     // ~ Methods =============================================
     /** **/
     @Test
-    public void testC050104Constructor(){
+    public void testC050104Constructor() {
         assertNotNull(message(TST_CONS, getTarget().getName()), instance(getTarget().getName(), IDENTIFIER));
     }
-    
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05173MConstructor() {
+    public void testE05173MConstructor() throws AbstractDatabaseException {
         new MetaRecord(null);
         failure(TST_OVAL);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05174MConstructor() {
+    public void testE05174MConstructor() throws AbstractDatabaseException {
         new MetaRecord("");
         failure(TST_OVAL);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05175MConstructor() {
+    public void testE05175MConstructor() throws AbstractDatabaseException {
         new MetaRecord("   ");
         failure(TST_OVAL);
     }

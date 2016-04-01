@@ -76,21 +76,21 @@ public class DataRecord01TestCase extends AbstractMsSqlRecordTool {
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05073MConstructor() {
+    public void testE05073MConstructor() throws AbstractDatabaseException{
         new DataRecord(null);
         failure(TST_OVAL);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05074MConstructor() {
+    public void testE05074MConstructor() throws AbstractDatabaseException{
         new DataRecord("");
         failure(TST_OVAL);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05075MConstructor() {
+    public void testE05075MConstructor() throws AbstractDatabaseException{
         new DataRecord("   ");
         failure(TST_OVAL);
     }
