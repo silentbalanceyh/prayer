@@ -1,0 +1,16 @@
+[
+    {
+        "uri":"/api/sec/page/meta/script",
+        "globalId":"meta-script",
+        "method":"POST",
+        "paramType":"BODY",
+        "address":"MSG://METADATA/PAGER/QUEUE",
+        "requiredParam":[
+            "page",
+            "orders"
+        ],
+        "returnFilters":[
+            "content"
+        ]
+    }
+]

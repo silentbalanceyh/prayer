@@ -1,4 +1,4 @@
-package com.prayer.facade.business.schema;
+package com.prayer.facade.business.deployment;
 
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.business.ServiceResult;

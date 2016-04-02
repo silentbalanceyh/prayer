@@ -3,7 +3,7 @@ package com.prayer.exception.database;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
- * 【Checked】Error-20006：Schema在系统中不存在
+ * 【Checked】Error-11024：Schema在系统中不存在
  * 
  * @author Lang
  *

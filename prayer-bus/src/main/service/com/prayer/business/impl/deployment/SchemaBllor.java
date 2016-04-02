@@ -1,4 +1,4 @@
-package com.prayer.business.impl.schema;
+package com.prayer.business.impl.deployment;
 
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
@@ -15,7 +15,7 @@ import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.builder.Builder;
-import com.prayer.facade.business.schema.SchemaService;
+import com.prayer.facade.business.deployment.SchemaService;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;

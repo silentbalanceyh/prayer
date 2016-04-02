@@ -4,11 +4,11 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import org.junit.Test;
 
-import com.prayer.business.impl.schema.SchemaBllor;
+import com.prayer.business.impl.deployment.SchemaBllor;
 import com.prayer.business.impl.std.BasicAuthSevImpl;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.business.BasicAuthService;
-import com.prayer.facade.business.schema.SchemaService;
+import com.prayer.facade.business.deployment.SchemaService;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.model.crucial.GenericSchema;
 import com.prayer.util.io.IOKit;

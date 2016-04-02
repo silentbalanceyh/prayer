@@ -1,0 +1,11 @@
+[
+    {
+        "uri":"/api/sec/role",
+        "method":"POST",
+        "globalId":"sec.role",
+        "requiredParam":[
+            "name",
+            "code"
+        ]
+    }
+]

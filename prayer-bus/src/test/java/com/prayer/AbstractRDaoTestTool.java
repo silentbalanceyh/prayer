@@ -8,11 +8,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.prayer.business.impl.schema.SchemaBllor;
+import com.prayer.business.impl.deployment.SchemaBllor;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.dao.impl.data.DataRecordDalor;
-import com.prayer.facade.business.schema.SchemaService;
+import com.prayer.facade.business.deployment.SchemaService;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.record.Record;
 import com.prayer.facade.schema.Schema;

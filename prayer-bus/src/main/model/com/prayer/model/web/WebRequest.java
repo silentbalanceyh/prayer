@@ -1,4 +1,4 @@
-package com.prayer.model.business;
+package com.prayer.model.web;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -11,6 +11,7 @@ import com.prayer.constant.Constants;
 import com.prayer.exception.web.ServiceParamInvalidException;
 import com.prayer.facade.entity.Ensurer;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.model.business.Pager;
 import com.prayer.util.Converter;
 import com.prayer.util.string.StringKit;
 
@@ -26,7 +27,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class ServiceRequest implements Serializable {
+public class WebRequest implements Serializable {
     // ~ Static Fields =======================================
     /**
      * 
@@ -64,7 +65,7 @@ public class ServiceRequest implements Serializable {
      * 
      * @param params
      */
-    public ServiceRequest(@NotNull final JsonObject params) {
+    public WebRequest(@NotNull final JsonObject params) {
         /** 1.参数准备阶段 **/
         this.prepareIdentifier(params);
         /** 2.执行Required验证 **/
@@ -131,12 +132,14 @@ public class ServiceRequest implements Serializable {
     private void ensureRequired(final JsonObject params) {
         if (success()) {
             try {
+                // identifier必须
                 this.identifier = this.strEnsurer.ensureRequired(params, Constants.PARAM.ID);
+                // TODO：script参数暂定义为可选
                 this.script = this.strEnsurer.ensureRequired(params, Constants.PARAM.SCRIPT);
-
+                // method必须
                 final String method = this.strEnsurer.ensureRequired(params, Constants.PARAM.METHOD);
                 this.method = Converter.fromStr(HttpMethod.class, method);
-
+                // data必须
                 this.data = this.jsonEnsurer.ensureRequired(params, Constants.PARAM.DATA);
             } catch (AbstractException ex) {
                 this.error = ex;
