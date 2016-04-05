@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
-import com.prayer.facade.util.graphic.GraphicData;
+import com.prayer.facade.util.graphic.NodeData;
 
 /**
  * 图的构建类
@@ -14,11 +14,11 @@ import com.prayer.facade.util.graphic.GraphicData;
  * @author Lang
  *
  */
-public class GraphicModel {
+public class Graphic {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 当前图的顶点数组信息 **/
-    private transient VertexNode[] nodes;
+    private transient Node[] nodes;
     /** 图中的Key -> Index的对应表 **/
     private transient ConcurrentMap<String, Integer> idxMap = new ConcurrentHashMap<>();
     /** 图中的Key -> Key的关系表 **/
@@ -35,7 +35,7 @@ public class GraphicModel {
      * @param fromTo
      *            对应表，从T -> T的对应表信息
      */
-    public GraphicModel(final VertexNode[] nodes, final Edges fromTo) {
+    public Graphic(final Node[] nodes, final Edges fromTo) {
         /** 转成Array **/
         this.nodes = nodes;
         /** 构建索引表 **/
@@ -49,14 +49,46 @@ public class GraphicModel {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
+    /**
+     * 
+     * @return
+     */
+    public Node[] getNodes() {
+        return this.nodes;
+    }
+
+    /**
+     * 根据Key值获取对应的节点信息
+     * 
+     * @param key
+     * @return
+     */
+    public Node getNode(final String key) {
+        final int idx = this.idxMap.get(key);
+        return this.nodes[idx];
+    }
+
+    /**
+     * 重设所有节点访问状态
+     */
+    public void resetNodes() {
+        final int length = this.nodes.length;
+        for (int idx = 0; idx < length; idx++) {
+            Node node = this.nodes[idx];
+            do {
+                node.resetStatus();
+                node = node.getNext();
+            } while (node != null);
+        }
+    }
 
     // ~ Private Methods =====================================
     private void buildGraphic() {
         final int length = this.nodes.length;
         for (int idx = 0; idx < length; idx++) {
-            final VertexNode node = this.nodes[idx];
+            final Node node = this.nodes[idx];
             if (null != node) {
-                final List<EdgeNode> items = this.buildItems(node.getKey());
+                final List<Node> items = this.buildItems(node.getKey());
                 this.buildLinks(node, items);
             }
         }
@@ -67,7 +99,7 @@ public class GraphicModel {
      * @param vtNode
      * @param eNodes
      */
-    private void buildLinks(final VertexNode vtNode, final List<EdgeNode> eNodes) {
+    private void buildLinks(final Node vtNode, final List<Node> eNodes) {
         final int size = eNodes.size();
         /** size大于0的情况 **/
         if (Constants.ZERO < size) {
@@ -89,9 +121,9 @@ public class GraphicModel {
      * 
      * @param key
      */
-    private List<EdgeNode> buildItems(final String inKey) {
+    private List<Node> buildItems(final String inKey) {
         /** 传入key值 **/
-        final List<EdgeNode> nodes = new ArrayList<>();
+        final List<Node> nodes = new ArrayList<>();
         /** 将传入的key值和mapping做匹配 **/
         for (final String key : this.mapping.fromKeys()) {
             if (null != key && key.equals(inKey)) {
@@ -99,8 +131,8 @@ public class GraphicModel {
                 for (final String toKey : toKeys) {
                     /** 去掉本节点 **/
                     if (!toKey.equals(inKey)) {
-                        final GraphicData data = this.findData(toKey);
-                        nodes.add(new EdgeNode(data));
+                        final NodeData data = this.findData(toKey);
+                        nodes.add(new Node(data));
                     }
                 }
             }
@@ -114,9 +146,9 @@ public class GraphicModel {
      * @param key
      * @return
      */
-    private GraphicData findData(final String key) {
-        GraphicData data = null;
-        for (final VertexNode node : this.nodes) {
+    private NodeData findData(final String key) {
+        NodeData data = null;
+        for (final Node node : this.nodes) {
             if (null != node && node.getKey().equals(key)) {
                 data = node.getData();
             }
@@ -128,7 +160,7 @@ public class GraphicModel {
         final ConcurrentMap<String, Integer> map = new ConcurrentHashMap<>();
         final int length = this.nodes.length;
         for (int idx = 0; idx < length; idx++) {
-            final VertexNode item = this.nodes[idx];
+            final Node item = this.nodes[idx];
             if (null != item && null != item.getKey()) {
                 map.put(item.getKey(), idx);
             }
@@ -147,24 +179,12 @@ public class GraphicModel {
             builder.append("------------Node--------------\n");
             final int length = this.nodes.length;
             for (int idx = 0; idx < length; idx++) {
-                final VertexNode node = this.nodes[idx];
-                final String key = node.getKey();
-                if (null != key) {
-                    builder.append('[').append(idx).append(',').append(key).append(",Weight : ")
-                            .append(node.getWeight()).append("]");
-                }
-                if (null != node.getNext()) {
-                    EdgeNode next = node.getNext();
-                    if (null != next) {
-                        final Integer firstIdx = this.idxMap.get(next.getKey());
-                        builder.append(" -> [").append(firstIdx).append(',').append(next.getKey()).append("]");
-                        while (null != next.getNext()) {
-                            next = next.getNext();
-                            final Integer nodeIdx = this.idxMap.get(next.getKey());
-                            builder.append(" -> [").append(nodeIdx).append(',').append(next.getKey()).append("]");
-                        }
-                    }
-                }
+                Node node = this.nodes[idx];
+                do {
+                    builder.append("[I:").append(this.idxMap.get(node.getKey())).append(",V:").append(node.getKey())
+                            .append("] -> ");
+                    node = node.getNext();
+                } while (null != node);
                 builder.append("\n");
             }
         }

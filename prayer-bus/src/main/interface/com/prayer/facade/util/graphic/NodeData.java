@@ -4,7 +4,7 @@ package com.prayer.facade.util.graphic;
  * @author Lang
  *
  */
-public interface GraphicData {
+public interface NodeData {
     /**
      * 获取节点的标签信息
      * @return

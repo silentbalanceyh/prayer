@@ -1,6 +1,6 @@
 package com.prayer.business.impl.ordered;
 
-import com.prayer.facade.util.graphic.GraphicData;
+import com.prayer.facade.util.graphic.NodeData;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -15,7 +15,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
-public class OrderedData implements GraphicData {
+public class OrderedData implements NodeData {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/

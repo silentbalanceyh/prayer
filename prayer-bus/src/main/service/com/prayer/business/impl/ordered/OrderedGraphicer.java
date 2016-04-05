@@ -9,10 +9,11 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.facade.schema.verifier.Attributes;
-import com.prayer.facade.util.graphic.GraphicData;
+import com.prayer.facade.util.graphic.NodeData;
 import com.prayer.util.digraph.Edges;
-import com.prayer.util.digraph.GraphicModel;
-import com.prayer.util.digraph.VertexNode;
+import com.prayer.util.digraph.Graphic;
+import com.prayer.util.digraph.Node;
+import com.prayer.util.digraph.scc.GraphicSearch;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.string.StringKit;
 
@@ -47,26 +48,25 @@ public class OrderedGraphicer {
         final String[] data = this.buildNodes(folder);
         /** 2.设置FromTo，构建图 **/
         final Edges fromTo = this.buildMapping(folder);
-        System.out.println(fromTo);
-        final GraphicModel graphic = this.buildGraphic(data, fromTo);
+        final Graphic graphic = this.buildGraphic(data, fromTo);
         /** 3.设置ToFrom，构建逆图 **/
-        final GraphicModel rtGraphic = this.buildGraphic(data, fromTo.revert());
+        final Graphic rtGraphic = this.buildGraphic(data, fromTo.revert());
         System.out.println(graphic);
-        System.out.println(rtGraphic);
+        GraphicSearch.DFS(graphic);
         return null;
     }
     // ~ Private Methods =====================================
 
-    private GraphicModel buildGraphic(final String[] data, Edges fromTo) {
+    private Graphic buildGraphic(final String[] data, Edges fromTo) {
         final int length = data.length;
-        final VertexNode[] nodes = new VertexNode[length];
+        final Node[] nodes = new Node[length];
         for (int idx = 0; idx < length; idx++) {
             final String key = data[idx];
-            final GraphicData dataItem = new OrderedData(key);
-            final VertexNode node = new VertexNode(dataItem);
+            final NodeData dataItem = new OrderedData(key);
+            final Node node = new Node(dataItem);
             nodes[idx] = node;
         }
-        return new GraphicModel(nodes, fromTo);
+        return new Graphic(nodes, fromTo);
     }
 
     /** 构建图中搜需要的data **/

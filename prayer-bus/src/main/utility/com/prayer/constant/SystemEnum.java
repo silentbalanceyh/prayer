@@ -7,6 +7,11 @@ package com.prayer.constant;
  * @see
  */
 public final class SystemEnum { // NOPMD
+    /** 图遍历节点状态信息 **/
+    public static enum NodeStatus {
+        WHITE, GRAY, BLACK
+    }
+
     /** Mapping模式 **/
     public static enum MappingMode {
         COLLECTION, // 验证集合信息
