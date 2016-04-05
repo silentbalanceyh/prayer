@@ -38,6 +38,19 @@ public class OrderExecutorTestCase extends AbstractCommonTool {
         final OrderExecutor executor = new OrderExecutor();
         executor.execute("deploy/test/schema");
     }
+    /** **/
+    @Test
+    public void testExecute1() throws AbstractSystemException {
+        final OrderExecutor executor = new OrderExecutor();
+        executor.execute("deploy/test1/schema");
+    }
+    
+    /** **/
+    @Test
+    public void testExecute2() throws AbstractSystemException {
+        final OrderExecutor executor = new OrderExecutor();
+        executor.execute("deploy/test2/schema");
+    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

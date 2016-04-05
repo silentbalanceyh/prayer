@@ -1,6 +1,7 @@
 package com.prayer.business.impl.ordered;
 
 import java.util.Map;
+import java.util.Set;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
@@ -48,8 +49,30 @@ public class OrderNode {
      * 
      * @return
      */
+    public boolean isEmpty(){
+    	return this.references.isEmpty();
+    }
+    /**
+     * 
+     * @return
+     */
     public boolean isValid() {
         return null != this.table && null != this.identifier;
+    }
+    /**
+     * 
+     * @param node
+     */
+    public void addReference(OrderNode node){
+    	this.references.put(node.getTable(), node);
+    	this.order = this.references.size();
+    }
+    /**
+     * 
+     * @return
+     */
+    public Set<String> refTables(){
+    	return this.references.keySet();
     }
 
     /**
@@ -67,26 +90,11 @@ public class OrderNode {
     }
 
     /**
-     * @return the references
-     */
-    public Map<String, OrderNode> getReferences() {
-        return references;
-    }
-
-    /**
      * 
      * @return
      */
     public Integer getOrder() {
         return this.order;
-    }
-
-    /**
-     * 
-     * @param order
-     */
-    public void setOrder(final Integer order) {
-        this.order = order;
     }
 
     // ~ Private Methods =====================================

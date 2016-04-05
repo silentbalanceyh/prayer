@@ -24,8 +24,8 @@ public class RecurrenceReferenceException extends AbstractSystemException {
      * @param folder
      * @param pattern
      */
-    public RecurrenceReferenceException(final Class<?> clazz, final String folder, final String pattern) {
-        super(clazz, -20006, folder, pattern);
+    public RecurrenceReferenceException(final Class<?> clazz, final String pattern) {
+        super(clazz, -20006, pattern);
     }
 
     // ~ Abstract Methods ====================================

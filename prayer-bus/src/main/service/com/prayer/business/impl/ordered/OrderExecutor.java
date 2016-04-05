@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.exception.system.RecurrenceReferenceException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.util.io.IOKit;
@@ -28,69 +25,84 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public class OrderExecutor {
-    // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(OrderExecutor.class);
+	// ~ Static Fields =======================================
+	// ~ Instance Fields =====================================
+	/** 获取原始的列表 **/
+	private transient ConcurrentMap<String, OrderNode> rawMap = new ConcurrentHashMap<>();
 
-    // ~ Instance Fields =====================================
-    /** 获取原始的列表 **/
-    private transient ConcurrentMap<String, OrderNode> rawMap = new ConcurrentHashMap<>();
+	// ~ Static Block ========================================
+	// ~ Static Methods ======================================
+	// ~ Constructors ========================================
+	// ~ Abstract Methods ====================================
+	// ~ Override Methods ====================================
+	// ~ Methods =============================================
+	/** 执行分析，得出最终的Model的定义顺序 **/
+	public Map<Integer, String> execute(@NotNull @NotEmpty @NotBlank final String folder)
+			throws RecurrenceReferenceException {
+		/** 1.读取所有的文件，初始化基础节点 **/
+		final List<OrderNode> nodeList = this.buildNodeList(folder);
+		/** 2.初始化所有的基础节点 **/
+		this.buildRefs(nodeList);
 
-    // ~ Static Block ========================================
-    // ~ Static Methods ======================================
-    // ~ Constructors ========================================
-    // ~ Abstract Methods ====================================
-    // ~ Override Methods ====================================
-    // ~ Methods =============================================
-    /** 执行分析，得出最终的Model的定义顺序 **/
-    public Map<Integer, String> execute(@NotNull @NotEmpty @NotBlank final String folder)
-            throws RecurrenceReferenceException {
-        /** 1.读取所有的文件，初始化基础节点 **/
-        final List<OrderNode> nodeList = this.buildNodeList(folder);
-        /** 2.初始化所有的基础节点 **/
+		this.printNodeList(nodeList);
 
-        return null;
-    }
+		return null;
+	}
 
-    // ~ Private Methods =====================================
-    
-    private void buildRefs(final List<OrderNode> nodeList){
-        
-    }
+	// ~ Private Methods =====================================
 
-    private List<OrderNode> buildNodeList(final String folder) {
-        final List<String> files = IOKit.listFiles(folder);
-        final List<OrderNode> nodes = new ArrayList<>();
-        for (final String file : files) {
-            final OrderNode node = this.initNode(folder + '/' + file);
-            if (null != node && node.isValid()) {
-                nodes.add(node);
-                rawMap.put(node.getTable(), node);
-                System.out.println(node);
-            }
-        }
-        return nodes;
-    }
+	private void buildRefs(final List<OrderNode> nodeList) throws RecurrenceReferenceException {
+		/** 1.构建每个节点的计算器 **/
+		for (final OrderNode node : nodeList) {
+			/** 2.这行代码很重要，必须是一个node创建一个calculator，涉及到循环引用的检测 **/
+			final DependCalculator calculator = new DependCalculator(nodeList);
+			final List<OrderNode> references = calculator.findReferences(node);
+			if (!references.isEmpty()) {
+				for (final OrderNode ref : references) {
+					node.addReference(ref);
+				}
+			}
+		}
+	}
 
-    /**
-     * 只执行创建验证，不执行更新验证，并且过滤需要验证数据库表存在的情况
-     * 
-     * @param file
-     * @return
-     * @throws AbstractSchemaException
-     */
-    private OrderNode initNode(final String file) {
-        OrderNode node = null;
-        try {
-            final JsonObject data = new JsonObject(IOKit.getContent(file));
-            node = new OrderNode(data);
-        } catch (DecodeException ex) {
-            node = null;
-        }
-        return node;
-    }
+	private List<OrderNode> buildNodeList(final String folder) {
+		final List<String> files = IOKit.listFiles(folder);
+		final List<OrderNode> nodes = new ArrayList<>();
+		for (final String file : files) {
+			final OrderNode node = this.initNode(folder + '/' + file);
+			if (null != node && node.isValid()) {
+				nodes.add(node);
+				rawMap.put(node.getTable(), node);
+			}
+		}
+		return nodes;
+	}
 
-    // ~ Get/Set =============================================
-    // ~ hashCode,equals,toString ============================
+	/**
+	 * 只执行创建验证，不执行更新验证，并且过滤需要验证数据库表存在的情况
+	 * 
+	 * @param file
+	 * @return
+	 * @throws AbstractSchemaException
+	 */
+	private OrderNode initNode(final String file) {
+		OrderNode node = null;
+		try {
+			final JsonObject data = new JsonObject(IOKit.getContent(file));
+			node = new OrderNode(data);
+		} catch (DecodeException ex) {
+			node = null;
+		}
+		return node;
+	}
+
+	private void printNodeList(final List<OrderNode> list) {
+		for (final OrderNode node : list) {
+			System.out.println(node);
+		}
+	}
+
+	// ~ Get/Set =============================================
+	// ~ hashCode,equals,toString ============================
 
 }
