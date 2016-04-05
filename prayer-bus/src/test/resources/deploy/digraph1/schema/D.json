@@ -1,0 +1,10 @@
+{
+    "__meta__":{
+        "table":"D"
+    },
+    "__fields__":[
+        {
+            "refTable":"C"
+        }
+    ]
+}

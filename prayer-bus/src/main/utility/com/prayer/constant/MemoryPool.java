@@ -42,7 +42,7 @@ public interface MemoryPool { // NOPMD
     ConcurrentMap<String, Object> POOL_OBJECT = new ConcurrentHashMap<>();
     /** 资源文件池 **/
     ConcurrentMap<String, Properties> POOL_PROP = new ConcurrentHashMap<>();
-    /** Metadata Connector 全局单例模式 **/
+    /** Metadata Edges 全局单例模式 **/
     // ConcurrentMap<String, Meta> POOL_CONNECTOR = new ConcurrentHashMap<>();
     /** Service Helper 全局单例模式 **/
     ConcurrentMap<String, ServiceHelper> POOL_SEV_HELPER = new ConcurrentHashMap<>();
