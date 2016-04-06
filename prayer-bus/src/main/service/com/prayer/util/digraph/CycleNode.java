@@ -1,58 +1,55 @@
-package com.prayer.business.impl.ordered;
-
-import com.prayer.facade.util.digraph.NodeData;
+package com.prayer.util.digraph;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
- * 每个节点中的信息，对应图中的Data
+ * 环形单链表，使用算法检测的返回值
  * 
  * @author Lang
  *
  */
 @Guarded
-@SuppressWarnings("unchecked")
-public class OrderedData implements NodeData {
+public class CycleNode {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    @NotEmpty
     @NotBlank
+    @NotEmpty
     private transient String key = null;
-
-    private transient String identifier = null;
-
     // ~ Static Block ========================================
+    /** **/
+    private transient CycleNode next = null;
+
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    @PostValidateThis
-    public OrderedData(@NotNull @NotEmpty @NotBlank final String key) {
+    public CycleNode(@NotNull @NotBlank @NotEmpty final String key) {
         this.key = key;
     }
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    /** **/
-    @Override
-    public String getKey() {
-        return this.key;
+    /**
+     * 获取下一个节点
+     * 
+     * @return
+     */
+    public CycleNode getNext() {
+        return this.next;
     }
 
-    /** **/
-    @Override
-    public <T> T getData() {
-        T ret = null;
-        if (null != this.identifier) {
-            ret = (T) this.identifier;
-        }
-        return ret;
+    /**
+     * 添加当前节点的下一个节点
+     * 
+     * @param next
+     */
+    public void addNext(@NotNull final CycleNode next) {
+        this.next = next;
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

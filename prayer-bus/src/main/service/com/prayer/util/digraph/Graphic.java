@@ -49,14 +49,15 @@ public class Graphic {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    /** 
+    /**
      * 初始化
      */
-    public void initVisited(){
-        for(Node node: this.nodes){
+    public void initVisited() {
+        for (Node node : this.nodes) {
             node.setVisit(false);
         }
     }
+
     /**
      * 
      * @return
@@ -75,6 +76,15 @@ public class Graphic {
         final int idx = this.idxMap.get(key);
         return this.nodes[idx];
     }
+
+    /**
+     * 
+     * @return
+     */
+    public Edges getEdges() {
+        return this.mapping;
+    }
+
     // ~ Private Methods =====================================
     private void buildGraphic() {
         final int length = this.nodes.length;
@@ -123,10 +133,10 @@ public class Graphic {
                 final List<String> toKeys = this.mapping.findTos(key);
                 for (final String toKey : toKeys) {
                     /** 去掉本节点 **/
-                    //if (!toKey.equals(inKey)) {
-                        final NodeData data = this.findData(toKey);
-                        nodes.add(new Node(data));
-                    //}
+                    // if (!toKey.equals(inKey)) {
+                    final NodeData data = this.findData(toKey);
+                    nodes.add(new Node(data));
+                    // }
                 }
             }
         }
@@ -175,7 +185,6 @@ public class Graphic {
                 Node node = this.nodes[idx];
                 do {
                     Node value = this.getNode(node.getKey());
-                    builder.append(value.hashCode());
                     builder.append("[I:").append(this.idxMap.get(value.getKey())).append(",V:").append(value.getKey())
                             .append("] -> ");
                     node = node.getNext();

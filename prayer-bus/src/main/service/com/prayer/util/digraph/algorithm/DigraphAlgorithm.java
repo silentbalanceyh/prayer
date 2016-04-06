@@ -41,8 +41,10 @@ public class DigraphAlgorithm implements Algorithm {
 
     @Override
     public ConcurrentMap<Integer, String> BFS(@NotNull final Graphic graphic) {
-        // TODO Auto-generated method stub
-        return null;
+        /** 1.执行搜索 **/
+        this.searcher.BFS(graphic);
+        /** 2.获取搜索算法的结果 **/
+        return this.searcher.getResult();
     }
 
     // ~ Private Methods =====================================

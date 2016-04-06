@@ -10,4 +10,9 @@ public interface NodeData {
      * @return
      */
     String getKey();
+    /**
+     * 获取节点中的数据引用
+     * @return
+     */
+    <T> T getData();
 }

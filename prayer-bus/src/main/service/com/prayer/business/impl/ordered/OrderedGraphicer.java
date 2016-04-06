@@ -5,19 +5,19 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.facade.schema.verifier.Attributes;
-import com.prayer.facade.util.digraph.Algorithm;
 import com.prayer.facade.util.digraph.NodeData;
+import com.prayer.facade.util.digraph.StrongConnect;
+import com.prayer.util.digraph.CycleNode;
 import com.prayer.util.digraph.Edges;
 import com.prayer.util.digraph.Graphic;
 import com.prayer.util.digraph.Node;
-import com.prayer.util.digraph.algorithm.DigraphAlgorithm;
+import com.prayer.util.digraph.algorithm.SCCAlgorithm;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.string.StringKit;
 
@@ -40,8 +40,8 @@ public class OrderedGraphicer {
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderedGraphicer.class);
     // ~ Instance Fields =====================================
-    /** 基本算法库 **/
-    private transient Algorithm algorithm = singleton(DigraphAlgorithm.class);
+    /** 强连接 **/
+    private transient StrongConnect connect = singleton(SCCAlgorithm.class);
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -55,24 +55,12 @@ public class OrderedGraphicer {
         /** 2.设置FromTo，构建图 **/
         final Edges fromTo = this.buildMapping(folder);
         final Graphic graphic = this.buildGraphic(data, fromTo);
-        /** 3.设置ToFrom，构建逆图 **/
-        final Graphic rtGraphic = this.buildGraphic(revert(data), fromTo.revert());
-        System.out.println(graphic);
-        final ConcurrentMap<Integer, String> ret = algorithm.DFS(graphic);
-        System.out.println(rtGraphic);
+        /** 3.计算SCC **/
+        final List<CycleNode> ret = this.connect.execKosaraju(graphic);
         // GraphicSearcher.DFS(rtGraphic);
         return null;
     }
     // ~ Private Methods =====================================
-
-    private String[] revert(final String[] data) {
-        final int length = data.length;
-        final String[] ret = new String[length];
-        for (int idx = 0; idx < length; idx++) {
-            ret[idx] = data[length - 1 - idx];
-        }
-        return ret;
-    }
 
     private Graphic buildGraphic(final String[] data, Edges fromTo) {
         final int length = data.length;
