@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
-import com.prayer.facade.util.graphic.NodeData;
+import com.prayer.facade.util.digraph.NodeData;
 
 /**
  * 图的构建类
@@ -49,6 +49,14 @@ public class Graphic {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
+    /** 
+     * 初始化
+     */
+    public void initVisited(){
+        for(Node node: this.nodes){
+            node.setVisit(false);
+        }
+    }
     /**
      * 
      * @return
@@ -67,21 +75,6 @@ public class Graphic {
         final int idx = this.idxMap.get(key);
         return this.nodes[idx];
     }
-
-    /**
-     * 重设所有节点访问状态
-     */
-    public void resetNodes() {
-        final int length = this.nodes.length;
-        for (int idx = 0; idx < length; idx++) {
-            Node node = this.nodes[idx];
-            do {
-                node.resetStatus();
-                node = node.getNext();
-            } while (node != null);
-        }
-    }
-
     // ~ Private Methods =====================================
     private void buildGraphic() {
         final int length = this.nodes.length;
@@ -130,10 +123,10 @@ public class Graphic {
                 final List<String> toKeys = this.mapping.findTos(key);
                 for (final String toKey : toKeys) {
                     /** 去掉本节点 **/
-                    if (!toKey.equals(inKey)) {
+                    //if (!toKey.equals(inKey)) {
                         final NodeData data = this.findData(toKey);
                         nodes.add(new Node(data));
-                    }
+                    //}
                 }
             }
         }
@@ -181,7 +174,9 @@ public class Graphic {
             for (int idx = 0; idx < length; idx++) {
                 Node node = this.nodes[idx];
                 do {
-                    builder.append("[I:").append(this.idxMap.get(node.getKey())).append(",V:").append(node.getKey())
+                    Node value = this.getNode(node.getKey());
+                    builder.append(value.hashCode());
+                    builder.append("[I:").append(this.idxMap.get(value.getKey())).append(",V:").append(value.getKey())
                             .append("] -> ");
                     node = node.getNext();
                 } while (null != node);

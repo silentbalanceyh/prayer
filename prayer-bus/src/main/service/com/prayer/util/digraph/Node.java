@@ -1,7 +1,6 @@
 package com.prayer.util.digraph;
 
-import com.prayer.constant.SystemEnum.NodeStatus;
-import com.prayer.facade.util.graphic.NodeData;
+import com.prayer.facade.util.digraph.NodeData;
 
 import net.sf.oval.constraint.NotNull;
 
@@ -16,7 +15,7 @@ public class Node {
     // ~ Instance Fields =====================================
     /** 当前节点对应的标签信息 **/
     @NotNull
-    private transient String key = null;
+    private String key = null;
     /** 当前节点中的数据信息 **/
     @NotNull
     private transient NodeData data = null;
@@ -24,9 +23,8 @@ public class Node {
     private transient Node next = null;
     /** 节点权重 **/
     private transient int weight = 0;
-    /** 初始状态 **/
-    private transient NodeStatus status = NodeStatus.WHITE;
-
+    /** 是否访问 **/
+    private transient boolean visited = false;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -39,37 +37,19 @@ public class Node {
         if (null != this.data) {
             this.key = this.data.getKey();
         }
-        this.status = NodeStatus.WHITE;
+        this.visited = false;
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    /**
-     * 重设访问状态
-     */
-    public void resetStatus(){
-        this.status = NodeStatus.WHITE;
+    /** 设置访问 **/
+    public void setVisit(final boolean visited){
+        this.visited = visited;
     }
-    /**
-     * 被访问的的状态迁移
-     */
-    public void moveStatus() {
-        switch (this.status) {
-        case WHITE:
-        case GRAY:
-            this.status = NodeStatus.BLACK;
-            break;
-        case BLACK:
-            this.status = NodeStatus.BLACK;
-            break;
-        }
-    }
-    /**
-     * 
-     * @return
-     */
-    public NodeStatus getStatus(){
-        return this.status;
+    /** 判断是否访问过 **/
+    public boolean visited(){
+        return this.visited;
     }
     /**
      * 获取节点中的数据信息
@@ -121,8 +101,8 @@ public class Node {
     public int getWeight() {
         return this.weight;
     }
+
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
 }

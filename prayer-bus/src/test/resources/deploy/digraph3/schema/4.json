@@ -5,6 +5,8 @@
     "__fields__":[
         {
             "refTable":"5"
+        },{
+            "refTable":"6"
         }
     ]
 }

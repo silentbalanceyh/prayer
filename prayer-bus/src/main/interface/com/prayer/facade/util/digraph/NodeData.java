@@ -1,4 +1,4 @@
-package com.prayer.facade.util.graphic;
+package com.prayer.facade.util.digraph;
 /**
  * 用于设置图的数据结构中的标记
  * @author Lang

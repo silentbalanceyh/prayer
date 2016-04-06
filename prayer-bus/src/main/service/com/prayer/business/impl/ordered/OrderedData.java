@@ -1,6 +1,6 @@
 package com.prayer.business.impl.ordered;
 
-import com.prayer.facade.util.graphic.NodeData;
+import com.prayer.facade.util.digraph.NodeData;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
