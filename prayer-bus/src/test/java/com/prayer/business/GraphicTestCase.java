@@ -36,7 +36,7 @@ public class GraphicTestCase extends AbstractCommonTool {
     @Test
     public void testExecute() throws AbstractSystemException {
         final OrderedGraphicer executor = new OrderedGraphicer();
-        executor.build("deploy/digraph5/schema");
+        executor.build("deploy/digraph3/schema");
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

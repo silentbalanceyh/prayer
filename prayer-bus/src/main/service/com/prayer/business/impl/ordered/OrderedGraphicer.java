@@ -57,7 +57,7 @@ public class OrderedGraphicer {
         final Graphic graphic = this.buildGraphic(data, fromTo);
         /** 3.计算SCC **/
         final List<CycleNode> ret = this.connect.execKosaraju(graphic);
-        // GraphicSearcher.DFS(rtGraphic);
+        // DigraphSearcher.DFS(rtGraphic);
         return null;
     }
     // ~ Private Methods =====================================

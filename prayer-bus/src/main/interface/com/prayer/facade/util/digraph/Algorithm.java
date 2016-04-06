@@ -1,8 +1,7 @@
 package com.prayer.facade.util.digraph;
 
-import java.util.concurrent.ConcurrentMap;
-
 import com.prayer.util.digraph.Graphic;
+import com.prayer.util.digraph.algorithm.DigraphResult;
 
 /**
  * 基本算法
@@ -17,7 +16,7 @@ public interface Algorithm {
      * @param graphic
      * @return
      */
-    ConcurrentMap<Integer, String> DFS(Graphic graphic);
+    DigraphResult DFS(Graphic graphic);
 
     /**
      * 图的广度检索算法BFS
@@ -25,5 +24,5 @@ public interface Algorithm {
      * @param graphic
      * @return
      */
-    ConcurrentMap<Integer, String> BFS(Graphic graphic);
+    DigraphResult BFS(Graphic graphic);
 }

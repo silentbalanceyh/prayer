@@ -76,7 +76,6 @@ public class Graphic {
         final int idx = this.idxMap.get(key);
         return this.nodes[idx];
     }
-
     /**
      * 
      * @return

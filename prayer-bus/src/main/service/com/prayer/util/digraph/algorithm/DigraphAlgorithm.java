@@ -2,8 +2,6 @@ package com.prayer.util.digraph.algorithm;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import java.util.concurrent.ConcurrentMap;
-
 import com.prayer.facade.util.digraph.Algorithm;
 import com.prayer.util.digraph.Graphic;
 
@@ -20,7 +18,7 @@ public class DigraphAlgorithm implements Algorithm {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 搜索算法 **/
-    private transient GraphicSearcher searcher = singleton(GraphicSearcher.class);
+    private transient DigraphSearcher searcher = singleton(DigraphSearcher.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -32,19 +30,17 @@ public class DigraphAlgorithm implements Algorithm {
      * 深度检索算法
      */
     @Override
-    public ConcurrentMap<Integer, String> DFS(@NotNull final Graphic graphic) {
+    public DigraphResult DFS(@NotNull final Graphic graphic) {
         /** 1.执行搜索 **/
         this.searcher.DFS(graphic);
         /** 2.获取搜索算法的结果 **/
-        return this.searcher.getResult();
+        return new DigraphResult(this.searcher.getResult(), this.searcher.getPath());
     }
 
     @Override
-    public ConcurrentMap<Integer, String> BFS(@NotNull final Graphic graphic) {
-        /** 1.执行搜索 **/
-        this.searcher.BFS(graphic);
-        /** 2.获取搜索算法的结果 **/
-        return this.searcher.getResult();
+    public DigraphResult BFS(@NotNull final Graphic graphic) {
+        // TODO：等待验证
+        return null;
     }
 
     // ~ Private Methods =====================================
