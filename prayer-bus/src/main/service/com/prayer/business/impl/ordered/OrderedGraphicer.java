@@ -2,6 +2,8 @@ package com.prayer.business.impl.ordered;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
 import com.prayer.facade.schema.verifier.Attributes;
@@ -29,6 +31,9 @@ import net.sf.oval.guard.Guarded;
 public class OrderedGraphicer {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
+    /** 从Key到Data的映射 **/
+    private transient ConcurrentMap<String, String> dataMap = new ConcurrentHashMap<>();
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -57,6 +62,7 @@ public class OrderedGraphicer {
         for (int idx = 0; idx < length; idx++) {
             final String key = data[idx];
             final NodeData dataItem = new OrderedData(key);
+            dataItem.setData(this.dataMap.get(key));
             final Node node = new Node(dataItem);
             nodes[idx] = node;
         }
@@ -65,6 +71,7 @@ public class OrderedGraphicer {
 
     /** 构建图中搜需要的data **/
     private String[] buildNodes(final String folder) {
+        this.dataMap.clear();
         final List<String> files = IOKit.listFiles(folder);
         final List<String> data = new ArrayList<>();
         for (final String file : files) {
@@ -125,7 +132,12 @@ public class OrderedGraphicer {
         try {
             final JsonObject data = new JsonObject(IOKit.getContent(file));
             if (data.containsKey(Attributes.R_META)) {
-                key = data.getJsonObject(Attributes.R_META).getString(Attributes.M_TABLE);
+                final JsonObject meta = data.getJsonObject(Attributes.R_META);
+                key = meta.getString(Attributes.M_TABLE);
+                // 填充Map
+                if (null != key) {
+                    this.dataMap.put(key, file);
+                }
             }
         } catch (DecodeException ex) {
             key = null;

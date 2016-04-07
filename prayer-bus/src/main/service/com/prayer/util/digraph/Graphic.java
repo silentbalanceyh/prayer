@@ -276,9 +276,11 @@ public class Graphic {
                         String key = node.getKey();
                         if (null != key) {
                             Node value = this.getVertexRef(node.getKey());
-                            builder.append("[V:").append(value.getKey()).append(",I:").append(value.getIndegree())
-                                    .append("] -> ");
-                            node = node.getAdjacent();
+                            if (null != value) {
+                                builder.append("[V:").append(value.getKey()).append(",I:").append(value.getIndegree())
+                                        .append("] -> ");
+                                node = node.getAdjacent();
+                            }
                         } else {
                             node = null;
                         }

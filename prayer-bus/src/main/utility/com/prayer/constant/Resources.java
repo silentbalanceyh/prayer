@@ -63,10 +63,8 @@ public final class Resources { // NOPMD
     public static final String OOB_SCHEMA_FILE;
     /** Meta Data的数据库类型SQL/NOSQL **/
     public static final String META_CATEGORY;
-    /** Meta Data的初始化SQL脚本位置 **/
-    public static final String META_INIT_SQL;
-    /** OOB Data的PurgeSQL脚本 **/
-    public static final String META_PURGE_SQL;
+    /** Meta Data的数据库JDBC连接 **/
+    public static final String META_JDBC_CONNECTION;
 
     // File Configuration ====================================
 
@@ -179,13 +177,10 @@ public final class Resources { // NOPMD
 
         // OOB Schema File
         OOB_SCHEMA_FILE = LOADER.getString("oob.schema.file");
-
-        // Meta
-        META_INIT_SQL = DB_SQL_DIR + LOADER.getString("meta.init.data.file");
-
-        // Meta
-        META_PURGE_SQL = LOADER.getString("meta.oob.purge.data");
-
+        
+        // =================== Meta JDBC =======================
+        // JDBC Connection for Meta
+        META_JDBC_CONNECTION = LOADER.getString("meta.jdbc.connection");
         // =================== Switcher ========================
         // Jdbc Database Pool
         DB_POOL = LOADER.getString("database.pool.impl");

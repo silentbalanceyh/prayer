@@ -16,6 +16,8 @@ public final class Accessors {
     private static final String DFT_DB_POOL = "com.prayer.database.pool.impl.jdbc.BoneCPPool";
     /** 默认的Accessor使用SQL **/
     private static final String DFT_META_ACCESSOR = "com.prayer.database.accessor.impl.IBatisAccessorImpl";
+    /** 默认的元数据连接 **/
+    private static final String DFT_META_JDBC = "com.prayer.database.pool.impl.jdbc.H2ConnImpl";
 
     /** Builder 默认值 **/
     private static final String DFT_DB_BUILDER = "com.prayer.builder.MsSqlBuilder";
@@ -33,6 +35,16 @@ public final class Accessors {
     // ~ Static Block ========================================
 
     // ~ Static Methods ======================================
+    /**
+     * 获取连接池实现方式
+     * 
+     * @return
+     */
+    @NotNull
+    public static String connection() {
+        return null == Resources.META_JDBC_CONNECTION ? DFT_META_JDBC : Resources.META_JDBC_CONNECTION;
+    }
+
     /**
      * 获取连接池实现方式
      * 

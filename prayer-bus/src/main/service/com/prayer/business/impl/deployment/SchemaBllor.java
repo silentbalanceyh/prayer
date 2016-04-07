@@ -49,13 +49,13 @@ public class SchemaBllor implements SchemaService {
     // ~ Instance Fields =====================================
     /** 访问H2的Schema数据层接口 **/
     @NotNull
-    private transient SchemaDao dao;
+    private transient final SchemaDao dao;
     /** 访问传统数据库的Builder **/
     @NotNull
-    private transient Builder builder;
+    private transient final Builder builder;
     /** 导入器 **/
     @NotNull
-    private transient Importer importer;
+    private transient final Importer importer;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

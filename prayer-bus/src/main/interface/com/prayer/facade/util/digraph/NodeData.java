@@ -15,4 +15,9 @@ public interface NodeData {
      * @return
      */
     <T> T getData();
+    /**
+     * 设置节点中的数据
+     * @param data
+     */
+    <T> void setData(T data);
 }

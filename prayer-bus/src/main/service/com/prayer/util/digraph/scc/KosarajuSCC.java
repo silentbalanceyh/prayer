@@ -46,8 +46,6 @@ public class KosarajuSCC implements StrongConnect {
     public List<CycleNode> findSCC(@NotNull final Graphic graphic) {
         /** 1.对原图执行DFS **/
         final DigraphResult dfsRet = this.algorithm.DFS(graphic);
-        System.out.println(graphic);
-        System.out.println(dfsRet);
         /** 2.读取原图的Path **/
         final ConcurrentMap<Integer, String> path = dfsRet.getPath();
         /** 3.读取逆图的Order **/
@@ -59,14 +57,14 @@ public class KosarajuSCC implements StrongConnect {
         rt.setOrder(orders);
         /** 6.在逆图上执行第二次DFS **/
         final DigraphResult rtRet = this.algorithm.DFS(rt);
-        System.out.println(rt);
-        System.out.println(rtRet);
         return CycleBuilder.buildKosaraju(rtRet);
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     /**
      * 构建逆图的遍历顺序
+     * 
      * @param path
      * @return
      */

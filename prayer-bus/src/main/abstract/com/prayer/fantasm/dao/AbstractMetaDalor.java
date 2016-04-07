@@ -22,7 +22,6 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.impl.ObjectTransferer;
-import com.prayer.database.pool.impl.jdbc.H2ConnImpl;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.entity.Entity;
@@ -78,7 +77,7 @@ public abstract class AbstractMetaDalor<ID extends Serializable> implements Reco
     public AbstractMetaDalor() {
         this.transferer = singleton(ObjectTransferer.class);
         this.builder = SqlDMLBuilder.create();
-        this.connection = singleton(H2ConnImpl.class);
+        this.connection = singleton(Accessors.connection());
     }
 
     // ~ Abstract Methods ====================================

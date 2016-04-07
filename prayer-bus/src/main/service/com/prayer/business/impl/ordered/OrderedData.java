@@ -54,6 +54,12 @@ public class OrderedData implements NodeData {
         }
         return ret;
     }
+
+    /** **/
+    @Override
+    public <T> void setData(@NotNull final T data) {
+        this.identifier = data.toString();
+    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

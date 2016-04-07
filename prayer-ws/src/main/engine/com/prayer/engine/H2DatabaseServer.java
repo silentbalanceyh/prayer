@@ -15,11 +15,10 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.impl.oob.DeploySevImpl;
 import com.prayer.configurator.ServerConfigurator;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.business.DeployService;
+import com.prayer.facade.business.deployment.DeployService;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.util.Converter;
 
@@ -160,15 +159,15 @@ public class H2DatabaseServer {
      * 
      * @return
      */
-    public boolean isDeployed(){
+    public boolean isDeployed() {
         final File file = new File("DEPLOYED.lock");
         boolean exist = false;
-        if(file.exists()){
+        if (file.exists()) {
             exist = true;
         }
         return exist;
     }
-    
+
     /** 初始化OOB元数据 **/
     public boolean initMetadata() {
         return this.initMetadata(Resources.OOB_DATA_FOLDER);
@@ -177,9 +176,9 @@ public class H2DatabaseServer {
     /** 按照目录初始化元数据 **/
     public boolean initMetadata(final String dataFolder) {
         boolean flag = false;
-        ServiceResult<Boolean> ret = this.service.initMetadata(Resources.META_INIT_SQL);
+        ServiceResult<Boolean> ret = this.service.initialize("initialize");
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            ret = this.service.deployMetadata(dataFolder);
+            ret = this.service.manoeuvre(dataFolder);
             if (ResponseCode.SUCCESS == ret.getResponseCode()) {
                 // 创建锁文件
                 this.createLock();
@@ -191,21 +190,21 @@ public class H2DatabaseServer {
     }
 
     // ~ Private Methods =====================================
-    
-    private boolean createLock(){
+
+    private boolean createLock() {
         final File file = new File("DEPLOYED.lock");
         boolean ret = true;
-        if(!file.exists()){
-            try{
+        if (!file.exists()) {
+            try {
                 ret = file.createNewFile();
-            }catch(IOException ex){
+            } catch (IOException ex) {
                 ret = false;
-                jvmError(LOGGER,ex);
+                jvmError(LOGGER, ex);
             }
         }
         return ret;
     }
-    
+
     /** 启动Web Console **/
     private boolean startConsole() {
         boolean ret = true;

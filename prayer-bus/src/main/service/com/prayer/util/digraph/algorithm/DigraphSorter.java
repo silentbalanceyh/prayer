@@ -75,7 +75,7 @@ public class DigraphSorter {
      * @return
      */
     private String findIndegreeZero(final Graphic graphic) {
-        final ConcurrentMap<String, Node> nodes = graphic.getVertex();
+        final ConcurrentMap<String, Node> nodes = graphic.getVertexRef();
         String retKey = null;
         for (final Node node : nodes.values()) {
             if (Constants.ZERO == node.getIndegree()) {

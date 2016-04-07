@@ -23,13 +23,4 @@ public interface DeployService {
      * @return
      */
     ServiceResult<Boolean> manoeuvre(String folder);
-
-    /**
-     * 3.将当前系统中所有的元数据信息清除
-     * 
-     * @param keepOld
-     *            用于控制是否保留业务数据库中的数据
-     * @return
-     */
-    ServiceResult<Boolean> purge(boolean keepOld);
 }

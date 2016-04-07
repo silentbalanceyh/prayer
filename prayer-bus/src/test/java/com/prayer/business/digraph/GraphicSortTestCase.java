@@ -51,7 +51,7 @@ public class GraphicSortTestCase extends AbstractCommonTool {
     @Test
     public void testSorting() throws AbstractSystemException {
         final OrderedGraphicer executor = new OrderedGraphicer();
-        final Graphic graphic = executor.build("deploy/digraph7/schema");
+        final Graphic graphic = executor.build("deploy/oob/schema");
         DigraphResult result = algorithm.topSort(graphic);
         assertNotNull(result);
     }
