@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.NodeStatus;
 import com.prayer.facade.util.digraph.NodeData;
 
 /**
@@ -18,9 +19,7 @@ public class Graphic {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 当前图的顶点数组信息 **/
-    private transient Node[] nodes;
-    /** 图中的Key -> Index的对应表 **/
-    private transient ConcurrentMap<String, Integer> idxMap = new ConcurrentHashMap<>();
+    private transient ConcurrentMap<String, Node> nodes = new ConcurrentHashMap<>();
     /** 图中的Key -> Key的关系表 **/
     private transient Edges mapping;
 
@@ -36,10 +35,8 @@ public class Graphic {
      *            对应表，从T -> T的对应表信息
      */
     public Graphic(final Node[] nodes, final Edges fromTo) {
-        /** 转成Array **/
-        this.nodes = nodes;
-        /** 构建索引表 **/
-        this.idxMap = this.buildIdxMap();
+        /** 构建内部HashMap **/
+        this.buildData(nodes);
         /** 构建关系表 **/
         this.mapping = fromTo;
         /** 有向邻接表构建 **/
@@ -49,34 +46,59 @@ public class Graphic {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
+
+    // ~ Graphic: Visit ======================================
     /**
-     * 初始化
+     * 重设当前图的节点访问状态
      */
-    public void initVisited() {
-        for (Node node : this.nodes) {
-            node.setVisit(false);
+    public void reset() {
+        for (final String key : this.nodes.keySet()) {
+            this.nodes.get(key).setStatus(NodeStatus.WHITE);
         }
     }
 
+    // ~ Graphic: Operation ==================================
     /**
+     * 获取系统中当前节点的一个副本
      * 
      * @return
      */
-    public Node[] getNodes() {
-        return this.nodes;
+    public ConcurrentMap<String, Node> getVertex() {
+        final ConcurrentMap<String, Node> map = new ConcurrentHashMap<>();
+        map.putAll(this.nodes);
+        return map;
     }
 
     /**
-     * 根据Key值获取对应的节点信息
      * 
      * @param key
      * @return
      */
-    public Node getNode(final String key) {
-        final int idx = this.idxMap.get(key);
-        return this.nodes[idx];
+    public Node getVertex(final String key) {
+        return this.getVertex().get(key);
     }
+
     /**
+     * 获取原节点引用
+     * 
+     * @return
+     */
+    public ConcurrentMap<String, Node> getVertexRef() {
+        return this.nodes;
+    }
+
+    /**
+     * 根据Key值获取原节点引用
+     * 
+     * @param key
+     * @return
+     */
+    public Node getVertexRef(final String key) {
+        return this.nodes.get(key);
+    }
+
+    /**
+     * 获取当前节点的所有边集
      * 
      * @return
      */
@@ -84,15 +106,39 @@ public class Graphic {
         return this.mapping;
     }
 
+    /**
+     * 从当前图中移除Node
+     * 
+     * @param key
+     */
+    public void removeNode(final String key) {
+        /**
+         * 从当前节点中删除key
+         */
+        this.nodes.remove(key);
+        /**
+         * 从当前节点的边界中删除key
+         */
+        this.mapping.remove(key);
+        /**
+         * 重新构建新图
+         */
+        this.buildGraphic();
+    }
+
     // ~ Private Methods =====================================
+    // ~ Graphic : Build =====================================
+    private void buildData(final Node[] nodes) {
+        this.nodes.clear();
+        for (final Node node : nodes) {
+            this.nodes.putIfAbsent(node.getKey(), node);
+        }
+    }
+
     private void buildGraphic() {
-        final int length = this.nodes.length;
-        for (int idx = 0; idx < length; idx++) {
-            final Node node = this.nodes[idx];
-            if (null != node) {
-                final List<Node> items = this.buildItems(node.getKey());
-                this.buildLinks(node, items);
-            }
+        for (final Node node : nodes.values()) {
+            final List<Node> items = this.buildItems(node.getKey());
+            this.buildLinks(node, items);
         }
     }
 
@@ -105,39 +151,42 @@ public class Graphic {
         final int size = eNodes.size();
         /** size大于0的情况 **/
         if (Constants.ZERO < size) {
-            // 设置权值
-            vtNode.setWeight(size);
-            // 只有一个
-            vtNode.addNext(eNodes.get(Constants.IDX));
+            /**
+             * vNode只有一个邻接节点
+             */
+            vtNode.addAdjacent(eNodes.get(Constants.IDX));
             // 从0开始遍历，但遍历到length - 2
             for (int idx = 0; idx < size - 1; idx++) {
                 if (null != eNodes.get(idx) && null != eNodes.get(idx + Constants.ONE)) {
-                    eNodes.get(idx).addNext(eNodes.get(idx + Constants.ONE));
+                    eNodes.get(idx).addAdjacent(eNodes.get(idx + Constants.ONE));
                 }
             }
+        }
+        /** 不论是否拥有邻接表，都需要计算入度 **/
+        this.buildIndegree(vtNode);
+    }
+
+    /** 计算顶点的入度 **/
+    private void buildIndegree(final Node vNode) {
+        if (null != vNode) {
+            final List<String> indegree = this.mapping.findFroms(vNode.getKey());
+            vNode.setIndegree(indegree.size());
         }
     }
 
     /**
-     * 查找单个key对应的所有To信息
+     * 查找单个key对应的所有To信息，即查找邻接表信息
      * 
      * @param key
      */
     private List<Node> buildItems(final String inKey) {
         /** 传入key值 **/
         final List<Node> nodes = new ArrayList<>();
-        /** 将传入的key值和mapping做匹配 **/
-        for (final String key : this.mapping.fromKeys()) {
-            if (null != key && key.equals(inKey)) {
-                final List<String> toKeys = this.mapping.findTos(key);
-                for (final String toKey : toKeys) {
-                    /** 去掉本节点 **/
-                    // if (!toKey.equals(inKey)) {
-                    final NodeData data = this.findData(toKey);
-                    nodes.add(new Node(data));
-                    // }
-                }
-            }
+        /** 从mapping中查找传入的key对应的tokey值 **/
+        final List<String> toKeys = this.mapping.findTos(inKey);
+        for (final String toKey : toKeys) {
+            final NodeData data = this.findData(toKey);
+            nodes.add(new Node(data));
         }
         return nodes;
     }
@@ -150,7 +199,7 @@ public class Graphic {
      */
     private NodeData findData(final String key) {
         NodeData data = null;
-        for (final Node node : this.nodes) {
+        for (final Node node : this.nodes.values()) {
             if (null != node && node.getKey().equals(key)) {
                 data = node.getData();
             }
@@ -158,35 +207,28 @@ public class Graphic {
         return data;
     }
 
-    private ConcurrentMap<String, Integer> buildIdxMap() {
-        final ConcurrentMap<String, Integer> map = new ConcurrentHashMap<>();
-        final int length = this.nodes.length;
-        for (int idx = 0; idx < length; idx++) {
-            final Node item = this.nodes[idx];
-            if (null != item && null != item.getKey()) {
-                map.put(item.getKey(), idx);
-            }
-        }
-        return map;
-    }
-
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-    /** **/
+    /** 打印当前图信息，使用邻接表方式 **/
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         /** 1.打印所有的Array **/
         if (this.nodes != null) {
             builder.append("------------Node--------------\n");
-            final int length = this.nodes.length;
-            for (int idx = 0; idx < length; idx++) {
-                Node node = this.nodes[idx];
+            for (Node node : this.nodes.values()) {
                 do {
-                    Node value = this.getNode(node.getKey());
-                    builder.append("[I:").append(this.idxMap.get(value.getKey())).append(",V:").append(value.getKey())
-                            .append("] -> ");
-                    node = node.getNext();
+                    if (null != node) {
+                        String key = node.getKey();
+                        if (null != key) {
+                            Node value = this.getVertexRef(node.getKey());
+                            builder.append("[V:").append(value.getKey()).append(",I:").append(value.getIndegree())
+                                    .append("] -> ");
+                            node = node.getAdjacent();
+                        } else {
+                            node = null;
+                        }
+                    }
                 } while (null != node);
                 builder.append("\n");
             }

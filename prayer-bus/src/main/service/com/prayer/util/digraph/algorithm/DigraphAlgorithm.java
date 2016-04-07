@@ -2,8 +2,10 @@ package com.prayer.util.digraph.algorithm;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
+import com.prayer.exception.system.RecurrenceReferenceException;
 import com.prayer.facade.util.digraph.Algorithm;
 import com.prayer.util.digraph.Graphic;
+import com.prayer.util.digraph.op.DigraphResult;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -19,6 +21,8 @@ public class DigraphAlgorithm implements Algorithm {
     // ~ Instance Fields =====================================
     /** 搜索算法 **/
     private transient DigraphSearcher searcher = singleton(DigraphSearcher.class);
+    /** 排序算法 **/
+    private transient DigraphSorter sorter = singleton(DigraphSorter.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -27,22 +31,31 @@ public class DigraphAlgorithm implements Algorithm {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /**
-     * 深度检索算法
+     * 深度优先检索
      */
     @Override
     public DigraphResult DFS(@NotNull final Graphic graphic) {
-        /** 1.执行搜索 **/
-        this.searcher.DFS(graphic);
-        /** 2.获取搜索算法的结果 **/
-        return new DigraphResult(this.searcher.getResult(), this.searcher.getPath());
+        return this.searcher.DFS(graphic);
     }
 
+    /**
+     * 广度优先检索
+     * 
+     * @param graphic
+     * @return
+     */
     @Override
     public DigraphResult BFS(@NotNull final Graphic graphic) {
-        // TODO：等待验证
-        return null;
+        return this.searcher.BFS(graphic);
     }
 
+    /**
+     * 拓扑排序
+     */
+    @Override
+    public DigraphResult topSort(@NotNull final Graphic graphic) throws RecurrenceReferenceException {
+        return this.sorter.topologicalSort(graphic);
+    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

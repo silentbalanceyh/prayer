@@ -3,24 +3,27 @@ package com.prayer.util.digraph.algorithm;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.SystemEnum.NodeStatus;
 import com.prayer.facade.fun.graphic.Searcher;
 import com.prayer.util.digraph.Graphic;
 import com.prayer.util.digraph.Node;
+import com.prayer.util.digraph.op.DigraphResult;
+import com.prayer.util.digraph.scc.SCCStack;
 
 /**
  * 
  * @author Lang
  *
  */
-class DigraphSearcher {
+public class DigraphSearcher {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 遍历路径 **/
     private ConcurrentMap<Integer, String> visitedMap = new ConcurrentHashMap<>();
-    /** 节点访问的Order **/
-    private int visited = 1;
     /** 辅助堆栈信息 **/
     private transient SCCStack stack = new SCCStack();
+    /** 遍历轨迹 **/
+    private transient int visited = 1;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -38,9 +41,10 @@ class DigraphSearcher {
      * @param graphic
      * @return
      */
-    public void DFS(Graphic graphic) {
+    public DigraphResult DFS(Graphic graphic) {
         /** DFS算法 **/
         this.visit(graphic, this::visitDFS);
+        return new DigraphResult(this.visitedMap, this.stack.path());
     }
 
     /**
@@ -48,118 +52,72 @@ class DigraphSearcher {
      * 
      * @param graphic
      */
-    public void BFS(Graphic graphic) {
+    public DigraphResult BFS(Graphic graphic) {
         /** BFS算法 **/
         this.visit(graphic, this::visitBFS);
-    }
-
-    /**
-     * 节点最终访问顺序
-     * 
-     * @return
-     */
-    public ConcurrentMap<Integer, String> getResult() {
-        return this.visitedMap;
-    }
-
-    /**
-     * 节点完整路径：完整路径可以计算节点访问的离开路径
-     * 
-     * @return
-     */
-    public ConcurrentMap<Integer, String> getPath() {
-        return this.stack.path();
+        return new DigraphResult(this.visitedMap, this.stack.path());
     }
     // ~ Private Methods =====================================
 
     private void visit(final Graphic graphic, final Searcher searchFun) {
         /** 1.将图中所有节点初始化为未访问状态 **/
-        graphic.initVisited();
+        graphic.reset();
         /** 2.初始化当前对应信息 **/
-        this.initSearcher();
+        this.initialize();
         /** 3.获取图中顶级Node **/
-        final Node[] nodes = graphic.getNodes();
-        for (int idx = 0; idx < nodes.length; idx++) {
-            /**
-             * 从根节点开始执行检索
-             */
-            Node node = nodes[idx];
+        final ConcurrentMap<String, Node> nodes = graphic.getVertex();
+        for (final Node node : nodes.values()) {
             searchFun.visit(graphic, node);
-            /**
-             * 某一个元素执行完需要清栈，如果出现多层的操作则该内容需要做清理
-             */
-            this.stack.pop();
         }
     }
 
-    private void initSearcher() {
+    private void initialize() {
         this.visitedMap = new ConcurrentHashMap<>();
-        this.visited = 1;
         this.stack = new SCCStack();
     }
 
     private void visitBFS(final Graphic graphic, Node node) {
-        do {
-            Node visitedNode = graphic.getNode(node.getKey());
-            if (!visitedNode.visited()) {
-                visitedNode.setVisit(true);
-                visitedMap.put(visited, visitedNode.getKey());
-                System.out.println(visited + " -> " + visitedNode.getKey());
-                visited++;
-            }
-            node = node.getNext();
-        } while (null != node);
+        /** 1.获取原始节点引用 **/
+        final Node ajdRef = graphic.getVertexRef(node.getKey());
+        /** 2.将搜索到的节点设置成访问 **/
+        this.setVisit(ajdRef);
+        /** 3.获取当前节点的下一个节点 **/
+        final Node ajd = node.getAdjacent();
+        if (null != ajd) {
+            /** 能够读取到时递归，有了递归就可以不使用循环 **/
+            visitBFS(graphic, ajd);
+        }
     }
 
-    private void setVisit(final Graphic graphic, final Node node) {
-        if (null != node) {
-            final Node nodeRef = graphic.getNode(node.getKey());
-            if (!nodeRef.visited()) {
-                nodeRef.setVisit(true);
-                visitedMap.put(visited, node.getKey());
-                this.stack.push(node.getKey());
-                visited++;
-            }
+    private void setVisit(final Node nodeRef) {
+        if (null != nodeRef && !nodeRef.visited()) {
+            /** 1.节点设置成访问 **/
+            nodeRef.setStatus(NodeStatus.BLACK);
+            /** 2.将该节点压入到堆栈中 **/
+            this.stack.push(nodeRef.getKey());
+            this.visitedMap.put(visited, nodeRef.getKey());
+            visited++;
         }
     }
 
     private void visitDFS(final Graphic graphic, final Node node) {
-        /** 1.将Root中第一个邻接点设置为已经访问 **/
-        this.setVisit(graphic, node);
-        /** 2.外循环查找邻接点 **/
-        Node next = node;
-        do {
-            /** 3.寻找邻接点执行递归 **/
-            next = this.findUnvisited(graphic, next);
-            /** 4.只有找到节点不为null才会执行递归 **/
-            if (null != next) {
-                visitDFS(graphic, next);
-            }
-        } while (null != next);
+        
+        // /** 1.将Root中第一个邻接点设置为已经访问 **/
+        // this.setVisit(graphic, node);
+        // /** 2.外循环查找邻接点 **/
+        // Node next = node;
+        // do {
+        // /** 3.寻找邻接点执行递归 **/
+        // next = this.findUnvisited(graphic, next);
+        // /** 4.只有找到节点不为null才会执行递归 **/
+        // if (null != next) {
+        // visitDFS(graphic, next);
+        // }
+        // } while (null != next);
     }
 
     private Node findUnvisited(final Graphic graphic, final Node node) {
-        Node nodeRef = null;
-        if (null != node) {
-            /** 1.如果传入节点不为空，则查找这个节点的原节点引用 **/
-            final Node rootRef = graphic.getNode(node.getKey());
-            /** 2.根据原节点引用获取下一个未访问的邻接点 **/
-            nodeRef = rootRef.getNext();
-            while (null != nodeRef) {
-                /** 3.检查找到的邻接点是否访问过 **/
-                final Node nextRef = graphic.getNode(nodeRef.getKey());
-                if (!nextRef.visited()) {
-                    break;
-                } else {
-                    nodeRef = nodeRef.getNext();
-                }
-            }
-
-        }
-        if (null == nodeRef) {
-            this.stack.pop(node.getKey());
-        }
-        return nodeRef;
+        return null;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

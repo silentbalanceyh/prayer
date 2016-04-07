@@ -1,0 +1,14 @@
+{
+    "__meta__":{
+        "table":"2"
+    },
+    "__fields__":[
+        {
+            "refTable":"1"
+        },{
+            "refTable":"3"
+        },{
+            "refTable":"4"
+        }
+    ]
+}

@@ -1,7 +1,8 @@
 package com.prayer.facade.util.digraph;
 
+import com.prayer.exception.system.RecurrenceReferenceException;
 import com.prayer.util.digraph.Graphic;
-import com.prayer.util.digraph.algorithm.DigraphResult;
+import com.prayer.util.digraph.op.DigraphResult;
 
 /**
  * 基本算法
@@ -25,4 +26,10 @@ public interface Algorithm {
      * @return
      */
     DigraphResult BFS(Graphic graphic);
+    /**
+     * 图的拓扑排序
+     * @param graphic
+     * @return
+     */
+    DigraphResult topSort(Graphic graphic) throws RecurrenceReferenceException;
 }

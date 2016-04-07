@@ -1,23 +1,14 @@
 package com.prayer.business.impl.ordered;
 
-import static com.prayer.util.reflection.Instance.singleton;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Constants;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.facade.util.digraph.NodeData;
-import com.prayer.facade.util.digraph.StrongConnect;
-import com.prayer.util.digraph.CycleNode;
 import com.prayer.util.digraph.Edges;
 import com.prayer.util.digraph.Graphic;
 import com.prayer.util.digraph.Node;
-import com.prayer.util.digraph.algorithm.SCCAlgorithm;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.string.StringKit;
 
@@ -27,38 +18,36 @@ import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
-
+@Guarded
 public class OrderedGraphicer {
     // ~ Static Fields =======================================
-
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(OrderedGraphicer.class);
     // ~ Instance Fields =====================================
-    /** 强连接 **/
-    private transient StrongConnect connect = singleton(SCCAlgorithm.class);
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-
-    public Map<Integer, String> build(@NotNull @NotEmpty @NotBlank final String folder) {
+    /**
+     * 
+     * @param folder
+     * @return
+     */
+    public Graphic build(@NotNull @NotEmpty @NotBlank final String folder) {
         /** 1.数据Key **/
         final String[] data = this.buildNodes(folder);
         /** 2.设置FromTo，构建图 **/
         final Edges fromTo = this.buildMapping(folder);
         final Graphic graphic = this.buildGraphic(data, fromTo);
-        /** 3.计算SCC **/
-        final List<CycleNode> ret = this.connect.execKosaraju(graphic);
-        // DigraphSearcher.DFS(rtGraphic);
-        return null;
+        /** 3.根据Json数据构造Graphic **/
+        return graphic;
     }
     // ~ Private Methods =====================================
 
@@ -114,8 +103,13 @@ public class OrderedGraphicer {
                         /** 读取当前Table引用 **/
                         final String ref = item.getString(Attributes.F_REF_TABLE);
                         if (null != item && StringKit.isNonNil(ref)) {
-                            /** Skip **/
-                            mapping.addEdge(key, ref);
+                            /**
+                             * 这个操作很重要，必须跳过自身引用的情况，如果不去掉自身引用，会导致逆向图中会出现搜索树，
+                             * 参考下边例子
+                             **/
+                            if (!key.equals(ref)) {
+                                mapping.addEdge(key, ref);
+                            }
                         }
                     }
                 }

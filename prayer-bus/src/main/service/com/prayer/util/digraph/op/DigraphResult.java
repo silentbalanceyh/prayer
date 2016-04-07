@@ -1,4 +1,4 @@
-package com.prayer.util.digraph.algorithm;
+package com.prayer.util.digraph.op;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -62,10 +62,17 @@ public class DigraphResult {
     public ConcurrentMap<Integer, String> getPath() {
         return this.fullPath;
     }
-    
-    
+
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
+    /** **/
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        for (final Integer order : this.orders.keySet()) {
+            builder.append("[V:").append(this.orders.get(order)).append(",O:").append(order).append("]\n");
+        }
+        return builder.toString();
+    }
 }

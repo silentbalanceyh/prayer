@@ -1,4 +1,4 @@
-package com.prayer.util.digraph.algorithm;
+package com.prayer.util.digraph.scc;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -13,6 +13,8 @@ import com.prayer.facade.util.digraph.StrongConnect;
 import com.prayer.util.digraph.CycleNode;
 import com.prayer.util.digraph.Graphic;
 import com.prayer.util.digraph.Node;
+import com.prayer.util.digraph.algorithm.DigraphAlgorithm;
+import com.prayer.util.digraph.op.DigraphResult;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -24,7 +26,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class SCCAlgorithm implements StrongConnect {
+public class TarjanAlgorithm implements StrongConnect {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
@@ -40,17 +42,22 @@ public class SCCAlgorithm implements StrongConnect {
      * Kosaraju算法
      */
     @Override
-    public List<CycleNode> execKosaraju(@NotNull final Graphic graphic) {
+    public List<CycleNode> execute(@NotNull final Graphic graphic) {
         /** 1.对原图执行DFS **/
         System.out.println(graphic);
         final DigraphResult dfsRet = this.algorithm.DFS(graphic);
         /** 2.对原图执行的Order进行重新计算 **/
+        System.out.println(dfsRet.getPath());
+        System.out.println(dfsRet.getOrder());
         final Node[] orders = buildOrder(graphic, dfsRet);
         /** 3.逆图计算，以及执行第二次DFS结果 **/
         final Graphic rtGraph = new Graphic(orders, graphic.getEdges().revert());
+        System.out.println(rtGraph);
         /** 4.执行逆图的DFS **/
         final DigraphResult dfsRt = this.algorithm.DFS(rtGraph);
         /** 5.构建最终搜索树生成连通分量 **/
+        System.out.println(dfsRt.getPath());
+        System.out.println(dfsRt.getOrder());
         return this.buildTree(dfsRt);
     }
 
@@ -66,7 +73,6 @@ public class SCCAlgorithm implements StrongConnect {
     private List<CycleNode> buildTree(final DigraphResult dfsRet){
         final ConcurrentMap<Integer,String> path = dfsRet.getPath();
         final List<CycleNode> retTree = new ArrayList<>();
-        System.out.println(path);
         return retTree;
     }
     /**
@@ -92,7 +98,7 @@ public class SCCAlgorithm implements StrongConnect {
             final String key = keys.get(idx);
             /** 4.如果已经处理过则不再处理 **/
             if (!processed.contains(key)) {
-                final Node nodeRef = graphic.getNode(key);
+                final Node nodeRef = graphic.getVertexRef(key);
                 final Node item = new Node(nodeRef.getData());
                 retList.add(item);
                 processed.add(key);

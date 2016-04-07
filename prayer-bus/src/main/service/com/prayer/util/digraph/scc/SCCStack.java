@@ -1,4 +1,4 @@
-package com.prayer.util.digraph.algorithm;
+package com.prayer.util.digraph.scc;
 
 import java.util.ArrayList;
 import java.util.List;
