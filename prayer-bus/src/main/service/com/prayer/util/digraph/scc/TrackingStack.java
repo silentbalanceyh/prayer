@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author Lang
  *
  */
-public class SCCStack {
+public class TrackingStack {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** SCC中的Stack **/
@@ -26,7 +26,7 @@ public class SCCStack {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /**
-     * 压栈
+     * 压栈操作，容器中记录了路径
      * 
      * @param key
      */
@@ -36,12 +36,15 @@ public class SCCStack {
     }
 
     /**
-     * 清栈，并且仅仅清除一个元素
+     * 清栈，并且清除到当前inKey为止，实际上Stack中的数据在执行回溯
      */
     public void pop(final String inKey) {
-        if (!keys.isEmpty() && null != keys.peek() && inKey.equals(keys.peek())) {
+        while (!keys.isEmpty() && null != keys.peek()) {
             final String key = keys.pop();
             container.add(key);
+            if (key.equals(inKey)) {
+                break;
+            }
         }
     }
 

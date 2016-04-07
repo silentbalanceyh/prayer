@@ -8,21 +8,25 @@ import org.slf4j.Logger;
 import com.prayer.AbstractCommonTool;
 import com.prayer.business.impl.ordered.OrderedGraphicer;
 import com.prayer.facade.util.digraph.Algorithm;
+import com.prayer.facade.util.digraph.StrongConnect;
 import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.util.digraph.Graphic;
 import com.prayer.util.digraph.algorithm.DigraphAlgorithm;
 import com.prayer.util.digraph.op.DigraphResult;
+import com.prayer.util.digraph.scc.KosarajuSSC;
 
 /**
  * 
  * @author Lang
  *
  */
-public class GraphicBFSTestCase extends AbstractCommonTool {
+public class GraphicSearchTestCase extends AbstractCommonTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
     private transient Algorithm algorithm = singleton(DigraphAlgorithm.class);
+    /** **/
+    private transient StrongConnect kosaraju = singleton(KosarajuSSC.class);
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -55,8 +59,19 @@ public class GraphicBFSTestCase extends AbstractCommonTool {
 
     /** **/
     @Test
-    public void testTableCycle() throws AbstractSystemException {
-
+    public void testDFS() throws AbstractSystemException {
+        final OrderedGraphicer executor = new OrderedGraphicer();
+        final Graphic graphic = executor.build("deploy/digraph3/schema");
+        System.out.println(graphic);
+        DigraphResult result = algorithm.DFS(graphic);
+        System.out.println(result);
+    }
+    /** **/
+    @Test
+    public void testKosaraju() throws AbstractSystemException{
+        final OrderedGraphicer executor = new OrderedGraphicer();
+        final Graphic graphic = executor.build("deploy/digraph7/schema");
+        this.kosaraju.execute(graphic);
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

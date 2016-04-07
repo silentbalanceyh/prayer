@@ -22,6 +22,8 @@ public class Graphic {
     private transient ConcurrentMap<String, Node> nodes = new ConcurrentHashMap<>();
     /** 图中的Key -> Key的关系表 **/
     private transient Edges mapping;
+    /** 遍历顺序 **/
+    private transient ConcurrentMap<Integer, String> ordered = new ConcurrentHashMap<>();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -79,12 +81,32 @@ public class Graphic {
     }
 
     /**
+     * 
+     * @param key
+     * @return
+     */
+    public Node getVertexOrd(final int idx) {
+        final String nodeKey = this.ordered.get(idx);
+        return this.getVertex().get(nodeKey);
+    }
+
+    /**
      * 获取原节点引用
      * 
      * @return
      */
     public ConcurrentMap<String, Node> getVertexRef() {
         return this.nodes;
+    }
+
+    /**
+     * 
+     * @param idx
+     * @return
+     */
+    public Node getVertexRefOrd(final int idx) {
+        final String nodeKey = this.ordered.get(idx);
+        return this.getVertexRef(nodeKey);
     }
 
     /**
@@ -126,13 +148,40 @@ public class Graphic {
         this.buildGraphic();
     }
 
+    /**
+     * 设置遍历的Order
+     * @param orders
+     */
+    public void setOrder(final List<String> orders) {
+        final ConcurrentMap<Integer, String> newOrd = new ConcurrentHashMap<>();
+        final int size = orders.size();
+        for (int idx = 0; idx < size; idx++) {
+            final String key = orders.get(idx);
+            newOrd.put(idx + 1, key);
+        }
+        this.ordered = newOrd;
+    }
+
     // ~ Private Methods =====================================
     // ~ Graphic : Build =====================================
+    private void buildOrder() {
+        this.ordered.clear();
+        if (!this.nodes.isEmpty()) {
+            int order = 1;
+            for (final String key : this.nodes.keySet()) {
+                this.ordered.put(order, key);
+                order++;
+            }
+        }
+    }
+
     private void buildData(final Node[] nodes) {
         this.nodes.clear();
         for (final Node node : nodes) {
             this.nodes.putIfAbsent(node.getKey(), node);
         }
+        /** 遍历的Order **/
+        this.buildOrder();
     }
 
     private void buildGraphic() {

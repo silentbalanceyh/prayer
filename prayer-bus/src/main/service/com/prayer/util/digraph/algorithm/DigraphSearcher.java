@@ -8,7 +8,7 @@ import com.prayer.facade.fun.graphic.Searcher;
 import com.prayer.util.digraph.Graphic;
 import com.prayer.util.digraph.Node;
 import com.prayer.util.digraph.op.DigraphResult;
-import com.prayer.util.digraph.scc.SCCStack;
+import com.prayer.util.digraph.scc.TrackingStack;
 
 /**
  * 
@@ -21,7 +21,7 @@ public class DigraphSearcher {
     /** 遍历路径 **/
     private ConcurrentMap<Integer, String> visitedMap = new ConcurrentHashMap<>();
     /** 辅助堆栈信息 **/
-    private transient SCCStack stack = new SCCStack();
+    private transient TrackingStack stack = new TrackingStack();
     /** 遍历轨迹 **/
     private transient int visited = 1;
 
@@ -64,16 +64,21 @@ public class DigraphSearcher {
         graphic.reset();
         /** 2.初始化当前对应信息 **/
         this.initialize();
-        /** 3.获取图中顶级Node **/
-        final ConcurrentMap<String, Node> nodes = graphic.getVertex();
-        for (final Node node : nodes.values()) {
+        /** 3.获取图的节点数 **/
+        final int size = graphic.getVertexRef().size();
+        /** 4.按照图中顺序遍历 **/
+        for (int idx = 0; idx < size; idx++) {
+            /** 5.读取Order下的Node，Order从1开始 **/
+            final Node node = graphic.getVertexOrd(idx + 1);
+            /** 6.递归调用 **/
             searchFun.visit(graphic, node);
         }
     }
 
     private void initialize() {
         this.visitedMap = new ConcurrentHashMap<>();
-        this.stack = new SCCStack();
+        this.stack = new TrackingStack();
+        this.visited = 1;
     }
 
     private void visitBFS(final Graphic graphic, Node node) {
@@ -101,23 +106,42 @@ public class DigraphSearcher {
     }
 
     private void visitDFS(final Graphic graphic, final Node node) {
-        
-        // /** 1.将Root中第一个邻接点设置为已经访问 **/
-        // this.setVisit(graphic, node);
-        // /** 2.外循环查找邻接点 **/
-        // Node next = node;
-        // do {
-        // /** 3.寻找邻接点执行递归 **/
-        // next = this.findUnvisited(graphic, next);
-        // /** 4.只有找到节点不为null才会执行递归 **/
-        // if (null != next) {
-        // visitDFS(graphic, next);
-        // }
-        // } while (null != next);
+        /** 1.获取原始节点引用 **/
+        final Node ajdRef = graphic.getVertexRef(node.getKey());
+        /** 2.将搜索到的节点设置成访问 **/
+        this.setVisit(ajdRef);
+        /** 3.获取原始节点引用 **/
+        final Node adj = this.findUnvisited(graphic, node);
+        if (null != adj) {
+            /** 递归读取，有了递归过后可以不使用循环 **/
+            visitDFS(graphic, adj);
+        }
     }
 
     private Node findUnvisited(final Graphic graphic, final Node node) {
-        return null;
+        Node ret = null;
+        if (null != node) {
+            /** 1.获取当前节点的引用 **/
+            Node nodeRef = graphic.getVertexRef(node.getKey());
+            /** 2.定义当前节点的邻接点 **/
+            Node adj = nodeRef;
+            do {
+                /** 3.判断该节点是否访问 **/
+                Node adjRef = graphic.getVertexRef(adj.getKey());
+                if (!adjRef.visited()) {
+                    /** 3.3.如果未访问，则直接返回adj节点 **/
+                    ret = adj;
+                    break;
+                } else {
+                    /** 3.2.如果已经访问，则直接返回当前邻接点的下一个节点 **/
+                    adj = adj.getAdjacent();
+                }
+            } while (null != adj);
+            if (null == ret) {
+                this.stack.pop(node.getKey());
+            }
+        }
+        return ret;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

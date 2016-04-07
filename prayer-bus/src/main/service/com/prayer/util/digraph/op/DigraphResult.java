@@ -73,6 +73,7 @@ public class DigraphResult {
         for (final Integer order : this.orders.keySet()) {
             builder.append("[V:").append(this.orders.get(order)).append(",O:").append(order).append("]\n");
         }
+        builder.append("Path = ").append(this.fullPath);
         return builder.toString();
     }
 }
