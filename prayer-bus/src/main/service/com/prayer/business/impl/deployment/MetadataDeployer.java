@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.business.impl.ordered.OrderedGraphicer;
+import com.prayer.business.impl.ordered.SchemaGraphicer;
 import com.prayer.exception.system.RecurrenceReferenceException;
 import com.prayer.facade.util.digraph.Algorithm;
 import com.prayer.facade.util.digraph.StrongConnect;
@@ -30,11 +30,11 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class SchemaDeployer {
+final class MetadataDeployer {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** Order的图结构 **/
-    private transient final OrderedGraphicer executor = singleton(OrderedGraphicer.class);
+    private transient final SchemaGraphicer executor = singleton(SchemaGraphicer.class);
     /** 连通性查找SCC，检查表循环 **/
     private transient final StrongConnect kosaraju = singleton(KosarajuSCC.class);
     /** 图的基础算法 **/

@@ -20,14 +20,16 @@ public final class Accessors {
     private static final String DFT_META_JDBC = "com.prayer.database.pool.impl.jdbc.H2ConnImpl";
 
     /** Builder 默认值 **/
-    private static final String DFT_DB_BUILDER = "com.prayer.builder.MsSqlBuilder";
+    private static final String DFT_DB_BUILDER = "com.prayer.builder.mssql.MsSqlBuilder";
     /** Validator 默认值 **/
-    private static final String DFT_DB_VALIDATOR = "com.prayer.builder.MsSqlValidator";
+    private static final String DFT_DB_VALIDATOR = "com.prayer.builder.mssql.part.MsSqlValidator";
+    /** Databaser 默认值 **/
+    private static final String DFT_DB_DATABASER = "com.prayer.dao.impl.data.special.MsSqlDatabaseDalor";
 
     /** Dao 默认值 **/
-    private static final String DFT_DB_DAO = "old.com.prayer.dao.impl.std.record.MsSqlRDaoImpl";
+    private static final String DFT_DB_DAO = "com.prayer.dao.impl.data.special.MsSqlDataDalor";
     /** Transverter默认值 **/
-    private static final String DFT_DB_TRANS = "old.com.prayer.dao.impl.std.record.MsSqlTransducer";
+    private static final String DFT_DB_TRANS = "com.prayer.dao.impl.data.special.MsSqlTransducer";
 
     /** Cache默认值 **/
     private static final String DFT_SYS_CACHE = "com.prayer.model.cache.HazelcastManager";
@@ -35,6 +37,16 @@ public final class Accessors {
     // ~ Static Block ========================================
 
     // ~ Static Methods ======================================
+    /**
+     * 读取数据库访问器
+     * 
+     * @return
+     */
+    @NotNull
+    public static String databaser() {
+        return null == Resources.DB_DATABASE_DAO ? DFT_DB_DATABASER : Resources.DB_DATABASE_DAO;
+    }
+
     /**
      * 获取连接池实现方式
      * 

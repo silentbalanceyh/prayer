@@ -23,4 +23,11 @@ public interface DeployService {
      * @return
      */
     ServiceResult<Boolean> manoeuvre(String folder);
+
+    /**
+     * 3.执行Purge操作，必须删除SQL数据库中的表信息
+     * 
+     * @return
+     */
+    ServiceResult<Boolean> purge();
 }

@@ -48,7 +48,7 @@ public final class ClauseInjector {
                 pager = new JsonObject(data.getString(Constants.PARAM.PAGE.NAME));
             }
         }
-        return null == pager ? null : Pager.create(pager);
+        return null == pager ? null : null;// Pager.create(pager);
     }
 
     /**

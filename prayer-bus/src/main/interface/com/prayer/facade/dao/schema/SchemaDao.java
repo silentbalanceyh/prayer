@@ -1,5 +1,7 @@
 package com.prayer.facade.dao.schema;
 
+import java.util.List;
+
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 
@@ -35,4 +37,10 @@ public interface SchemaDao {
      * @throws AbstractTransactionException
      */
     boolean delete(String identifier) throws AbstractTransactionException;
+    /**
+     * 将元数据数据库中的Meta相关信息全部删除
+     * @return
+     * @throws AbstractTransactionException
+     */
+    List<String> purge() throws AbstractTransactionException;
 }

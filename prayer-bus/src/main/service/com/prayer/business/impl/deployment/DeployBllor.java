@@ -47,7 +47,7 @@ public class DeployBllor implements DeployService {
     private transient final JdbcConnection connection; // NOPMD
     /** 主要用于Deploy **/
     @NotNull
-    private transient final SchemaDeployer deployer; // NOPMD
+    private transient final MetadataDeployer deployer; // NOPMD
     /** Schema Service **/
     @NotNull
     private transient final SchemaService service;
@@ -61,7 +61,7 @@ public class DeployBllor implements DeployService {
     @PostValidateThis
     public DeployBllor() {
         this.connection = singleton(Accessors.connection());
-        this.deployer = singleton(SchemaDeployer.class);
+        this.deployer = singleton(MetadataDeployer.class);
         this.service = singleton(SchemaBllor.class);
     }
 
@@ -101,6 +101,11 @@ public class DeployBllor implements DeployService {
             ret.failure(ex);
         }
         return ret;
+    }
+    /** **/
+    @Override
+    public ServiceResult<Boolean> purge(){
+        
     }
     // ~ Private Methods =====================================
 

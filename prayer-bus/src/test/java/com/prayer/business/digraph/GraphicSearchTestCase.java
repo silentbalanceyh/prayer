@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.prayer.AbstractCommonTool;
-import com.prayer.business.impl.ordered.OrderedGraphicer;
+import com.prayer.business.impl.ordered.SchemaGraphicer;
 import com.prayer.facade.util.digraph.Algorithm;
 import com.prayer.facade.util.digraph.StrongConnect;
 import com.prayer.fantasm.exception.AbstractSystemException;
@@ -53,7 +53,7 @@ public class GraphicSearchTestCase extends AbstractCommonTool {
     /** **/
     @Test
     public void testBFS() throws AbstractSystemException {
-        final OrderedGraphicer executor = new OrderedGraphicer();
+        final SchemaGraphicer executor = new SchemaGraphicer();
         final Graphic graphic = executor.build("deploy/digraph3/schema");
         System.out.println(graphic);
         DigraphResult result = algorithm.BFS(graphic);
@@ -63,7 +63,7 @@ public class GraphicSearchTestCase extends AbstractCommonTool {
     /** **/
     @Test
     public void testDFS() throws AbstractSystemException {
-        final OrderedGraphicer executor = new OrderedGraphicer();
+        final SchemaGraphicer executor = new SchemaGraphicer();
         final Graphic graphic = executor.build("deploy/digraph3/schema");
         System.out.println(graphic);
         DigraphResult result = algorithm.DFS(graphic);
@@ -72,7 +72,7 @@ public class GraphicSearchTestCase extends AbstractCommonTool {
     /** **/
     @Test
     public void testKosaraju() throws AbstractSystemException{
-        final OrderedGraphicer executor = new OrderedGraphicer();
+        final SchemaGraphicer executor = new SchemaGraphicer();
         final Graphic graphic = executor.build("deploy/digraph3/schema");
         System.out.println(graphic);
         List<CycleNode> nodes = this.kosaraju.findSCC(graphic);

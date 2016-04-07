@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.prayer.AbstractCommonTool;
-import com.prayer.business.impl.ordered.OrderedGraphicer;
+import com.prayer.business.impl.ordered.SchemaGraphicer;
 import com.prayer.exception.system.RecurrenceReferenceException;
 import com.prayer.facade.util.digraph.Algorithm;
 import com.prayer.fantasm.exception.AbstractSystemException;
@@ -50,7 +50,7 @@ public class GraphicSortTestCase extends AbstractCommonTool {
     /** 正常排序 **/
     @Test
     public void testSorting() throws AbstractSystemException {
-        final OrderedGraphicer executor = new OrderedGraphicer();
+        final SchemaGraphicer executor = new SchemaGraphicer();
         final Graphic graphic = executor.build("deploy/oob/schema");
         DigraphResult result = algorithm.topSort(graphic);
         assertNotNull(result);
@@ -59,7 +59,7 @@ public class GraphicSortTestCase extends AbstractCommonTool {
     /** 异常排序 **/
     @Test(expected = RecurrenceReferenceException.class)
     public void testSortingError() throws AbstractSystemException {
-        final OrderedGraphicer executor = new OrderedGraphicer();
+        final SchemaGraphicer executor = new SchemaGraphicer();
         final Graphic graphic = executor.build("deploy/digraph3/schema");
         DigraphResult result = algorithm.topSort(graphic);
         assertNull(result);

@@ -4,6 +4,10 @@ import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -158,9 +162,25 @@ public class SchemaBllor implements SchemaService {
             result.success(Boolean.TRUE);
         } catch (AbstractDatabaseException ex) {
             peError(LOGGER, ex);
-            result.error(ex);
+            result.failure(ex);
         }
         return result;
+    }
+
+    /** **/
+    @Override
+    @PreValidateThis
+    @InstanceOfAny(ServiceResult.class)
+    public ServiceResult<Set<String>> purge() {
+        final ServiceResult<Set<String>> ret = new ServiceResult<>();
+        try {
+            final List<String> purged = this.dao.purge();
+            ret.success(new HashSet<>(purged));
+        } catch (AbstractDatabaseException ex) {
+            peError(LOGGER, ex);
+            ret.failure(ex);
+        }
+        return ret;
     }
 
     // ~ Methods =============================================

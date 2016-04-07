@@ -1,26 +1,23 @@
-package com.prayer.dao.impl.data;
+package com.prayer.fantasm.dao.database;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.constant.Resources;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
-import com.prayer.facade.dao.schema.MetadataDao;
+import com.prayer.facade.dao.DatabaseDao;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.model.business.Metadata;
 import com.prayer.util.jdbc.DatabaseKit;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
 
 /**
  * Metadata元数据信息
- * 
  * @author Lang
  *
  */
-@Guarded
-public class MetadataDalor implements MetadataDao {
+public abstract class AbstractDatabaseDao implements DatabaseDao {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 数据库连接 **/
@@ -30,12 +27,10 @@ public class MetadataDalor implements MetadataDao {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-
-    /** Database连接 **/
-    public MetadataDalor() {
+    
+    public AbstractDatabaseDao(){
         this.connection = singleton(JdbcConnImpl.class);
     }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**

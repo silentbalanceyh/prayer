@@ -4,6 +4,7 @@ import static com.prayer.util.Generator.uuid;
 import static com.prayer.util.debug.Log.debug;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.entity.Entity;
 import com.prayer.facade.schema.Schema;
+import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 import com.prayer.model.crucial.schema.JsonSchema;
 import com.prayer.model.meta.database.PEField;
@@ -23,6 +25,7 @@ import com.prayer.model.meta.database.PEMeta;
 import com.prayer.model.query.Restrictions;
 import com.prayer.model.type.StringType;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -103,6 +106,26 @@ public final class SchemaDalor implements SchemaDao {
             accessor(PEMeta.class).deleteById(schema.totem());
         }
         return true;
+    }
+    /** **/
+    @Override
+    public List<String> purge() throws AbstractTransactionException{
+        /** 0.获取返回的Meta集合 **/
+        final List<String> tables = new ArrayList<>();
+        final List<Entity> metas = accessor(PEMeta.class).getAll();
+        for(final Entity meta: metas){
+            if(null != meta){
+                final JsonObject data = meta.toJson();
+                tables.add(data.getString(Attributes.M_TABLE));
+            }
+        }
+        /** 1.先删除Key **/
+        // accessor(PEKey.class).purge();
+        /** 2.再删除Field **/
+     // accessor(PEField.class).purge();
+        /** 3.最后删除Meta **/
+     // accessor(PEMeta.class).purge();
+        return tables;
     }
 
     // ~ Methods =============================================

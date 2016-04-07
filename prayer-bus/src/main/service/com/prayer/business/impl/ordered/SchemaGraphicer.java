@@ -28,7 +28,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class OrderedGraphicer {
+public class SchemaGraphicer {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 从Key到Data的映射 **/

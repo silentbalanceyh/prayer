@@ -101,6 +101,8 @@ public final class Resources { // NOPMD
     public static final String DB_TRANSDUCER;
     /** Builder过程的关于Target数据库的验证 **/
     public static final String DB_VALIDATOR;
+    /** 从业务数据库读取元数据访问器 **/
+    public static final String DB_DATABASE_DAO;
 
     /**
      * Private singleton resource LOADER. *
@@ -194,6 +196,8 @@ public final class Resources { // NOPMD
         DB_DAO = LOADER.getString("database.dao");
 
         DB_TRANSDUCER = LOADER.getString("database.dao.transducer");
+        
+        DB_DATABASE_DAO = LOADER.getString("database.meta.databaser");
         // =====================================================
         // Meta Initializer Implementation
         final PropertyKit DB_LOADER = new PropertyKit(Resources.DB_CFG_FILE);
