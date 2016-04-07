@@ -96,6 +96,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
             sql = this.prepCreateSql(schema);
         }
         debug(getLogger(), DebugKey.INFO_SQL_STMT, sql);
+        // TODO: DEBUG
         final int respCode = this.connection.executeBatch(sql);
         return Constants.RC_SUCCESS == respCode;
     }

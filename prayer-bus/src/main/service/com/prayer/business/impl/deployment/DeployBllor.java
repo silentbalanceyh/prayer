@@ -105,7 +105,7 @@ public class DeployBllor implements DeployService {
     /** **/
     @Override
     public ServiceResult<Boolean> purge(){
-        
+        return null;
     }
     // ~ Private Methods =====================================
 

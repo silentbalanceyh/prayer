@@ -1,4 +1,4 @@
-package com.prayer.business.impl.ordered;
+package com.prayer.business.digraph;
 
 import com.prayer.facade.util.digraph.NodeData;
 

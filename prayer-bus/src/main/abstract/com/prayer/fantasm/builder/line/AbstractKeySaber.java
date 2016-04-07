@@ -68,7 +68,7 @@ public abstract class AbstractKeySaber implements KeySaber, SQLWord, SQLStatemen
             // 2.获取Column列表
             final List<String> columns = key.getColumns();
             // 3.获取每一个外键列
-            if (Constants.ONE != columns.size()) {
+            if (Constants.ONE == columns.size()) {
                 final String column = columns.get(Constants.IDX);
                 if (StringKit.isNonNil(column) && fieldMap.containsKey(column)) {
                     final PEField field = fieldMap.get(column);

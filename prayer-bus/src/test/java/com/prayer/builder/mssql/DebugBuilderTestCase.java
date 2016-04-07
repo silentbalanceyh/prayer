@@ -1,23 +1,20 @@
-package com.prayer.dao.impl.data.special;
+package com.prayer.builder.mssql;
 
-import java.text.MessageFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
-import com.prayer.facade.sql.special.MsSqlStatement;
-import com.prayer.fantasm.dao.database.AbstractDatabaseDao;
-
-import net.sf.oval.guard.Guarded;
+import com.prayer.builder.AbstractMsSqlBuilderTool;
 
 /**
- * SQL Server元数据信息
- * 
+ * 外键语句有问题
  * @author Lang
  *
  */
-@Guarded
-public class MsSqlDatabaseDalor extends AbstractDatabaseDao implements MsSqlStatement {
-
+public class DebugBuilderTestCase extends AbstractMsSqlBuilderTool{
     // ~ Static Fields =======================================
+
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(DebugBuilderTestCase.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -26,22 +23,17 @@ public class MsSqlDatabaseDalor extends AbstractDatabaseDao implements MsSqlStat
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public String buildRelSql() {
-        return MessageFormat.format(R_RELATIONS, Resources.DB_DATABASE);
-    }
-
-    /** From **/
-    @Override
-    public String fromColumn() {
-        return "FROM_TABLE";
-    }
-
-    /** To **/
-    @Override
-    public String toColumn() {
-        return "TO_TABLE";
+    public Logger getLogger() {
+        return LOGGER;
     }
     // ~ Methods =============================================
+//    /** **/
+//    @Test
+//    public void testREL_A_G() throws AbstractException {
+//        final Schema schema = this.prepare("rel.account.group.json");
+//        this.builder().synchronize(schema);
+//        System.out.println(schema.getForeignField().size());
+//    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

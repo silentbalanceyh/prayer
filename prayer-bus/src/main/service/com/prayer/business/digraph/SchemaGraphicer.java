@@ -1,4 +1,4 @@
-package com.prayer.business.impl.ordered;
+package com.prayer.business.digraph;
 
 import java.util.ArrayList;
 import java.util.List;

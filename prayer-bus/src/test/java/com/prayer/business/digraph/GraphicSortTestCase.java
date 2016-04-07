@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.prayer.AbstractCommonTool;
-import com.prayer.business.impl.ordered.SchemaGraphicer;
+import com.prayer.business.digraph.SchemaGraphicer;
 import com.prayer.exception.system.RecurrenceReferenceException;
 import com.prayer.facade.util.digraph.Algorithm;
 import com.prayer.fantasm.exception.AbstractSystemException;

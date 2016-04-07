@@ -145,22 +145,12 @@ public abstract class AbstractBuilderTool {
 
     // ~ Component ===========================================
     /**
-     * 获取Builder
-     * 
-     * @return
-     */
-    protected Builder builder() {
-        return this.builder;
-    }
-    // ~ Private Methods =====================================
-
-    /**
      * 数据准备
      * 
      * @param file
      * @return
      */
-    private Schema prepare(final String file) {
+    protected Schema prepare(final String file) {
         final String filePath = SCHEMA_FLD + file;
         Schema schema = null;
         try {
@@ -177,6 +167,16 @@ public abstract class AbstractBuilderTool {
         }
         return schema;
     }
+    /**
+     * 获取Builder
+     * 
+     * @return
+     */
+    protected Builder builder() {
+        return this.builder;
+    }
+    // ~ Private Methods =====================================
+
 
     /**
      * 数据库不匹配
