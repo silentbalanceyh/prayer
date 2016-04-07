@@ -43,11 +43,9 @@ public class KosarajuSSC implements StrongConnect {
     // 3.从‘S’中依次弹出每个顶点，设为‘V’，将V看做图的源点，做第二次DFS遍历
     // 4.可以找到的以‘V’为起点的连通分量
     @Override
-    public List<CycleNode> execute(@NotNull final Graphic graphic) {
+    public List<CycleNode> findSCC(@NotNull final Graphic graphic) {
         /** 1.对原图执行DFS **/
-        System.out.println(graphic);
         final DigraphResult dfsRet = this.algorithm.DFS(graphic);
-        System.out.println(dfsRet);
         /** 2.读取原图的Path **/
         final ConcurrentMap<Integer, String> path = dfsRet.getPath();
         /** 3.读取逆图的Order **/
@@ -58,14 +56,16 @@ public class KosarajuSSC implements StrongConnect {
         /** 5.设置逆图的Order **/
         rt.setOrder(orders);
         /** 6.在逆图上执行第二次DFS **/
-        System.out.println(rt);
         final DigraphResult rtRet = this.algorithm.DFS(rt);
-        System.out.println(rtRet);
-        return null;
+        return CycleBuilder.buildKosaraju(rtRet);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-
+    /**
+     * 构建逆图的遍历顺序
+     * @param path
+     * @return
+     */
     private List<String> buildOrders(final ConcurrentMap<Integer, String> path) {
         final List<String> orders = new ArrayList<>();
         final int size = path.size();

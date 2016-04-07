@@ -2,6 +2,8 @@ package com.prayer.business.digraph;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -10,6 +12,7 @@ import com.prayer.business.impl.ordered.OrderedGraphicer;
 import com.prayer.facade.util.digraph.Algorithm;
 import com.prayer.facade.util.digraph.StrongConnect;
 import com.prayer.fantasm.exception.AbstractSystemException;
+import com.prayer.util.digraph.CycleNode;
 import com.prayer.util.digraph.Graphic;
 import com.prayer.util.digraph.algorithm.DigraphAlgorithm;
 import com.prayer.util.digraph.op.DigraphResult;
@@ -70,8 +73,12 @@ public class GraphicSearchTestCase extends AbstractCommonTool {
     @Test
     public void testKosaraju() throws AbstractSystemException{
         final OrderedGraphicer executor = new OrderedGraphicer();
-        final Graphic graphic = executor.build("deploy/digraph7/schema");
-        this.kosaraju.execute(graphic);
+        final Graphic graphic = executor.build("deploy/digraph3/schema");
+        System.out.println(graphic);
+        List<CycleNode> nodes = this.kosaraju.findSCC(graphic);
+        for(final CycleNode node: nodes){
+            System.out.println(node);
+        }
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

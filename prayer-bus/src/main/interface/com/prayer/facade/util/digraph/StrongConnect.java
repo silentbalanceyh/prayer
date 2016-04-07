@@ -18,5 +18,5 @@ public interface StrongConnect {
      * @param 传入图引用
      * @return 返回一个单链表的数组，每个元素是一个链表构成的环
      */
-    List<CycleNode> execute(Graphic graphic);
+    List<CycleNode> findSCC(Graphic graphic);
 }

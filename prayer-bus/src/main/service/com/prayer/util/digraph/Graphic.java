@@ -67,7 +67,11 @@ public class Graphic {
      */
     public ConcurrentMap<String, Node> getVertex() {
         final ConcurrentMap<String, Node> map = new ConcurrentHashMap<>();
-        map.putAll(this.nodes);
+        for (final String key : this.nodes.keySet()) {
+            final Node nodeRef = this.nodes.get(key);
+            final Node node = new Node(nodeRef.getData());
+            map.put(key, node);
+        }
         return map;
     }
 
@@ -150,6 +154,7 @@ public class Graphic {
 
     /**
      * 设置遍历的Order
+     * 
      * @param orders
      */
     public void setOrder(final List<String> orders) {

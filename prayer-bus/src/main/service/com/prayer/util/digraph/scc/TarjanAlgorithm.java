@@ -42,7 +42,7 @@ public class TarjanAlgorithm implements StrongConnect {
      * Kosaraju算法
      */
     @Override
-    public List<CycleNode> execute(@NotNull final Graphic graphic) {
+    public List<CycleNode> findSCC(@NotNull final Graphic graphic) {
         /** 1.对原图执行DFS **/
         System.out.println(graphic);
         final DigraphResult dfsRet = this.algorithm.DFS(graphic);

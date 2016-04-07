@@ -35,6 +35,15 @@ public class CycleNode {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /**
+     * 获取Key值
+     * 
+     * @return
+     */
+    public String getKey() {
+        return this.key;
+    }
+
+    /**
      * 获取下一个节点
      * 
      * @return
@@ -55,4 +64,14 @@ public class CycleNode {
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(" K : ").append(key);
+        CycleNode ref = this.getNext();
+        while (null != ref) {
+            builder.append(" -> K : ").append(ref.key);
+            ref = ref.getNext();
+        }
+        return builder.toString();
+    }
 }
