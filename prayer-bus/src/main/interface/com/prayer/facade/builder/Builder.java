@@ -23,4 +23,11 @@ public interface Builder {
      * @throws AbstractDatabaseException
      */
     boolean purge(Schema schema) throws AbstractDatabaseException;
+    /**
+     * 重载，删除表信息
+     * @param table
+     * @return
+     * @throws AbstractDatabaseException
+     */
+    boolean purge(String table) throws AbstractDatabaseException;
 }

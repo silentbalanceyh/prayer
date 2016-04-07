@@ -73,7 +73,9 @@ public abstract class AbstractDatabaseDao implements DatabaseDao {
         for (final ConcurrentMap<String, String> item : records) {
             final String from = item.get(this.fromColumn());
             final String to = item.get(this.toColumn());
-            edges.addEdge(from, to);
+            if (!from.equals(to)) {
+                edges.addEdge(from, to);
+            }
         }
         return edges;
     }

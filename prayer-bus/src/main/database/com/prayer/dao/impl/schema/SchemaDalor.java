@@ -107,24 +107,25 @@ public final class SchemaDalor implements SchemaDao {
         }
         return true;
     }
+
     /** **/
     @Override
-    public List<String> purge() throws AbstractTransactionException{
+    public List<String> purge() throws AbstractTransactionException {
         /** 0.获取返回的Meta集合 **/
         final List<String> tables = new ArrayList<>();
         final List<Entity> metas = accessor(PEMeta.class).getAll();
-        for(final Entity meta: metas){
-            if(null != meta){
+        for (final Entity meta : metas) {
+            if (null != meta) {
                 final JsonObject data = meta.toJson();
                 tables.add(data.getString(Attributes.M_TABLE));
             }
         }
         /** 1.先删除Key **/
-        // accessor(PEKey.class).purge();
+        accessor(PEKey.class).purge();
         /** 2.再删除Field **/
-     // accessor(PEField.class).purge();
+        accessor(PEField.class).purge();
         /** 3.最后删除Meta **/
-     // accessor(PEMeta.class).purge();
+        accessor(PEMeta.class).purge();
         return tables;
     }
 

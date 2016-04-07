@@ -1,16 +1,14 @@
-package com.prayer.business;
+package com.prayer.business.deployment;
 
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.reflection.Instance.singleton;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.business.impl.deployment.DeployBllor;
 import com.prayer.constant.Resources;
-import com.prayer.exception.system.RecurrenceReferenceException;
 import com.prayer.facade.business.deployment.DeployService;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
@@ -20,10 +18,10 @@ import com.prayer.model.business.ServiceResult;
  * @author Lang
  *
  */
-public class DeploymentTestCase {
+public class PurgeTestCase {
     // ~ Static Fields =======================================
     /** 日志记录器 **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeploymentTestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PurgeTestCase.class);
     /** 默认的SQL文件名 **/
     private static final String INIT_SQL = "initialize";
     // ~ Instance Fields =====================================
@@ -37,30 +35,20 @@ public class DeploymentTestCase {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /** **/
-    @Before
-    public void setUp() {
-        /** 执行SQL **/
-        final ServiceResult<Boolean> ret = this.service.initialize(INIT_SQL);
+    @Test
+    public void testPurge() throws AbstractException {
+        ServiceResult<Boolean> ret = this.service.initialize(INIT_SQL);
         if (ret.success()) {
             info(LOGGER, "[T] Metadata ( Structure Part ) deployed successfully !");
-        }
-    }
-
-    /** **/
-    @Test
-    public void testDeploy() throws AbstractException {
-        ServiceResult<Boolean> ret = this.service.manoeuvre(Resources.OOB_DATA_FOLDER);
-        if (!ret.success()) {
-            throw ret.getServiceError();
-        }
-    }
-
-    /** **/
-    @Test(expected = RecurrenceReferenceException.class)
-    public void testDeployExp() throws AbstractException {
-        ServiceResult<Boolean> ret = this.service.manoeuvre("deploy/test");
-        if (!ret.success()) {
-            throw ret.getServiceError();
+            ret = this.service.manoeuvre(Resources.OOB_DATA_FOLDER);
+            if (ret.success()) {
+                this.service.purge();
+                if (!ret.success()) {
+                    throw ret.getServiceError();
+                }
+            } else {
+                throw ret.getServiceError();
+            }
         }
     }
     // ~ Private Methods =====================================

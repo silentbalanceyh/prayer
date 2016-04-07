@@ -21,7 +21,7 @@ import com.prayer.util.digraph.scc.KosarajuSCC;
  * @author Lang
  *
  */
-public abstract class AbstractDeployer {
+public abstract class AbstractPreProcessor {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 连通性查找SCC，检查表循环 **/

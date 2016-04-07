@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.business.digraph.DatabaseGraphicer;
-import com.prayer.fantasm.business.AbstractDeployer;
+import com.prayer.fantasm.business.AbstractPreProcessor;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.digraph.Graphic;
 
@@ -20,7 +20,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class MetadataPurger extends AbstractDeployer {
+public class MetadataPurger extends AbstractPreProcessor {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** Order的图结构 **/
@@ -39,7 +39,7 @@ public class MetadataPurger extends AbstractDeployer {
     public ConcurrentMap<Integer, String> buildOrdMap(@NotNull final Set<String> tables) throws AbstractException {
         /** 1.构建图信息 **/
         final Graphic graphic = this.executor.build(tables);
-
+        
         return this.buildIdOrd(graphic);
     }
     // ~ Methods =============================================

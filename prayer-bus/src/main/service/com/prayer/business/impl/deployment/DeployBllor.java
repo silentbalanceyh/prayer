@@ -102,10 +102,23 @@ public class DeployBllor implements DeployService {
         }
         return ret;
     }
+
     /** **/
     @Override
-    public ServiceResult<Boolean> purge(){
-        return null;
+    public ServiceResult<Boolean> purge() {
+        ServiceResult<Boolean> ret = new ServiceResult<>();
+        try {
+            /** 1.执行数据库Schema部分的Purege **/
+            ret = this.service.purge();
+            if (ret.success()) {
+
+            } else {
+                throw ret.getServiceError();
+            }
+        } catch (AbstractException ex) {
+            ret.failure(ex);
+        }
+        return ret;
     }
     // ~ Private Methods =====================================
 

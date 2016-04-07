@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.business.digraph.SchemaGraphicer;
 import com.prayer.exception.system.RecurrenceReferenceException;
-import com.prayer.fantasm.business.AbstractDeployer;
+import com.prayer.fantasm.business.AbstractPreProcessor;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.digraph.Graphic;
 
@@ -22,7 +22,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class MetadataDeployer extends AbstractDeployer {
+final class MetadataDeployer extends AbstractPreProcessor {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** Order的图结构 **/

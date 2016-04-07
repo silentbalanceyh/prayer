@@ -1,7 +1,5 @@
 package com.prayer.facade.business.deployment;
 
-import java.util.Set;
-
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.business.ServiceResult;
 
@@ -55,5 +53,5 @@ public interface SchemaService {
      * 
      * @return 返回从Metadata Database中删除的业务数据库表集
      */
-    ServiceResult<Set<String>> purge();
+    ServiceResult<Boolean> purge();
 }

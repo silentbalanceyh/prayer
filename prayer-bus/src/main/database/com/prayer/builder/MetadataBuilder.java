@@ -7,6 +7,8 @@ import com.prayer.facade.builder.Builder;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -44,6 +46,11 @@ public class MetadataBuilder implements Builder {
     @Override
     public boolean purge(@NotNull final Schema schema) throws AbstractDatabaseException {
         return this.builder.purge(schema);
+    }
+    /** **/
+    @Override
+    public boolean purge(@NotNull @NotBlank @NotEmpty final String table) throws AbstractDatabaseException{
+        return this.builder.purge(table);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

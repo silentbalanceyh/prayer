@@ -31,6 +31,8 @@ import com.prayer.sql.util.SqlDDLBuilder;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOf;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -75,7 +77,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
 
     /** 键处理器 **/
     public abstract KeySaber getKeySaber();
-    
+
     /** 获取更新器 **/
     public abstract Refresher getRefresher();
 
@@ -86,7 +88,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
     /** **/
     @Override
     public boolean synchronize(@NotNull final Schema schema) throws AbstractDatabaseException {
-        final boolean exist = this.exist(schema);
+        final boolean exist = this.exist(schema.getTable());
         // 表是否存在，不存在则执行Create，存在则执行Alter
         String sql = null;
         debug(getLogger(), "[D] Table " + schema.getTable() + " existing status. Result: exist = " + exist);
@@ -106,9 +108,17 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
      **/
     @Override
     public boolean purge(@NotNull final Schema schema) throws AbstractDatabaseException {
-        final boolean exist = this.exist(schema);
+        return this.purge(schema.getTable());
+    }
+
+    /**
+     * 删除表语句
+     */
+    @Override
+    public boolean purge(@NotNull @NotBlank @NotEmpty final String table) throws AbstractDatabaseException {
+        final boolean exist = this.exist(table);
         if (exist) {
-            final String sql = builder.buildDropTable(schema.getTable());
+            final String sql = builder.buildDropTable(table);
             debug(getLogger(), DebugKey.INFO_SQL_STMT, sql);
             final int respCode = this.connection.executeBatch(sql);
             return Constants.RC_SUCCESS == respCode;
@@ -124,13 +134,13 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
     }
     // ~ Private Methods =====================================
 
-    private boolean exist(final Schema schema) {
-        final String table = schema.getTable();
+    private boolean exist(final String table) {
         /** 验证表是否存在 **/
         AbstractSchemaException error = this.getValidator().verifyTable(table);
         /** 如果error为空则表不存在 **/
         return null == error;
     }
+
     /**
      * 创建表语句
      * 
