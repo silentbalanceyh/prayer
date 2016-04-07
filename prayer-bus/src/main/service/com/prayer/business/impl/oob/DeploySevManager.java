@@ -8,14 +8,14 @@ import com.prayer.business.impl.deploy.RuleDPSevImpl;
 import com.prayer.business.impl.deploy.ScriptDPSevImpl;
 import com.prayer.business.impl.deploy.UriDPSevImpl;
 import com.prayer.business.impl.deploy.VerticleDPSevImpl;
-import com.prayer.business.impl.deployment.SchemaBllor;
+import com.prayer.deployment.impl.SchemaBllor;
 import com.prayer.facade.business.deploy.AddressDPService;
 import com.prayer.facade.business.deploy.RouteDPService;
 import com.prayer.facade.business.deploy.RuleDPService;
 import com.prayer.facade.business.deploy.ScriptDPService;
 import com.prayer.facade.business.deploy.UriDPService;
 import com.prayer.facade.business.deploy.VerticleDPService;
-import com.prayer.facade.business.deployment.SchemaService;
+import com.prayer.facade.deployment.SchemaService;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

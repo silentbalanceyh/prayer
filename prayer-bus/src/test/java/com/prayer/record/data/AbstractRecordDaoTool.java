@@ -11,12 +11,12 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.AbstractCommonTool;
 import com.prayer.Assistant;
-import com.prayer.business.impl.deployment.SchemaBllor;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.impl.data.DataRecordDalor;
-import com.prayer.facade.business.deployment.SchemaService;
+import com.prayer.deployment.impl.SchemaBllor;
 import com.prayer.facade.dao.RecordDao;
+import com.prayer.facade.deployment.SchemaService;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.facade.schema.Schema;

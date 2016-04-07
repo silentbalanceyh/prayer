@@ -1,0 +1,56 @@
+package com.prayer.deployment.impl;
+
+import static com.prayer.util.reflection.Instance.singleton;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import com.prayer.constant.SystemEnum.Acus;
+import com.prayer.deployment.impl.acus.PurgeAcus;
+import com.prayer.deployment.impl.acus.SchemaAcus;
+import com.prayer.deployment.impl.acus.SqlAcus;
+import com.prayer.facade.deployment.acus.DeployAcus;
+
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
+
+/**
+ * 用于选择Acus的选择器
+ * 
+ * @author Lang
+ *
+ */
+@Guarded
+public final class AcusSelector {
+    // ~ Static Fields =======================================
+    /** 读取Selectors **/
+    private static final ConcurrentMap<Acus, DeployAcus> SELECTORS = new ConcurrentHashMap<>();
+    // ~ Instance Fields =====================================
+    // ~ Static Block ========================================
+    // ~ Static Methods ======================================
+    static {
+        /** 数据库发布器 **/
+        SELECTORS.put(Acus.SQL, singleton(SqlAcus.class));
+        /** Schema执行器 **/
+        SELECTORS.put(Acus.SCHEMA, singleton(SchemaAcus.class));
+        /** Purge执行器 **/
+        SELECTORS.put(Acus.PURGE, singleton(PurgeAcus.class));
+    }
+
+    // ~ Constructors ========================================
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    // ~ Methods =============================================
+    /**
+     * 读取对应的Acus
+     * 
+     * @param acus
+     * @return
+     */
+    public DeployAcus selectors(@NotNull final Acus acus) {
+        return SELECTORS.get(acus);
+    }
+    // ~ Private Methods =====================================
+    // ~ Get/Set =============================================
+    // ~ hashCode,equals,toString ============================
+}

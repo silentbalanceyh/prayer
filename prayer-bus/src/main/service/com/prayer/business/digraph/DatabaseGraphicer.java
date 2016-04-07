@@ -5,7 +5,6 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Constants;
@@ -20,6 +19,7 @@ import com.prayer.util.digraph.Edges;
 import com.prayer.util.digraph.Graphic;
 import com.prayer.util.digraph.Node;
 
+import io.vertx.core.json.JsonArray;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -29,7 +29,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class DatabaseGraphicer {
+final class DatabaseGraphicer {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 数据库验证器 **/
@@ -53,7 +53,7 @@ public class DatabaseGraphicer {
      * @param tables
      * @return
      */
-    public Graphic build(@NotNull final Set<String> tables) throws AbstractException {
+    public Graphic build(@NotNull final JsonArray tables) throws AbstractException {
         /** 1.获取数据Key **/
         final String[] data = this.buildNodes(tables);
         /** 2.读取关系信息 **/
@@ -77,9 +77,11 @@ public class DatabaseGraphicer {
         return new Graphic(nodes, fromTo);
     }
 
-    private String[] buildNodes(final Set<String> tables) throws AbstractException {
+    private String[] buildNodes(final JsonArray tables) throws AbstractException {
         final List<String> data = new ArrayList<>();
-        for (final String table : tables) {
+        final int size = tables.size();
+        for (int idx = 0; idx < size; idx++ ) {
+            final String table = tables.getString(idx);
             if (null == this.validator.verifyTable(table)) {
                 data.add(table);
             }

@@ -4,9 +4,9 @@ import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.instance;
 
 import com.prayer.AbstractCommonTool;
-import com.prayer.business.impl.deployment.SchemaBllor;
 import com.prayer.constant.Resources;
-import com.prayer.facade.business.deployment.SchemaService;
+import com.prayer.deployment.impl.SchemaBllor;
+import com.prayer.facade.deployment.SchemaService;
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.util.string.StringKit;

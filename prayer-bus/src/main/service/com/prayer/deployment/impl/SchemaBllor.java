@@ -1,28 +1,26 @@
-package com.prayer.business.impl.deployment;
+package com.prayer.deployment.impl;
 
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.builder.MetadataBuilder;
 import com.prayer.constant.Resources;
+import com.prayer.constant.SystemEnum.Acus;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.dao.impl.schema.CommuneImporter;
 import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.builder.Builder;
-import com.prayer.facade.business.deployment.SchemaService;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.facade.deployment.SchemaService;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.Altimeter;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
@@ -32,8 +30,8 @@ import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.schema.common.SchemaAltimeter;
-import com.prayer.sql.util.SqlDDLBuilder;
 
+import io.vertx.core.json.JsonArray;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -62,9 +60,6 @@ public class SchemaBllor implements SchemaService {
     /** 导入器 **/
     @NotNull
     private transient final Importer importer;
-    /** 主要用于Purge **/
-    @NotNull
-    private transient final MetadataPurger purger; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -75,7 +70,6 @@ public class SchemaBllor implements SchemaService {
         this.dao = singleton(SchemaDalor.class);
         this.builder = singleton(MetadataBuilder.class);
         this.importer = singleton(CommuneImporter.class);
-        this.purger = singleton(MetadataPurger.class);
     }
 
     // ~ Abstract Methods ====================================
@@ -181,7 +175,14 @@ public class SchemaBllor implements SchemaService {
         final ServiceResult<Boolean> ret = new ServiceResult<>();
         try {
             final List<String> purged = this.dao.purge();
-            this.purgeMetadata(new HashSet<>(purged));
+            /** 构造参数 **/
+            final JsonArray array = new JsonArray();
+            for (final String table : purged) {
+                array.add(table);
+            }
+            /** 局部构造AcusSelector **/
+            final AcusSelector selector = singleton(AcusSelector.class);
+            selector.selectors(Acus.PURGE).deploy(array.encode(), this.builder::purge);
             ret.success(Boolean.TRUE);
         } catch (AbstractException ex) {
             peError(LOGGER, ex);
@@ -192,20 +193,6 @@ public class SchemaBllor implements SchemaService {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-
-    private void purgeMetadata(final Set<String> tables) throws AbstractException {
-        /** 1.构建顺序 **/
-        final ConcurrentMap<Integer, String> ordMap = this.purger.buildOrdMap(tables);
-        /** 2.顺序操作 **/
-        final int size = ordMap.size();
-        for (int idx = 1; idx <= size; idx++) {
-            /** 3.删除的表名 **/
-            final String table = ordMap.get(idx);
-            /** 4.执行表删除 **/
-            this.builder.purge(table);
-        }
-        info(LOGGER, "[I] Metadata have been purged from ( Metadata Server & Transaction Database ) Successfully !");
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.configurator.ServerConfigurator;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.business.deployment.DeployService;
+import com.prayer.facade.deployment.DeployService;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.util.Converter;
 

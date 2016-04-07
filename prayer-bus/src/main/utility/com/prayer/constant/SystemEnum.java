@@ -134,6 +134,12 @@ public final class SystemEnum { // NOPMD
         JADE, // Jade模板引擎
         HTML // 纯的HTML结构，Dynamic无用
     }
+    /** 使用的Deployer中Acus组件种类 **/
+    public static enum Acus{
+        SQL, // SQL执行器
+        SCHEMA, // Schema执行器
+        PURGE, // Purge执行器
+    }
 
     /** 容器计算模型 **/
     public static enum RuleContainer {

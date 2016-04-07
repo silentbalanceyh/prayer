@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.impl.deployment.DeployBllor;
 import com.prayer.constant.Resources;
-import com.prayer.facade.business.deployment.DeployService;
+import com.prayer.deployment.impl.DeployBllor;
+import com.prayer.facade.deployment.DeployService;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
 
