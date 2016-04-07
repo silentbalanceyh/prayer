@@ -24,7 +24,7 @@ import net.sf.oval.guard.Guarded;
  * 
  */
 @Guarded
-public class KosarajuSSC implements StrongConnect {
+public class KosarajuSCC implements StrongConnect {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 基本算法库BFS/DFS/Sort **/
@@ -46,6 +46,8 @@ public class KosarajuSSC implements StrongConnect {
     public List<CycleNode> findSCC(@NotNull final Graphic graphic) {
         /** 1.对原图执行DFS **/
         final DigraphResult dfsRet = this.algorithm.DFS(graphic);
+        System.out.println(graphic);
+        System.out.println(dfsRet);
         /** 2.读取原图的Path **/
         final ConcurrentMap<Integer, String> path = dfsRet.getPath();
         /** 3.读取逆图的Order **/
@@ -57,6 +59,8 @@ public class KosarajuSSC implements StrongConnect {
         rt.setOrder(orders);
         /** 6.在逆图上执行第二次DFS **/
         final DigraphResult rtRet = this.algorithm.DFS(rt);
+        System.out.println(rt);
+        System.out.println(rtRet);
         return CycleBuilder.buildKosaraju(rtRet);
     }
     // ~ Methods =============================================

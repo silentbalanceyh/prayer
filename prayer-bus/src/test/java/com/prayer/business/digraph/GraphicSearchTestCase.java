@@ -16,7 +16,7 @@ import com.prayer.util.digraph.CycleNode;
 import com.prayer.util.digraph.Graphic;
 import com.prayer.util.digraph.algorithm.DigraphAlgorithm;
 import com.prayer.util.digraph.op.DigraphResult;
-import com.prayer.util.digraph.scc.KosarajuSSC;
+import com.prayer.util.digraph.scc.KosarajuSCC;
 
 /**
  * 
@@ -29,7 +29,7 @@ public class GraphicSearchTestCase extends AbstractCommonTool {
     /** **/
     private transient Algorithm algorithm = singleton(DigraphAlgorithm.class);
     /** **/
-    private transient StrongConnect kosaraju = singleton(KosarajuSSC.class);
+    private transient StrongConnect kosaraju = singleton(KosarajuSCC.class);
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
