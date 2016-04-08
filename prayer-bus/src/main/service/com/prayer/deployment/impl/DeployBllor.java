@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.SystemEnum.Acus;
 import com.prayer.facade.deployment.DeployService;
-import com.prayer.facade.deployment.SchemaService;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
 
@@ -33,9 +32,6 @@ public class DeployBllor implements DeployService {
     /** **/
     @NotNull
     private transient final AcusSelector selector; // NOPMD
-    /** **/
-    @NotNull
-    private transient final SchemaService service; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -46,7 +42,6 @@ public class DeployBllor implements DeployService {
     @PostValidateThis
     public DeployBllor() {
         this.selector = singleton(AcusSelector.class);
-        this.service = singleton(SchemaBllor.class);
     }
 
     // ~ Abstract Methods ====================================
