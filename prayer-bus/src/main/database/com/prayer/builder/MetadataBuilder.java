@@ -2,10 +2,13 @@ package com.prayer.builder;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
+import java.util.Set;
+
 import com.prayer.constant.Accessors;
 import com.prayer.facade.builder.Builder;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractException;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -51,6 +54,11 @@ public class MetadataBuilder implements Builder {
     @Override
     public boolean purge(@NotNull @NotBlank @NotEmpty final String table) throws AbstractDatabaseException{
         return this.builder.purge(table);
+    }
+    /** **/
+    @Override
+    public boolean purge(@NotNull final Set<String> tables) throws AbstractException{
+        return this.builder.purge(tables);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

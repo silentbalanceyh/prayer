@@ -1,6 +1,5 @@
 package com.prayer.facade.deployment.acus;
 
-import com.prayer.facade.fun.deploy.AcusPoster;
 import com.prayer.fantasm.exception.AbstractException;
 
 /**
@@ -15,5 +14,11 @@ public interface DeployAcus {
      * @return
      * @throws AbstractException
      */
-    boolean deploy(String folder, AcusPoster fun) throws AbstractException;
+    boolean deploy(String folder) throws AbstractException;
+    /**
+     * 删除数据专用接口
+     * @return
+     * @throws AbstractException
+     */
+    boolean purge() throws AbstractException;
 }

@@ -1,0 +1,7 @@
+[
+    {
+        "path":"/sec/login",
+        "requestHandler":"com.prayer.handler.standard.BasicAuthenticateHandler",
+        "order":-8000
+    }
+]

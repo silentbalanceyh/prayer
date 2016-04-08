@@ -1,0 +1,36 @@
+[
+    {
+        "name":"com.prayer.verticle.standard.RouterVerticle",
+        "instances":32,
+        "ha":true
+    },
+    {
+        "name":"com.prayer.verticle.standard.WebVerticle",
+        "instances":32,
+        "ha":true
+    },
+    {
+        "name":"com.prayer.verticle.worker.RecordWorker",
+        "instances":128,
+        "ha":true,
+        "worker":true
+    },
+    {
+        "name":"com.prayer.verticle.worker.PagerWorker",
+        "instances":128,
+        "ha":true,
+        "worker":true
+    },
+    {
+        "name":"com.prayer.verticle.worker.SecurityWorker",
+        "instances":128,
+        "ha":true,
+        "worker":true
+    },
+    {
+        "name":"com.prayer.verticle.worker.H2PagerWorker",
+        "instances":128,
+        "ha":true,
+        "worker":true
+    }
+]

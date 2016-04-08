@@ -5,11 +5,13 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
+import com.prayer.business.digraph.OrderedBuilder;
 import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
@@ -24,6 +26,7 @@ import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.facade.sql.SQLStatement;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
@@ -126,7 +129,24 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
             return false;
         }
     }
-
+    /**
+     * 删除多表语句
+     */
+    @Override
+    public boolean purge(@NotNull final Set<String> tables) throws AbstractException{
+        /** 1.顺序构造器 **/
+        final OrderedBuilder orderer = singleton(OrderedBuilder.class);
+        final ConcurrentMap<Integer, String> ordMap = orderer.buildPurgeOrder(tables);
+        /** 2.顺序操作 **/
+        final int size = ordMap.size();
+        for (int idx = 1; idx <= size; idx++) {
+            /** 3.删除的表名 **/
+            final String table = ordMap.get(idx);
+            /** 4.执行表删除 **/
+            this.purge(table);
+        }
+        return true;
+    }
     // ~ Methods =============================================
     /** 子类使用连接 **/
     protected JdbcConnection getConnection() {

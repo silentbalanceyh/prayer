@@ -4,6 +4,7 @@ import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.builder.MetadataBuilder;
 import com.prayer.constant.Resources;
-import com.prayer.constant.SystemEnum.Acus;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.dao.impl.schema.CommuneImporter;
 import com.prayer.dao.impl.schema.SchemaDalor;
@@ -31,7 +31,6 @@ import com.prayer.fantasm.exception.AbstractTransactionException;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.schema.common.SchemaAltimeter;
 
-import io.vertx.core.json.JsonArray;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -175,14 +174,7 @@ public class SchemaBllor implements SchemaService {
         final ServiceResult<Boolean> ret = new ServiceResult<>();
         try {
             final List<String> purged = this.dao.purge();
-            /** 构造参数 **/
-            final JsonArray array = new JsonArray();
-            for (final String table : purged) {
-                array.add(table);
-            }
-            /** 局部构造AcusSelector **/
-            final AcusSelector selector = singleton(AcusSelector.class);
-            selector.selectors(Acus.PURGE).deploy(array.encode(), this.builder::purge);
+            this.builder.purge(new HashSet<>(purged));
             ret.success(Boolean.TRUE);
         } catch (AbstractException ex) {
             peError(LOGGER, ex);

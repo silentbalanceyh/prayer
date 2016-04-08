@@ -14,8 +14,8 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.Symbol;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.exception.database.DataAccessException;
+import com.prayer.exception.database.OperationNotSupportException;
 import com.prayer.facade.deployment.acus.DeployAcus;
-import com.prayer.facade.fun.deploy.AcusPoster;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
@@ -62,7 +62,7 @@ public class SqlAcus implements DeployAcus {
      * @param filename
      */
     @Override
-    public boolean deploy(@NotNull @NotEmpty @NotBlank final String filename, final AcusPoster fun) throws AbstractException {
+    public boolean deploy(@NotNull @NotEmpty @NotBlank final String filename) throws AbstractException {
         /** 1.文件名计算 **/
         String dftFile = null;
         if (filename.toLowerCase(Locale.getDefault()).endsWith(".sql")) {
@@ -80,6 +80,14 @@ public class SqlAcus implements DeployAcus {
             ret.failure(new DataAccessException(getClass(), "Metadata Initialize : Sql = " + dftFile));
         }
         return ret.getResult();
+    }
+
+    /**
+     * 删除数据接口，对于SQL类型不可支持
+     */
+    @Override
+    public boolean purge() throws AbstractException {
+        throw new OperationNotSupportException(getClass(), "SqlAcus -> purge()");
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

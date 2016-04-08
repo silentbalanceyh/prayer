@@ -136,9 +136,12 @@ public final class SystemEnum { // NOPMD
     }
     /** 使用的Deployer中Acus组件种类 **/
     public static enum Acus{
-        SQL, // SQL执行器
-        SCHEMA, // Schema执行器
-        PURGE, // Purge执行器
+        SQL, // SQL执行器：运行SQL脚本
+        SCHEMA, // Schema执行器：导入Meta，Field，Key，Index
+        DATABASE, // 数据库组件执行器：导入View，Trigger，VColumn
+        VERTX, // Vertx执行器：导入Verticle, Address, Route
+        URI, // URI执行器：导入Uri，Rule
+        SCRIPT // JavaScript执行器：导入Script
     }
 
     /** 容器计算模型 **/

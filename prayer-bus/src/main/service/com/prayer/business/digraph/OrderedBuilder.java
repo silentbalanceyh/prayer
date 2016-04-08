@@ -4,6 +4,7 @@ import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -22,7 +23,6 @@ import com.prayer.util.digraph.op.DigraphResult;
 import com.prayer.util.digraph.scc.KosarajuSCC;
 
 import io.vertx.core.json.DecodeException;
-import io.vertx.core.json.JsonArray;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -59,12 +59,11 @@ public class OrderedBuilder {
      * @return
      * @throws AbstractException
      */
-    public ConcurrentMap<Integer, String> buildPurgeOrder(@NotNull final String set) throws AbstractException {
+    public ConcurrentMap<Integer, String> buildPurgeOrder(@NotNull final Set<String> tables) throws AbstractException {
         final DatabaseGraphicer executor = singleton(DatabaseGraphicer.class);
         /** JsonArray **/
         ConcurrentMap<Integer, String> ret = new ConcurrentHashMap<>();
         try {
-            final JsonArray tables = new JsonArray(set);
             /** 1.构建图信息 **/
             final Graphic graphic = executor.build(tables);
 

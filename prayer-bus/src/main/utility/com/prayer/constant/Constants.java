@@ -28,6 +28,8 @@ public interface Constants { // NOPMD
         String JSON = "json";
         /** Properties 后缀名 **/
         String PROP = "properties";
+        /** JavaScript后缀 **/
+        String JS = "js";
     }
     // ~ System ==============================================
     /** System value 2 **/

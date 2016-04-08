@@ -1,5 +1,7 @@
 package com.prayer.model.meta.vertx;
 
+import static com.prayer.util.reflection.Instance.clazz;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +45,11 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
 
     /** S_METHOD **/
     @JsonProperty(METHOD)
-    private HttpMethod method;
+    private HttpMethod method = HttpMethod.GET;
 
     /** S_PARAM_TYPE **/
     @JsonProperty(PARAM_TYPE)
-    private ParamType paramType;
+    private ParamType paramType = (HttpMethod.GET == this.method) ? ParamType.QUERY : ParamType.BODY;
 
     /** S_REQUIRED_PARAM **/
     @JsonProperty(REQUIRED_PARAM)
@@ -59,7 +61,7 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
 
     /** MSG_ADDRESS **/
     @JsonProperty(ADDRESS)
-    private String address;
+    private String address = "MSG://RECORD/QUEUE";
 
     /** S_SCRIPT **/
     @JsonProperty(SCRIPT)
@@ -73,7 +75,7 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
     @JsonProperty(SENDER)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private Class<?> sender;
+    private Class<?> sender = clazz("com.prayer.uca.sender.JsonRecordSender");
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

@@ -12,7 +12,6 @@ import com.prayer.business.digraph.OrderedBuilder;
 import com.prayer.deployment.impl.SchemaBllor;
 import com.prayer.facade.deployment.SchemaService;
 import com.prayer.facade.deployment.acus.DeployAcus;
-import com.prayer.facade.fun.deploy.AcusPoster;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
@@ -54,25 +53,43 @@ public class SchemaAcus implements DeployAcus {
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
     @Override
-    public boolean deploy(@NotNull @NotEmpty @NotBlank final String folder, final AcusPoster fun) throws AbstractException {
+    public boolean deploy(@NotNull @NotEmpty @NotBlank final String folder) throws AbstractException {
         /** 0.文件目录准备 **/
         final String dftFile = folder + "/schema";
         /** 1.构建Schema文件的顺序 **/
         final ConcurrentMap<Integer, String> ordMap = this.builder.buildDeployOrder(dftFile);
         /** 2.创建顺序按照从大到小 **/
         final int size = ordMap.size();
+        info(LOGGER, "[DP] 1.<Start>.Schema deployment start... ");
         for (int idx = size; idx > 0; idx--) {
             /** 3.根据文件名读取Schema **/
             final String file = ordMap.get(idx);
             /** 4.同步当前Schema **/
             this.importSchema(file);
+            info(LOGGER, "[DP] 1." + idx + ".Schema deployment executed successfully, file = " + file);
         }
-        info(LOGGER, "[I] Schema deployment executed successfully under : " + dftFile);
+        info(LOGGER, "[DP] 1.<End>.Schema deployment executed successfully under : " + dftFile);
         return true;
     }
 
+    /** **/
+    @Override
+    public boolean purge() throws AbstractException {
+        info(LOGGER, "[PG] 1.<Start>.Schema purging start...");
+        ServiceResult<Boolean> ret = this.service.purge();
+        boolean purged = false;
+        if (ret.success()) {
+            purged = true;
+        } else {
+            throw ret.getServiceError();
+        }
+        info(LOGGER, "[PG] 1.<End>.Schema metadata data have been purged successfully.");
+        return purged;
+    }
     // ~ Methods =============================================
+
     // ~ Private Methods =====================================
     private void importSchema(final String file) throws AbstractException {
         /** 1.从文件导入Schema **/

@@ -1,0 +1,28 @@
+[
+    {
+        "name":"email",
+        "type":"StringType",
+        "order":4,
+        "componentType":"VALIDATOR",
+        "componentClass":"com.prayer.uca.validator.RegexValidator",
+        "config":{
+            "regex":"^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)$"
+        },
+        "errorMessage":"用户的Email格式不合法，请输入合法的Email格式。"
+    },
+    {
+        "name":"email",
+        "type":"StringType",
+        "order":2,
+        "componentType":"DEPENDANT",
+        "componentClass":"com.prayer.uca.dependant.UPEValidateDependant",
+        "config":{
+            "rule":"VALIDATE",
+            "parameter":["id"],
+            "query":"PK_ID <> ''{0}''",
+            "table":"SEC_ACCOUNT",
+            "column":"S_EMAIL"
+        },
+        "errorMessage":"该Email在数据库中已经存在，请输入不重复的Email。"
+    }
+]

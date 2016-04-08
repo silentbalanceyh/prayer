@@ -6,9 +6,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.SystemEnum.Acus;
-import com.prayer.deployment.impl.acus.PurgeAcus;
 import com.prayer.deployment.impl.acus.SchemaAcus;
+import com.prayer.deployment.impl.acus.ScriptAcus;
 import com.prayer.deployment.impl.acus.SqlAcus;
+import com.prayer.deployment.impl.acus.UriAcus;
+import com.prayer.deployment.impl.acus.VertxAcus;
 import com.prayer.facade.deployment.acus.DeployAcus;
 
 import net.sf.oval.constraint.NotNull;
@@ -33,8 +35,12 @@ public final class AcusSelector {
         SELECTORS.put(Acus.SQL, singleton(SqlAcus.class));
         /** Schema执行器 **/
         SELECTORS.put(Acus.SCHEMA, singleton(SchemaAcus.class));
-        /** Purge执行器 **/
-        SELECTORS.put(Acus.PURGE, singleton(PurgeAcus.class));
+        /** Vertx执行器 **/
+        SELECTORS.put(Acus.VERTX, singleton(VertxAcus.class));
+        /** Script执行器 **/
+        SELECTORS.put(Acus.SCRIPT, singleton(ScriptAcus.class));
+        /** Uri执行器 **/
+        SELECTORS.put(Acus.URI,singleton(UriAcus.class));
     }
 
     // ~ Constructors ========================================

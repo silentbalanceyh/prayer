@@ -1,0 +1,13 @@
+[
+    {
+        "path":"/sec/role",
+        "method":"POST",
+        "order":-8000,
+        "requestHandler":"com.prayer.handler.standard.ValidationHandler"
+    },
+    {
+        "path":"/sec/role",
+        "method":"POST",
+        "order":-4000
+    }
+]

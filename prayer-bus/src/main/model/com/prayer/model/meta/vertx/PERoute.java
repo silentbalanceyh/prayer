@@ -1,5 +1,8 @@
 package com.prayer.model.meta.vertx;
 
+import static com.prayer.util.reflection.Instance.clazz;
+
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -34,21 +37,27 @@ public class PERoute extends AbstractEntity<String> { // NOPMD
     /** K_ID: EVX_ROUTE表的主键 **/
     @JsonProperty(ID)
     private String uniqueId;
+
     /** S_PARENT **/
     @JsonProperty(PARENT)
-    private String parent;
+    private String parent = "/api";
+
     /** S_PATH **/
     @JsonProperty(PATH)
     private String path;
+
     /** S_MIME_CONSUMER **/
     @JsonProperty(CONSUMER_MIMES)
-    private List<String> consumerMimes;
+    private List<String> consumerMimes = Arrays.asList(new String[] { "json" });
+
     /** S_MIME_PRODUCER **/
     @JsonProperty(PRODUCER_MIMES)
-    private List<String> producerMimes;
+    private List<String> producerMimes = Arrays.asList(new String[] { "json" });
+
     /** S_METHOD **/
     @JsonProperty(METHOD)
-    private HttpMethod method;
+    private HttpMethod method = HttpMethod.GET;
+
     /** S_ORDER **/
     @JsonProperty(ORDER)
     private int order = Constants.ORDER.NOT_SET;
@@ -57,7 +66,8 @@ public class PERoute extends AbstractEntity<String> { // NOPMD
     @JsonProperty(REQUEST_HANDLER)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private Class<?> requestHandler;
+    private Class<?> requestHandler = clazz("com.prayer.handler.standard.RecordHandler");
+
     /** S_FHANDLER **/
     @JsonProperty(FAILURE_HANDLER)
     @JsonSerialize(using = ClassSerializer.class)
