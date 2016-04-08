@@ -1,13 +1,16 @@
 package com.prayer.facade.record;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
+import com.prayer.facade.kernel.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
-import com.prayer.model.type.DataType;
+import com.prayer.model.meta.database.PEField;
 
 /**
  * 
@@ -15,41 +18,36 @@ import com.prayer.model.type.DataType;
  *
  */
 @VertexPoint(Interface.ENG_PRIVATE)
-interface RecordMeta {
-    // ~ Metadata 元数据需要使用的相关接口 ===========================
+interface PrimaryKey {
     /**
-     * 获取当前记录的模型名
+     * 主键的Policy
      * 
      * @return
      */
     @VertexApi(Api.READ)
-    String identifier();
+    MetaPolicy policy();
 
     /**
-     * 根据列名获取field名称
+     * 生成主键键值对
      * 
-     * @param column
      * @return
-     * @throws AbstractDatabaseException
      */
     @VertexApi(Api.READ)
-    String toField(String column) throws AbstractDatabaseException;
+    ConcurrentMap<String, Value<?>> idKV() throws AbstractDatabaseException;
 
     /**
-     * 根据field名获取列名称
+     * 当前记录的主键Schema
      * 
-     * @param field
      * @return
-     * @throws AbstractDatabaseException
      */
     @VertexApi(Api.READ)
-    String toColumn(String field) throws AbstractDatabaseException;
+    List<PEField> idschema();
 
     /**
-     * 获取fields的数据类型：name = DataType
+     * seq name
      * 
      * @return
      */
     @VertexApi(Api.READ)
-    ConcurrentMap<String, DataType> fields();
+    String seqname();
 }

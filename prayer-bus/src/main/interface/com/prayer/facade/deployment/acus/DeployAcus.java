@@ -21,7 +21,7 @@ public interface DeployAcus {
      * @return
      * @throws AbstractException
      */
-    @VertexApi(Api.TOOL)
+    @VertexApi(Api.WRITE)
     boolean deploy(String folder) throws AbstractException;
 
     /**
@@ -30,6 +30,6 @@ public interface DeployAcus {
      * @return
      * @throws AbstractException
      */
-    @VertexApi(Api.TOOL)
+    @VertexApi(Api.WRITE)
     boolean purge() throws AbstractException;
 }

@@ -1,5 +1,9 @@
 package com.prayer.facade.locator;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.web.WebRequest;
 import com.prayer.model.web.WebResponse;
@@ -9,6 +13,7 @@ import com.prayer.model.web.WebResponse;
  * @author Lang
  *
  */
+@VertexPoint(Interface.RESTFUL)
 public interface SchemaStub {
     /**
      * Web Request，传入文件路径，将内容直接同步：Json -> Meta ( H2 ) -> Database
@@ -16,6 +21,7 @@ public interface SchemaStub {
      * @param request
      * @return
      */
+    @VertexApi(Api.WRITE)
     WebResponse synchronize(WebRequest request) throws AbstractWebException;
 
     /**
@@ -24,6 +30,7 @@ public interface SchemaStub {
      * @param request
      * @return
      */
+    @VertexApi(Api.READ)
     WebResponse findById(WebRequest request) throws AbstractWebException;
 
     /**
@@ -32,5 +39,6 @@ public interface SchemaStub {
      * @param request
      * @return
      */
+    @VertexApi(Api.WRITE)
     WebResponse removeById(WebRequest request) throws AbstractWebException;
 }

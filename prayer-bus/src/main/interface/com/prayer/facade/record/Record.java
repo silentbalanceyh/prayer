@@ -14,7 +14,7 @@ import com.prayer.fantasm.exception.AbstractDatabaseException;
  * @see
  */
 @VertexPoint(Interface.ENG_PUBLIC)
-public interface Record extends RecordPrimaryKey, RecordDatabase, RecordMeta{
+public interface Record extends PrimaryKey, Database, Metadata{
     /**
      * 针对当前记录设置字段值
      * 

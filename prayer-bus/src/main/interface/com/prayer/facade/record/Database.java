@@ -17,7 +17,7 @@ import com.prayer.model.type.DataType;
  *
  */
 @VertexPoint(Interface.ENG_PRIVATE)
-interface RecordDatabase {
+interface Database {
 
     /**
      * 根据列名查找对应的属性值

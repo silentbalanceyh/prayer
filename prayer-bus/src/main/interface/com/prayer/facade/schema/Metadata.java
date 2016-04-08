@@ -16,7 +16,7 @@ import com.prayer.model.meta.database.PEMeta;
  *
  */
 @VertexPoint(Interface.ENG_PRIVATE)
-interface SchemaMeta {
+interface Metadata {
     // ~ Schema Dao ===========================================
     /**
      * 读取Meta的Id -> PEMeta的UniqueId，防止和identifier方法混淆

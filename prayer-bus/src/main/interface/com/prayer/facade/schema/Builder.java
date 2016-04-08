@@ -1,16 +1,14 @@
-package com.prayer.facade.record;
+package com.prayer.facade.schema;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Set;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
-import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
-import com.prayer.facade.kernel.Value;
-import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.meta.database.PEField;
+import com.prayer.model.meta.database.PEKey;
 
 /**
  * 
@@ -18,36 +16,37 @@ import com.prayer.model.meta.database.PEField;
  *
  */
 @VertexPoint(Interface.ENG_PRIVATE)
-interface RecordPrimaryKey {
+interface Builder {
+    // ~ OldBuilder Interface ====================================
     /**
-     * 主键的Policy
+     * 排序列出数据列，PK在最前边
      * 
      * @return
      */
     @VertexApi(Api.READ)
-    MetaPolicy policy();
+    Set<String> getColumns();
 
     /**
-     * 生成主键键值对
+     * 获取主键的Schema，有可能是多个主键
      * 
      * @return
      */
     @VertexApi(Api.READ)
-    ConcurrentMap<String, Value<?>> idKV() throws AbstractDatabaseException;
+    List<PEField> getPrimaryKeys();
 
     /**
-     * 当前记录的主键Schema
+     * 获取外键的规范
      * 
      * @return
      */
     @VertexApi(Api.READ)
-    List<PEField> idschema();
+    List<PEField> getForeignField();
 
     /**
-     * seq name
+     * 获取外键定义
      * 
      * @return
      */
     @VertexApi(Api.READ)
-    String seqname();
+    List<PEKey> getForeignKey();
 }
