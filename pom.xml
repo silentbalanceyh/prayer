@@ -95,6 +95,8 @@
         <maven.mojo.aspectj.version>1.7</maven.mojo.aspectj.version>
 
         <maven.shade.plugin.version>2.3</maven.shade.plugin.version>
+
+        <maven.build.helper.version>1.10</maven.build.helper.version>
         <!-- 【Latest】Maven的JXR插件使用的版本 <maven.jxr.plugin.version>2.4</maven.jxr.plugin.version> 【Latest】Maven处理Clean Up插件的版本 
             <maven.clean.plugin.version>2.5</maven.clean.plugin.version> 【Latest】Surefire的插件版本 <maven.surefire.plugin.version>2.14</maven.surefire.plugin.version> 
             【Latest】Failsafe的插件版本 <maven.failsafe.plugin.version>2.14</maven.failsafe.plugin.version> 【Latest】Surefire Report的插件版本 <maven.surefire.report.plugin.version>2.14</maven.surefire.report.plugin.version> 
@@ -827,36 +829,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- <plugin> -->
-            <!-- <groupId>org.apache.maven.plugins</groupId> -->
-            <!-- <artifactId>maven-shade-plugin</artifactId> -->
-            <!-- <version>${maven.shade.plugin.version}</version> -->
-            <!-- <executions> -->
-            <!-- <execution> -->
-            <!-- <phase>package</phase> -->
-            <!-- <goals> -->
-            <!-- <goal>shade</goal> -->
-            <!-- </goals> -->
-            <!-- <configuration> -->
-            <!-- <transformers> -->
-            <!-- <transformer -->
-            <!-- implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> -->
-            <!-- <manifestEntries> -->
-            <!-- <Main-Class>${main.class}</Main-Class> -->
-            <!-- </manifestEntries> -->
-            <!-- </transformer> -->
-            <!-- <transformer -->
-            <!-- implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> -->
-            <!-- <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource> -->
-            <!-- </transformer> -->
-            <!-- </transformers> -->
-            <!-- <artifactSet> -->
-            <!-- </artifactSet> -->
-            <!-- <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile> -->
-            <!-- </configuration> -->
-            <!-- </execution> -->
-            <!-- </executions> -->
-            <!-- </plugin> -->
         </plugins>
         <pluginManagement>
             <plugins>
