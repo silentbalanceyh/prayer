@@ -12,8 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.configurator.ServerConfigurator;
-import com.prayer.constant.Constants;
 import com.prayer.database.pool.impl.jdbc.H2ConnImpl;
+import com.prayer.facade.constant.Constants;
 import com.prayer.util.string.StringKit;
 
 /**

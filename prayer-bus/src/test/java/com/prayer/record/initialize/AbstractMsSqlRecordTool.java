@@ -1,6 +1,6 @@
 package com.prayer.record.initialize;
 
-import com.prayer.constant.DBConstants;
+import com.prayer.facade.constant.DBConstants;
 
 /**
  * 

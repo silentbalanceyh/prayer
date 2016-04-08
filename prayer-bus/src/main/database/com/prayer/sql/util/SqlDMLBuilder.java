@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.Symbol;
+import com.prayer.facade.constant.Constants;
+import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.sql.SQLStatement;
 import com.prayer.model.business.OrderBy;

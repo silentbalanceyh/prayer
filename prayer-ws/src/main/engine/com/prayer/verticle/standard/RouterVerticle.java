@@ -5,8 +5,8 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configurator.RouteConfigurator;
 import com.prayer.configurator.ServerConfigurator;
-import com.prayer.constant.Constants;
 import com.prayer.constant.web.WebConfig;
+import com.prayer.facade.constant.Constants;
 import com.prayer.handler.route.FailureHandler;
 import com.prayer.handler.route.RouterHandler;
 import com.prayer.handler.route.ServiceHandler;

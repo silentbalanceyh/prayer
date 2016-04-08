@@ -16,8 +16,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.springframework.jdbc.core.JdbcOperations;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.MemoryPool;
+import com.prayer.facade.constant.Constants;
+import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.pool.JdbcPool;

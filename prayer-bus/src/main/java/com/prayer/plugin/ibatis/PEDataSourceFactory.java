@@ -16,9 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Accessors;
-import com.prayer.constant.DBConstants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.database.MetadataNotSupportException;
+import com.prayer.facade.constant.DBConstants;
 import com.prayer.facade.pool.JdbcPool;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 

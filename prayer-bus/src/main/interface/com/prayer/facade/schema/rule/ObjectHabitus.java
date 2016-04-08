@@ -2,6 +2,11 @@ package com.prayer.facade.schema.rule;
 
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
+
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -11,12 +16,14 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface ObjectHabitus {
     /**
      * 获取当前节点中的所有属性表，全部为String类型，因为是从JsonObject的fieldNames中提取的
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     JsonArray fields();
 
     /**
@@ -24,6 +31,7 @@ public interface ObjectHabitus {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     ConcurrentMap<String, Class<?>> types();
 
     /**
@@ -31,12 +39,14 @@ public interface ObjectHabitus {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     ConcurrentMap<String, Object> values();
 
     /**
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     <T> T data();
 
     /**
@@ -45,6 +55,7 @@ public interface ObjectHabitus {
      * @param field
      * @return
      */
+    @VertexApi(Api.READ)
     Object get(String field);
 
     /**
@@ -52,6 +63,7 @@ public interface ObjectHabitus {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     JsonObject addtional();
 
     /**
@@ -59,6 +71,7 @@ public interface ObjectHabitus {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     JsonObject filter();
 
     /**
@@ -66,10 +79,12 @@ public interface ObjectHabitus {
      * 
      * @param filter
      */
+    @VertexApi(Api.TOOL)
     void filter(final JsonObject filter);
 
     /**
      * Reset，创建Raw Data的拷贝
      */
+    @VertexApi(Api.WRITE)
     void reset();
 }

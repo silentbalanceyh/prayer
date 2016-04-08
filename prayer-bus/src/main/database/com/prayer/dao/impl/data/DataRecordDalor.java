@@ -5,8 +5,8 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;

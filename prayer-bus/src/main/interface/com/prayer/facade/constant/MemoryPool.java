@@ -1,4 +1,4 @@
-package com.prayer.constant;
+package com.prayer.facade.constant;
 
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,7 +7,9 @@ import java.util.concurrent.ConcurrentMap;
 import javax.sql.DataSource;
 
 import com.prayer.business.impl.std.ServiceHelper;
+import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.accessor.MetaAccessor;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.facade.builder.Builder;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
@@ -20,6 +22,7 @@ import com.prayer.fantasm.pool.AbstractJdbcPool;
  * @author Lang
  *
  */
+@VertexPoint(Interface.CONSTANT)
 public interface MemoryPool { // NOPMD
     // ~ Static Fields =======================================
     /** Accessor Pool **/

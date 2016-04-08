@@ -1,9 +1,14 @@
-package com.prayer.constant;
+package com.prayer.facade.constant;
+
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+
 /**
  * 
  * @author Lang
  *
  */
+@VertexPoint(Interface.CONSTANT)
 public interface DBConstants {
     // ~ 数据库的模式 ==================================
     /** SQL 数据库模式 **/

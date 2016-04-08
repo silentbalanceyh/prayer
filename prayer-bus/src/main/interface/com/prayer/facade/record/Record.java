@@ -1,5 +1,9 @@
 package com.prayer.facade.record;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.facade.kernel.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 
@@ -9,6 +13,7 @@ import com.prayer.fantasm.exception.AbstractDatabaseException;
  * @author Lang
  * @see
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface Record extends RecordPrimaryKey, RecordDatabase, RecordMeta{
     /**
      * 针对当前记录设置字段值
@@ -16,6 +21,7 @@ public interface Record extends RecordPrimaryKey, RecordDatabase, RecordMeta{
      * @param name
      * @param value
      */
+    @VertexApi(Api.WRITE)
     void set(String name, Value<?> value) throws AbstractDatabaseException;
 
     /**
@@ -23,6 +29,7 @@ public interface Record extends RecordPrimaryKey, RecordDatabase, RecordMeta{
      * @param name
      * @param value
      */
+    @VertexApi(Api.WRITE)
     void set(String name, String value) throws AbstractDatabaseException;
 
     /**
@@ -31,5 +38,6 @@ public interface Record extends RecordPrimaryKey, RecordDatabase, RecordMeta{
      * @param name
      * @return
      */
+    @VertexApi(Api.READ)
     Value<?> get(String name) throws AbstractDatabaseException;
 }

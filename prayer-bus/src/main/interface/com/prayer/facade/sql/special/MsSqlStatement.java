@@ -1,10 +1,14 @@
 package com.prayer.facade.sql.special;
 
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+
 /**
  * 
  * @author Lang
  *
  */
+@VertexPoint(Interface.CONSTANT)
 public interface MsSqlStatement {
     // 存在检查语句 =======================================
     /** SQL Server检查表是否存在语句 **/

@@ -23,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class AcusSelector {
+final class AcusSelector {
     // ~ Static Fields =======================================
     /** 读取Selectors **/
     private static final ConcurrentMap<Acus, DeployAcus> SELECTORS = new ConcurrentHashMap<>();

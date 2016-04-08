@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.business.impl.std.BasicAuthSevImpl;
 import com.prayer.configurator.SecurityConfigurator;
-import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.business.BasicAuthService;
+import com.prayer.facade.constant.Constants;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.model.web.JsonKey;
 import com.prayer.security.AuthConstants.BASIC;

@@ -1,10 +1,14 @@
 package com.prayer.facade.sql;
 
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+
 /**
  * 
  * @author Lang
  *
  */
+@VertexPoint(Interface.CONSTANT)
 public interface SQLStatement { // SQL语句模板
     /** 表创建语句 **/
     String TB_CREATE = "CREATE TABLE {0} ( {1} );";

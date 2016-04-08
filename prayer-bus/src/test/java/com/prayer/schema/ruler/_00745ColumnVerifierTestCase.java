@@ -3,10 +3,10 @@ package com.prayer.schema.ruler;
 import org.junit.After;
 import org.junit.Test;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.DBConstants;
 import com.prayer.constant.Resources;
 import com.prayer.exception.schema.BTColumnNotExistingException;
+import com.prayer.facade.constant.Constants;
+import com.prayer.facade.constant.DBConstants;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 

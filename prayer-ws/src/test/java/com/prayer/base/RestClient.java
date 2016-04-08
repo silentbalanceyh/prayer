@@ -29,10 +29,10 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.configurator.SecurityConfigurator;
 import com.prayer.configurator.ServerConfigurator;
-import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
-import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.SecurityMode;
+import com.prayer.facade.constant.Constants;
+import com.prayer.facade.constant.Symbol;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.PropertyKit;
 

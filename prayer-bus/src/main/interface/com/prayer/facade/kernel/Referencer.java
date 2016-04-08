@@ -2,6 +2,10 @@ package com.prayer.facade.kernel;
 
 import java.util.List;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.model.crucial.schema.FKReferencer;
 
 /**
@@ -10,6 +14,7 @@ import com.prayer.model.crucial.schema.FKReferencer;
  * @author Lang
  *
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface Referencer {
     /**
      * 根据表名和字段名获取所有的FKReferencer
@@ -18,6 +23,7 @@ public interface Referencer {
      * @param column
      * @return
      */
+    @VertexApi(Api.TOOL)
     List<FKReferencer> getReferences(String table, String column);
 
     /**
@@ -26,6 +32,8 @@ public interface Referencer {
      * @param referencer
      * @return
      */
+
+    @VertexApi(Api.TOOL)
     List<String> prepDropSql(List<FKReferencer> refs);
 
     /**
@@ -34,5 +42,7 @@ public interface Referencer {
      * @param referencer
      * @return
      */
+
+    @VertexApi(Api.TOOL)
     List<String> prepRecoverySql(List<FKReferencer> refs);
 }

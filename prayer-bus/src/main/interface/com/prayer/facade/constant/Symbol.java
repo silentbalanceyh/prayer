@@ -1,9 +1,14 @@
-package com.prayer.constant;
+package com.prayer.facade.constant;
+
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+
 /**
  * 
  * @author Lang
  *
  */
+@VertexPoint(Interface.CONSTANT)
 public interface Symbol {    // NOPMD
     /** 逗号 **/
     char COMMA = ',';

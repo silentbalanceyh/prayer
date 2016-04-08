@@ -3,6 +3,10 @@ package com.prayer.facade.accessor;
 import java.io.Serializable;
 import java.util.List;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.facade.entity.Entity;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 
@@ -13,6 +17,7 @@ import com.prayer.fantasm.exception.AbstractTransactionException;
  *
  * @param <T>
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface MetaAccessor { // NOPMD
     /**
      * 单条记录插入
@@ -21,6 +26,7 @@ public interface MetaAccessor { // NOPMD
      * @return
      * @throws AbstractTransactionException
      */
+    @VertexApi(Api.WRITE)
     Entity insert(Entity entity) throws AbstractTransactionException;
 
     /**
@@ -32,6 +38,7 @@ public interface MetaAccessor { // NOPMD
      */
     // 1.支持单个Entity的插入
     // 2.支持批量的Entity的插入
+    @VertexApi(Api.WRITE)
     List<Entity> insert(Entity... entity) throws AbstractTransactionException;
 
     /**
@@ -41,6 +48,7 @@ public interface MetaAccessor { // NOPMD
      * @return
      * @throws AbstractTransactionException
      */
+    @VertexApi(Api.WRITE)
     Entity update(Entity entity) throws AbstractTransactionException;
 
     /**
@@ -50,6 +58,7 @@ public interface MetaAccessor { // NOPMD
      * @return
      * @throws AbstractTransactionException
      */
+    @VertexApi(Api.WRITE)
     boolean deleteById(Serializable uniqueId) throws AbstractTransactionException;
 
     /**
@@ -59,7 +68,35 @@ public interface MetaAccessor { // NOPMD
      * @return
      * @throws AbstractTransactionException
      */
+    @VertexApi(Api.WRITE)
     boolean deleteById(Serializable... uniqueId) throws AbstractTransactionException;
+
+    /**
+     * 提供WHERE子句，实现动态删除
+     * 
+     * @param whereClause
+     * @return
+     */
+    @VertexApi(Api.WRITE)
+    boolean deleteList(String whereClause) throws AbstractTransactionException;
+
+    /**
+     * 删除元数据表中所有的数据
+     * 
+     * @return
+     */
+    @VertexApi(Api.WRITE)
+    boolean purge() throws AbstractTransactionException;
+
+    // -------------------接口读写分界线-----------------------
+    /**
+     * 提供WHERE子句，实现动态查询
+     * 
+     * @param where
+     * @return
+     */
+    @VertexApi(Api.READ)
+    List<Entity> queryList(String whereClause);
 
     /**
      * 按照ID从系统中读取单个Entity
@@ -68,6 +105,7 @@ public interface MetaAccessor { // NOPMD
      * @return
      * @throws AbstractTransactionException
      */
+    @VertexApi(Api.READ)
     Entity getById(Serializable uniqueId);
 
     /**
@@ -75,6 +113,7 @@ public interface MetaAccessor { // NOPMD
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     List<Entity> getAll();
 
     /**
@@ -87,6 +126,7 @@ public interface MetaAccessor { // NOPMD
      * @param orderBy
      * @return
      */
+    @VertexApi(Api.READ)
     List<Entity> getByPage(int index, int size, String orderBy);
 
     /**
@@ -94,28 +134,6 @@ public interface MetaAccessor { // NOPMD
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     long count();
-
-    /**
-     * 删除元数据表中所有的数据
-     * 
-     * @return
-     */
-    boolean purge() throws AbstractTransactionException;
-
-    /**
-     * 提供WHERE子句，实现动态查询
-     * 
-     * @param where
-     * @return
-     */
-    List<Entity> queryList(String whereClause);
-
-    /**
-     * 提供WHERE子句，实现动态删除
-     * 
-     * @param whereClause
-     * @return
-     */
-    boolean deleteList(String whereClause) throws AbstractTransactionException;
 }

@@ -1,10 +1,14 @@
 package com.prayer.facade.schema.verifier;
 
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+
 /**
  * 
  * @author Lang
  * @see
  */
+@VertexPoint(Interface.CONSTANT)
 public interface Attributes { // NOPMD
     // ------------------ Root Node ---------------------
     /** **/

@@ -5,9 +5,9 @@ import static com.prayer.util.debug.Log.jvmError;
 
 import org.slf4j.Logger;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
-import com.prayer.constant.Symbol;
+import com.prayer.facade.constant.Constants;
+import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.schema.rule.RuleConstants;
 import com.prayer.util.io.IOKit;
 

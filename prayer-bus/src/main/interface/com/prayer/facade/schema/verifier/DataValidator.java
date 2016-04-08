@@ -1,5 +1,9 @@
 package com.prayer.facade.schema.verifier;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
@@ -8,6 +12,7 @@ import com.prayer.fantasm.exception.AbstractSchemaException;
  * @author Lang
  *
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface DataValidator {
     /**
      * 验证数据库中的Table是否存在
@@ -15,6 +20,7 @@ public interface DataValidator {
      * @param table
      * @return
      */
+    @VertexApi(Api.TOOL)
     AbstractSchemaException verifyTable(String table);
 
     /**
@@ -24,6 +30,7 @@ public interface DataValidator {
      * @param column
      * @return
      */
+    @VertexApi(Api.TOOL)
     AbstractSchemaException verifyColumn(String table, String column);
 
     /**
@@ -33,13 +40,17 @@ public interface DataValidator {
      * @param column
      * @return
      */
+    @VertexApi(Api.TOOL)
     AbstractSchemaException verifyConstraint(String table, String column);
+
     /**
      * 验证数据库中的某一列的数据类型是否匹配
+     * 
      * @param table
      * @param column
      * @param expectedType
      * @return
      */
+    @VertexApi(Api.TOOL)
     AbstractSchemaException verifyColumnType(String table, String column, String expectedType);
 }

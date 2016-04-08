@@ -2,6 +2,7 @@ package com.prayer.constant;
 
 import java.nio.charset.Charset;
 
+import com.prayer.facade.constant.DBConstants;
 import com.prayer.util.io.PropertyKit;
 import com.prayer.util.string.StringKit;
 

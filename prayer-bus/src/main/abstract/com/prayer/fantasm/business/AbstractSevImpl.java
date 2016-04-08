@@ -8,10 +8,10 @@ import javax.script.ScriptException;
 import org.slf4j.Logger;
 
 import com.prayer.business.impl.std.ServiceHelper;
-import com.prayer.constant.MemoryPool;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.exception.web.JSScriptEngineException;
+import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;

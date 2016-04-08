@@ -5,8 +5,8 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.pool.JdbcPool;
 import com.prayer.util.io.PropertyKit;
 

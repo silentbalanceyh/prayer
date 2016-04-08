@@ -1,6 +1,6 @@
 package com.prayer.schema.json.violater;
 
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;

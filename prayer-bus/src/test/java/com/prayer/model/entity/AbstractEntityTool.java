@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.entity.Entity;
 import com.prayer.util.io.IOKit;
 

@@ -3,7 +3,7 @@ package com.prayer.util.web;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotBlank;

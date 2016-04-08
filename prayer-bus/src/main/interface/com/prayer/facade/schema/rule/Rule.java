@@ -1,5 +1,10 @@
 package com.prayer.facade.schema.rule;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
+
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -8,15 +13,18 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  * 
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface Rule extends RuleConstants {
     /**
      * 获取当前Rule的信息
      */
+    @VertexApi(Api.READ)
     <T> T getRule();
     /**
      * 获取当前Rule的Error信息
      * @return
      */
+    @VertexApi(Api.READ)
     JsonObject getError(String field);
 
     /**
@@ -24,5 +32,6 @@ public interface Rule extends RuleConstants {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     String position();
 }

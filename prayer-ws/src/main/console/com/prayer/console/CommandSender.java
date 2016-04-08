@@ -12,7 +12,7 @@ import com.prayer.console.commands.MServerCommand;
 import com.prayer.console.commands.SchemaCommand;
 import com.prayer.console.commands.StatusCommand;
 import com.prayer.console.commands.ToolCommand;
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 
 import io.vertx.core.json.JsonObject;
 

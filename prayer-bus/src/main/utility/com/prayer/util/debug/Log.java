@@ -4,10 +4,10 @@ import java.text.MessageFormat;
 
 import org.apache.log4j.Level;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.constant.log.ErrorKey;
+import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.io.PropertyKit;
 

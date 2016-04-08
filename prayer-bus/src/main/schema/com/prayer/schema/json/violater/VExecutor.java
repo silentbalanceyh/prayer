@@ -3,7 +3,7 @@ package com.prayer.schema.json.violater;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.fun.schema.Condition;
 
 import io.vertx.core.json.JsonArray;

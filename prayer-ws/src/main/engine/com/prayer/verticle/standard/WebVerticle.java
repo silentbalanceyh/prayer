@@ -3,8 +3,8 @@ package com.prayer.verticle.standard;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configurator.ServerConfigurator;
-import com.prayer.constant.Constants;
 import com.prayer.constant.web.WebConfig;
+import com.prayer.facade.constant.Constants;
 import com.prayer.handler.web.SharedLoginHandler;
 import com.prayer.handler.web.SharedLogoutHandler;
 import com.prayer.handler.web.UserLoggedHandler;

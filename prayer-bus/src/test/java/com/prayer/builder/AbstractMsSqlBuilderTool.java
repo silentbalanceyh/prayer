@@ -1,6 +1,6 @@
 package com.prayer.builder;
 
-import com.prayer.constant.DBConstants;
+import com.prayer.facade.constant.DBConstants;
 
 /**
  * 

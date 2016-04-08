@@ -1,6 +1,8 @@
 package com.prayer.facade.sql;
 
-import com.prayer.constant.Symbol;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+import com.prayer.facade.constant.Symbol;
 
 /**
  * SQL关键字
@@ -8,8 +10,10 @@ import com.prayer.constant.Symbol;
  * @author Lang
  *
  */
+@VertexPoint(Interface.CONSTANT)
 public interface SQLWord { // NOPMD: 关键字集合
     /** 对象关键字 **/
+    @VertexPoint(Interface.CONSTANT)
     interface Object { // 对象关键字
         /** 0.数据库关键字 **/
         String DATABASE = "DATABSE";
@@ -32,6 +36,7 @@ public interface SQLWord { // NOPMD: 关键字集合
     }
 
     /** 操作关键字 **/
+    @VertexPoint(Interface.CONSTANT)
     interface Operation { // 操作关键字
         // DDL =============================================
         /** 0.创建对象 **/
@@ -56,6 +61,7 @@ public interface SQLWord { // NOPMD: 关键字集合
     }
 
     /** 连接关键字 **/
+    @VertexPoint(Interface.CONSTANT)
     interface Connector { // 连接关键字
         /** 1.AND **/
         String AND = "AND";
@@ -80,6 +86,7 @@ public interface SQLWord { // NOPMD: 关键字集合
     }
 
     /** 比较操作符 **/
+    @VertexPoint(Interface.CONSTANT)
     interface Comparator { // 比较操作符
         /** 0.IN **/
         String IN = "IN";
@@ -106,6 +113,7 @@ public interface SQLWord { // NOPMD: 关键字集合
     }
 
     /** 辅助关键字 **/
+    @VertexPoint(Interface.CONSTANT)
     interface Assistant { // 辅助关键字
         /** 0.UNIQUE **/
         String UNIQUE = "UNIQUE";

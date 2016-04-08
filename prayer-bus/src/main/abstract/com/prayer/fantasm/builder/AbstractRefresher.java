@@ -10,8 +10,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.StatusFlag;
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
@@ -21,6 +19,8 @@ import com.prayer.facade.builder.Refresher;
 import com.prayer.facade.builder.line.FieldSaber;
 import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.builder.reflector.Reflector;
+import com.prayer.facade.constant.Constants;
+import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.kernel.Referencer;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;

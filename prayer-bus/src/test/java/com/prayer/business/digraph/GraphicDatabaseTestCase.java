@@ -1,13 +1,14 @@
 package com.prayer.business.digraph;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.prayer.AbstractCommonTool;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.digraph.Graphic;
-
-import io.vertx.core.json.JsonArray;
 
 /**
  * 
@@ -47,8 +48,8 @@ public class GraphicDatabaseTestCase extends AbstractCommonTool {
 
     // ~ Private Methods =====================================
     /** **/
-    private JsonArray getTables() {
-        final JsonArray tables = new JsonArray();
+    private Set<String> getTables() {
+        final Set<String> tables = new HashSet<>();
         tables.add("REL_ROLE_PERM");
         tables.add("REL_PERM_ACTION");
         tables.add("REL_GROUP_ROLE");

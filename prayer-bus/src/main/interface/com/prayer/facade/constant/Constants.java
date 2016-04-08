@@ -1,15 +1,19 @@
-package com.prayer.constant;
+package com.prayer.facade.constant;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+
 /**
  * 
  * @author Lang
  * @see All system constants which must not be changed
  */
+@VertexPoint(Interface.CONSTANT)
 public interface Constants { // NOPMD
     // ~ Static Fields =======================================
     /** 全局统一属性ID信息 **/
@@ -20,8 +24,10 @@ public interface Constants { // NOPMD
     String LANG_GROOVY = "groovy";
     /** Script Engine 名称 **/
     String SCRIPT_ENGINE = "nashorn";
+
     /** **/
-    interface EXTENSION{  // NOPMD
+    @VertexPoint(Interface.CONSTANT)
+    interface EXTENSION { // NOPMD
         /** SQL 后缀名 **/
         String SQL = "sql";
         /** JSON 后缀名 **/
@@ -31,6 +37,7 @@ public interface Constants { // NOPMD
         /** JavaScript后缀 **/
         String JS = "js";
     }
+
     // ~ System ==============================================
     /** System value 2 **/
     int TWO = 2;
@@ -90,6 +97,7 @@ public interface Constants { // NOPMD
     /** Default Convertor，默认Convertor，什么都不做 **/
     String VX_CONVERTOR = VX_GROUP;
 
+    @VertexPoint(Interface.CONSTANT)
     interface KEY { // NOPMD
         /** Global Responsor **/
         String CTX_RESPONSOR = "CTX.RESPONSOR";
@@ -104,12 +112,14 @@ public interface Constants { // NOPMD
     }
 
     /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface WEB { // NOPMD
         /** **/
         String SESSION_USER = "user";
     }
 
     /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface ORDER { // NOPMD
         /** 默认的顺序，但不设置，作为临界值 **/
         int NOT_SET = -20000;
@@ -117,6 +127,7 @@ public interface Constants { // NOPMD
         int FAILURE = 20000;
 
         /** 前后台共用 **/
+        @VertexPoint(Interface.CONSTANT)
         interface SHD { // NOPMD
             /** CORS Handler **/
             int CORS = -19900;
@@ -126,12 +137,14 @@ public interface Constants { // NOPMD
             int BODY = -19700;
         }
 
+        @VertexPoint(Interface.CONSTANT)
         interface SEC { // NOPMD
             /** Authentication Handler Order **/
             int AUTH = -19600; // Web No，Engine Yes
         }
 
         /** Engine专用 **/
+        @VertexPoint(Interface.CONSTANT)
         interface ENG { // NOPMD
             /** Router Handler Order **/
             int ROUTER = -9900;
@@ -140,6 +153,7 @@ public interface Constants { // NOPMD
         }
 
         /** Web专用 **/
+        @VertexPoint(Interface.CONSTANT)
         interface WEB { // NOPMD
             /** Session Handler Order **/
             int SESSION = -10000;
@@ -163,6 +177,7 @@ public interface Constants { // NOPMD
     }
 
     /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface BUS { // NOPMD
         /** Global ID对应Key **/
         String ID = PARAM.ID; // NOPMD
@@ -177,6 +192,7 @@ public interface Constants { // NOPMD
      * @author Lang
      *
      */
+    @VertexPoint(Interface.CONSTANT)
     interface CMD { // NOPMD
         /** status Command **/
         interface STATUS { // NOPMD
@@ -190,6 +206,7 @@ public interface Constants { // NOPMD
     }
 
     /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface PARAM { // NOPMD
         /** **/
         String ID = "identifier"; // NOPMD
@@ -207,6 +224,7 @@ public interface Constants { // NOPMD
         String ORDERS = "orders";
 
         /** **/
+        @VertexPoint(Interface.CONSTANT)
         interface PAGE { // NOPMD
             /** Page 参数 **/
             String NAME = "page";
@@ -222,12 +240,14 @@ public interface Constants { // NOPMD
     }
 
     /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface CACHE { // NOPMD
         /** **/
         String CAC_ADDRESS = "CAC_ADDRESS";
     }
 
     /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface LOCK { // NOPMD
         /** **/
         String LOK_ADDRESS = "LOCK_ADDRESS";

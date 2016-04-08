@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 import com.prayer.dao.impl.data.MetaRecordDalor;
 import com.prayer.exception.database.OperationNotSupportException;
 import com.prayer.facade.dao.RecordDao;

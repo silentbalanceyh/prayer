@@ -3,7 +3,11 @@ package com.prayer.facade.schema;
 import java.io.Serializable;
 import java.util.Set;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.model.meta.database.PEField;
 
 /**
@@ -12,6 +16,7 @@ import com.prayer.model.meta.database.PEField;
  * @author Lang
  *
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface Schema extends SchemaBuilder, SchemaMeta, Serializable {
     // ~ Identifier相关 =====================================
     /**
@@ -19,6 +24,7 @@ public interface Schema extends SchemaBuilder, SchemaMeta, Serializable {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     Set<String> fieldNames();
 
     /**
@@ -26,6 +32,7 @@ public interface Schema extends SchemaBuilder, SchemaMeta, Serializable {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     String identifier();
 
     /**
@@ -33,6 +40,7 @@ public interface Schema extends SchemaBuilder, SchemaMeta, Serializable {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     String getTable();
 
     /**
@@ -40,6 +48,7 @@ public interface Schema extends SchemaBuilder, SchemaMeta, Serializable {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     MetaPolicy getPolicy();
 
     /**
@@ -48,6 +57,7 @@ public interface Schema extends SchemaBuilder, SchemaMeta, Serializable {
      * @param column
      * @return
      */
+    @VertexApi(Api.READ)
     PEField getColumn(String column);
 
     /**
@@ -56,5 +66,6 @@ public interface Schema extends SchemaBuilder, SchemaMeta, Serializable {
      * @param field
      * @return
      */
+    @VertexApi(Api.READ)
     PEField getField(String field);
 }

@@ -3,7 +3,7 @@ package com.prayer.util.entity.bits;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 
 /**
  * 基础类型转换，字节顺序：Big-Endian大端运算

@@ -3,9 +3,9 @@ package com.prayer.util.web;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configurator.SecurityConfigurator;
-import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.constant.SystemEnum.SecurityMode;
+import com.prayer.facade.constant.Constants;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.JsonKey;

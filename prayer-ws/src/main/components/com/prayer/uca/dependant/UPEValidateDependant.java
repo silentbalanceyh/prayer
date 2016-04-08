@@ -4,11 +4,11 @@ import static com.prayer.util.Converter.fromStr;
 
 import java.text.MessageFormat;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.SqlSegment;
-import com.prayer.constant.Symbol;
 import com.prayer.constant.SystemEnum.DependRule;
 import com.prayer.exception.web.DependRuleConflictException;
+import com.prayer.facade.constant.Constants;
+import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.kernel.Value;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.type.DataType;

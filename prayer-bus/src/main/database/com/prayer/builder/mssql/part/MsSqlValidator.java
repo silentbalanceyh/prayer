@@ -3,8 +3,8 @@ package com.prayer.builder.mssql.part;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.sql.special.MsSqlStatement;
 import com.prayer.fantasm.builder.AbstractValidator;
 import com.prayer.util.string.StringKit;

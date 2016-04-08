@@ -9,9 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEIndex;

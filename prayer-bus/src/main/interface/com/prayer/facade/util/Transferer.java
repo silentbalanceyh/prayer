@@ -1,5 +1,9 @@
 package com.prayer.facade.util;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.facade.entity.Entity;
 import com.prayer.facade.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
@@ -13,6 +17,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface Transferer {
     /**
      * 【Metadata】将Record转换成Entity
@@ -22,6 +27,7 @@ public interface Transferer {
      * @return
      * @throws AbstractDatabaseException
      */
+    @VertexApi(Api.TOOL)
     <T extends AbstractEntity<String>> T toEntity(Record record) throws AbstractDatabaseException;
 
     /**
@@ -32,6 +38,7 @@ public interface Transferer {
      * @return
      * @throws AbstractDatabaseException
      */
+    @VertexApi(Api.TOOL)
     <T extends AbstractEntity<String>> Record fromEntity(String identifier, Entity entity)
             throws AbstractDatabaseException;
 
@@ -41,6 +48,7 @@ public interface Transferer {
      * @param outJson
      * @param inJson
      */
+    @VertexApi(Api.TOOL)
     void filter(JsonObject outJson, JsonObject filters);
 
     /**
@@ -50,6 +58,7 @@ public interface Transferer {
      * @return
      * @throws AbstractDatabaseException
      */
+    @VertexApi(Api.TOOL)
     JsonObject fromRecord(Record record) throws AbstractDatabaseException;
 
     /**
@@ -61,5 +70,6 @@ public interface Transferer {
      * @return
      * @throws AbstractDatabaseException
      */
+    @VertexApi(Api.TOOL)
     Record toRecord(String identifier, Class<?> recordCls, JsonObject data) throws AbstractDatabaseException;
 }

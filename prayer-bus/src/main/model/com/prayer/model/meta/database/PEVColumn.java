@@ -3,7 +3,7 @@ package com.prayer.model.meta.database;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.entity.Attributes;
 import com.prayer.fantasm.model.AbstractEntity;
 import com.prayer.model.type.DataType;

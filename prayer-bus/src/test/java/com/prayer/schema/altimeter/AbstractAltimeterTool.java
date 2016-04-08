@@ -9,13 +9,13 @@ import org.slf4j.Logger;
 
 import com.prayer.builder.MetadataBuilder;
 import com.prayer.constant.Accessors;
-import com.prayer.constant.DBConstants;
-import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.dao.impl.schema.CommuneImporter;
 import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.builder.Builder;
+import com.prayer.facade.constant.DBConstants;
+import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.pool.JdbcConnection;

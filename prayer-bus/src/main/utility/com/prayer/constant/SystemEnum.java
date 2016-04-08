@@ -134,14 +134,45 @@ public final class SystemEnum { // NOPMD
         JADE, // Jade模板引擎
         HTML // 纯的HTML结构，Dynamic无用
     }
+
     /** 使用的Deployer中Acus组件种类 **/
-    public static enum Acus{
+    public static enum Acus {
         SQL, // SQL执行器：运行SQL脚本
         SCHEMA, // Schema执行器：导入Meta，Field，Key，Index
         DATABASE, // 数据库组件执行器：导入View，Trigger，VColumn
         VERTX, // Vertx执行器：导入Verticle, Address, Route
         URI, // URI执行器：导入Uri，Rule
         SCRIPT // JavaScript执行器：导入Script
+    }
+
+    // ---------------------Annotation种类----------------------------
+    /** 用于标记接口种类，这里不包括JDK 8.0中的FunctionalInterface **/
+    public static enum Interface {
+        /**
+         * 只能使用WebRequest作为参数，WebResponse作为返回值，用于远程客户端调用，
+         * 并且只有RESTFUL接口可以启用Script脚本引擎
+         **/
+        RESTFUL, // Web Service接口
+        /** 参数随意，返回值必须是ServiceResult，用于Engine前端工具调用 **/
+        SERVICE, // 服务层接口（内部调用）
+        /** Java接口，参数和返回值都随意，用于Engine本身调用 **/
+        DIRECT, // 直接访问的接口
+        /** 之中仅仅包含了常量信息 **/
+        CONSTANT, // 常量接口
+        // --------------------上边三个接口是上层调用接口--------------
+        ENG_PUBLIC, // 其他接口，非Service层接口，即Prayer内部调用接口
+        ENG_PRIVATE, // 私有接口，一般定义为包域
+        THIRD_PART // 第三方接口
+    }
+
+    /** API的种类 **/
+    public static enum Api {
+        /** 输入为参数信息，返回一般为实体信息，读取、统计、报表、查询都属于 **/
+        READ, // 读取用的API
+        /** 输入为实体信息，添加、更新、删除、清空都属于 **/
+        WRITE, // 写入用的API
+        /** 主要为工具辅助方法，即使有时候读取了数据库，但它的内容不会引起实体流程变动 **/
+        TOOL // 功能接口
     }
 
     /** 容器计算模型 **/

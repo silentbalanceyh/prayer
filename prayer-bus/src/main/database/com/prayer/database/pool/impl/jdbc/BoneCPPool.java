@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 import javax.sql.DataSource;
 
 import com.jolbox.bonecp.BoneCPDataSource;
-import com.prayer.constant.MemoryPool;
+import com.prayer.facade.constant.MemoryPool;
 import com.prayer.fantasm.pool.AbstractJdbcPool;
 
 import net.sf.oval.constraint.InstanceOfAny;

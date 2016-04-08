@@ -3,8 +3,8 @@ package com.prayer.fantasm.schema;
 import static com.prayer.util.reflection.Instance.reservoir;
 
 import com.prayer.constant.Accessors;
-import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
+import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.verifier.DataValidator;
 

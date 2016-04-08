@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 import com.prayer.model.meta.database.PEKey;
 import com.prayer.util.debug.Log;
 

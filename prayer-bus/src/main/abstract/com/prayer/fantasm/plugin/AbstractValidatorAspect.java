@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.DataType;

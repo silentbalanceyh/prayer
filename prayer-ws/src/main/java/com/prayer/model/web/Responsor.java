@@ -2,10 +2,10 @@ package com.prayer.model.web;
 
 import java.io.Serializable;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.constant.SystemEnum.ReturnType;
 import com.prayer.exception.web.InternalServerErrorException;
+import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractException;
 
 import io.vertx.core.buffer.Buffer;

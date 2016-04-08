@@ -4,10 +4,10 @@ import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configurator.SecurityConfigurator;
-import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.SecurityMode;
 import com.prayer.constant.SystemEnum.TemplateEngine;
 import com.prayer.constant.web.WebConfig;
+import com.prayer.facade.constant.Constants;
 import com.prayer.security.handler.BasicAuthHandler;
 
 import io.vertx.core.Vertx;

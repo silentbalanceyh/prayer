@@ -1,12 +1,15 @@
 package com.prayer.facade.schema.rule;
 
-import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+import com.prayer.facade.constant.Constants;
 
 /**
  * 
  * @author Lang
  *
  */
+@VertexPoint(Interface.CONSTANT)
 public interface RuleConstants {
     /** 每一个Rule必须的Value节点value **/
     String R_VALUE = "value";
@@ -22,6 +25,7 @@ public interface RuleConstants {
     String R_ERRORS = "errors";
 
     /** FIlters的信息 **/
+    @VertexPoint(Interface.CONSTANT)
     interface Filters {
         /** Filter **/
         String FILTER = "filter";
@@ -30,6 +34,7 @@ public interface RuleConstants {
     }
 
     /** Rule的名称 **/
+    @VertexPoint(Interface.CONSTANT)
     interface Names { // NOPMD
         /** 10001 Required 必要属性丢失 **/
         String RULE_REQ = "required";
@@ -82,6 +87,7 @@ public interface RuleConstants {
     }
 
     /** Rule对应的配置文件名 **/
+    @VertexPoint(Interface.CONSTANT)
     interface FileConfig { // NOPMD
         /** Root节点配置 **/
         String CFG_ROOT = "root/data";
@@ -168,6 +174,7 @@ public interface RuleConstants {
     }
 
     /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface Flag { // NOPMD
         /** **/
         String FLAG_IN = Constants.EMPTY_STR;

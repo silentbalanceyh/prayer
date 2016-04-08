@@ -3,7 +3,11 @@ package com.prayer.facade.record;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.facade.kernel.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.meta.database.PEField;
@@ -13,12 +17,14 @@ import com.prayer.model.meta.database.PEField;
  * @author Lang
  *
  */
+@VertexPoint(Interface.ENG_PRIVATE)
 interface RecordPrimaryKey {
     /**
      * 主键的Policy
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     MetaPolicy policy();
 
     /**
@@ -26,6 +32,7 @@ interface RecordPrimaryKey {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     ConcurrentMap<String, Value<?>> idKV() throws AbstractDatabaseException;
 
     /**
@@ -33,6 +40,7 @@ interface RecordPrimaryKey {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     List<PEField> idschema();
 
     /**
@@ -40,5 +48,6 @@ interface RecordPrimaryKey {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     String seqname();
 }

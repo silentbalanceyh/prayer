@@ -12,9 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.business.impl.oob.ConfigSevImpl;
-import com.prayer.constant.Constants;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.facade.business.ConfigService;
+import com.prayer.facade.constant.Constants;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.JsonKey;

@@ -1,7 +1,7 @@
 package com.prayer.console.commands;
 
-import com.prayer.constant.Constants;
 import com.prayer.constant.Resources;
+import com.prayer.facade.constant.Constants;
 import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.json.JsonObject;

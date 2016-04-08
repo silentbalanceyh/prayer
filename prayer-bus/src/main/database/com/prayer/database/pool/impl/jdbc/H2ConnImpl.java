@@ -3,8 +3,8 @@ package com.prayer.database.pool.impl.jdbc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.DBConstants;
 import com.prayer.constant.Resources;
+import com.prayer.facade.constant.DBConstants;
 import com.prayer.fantasm.pool.AbstractJdbcConnection;
 import com.prayer.util.io.PropertyKit;
 

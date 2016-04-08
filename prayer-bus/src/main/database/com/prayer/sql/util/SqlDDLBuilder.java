@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.text.MessageFormat;
 import java.util.List;
 
-import com.prayer.constant.Symbol;
+import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.sql.SQLStatement;
 import com.prayer.util.string.StringKit;
 

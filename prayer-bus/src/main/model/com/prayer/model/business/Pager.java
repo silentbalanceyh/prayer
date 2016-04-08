@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.io.Serializable;
 
 import com.prayer.business.impl.pre.IntegerEnsurer;
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.entity.Ensurer;
 import com.prayer.fantasm.exception.AbstractException;
 

@@ -2,7 +2,7 @@ package com.prayer.console;
 
 import java.util.Scanner;
 
-import com.prayer.constant.Symbol;
+import com.prayer.facade.constant.Symbol;
 
 import io.netty.util.internal.StringUtil;
 import io.vertx.core.json.JsonObject;

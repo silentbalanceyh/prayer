@@ -2,6 +2,10 @@ package com.prayer.facade.kernel;
 
 import java.lang.reflect.Type;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.model.type.DataType;
 
 /**
@@ -9,12 +13,14 @@ import com.prayer.model.type.DataType;
  * 
  * @author Lang
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface Value<R> {
     /**
      * 获得类型的值
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     R getValue();
 
     /**
@@ -22,6 +28,7 @@ public interface Value<R> {
      * 
      * @param value
      */
+    @VertexApi(Api.WRITE)
     void setValue(R value);
 
     /**
@@ -29,6 +36,7 @@ public interface Value<R> {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     Type getType();
 
     /**
@@ -36,10 +44,14 @@ public interface Value<R> {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     DataType getDataType();
+
     /**
      * 获取这种类型值的字面量
+     * 
      * @return
      */
+    @VertexApi(Api.READ)
     String literal();
 }

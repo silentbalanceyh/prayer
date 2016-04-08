@@ -3,6 +3,10 @@ package com.prayer.facade.schema;
 import java.util.List;
 import java.util.Set;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
 
@@ -11,6 +15,7 @@ import com.prayer.model.meta.database.PEKey;
  * @author Lang
  *
  */
+@VertexPoint(Interface.ENG_PRIVATE)
 interface SchemaBuilder {
     // ~ OldBuilder Interface ====================================
     /**
@@ -18,6 +23,7 @@ interface SchemaBuilder {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     Set<String> getColumns();
 
     /**
@@ -25,6 +31,7 @@ interface SchemaBuilder {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     List<PEField> getPrimaryKeys();
 
     /**
@@ -32,6 +39,7 @@ interface SchemaBuilder {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     List<PEField> getForeignField();
 
     /**
@@ -39,5 +47,6 @@ interface SchemaBuilder {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     List<PEKey> getForeignKey();
 }

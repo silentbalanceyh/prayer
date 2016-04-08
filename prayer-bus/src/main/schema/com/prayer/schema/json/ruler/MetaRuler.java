@@ -2,11 +2,11 @@ package com.prayer.schema.json.ruler;
 
 import static com.prayer.util.Converter.fromStr;
 
-import com.prayer.constant.DBConstants;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.Category;
 import com.prayer.constant.SystemEnum.Mapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
+import com.prayer.facade.constant.DBConstants;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;

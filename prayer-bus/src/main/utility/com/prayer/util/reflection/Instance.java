@@ -17,8 +17,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Constants;
-import com.prayer.constant.MemoryPool;
+import com.prayer.facade.constant.Constants;
+import com.prayer.facade.constant.MemoryPool;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

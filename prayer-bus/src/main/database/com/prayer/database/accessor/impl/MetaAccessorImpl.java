@@ -5,9 +5,9 @@ import static com.prayer.util.reflection.Instance.reservoir;
 import java.io.Serializable;
 import java.util.List;
 
-import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.facade.accessor.MetaAccessor;
+import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.entity.Entity;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 

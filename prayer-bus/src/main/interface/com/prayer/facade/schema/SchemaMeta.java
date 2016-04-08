@@ -2,6 +2,10 @@ package com.prayer.facade.schema;
 
 import java.io.Serializable;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
 import com.prayer.model.meta.database.PEMeta;
@@ -11,6 +15,7 @@ import com.prayer.model.meta.database.PEMeta;
  * @author Lang
  *
  */
+@VertexPoint(Interface.ENG_PRIVATE)
 interface SchemaMeta {
     // ~ Schema Dao ===========================================
     /**
@@ -18,6 +23,7 @@ interface SchemaMeta {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     Serializable totem();
 
     /**
@@ -26,6 +32,7 @@ interface SchemaMeta {
      * @param totem
      * @return
      */
+    @VertexApi(Api.WRITE)
     Serializable totem(Serializable metaId);
 
     /**
@@ -33,6 +40,7 @@ interface SchemaMeta {
      * 
      * @param metaId
      */
+    @VertexApi(Api.WRITE)
     void synchronize(Serializable metaId);
 
     /**
@@ -40,6 +48,8 @@ interface SchemaMeta {
      * 
      * @return
      */
+
+    @VertexApi(Api.READ)
     PEMeta meta();
 
     /**
@@ -47,6 +57,7 @@ interface SchemaMeta {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     PEKey[] keys();
 
     /**
@@ -54,6 +65,7 @@ interface SchemaMeta {
      * 
      * @return
      */
+    @VertexApi(Api.READ)
     PEField[] fields();
 
     /**
@@ -61,6 +73,7 @@ interface SchemaMeta {
      * 
      * @param meta
      */
+    @VertexApi(Api.WRITE)
     void meta(PEMeta meta);
 
     /**
@@ -68,6 +81,7 @@ interface SchemaMeta {
      * 
      * @param keys
      */
+    @VertexApi(Api.WRITE)
     void keys(PEKey... keys);
 
     /**
@@ -75,5 +89,6 @@ interface SchemaMeta {
      * 
      * @param fields
      */
+    @VertexApi(Api.WRITE)
     void fields(PEField... fields);
 }

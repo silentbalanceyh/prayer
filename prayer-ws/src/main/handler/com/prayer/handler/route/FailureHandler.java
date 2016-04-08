@@ -1,6 +1,6 @@
 package com.prayer.handler.route;
 
-import com.prayer.constant.Constants;
+import com.prayer.facade.constant.Constants;
 import com.prayer.model.web.Responsor;
 import com.prayer.util.web.Future;
 

@@ -1,6 +1,8 @@
 package com.prayer.facade.entity;
 
-import com.prayer.constant.Constants;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+import com.prayer.facade.constant.Constants;
 
 /**
  * Entity的属性表
@@ -8,6 +10,7 @@ import com.prayer.constant.Constants;
  * @author Lang
  *
  */
+@VertexPoint(Interface.CONSTANT)
 public interface Attributes {
     // ~ Shared Attr ========================================
     /** Shared: id **/

@@ -5,12 +5,12 @@ import static com.prayer.util.reflection.Instance.singleton;
 import static org.junit.Assert.fail;
 
 import com.prayer.constant.Accessors;
-import com.prayer.constant.DBConstants;
-import com.prayer.constant.MemoryPool;
 import com.prayer.constant.Resources;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
+import com.prayer.facade.constant.DBConstants;
+import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;

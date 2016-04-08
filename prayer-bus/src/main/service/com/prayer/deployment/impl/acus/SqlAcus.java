@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Accessors;
-import com.prayer.constant.Constants.EXTENSION;
 import com.prayer.constant.Resources;
-import com.prayer.constant.Symbol;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.exception.database.DataAccessException;
 import com.prayer.exception.database.OperationNotSupportException;
+import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.constant.Constants.EXTENSION;
 import com.prayer.facade.deployment.acus.DeployAcus;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractException;

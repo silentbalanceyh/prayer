@@ -1,5 +1,9 @@
 package com.prayer.facade.schema.rule;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 
 /**
@@ -8,6 +12,7 @@ import com.prayer.fantasm.exception.AbstractSchemaException;
  * @author Lang
  *
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface Ruler extends RuleConstants {
     /**
      * 将某种规则用于当前的node节点，如果不合法则抛出异常，合法则返回true
@@ -17,5 +22,6 @@ public interface Ruler extends RuleConstants {
      * @return
      * @throws AbstractSchemaException
      */
+    @VertexApi(Api.TOOL)
     void apply(ObjectHabitus habitus) throws AbstractSchemaException;
 }
