@@ -1,10 +1,7 @@
 package com.prayer.console.commands;
 
-import static com.prayer.util.reflection.Instance.singleton;
-
 import org.apache.commons.cli.CommandLine;
 
-import com.prayer.business.impl.oob.DataSevImpl;
 import com.prayer.constant.Resources;
 import com.prayer.facade.business.DataService;
 import com.prayer.model.business.ServiceResult;
@@ -33,7 +30,7 @@ public class BDataCommand extends AbstractCommand {
      */
     public BDataCommand() {
         super();
-        this.service = singleton(DataSevImpl.class);
+        this.service = null;// singleton(DataSevImpl.class);
     }
 
     // ~ Abstract Methods ====================================

@@ -11,11 +11,10 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.impl.oob.ConfigSevImpl;
+import com.prayer.configuration.impl.ConfigBllor;
 import com.prayer.constant.SystemEnum.ParamType;
-import com.prayer.facade.business.ConfigService;
+import com.prayer.facade.configuration.ConfigService;
 import com.prayer.facade.constant.Constants;
-import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
@@ -62,7 +61,7 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
     /** **/
     @PostValidateThis
     public RouterHandler() {
-        this.service = singleton(ConfigSevImpl.class);
+        this.service = singleton(ConfigBllor.class);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
@@ -78,12 +77,12 @@ public class RouterHandler implements Handler<RoutingContext> { // NOPMD
 
         final HttpServerRequest request = context.request();
         // 2.从系统中按URI读取接口规范
-        final ServiceResult<ConcurrentMap<HttpMethod, PEUri>> result = this.service.findUri(path);
+        final ConcurrentMap<HttpMethod, PEUri> result = this.service.uris(path);
         // 3.请求转发，去除掉Error过后的信息
         if (Dispatcher.requestDispatch(getClass(), result, context)) {
             // SUCCESS -->
             // 4.保存UriModel到Request节点中
-            final PEUri uri = result.getResult().get(request.method());
+            final PEUri uri = result.get(request.method());
             // 5.序列化URI模型
             context.put(Constants.KEY.CTX_URI, uri);
             // 6.获取请求参数

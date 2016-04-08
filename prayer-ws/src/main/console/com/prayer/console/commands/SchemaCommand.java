@@ -10,8 +10,8 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.deployment.impl.SchemaBllor;
 import com.prayer.facade.deployment.SchemaService;
+import com.prayer.facade.schema.Schema;
 import com.prayer.model.business.ServiceResult;
-import com.prayer.model.crucial.GenericSchema;
 import com.prayer.util.io.IOKit;
 
 import io.vertx.core.json.JsonObject;
@@ -106,11 +106,11 @@ public class SchemaCommand extends AbstractCommand {
 
     private JsonObject syncSchema(final String file) {
         // Schema Json File --> H2 Database
-        ServiceResult<GenericSchema> ret = this.service.importSchema(file);
+        ServiceResult<Schema> ret = this.service.importSchema(file);
         final JsonObject retJson = new JsonObject();
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
             // H2 Database --> SQL Server
-            GenericSchema schema = ret.getResult();
+            Schema schema = ret.getResult();
             if(null != schema){
                 ret = this.service.syncMetadata(schema);
                 if(ResponseCode.SUCCESS == ret.getResponseCode()){

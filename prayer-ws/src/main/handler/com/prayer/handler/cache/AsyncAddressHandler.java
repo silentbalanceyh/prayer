@@ -3,10 +3,8 @@ package com.prayer.handler.cache;
 import static com.prayer.util.reflection.Instance.instance;
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.business.impl.oob.ConfigSevImpl;
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.business.ConfigService;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.configuration.impl.ConfigBllor;
+import com.prayer.facade.configuration.ConfigService;
 import com.prayer.model.meta.vertx.PEAddress;
 
 import io.vertx.core.AsyncResult;
@@ -55,7 +53,7 @@ public class AsyncAddressHandler implements Handler<AsyncResult<AsyncMap<String,
     private AsyncAddressHandler(final Vertx vertx, final Class<?> workClass, final Handler<AsyncResult<Void>> handler) {
         this.workClass = workClass;
         this.vertxRef = vertx;
-        this.configSev = singleton(ConfigSevImpl.class);
+        this.configSev = singleton(ConfigBllor.class);
         this.handler = handler;
     }
 
@@ -78,16 +76,13 @@ public class AsyncAddressHandler implements Handler<AsyncResult<AsyncMap<String,
                     PEAddress addr = res.result();
                     if (null == addr) {
                         this.vertxRef.<PEAddress> executeBlocking(block -> {
-                            final ServiceResult<PEAddress> result = this.configSev.findAddress(this.workClass);
-                            if (ResponseCode.SUCCESS == result.getResponseCode()) {
-                                final PEAddress addrRef = result.getResult();
-                                if (null != addrRef.getConsumerHandler()) {
-                                    final EventBus bus = this.vertxRef.eventBus();
-                                    bus.consumer(addrRef.getConsumerAddr(), instance(addrRef.getConsumerHandler()));
-                                }
-                                block.complete(addrRef);
+                            PEAddress addrRef = this.configSev.address(this.workClass);
+                            if (null != addrRef.getConsumerHandler()) {
+                                final EventBus bus = this.vertxRef.eventBus();
+                                bus.consumer(addrRef.getConsumerAddr(), instance(addrRef.getConsumerHandler()));
                             }
-                        } , ret -> {
+                            block.complete(addrRef);
+                        }, ret -> {
                             dataMap.put(clsName, ret.result(), this.handler);
                         });
 

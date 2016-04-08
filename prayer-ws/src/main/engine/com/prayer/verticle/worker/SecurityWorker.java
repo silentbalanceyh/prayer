@@ -2,10 +2,8 @@ package com.prayer.verticle.worker;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.business.impl.oob.ConfigSevImpl;
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.business.ConfigService;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.configuration.impl.ConfigBllor;
+import com.prayer.facade.configuration.ConfigService;
 import com.prayer.model.meta.vertx.PEAddress;
 import com.prayer.uca.consumer.BasicAuthConsumer;
 
@@ -31,7 +29,7 @@ public class SecurityWorker extends AbstractVerticle {
     /** **/
     public SecurityWorker() {
         super();
-        this.configSev = singleton(ConfigSevImpl.class);
+        this.configSev = singleton(ConfigBllor.class);
     }
 
     // ~ Abstract Methods ====================================
@@ -42,14 +40,11 @@ public class SecurityWorker extends AbstractVerticle {
         // 1.获取当前Worker的类名
         final Class<?> workClass = getClass();
         // 2.获取元数据信息
-        final ServiceResult<PEAddress> result = this.configSev.findAddress(workClass);
-        if (ResponseCode.SUCCESS == result.getResponseCode()) {
-            final PEAddress address = result.getResult();
-            if (null != address) {
-                // 3.从地址上消费Message
-                final EventBus bus = vertx.eventBus();
-                bus.consumer(address.getConsumerAddr(),BasicAuthConsumer.create());
-            }
+        final PEAddress address = this.configSev.address(workClass);
+        if (null != address) {
+            // 3.从地址上消费Message
+            final EventBus bus = vertx.eventBus();
+            bus.consumer(address.getConsumerAddr(), BasicAuthConsumer.create());
         }
     }
     // ~ Methods =============================================

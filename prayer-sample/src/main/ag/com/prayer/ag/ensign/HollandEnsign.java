@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import com.prayer.ag.Topic;
 import com.prayer.ag.util.Console;
 import com.prayer.ag.util.Input;
-import com.prayer.constant.Symbol;
+import com.prayer.facade.constant.Symbol;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Size;

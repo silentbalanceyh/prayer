@@ -10,12 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.impl.oob.ConfigSevImpl;
+import com.prayer.configuration.impl.ConfigBllor;
 import com.prayer.configurator.SecurityConfigurator;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.facade.business.ConfigService;
+import com.prayer.facade.configuration.ConfigService;
 import com.prayer.facade.constant.Constants;
-import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
 import com.prayer.model.web.Requestor;
@@ -70,7 +69,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl implements BasicAuthHa
     public BasicAuthHandlerImpl(@NotNull final AuthProvider provider, @NotNull @NotBlank @NotEmpty final String realm) {
         super(provider);
         this.realm = realm;
-        this.service = singleton(ConfigSevImpl.class);
+        this.service = singleton(ConfigBllor.class);
         this.configurator = singleton(SecurityConfigurator.class);
     }
 
@@ -79,7 +78,8 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl implements BasicAuthHa
     /** **/
     @Override
     public void handle(@NotNull final RoutingContext context) {
-        debug(LOGGER, DebugKey.WEB_STG_HANDLER, getClass().getName(), Constants.ORDER.SEC.AUTH, context.request().path());
+        debug(LOGGER, DebugKey.WEB_STG_HANDLER, getClass().getName(), Constants.ORDER.SEC.AUTH,
+                context.request().path());
         /**
          * 1.根据Error设置相应，唯一特殊的情况是Basic认证是Body的参数方式，
          * 但其参数信息是在processAuth的过程填充到系统里的， 一旦出现了com.prayer.exception.web.
@@ -104,8 +104,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl implements BasicAuthHa
         boolean ret = true;
         final String endpoint = this.configurator.getSecurityOptions().getString(BASIC.LOGIN_URL);
         if (StringUtil.equals(context.request().path(), endpoint)) {
-            final ServiceResult<ConcurrentMap<HttpMethod, PEUri>> result = this.service
-                    .findUri(context.request().path());
+            final ConcurrentMap<HttpMethod, PEUri> result = this.service.uris(context.request().path());
             ret = Dispatcher.requestDispatch(getClass(), result, context);
         }
         return ret;
@@ -142,6 +141,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl implements BasicAuthHa
 
     /**
      * 认证成功过后直接操作的权限控制，和标准内容中的信息一致
+     * 
      * @param user
      * @param context
      * @param data

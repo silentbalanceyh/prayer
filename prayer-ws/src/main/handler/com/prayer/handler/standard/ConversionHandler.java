@@ -10,14 +10,12 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.impl.oob.ConfigSevImpl;
-import com.prayer.constant.SystemEnum.ResponseCode;
+import com.prayer.configuration.impl.ConfigBllor;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.exception.web.ConvertorMultiException;
-import com.prayer.facade.business.ConfigService;
+import com.prayer.facade.configuration.ConfigService;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractWebException;
-import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
@@ -54,7 +52,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
     /** **/
     @PostValidateThis
     public ConversionHandler() {
-        this.service = singleton(ConfigSevImpl.class);
+        this.service = singleton(ConfigBllor.class);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
@@ -68,8 +66,8 @@ public class ConversionHandler implements Handler<RoutingContext> {
         final Requestor requestor = Extractor.requestor(context);
         final PEUri uri = Extractor.uri(context);
         // 2.查找Convertors的数据
-        final ServiceResult<ConcurrentMap<String, List<PERule>>> result = this.service
-                .findConvertors(uri.getUniqueId());
+        final ConcurrentMap<String, List<PERule>> result = this.service
+                .convertors(uri.getUniqueId());
         if (this.requestDispatch(result, context, requestor)) {
             // SUCCESS -->
             context.put(Constants.KEY.CTX_REQUESTOR, requestor);
@@ -80,17 +78,16 @@ public class ConversionHandler implements Handler<RoutingContext> {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private boolean requestDispatch(final ServiceResult<ConcurrentMap<String, List<PERule>>> result,
+    private boolean requestDispatch(final ConcurrentMap<String, List<PERule>> dataMap,
             final RoutingContext context, final Requestor requestor) {
         final JsonObject params = requestor.getRequest().getJsonObject(JsonKey.REQUEST.PARAMS);
-        if(ResponseCode.SUCCESS != result.getResponseCode()){
-            // 500 Internal Error
-            Future.error500(getClass(), context);
-            return false;
-        }
+        // if(ResponseCode.SUCCESS != result.getResponseCode()){
+        // // 500 Internal Error
+        // Future.error500(getClass(), context);
+        // return false;
+        // }
         
         AbstractWebException error = null;
-        final ConcurrentMap<String, List<PERule>> dataMap = result.getResult();
         boolean ret = true;
         // 遍历每一个字段
         try {

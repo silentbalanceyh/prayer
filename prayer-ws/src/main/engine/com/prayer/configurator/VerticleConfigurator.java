@@ -12,11 +12,9 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.impl.oob.ConfigSevImpl;
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.business.ConfigService;
+import com.prayer.configuration.impl.ConfigBllor;
+import com.prayer.facade.configuration.ConfigService;
 import com.prayer.facade.constant.Constants;
-import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.vertx.PEVerticle;
 
 import io.vertx.core.DeploymentOptions;
@@ -51,7 +49,7 @@ public class VerticleConfigurator {
     /** 公共构造函数 **/
     @PostValidateThis
     public VerticleConfigurator() {
-        this.service = singleton(ConfigSevImpl.class);
+        this.service = singleton(ConfigBllor.class);
         this.initDataMap();
     }
 
@@ -92,11 +90,11 @@ public class VerticleConfigurator {
 
     private void initDataMap() {
         if (DATA_MAP.isEmpty()) {
-            final ServiceResult<ConcurrentMap<String, List<PEVerticle>>> result = this.service.findVerticles();
-            if (ResponseCode.SUCCESS == result.getResponseCode()) {
-                DATA_MAP.putAll(result.getResult());
-            } else {
+            final ConcurrentMap<String, List<PEVerticle>> ret = this.service.verticles();
+            if (null == ret) {
                 error(LOGGER, "There are some errors when reading deployment options from H2");
+            } else {
+                DATA_MAP.putAll(ret);
             }
         }
     }
