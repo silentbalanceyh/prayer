@@ -1,9 +1,10 @@
 package com.prayer.script;
 
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.business.ConfigService;
+import static com.prayer.util.reflection.Instance.singleton;
+
+import com.prayer.configuration.impl.ConfigBllor;
+import com.prayer.facade.configuration.ConfigService;
 import com.prayer.facade.constant.Constants;
-import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.vertx.PEScript;
 
 import io.vertx.core.json.JsonObject;
@@ -30,14 +31,16 @@ public final class JSEnvExtractor {
     /** Config Service 接口 **/
     @NotNull
     @InstanceOf(ConfigService.class)
-    private transient ConfigService configSev;    // NOPMD
+    private transient ConfigService configSev; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+
     @PostValidateThis
-    JSEnvExtractor(){
-        // this.configSev = singleton(ConfigSevImpl.class);
+    JSEnvExtractor() {
+        this.configSev = singleton(ConfigBllor.class);
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**
@@ -52,6 +55,7 @@ public final class JSEnvExtractor {
         final String scriptName = parameters.getString(Constants.PARAM.SCRIPT);
         return this.getJsByName(scriptName);
     }
+
     /**
      * 
      * @return
@@ -59,9 +63,10 @@ public final class JSEnvExtractor {
     @NotNull
     @NotBlank
     @NotEmpty
-    public String extractJSEnv(){
+    public String extractJSEnv() {
         return this.getJsByName(JS_GLOBAL_ID);
     }
+
     /**
      * 
      * @return
@@ -69,19 +74,15 @@ public final class JSEnvExtractor {
     @NotNull
     @NotBlank
     @NotEmpty
-    public String extractJSMetaEnv(){
+    public String extractJSMetaEnv() {
         return this.getJsByName(JS_META_ID);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    
-    private String getJsByName(final String scriptName){
-        final ServiceResult<PEScript> script = this.configSev.findScript(scriptName);
-        String ret = "";
-        if (ResponseCode.SUCCESS == script.getResponseCode() && null != script.getResult()) {
-            ret = script.getResult().getContent();
-        }
-        return ret;
+
+    private String getJsByName(final String scriptName) {
+        final PEScript script = this.configSev.script(scriptName);
+        return null == script ? Constants.EMPTY_STR : script.getContent();
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

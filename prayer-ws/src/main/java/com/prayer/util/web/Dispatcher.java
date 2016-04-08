@@ -10,9 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.SystemEnum.ParamType;
-import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.constant.Constants;
-import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.util.string.StringKit;
 
@@ -49,16 +47,16 @@ public final class Dispatcher { // NOPMD
      * @return
      */
     public static boolean requestDispatch(final Class<?> clazz,
-            final ServiceResult<ConcurrentMap<HttpMethod, PEUri>> result, final RoutingContext context) {
+            final ConcurrentMap<HttpMethod, PEUri> uriMap, final RoutingContext context) {
         final HttpServerRequest request = context.request();
-        // 1.内部500Error
-        if (ResponseCode.SUCCESS != result.getResponseCode()) {
-            // 500 Internal Error
-            Future.error500(clazz, context);
-            return false; // NOPMD
-        }
-        // 2.URI的获取
-        final ConcurrentMap<HttpMethod, PEUri> uriMap = result.getResult();
+//        // 1.内部500Error
+//        if (ResponseCode.SUCCESS != result.getResponseCode()) {
+//            // 500 Internal Error
+//            Future.error500(clazz, context);
+//            return false; // NOPMD
+//        }
+//        // 2.URI的获取
+//        final ConcurrentMap<HttpMethod, PEUri> uriMap = result.getResult();
         if (uriMap.isEmpty()) {
             // 404 Resources Not Found
             Future.error404(clazz, context, request.path());

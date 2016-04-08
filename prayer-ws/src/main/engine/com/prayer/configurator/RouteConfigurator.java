@@ -11,12 +11,10 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.impl.oob.ConfigSevImpl;
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.business.ConfigService;
+import com.prayer.configuration.impl.ConfigBllor;
+import com.prayer.facade.configuration.ConfigService;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractWebException;
-import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.vertx.PERoute;
 import com.prayer.util.web.Interruptor;
 
@@ -56,7 +54,7 @@ public class RouteConfigurator {
     /** **/
     @PostValidateThis
     public RouteConfigurator(@NotNull final Vertx vertxRef) {
-        this.service = singleton(ConfigSevImpl.class);
+        this.service = singleton(ConfigBllor.class);
         this.vertxRef = vertxRef;
     }
 
@@ -71,12 +69,12 @@ public class RouteConfigurator {
     @PreValidateThis
     public Router getRouter() {
         // 1.从H2的Database中读取所有的Route信息
-        final ServiceResult<ConcurrentMap<String, List<PERoute>>> result = this.service.findRoutes();
+        final ConcurrentMap<String, List<PERoute>> retMap = this.service.routes();
         // 2.如果读取成功的情况
         final Router retRouter = Router.router(this.vertxRef);
-        if (ResponseCode.SUCCESS == result.getResponseCode()) {
-            // 3.Sub Router
-            final ConcurrentMap<String, List<PERoute>> retMap = result.getResult();
+        if (retMap.isEmpty()) {
+            info(LOGGER, "[E-VX] No route has been found in H2 database !");
+        } else {
             for (final List<PERoute> routeList : retMap.values()) {
                 // 4.Sub Router调用
                 for (final PERoute item : routeList) {
@@ -84,8 +82,6 @@ public class RouteConfigurator {
                     retRouter.getRoutes().add(route);
                 }
             }
-        } else {
-            info(LOGGER, "[E-VX] No route has been found in H2 database !");
         }
         return retRouter;
     }
@@ -154,8 +150,8 @@ public class RouteConfigurator {
     }
 
     /*
-     * private void logHandler(final PERoute metadata, final boolean failure)
-     * { final String registeredUri = metadata.getParent() + metadata.getPath();
+     * private void logHandler(final PERoute metadata, final boolean failure) {
+     * final String registeredUri = metadata.getParent() + metadata.getPath();
      * if (failure) { info(LOGGER, WebLogger.I_MSGH_FAILURE,
      * metadata.getFailureHandler(), registeredUri, metadata.getOrder()); } else
      * { info(LOGGER, WebLogger.I_MSGH_REQUEST, metadata.getMethod().toString(),

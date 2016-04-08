@@ -6,9 +6,9 @@ import java.net.URL;
 
 import org.apache.commons.cli.CommandLine;
 
-import com.prayer.business.impl.oob.DeploySevImpl;
 import com.prayer.constant.Resources;
-import com.prayer.facade.business.DeployService;
+import com.prayer.deployment.impl.DeployBllor;
+import com.prayer.facade.deployment.DeployService;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.util.io.IOKit;
 
@@ -43,7 +43,7 @@ public class MServerCommand extends AbstractCommand {
     @PostValidateThis
     public MServerCommand() {
         super();
-        this.service = singleton(DeploySevImpl.class);
+        this.service = singleton(DeployBllor.class);
         this.helper = singleton(JdbcHelper.class);
     }
 
@@ -80,8 +80,7 @@ public class MServerCommand extends AbstractCommand {
     // ~ Private Methods =====================================
 
     private JsonObject initMetadata(final CommandLine cmdLine) {
-        final String sqlFile = Resources.META_INIT_SQL;
-        final ServiceResult<Boolean> ret = this.service.initMetadata(sqlFile);
+        final ServiceResult<Boolean> ret = this.service.initialize("initialize");
         final JsonObject retJson = new JsonObject();
         if (ret.getResult()) {
             retJson.put("info", "[INFO] H2 Database tables have been initilized successfully!");
@@ -113,7 +112,7 @@ public class MServerCommand extends AbstractCommand {
     }
 
     private JsonObject deployData(final String folder) {
-        final ServiceResult<Boolean> ret = this.service.deployMetadata(folder);
+        final ServiceResult<Boolean> ret = this.service.manoeuvre(folder);
         final JsonObject retJson = new JsonObject();
         if (ret.getResult()) {
             retJson.put(DEPLOYED, Boolean.TRUE);
