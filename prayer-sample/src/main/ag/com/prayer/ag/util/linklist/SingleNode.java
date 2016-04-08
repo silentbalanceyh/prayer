@@ -1,4 +1,4 @@
-package com.prayer.ag.josephus;
+package com.prayer.ag.util.linklist;
 
 /**
  * 单项链表

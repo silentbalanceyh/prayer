@@ -1,4 +1,4 @@
-package com.prayer.ag.josephus;
+package com.prayer.ag.util.linklist;
 
 /**
  * 单链循环表
@@ -38,6 +38,13 @@ public class SingleLinkList<T> {
      */
     public void setBegin() {
         this.current = this.head;
+    }
+    /**
+     * 设置当前值
+     * @param value
+     */
+    public void setCurrent(final T value){
+        this.current.setValue(value);
     }
 
     /**
@@ -147,16 +154,39 @@ public class SingleLinkList<T> {
     /**
      * 打印List
      */
-    public void print() {
+    public void print(final boolean appendLine) {
         SingleNode<T> tempCur = this.head;
         do {
             if(null == tempCur){
                 break;
             }
             System.out.print(tempCur.getValue());
-            System.out.print(" ");
+            if(String.valueOf(tempCur.getValue()).length() > 1){
+                System.out.print(" ");
+            }else{
+                System.out.print("  ");
+            }
             tempCur = tempCur.getNext();
         } while (this.head != tempCur);
+        if(appendLine){
+            System.out.println();
+        }
+    }
+    /**
+     * 
+     * @return
+     */
+    public int getPosition(){
+        SingleNode<T> tempCur = this.head;
+        int i = 0;
+        do{
+            if(null == tempCur){
+                break;
+            }
+            i++;
+            tempCur = tempCur.getNext();
+        }while(this.current != tempCur);
+        return i;
     }
     // ~ Private Methods =====================================
 
@@ -169,5 +199,18 @@ public class SingleLinkList<T> {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
+    /** **/
+    @Override
+    public String toString(){
+        final StringBuilder ret = new StringBuilder();
+        SingleNode<T> tempCur = this.head;
+        do {
+            if(null == tempCur){
+                break;
+            }
+            ret.append(tempCur.getValue()).append(' ');
+            tempCur = tempCur.getNext();
+        } while (this.head != tempCur);
+        return ret.toString();
+    }
 }

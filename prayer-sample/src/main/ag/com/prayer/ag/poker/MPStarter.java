@@ -1,24 +1,20 @@
-package com.prayer.ag.josephus;
-/**
- * 
- * @author Lang
- *
- */
-public class SingleMainDriver {
+package com.prayer.ag.poker;
+
+import com.prayer.ag.Topic;
+
+public class MPStarter {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
-    // ~ Static Methods ======================================
-    /** **/
+    /**
+     * 
+     * @param args
+     */
     public static void main(String args[]){
-        SingleLinkList<Integer> list = new SingleLinkList<>();
-        list.addNode(12);
-        list.addNode(13);
-        list.addNode(14);
-        list.addNode(16);
-        list.addNode(17);
-        list.print();
+        final Topic driver = new MagicianPoker();
+        driver.runTool(args);
     }
+    // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

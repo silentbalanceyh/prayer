@@ -1,5 +1,7 @@
 package com.prayer.ag.josephus;
 
+import com.prayer.ag.util.linklist.SingleLinkList;
+
 /**
  * 
  * @author Lang
@@ -28,7 +30,7 @@ final class Algorithm {
         list.setBegin();
         final int size = list.size();
         for (int idxi = 0; idxi < size - 1; idxi++) {
-            list.print();
+            list.print(false);
             for (int idxj = 0; idxj < width; idxj++) {
                 list.moveNext();
             }
