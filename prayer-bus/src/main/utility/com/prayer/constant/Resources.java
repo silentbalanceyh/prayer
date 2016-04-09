@@ -22,6 +22,8 @@ public final class Resources { // NOPMD
     // System Global Configuration ===========================
     /** 错误信息代码 **/
     public static final String ERR_CODE_FILE = "/errors.properties";
+    /** 全局配置文件 **/
+    public static final String SYS_GLOBAL_CFG = "/global.properties";
     /** 系统默认英文编码 **/
     public static final Charset SYS_ENCODING;
     /** 系统使用的缓存信息 **/
@@ -117,7 +119,7 @@ public final class Resources { // NOPMD
         /**
          * 因为PropertyLoader内部已经实现了Properties的单件模式，这里没有必要使用反射的方式创建
          */
-        LOADER = new PropertyKit(Resources.class, "/global.properties");
+        LOADER = new PropertyKit(Resources.class, SYS_GLOBAL_CFG);
 
         // Global Configuration
         SYS_ENCODING = Charset.forName(LOADER.getString("system.en.encoding"));

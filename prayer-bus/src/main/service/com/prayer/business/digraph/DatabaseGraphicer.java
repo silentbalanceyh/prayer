@@ -11,7 +11,6 @@ import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
 import com.prayer.dao.impl.data.DatabaseDalor;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.dao.DatabaseDao;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.facade.util.digraph.NodeData;
@@ -41,7 +40,7 @@ final class DatabaseGraphicer {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     public DatabaseGraphicer() {
-        this.validator = reservoir(MemoryPool.POOL_VALIDATOR, Resources.DB_CATEGORY, Accessors.validator());
+        this.validator = reservoir(Resources.DB_CATEGORY, Accessors.validator());
         this.dao = singleton(DatabaseDalor.class);
     }
 

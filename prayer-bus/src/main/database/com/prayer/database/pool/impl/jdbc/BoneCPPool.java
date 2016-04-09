@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import javax.sql.DataSource;
 
 import com.jolbox.bonecp.BoneCPDataSource;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.fantasm.pool.AbstractJdbcPool;
 
 import net.sf.oval.constraint.InstanceOfAny;
@@ -83,7 +82,7 @@ public class BoneCPPool extends AbstractJdbcPool {
             /**
              * 池化数据源的信息，默认： Internal: H2 = DataSource 可配置的外围的：MSSQL = DataSource
              */
-            dataSource = reservoir(MemoryPool.POOL_DATA_SOURCE, this.getCategory(), BoneCPDataSource.class);
+            dataSource = reservoir(this.getCategory(), BoneCPDataSource.class);
         }
     }
 

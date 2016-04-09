@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 import com.prayer.constant.Resources;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.sql.util.SqlTypes;
 import com.prayer.util.io.PropertyKit;
 
@@ -34,8 +33,7 @@ public class MsSqlTypeAnalyzer {
     /** **/
     static {
         if (null == DS) {
-            DS = (BoneCPDataSource) reservoir(MemoryPool.POOL_DATA_SOURCE, Resources.DB_CATEGORY,
-                    BoneCPDataSource.class);
+            DS = (BoneCPDataSource) reservoir(Resources.DB_CATEGORY, BoneCPDataSource.class);
             DS.setDriverClass(LOADER.getString(Resources.DB_CATEGORY + ".jdbc.driver"));
             DS.setJdbcUrl(LOADER.getString(Resources.DB_CATEGORY + ".jdbc.url"));
             DS.setUsername(LOADER.getString(Resources.DB_CATEGORY + ".jdbc.username"));

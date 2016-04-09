@@ -10,7 +10,6 @@ import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
 import com.prayer.facade.constant.DBConstants;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.DataValidator;
@@ -81,7 +80,7 @@ public class AbstractVerifierTool {
 
     /** **/
     protected DataValidator validator() {
-        return reservoir(MemoryPool.POOL_VALIDATOR, Resources.DB_CATEGORY, Accessors.validator());
+        return reservoir(Resources.DB_CATEGORY, Accessors.validator());
     }
 
     /** **/

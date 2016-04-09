@@ -18,8 +18,8 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.exception.database.SchemaNotFoundException;
-import com.prayer.facade.kernel.Transducer.V;
 import com.prayer.facade.constant.Constants;
+import com.prayer.facade.kernel.Transducer.V;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
@@ -50,8 +50,6 @@ public class MetaRecord implements Record { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaRecord.class);
-    /** **/
-    private static final ConcurrentMap<String, MetaRaw> META_MAP = new ConcurrentHashMap<>();
 
     /** 前置条件 **/
     private static final String PRE_M_READER_CON = "_this.raw != null";
@@ -83,7 +81,7 @@ public class MetaRecord implements Record { // NOPMD
         // 1.连接操作
         this._identifier = identifier;
         // 2.Meta的Serializer池化处理
-        this.raw = reservoir(META_MAP, identifier, MetaRaw.class, identifier);
+        this.raw = reservoir(identifier, MetaRaw.class, identifier);
         if (null == this.raw) {
             throw new SchemaNotFoundException(getClass(), identifier);
         }

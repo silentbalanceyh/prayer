@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
@@ -75,11 +74,7 @@ public abstract class AbstractDataDalor implements RecordDao { // NOPMD
     @NotNull
     @InstanceOf(JdbcConnection.class)
     protected JdbcConnection getContext(@NotNull @NotEmpty @NotBlank final String identifier) {
-        JdbcConnection context = MemoryPool.POOL_JDBC.get(identifier);
-        if (null == context) {
-            context = reservoir(MemoryPool.POOL_JDBC, identifier, JdbcConnImpl.class);
-        }
-        return context;
+        return reservoir(identifier, JdbcConnImpl.class);
     }
 
     // ~ Major Logical =======================================

@@ -11,7 +11,6 @@ import com.prayer.business.impl.std.ServiceHelper;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.exception.web.JSScriptEngineException;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
@@ -44,7 +43,7 @@ public abstract class AbstractSevImpl {
     @PostValidateThis
     public AbstractSevImpl(@NotNull final Class<?> daoCls, @NotNull final Class<?> entityCls) {
         this.recordDao = singleton(daoCls);
-        this.helper = reservoir(MemoryPool.POOL_SEV_HELPER, this.recordDao.getClass().getName(), ServiceHelper.class,
+        this.helper = reservoir(this.recordDao.getClass().getName(), ServiceHelper.class,
                 this.recordDao, entityCls);
     }
 

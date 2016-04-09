@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.prayer.constant.Resources;
 import com.prayer.facade.accessor.MetaAccessor;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.entity.Entity;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 
@@ -54,7 +53,7 @@ public class MetaAccessorImpl implements MetaAccessor {
         // PERule -> IBatisAccessorImpl ( PERule.class )
         // PEScript -> IBatisAccessorImpl ( PEScript.class )
         // ......
-        this.accessor = reservoir(MemoryPool.POOL_ACCESSOR, entityCls.getName(), Resources.META_ACCESSOR, entityCls);
+        this.accessor = reservoir(entityCls.getName(), Resources.META_ACCESSOR, entityCls);
     }
 
     // ~ Abstract Methods ====================================

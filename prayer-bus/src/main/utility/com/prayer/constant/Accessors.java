@@ -32,7 +32,7 @@ public final class Accessors {
     private static final String DFT_DB_TRANS = "com.prayer.dao.impl.data.special.MsSqlTransducer";
 
     /** Cache默认值 **/
-    private static final String DFT_SYS_CACHE = "com.prayer.model.cache.HazelcastManager";
+    private static final String DFT_SYS_CACHE = "com.prayer.model.cache.MemoryCache";
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
 

@@ -21,7 +21,6 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.impl.ObjectTransferer;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.dao.RecordDao;
 import com.prayer.facade.entity.Entity;
@@ -253,7 +252,7 @@ public abstract class AbstractMetaDalor<ID extends Serializable> implements Reco
     private MetaAccessor getDao(final String identifier) {
         final PropertyKit LOADER = new PropertyKit(getClass(), Resources.OOB_SCHEMA_FILE);
         final String clsName = LOADER.getString(identifier + ".instance");
-        return reservoir(MemoryPool.POOL_ACCESSOR, clsName, clazz(Accessors.accessor()), clazz(clsName));
+        return reservoir(clsName, clazz(Accessors.accessor()), clazz(clsName));
     }
 
     private String buildPager(final Record record, final String[] columns, final Expression filters,

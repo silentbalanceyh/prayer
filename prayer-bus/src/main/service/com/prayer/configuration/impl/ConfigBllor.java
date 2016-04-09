@@ -130,7 +130,7 @@ public class ConfigBllor implements ConfigService, Attributes {
 
     private ConcurrentMap<String, List<PERule>> components(final String uriId, final ComponentType type) {
         final AndEqer ander = AndEqer.reference().build(R_URI_ID, uriId).build(J_COMPONENT_TYPE, type.toString());
-        return Inverter.invertList(this.selector.fetchers(PERule.class).inquiryList(ander), "name");
+        return Inverter.invertList(this.selector.fetchers(PERule.class).inquiryList(ander), NAME);
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

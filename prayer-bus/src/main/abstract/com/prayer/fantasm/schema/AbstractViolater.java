@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.fun.schema.Extractor;
 import com.prayer.facade.schema.rule.ObjectHabitus;
@@ -204,7 +203,7 @@ public abstract class AbstractViolater {
      * @return
      */
     protected DataValidator validator() {
-        return reservoir(MemoryPool.POOL_VALIDATOR, Resources.DB_CATEGORY, Accessors.validator());
+        return reservoir(Resources.DB_CATEGORY, Accessors.validator());
     }
 
     /**

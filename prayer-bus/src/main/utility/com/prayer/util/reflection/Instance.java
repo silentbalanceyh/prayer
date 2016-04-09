@@ -12,13 +12,13 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.facade.cache.Cache;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.constant.MemoryPool;
+import com.prayer.model.cache.CacheBuilder;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -43,66 +43,65 @@ public final class Instance { // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
-     * 支持带Pool模式的单例
+     * 池化管理
      * 
-     * @param objectPool
      * @param key
-     * @param className
-     * @param params
-     * @return
-     */
-    public static <T> T reservoir(@NotNull final ConcurrentMap<String, T> objectPool, final String key,
-            @NotNull @NotBlank @NotEmpty final String className, final Object... params) {
-        T ret = objectPool.get(null == key ? "" : key);
-        if (null == ret) {
-            ret = instance(className, params);
-            if (null != ret) {
-                objectPool.put(key, ret);
-            }
-        }
-        return ret;
-    }
-
-    /**
-     * 支持带Pool模式的单例
-     * 
      * @param clazz
-     * @param key
-     * @param objectPool
      * @param params
      * @return
      */
-    public static <T> T reservoir(@NotNull final ConcurrentMap<String, T> objectPool, final String key,
-            @NotNull final Class<?> clazz, final Object... params) {
-        T ret = objectPool.get(null == key ? "" : key);
-        if (null == ret) {
-            ret = instance(clazz, params);
-            if (null != ret) {
-                objectPool.put(key, ret);
-            }
-        }
-        return ret;
+    public static <T> T reservoir(@NotNull @NotBlank @NotEmpty final String key, @NotNull final Class<?> clazz,
+            final Object... params) {
+        final Cache cache = CacheBuilder.build(clazz);
+        return reference(cache, key, clazz, params);
     }
 
     /**
+     * 池化管理
+     * 
+     * @param key
+     * @param clazz
+     * @param params
+     * @return
+     */
+    public static <T> T reservoir(@NotNull @NotBlank @NotEmpty final String key, @NotNull final String className,
+            final Object... params) {
+        final Class<?> clazz = clazz(className);
+        return reservoir(key, clazz, params);
+    }
+
+    /**
+     * 单件模式
      * 
      * @param clazz
      * @param params
      * @return
      */
     public static <T> T singleton(@NotNull final Class<?> clazz, final Object... params) {
-        return (T) reservoir(MemoryPool.POOL_OBJECT, clazz.getName(), clazz, params);
+        final Cache cache = CacheBuilder.build(Object.class);
+        return reference(cache, clazz.getName(), clazz, params);
     }
 
     /**
-     * 全环境的singleton单例模式
+     * 单件模式
      * 
      * @param className
      * @param params
      * @return
      */
-    public static <T> T singleton(@NotNull @NotBlank @NotEmpty final String className, final Object... params) {
-        return (T) reservoir(MemoryPool.POOL_OBJECT, className, className, params);
+    public static <T> T singleton(@NotNull final String className, final Object... params) {
+        final Class<?> clazz = clazz(className);
+        return singleton(clazz, params);
+    }
+
+    private static <T> T reference(@NotNull final Cache cache, @NotNull @NotBlank @NotEmpty final String key,
+            @NotNull final Class<?> clazz, final Object... params) {
+        T ret = cache.get(key);
+        if (null == ret) {
+            ret = instance(clazz, params);
+            cache.put(key, ret);
+        }
+        return ret;
     }
 
     /**

@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.springframework.jdbc.core.JdbcOperations;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.pool.JdbcPool;
@@ -58,9 +57,9 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
         synchronized (getClass()) {
             if (null == category) {
                 // Fix数据源切换的问题
-                this.dbPool = reservoir(MemoryPool.POOL_CONPOOL, "DEFAULT", pool());
+                this.dbPool = reservoir("DEFAULT", pool());
             } else {
-                this.dbPool = reservoir(MemoryPool.POOL_CONPOOL, category, pool(), category);
+                this.dbPool = reservoir(category, pool(), category);
             }
         }
     }

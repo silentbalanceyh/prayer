@@ -15,7 +15,6 @@ import com.prayer.dao.impl.schema.SchemaDalor;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
 import com.prayer.facade.builder.Builder;
 import com.prayer.facade.constant.DBConstants;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.dao.schema.Importer;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.pool.JdbcConnection;
@@ -91,7 +90,7 @@ public abstract class AbstractAltimeterTool {
 
     /** **/
     protected DataValidator validator() {
-        return reservoir(MemoryPool.POOL_VALIDATOR, Resources.DB_CATEGORY, Accessors.validator());
+        return reservoir(Resources.DB_CATEGORY, Accessors.validator());
     }
 
     /** **/

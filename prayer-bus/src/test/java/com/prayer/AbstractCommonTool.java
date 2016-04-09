@@ -4,8 +4,6 @@ import static com.prayer.util.reflection.Instance.reservoir;
 import static org.junit.Assert.fail;
 
 import java.text.MessageFormat;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
@@ -23,8 +21,6 @@ public abstract class AbstractCommonTool implements ErrorKeys { // NOPMD
      * Error property ASSERT_LOADER to read Error Message
      */
     private static PropertyKit ASSERT_LOADER = new PropertyKit(AbstractCommonTool.class, "/asserts.properties");
-    /** **/
-    protected static final ConcurrentMap<String, PropertyKit> OBJ_POOLS = new ConcurrentHashMap<>();
     // ~ Instance Fields =====================================
     /** **/
     private transient PropertyKit loader;
@@ -34,7 +30,7 @@ public abstract class AbstractCommonTool implements ErrorKeys { // NOPMD
     // ~ Constructors ========================================
     /** **/
     public AbstractCommonTool() {
-        loader = reservoir(OBJ_POOLS, getClass().getName(), PropertyKit.class, "/proploader.properties");
+        loader = reservoir(getClass().getName(), PropertyKit.class, "/proploader.properties");
     }
 
     // ~ Abstract Methods ====================================

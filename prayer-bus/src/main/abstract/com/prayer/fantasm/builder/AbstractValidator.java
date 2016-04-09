@@ -9,7 +9,6 @@ import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.fantasm.exception.AbstractSchemaException;
@@ -41,7 +40,7 @@ public abstract class AbstractValidator implements DataValidator {
     /** **/
     @PostValidateThis
     public AbstractValidator() {
-        this.connection = reservoir(MemoryPool.POOL_JDBC, Resources.DB_CATEGORY, JdbcConnImpl.class);
+        this.connection = reservoir(Resources.DB_CATEGORY, JdbcConnImpl.class);
     }
 
     // ~ Abstract Methods ====================================

@@ -1,7 +1,6 @@
 package com.prayer.util.io;
 
 import static com.prayer.util.debug.Log.jvmError;
-import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,9 +9,11 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.constant.Resources;
+import com.prayer.facade.cache.Cache;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.util.reflection.Instance;
 import com.prayer.util.string.StringKit;
 import com.prayer.util.string.StringPool;
 
@@ -36,13 +37,30 @@ public final class PropertyKit {
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertyKit.class);
 
+    /** 顶级Cache，Global直接使用 **/
+    private static final Cache GLOBAL_CACHE;
+    /** Global Loader **/
+    private static final Properties LOADER;
+    /** 仅仅内部使用的Cache操作 **/
+    static {
+        LOADER = new Properties();
+        try {
+            final InputStream in = IOKit.getFile(Resources.SYS_GLOBAL_CFG, PropertyKit.class);
+            if (null != in) {
+                LOADER.load(in);
+            }
+        } catch (IOException ex) {
+            jvmError(LOGGER, ex);
+        }
+        GLOBAL_CACHE = Instance.instance(LOADER.getProperty("system.cache.manager"));
+    }
     // ~ Error Key Constants =================================
     // ~ Instance Fields =====================================
     /**
      * 当前实例加载的资源文件信息
      */
     @NotNull
-    private transient final Properties prop;
+    private transient Properties prop;
     // ~ Debug Information ===================================
 
     // ~ Constructors ========================================
@@ -53,7 +71,7 @@ public final class PropertyKit {
      */
     @PostValidateThis
     public PropertyKit(final Class<?> clazz, @NotNull @NotEmpty @NotBlank final String resource) {
-        this.prop = reservoir(MemoryPool.POOL_PROP, resource, Properties.class);
+        this.prop = this.get(resource);
         try {
             final InputStream inStream = IOKit.getFile(resource, clazz);
             if (null != inStream) {
@@ -62,7 +80,6 @@ public final class PropertyKit {
         } catch (IOException ex) {
             jvmError(LOGGER, ex);
         }
-        MemoryPool.POOL_PROP.put(resource, this.prop);
     }
 
     /**
@@ -165,9 +182,24 @@ public final class PropertyKit {
      */
     @NotNull
     public Properties getProp(@NotNull @NotEmpty @NotBlank final String resource) {
-        return MemoryPool.POOL_PROP.get(resource);
+        return this.get(resource);
     }
-    // ~ Private Methods =====================================
 
+    // ~ Private Methods =====================================
+    private Properties get(final String resource) {
+        /** 1.检索特殊的Properties中的Cache **/
+        Cache cache = GLOBAL_CACHE.get(Properties.class.getName());
+        if (null == cache) {
+            cache = Instance.instance(LOADER.getProperty("system.cache.manager"));
+            GLOBAL_CACHE.put(Properties.class.getName(), cache);
+        }
+        /** 2.从Cache中读取Properties **/
+        Properties prop = cache.get(resource);
+        if (null == prop) {
+            prop = new Properties();
+            cache.put(resource, prop);
+        }
+        return prop;
+    }
     // ~ hashCode,equals,toString ============================
 }

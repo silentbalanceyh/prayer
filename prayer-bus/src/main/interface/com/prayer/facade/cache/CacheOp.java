@@ -6,26 +6,23 @@ import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
 
 /**
- * Cache接口
+ * 私有接口
  * 
  * @author Lang
  *
  */
-@VertexPoint(Interface.ENG_PUBLIC)
-public interface Cache extends CacheOp{
+@VertexPoint(Interface.ENG_PRIVATE)
+interface CacheOp {
     /**
      * 
-     * @param key
      * @return
      */
     @VertexApi(Api.READ)
-    <V> V get(String key);
+    int size();
 
     /**
-     * 
-     * @param key
-     * @param value
+     * 清除当前缓存
      */
     @VertexApi(Api.WRITE)
-    <V> void put(String key, V value);
+    void clean();
 }

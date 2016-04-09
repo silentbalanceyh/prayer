@@ -4,7 +4,6 @@ import static com.prayer.util.reflection.Instance.reservoir;
 
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
-import com.prayer.facade.constant.MemoryPool;
 import com.prayer.facade.dao.schema.SchemaDao;
 import com.prayer.facade.schema.verifier.DataValidator;
 
@@ -55,7 +54,7 @@ public abstract class AbstractAltimeter {
      */
     @NotNull
     private DataValidator validator() {
-        return reservoir(MemoryPool.POOL_VALIDATOR, Resources.DB_CATEGORY, Accessors.validator());
+        return reservoir(Resources.DB_CATEGORY, Accessors.validator());
     }
 
     /**
