@@ -1,11 +1,10 @@
-package com.prayer.fantasm.business;
-
+package com.prayer.fantasm.locator;
 /**
- * 用于负责DataRecord和MetaRecord两个类的数据记录的基础操作
+ * 服务接口类信息，主要用于服务定位
  * @author Lang
  *
  */
-public abstract class AbstractService {
+public abstract class AbstractLocator {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

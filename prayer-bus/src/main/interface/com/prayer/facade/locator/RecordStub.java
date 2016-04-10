@@ -8,36 +8,30 @@ import com.prayer.model.web.WebRequest;
 import com.prayer.model.web.WebResponse;
 
 /**
+ * Restful服务接口
  * 
  * @author Lang
  *
  */
 @VertexPoint(Interface.RESTFUL)
-public interface SchemaStub {
-    /**
-     * Web Request，传入文件路径，将内容直接同步：Json -> Meta ( H2 ) -> Database
-     * 
-     * @param request
-     * @return
-     */
-    @VertexApi(Api.WRITE)
-    WebResponse synchronize(WebRequest request);
+public interface RecordStub extends WriteStub {
 
     /**
-     * Web Request，传入identifier，读取当前Schema信息
+     * GET请求专用方法
      * 
      * @param request
      * @return
      */
     @VertexApi(Api.READ)
-    WebResponse findById(WebRequest request);
+    WebResponse get(WebRequest request);
 
     /**
-     * Web Request，传入identifier，删除当前Schema信息
+     * （POST）Page请求专用方法专用方法
      * 
      * @param request
      * @return
      */
-    @VertexApi(Api.WRITE)
-    WebResponse removeById(WebRequest request);
+
+    @VertexApi(Api.READ)
+    WebResponse page(WebRequest request);
 }

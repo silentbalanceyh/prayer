@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.constant.SystemEnum.ComponentType;
 import com.prayer.facade.configuration.ConfigService;
 import com.prayer.facade.entity.Attributes;
+import com.prayer.model.crucial.MetaColumns;
 import com.prayer.model.meta.vertx.PEAddress;
 import com.prayer.model.meta.vertx.PERoute;
 import com.prayer.model.meta.vertx.PERule;
@@ -32,20 +33,6 @@ import net.sf.oval.guard.PostValidateThis;
 public class ConfigBllor implements ConfigService, Attributes {
 
     // ~ Static Fields =======================================
-    /** Script条件 **/
-    private static final String S_NAME = "S_NAME";
-    /** Work Class条件 **/
-    private static final String S_WORK_CLASS = "S_WORK_CLASS";
-    /** Uri条件 **/
-    private static final String S_URI = "S_URI";
-    /** Uri条件 **/
-    private static final String S_PARENT = "S_PARENT";
-    /** Verticle条件 **/
-    private static final String S_IGROUP = "S_IGROUP";
-    /** Rule条件 **/
-    private static final String R_URI_ID = "R_URI_ID";
-    /** Rule条件 **/
-    private static final String J_COMPONENT_TYPE = "J_COMPONENT_TYPE";
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
@@ -79,14 +66,15 @@ public class ConfigBllor implements ConfigService, Attributes {
     /** **/
     @Override
     public PEScript script(@NotNull @NotEmpty @NotBlank final String name) {
-        return this.selector.fetchers(PEScript.class).inquiry(AndEqer.reference().build(S_NAME, name));
+        return this.selector.fetchers(PEScript.class)
+                .inquiry(AndEqer.reference().build(MetaColumns.column(PEScript.class, NAME), name));
     }
 
     /** **/
     @Override
     public PEAddress address(@NotNull final Class<?> workClass) {
-        return this.selector.fetchers(PEAddress.class)
-                .inquiry(AndEqer.reference().build(S_WORK_CLASS, workClass.getName()));
+        return this.selector.fetchers(PEAddress.class).inquiry(
+                AndEqer.reference().build(MetaColumns.column(PEAddress.class, WORK_CLASS), workClass.getName()));
     }
 
     /** **/
@@ -110,26 +98,29 @@ public class ConfigBllor implements ConfigService, Attributes {
     /** **/
     @Override
     public ConcurrentMap<HttpMethod, PEUri> uris(@NotNull @NotEmpty @NotBlank final String path) {
-        return Inverter.invertOrb(
-                this.selector.fetchers(PEUri.class).inquiryList(AndEqer.reference().build(S_URI, path)), METHOD);
+        return Inverter.invertOrb(this.selector.fetchers(PEUri.class)
+                .inquiryList(AndEqer.reference().build(MetaColumns.column(PEUri.class, URI), path)), METHOD);
     }
 
     /** **/
     @Override
     public List<PERoute> routes(@NotNull @NotEmpty @NotBlank final String parent) {
-        return this.selector.fetchers(PERoute.class).inquiryList(AndEqer.reference().build(S_PARENT, parent));
+        return this.selector.fetchers(PERoute.class)
+                .inquiryList(AndEqer.reference().build(MetaColumns.column(PERoute.class, PARENT), parent));
     }
 
     /** **/
     @Override
     public List<PEVerticle> verticles(@NotNull @NotEmpty @NotBlank final String group) {
-        return this.selector.fetchers(PEVerticle.class).inquiryList(AndEqer.reference().build(S_IGROUP, group));
+        return this.selector.fetchers(PEVerticle.class)
+                .inquiryList(AndEqer.reference().build(MetaColumns.column(PEVerticle.class, GROUP), group));
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
     private ConcurrentMap<String, List<PERule>> components(final String uriId, final ComponentType type) {
-        final AndEqer ander = AndEqer.reference().build(R_URI_ID, uriId).build(J_COMPONENT_TYPE, type.toString());
+        final AndEqer ander = AndEqer.reference().build(MetaColumns.column(PERule.class, REF_UID), uriId)
+                .build(MetaColumns.column(PERule.class, COMPONENT_TYPE), type.toString());
         return Inverter.invertList(this.selector.fetchers(PERule.class).inquiryList(ander), NAME);
     }
     // ~ Get/Set =============================================

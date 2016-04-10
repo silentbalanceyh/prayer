@@ -12,32 +12,27 @@ import com.prayer.model.web.WebResponse;
  * @author Lang
  *
  */
-@VertexPoint(Interface.RESTFUL)
-public interface SchemaStub {
+@VertexPoint(Interface.ENG_PRIVATE)
+interface WriteStub {
     /**
-     * Web Request，传入文件路径，将内容直接同步：Json -> Meta ( H2 ) -> Database
-     * 
+     * PUT请求专用方法
      * @param request
      * @return
      */
     @VertexApi(Api.WRITE)
-    WebResponse synchronize(WebRequest request);
-
+    WebResponse put(WebRequest request);
     /**
-     * Web Request，传入identifier，读取当前Schema信息
-     * 
-     * @param request
-     * @return
-     */
-    @VertexApi(Api.READ)
-    WebResponse findById(WebRequest request);
-
-    /**
-     * Web Request，传入identifier，删除当前Schema信息
-     * 
+     * POST请求专用方法
      * @param request
      * @return
      */
     @VertexApi(Api.WRITE)
-    WebResponse removeById(WebRequest request);
+    WebResponse post(WebRequest request);
+    /**
+     * DELETE请求专用方法
+     * @param request
+     * @return
+     */
+    @VertexApi(Api.WRITE)
+    WebResponse delete(WebRequest request);
 }

@@ -94,13 +94,11 @@ public final class SqlTypes {
         final PropertyKit loader = new PropertyKit(mappingFile);
         final Properties prop = loader.getProp();
         for (final Object key : prop.keySet()) {
-            if (null != key && StringKit.isNonNil(key.toString())) {
-                final String keyStr = key.toString();
-                final String[] keys = keyStr.split("\\.");
-                if (Constants.TWO == keys.length && StringUtil.equals(keys[0], Resources.DB_CATEGORY)
-                        && StringKit.isNonNil(keys[1])) {
-                    DB_MAPPING.put(keys[1], prop.getProperty(keyStr));
-                }
+            final String keyStr = key.toString();
+            final String[] keys = keyStr.split("\\.");
+            if (Constants.TWO == keys.length && StringUtil.equals(keys[0], Resources.DB_CATEGORY)
+                    && StringKit.isNonNil(keys[1])) {
+                DB_MAPPING.put(keys[1], prop.getProperty(keyStr));
             }
         }
         /** 4.系统使用的类型转换表 **/

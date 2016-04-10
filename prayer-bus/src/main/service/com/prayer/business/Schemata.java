@@ -1,6 +1,10 @@
-package com.prayer.deployment.impl;
-
-public class DataBllor {
+package com.prayer.business;
+/**
+ * 用于连接缓存的Schema信息
+ * @author Lang
+ *
+ */
+public class Schemata {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

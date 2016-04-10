@@ -79,6 +79,8 @@ public final class Resources { // NOPMD
     public static final String VX_CFG_FILE;
     /** Server的配置文件路径 **/
     public static final String SEV_CFG_FILE;
+    /** Service中的映射文件路径 **/
+    public static final String SEV_MAPPING_FILE;
     /** 日志配置文件存储的根目录 **/
     public static final String LOG_CFG_FOLDER;
     /** 安全配置文件路径 **/
@@ -181,6 +183,9 @@ public final class Resources { // NOPMD
 
         // OOB Schema File
         OOB_SCHEMA_FILE = LOADER.getString("oob.schema.file");
+        
+        // Service Mapping File
+        SEV_MAPPING_FILE = LOADER.getString("service.dao.mapping");
 
         // =================== Meta JDBC =======================
         // JDBC Connection for Meta
