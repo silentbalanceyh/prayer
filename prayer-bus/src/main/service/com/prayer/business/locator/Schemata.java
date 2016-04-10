@@ -1,10 +1,10 @@
-package com.prayer.business;
+package com.prayer.business.locator;
 /**
  * 用于连接缓存的Schema信息
  * @author Lang
  *
  */
-public class Schemata {
+final class Schemata {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
