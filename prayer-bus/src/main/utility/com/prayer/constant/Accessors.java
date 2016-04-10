@@ -1,5 +1,7 @@
 package com.prayer.constant;
 
+import static com.prayer.util.Planar.flat;
+
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -44,7 +46,7 @@ public final class Accessors {
      */
     @NotNull
     public static String databaser() {
-        return null == Resources.DB_DATABASE_DAO ? DFT_DB_DATABASER : Resources.DB_DATABASE_DAO;
+        return flat(Resources.DB_DATABASE_DAO, DFT_DB_DATABASER);
     }
 
     /**
@@ -54,7 +56,7 @@ public final class Accessors {
      */
     @NotNull
     public static String connection() {
-        return null == Resources.META_JDBC_CONNECTION ? DFT_META_JDBC : Resources.META_JDBC_CONNECTION;
+        return flat(Resources.META_JDBC_CONNECTION, DFT_META_JDBC);
     }
 
     /**
@@ -64,7 +66,7 @@ public final class Accessors {
      */
     @NotNull
     public static String pool() {
-        return null == Resources.DB_POOL ? DFT_DB_POOL : Resources.DB_POOL;
+        return flat(Resources.DB_POOL, DFT_DB_POOL);
     }
 
     /**
@@ -74,7 +76,7 @@ public final class Accessors {
      */
     @NotNull
     public static String accessor() {
-        return null == Resources.META_ACCESSOR ? DFT_META_ACCESSOR : Resources.META_ACCESSOR;
+        return flat(Resources.META_ACCESSOR, DFT_META_ACCESSOR);
     }
 
     // ~ Configuration ===================================
@@ -84,7 +86,7 @@ public final class Accessors {
      * @return
      */
     public static String cache() {
-        return null == Resources.SYS_CACHE_CLS ? DFT_SYS_CACHE : Resources.SYS_CACHE_CLS;
+        return flat(Resources.SYS_CACHE_CLS, DFT_SYS_CACHE);
     }
 
     // ~ Database Configuration =========================
@@ -95,7 +97,7 @@ public final class Accessors {
      * @return
      */
     public static String validator() {
-        return null == Resources.DB_VALIDATOR ? DFT_DB_VALIDATOR : Resources.DB_VALIDATOR;
+        return flat(Resources.DB_VALIDATOR, DFT_DB_VALIDATOR);
     }
 
     /**
@@ -105,7 +107,7 @@ public final class Accessors {
      */
     @NotNull
     public static String builder() {
-        return null == Resources.DB_BUILDER ? DFT_DB_BUILDER : Resources.DB_BUILDER;
+        return flat(Resources.DB_BUILDER, DFT_DB_BUILDER);
     }
 
     /**
@@ -115,7 +117,7 @@ public final class Accessors {
      */
     @NotNull
     public static String dao() {
-        return null == Resources.DB_DAO ? DFT_DB_DAO : Resources.DB_DAO;
+        return flat(Resources.DB_DAO, DFT_DB_DAO);
     }
 
     /**
@@ -125,7 +127,7 @@ public final class Accessors {
      */
     @NotNull
     public static String transducer() {
-        return null == Resources.DB_TRANSDUCER ? DFT_DB_TRANS : Resources.DB_TRANSDUCER;
+        return flat(Resources.DB_TRANSDUCER, DFT_DB_TRANS);
     }
 
     // ~ Constructors ========================================

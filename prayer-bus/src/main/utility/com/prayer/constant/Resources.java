@@ -1,5 +1,7 @@
 package com.prayer.constant;
 
+import static com.prayer.util.Planar.flat;
+
 import java.nio.charset.Charset;
 
 import com.prayer.facade.constant.DBConstants;
@@ -130,19 +132,16 @@ public final class Resources { // NOPMD
         /**
          * 数据库模式，默认为SQL模式，也可以为NOSQL模式
          */
-        DB_MODE = null == LOADER.getString("database.mode") ? DBConstants.MODE_SQL
-                : StringKit.upper(LOADER.getString("database.mode"));
+        DB_MODE = flat(LOADER.getString("database.mode"), DBConstants.MODE_SQL, StringKit::upper);
         /**
          * 元数据数据库模式，默认为SQL模式，也可以为NOSQL模式
          */
         // Metadata Configuration
-        META_MODE = null == LOADER.getString("metadata.mode") ? DBConstants.MODE_SQL
-                : StringKit.upper(LOADER.getString("metadata.mode"));
+        META_MODE = flat(LOADER.getString("metadata.mode"), DBConstants.MODE_SQL, StringKit::upper);
 
-        DB_CATEGORY = null == LOADER.getString("database.category") ? DBConstants.CATEGORY_MSSQL
-                : StringKit.upper(LOADER.getString("database.category"));
-        META_CATEGORY = null == LOADER.getString("meta.category") ? DBConstants.CATEGORY_H2
-                : StringKit.upper(LOADER.getString("meta.category"));
+        DB_CATEGORY = flat(LOADER.getString("database.category"), DBConstants.CATEGORY_MSSQL, StringKit::upper);
+
+        META_CATEGORY = flat(LOADER.getString("meta.category"), DBConstants.CATEGORY_H2, StringKit::upper);
 
         DB_CFG_FILE = LOADER.getString("database.config.file");
 
@@ -182,7 +181,7 @@ public final class Resources { // NOPMD
 
         // OOB Schema File
         OOB_SCHEMA_FILE = LOADER.getString("oob.schema.file");
-        
+
         // =================== Meta JDBC =======================
         // JDBC Connection for Meta
         META_JDBC_CONNECTION = LOADER.getString("meta.jdbc.connection");
@@ -199,7 +198,7 @@ public final class Resources { // NOPMD
         DB_DAO = LOADER.getString("database.dao");
 
         DB_TRANSDUCER = LOADER.getString("database.dao.transducer");
-        
+
         DB_DATABASE_DAO = LOADER.getString("database.meta.databaser");
         // =====================================================
         // Meta Initializer Implementation
