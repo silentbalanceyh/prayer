@@ -1,4 +1,4 @@
-package com.prayer.fantasm.deployment.acus;
+package com.prayer.fantasm.business.deployment.acus;
 
 import com.prayer.database.accessor.impl.MetaAccessorImpl;
 import com.prayer.facade.accessor.MetaAccessor;
