@@ -7,6 +7,7 @@ import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PERoute;
 import com.prayer.model.meta.vertx.PEVerticle;
 
@@ -23,11 +24,11 @@ interface ConfigAcquirer {
      * @return
      */
     @VertexApi(Api.READ)
-    ConcurrentMap<String,List<PEVerticle>> verticles();
+    ConcurrentMap<String,List<PEVerticle>> verticles() throws AbstractException;
     /**
      * 读取所有的Route，按照父路径进行分组：parent
      * @return
      */
     @VertexApi(Api.READ)
-    ConcurrentMap<String,List<PERoute>> routes();
+    ConcurrentMap<String,List<PERoute>> routes() throws AbstractException;
 }

@@ -27,7 +27,7 @@ public class Inverter {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /**
-     * 
+     * 将查询结果返回成可用的Map结果
      * @param dataList
      * @param field
      * @return
@@ -47,7 +47,7 @@ public class Inverter {
     }
 
     /**
-     * 
+     * 将查询结果返回成可用的Map结果
      * @param dataList
      * @param field
      * @return

@@ -1,4 +1,4 @@
-package com.prayer.business.locator;
+package com.prayer.business.service.impl;
 
 import static com.prayer.util.reflection.Instance.clazz;
 
@@ -19,7 +19,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class Epsilon {
+public final class Epsilon {
     // ~ Static Fields =======================================
     /** DALOR的映射 **/
     private static final ConcurrentMap<Class<?>, Class<?>> DALOR_MAPPING = new ConcurrentHashMap<>();
@@ -50,6 +50,7 @@ final class Epsilon {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    private Epsilon(){}
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

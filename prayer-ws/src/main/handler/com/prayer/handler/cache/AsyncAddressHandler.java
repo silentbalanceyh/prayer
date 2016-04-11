@@ -4,7 +4,7 @@ import static com.prayer.util.reflection.Instance.instance;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configuration.impl.ConfigBllor;
-import com.prayer.facade.configuration.ConfigService;
+import com.prayer.facade.configuration.ConfigInstantor;
 import com.prayer.model.meta.vertx.PEAddress;
 
 import io.vertx.core.AsyncResult;
@@ -23,7 +23,7 @@ public class AsyncAddressHandler implements Handler<AsyncResult<AsyncMap<String,
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
-    private transient final ConfigService configSev;
+    private transient final ConfigInstantor configSev;
     /** **/
     private transient final Class<?> workClass;
     /** **/

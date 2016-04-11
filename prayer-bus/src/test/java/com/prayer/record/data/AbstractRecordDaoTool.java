@@ -16,12 +16,12 @@ import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.impl.data.DataRecordDalor;
 import com.prayer.deployment.impl.SchemaBllor;
 import com.prayer.facade.dao.RecordDao;
-import com.prayer.facade.deployment.SchemaService;
+import com.prayer.facade.deployment.SchemaInstantor;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.StringType;
@@ -43,7 +43,7 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
     protected static final Value<?> V_ID = new StringType("ID");
     // ~ Instance Fields =====================================
     /** Schema服务层接口 **/
-    private transient final SchemaService service;
+    private transient final SchemaInstantor service;
     /** Record数据访问层 **/
     private transient final RecordDao dao;
 
@@ -67,13 +67,14 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
     protected Class<?> getTarget() {
         return DataRecordDalor.class;
     }
+
     /** 当前访问的Database是否匹配 **/
     protected boolean isValidDB() {
         return StringUtil.equals(getCategory(), Resources.DB_CATEGORY);
     }
 
     /** 获取服务层访问接口 **/
-    protected SchemaService getService() {
+    protected SchemaInstantor getService() {
         return this.service;
     }
 
@@ -84,15 +85,13 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
     // ~ Template Method =====================================
 
     /** Json -> H2 -> Database **/
-    protected ServiceResult<Schema> prepareSchema(final String filePath, final String identifier) {
-        ServiceResult<Schema> ret = new ServiceResult<>();
+    protected Schema prepareSchema(final String filePath, final String identifier) throws AbstractException {
+        Schema ret = null;
         if (this.isValidDB()) {
             // Json -> H2
             ret = this.getService().importSchema(DATA_PATH + filePath);
-            if (ret.success()) {
-                ret = this.getService().syncMetadata(ret.getResult());
-            } else {
-                peError(getLogger(), ret.getServiceError());
+            if (null != ret) {
+                ret = this.getService().syncMetadata(ret);
             }
         }
         return ret;

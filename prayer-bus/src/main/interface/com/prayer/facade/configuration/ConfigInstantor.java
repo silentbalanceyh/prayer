@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexPoint;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PERoute;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.meta.vertx.PEVerticle;
@@ -17,14 +18,14 @@ import io.vertx.core.http.HttpMethod;
  *
  */
 @VertexPoint(Interface.DIRECT)
-public interface ConfigService extends ConfigAcquirer, ConfigObjecter, ConfigUCAObtainer {
+public interface ConfigInstantor extends ConfigAcquirer, ConfigObjecter, ConfigUCAObtainer {
     /**
      * 根据Uri的路径读取对应的Uri
      * 
      * @param uri
      * @return
      */
-    ConcurrentMap<HttpMethod, PEUri> uris(String path);
+    ConcurrentMap<HttpMethod, PEUri> uris(String path) throws AbstractException;
 
     /**
      * 根据Parent读取子路由
@@ -32,7 +33,7 @@ public interface ConfigService extends ConfigAcquirer, ConfigObjecter, ConfigUCA
      * @param parent
      * @return
      */
-    List<PERoute> routes(String parent);
+    List<PERoute> routes(String parent) throws AbstractException;
 
     /**
      * 根据Group读取对应的Verticle
@@ -40,5 +41,5 @@ public interface ConfigService extends ConfigAcquirer, ConfigObjecter, ConfigUCA
      * @param group
      * @return
      */
-    List<PEVerticle> verticles(String group);
+    List<PEVerticle> verticles(String group) throws AbstractException;
 }

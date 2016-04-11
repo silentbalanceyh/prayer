@@ -1,4 +1,4 @@
-package com.prayer.script;
+package com.prayer.business.script.js;
 
 import static com.prayer.util.debug.Log.peError;
 

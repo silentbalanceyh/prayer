@@ -4,15 +4,15 @@ import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.fantasm.exception.AbstractException;
 
 /**
  * 
  * @author Lang
  *
  */
-@VertexPoint(Interface.SERVICE)
-public interface DeployService {
+@VertexPoint(Interface.DIRECT)
+public interface DeployInstantor {
     /**
      * 1.执行元数据初始化工作，针对SQL模式（H2）生成基础表结构
      * 
@@ -20,7 +20,7 @@ public interface DeployService {
      * @return
      */
     @VertexApi(Api.WRITE)
-    ServiceResult<Boolean> initialize(String sqlfile);
+    boolean initialize(String sqlfile) throws AbstractException;
 
     /**
      * 2.执行Deploy操作，将目录下边所有的元数据导入到Metadata中，并且在数据库中生成对应Database表
@@ -29,7 +29,7 @@ public interface DeployService {
      * @return
      */
     @VertexApi(Api.WRITE)
-    ServiceResult<Boolean> manoeuvre(String folder);
+    boolean manoeuvre(String folder) throws AbstractException;
 
     /**
      * 3.执行Purge操作，必须删除SQL数据库中的表信息
@@ -37,5 +37,5 @@ public interface DeployService {
      * @return
      */
     @VertexApi(Api.WRITE)
-    ServiceResult<Boolean> purge();
+    boolean purge() throws AbstractException;
 }

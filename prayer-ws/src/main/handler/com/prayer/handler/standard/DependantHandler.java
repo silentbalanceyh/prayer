@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.configuration.impl.ConfigBllor;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.exception.web.DependantMultiException;
-import com.prayer.facade.configuration.ConfigService;
+import com.prayer.facade.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PERule;
@@ -44,7 +44,7 @@ public class DependantHandler implements Handler<RoutingContext> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DependantHandler.class);
     // ~ Instance Fields =====================================
     /** Config Service 接口 **/
-    private transient final ConfigService service;
+    private transient final ConfigInstantor service;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

@@ -31,7 +31,6 @@ public interface Record extends PrimaryKey, Database, Metadata{
      */
     @VertexApi(Api.WRITE)
     void set(String name, String value) throws AbstractDatabaseException;
-
     /**
      * 从当前记录中获取对应属性值
      * 

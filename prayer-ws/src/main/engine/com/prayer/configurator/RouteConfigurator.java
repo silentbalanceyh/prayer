@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.configuration.impl.ConfigBllor;
-import com.prayer.facade.configuration.ConfigService;
+import com.prayer.facade.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PERoute;
@@ -43,7 +43,7 @@ public class RouteConfigurator {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient final ConfigService service;
+    private transient final ConfigInstantor service;
     /** 获取唯一的Vertx引用 **/
     @NotNull
     private transient final Vertx vertxRef;

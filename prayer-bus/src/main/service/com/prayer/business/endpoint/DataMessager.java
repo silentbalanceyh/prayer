@@ -1,41 +1,36 @@
-package com.prayer.business.impl.std;
+package com.prayer.business.endpoint;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.impl.data.DataRecordDalor;
-import com.prayer.facade.business.RecordService;
-import com.prayer.fantasm.business.AbstractSevImpl;
+import com.prayer.facade.business.endpoint.DataStubor;
+import com.prayer.fantasm.business.endpoint.AbstractMessager;
 import com.prayer.model.crucial.DataRecord;
-
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
-@Guarded
-public class RecordSevImpl extends AbstractSevImpl implements RecordService {
+public final class DataMessager extends AbstractMessager implements DataStubor {
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecordSevImpl.class);
-    // ~ Instance Fields =====================================
 
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataMessager.class);
+    // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    public RecordSevImpl() {
-        super(DataRecordDalor.class, DataRecord.class);
+    /** Data Record **/
+    public DataMessager(){
+        super(DataRecord.class);
     }
-
+    
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
-    @NotNull
-    public Logger getLogger() {
+    @Override
+    public Logger getLogger(){
         return LOGGER;
     }
     // ~ Methods =============================================

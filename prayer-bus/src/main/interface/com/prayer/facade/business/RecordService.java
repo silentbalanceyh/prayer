@@ -1,45 +1,45 @@
 package com.prayer.facade.business;
 
-import com.prayer.model.business.ServiceResult;
-
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
+import com.prayer.model.web.WebRequest;
+import com.prayer.model.web.WebResponse;
 
 /**
- * Record的接口
+ * 
  * @author Lang
  *
  */
+@VertexPoint(Interface.SERVICE)
 public interface RecordService {
     /**
-     * POST : 添加和更新Record的接口，参数为请求数据
-     * @param jsonObject
+     * GET专用
+     * @param request
      * @return
      */
-    ServiceResult<JsonObject> save(JsonObject jsonObject);
+    @VertexApi(Api.READ)
+    WebResponse find(WebRequest request);
     /**
-     * DELETE : 移除Record的接口，参数为请求数据
-     * @param jsonObject
+     * PAGE专用
+     * @param request
      * @return
      */
-    ServiceResult<JsonObject> remove(JsonObject jsonObject);
+    @VertexApi(Api.READ)
+    WebResponse page(WebRequest request);
     /**
-     * PUT : 更新Record的接口
-     * @param jsonObject
+     * Save专用：PUT，POST
+     * @param request
      * @return
      */
-    ServiceResult<JsonObject> modify(JsonObject jsonObject);
+    @VertexApi(Api.WRITE)
+    WebResponse save(WebRequest request);
     /**
-     * GET : 查询Record的接口，参数为请求数据
-     * @param jsonObject
+     * DELETE专用：DELETE
+     * @param request
      * @return
      */
-    ServiceResult<JsonArray> find(JsonObject jsonObject);
-    // ===========================================================
-    /**
-     * POST：特殊查询接口，分页列表带排序查询
-     * @param jsonObject
-     * @return
-     */
-    ServiceResult<JsonObject> page(JsonObject jsonObject);
+    @VertexApi(Api.WRITE)
+    WebResponse remove(WebRequest request);
 }

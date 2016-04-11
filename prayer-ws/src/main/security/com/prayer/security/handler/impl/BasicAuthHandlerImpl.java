@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.configuration.impl.ConfigBllor;
 import com.prayer.configurator.SecurityConfigurator;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.facade.configuration.ConfigService;
+import com.prayer.facade.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.JsonKey;
@@ -56,7 +56,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl implements BasicAuthHa
     private transient final String realm; // NOPMD
     /** **/
     @NotNull
-    private transient final ConfigService service;
+    private transient final ConfigInstantor service;
     /** **/
     @NotNull
     private transient final SecurityConfigurator configurator;

@@ -1,14 +1,13 @@
 package com.prayer.record.initialize;
 
-import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.instance;
 
 import com.prayer.AbstractCommonTool;
 import com.prayer.constant.Resources;
 import com.prayer.deployment.impl.SchemaBllor;
-import com.prayer.facade.deployment.SchemaService;
+import com.prayer.facade.deployment.SchemaInstantor;
 import com.prayer.facade.schema.Schema;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.string.StringKit;
 
 /**
@@ -23,7 +22,7 @@ public abstract class AbstractRecordTool extends AbstractCommonTool {
     protected static final String DAO_DATA_PATH = "/schema/data/json/dao/";
     // ~ Instance Fields =====================================
     /** Schema服务层接口 **/
-    private transient final SchemaService service;
+    private transient final SchemaInstantor service;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -45,26 +44,23 @@ public abstract class AbstractRecordTool extends AbstractCommonTool {
     }
 
     /** **/
-    protected SchemaService getService() {
+    protected SchemaInstantor getService() {
         return this.service;
     }
 
     /** Json -> H2 -> Database **/
-    protected ServiceResult<Schema> prepareSchema(final String filePath, final String identifier) {
-        ServiceResult<Schema> ret = new ServiceResult<>();
+    protected Schema prepareSchema(final String filePath, final String identifier) throws AbstractException {
+        Schema ret = null;
         if (this.isValidDB()) {
             // Json -> H2
             ret = this.getService().importSchema(DAO_DATA_PATH + filePath);
-            if (ret.success()) {
-                ret = this.getService().syncMetadata(ret.getResult());
-            } else {
-                peError(getLogger(), ret.getServiceError());
+            if (null != ret) {
+                ret = this.getService().syncMetadata(ret);
             }
         }
         return ret;
     }
-    
-    
+
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

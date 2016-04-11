@@ -1,5 +1,6 @@
 package com.prayer.record.initialize;
 
+import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.instance;
 
 import org.junit.After;
@@ -16,9 +17,8 @@ import com.prayer.exception.validator.PatternFailureException;
 import com.prayer.exception.validator.PrecisionFailureException;
 import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.facade.record.Record;
-import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.crucial.DataRecord;
 import com.prayer.plugin.validator.MobileValidator;
 
@@ -56,16 +56,21 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Before
     public void setUp() {
-        final ServiceResult<Schema> ret = this.prepareSchema("MsSqlP002OpTestDAO8.json", IDENTIFIER);
-        if (!ret.success()) {
-            failure(TST_PREP, ret.getErrorMessage());
+        try {
+            this.prepareSchema("MsSqlP002OpTestDAO8.json", IDENTIFIER);
+        } catch (AbstractException ex) {
+            failure(TST_PREP, ex.getErrorMessage());
         }
     }
 
     /** **/
     @After
     public void setDown() {
-        this.getService().removeById(IDENTIFIER);
+        try {
+            this.getService().removeById(IDENTIFIER);
+        } catch (AbstractException ex) {
+            peError(getLogger(), ex);
+        }
     }
 
     /** **/

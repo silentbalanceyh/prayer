@@ -8,7 +8,7 @@ import org.apache.commons.cli.CommandLine;
 
 import com.prayer.constant.Resources;
 import com.prayer.deployment.impl.DeployBllor;
-import com.prayer.facade.deployment.DeployService;
+import com.prayer.facade.deployment.DeployInstantor;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.util.io.IOKit;
 
@@ -28,7 +28,7 @@ public class MServerCommand extends AbstractCommand {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient final DeployService service;
+    private transient final DeployInstantor service;
 
     /** **/
     @NotNull

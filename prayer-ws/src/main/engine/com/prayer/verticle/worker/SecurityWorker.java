@@ -3,7 +3,7 @@ package com.prayer.verticle.worker;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configuration.impl.ConfigBllor;
-import com.prayer.facade.configuration.ConfigService;
+import com.prayer.facade.configuration.ConfigInstantor;
 import com.prayer.model.meta.vertx.PEAddress;
 import com.prayer.uca.consumer.BasicAuthConsumer;
 
@@ -21,7 +21,7 @@ public class SecurityWorker extends AbstractVerticle {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient final ConfigService configSev;
+    private transient final ConfigInstantor configSev;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

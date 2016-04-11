@@ -10,11 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.business.digraph.OrderedBuilder;
 import com.prayer.deployment.impl.SchemaBllor;
-import com.prayer.facade.deployment.SchemaService;
+import com.prayer.facade.deployment.SchemaInstantor;
 import com.prayer.facade.deployment.acus.DeployAcus;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.model.business.ServiceResult;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -39,7 +38,7 @@ public class SchemaAcus implements DeployAcus {
     private transient final OrderedBuilder builder; // NOPMD
     /** Schema Service **/
     @NotNull
-    private transient final SchemaService service;
+    private transient final SchemaInstantor service;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -78,13 +77,7 @@ public class SchemaAcus implements DeployAcus {
     @Override
     public boolean purge() throws AbstractException {
         info(LOGGER, "[PG] 1.<Start>.Schema purging start...");
-        ServiceResult<Boolean> ret = this.service.purge();
-        boolean purged = false;
-        if (ret.success()) {
-            purged = true;
-        } else {
-            throw ret.getServiceError();
-        }
+        boolean purged = this.service.purge();
         info(LOGGER, "[PG] 1.<End>.Schema metadata data have been purged successfully.");
         return purged;
     }
@@ -93,14 +86,10 @@ public class SchemaAcus implements DeployAcus {
     // ~ Private Methods =====================================
     private void importSchema(final String file) throws AbstractException {
         /** 1.从文件导入Schema **/
-        ServiceResult<Schema> schema = this.service.importSchema(file);
-        if (schema.success()) {
+        Schema schema = this.service.importSchema(file);
+        if (null != schema) {
             /** 3.执行业务数据库同步 **/
-            schema = this.service.syncMetadata(schema.getResult());
-        }
-        /** 4.执行完成过后有Error **/
-        if (!schema.success()) {
-            throw schema.getServiceError();
+            schema = this.service.syncMetadata(schema);
         }
     }
     // ~ Get/Set =============================================

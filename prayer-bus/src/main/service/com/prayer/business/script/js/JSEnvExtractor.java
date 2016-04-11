@@ -1,10 +1,15 @@
-package com.prayer.script;
+package com.prayer.business.script.js;
 
+import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.prayer.configuration.impl.ConfigBllor;
-import com.prayer.facade.configuration.ConfigService;
+import com.prayer.facade.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PEScript;
 
 import io.vertx.core.json.JsonObject;
@@ -23,6 +28,9 @@ import net.sf.oval.guard.PostValidateThis;
 @Guarded
 public final class JSEnvExtractor {
     // ~ Static Fields =======================================
+
+    /** 日志记录器 **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(JSEnvExtractor.class);
     /** **/
     private static final String JS_GLOBAL_ID = "js.global.util";
     /** **/
@@ -30,8 +38,8 @@ public final class JSEnvExtractor {
     // ~ Instance Fields =====================================
     /** Config Service 接口 **/
     @NotNull
-    @InstanceOf(ConfigService.class)
-    private transient ConfigService configSev; // NOPMD
+    @InstanceOf(ConfigInstantor.class)
+    private transient ConfigInstantor configSev; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -81,8 +89,14 @@ public final class JSEnvExtractor {
     // ~ Private Methods =====================================
 
     private String getJsByName(final String scriptName) {
-        final PEScript script = this.configSev.script(scriptName);
-        return null == script ? Constants.EMPTY_STR : script.getContent();
+        String content = Constants.EMPTY_STR;
+        try {
+            final PEScript script = this.configSev.script(scriptName);
+            content = null == script ? Constants.EMPTY_STR : script.getContent();
+        } catch (AbstractException ex) {
+            peError(LOGGER, ex);
+        }
+        return content;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

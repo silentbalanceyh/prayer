@@ -1,11 +1,11 @@
-package com.prayer.facade.locator;
+package com.prayer.facade.business.endpoint;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
-import com.prayer.model.web.WebRequest;
-import com.prayer.model.web.WebResponse;
+
+import io.vertx.core.json.JsonObject;
 
 /**
  * Restful服务接口
@@ -13,8 +13,8 @@ import com.prayer.model.web.WebResponse;
  * @author Lang
  *
  */
-@VertexPoint(Interface.RESTFUL)
-public interface RecordStub extends WriteStub {
+@VertexPoint(Interface.ENG_PRIVATE)
+interface ReadEndPoint {
 
     /**
      * GET请求专用方法
@@ -23,7 +23,7 @@ public interface RecordStub extends WriteStub {
      * @return
      */
     @VertexApi(Api.READ)
-    WebResponse get(WebRequest request);
+    JsonObject get(JsonObject request);
 
     /**
      * （POST）Page请求专用方法专用方法
@@ -33,5 +33,5 @@ public interface RecordStub extends WriteStub {
      */
 
     @VertexApi(Api.READ)
-    WebResponse page(WebRequest request);
+    JsonObject page(JsonObject request);
 }

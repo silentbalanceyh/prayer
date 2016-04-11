@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Resources;
 import com.prayer.deployment.impl.DeployBllor;
 import com.prayer.exception.system.RecurrenceReferenceException;
-import com.prayer.facade.deployment.DeployService;
+import com.prayer.facade.deployment.DeployInstantor;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
 
@@ -28,7 +28,7 @@ public class DeploymentTestCase {
     private static final String INIT_SQL = "initialize";
     // ~ Instance Fields =====================================
     /** 发布用的Service **/
-    private transient final DeployService service = singleton(DeployBllor.class);
+    private transient final DeployInstantor service = singleton(DeployBllor.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

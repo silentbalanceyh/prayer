@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexPoint;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PERule;
 
 /**
@@ -21,7 +22,7 @@ interface ConfigUCAObtainer {
      * @param uriId
      * @return
      */
-    ConcurrentMap<String, List<PERule>> dependants(String uriId);
+    ConcurrentMap<String, List<PERule>> dependants(String uriId) throws AbstractException;
 
     /**
      * 转换器
@@ -29,7 +30,7 @@ interface ConfigUCAObtainer {
      * @param uriId
      * @return
      */
-    ConcurrentMap<String, List<PERule>> convertors(String uriId);
+    ConcurrentMap<String, List<PERule>> convertors(String uriId) throws AbstractException;
 
     /**
      * 验证器
@@ -37,5 +38,5 @@ interface ConfigUCAObtainer {
      * @param uriId
      * @return
      */
-    ConcurrentMap<String, List<PERule>> validators(String uriId);
+    ConcurrentMap<String, List<PERule>> validators(String uriId) throws AbstractException;
 }

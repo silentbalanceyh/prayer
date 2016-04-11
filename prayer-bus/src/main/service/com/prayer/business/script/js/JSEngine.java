@@ -1,4 +1,4 @@
-package com.prayer.script;
+package com.prayer.business.script.js;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -10,10 +10,11 @@ import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 import javax.script.SimpleScriptContext;
 
+import com.prayer.business.service.InquiryMarchal;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.record.Record;
-import com.prayer.util.business.ClauseInjector;
+import com.prayer.model.web.WebRequest;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;
@@ -60,22 +61,22 @@ public final class JSEngine {
      * @throws ScriptException
      */
     @NotNull
-    public static JSEnv initJSEnv(@NotNull final JsonObject jsonObject,
+    public static InquiryMarchal initJSEnv(@NotNull final WebRequest request,
             @NotNull @InstanceOf(Record.class) final Record record) throws ScriptException {
-        final JSEngine engine = new JSEngine(jsonObject.getJsonObject(Constants.PARAM.DATA));
+        final JSEngine engine = new JSEngine(request.getData());
         final JSEnvExtractor extractor = singleton(JSEnvExtractor.class);
-        final JSEnv env = new JSEnv();
         // 1.设置变量绑定
+        final InquiryMarchal env = new InquiryMarchal(record);
         env.setRecord(record);
         engine.put(JSEngine.ENV, env);
         // 2.关于OrderBy的判断，参数中包含了orders的信息
-        env.setOrder(ClauseInjector.genOrderBy(jsonObject, record));
+        env.setOrder(request.getOrders());
         // 3.关于Pager的注入
-        env.setPager(ClauseInjector.genPager(jsonObject));
+        env.setPager(request.getPager());
         // 4.设置全局脚本
         engine.execute(extractor.extractJSEnv());
         // 5.设置局部配置脚本
-        engine.execute(extractor.extractJSContent(jsonObject));
+        engine.execute(extractor.extractJSContent(request.getData()));
         return env;
     }
     // ~ Constructors ========================================

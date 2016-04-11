@@ -1,5 +1,6 @@
 package com.prayer.record.initialize;
 
+import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.instance;
 import static org.junit.Assert.assertNotNull;
 
@@ -13,9 +14,8 @@ import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
-import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.type.StringType;
 
@@ -57,15 +57,21 @@ public class DataRecord01TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Before
     public void setUp() {
-        final ServiceResult<Schema> ret = this.prepareSchema("MsSqlP001TestDAO3.json", IDENTIFIER);
-        if (!ret.success()) {
-            failure(TST_PREP, ret.getErrorMessage());
+        try {
+            this.prepareSchema("MsSqlP001TestDAO3.json", IDENTIFIER);
+        } catch (AbstractException ex) {
+            failure(TST_PREP, ex.getErrorMessage());
         }
     }
+
     /** **/
     @After
-    public void setDown(){
-        this.getService().removeById(IDENTIFIER);
+    public void setDown() {
+        try {
+            this.getService().removeById(IDENTIFIER);
+        } catch (AbstractException ex) {
+            peError(getLogger(), ex);
+        }
     }
 
     /** **/
@@ -76,21 +82,21 @@ public class DataRecord01TestCase extends AbstractMsSqlRecordTool {
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05073MConstructor() throws AbstractDatabaseException{
+    public void testE05073MConstructor() throws AbstractDatabaseException {
         new DataRecord(null);
         failure(TST_OVAL);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05074MConstructor() throws AbstractDatabaseException{
+    public void testE05074MConstructor() throws AbstractDatabaseException {
         new DataRecord("");
         failure(TST_OVAL);
     }
 
     /** **/
     @Test(expected = ConstraintsViolatedException.class)
-    public void testE05075MConstructor() throws AbstractDatabaseException{
+    public void testE05075MConstructor() throws AbstractDatabaseException {
         new DataRecord("   ");
         failure(TST_OVAL);
     }

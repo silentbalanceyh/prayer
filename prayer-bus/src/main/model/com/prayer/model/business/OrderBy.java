@@ -142,7 +142,7 @@ public class OrderBy implements Serializable {
     }
 
     /** **/
-    public boolean containOrderBy() {
+    public boolean valid() {
         return !this.orderByList.isEmpty();
     }
     // ~ Private Methods =====================================

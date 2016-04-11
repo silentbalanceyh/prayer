@@ -9,7 +9,7 @@ import org.apache.commons.cli.CommandLine;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.deployment.impl.SchemaBllor;
-import com.prayer.facade.deployment.SchemaService;
+import com.prayer.facade.deployment.SchemaInstantor;
 import com.prayer.facade.schema.Schema;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.util.io.IOKit;
@@ -36,7 +36,7 @@ public class SchemaCommand extends AbstractCommand {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient final SchemaService service;
+    private transient final SchemaInstantor service;
     /** **/
     @NotNull
     private transient final JdbcHelper helper;

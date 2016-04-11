@@ -13,9 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.facade.record.Record;
-import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.record.data.AbstractMsSqlDaoTool;
 import com.prayer.util.business.RecordKit;
 
@@ -32,6 +31,7 @@ public class MsSqlDao06ITestCase extends AbstractMsSqlDaoTool {
     private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlDao04GTestCase.class);
     /** **/
     private static final String IDENTIFIER = "tst.mod.dao6";
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -43,23 +43,28 @@ public class MsSqlDao06ITestCase extends AbstractMsSqlDaoTool {
     protected Logger getLogger() {
         return LOGGER;
     }
+
     // ~ Methods =============================================
     /** **/
     @Before
-    public void setUp(){
-        final ServiceResult<Schema> ret = this.prepareSchema("MsSqlP002OpTestDAO6.json", IDENTIFIER);
-        if (!ret.success()) {
-            failure(TST_PREP, ret.getErrorMessage());
+    public void setUp() {
+        try {
+            this.prepareSchema("MsSqlP002OpTestDAO6.json", IDENTIFIER);
+        } catch (AbstractException ex) {
+            failure(TST_PREP, ex.getErrorMessage());
         }
     }
+
     /** **/
     @After
     public void setDown() {
-        final ServiceResult<Boolean> ret = this.getService().removeById(IDENTIFIER);
-        if (!ret.success()) {
-            failure(ret.getErrorMessage());
+        try {
+            this.getService().removeById(IDENTIFIER);
+        } catch (AbstractException ex) {
+            failure(ex.getErrorMessage());
         }
     }
+
     // ~ Testing Method ======================================
     /** **/
     @Test(expected = ConstraintsViolatedException.class)

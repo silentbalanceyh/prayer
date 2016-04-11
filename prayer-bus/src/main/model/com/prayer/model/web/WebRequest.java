@@ -11,7 +11,9 @@ import com.prayer.exception.web.ServiceParamInvalidException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.entity.Ensurer;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
+import com.prayer.model.business.Projection;
 import com.prayer.util.Converter;
 import com.prayer.util.string.StringKit;
 
@@ -43,9 +45,9 @@ public class WebRequest implements Serializable {
     /** Pager对象 **/
     private transient Pager pager;
     /** Order By排序对象 **/
-    private transient JsonArray orders;
+    private transient OrderBy orders;
     /** Filters对象 **/
-    private transient JsonArray filters;
+    private transient Projection filters;
     /** Method对象提取 **/
     private transient HttpMethod method;
     /** 构造Request时的Error **/
@@ -97,7 +99,7 @@ public class WebRequest implements Serializable {
     private void ensureFilters(final JsonObject params) {
         if (success()) {
             try {
-                this.filters = this.arrEnsurer.ensureOptional(params, Constants.PARAM.FILTERS);
+                this.filters = Projection.create(this.arrEnsurer.ensureOptional(params, Constants.PARAM.FILTERS));
             } catch (AbstractException ex) {
                 this.error = ex;
             }
@@ -109,7 +111,8 @@ public class WebRequest implements Serializable {
         if (success()) {
             try {
                 final JsonObject data = params.getJsonObject(Constants.PARAM.DATA);
-                this.orders = this.arrEnsurer.ensureOptional(data, Constants.PARAM.ORDERS);
+                final JsonArray orderData = this.arrEnsurer.ensureOptional(data, Constants.PARAM.ORDERS);
+                this.orders = OrderBy.create(orderData);
             } catch (AbstractException ex) {
                 this.error = ex;
             }
@@ -198,7 +201,7 @@ public class WebRequest implements Serializable {
     /**
      * @return the orders
      */
-    public JsonArray getOrders() {
+    public OrderBy getOrders() {
         return orders;
     }
 
@@ -206,7 +209,7 @@ public class WebRequest implements Serializable {
      * 
      * @return the filters
      */
-    public JsonArray getFilters() {
+    public Projection getProjection() {
         return filters;
     }
 

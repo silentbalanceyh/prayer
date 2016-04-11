@@ -160,7 +160,7 @@ public final class SqlDMLBuilder implements SQLStatement {
             retSql.append(Symbol.SPACE).append(whereClouse);
         }
         // 3.Order By子句
-        if (null != orders && orders.containOrderBy()) {
+        if (null != orders && orders.valid()) {
             retSql.append(Symbol.SPACE).append(OP_ORDER_BY).append(Symbol.SPACE).append(orders.toSql());
         }
         return retSql.toString();

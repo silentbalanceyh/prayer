@@ -1,20 +1,19 @@
-package com.prayer.script;
+package com.prayer.business.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.prayer.facade.constant.Constants;
 import com.prayer.facade.kernel.Expression;
 import com.prayer.facade.kernel.Value;
 import com.prayer.facade.record.Record;
-import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
-import com.prayer.model.crucial.DataRecord;
+import com.prayer.model.business.Projection;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
+import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -23,7 +22,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class JSEnv implements Serializable {
+public class InquiryMarchal implements Serializable {
     // ~ Static Fields =======================================
     /**
      * 
@@ -38,12 +37,21 @@ public class JSEnv implements Serializable {
     private transient OrderBy order = new OrderBy();
     /** Pager 相关信息 **/
     private transient Pager pager = new Pager();
+    /** Projection 相关信息 **/
+    private transient Projection projection = null;
     /** Values **/
     private transient List<Value<?>> values = new ArrayList<>();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    // ~ Constructors ========================================
+    // ~ Constructors ========================================\
+    /**
+     * 只能使用Record执行初始化
+     * @param record
+     */
+    public InquiryMarchal(@NotNull final Record record){
+        this.record = record;
+    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
@@ -52,18 +60,8 @@ public class JSEnv implements Serializable {
     /**
      * @return the record
      */
-    public Record getRecord(final String... ids) {
-        Record refR = null;
-        if (Constants.ZERO == ids.length) {
-            refR = this.record;
-        } else if (Constants.ZERO < ids.length) {
-            try{
-                refR = new DataRecord(ids[Constants.ZERO]);
-            }catch(AbstractDatabaseException ex){
-                
-            }
-        }
-        return refR;
+    public Record getRecord() {
+        return this.record;
     }
 
     /**
@@ -107,6 +105,15 @@ public class JSEnv implements Serializable {
     }
 
     /**
+     * 设置返回列
+     * 
+     * @param projection
+     */
+    public void setProjection(final Projection projection) {
+        this.projection = projection;
+    }
+
+    /**
      * @return the expr
      */
     public Expression getExpr() {
@@ -119,6 +126,21 @@ public class JSEnv implements Serializable {
      */
     public void setExpr(@InstanceOf(Expression.class) final Expression expr) {
         this.expr = expr;
+    }
+
+    /**
+     * 返回Projection中的列信息
+     * 
+     * @return
+     */
+    public String[] getFilters() {
+        String[] ret;
+        if (null == projection) {
+            ret = new String[] {};
+        } else {
+            ret = projection.getFilters();
+        }
+        return ret;
     }
 
     /**

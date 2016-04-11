@@ -4,7 +4,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.constant.Resources;
 import com.prayer.deployment.impl.DeployBllor;
-import com.prayer.facade.deployment.DeployService;
+import com.prayer.facade.deployment.DeployInstantor;
 import com.prayer.model.business.ServiceResult;
 
 /**
@@ -18,7 +18,7 @@ class EnvInitializer {
     private static final String INIT_SQL = "initialize";
     // ~ Instance Fields =====================================
     /** 发布用的Service **/
-    private transient final DeployService deployer = singleton(DeployBllor.class);
+    private transient final DeployInstantor deployer = singleton(DeployBllor.class);
 
     /** 获取当前引用 **/
     public static EnvInitializer reference() {

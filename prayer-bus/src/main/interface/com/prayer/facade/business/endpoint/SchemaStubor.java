@@ -1,4 +1,4 @@
-package com.prayer.facade.locator;
+package com.prayer.facade.business.endpoint;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
@@ -13,7 +13,7 @@ import com.prayer.model.web.WebResponse;
  *
  */
 @VertexPoint(Interface.RESTFUL)
-public interface SchemaStub {
+public interface SchemaStubor {
     /**
      * Web Request，传入文件路径，将内容直接同步：Json -> Meta ( H2 ) -> Database
      * 

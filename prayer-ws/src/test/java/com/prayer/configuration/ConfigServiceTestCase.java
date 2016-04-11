@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.prayer.configuration.impl.ConfigBllor;
-import com.prayer.facade.configuration.ConfigService;
+import com.prayer.facade.configuration.ConfigInstantor;
 import com.prayer.model.meta.vertx.PEVerticle;
 
 /**
@@ -22,7 +22,7 @@ public class ConfigServiceTestCase {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 发布用的Service **/
-    private transient final ConfigService configer = singleton(ConfigBllor.class);
+    private transient final ConfigInstantor configer = singleton(ConfigBllor.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

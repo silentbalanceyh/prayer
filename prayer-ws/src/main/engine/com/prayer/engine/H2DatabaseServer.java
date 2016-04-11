@@ -17,9 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.configurator.ServerConfigurator;
 import com.prayer.constant.Resources;
-import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.facade.deployment.DeployService;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.facade.deployment.DeployInstantor;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.Converter;
 
 import net.sf.oval.constraint.NotNull;
@@ -57,7 +56,7 @@ public class H2DatabaseServer {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient DeployService service;
+    private transient DeployInstantor service;
     /** **/
     @NotNull
     private transient final ServerConfigurator configurator;
@@ -176,15 +175,17 @@ public class H2DatabaseServer {
     /** 按照目录初始化元数据 **/
     public boolean initMetadata(final String dataFolder) {
         boolean flag = false;
-        ServiceResult<Boolean> ret = this.service.initialize("initialize");
-        if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            ret = this.service.manoeuvre(dataFolder);
-            if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-                // 创建锁文件
-                this.createLock();
-                // 获取返回值
-                flag = ret.getResult();
+        try {
+            flag = this.service.initialize("initialize");
+            if (flag) {
+                flag = this.service.manoeuvre(dataFolder);
+                if (flag) {
+                    // 创建所文件
+                    this.createLock();
+                }
             }
+        } catch (AbstractException ex) {
+            flag = false;
         }
         return flag;
     }

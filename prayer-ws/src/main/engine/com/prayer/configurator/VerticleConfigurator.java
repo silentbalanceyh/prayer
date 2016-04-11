@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.configuration.impl.ConfigBllor;
-import com.prayer.facade.configuration.ConfigService;
+import com.prayer.facade.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.model.meta.vertx.PEVerticle;
 
@@ -41,7 +41,7 @@ public class VerticleConfigurator {
     // ~ Instance Fields =====================================
     /** 访问H2元数据的业务逻辑层 **/
     @NotNull
-    private transient final ConfigService service;
+    private transient final ConfigInstantor service;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

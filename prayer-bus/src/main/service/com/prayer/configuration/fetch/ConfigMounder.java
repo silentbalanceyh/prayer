@@ -15,6 +15,7 @@ import com.prayer.facade.configuration.fetch.ConfigFetcher;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.entity.Entity;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.fantasm.exception.AbstractException;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -51,19 +52,20 @@ public class ConfigMounder implements ConfigFetcher {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public <T extends Entity> T inquiry(final AndEqer whereClause) {
+    public <T extends Entity> T inquiry(final AndEqer whereClause) throws AbstractException {
         List<Entity> ret = new ArrayList<>();
         try {
             ret = this.accessor(this.entityCls).queryList(whereClause.build());
         } catch (AbstractDatabaseException ex) {
             peError(LOGGER, ex);
+            throw ex;
         }
         return ret.isEmpty() ? null : (T) ret.get(Constants.IDX);
     }
 
     /** **/
     @Override
-    public <T extends Entity> List<T> inquiryList(final AndEqer whereClause) {
+    public <T extends Entity> List<T> inquiryList(final AndEqer whereClause) throws AbstractException {
         List<Entity> ret = new ArrayList<>();
         try {
             if (null == whereClause) {
@@ -73,13 +75,14 @@ public class ConfigMounder implements ConfigFetcher {
             }
         } catch (AbstractDatabaseException ex) {
             peError(LOGGER, ex);
+            throw ex;
         }
         return (List<T>) ret;
     }
 
     /** **/
     @Override
-    public <T extends Entity> List<T> inquiryList() {
+    public <T extends Entity> List<T> inquiryList() throws AbstractException {
         return this.inquiryList(null);
     }
 

@@ -1,11 +1,11 @@
-package com.prayer.facade.locator;
+package com.prayer.facade.business.endpoint;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
-import com.prayer.model.web.WebRequest;
-import com.prayer.model.web.WebResponse;
+
+import io.vertx.core.json.JsonObject;
 
 /**
  * 
@@ -13,26 +13,26 @@ import com.prayer.model.web.WebResponse;
  *
  */
 @VertexPoint(Interface.ENG_PRIVATE)
-interface WriteStub {
+interface WriteEndPoint {
     /**
      * PUT请求专用方法
      * @param request
      * @return
      */
     @VertexApi(Api.WRITE)
-    WebResponse put(WebRequest request);
+    JsonObject put(JsonObject request);
     /**
      * POST请求专用方法
      * @param request
      * @return
      */
     @VertexApi(Api.WRITE)
-    WebResponse post(WebRequest request);
+    JsonObject post(JsonObject request);
     /**
      * DELETE请求专用方法
      * @param request
      * @return
      */
     @VertexApi(Api.WRITE)
-    WebResponse delete(WebRequest request);
+    JsonObject delete(JsonObject request);
 }
