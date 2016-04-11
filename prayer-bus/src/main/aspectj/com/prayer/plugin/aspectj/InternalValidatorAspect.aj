@@ -33,7 +33,7 @@ public aspect InternalValidatorAspect extends AbstractValidatorAspect {
      * 针对pattern的拦截点，因为set(String,String)内部调用了set(String,Value
      * <?>)，所以仅仅在set(String,Value<?>)植入就可以了
      **/
-    pointcut ValidatorPointCut(final String field, final Value<?> value): execution(void com.prayer.model.kernel.GenericRecord.set*(String,Value<?>)) && args(field,value) && target(Record);
+    pointcut ValidatorPointCut(final String field, final Value<?> value): execution(void com.prayer.model.crucial.*Record.set*(String,Value<?>)) && args(field,value) && target(Record);
 
     // ~ Point Cut Implementation ============================
     /** 针对pattern拦截点的实现，需要抛出异常信息 **/
