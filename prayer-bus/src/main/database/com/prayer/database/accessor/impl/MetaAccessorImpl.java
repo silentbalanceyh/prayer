@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.prayer.constant.Resources;
 import com.prayer.facade.accessor.MetaAccessor;
-import com.prayer.facade.entity.Entity;
+import com.prayer.facade.model.entity.Entity;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 
 import net.sf.oval.constraint.InstanceOf;

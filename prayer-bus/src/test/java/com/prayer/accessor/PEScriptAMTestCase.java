@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.kernel.Expression;
+import com.prayer.facade.model.crucial.Expression;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.meta.vertx.PEScript;
 import com.prayer.model.query.Restrictions;

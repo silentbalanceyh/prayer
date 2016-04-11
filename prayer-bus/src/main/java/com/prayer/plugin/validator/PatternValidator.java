@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.prayer.exception.database.ValidatorConflictException;
-import com.prayer.facade.kernel.Validator;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Validator;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
 

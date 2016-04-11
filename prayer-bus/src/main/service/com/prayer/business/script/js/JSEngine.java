@@ -10,10 +10,10 @@ import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 import javax.script.SimpleScriptContext;
 
-import com.prayer.business.service.InquiryMarchal;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.record.Record;
+import com.prayer.facade.model.record.Record;
+import com.prayer.model.business.InquiryMarchal;
 import com.prayer.model.web.WebRequest;
 import com.prayer.util.string.StringKit;
 

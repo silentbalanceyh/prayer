@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.database.ContentErrorException;
-import com.prayer.facade.kernel.Validator;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Validator;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 import net.sf.oval.constraint.InstanceOf;

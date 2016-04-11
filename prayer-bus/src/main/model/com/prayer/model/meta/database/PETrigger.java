@@ -7,7 +7,7 @@ import com.prayer.constant.SystemEnum.TargetType;
 import com.prayer.constant.SystemEnum.TriggerMode;
 import com.prayer.constant.SystemEnum.TriggerOp;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.entity.Attributes;
+import com.prayer.facade.model.entity.Attributes;
 import com.prayer.fantasm.model.AbstractEntity;
 
 import io.vertx.core.buffer.Buffer;

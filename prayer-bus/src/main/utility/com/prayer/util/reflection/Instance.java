@@ -16,8 +16,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.cache.Cache;
 import com.prayer.facade.constant.Constants;
+import com.prayer.facade.model.cache.Cache;
 import com.prayer.model.cache.CacheBuilder;
 
 import net.sf.oval.constraint.NotBlank;

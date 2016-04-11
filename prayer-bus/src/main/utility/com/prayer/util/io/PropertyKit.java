@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Resources;
-import com.prayer.facade.cache.Cache;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.model.cache.Cache;
 import com.prayer.util.reflection.Instance;
 import com.prayer.util.string.StringKit;
 import com.prayer.util.string.StringPool;

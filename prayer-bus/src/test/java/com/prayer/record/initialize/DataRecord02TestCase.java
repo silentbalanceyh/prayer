@@ -16,7 +16,7 @@ import com.prayer.exception.validator.NotNullFailureException;
 import com.prayer.exception.validator.PatternFailureException;
 import com.prayer.exception.validator.PrecisionFailureException;
 import com.prayer.exception.validator.RangeFailureException;
-import com.prayer.facade.record.Record;
+import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.crucial.DataRecord;

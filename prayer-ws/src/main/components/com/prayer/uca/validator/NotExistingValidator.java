@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import com.prayer.constant.SqlSegment;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.type.DataType;
 import com.prayer.uca.WebValidator;

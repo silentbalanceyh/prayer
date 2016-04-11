@@ -2,7 +2,7 @@ package com.prayer.fantasm.business.pre;
 
 import com.prayer.exception.web.ServiceParamInvalidException;
 import com.prayer.exception.web.ServiceParamMissingException;
-import com.prayer.facade.entity.Ensurer;
+import com.prayer.facade.model.entity.Ensurer;
 import com.prayer.fantasm.exception.AbstractException;
 
 import io.vertx.core.json.JsonObject;

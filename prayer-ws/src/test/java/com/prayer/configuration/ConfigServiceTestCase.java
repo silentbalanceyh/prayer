@@ -9,8 +9,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.prayer.configuration.impl.ConfigBllor;
-import com.prayer.facade.configuration.ConfigInstantor;
+import com.prayer.business.configuration.impl.ConfigBllor;
+import com.prayer.facade.business.configuration.ConfigInstantor;
 import com.prayer.model.meta.vertx.PEVerticle;
 
 /**

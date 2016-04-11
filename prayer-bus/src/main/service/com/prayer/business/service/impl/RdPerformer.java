@@ -9,14 +9,14 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.service.InquiryMarchal;
 import com.prayer.exception.web.ServiceOrderByException;
 import com.prayer.exception.web.ServiceReturnSizeException;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.record.Record;
+import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.business.AbstractPerformer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.model.business.InquiryMarchal;
 import com.prayer.model.business.OrderBy;
 
 import net.sf.oval.constraint.NotNull;

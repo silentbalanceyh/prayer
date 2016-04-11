@@ -1,6 +1,6 @@
 package com.prayer.fantasm.model;
 
-import com.prayer.facade.kernel.Expression;
+import com.prayer.facade.model.crucial.Expression;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.InstanceOf;

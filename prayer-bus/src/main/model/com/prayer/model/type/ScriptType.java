@@ -2,8 +2,8 @@ package com.prayer.model.type;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.facade.kernel.Validator;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Validator;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**

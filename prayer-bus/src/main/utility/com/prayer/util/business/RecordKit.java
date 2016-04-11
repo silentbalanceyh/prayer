@@ -1,7 +1,7 @@
 package com.prayer.util.business;
 
-import com.prayer.facade.kernel.Value;
-import com.prayer.facade.record.Record;
+import com.prayer.facade.model.crucial.Value;
+import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
 

@@ -3,7 +3,7 @@ package com.prayer.model.cache;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.facade.cache.Cache;
+import com.prayer.facade.model.cache.Cache;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

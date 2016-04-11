@@ -14,7 +14,7 @@ import com.prayer.database.accessor.impl.MetaAccessorImpl;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.dao.schema.SchemaDao;
-import com.prayer.facade.entity.Entity;
+import com.prayer.facade.model.entity.Entity;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.fantasm.exception.AbstractTransactionException;

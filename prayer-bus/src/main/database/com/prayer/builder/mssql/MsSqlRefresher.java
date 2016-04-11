@@ -9,7 +9,7 @@ import com.prayer.builder.mssql.part.MsSqlKeySaber;
 import com.prayer.facade.builder.line.FieldSaber;
 import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.builder.reflector.Reflector;
-import com.prayer.facade.kernel.Referencer;
+import com.prayer.facade.model.crucial.Referencer;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.sql.special.MsSqlStatement;
 import com.prayer.fantasm.builder.AbstractRefresher;

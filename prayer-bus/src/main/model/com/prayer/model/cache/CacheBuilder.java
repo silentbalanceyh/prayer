@@ -1,7 +1,7 @@
 package com.prayer.model.cache;
 
 import com.prayer.constant.Accessors;
-import com.prayer.facade.cache.Cache;
+import com.prayer.facade.model.cache.Cache;
 import com.prayer.util.reflection.Instance;
 
 import net.sf.oval.constraint.NotNull;

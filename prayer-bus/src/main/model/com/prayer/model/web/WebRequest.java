@@ -4,12 +4,12 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
 
-import com.prayer.business.impl.pre.JArrayEnsurer;
-import com.prayer.business.impl.pre.JObjectEnsurer;
-import com.prayer.business.impl.pre.StringEnsurer;
+import com.prayer.business.ensurer.JArrayEnsurer;
+import com.prayer.business.ensurer.JObjectEnsurer;
+import com.prayer.business.ensurer.StringEnsurer;
 import com.prayer.exception.web.ServiceParamInvalidException;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.entity.Ensurer;
+import com.prayer.facade.model.entity.Ensurer;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;

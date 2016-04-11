@@ -6,7 +6,7 @@ import jodd.mutable.MutableLong;
 import jodd.typeconverter.Convert;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Value;
 
 /**
  * 类型：长整类型

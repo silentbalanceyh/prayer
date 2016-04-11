@@ -3,8 +3,8 @@ package com.prayer.plugin.validator;
 import java.math.BigDecimal;
 
 import com.prayer.exception.database.ValidatorConflictException;
-import com.prayer.facade.kernel.Validator;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Validator;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
 

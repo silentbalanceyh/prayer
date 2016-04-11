@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.AbstractCommonTool;
 import com.prayer.Assistant;
-import com.prayer.facade.kernel.Expression;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Expression;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.model.type.IntType;
 import com.prayer.model.type.StringType;
 

@@ -3,9 +3,9 @@ package com.prayer.record.initialize;
 import static com.prayer.util.reflection.Instance.instance;
 
 import com.prayer.AbstractCommonTool;
+import com.prayer.business.deployment.impl.SchemaBllor;
 import com.prayer.constant.Resources;
-import com.prayer.deployment.impl.SchemaBllor;
-import com.prayer.facade.deployment.SchemaInstantor;
+import com.prayer.facade.business.deployment.SchemaInstantor;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.string.StringKit;

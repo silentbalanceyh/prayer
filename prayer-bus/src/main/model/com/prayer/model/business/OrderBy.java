@@ -9,7 +9,7 @@ import java.util.Map;
 
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.record.Record;
+import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractException;
 
 import io.vertx.core.json.JsonArray;

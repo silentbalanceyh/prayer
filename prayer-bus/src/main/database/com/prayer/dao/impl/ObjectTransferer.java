@@ -8,10 +8,10 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.entity.Entity;
-import com.prayer.facade.kernel.Transducer.V;
-import com.prayer.facade.kernel.Value;
-import com.prayer.facade.record.Record;
+import com.prayer.facade.model.crucial.Value;
+import com.prayer.facade.model.crucial.Transducer.V;
+import com.prayer.facade.model.entity.Entity;
+import com.prayer.facade.model.record.Record;
 import com.prayer.facade.util.Transferer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.model.AbstractEntity;

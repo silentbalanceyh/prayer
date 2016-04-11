@@ -20,7 +20,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.dao.JdbcTransducer.T;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
 import com.prayer.model.type.IntType;

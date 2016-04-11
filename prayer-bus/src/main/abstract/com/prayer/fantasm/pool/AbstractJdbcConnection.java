@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.springframework.jdbc.core.JdbcOperations;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.pool.JdbcPool;
 import com.prayer.model.business.Metadata;

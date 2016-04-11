@@ -19,8 +19,8 @@ import com.prayer.exception.database.PKValueMissingException;
 import com.prayer.exception.database.PolicyConflictCallException;
 import com.prayer.exception.database.PolicyNotSupportException;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.kernel.Value;
-import com.prayer.facade.record.Record;
+import com.prayer.facade.model.crucial.Value;
+import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.meta.database.PEField;
 

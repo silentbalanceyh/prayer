@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import jodd.typeconverter.Convert;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Value;
 
 /**
  * 类型：浮点类型

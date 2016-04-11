@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Resources;
 import com.prayer.exception.database.DataAccessException;
-import com.prayer.facade.entity.Entity;
 import com.prayer.facade.metadata.mapper.IBatisMapper;
 import com.prayer.facade.metadata.mapper.PEAddressMapper;
 import com.prayer.facade.metadata.mapper.PEFieldMapper;
@@ -36,6 +35,7 @@ import com.prayer.facade.metadata.mapper.PEUriMapper;
 import com.prayer.facade.metadata.mapper.PEVColumnMapper;
 import com.prayer.facade.metadata.mapper.PEVerticleMapper;
 import com.prayer.facade.metadata.mapper.PEViewMapper;
+import com.prayer.facade.model.entity.Entity;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEIndex;

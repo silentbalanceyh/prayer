@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.prayer.constant.SystemEnum.KeyCategory;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.entity.Attributes;
+import com.prayer.facade.model.entity.Attributes;
 import com.prayer.fantasm.model.AbstractEntity;
 
 import io.vertx.core.buffer.Buffer;

@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.entity.Entity;
+import com.prayer.facade.model.entity.Entity;
 import com.prayer.util.io.IOKit;
 
 import io.vertx.core.buffer.Buffer;

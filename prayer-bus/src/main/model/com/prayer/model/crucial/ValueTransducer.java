@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.kernel.Transducer;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Transducer;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;

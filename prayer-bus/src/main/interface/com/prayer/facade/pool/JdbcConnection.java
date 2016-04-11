@@ -8,7 +8,7 @@ import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.model.business.Metadata;
 import com.prayer.model.type.DataType;
 

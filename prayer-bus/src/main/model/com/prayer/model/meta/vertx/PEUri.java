@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.entity.Attributes;
+import com.prayer.facade.model.entity.Attributes;
 import com.prayer.fantasm.model.AbstractEntity;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;

@@ -10,10 +10,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.configuration.impl.ConfigBllor;
+import com.prayer.business.configuration.impl.ConfigBllor;
 import com.prayer.configurator.SecurityConfigurator;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.facade.configuration.ConfigInstantor;
+import com.prayer.facade.business.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.JsonKey;

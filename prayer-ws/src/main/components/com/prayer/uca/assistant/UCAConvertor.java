@@ -2,7 +2,7 @@ package com.prayer.uca.assistant;
 
 import static com.prayer.util.reflection.Instance.instance;
 
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.uca.WebConvertor;

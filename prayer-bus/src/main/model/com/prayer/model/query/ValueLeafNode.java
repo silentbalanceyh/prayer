@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.kernel.Expression;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Expression;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.model.AbstractExpression;
 import com.prayer.model.type.DataType;
 

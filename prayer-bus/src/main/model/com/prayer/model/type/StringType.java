@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 
 import com.prayer.exception.system.TypeInitException;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractSystemException;
 
 /**

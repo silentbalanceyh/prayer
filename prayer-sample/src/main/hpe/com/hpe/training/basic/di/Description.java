@@ -16,6 +16,7 @@ public class Description {
 }
 
 class A1{
+    @SuppressWarnings("unused")
     private B ref;
     
     public A1(B ref){
@@ -24,6 +25,7 @@ class A1{
 }
 
 class A2{
+    @SuppressWarnings("unused")
     private B ref;
     
     public A2(){

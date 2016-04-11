@@ -12,7 +12,7 @@ import com.prayer.exception.web.DependQueryInvalidException;
 import com.prayer.exception.web.DependRuleInvalidException;
 import com.prayer.exception.web.ValidationFailureException;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.uca.WebDependant;

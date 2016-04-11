@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.database.PolicyConflictCallException;
-import com.prayer.facade.record.Record;
+import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.record.data.AbstractMsSqlDaoTool;

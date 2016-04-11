@@ -1,6 +1,6 @@
 package com.prayer.uca;
 
-import com.prayer.facade.kernel.Value;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractWebException;
 
 import io.vertx.core.json.JsonObject;

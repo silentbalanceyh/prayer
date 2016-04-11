@@ -4,9 +4,9 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
 
-import com.prayer.business.impl.pre.IntegerEnsurer;
+import com.prayer.business.ensurer.IntegerEnsurer;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.entity.Ensurer;
+import com.prayer.facade.model.entity.Ensurer;
 import com.prayer.fantasm.exception.AbstractException;
 
 import io.vertx.core.json.JsonObject;

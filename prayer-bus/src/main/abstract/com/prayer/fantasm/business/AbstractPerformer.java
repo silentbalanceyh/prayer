@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import com.prayer.business.service.impl.Epsilon;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.facade.dao.RecordDao;
-import com.prayer.facade.kernel.Value;
-import com.prayer.facade.record.Record;
+import com.prayer.facade.model.crucial.Value;
+import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractException;
 
 import net.sf.oval.constraint.NotNull;

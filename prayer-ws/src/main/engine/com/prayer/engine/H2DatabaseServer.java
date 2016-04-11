@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.configurator.ServerConfigurator;
 import com.prayer.constant.Resources;
-import com.prayer.facade.deployment.DeployInstantor;
+import com.prayer.facade.business.deployment.DeployInstantor;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.Converter;
 

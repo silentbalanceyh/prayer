@@ -7,8 +7,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.kernel.Value;
-import com.prayer.facade.record.Record;
+import com.prayer.facade.model.crucial.Value;
+import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractException;
 
 import net.sf.oval.constraint.InstanceOf;
