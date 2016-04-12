@@ -15,7 +15,7 @@ import com.prayer.util.digraph.Graphic;
  * @author Lang
  *
  */
-public class GraphicDatabaseTestCase extends AbstractCommonTool {
+public class GraphicDBTestCase extends AbstractCommonTool {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
