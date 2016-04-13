@@ -60,15 +60,24 @@ final class RuleBuilder {
     /** 设置BIND_MAP **/
     private static final PropertyKit LOADER = new PropertyKit(Resources.SYS_RULES + "bind.properties");
     /** Rule包信息 **/
-    private static final String PKG_RULE = "com.prayer.schema.json.rule";
+    private static String PKG_RULE;
     /** Violater包信息 **/
-    private static final String PKG_VIOLATER = "com.prayer.schema.json.violater";
+    private static String PKG_VIOLATER;
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     /** 填充系统中的映射关系 **/
     static {
         final Properties bindData = LOADER.getProp();
+        /** 读取Package信息 **/
+        if (null == PKG_RULE) {
+            PKG_RULE = LOADER.getString("PKG.rule");
+            PKG_VIOLATER = LOADER.getString("PKG.violater");
+        } else {
+            // 默认值
+            PKG_RULE = "com.prayer.schema.json.rule";
+            PKG_VIOLATER = "com.prayer.schema.json.violater";
+        }
         /**
          * 填充绑定关系
          */
@@ -115,28 +124,33 @@ final class RuleBuilder {
     // ~ Rule Building =======================================
     /**
      * 针对Vector的验证
+     * 
      * @param file
      * @return
      */
-    public static Rule vector(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule vector(@NotNull @NotEmpty @NotBlank final String file) {
         return VectorRule.create(file);
     }
+
     /**
      * 针对Mapping的验证
+     * 
      * @param file
      * @return
      */
-    public static Rule mapping(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule mapping(@NotNull @NotEmpty @NotBlank final String file) {
         return MappingRule.create(file);
     }
+
     /**
      * 
      * @param file
      * @return
      */
-    public static Rule unique(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule unique(@NotNull @NotEmpty @NotBlank final String file) {
         return UniqueRule.create(file);
     }
+
     /**
      * E10001
      * 
@@ -146,30 +160,31 @@ final class RuleBuilder {
     public static Rule required(@NotNull @NotEmpty @NotBlank final String file) {
         return RequiredRule.create(file);
     }
+
     /**
      * 
      * @param file
      * @return
      */
-    public static Rule minlength(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule minlength(@NotNull @NotEmpty @NotBlank final String file) {
         return MinLengthRule.create(file);
     }
+
     /**
      * 
      * @param file
      * @return
      */
-    public static Rule maxlength(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule maxlength(@NotNull @NotEmpty @NotBlank final String file) {
         return MaxLengthRule.create(file);
     }
-    
-    
+
     /**
      * 
      * @param file
      * @return
      */
-    public static Rule jetype(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule jetype(@NotNull @NotEmpty @NotBlank final String file) {
         return JETypeRule.create(file);
     }
 
@@ -202,112 +217,135 @@ final class RuleBuilder {
     public static Rule pattern(@NotNull @NotEmpty @NotBlank final String file) {
         return PatternRule.create(file);
     }
+
     /**
      * E10004
+     * 
      * @param file
      * @return
      */
-    public static Rule exclude(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule exclude(@NotNull @NotEmpty @NotBlank final String file) {
         return ExcludeRule.create(file);
     }
-    
+
     /**
      * E10004
+     * 
      * @param file
      * @return
      */
-    public static Rule existing(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule existing(@NotNull @NotEmpty @NotBlank final String file) {
         return ExistingRule.create(file);
     }
+
     /**
      * E10005
+     * 
      * @param file
      * @return
      */
-    public static Rule in(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule in(@NotNull @NotEmpty @NotBlank final String file) {
         return InRule.create(file);
     }
+
     /**
      * E10005
+     * 
      * @param file
      * @return
      */
-    public static Rule notin(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule notin(@NotNull @NotEmpty @NotBlank final String file) {
         return NotInRule.create(file);
     }
+
     /**
      * E10020
+     * 
      * @param file
      * @return
      */
-    public static Rule diff(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule diff(@NotNull @NotEmpty @NotBlank final String file) {
         return DiffRule.create(file);
     }
-    
+
     /**
      * E10027
+     * 
      * @param file
      * @return
      */
-    public static Rule dbtable(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule dbtable(@NotNull @NotEmpty @NotBlank final String file) {
         return DBTableRule.create(file);
     }
+
     /**
      * E10028
+     * 
      * @param file
      * @return
      */
-    public static Rule dbcolumn(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule dbcolumn(@NotNull @NotEmpty @NotBlank final String file) {
         return DBColumnRule.create(file);
     }
+
     /**
      * E10029
+     * 
      * @param file
      * @return
      */
-    public static Rule dbconstraint(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule dbconstraint(@NotNull @NotEmpty @NotBlank final String file) {
         return DBConstraintRule.create(file);
     }
+
     /**
      * E10030
+     * 
      * @param file
      * @return
      */
-    public static Rule dbtype(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule dbtype(@NotNull @NotEmpty @NotBlank final String file) {
         return DBTypeRule.create(file);
     }
+
     /**
      * E10037
+     * 
      * @param file
      * @return
      */
-    public static Rule dbchanging(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule dbchanging(@NotNull @NotEmpty @NotBlank final String file) {
         return DBUpdatingRule.create(file);
     }
+
     /**
      * E10007/10008
+     * 
      * @param file
      * @return
      */
-    public static Rule duplicated(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule duplicated(@NotNull @NotEmpty @NotBlank final String file) {
         return DuplicatedRule.create(file);
     }
+
     /**
      * 
      * @param file
      * @return
      */
-    public static Rule least(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule least(@NotNull @NotEmpty @NotBlank final String file) {
         return LeastRule.create(file);
     }
+
     /**
      * 
      * @param file
      * @return
      */
-    public static Rule most(@NotNull @NotEmpty @NotBlank final String file){
+    public static Rule most(@NotNull @NotEmpty @NotBlank final String file) {
         return MostRule.create(file);
     }
+
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
