@@ -1,4 +1,4 @@
-package com.prayer.facade.schema.verifier;
+package com.prayer.facade.dao.schema;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;

@@ -12,7 +12,7 @@ import com.prayer.constant.Resources;
 import com.prayer.dao.impl.data.DatabaseDalor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.dao.DatabaseDao;
-import com.prayer.facade.schema.verifier.DataValidator;
+import com.prayer.facade.dao.schema.DataValidator;
 import com.prayer.facade.util.digraph.NodeData;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.digraph.Edges;

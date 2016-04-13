@@ -6,7 +6,6 @@ import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.RuleConstants;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.fantasm.exception.AbstractSchemaException;
-import com.prayer.schema.common.RuleBuilder;
 import com.prayer.schema.json.JObjectHabitus;
 
 import io.vertx.core.json.JsonObject;
@@ -21,7 +20,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class RulerHelper {
+final class RulerHelper {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

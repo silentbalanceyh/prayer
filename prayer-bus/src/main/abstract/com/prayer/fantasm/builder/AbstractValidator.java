@@ -9,8 +9,8 @@ import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.facade.constant.Constants;
+import com.prayer.facade.dao.schema.DataValidator;
 import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 
 import net.sf.oval.constraint.InstanceOf;

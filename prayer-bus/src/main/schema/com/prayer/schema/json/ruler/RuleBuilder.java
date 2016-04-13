@@ -1,4 +1,4 @@
-package com.prayer.schema.common;
+package com.prayer.schema.json.ruler;
 
 import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.reflection.Instance.clazz;
@@ -51,7 +51,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class RuleBuilder {
+final class RuleBuilder {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RuleBuilder.class);

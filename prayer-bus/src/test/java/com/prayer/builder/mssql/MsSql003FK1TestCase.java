@@ -14,8 +14,8 @@ import org.slf4j.LoggerFactory;
 import com.prayer.builder.AbstractMsSqlBuilderTool;
 import com.prayer.constant.Accessors;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
+import com.prayer.facade.dao.schema.DataValidator;
 import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.facade.schema.verifier.DataValidator;
 import com.prayer.fantasm.exception.AbstractException;
 
 /**
