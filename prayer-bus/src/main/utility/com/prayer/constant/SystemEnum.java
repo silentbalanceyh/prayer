@@ -137,7 +137,7 @@ public final class SystemEnum { // NOPMD
 
     /** 使用的Deployer中Acus组件种类 **/
     public static enum Acus {
-        SQL, // SQL执行器：运行SQL脚本
+        INIT, // 初始化执行器，如果是SQL模式则执行SQL文件
         SCHEMA, // Schema执行器：导入Meta，Field，Key，Index
         DATABASE, // 数据库组件执行器：导入View，Trigger，VColumn
         VERTX, // Vertx执行器：导入Verticle, Address, Route

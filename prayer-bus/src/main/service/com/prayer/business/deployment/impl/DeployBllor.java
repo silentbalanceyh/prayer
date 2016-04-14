@@ -48,7 +48,7 @@ public class DeployBllor implements DeployInstantor {
     /** **/
     @Override
     public boolean initialize(@NotNull @NotBlank @NotEmpty final String sqlfile) throws AbstractException {
-        this.selector.selectors(Acus.SQL).deploy(sqlfile);
+        this.selector.selectors(Acus.INIT).deploy(sqlfile);
         return true;
     }
 

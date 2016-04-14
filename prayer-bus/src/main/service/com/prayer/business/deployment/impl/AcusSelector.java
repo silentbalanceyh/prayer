@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.business.deployment.acus.SchemaAcus;
 import com.prayer.business.deployment.acus.ScriptAcus;
-import com.prayer.business.deployment.acus.SqlAcus;
+import com.prayer.business.deployment.acus.InitAcus;
 import com.prayer.business.deployment.acus.UriAcus;
 import com.prayer.business.deployment.acus.VertxAcus;
 import com.prayer.constant.SystemEnum.Acus;
@@ -32,7 +32,7 @@ final class AcusSelector {
     // ~ Static Methods ======================================
     static {
         /** 数据库发布器 **/
-        SELECTORS.put(Acus.SQL, singleton(SqlAcus.class));
+        SELECTORS.put(Acus.INIT, singleton(InitAcus.class));
         /** Schema执行器 **/
         SELECTORS.put(Acus.SCHEMA, singleton(SchemaAcus.class));
         /** Vertx执行器 **/

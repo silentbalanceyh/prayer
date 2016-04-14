@@ -1,6 +1,7 @@
 package com.prayer.database.accessor.impl;
 
 import static com.prayer.util.Generator.uuid;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,13 +10,16 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
 import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.fun.accessor.IBatisMixer;
 import com.prayer.facade.metadata.mapper.IBatisMapper;
 import com.prayer.facade.model.entity.Entity;
+import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractTransactionException;
+import com.prayer.util.io.IOKit;
 
 import net.sf.oval.constraint.NotNull;
 
@@ -229,4 +233,13 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
         return true;
     }
 
+    /**
+     * 执行元数据的初始化操作，传入初始化文件
+     */
+    public boolean initialize(final String file) throws AbstractTransactionException {
+        /** 1.获取元数据连接 **/
+        final JdbcConnection connection = singleton(Accessors.connection());
+        /** 2.返回执行结果 **/
+        return connection.executeSql(IOKit.getFile(file));
+    }
 }

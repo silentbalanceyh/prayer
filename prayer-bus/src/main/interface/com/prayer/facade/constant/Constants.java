@@ -28,7 +28,7 @@ public interface Constants { // NOPMD
     /** **/
     @VertexPoint(Interface.CONSTANT)
     interface EXTENSION { // NOPMD
-        /** SQL 后缀名 **/
+        /** INIT 后缀名 **/
         String SQL = "sql";
         /** JSON 后缀名 **/
         String JSON = "json";

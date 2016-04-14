@@ -34,9 +34,9 @@ public final class Resources { // NOPMD
     public static final String SYS_RULES;
 
     // Database Configuration ================================
-    /** 数据库模式：SQL/NOSQL **/
+    /** 数据库模式：INIT/NOSQL **/
     public static final String DB_MODE;
-    /** 元数据数据库模式：SQL/NOSQL **/
+    /** 元数据数据库模式：INIT/NOSQL **/
     public static final String META_MODE;
 
     /** 数据库种类：MYSQL, MSSQL, ORACLE, PGSQL, MONGO **/
@@ -56,10 +56,10 @@ public final class Resources { // NOPMD
     /** Mybatis环境名称Environment **/
     public static final String T_CFG_MB_ENV;
 
-    // Metadata SQL File Configuration =======================
+    // Metadata INIT File Configuration =======================
     /** 保存的SQL文件地址 **/
     public static final String DB_SQL_DIR;
-    /** SQL Error的Mapping映射文件 **/
+    /** INIT Error的Mapping映射文件 **/
     public static final String DB_SQL_ERROR;
 
     // Metadata Configuration ================================

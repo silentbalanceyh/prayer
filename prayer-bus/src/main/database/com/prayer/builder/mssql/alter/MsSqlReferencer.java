@@ -19,7 +19,7 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
- * SQL Server中处理Referencer的方法
+ * INIT Server中处理Referencer的方法
  * 
  * @author Lang
  *

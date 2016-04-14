@@ -62,9 +62,9 @@ public interface SqlSegment { // NOPMD
 	/** WHERE子句模板 **/
 	String TB_WHERE = "WHERE {0}";
 	
-	/**	remove sequence SQL statement. **/
+	/**	remove sequence INIT statement. **/
     String SEQ_REMOVE = "DROP SEQUENCE {0}";
-	/** create sequence SQL statement. **/
+	/** create sequence INIT statement. **/
     String SEQ_CREATE = "CREATE SEQUENCE {0} MINVALUE {1} MAXVALUE {2} START WITH {3} INCREMENT BY {4} NOCACHE ";
 	// ~ SQL连接关键字 =====================================
 	/** AND连接符 **/

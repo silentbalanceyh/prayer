@@ -8,18 +8,18 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
+import com.prayer.database.accessor.impl.MetaAccessorImpl;
 import com.prayer.exception.database.DataAccessException;
 import com.prayer.exception.database.OperationNotSupportException;
-import com.prayer.facade.constant.Constants.EXTENSION;
+import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.business.deployment.acus.DeployAcus;
+import com.prayer.facade.constant.Constants.EXTENSION;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
-import com.prayer.util.io.IOKit;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
@@ -34,15 +34,15 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class SqlAcus implements DeployAcus {
+public class InitAcus implements DeployAcus {
     // ~ Static Fields =======================================
     /** 日志记录器 **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(SqlAcus.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InitAcus.class);
     // ~ Instance Fields =====================================
     /** SQL才会使用的内容 **/
     @NotNull
     @InstanceOf(JdbcConnection.class)
-    private transient final JdbcConnection connection; // NOPMD
+    private transient final MetaAccessor accessor; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -50,8 +50,8 @@ public class SqlAcus implements DeployAcus {
     /**
      * 
      */
-    public SqlAcus() {
-        this.connection = singleton(Accessors.connection());
+    public InitAcus() {
+        this.accessor = singleton(MetaAccessorImpl.class);
     }
 
     // ~ Abstract Methods ====================================
@@ -73,7 +73,7 @@ public class SqlAcus implements DeployAcus {
         /** 2.使用Reader **/
         final ServiceResult<Boolean> ret = new ServiceResult<>();
         info(LOGGER, InfoKey.INF_META_INIT, dftFile);
-        final boolean exeRet = this.connection.executeSql(IOKit.getFile(dftFile));
+        final boolean exeRet = this.accessor.initialize(dftFile);
         if (exeRet) {
             ret.success(exeRet);
         } else {
@@ -87,7 +87,7 @@ public class SqlAcus implements DeployAcus {
      */
     @Override
     public boolean purge() throws AbstractException {
-        throw new OperationNotSupportException(getClass(), "SqlAcus -> purge()");
+        throw new OperationNotSupportException(getClass(), "InitAcus -> purge()");
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

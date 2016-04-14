@@ -36,7 +36,7 @@ public class Metadata { // NOPMD
     private String databaseCategory;
     /** 数据库初始化SQL文件路径 **/
     private String sqlFile;
-    /** 数据库版本的Flag，类似：Oracle -> 10G,11R, SQL Server -> 2005, 2008 **/
+    /** 数据库版本的Flag，类似：Oracle -> 10G,11R, INIT Server -> 2005, 2008 **/
     private String versionFlag;
 
     // ~ Static Block ========================================

@@ -185,6 +185,17 @@ public class MetaAccessorImpl implements MetaAccessor {
 
     /**
      * 
+     * @param content
+     * @return
+     * @throws AbstractTransactionException
+     */
+    @Override
+    public boolean initialize(@NotNull @NotBlank @NotEmpty final String file) throws AbstractTransactionException {
+        return this.getAccessor().initialize(file);
+    }
+
+    /**
+     * 
      */
     @Override
     public boolean purge() throws AbstractTransactionException {

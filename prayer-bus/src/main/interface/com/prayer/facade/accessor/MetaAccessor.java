@@ -8,6 +8,7 @@ import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.facade.model.entity.Entity;
+import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 
 /**
@@ -136,4 +137,19 @@ public interface MetaAccessor { // NOPMD
      */
     @VertexApi(Api.READ)
     long count();
+
+    /**
+     * 
+     * @param content
+     * @return
+     */
+    // -----------------初始化接口-------------------------------
+    /**
+     * 根据内容初始化
+     * 
+     * @param content
+     * @return
+     * @throws AbstractDatabaseException
+     */
+    boolean initialize(final String file) throws AbstractTransactionException;
 }

@@ -29,7 +29,7 @@ public class SchemaCommand extends AbstractCommand {
     private static final String SYNCED = "SYNCED";
     /** Json -> H2 Database **/
     private static final String STEP1 = "[STEP1]";
-    /** H2 Database -> SQL Server **/
+    /** H2 Database -> INIT Server **/
     private static final String STEP2 = "[STEP2]";
     /** **/
     private static final String ERROR = "error";
@@ -109,7 +109,7 @@ public class SchemaCommand extends AbstractCommand {
         ServiceResult<Schema> ret = this.service.importSchema(file);
         final JsonObject retJson = new JsonObject();
         if (ResponseCode.SUCCESS == ret.getResponseCode()) {
-            // H2 Database --> SQL Server
+            // H2 Database --> INIT Server
             Schema schema = ret.getResult();
             if(null != schema){
                 ret = this.service.syncMetadata(schema);

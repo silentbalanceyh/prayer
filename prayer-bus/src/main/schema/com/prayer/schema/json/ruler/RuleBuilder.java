@@ -82,19 +82,15 @@ final class RuleBuilder {
          * 填充绑定关系
          */
         for (final Object item : bindData.keySet()) {
-            if (null != item) {
+            if (null != item && !item.toString().startsWith("PKG")) {
                 // 先提取Properties
                 String keyStr = item.toString();
                 String valueStr = bindData.getProperty(keyStr);
                 // 处理Key
-                if (keyStr.indexOf(Symbol.DOT) < 0) {
-                    keyStr = PKG_RULE + Symbol.DOT + keyStr;
-                }
+                keyStr = PKG_RULE + Symbol.DOT + keyStr;
                 final Class<?> key = clazz(keyStr);
                 // 处理Value
-                if (valueStr.indexOf(Symbol.DOT) < 0) {
-                    valueStr = PKG_VIOLATER + Symbol.DOT + valueStr;
-                }
+                valueStr = PKG_VIOLATER + Symbol.DOT + valueStr;
                 final Class<?> value = clazz(valueStr);
                 if (null != key && null != value) {
                     debug(LOGGER, "[BIND] " + key.getName() + " -> " + value.getName());

@@ -26,7 +26,7 @@ public interface SchemaInstantor {
     Schema importSchema(String filePath) throws AbstractException;
 
     /**
-     * Metadata Database -> SQL Database
+     * Metadata Database -> INIT Database
      * 
      * @param schema
      * @return

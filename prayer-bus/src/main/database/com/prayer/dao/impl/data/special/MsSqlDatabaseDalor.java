@@ -9,7 +9,7 @@ import com.prayer.fantasm.dao.database.AbstractDatabaseDao;
 import net.sf.oval.guard.Guarded;
 
 /**
- * SQL Server元数据信息
+ * INIT Server元数据信息
  * 
  * @author Lang
  *

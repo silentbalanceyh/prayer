@@ -4,7 +4,7 @@ import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexPoint;
 
 /**
- * SQL Server专用关键字
+ * INIT Server专用关键字
  * 
  * @author Lang
  *
@@ -14,7 +14,7 @@ public interface MsSqlWord {
 
     /** 数据类型关键字 **/
     @VertexPoint(Interface.CONSTANT)
-    interface Type { // SQL Server数据类型
+    interface Type { // INIT Server数据类型
         // 整数==================================
         /** 0.TINYINT **/
         String TINYINT = "TINYINT";
