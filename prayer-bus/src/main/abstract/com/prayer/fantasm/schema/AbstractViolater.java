@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.dao.schema.DataValidator;
+import com.prayer.facade.database.dao.schema.DataValidator;
 import com.prayer.facade.fun.schema.Extractor;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;

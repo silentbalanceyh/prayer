@@ -2,13 +2,13 @@ package com.prayer.schema.json.violater;
 
 import static com.prayer.util.Converter.toStr;
 
+import com.prayer.database.util.sql.SqlTypes;
 import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.fantasm.schema.AbstractViolater;
 import com.prayer.schema.json.rule.VectorRule;
-import com.prayer.sql.util.SqlTypes;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

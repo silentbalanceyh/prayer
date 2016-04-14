@@ -6,10 +6,10 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.prayer.dao.impl.schema.CommuneImporter;
-import com.prayer.dao.impl.schema.SchemaDalor;
-import com.prayer.facade.dao.schema.Importer;
-import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.dao.schema.CommuneImporter;
+import com.prayer.dao.schema.SchemaDalor;
+import com.prayer.facade.database.dao.schema.Importer;
+import com.prayer.facade.database.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractException;
 

@@ -3,9 +3,9 @@ package com.prayer.business.endpoint;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.business.deployment.impl.SchemaBllor;
-import com.prayer.facade.business.deployment.SchemaInstantor;
 import com.prayer.facade.business.endpoint.DataStubor;
 import com.prayer.facade.business.endpoint.MetaStubor;
+import com.prayer.facade.business.instantor.deployment.SchemaInstantor;
 
 /**
  * 
@@ -19,7 +19,7 @@ public class AbstractEndPointTool {
     private transient DataStubor ds = singleton(DataMessager.class);
     /** Meta Record的远程接口 **/
     private transient MetaStubor ms = singleton(MetaMessager.class);
-    
+    /** Schema的Instantor层接口 **/
     private transient SchemaInstantor instantor = singleton(SchemaBllor.class);
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

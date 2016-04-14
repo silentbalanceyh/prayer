@@ -6,9 +6,9 @@ import javax.script.ScriptException;
 
 import org.slf4j.Logger;
 
-import com.prayer.business.service.impl.RecordBehavior;
+import com.prayer.business.service.RecordBehavior;
 import com.prayer.exception.web.JSScriptEngineException;
-import com.prayer.facade.business.RecordService;
+import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.fun.endpoint.Behavior;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.web.WebRequest;

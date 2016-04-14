@@ -9,10 +9,10 @@ import java.util.Set;
 
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
-import com.prayer.dao.impl.data.DatabaseDalor;
+import com.prayer.dao.data.DatabaseDalor;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.dao.DatabaseDao;
-import com.prayer.facade.dao.schema.DataValidator;
+import com.prayer.facade.database.dao.DatabaseDao;
+import com.prayer.facade.database.dao.schema.DataValidator;
 import com.prayer.facade.util.digraph.NodeData;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.digraph.Edges;

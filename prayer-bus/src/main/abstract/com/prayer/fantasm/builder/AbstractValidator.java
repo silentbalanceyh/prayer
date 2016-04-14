@@ -3,14 +3,14 @@ package com.prayer.fantasm.builder;
 import static com.prayer.util.reflection.Instance.reservoir;
 
 import com.prayer.constant.Resources;
-import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
+import com.prayer.database.pool.impl.JdbcConnImpl;
 import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
 import com.prayer.exception.schema.BTColumnTypeInvalidException;
 import com.prayer.exception.schema.BTableNotExistingException;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.dao.schema.DataValidator;
-import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.facade.database.dao.schema.DataValidator;
+import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 
 import net.sf.oval.constraint.InstanceOf;

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.business.impl.std.RecordSevImpl;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.facade.business.RecordService;
+import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.constant.Constants;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.model.web.Responsor;

@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import com.prayer.business.impl.std.MetaSevImpl;
 import com.prayer.business.impl.std.RecordSevImpl;
 import com.prayer.facade.business.MetaService;
-import com.prayer.facade.business.RecordService;
+import com.prayer.facade.business.service.RecordService;
 import com.prayer.model.business.ServiceResult;
 import com.prayer.util.io.IOKit;
 

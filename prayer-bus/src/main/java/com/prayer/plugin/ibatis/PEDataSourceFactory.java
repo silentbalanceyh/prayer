@@ -19,7 +19,7 @@ import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
 import com.prayer.exception.database.MetadataNotSupportException;
 import com.prayer.facade.constant.DBConstants;
-import com.prayer.facade.pool.JdbcPool;
+import com.prayer.facade.database.pool.JdbcPool;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**

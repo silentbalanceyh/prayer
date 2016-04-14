@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.database.util.sql.SqlDDLBuilder;
 import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.constant.Constants;
+import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.facade.model.crucial.Referencer;
-import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.model.crucial.schema.FKReferencer;
-import com.prayer.sql.util.SqlDDLBuilder;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;

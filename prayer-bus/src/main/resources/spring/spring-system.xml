@@ -12,7 +12,7 @@
     <context:component-scan base-package="com.prayer" use-default-filters="false">
         <!-- Include List -->
         <context:include-filter type="regex" expression="com.prayer.mod.def.*"/>
-        <context:include-filter type="regex" expression="com.prayer.facade.pool.*"/>
+        <context:include-filter type="regex" expression="com.prayer.facade.database.pool.*"/>
         <!-- Exclude List -->
         <context:exclude-filter type="regex" expression="com.prayer.res.cv.*"/>
         <context:exclude-filter type="regex" expression="com.prayer.tp.spring.*"/>

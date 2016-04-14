@@ -6,12 +6,12 @@ import static org.junit.Assert.fail;
 
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
-import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
+import com.prayer.database.pool.impl.JdbcConnImpl;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
 import com.prayer.facade.constant.DBConstants;
-import com.prayer.facade.dao.schema.DataValidator;
-import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.facade.database.dao.schema.DataValidator;
+import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.Verifier;
 import com.prayer.fantasm.exception.AbstractSchemaException;

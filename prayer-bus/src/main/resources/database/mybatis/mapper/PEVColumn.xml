@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prayer.facade.metadata.mapper.PEVColumnMapper">
+<mapper namespace="com.prayer.facade.database.mapper.PEVColumnMapper">
     <!-- 结果对象定义 -->
     <resultMap type="VColumn" id="vcolumnObject">
         <id column="K_ID" property="uniqueId" />

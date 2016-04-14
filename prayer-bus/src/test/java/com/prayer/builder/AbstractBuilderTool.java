@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 
 import com.prayer.builder.MetadataBuilder;
 import com.prayer.constant.Resources;
-import com.prayer.dao.impl.schema.CommuneImporter;
-import com.prayer.dao.impl.schema.SchemaDalor;
+import com.prayer.dao.schema.CommuneImporter;
+import com.prayer.dao.schema.SchemaDalor;
 import com.prayer.exception.system.SerializationException;
 import com.prayer.facade.builder.Builder;
-import com.prayer.facade.dao.schema.Importer;
-import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.facade.database.dao.schema.Importer;
+import com.prayer.facade.database.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;

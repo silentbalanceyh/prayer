@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 
 import com.prayer.AbstractCommonTool;
 import com.prayer.constant.Resources;
-import com.prayer.database.pool.impl.jdbc.BoneCPPool;
-import com.prayer.fantasm.pool.AbstractJdbcPool;
+import com.prayer.database.pool.impl.BoneCPPool;
+import com.prayer.fantasm.database.pool.AbstractJdbcPool;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 

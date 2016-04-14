@@ -4,9 +4,9 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import com.prayer.facade.builder.reflector.Reflector;
-import com.prayer.facade.pool.JdbcConnection;
-import com.prayer.facade.sql.special.MsSqlStatement;
-import com.prayer.facade.sql.special.MsSqlWord;
+import com.prayer.facade.database.pool.JdbcConnection;
+import com.prayer.facade.database.sql.special.MsSqlStatement;
+import com.prayer.facade.database.sql.special.MsSqlWord;
 import com.prayer.fantasm.builder.line.AbstractReflector;
 
 import net.sf.oval.constraint.NotBlank;

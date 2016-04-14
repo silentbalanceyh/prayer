@@ -9,10 +9,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.impl.schema.CommuneImporter;
-import com.prayer.dao.impl.schema.JsonSerializer;
-import com.prayer.facade.dao.schema.Importer;
-import com.prayer.facade.dao.schema.Serializer;
+import com.prayer.dao.schema.CommuneImporter;
+import com.prayer.dao.schema.JsonSerializer;
+import com.prayer.facade.database.dao.schema.Importer;
+import com.prayer.facade.database.dao.schema.Serializer;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.fantasm.exception.AbstractException;

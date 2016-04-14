@@ -1,8 +1,8 @@
 package com.prayer.model.query;
 
 import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.database.sql.SQLWord;
 import com.prayer.facade.model.crucial.Expression;
-import com.prayer.facade.sql.SQLWord;
 import com.prayer.fantasm.model.AbstractExpression;
 
 import net.sf.oval.constraint.NotBlank;

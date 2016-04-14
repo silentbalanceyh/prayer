@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.business.configuration.fetch.ConfigMounder;
-import com.prayer.facade.business.configuration.fetch.ConfigFetcher;
+import com.prayer.facade.business.instantor.configuration.fetch.ConfigFetcher;
 import com.prayer.model.meta.vertx.PEAddress;
 import com.prayer.model.meta.vertx.PERoute;
 import com.prayer.model.meta.vertx.PERule;

@@ -13,9 +13,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.dao.impl.schema.JsonSerializer;
+import com.prayer.dao.schema.JsonSerializer;
 import com.prayer.exception.system.SerializationException;
-import com.prayer.facade.dao.schema.Serializer;
+import com.prayer.facade.database.dao.schema.Serializer;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;

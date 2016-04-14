@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.SystemEnum.StatusFlag;
+import com.prayer.database.util.sql.SqlDDLBuilder;
 import com.prayer.exception.database.NullableAddException;
 import com.prayer.exception.database.NullableAlterException;
 import com.prayer.exception.database.UniqueAddException;
@@ -21,14 +22,13 @@ import com.prayer.facade.builder.line.KeySaber;
 import com.prayer.facade.builder.reflector.Reflector;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.facade.model.crucial.Referencer;
-import com.prayer.facade.pool.JdbcConnection;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.crucial.schema.FKReferencer;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
-import com.prayer.sql.util.SqlDDLBuilder;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.NotNull;

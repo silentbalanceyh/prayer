@@ -1,7 +1,7 @@
 package com.prayer.fantasm.builder.line;
 
 import com.prayer.constant.Resources;
-import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.util.io.PropertyKit;
 
 import net.sf.oval.constraint.NotNull;

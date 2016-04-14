@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.instance;
 import com.prayer.AbstractCommonTool;
 import com.prayer.business.deployment.impl.SchemaBllor;
 import com.prayer.constant.Resources;
-import com.prayer.facade.business.deployment.SchemaInstantor;
+import com.prayer.facade.business.instantor.deployment.SchemaInstantor;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.string.StringKit;

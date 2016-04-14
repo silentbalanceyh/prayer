@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 import com.prayer.constant.Resources;
-import com.prayer.sql.util.SqlTypes;
+import com.prayer.database.util.sql.SqlTypes;
 import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.json.JsonArray;

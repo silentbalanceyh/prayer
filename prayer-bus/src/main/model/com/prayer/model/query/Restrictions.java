@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.database.ProjectionInvalidException;
+import com.prayer.facade.database.sql.SQLWord;
 import com.prayer.facade.model.crucial.Expression;
 import com.prayer.facade.model.crucial.Value;
-import com.prayer.facade.sql.SQLWord;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 import net.sf.oval.constraint.InstanceOf;

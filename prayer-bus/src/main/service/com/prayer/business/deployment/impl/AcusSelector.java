@@ -11,7 +11,7 @@ import com.prayer.business.deployment.acus.InitAcus;
 import com.prayer.business.deployment.acus.UriAcus;
 import com.prayer.business.deployment.acus.VertxAcus;
 import com.prayer.constant.SystemEnum.Acus;
-import com.prayer.facade.business.deployment.acus.DeployAcus;
+import com.prayer.facade.business.instantor.deployment.acus.DeployAcus;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

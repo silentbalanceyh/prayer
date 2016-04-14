@@ -4,7 +4,7 @@ import static com.prayer.util.reflection.Instance.instance;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.business.configuration.impl.ConfigBllor;
-import com.prayer.facade.business.configuration.ConfigInstantor;
+import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.model.meta.vertx.PEAddress;
 
 import io.vertx.core.AsyncResult;

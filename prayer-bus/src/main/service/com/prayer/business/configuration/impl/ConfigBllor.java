@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.SystemEnum.ComponentType;
-import com.prayer.facade.business.configuration.ConfigInstantor;
+import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.facade.model.entity.Attributes;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.crucial.MetaColumns;

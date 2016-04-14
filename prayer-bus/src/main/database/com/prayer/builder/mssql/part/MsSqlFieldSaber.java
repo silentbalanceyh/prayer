@@ -3,7 +3,7 @@ package com.prayer.builder.mssql.part;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.facade.sql.special.MsSqlWord;
+import com.prayer.facade.database.sql.special.MsSqlWord;
 import com.prayer.fantasm.builder.line.AbstractFieldSaber;
 
 import net.sf.oval.guard.Guarded;

@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.business.configuration.impl.ConfigBllor;
 import com.prayer.constant.SystemEnum.ParamType;
-import com.prayer.facade.business.configuration.ConfigInstantor;
+import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.JsonKey;

@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 
 import com.prayer.constant.log.DebugKey;
-import com.prayer.facade.dao.JdbcTransducer.T;
+import com.prayer.facade.database.dao.JdbcTransducer.T;
 import com.prayer.facade.model.crucial.Value;
 
 import net.sf.oval.constraint.MinSize;

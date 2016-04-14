@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.business.deployment.impl.DeployBllor;
 import com.prayer.constant.Resources;
 import com.prayer.exception.system.RecurrenceReferenceException;
-import com.prayer.facade.business.deployment.DeployInstantor;
+import com.prayer.facade.business.instantor.deployment.DeployInstantor;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
 

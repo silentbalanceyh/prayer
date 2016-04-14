@@ -12,12 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.dao.impl.schema.SchemaDalor;
+import com.prayer.dao.schema.SchemaDalor;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.facade.database.dao.schema.SchemaDao;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.crucial.Transducer.V;
 import com.prayer.facade.model.record.Record;

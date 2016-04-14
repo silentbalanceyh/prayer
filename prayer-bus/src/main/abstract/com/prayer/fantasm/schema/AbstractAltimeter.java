@@ -4,8 +4,8 @@ import static com.prayer.util.reflection.Instance.reservoir;
 
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
-import com.prayer.facade.dao.schema.DataValidator;
-import com.prayer.facade.dao.schema.SchemaDao;
+import com.prayer.facade.database.dao.schema.DataValidator;
+import com.prayer.facade.database.dao.schema.SchemaDao;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;

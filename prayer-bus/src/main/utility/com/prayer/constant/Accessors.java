@@ -15,23 +15,23 @@ import net.sf.oval.guard.Guarded;
 public final class Accessors {
     // ~ Static Fields =======================================
     /** 默认值 **/
-    private static final String DFT_DB_POOL = "com.prayer.database.pool.impl.jdbc.BoneCPPool";
+    private static final String DFT_DB_POOL = "com.prayer.database.pool.impl.BoneCPPool";
     /** 默认的Accessor使用SQL **/
     private static final String DFT_META_ACCESSOR = "com.prayer.database.accessor.impl.IBatisAccessorImpl";
     /** 默认的元数据连接 **/
-    private static final String DFT_META_JDBC = "com.prayer.database.pool.impl.jdbc.H2ConnImpl";
+    private static final String DFT_META_JDBC = "com.prayer.database.pool.impl.H2ConnImpl";
 
     /** Constraints 默认值 **/
     private static final String DFT_DB_BUILDER = "com.prayer.builder.mssql.MsSqlBuilder";
     /** Validator 默认值 **/
     private static final String DFT_DB_VALIDATOR = "com.prayer.builder.mssql.part.MsSqlValidator";
     /** Databaser 默认值 **/
-    private static final String DFT_DB_DATABASER = "com.prayer.dao.impl.data.special.MsSqlDatabaseDalor";
+    private static final String DFT_DB_DATABASER = "com.prayer.dao.data.special.MsSqlDatabaseDalor";
 
     /** Dao 默认值 **/
-    private static final String DFT_DB_DAO = "com.prayer.dao.impl.data.special.MsSqlDataDalor";
+    private static final String DFT_DB_DAO = "com.prayer.dao.data.special.MsSqlDataDalor";
     /** Transverter默认值 **/
-    private static final String DFT_DB_TRANS = "com.prayer.dao.impl.data.special.MsSqlTransducer";
+    private static final String DFT_DB_TRANS = "com.prayer.dao.data.special.MsSqlTransducer";
 
     /** Cache默认值 **/
     private static final String DFT_SYS_CACHE = "com.prayer.model.cache.MemoryCache";

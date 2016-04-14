@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.business.configuration.impl.ConfigBllor;
-import com.prayer.facade.business.configuration.ConfigInstantor;
+import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PERoute;

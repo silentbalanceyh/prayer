@@ -1,7 +1,7 @@
 package com.prayer.fantasm.business.deployment.acus;
 
 import com.prayer.database.accessor.impl.MetaAccessorImpl;
-import com.prayer.facade.accessor.MetaAccessor;
+import com.prayer.facade.database.accessor.MetaAccessor;
 
 import net.sf.oval.guard.Guarded;
 

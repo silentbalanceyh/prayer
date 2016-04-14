@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.SystemEnum.Acus;
-import com.prayer.facade.business.deployment.DeployInstantor;
+import com.prayer.facade.business.instantor.deployment.DeployInstantor;
 import com.prayer.fantasm.exception.AbstractException;
 
 import net.sf.oval.constraint.NotBlank;
