@@ -15,7 +15,7 @@ import com.prayer.business.deployment.impl.SchemaBllor;
 import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.data.DataRecordDalor;
-import com.prayer.facade.business.instantor.deployment.SchemaInstantor;
+import com.prayer.facade.business.instantor.schema.SchemaInstantor;
 import com.prayer.facade.database.dao.RecordDao;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.record.Record;

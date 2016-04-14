@@ -16,7 +16,7 @@ import com.prayer.dao.schema.CommuneImporter;
 import com.prayer.dao.schema.SchemaDalor;
 import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.facade.builder.Builder;
-import com.prayer.facade.business.instantor.deployment.SchemaInstantor;
+import com.prayer.facade.business.instantor.schema.SchemaInstantor;
 import com.prayer.facade.database.dao.schema.Importer;
 import com.prayer.facade.database.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
