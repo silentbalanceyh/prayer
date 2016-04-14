@@ -17,7 +17,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class ProjectionExpression extends AbstractExpression implements Expression, SQLWord {
+final class ProjectionExpression extends AbstractExpression implements SQLWord {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

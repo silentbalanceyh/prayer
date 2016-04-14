@@ -1,7 +1,6 @@
 package com.prayer.model.query;
 
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.model.crucial.Expression;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.sql.SQLWord;
 import com.prayer.fantasm.model.AbstractExpression;
@@ -19,7 +18,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class LikeExpression extends AbstractExpression implements Expression, SQLWord {
+final class LikeExpression extends AbstractExpression implements SQLWord {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

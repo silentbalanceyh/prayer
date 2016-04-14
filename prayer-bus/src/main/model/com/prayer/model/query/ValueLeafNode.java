@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.model.crucial.Expression;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.model.AbstractExpression;
 import com.prayer.model.type.DataType;
@@ -18,7 +17,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class ValueLeafNode extends AbstractExpression implements Expression{
+final class ValueLeafNode extends AbstractExpression {
     // ~ Static Fields =======================================
     /** **/
     private static final DataType[] WRAPPER_TYPES = { DataType.STRING, DataType.DATE, DataType.JSON, DataType.SCRIPT,

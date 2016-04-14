@@ -1,6 +1,5 @@
 package com.prayer.model.query;
 
-import com.prayer.facade.model.crucial.Expression;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.model.AbstractExpression;
 
@@ -16,7 +15,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class StandardExpression extends AbstractExpression implements Expression {
+final class StandardExpression extends AbstractExpression {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /**

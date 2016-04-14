@@ -1,7 +1,6 @@
 package com.prayer.business.deployment.acus;
 
 import static com.prayer.util.debug.Log.info;
-import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.Locale;
 
@@ -10,18 +9,16 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
-import com.prayer.database.accessor.impl.MetaAccessorImpl;
 import com.prayer.exception.database.DataAccessException;
 import com.prayer.exception.database.OperationNotSupportException;
-import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.business.deployment.acus.DeployAcus;
 import com.prayer.facade.constant.Constants.EXTENSION;
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.pool.JdbcConnection;
+import com.prayer.fantasm.business.deployment.acus.AbstractEntityAcus;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
+import com.prayer.model.meta.database.PEMeta;
 
-import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -34,26 +31,15 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class InitAcus implements DeployAcus {
+public class InitAcus extends AbstractEntityAcus implements DeployAcus {
     // ~ Static Fields =======================================
     /** 日志记录器 **/
     private static final Logger LOGGER = LoggerFactory.getLogger(InitAcus.class);
+
     // ~ Instance Fields =====================================
-    /** SQL才会使用的内容 **/
-    @NotNull
-    @InstanceOf(JdbcConnection.class)
-    private transient final MetaAccessor accessor; // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-
-    /**
-     * 
-     */
-    public InitAcus() {
-        this.accessor = singleton(MetaAccessorImpl.class);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**
@@ -73,7 +59,8 @@ public class InitAcus implements DeployAcus {
         /** 2.使用Reader **/
         final ServiceResult<Boolean> ret = new ServiceResult<>();
         info(LOGGER, InfoKey.INF_META_INIT, dftFile);
-        final boolean exeRet = this.accessor.initialize(dftFile);
+        /** 3.这里调用的是initialize，所以传入哪个Entity都无所谓，所以传入最不容易变化的Meta **/
+        final boolean exeRet = this.accessor(PEMeta.class).initialize(dftFile);
         if (exeRet) {
             ret.success(exeRet);
         } else {

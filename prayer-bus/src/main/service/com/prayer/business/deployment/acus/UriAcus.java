@@ -9,10 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.prayer.database.accessor.impl.MetaAccessorImpl;
-import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.business.deployment.acus.DeployAcus;
 import com.prayer.facade.constant.Constants;
+import com.prayer.fantasm.business.deployment.acus.AbstractEntityAcus;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.model.meta.vertx.PEUri;
@@ -31,7 +30,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class UriAcus implements DeployAcus {
+public class UriAcus extends AbstractEntityAcus implements DeployAcus {
     // ~ Static Fields =======================================
 
     /** 日志记录器 **/
@@ -123,11 +122,6 @@ public class UriAcus implements DeployAcus {
                 uri.setScript(script.toString());
             }
         }
-    }
-
-    /** 获取对应实体的Accessor **/
-    private MetaAccessor accessor(final Class<?> genericT) {
-        return new MetaAccessorImpl(genericT);
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

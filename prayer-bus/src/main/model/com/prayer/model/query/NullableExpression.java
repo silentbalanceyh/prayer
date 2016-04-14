@@ -1,7 +1,6 @@
 package com.prayer.model.query;
 
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.model.crucial.Expression;
 import com.prayer.facade.sql.SQLWord;
 import com.prayer.fantasm.model.AbstractExpression;
 
@@ -16,7 +15,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-final class NullableExpression extends AbstractExpression implements Expression, SQLWord {
+final class NullableExpression extends AbstractExpression implements SQLWord {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

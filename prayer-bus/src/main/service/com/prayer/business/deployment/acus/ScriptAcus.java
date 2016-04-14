@@ -8,11 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.prayer.database.accessor.impl.MetaAccessorImpl;
-import com.prayer.facade.accessor.MetaAccessor;
 import com.prayer.facade.business.deployment.acus.DeployAcus;
 import com.prayer.facade.constant.Constants.EXTENSION;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.fantasm.business.deployment.acus.AbstractEntityAcus;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PEScript;
 import com.prayer.util.io.IOKit;
@@ -29,7 +28,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class ScriptAcus implements DeployAcus {
+public class ScriptAcus extends AbstractEntityAcus implements DeployAcus {
     // ~ Static Fields =======================================
     /** 日志记录器 **/
     private static final Logger LOGGER = LoggerFactory.getLogger(ScriptAcus.class);
@@ -90,11 +89,6 @@ public class ScriptAcus implements DeployAcus {
                 script.setContent(IOKit.getContent(script.getContent()));
             }
         }
-    }
-
-    /** 获取对应实体的Accessor **/
-    private MetaAccessor accessor(final Class<?> genericT) {
-        return new MetaAccessorImpl(genericT);
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
