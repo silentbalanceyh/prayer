@@ -5,7 +5,6 @@ import static com.prayer.util.reflection.Instance.singleton;
 import com.prayer.facade.dao.schema.Serializer;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.Attributes;
-import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.model.crucial.schema.JsonSchema;
 import com.prayer.model.meta.database.PEField;
@@ -13,8 +12,6 @@ import com.prayer.model.meta.database.PEKey;
 import com.prayer.model.meta.database.PEMeta;
 
 import io.vertx.core.json.JsonObject;
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -60,18 +57,6 @@ public final class SchemaBuilder {
         /** 4.构造Indexes **/
         // TODO: Index的构造
         return schema;
-    }
-
-    /**
-     * 通过identifier从系统中读取一个完整的Schema
-     * 
-     * @param identifier
-     * @return
-     * @throws AbstractDatabaseException
-     */
-    public Schema build(@NotNull @NotBlank @NotEmpty final String identifier) throws AbstractDatabaseException {
-        // TODO: 等待Schema Dao
-        return null;
     }
 
     // ~ Constructors ========================================

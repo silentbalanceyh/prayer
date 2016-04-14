@@ -1,6 +1,7 @@
 package com.prayer.fantasm.builder;
 
 import static com.prayer.util.debug.Log.debug;
+import static com.prayer.util.reflection.Instance.reservoir;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 
 import com.prayer.business.digraph.OrderedBuilder;
+import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.database.pool.impl.jdbc.JdbcConnImpl;
@@ -54,7 +56,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
     @NotNull
     @InstanceOf(JdbcConnection.class)
     private transient final JdbcConnection connection; // NOPMD
-    /** Builder **/
+    /** Constraints **/
     private transient final SqlDDLBuilder builder;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -63,7 +65,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
     /** **/
     @PostValidateThis
     public AbstractBuilder() {
-        this.connection = singleton(JdbcConnImpl.class);
+        this.connection = reservoir(Resources.DB_CATEGORY, JdbcConnImpl.class);
         this.builder = SqlDDLBuilder.create();
     }
 

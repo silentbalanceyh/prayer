@@ -17,7 +17,7 @@ import com.prayer.model.meta.database.PEField;
  *
  */
 @VertexPoint(Interface.ENG_PUBLIC)
-public interface Schema extends Builder, Metadata, Serializable {
+public interface Schema extends Constraints, Metadata, Serializable {
     // ~ Identifier相关 =====================================
     /**
      * 获取所有字段集合

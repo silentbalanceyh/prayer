@@ -3,7 +3,6 @@ package com.prayer.model.type;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.facade.model.crucial.Validator;
-import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 
 /**
@@ -12,7 +11,7 @@ import com.prayer.fantasm.exception.AbstractDatabaseException;
  * @author Lang
  * @see
  */
-public class ScriptType extends StringType implements Value<String> {
+public class ScriptType extends StringType {
     // ~ Static Fields =======================================
     /** **/
     private transient final Validator innerValidator = singleton("com.prayer.plugin.validator.ScriptValidator");

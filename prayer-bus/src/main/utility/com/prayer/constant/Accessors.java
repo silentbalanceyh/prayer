@@ -21,7 +21,7 @@ public final class Accessors {
     /** 默认的元数据连接 **/
     private static final String DFT_META_JDBC = "com.prayer.database.pool.impl.jdbc.H2ConnImpl";
 
-    /** Builder 默认值 **/
+    /** Constraints 默认值 **/
     private static final String DFT_DB_BUILDER = "com.prayer.builder.mssql.MsSqlBuilder";
     /** Validator 默认值 **/
     private static final String DFT_DB_VALIDATOR = "com.prayer.builder.mssql.part.MsSqlValidator";
