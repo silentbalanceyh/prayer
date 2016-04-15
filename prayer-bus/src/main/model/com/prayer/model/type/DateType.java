@@ -3,10 +3,11 @@ package com.prayer.model.type;
 import java.lang.reflect.Type;
 import java.util.Date;
 
-import jodd.typeconverter.Convert;
-
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.crucial.Value;
+import com.prayer.util.business.Collater;
+
+import jodd.typeconverter.Convert;
 
 /**
  * 类型：时间/日期类型
@@ -64,9 +65,10 @@ public class DateType implements Value<Date> {
     public DataType getDataType() {
         return DataType.DATE;
     }
+
     /** **/
     @Override
-    public String literal(){
+    public String literal() {
         return this.value.toString();
     }
 
@@ -91,7 +93,7 @@ public class DateType implements Value<Date> {
     /** **/
     @Override
     public int hashCode() {
-        final int prime = Constants.HASH_BASE;  
+        final int prime = Constants.HASH_BASE;
         int result = 1;
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
@@ -101,21 +103,23 @@ public class DateType implements Value<Date> {
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
-            return true; 
+            return true;
         }
         if (obj == null) {
-            return false; 
+            return false;
         }
         if (getClass() != obj.getClass()) {
-            return false; 
+            return false;
         }
         final DateType other = (DateType) obj;
+
         if (value == null) {
             if (other.value != null) {
-                return false; 
+                return false;
             }
-        } else if (!value.equals(other.value)) {
-            return false; 
+            // 调用特殊日期比较方法，比较年、月、日、时、分、秒
+        } else if (!Collater.equal(value, other.value, true)) {
+            return false;
         }
         return true;
     }

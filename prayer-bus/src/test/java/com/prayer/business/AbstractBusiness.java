@@ -2,12 +2,16 @@ package com.prayer.business;
 
 import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.debug.Log.peError;
+import static com.prayer.util.reflection.Instance.reservoir;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 
 import com.prayer.business.deployment.impl.SchemaBllor;
+import com.prayer.constant.Accessors;
+import com.prayer.constant.Resources;
 import com.prayer.facade.business.instantor.schema.SchemaInstantor;
+import com.prayer.facade.database.dao.schema.DataValidator;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.util.io.IOKit;
@@ -43,15 +47,25 @@ public abstract class AbstractBusiness {
     protected SchemaInstantor getSchemaItor() {
         return singleton(SchemaBllor.class);
     }
+    
+    // ~ Data Validator ======================================
+    /**
+     * 子类可用，获取DataValidator引用
+     * 
+     * @return
+     */
+    protected DataValidator validator() {
+        return reservoir(Resources.DB_CATEGORY, Accessors.validator());
+    }
 
-    // ~ Data Preparing ======================================
+    // ~ Path Preparing ======================================
     /**
      * 
      * @param file
      * @return
      */
     protected JsonObject read(final String file) {
-        final String content = IOKit.getContent(getFolder() + file);
+        final String content = IOKit.getContent(path(file));
         JsonObject data = null;
         try {
             data = new JsonObject(content);
@@ -61,7 +75,15 @@ public abstract class AbstractBusiness {
         }
         return data;
     }
-
+    /**
+     * 
+     * @param file
+     * @return
+     */
+    protected String path(final String file){
+        return getFolder() + file;
+    }
+    // ~ Data Preparing ======================================
     /**
      * 
      * @param identifier
@@ -89,7 +111,7 @@ public abstract class AbstractBusiness {
         try {
             final SchemaInstantor instantor = this.getSchemaItor();
             /** 1.Schema准备 **/
-            Schema schema = instantor.importSchema(getFolder() + file);
+            Schema schema = instantor.importSchema(path(file));
             if (null == schema) {
                 prepared = false;
             } else {

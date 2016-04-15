@@ -16,7 +16,7 @@ import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.record.data.AbstractMsSqlDaoTool;
-import com.prayer.util.business.RecordKit;
+import com.prayer.util.business.Collater;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 
@@ -127,7 +127,7 @@ public class MsSqlDao06ITestCase extends AbstractMsSqlDaoTool {
             // 调用select
             final Record selectR = this.getDao().selectById(after, after.idKV());
             // 判断最终结果
-            final boolean ret = RecordKit.equal(after, selectR);
+            final boolean ret = Collater.equal(after, selectR);
             assertTrue(message(TST_TF, Boolean.TRUE), ret);
             // 检查完毕将新插入的数据删除掉
             this.getDao().delete(selectR);

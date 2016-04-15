@@ -26,7 +26,7 @@ import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.StringType;
 import com.prayer.record.fun.Evaluator;
-import com.prayer.util.business.RecordKit;
+import com.prayer.util.business.Collater;
 
 import jodd.util.StringUtil;
 
@@ -136,7 +136,7 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
         if (this.isValidDB()) {
             final Record before = this.createRecord(identifier);
             final Record after = this.getDao().insert(before);
-            final boolean ret = RecordKit.equal(before, after); // NOPMD
+            final boolean ret = Collater.equal(before, after); // NOPMD
             evaluator.evalTrue(message(TST_TF, Boolean.TRUE), ret);
             // 删除刚刚插入的数据
             this.getDao().delete(after);
@@ -156,7 +156,7 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
             this.updateRecord(after);
             final Record updateR = this.getDao().update(after);
             // 循环内equals检查
-            final boolean ret = RecordKit.equal(after, updateR);
+            final boolean ret = Collater.equal(after, updateR);
             evaluator.evalTrue(message(TST_TF, Boolean.TRUE), ret);
             // 检查完将新数据删除掉
             this.getDao().delete(updateR);
@@ -178,7 +178,7 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
             if (MetaPolicy.COLLECTION == policy) {
                 final Record selectR = this.getDao().selectById(after, after.idKV());
                 // 检查最终结果
-                ret = RecordKit.equal(after, selectR);
+                ret = Collater.equal(after, selectR);
                 evaluator.evalTrue(message(TST_TF, Boolean.TRUE), ret);
                 // 检查完毕将新插入的数据删除掉
                 this.getDao().delete(selectR);
@@ -187,7 +187,7 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
                 if (null != uniqueId) { // NOPMD
                     final Record selectR = this.getDao().selectById(after, uniqueId);
                     // 检查最终结果
-                    ret = RecordKit.equal(after, selectR);
+                    ret = Collater.equal(after, selectR);
                     evaluator.evalTrue(message(TST_TF, Boolean.TRUE), ret);
                     // 检查完成，删除插入信息
                     this.getDao().delete(selectR);
