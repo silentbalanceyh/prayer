@@ -65,7 +65,7 @@
     },
     {
         "uri":"/api/sec/role",
-        "method":"POST",
+        "method":"PUT",
         "paramType":"QUERY",
         "requiredParam":[
             "name",
@@ -81,7 +81,7 @@
     },
     {
         "uri":"/api/sec/role",
-        "method":"POST",
+        "method":"PUT",
         "paramType":"QUERY",
         "requiredParam":[
             "name",
@@ -97,7 +97,7 @@
     },
     {
         "uri":"/api/sec/role",
-        "method":"POST",
+        "method":"GET",
         "paramType":"QUERY",
         "requiredParam":[
             "name",

@@ -12,7 +12,7 @@ import com.prayer.facade.business.instantor.deployment.DeployInstantor;
  * @author Lang
  *
  */
-public abstract class AbstractInstantor extends AbstractBusiness{
+public abstract class AbstractInstantor extends AbstractBusiness {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -22,9 +22,10 @@ public abstract class AbstractInstantor extends AbstractBusiness{
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public String getFolder(){
+    public String getFolder() {
         return "business/instantor/";
     }
+
     // ~ Methods =============================================
     /**
      * Direct：Instantor - Bllor

@@ -44,6 +44,7 @@ public final class AndEqer {
      * @param literal
      */
     public AndEqer build(final String column, final String literal) {
+        this.reset();
         this.columns.add(column);
         this.values.add(new StringType(literal));
         return this;
