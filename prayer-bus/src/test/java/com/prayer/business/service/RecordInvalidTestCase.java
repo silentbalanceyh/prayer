@@ -1,6 +1,5 @@
 package com.prayer.business.service;
 
-import static com.prayer.util.debug.Log.info;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -38,9 +37,8 @@ public class RecordInvalidTestCase extends AbstractService {
     // ~ Methods =============================================
     /** **/
     @Test
-    public void testWebRequest1() {
+    public void testActRequest1() {
         final ActRequest request = this.prepareRequest("invalid-request1-identifier.json");
-        info(LOGGER, request.getError().getErrorMessage());
         assertNotNull(request.getError());
         assertEquals(-30012, request.getError().getErrorCode());
         final boolean ret = 0 < request.getError().getErrorMessage().indexOf("name = identifier");
@@ -49,9 +47,8 @@ public class RecordInvalidTestCase extends AbstractService {
 
     /** **/
     @Test
-    public void testWebRequest2() {
+    public void testActRequest2() {
         final ActRequest request = this.prepareRequest("invalid-request2-method.json");
-        info(LOGGER, request.getError().getErrorMessage());
         assertNotNull(request.getError());
         assertEquals(-30012, request.getError().getErrorCode());
         final boolean ret = 0 < request.getError().getErrorMessage().indexOf("name = method");
@@ -60,21 +57,36 @@ public class RecordInvalidTestCase extends AbstractService {
 
     /** **/
     @Test
-    public void testWebRequest3() {
+    public void testActRequest3() {
         final ActRequest request = this.prepareRequest("invalid-request3-method.json");
-        info(LOGGER, request.getError().getErrorMessage());
         assertNotNull(request.getError());
         assertEquals(-30013, request.getError().getErrorCode());
     }
+
     /** **/
     @Test
-    public void testWebRequest4() {
+    public void testActRequest4() {
         final ActRequest request = this.prepareRequest("invalid-request4-data.json");
-        info(LOGGER, request.getError().getErrorMessage());
         assertNotNull(request.getError());
         assertEquals(-30012, request.getError().getErrorCode());
         final boolean ret = 0 < request.getError().getErrorMessage().indexOf("name = data");
         assertTrue(ret);
+    }
+
+    /** **/
+    @Test
+    public void testActRequest5() {
+        final ActRequest request = this.prepareRequest("invalid-request5-query.json");
+        assertNotNull(request.getError());
+        assertEquals(-30013, request.getError().getErrorCode());
+    }
+
+    /** **/
+    @Test
+    public void testActRequest6() {
+        final ActRequest request = this.prepareRequest("invalid-request5-query2.json");
+        assertNotNull(request.getError());
+        assertEquals(-30013, request.getError().getErrorCode());
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

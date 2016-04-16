@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.base.AbstractSDTestCase;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.model.business.behavior.ServiceResult;
 
 import io.vertx.core.json.JsonObject;
 

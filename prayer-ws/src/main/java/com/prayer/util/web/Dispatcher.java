@@ -128,11 +128,11 @@ public final class Dispatcher { // NOPMD
                                         retParam = param;
                                         break;
                                     } else {
-                                        if (!page.containsKey(Constants.PARAM.PAGE.PAGE_INDEX)) { // NOPMD
-                                            retParam = param + "->" + Constants.PARAM.PAGE.PAGE_INDEX;
+                                        if (!page.containsKey(Constants.PARAM.PAGE.INDEX)) { // NOPMD
+                                            retParam = param + "->" + Constants.PARAM.PAGE.INDEX;
                                             break;
-                                        } else if (!page.containsKey(Constants.PARAM.PAGE.PAGE_SIZE)) {
-                                            retParam = param + "->" + Constants.PARAM.PAGE.PAGE_SIZE;
+                                        } else if (!page.containsKey(Constants.PARAM.PAGE.SIZE)) {
+                                            retParam = param + "->" + Constants.PARAM.PAGE.SIZE;
                                             break;
                                         }
                                     }

@@ -1,7 +1,7 @@
 package com.prayer.bus.record;
 
 import com.prayer.base.AbstractSDTestCase;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.model.business.behavior.ServiceResult;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

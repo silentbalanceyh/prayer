@@ -1,9 +1,14 @@
 package com.prayer.model.business.behavior;
 
+import static com.prayer.util.debug.Log.jvmError;
+import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
 import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.business.ensurer.JArrayEnsurer;
 import com.prayer.business.ensurer.JObjectEnsurer;
@@ -32,6 +37,9 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class ActRequest implements Serializable {
     // ~ Static Fields =======================================
+
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(ActRequest.class);
     /**
      * 
      */
@@ -100,8 +108,14 @@ public class ActRequest implements Serializable {
     private void ensureFilters(final JsonObject params) {
         if (success()) {
             try {
-                this.filters = Projection.create(this.arrEnsurer.ensureOptional(params, Constants.PARAM.FILTERS));
+                final JsonObject data = params.getJsonObject(Constants.PARAM.QUERY);
+                JsonArray filterData = this.arrEnsurer.ensureOptional(data, Constants.PARAM.ADMINICLE.FILTERS);
+                if (null == filterData) {
+                    filterData = new JsonArray();
+                }
+                this.filters = Projection.create(filterData);
             } catch (AbstractException ex) {
+                peError(LOGGER, ex);
                 this.error = ex;
             }
         }
@@ -111,10 +125,14 @@ public class ActRequest implements Serializable {
     private void ensureOrderBy(final JsonObject params) {
         if (success()) {
             try {
-                final JsonObject data = params.getJsonObject(Constants.PARAM.DATA);
-                final JsonArray orderData = this.arrEnsurer.ensureOptional(data, Constants.PARAM.ORDERS);
+                final JsonObject data = params.getJsonObject(Constants.PARAM.QUERY);
+                JsonArray orderData = this.arrEnsurer.ensureOptional(data, Constants.PARAM.ADMINICLE.ORDERS);
+                if (null == orderData) {
+                    orderData = new JsonArray();
+                }
                 this.orders = OrderBy.create(orderData);
             } catch (AbstractException ex) {
+                peError(LOGGER, ex);
                 this.error = ex;
             }
         }
@@ -124,9 +142,14 @@ public class ActRequest implements Serializable {
     private void ensurePager(final JsonObject params) {
         if (success()) {
             try {
-                final JsonObject pageJson = this.jsonEnsurer.ensureOptional(params, Constants.PARAM.PAGE.NAME);
+                final JsonObject data = params.getJsonObject(Constants.PARAM.QUERY);
+                JsonObject pageJson = this.jsonEnsurer.ensureOptional(data, Constants.PARAM.ADMINICLE.PAGER);
+                if (null == pageJson) {
+                    pageJson = new JsonObject();
+                }
                 this.pager = Pager.create(pageJson);
             } catch (AbstractException ex) {
+                peError(LOGGER, ex);
                 this.error = ex;
             }
         }
@@ -146,11 +169,14 @@ public class ActRequest implements Serializable {
                 if (null != this.method) {
                     // data必须
                     this.data = this.jsonEnsurer.ensureRequired(params, Constants.PARAM.DATA);
+                    // adminicle必须，可以为null，但是必须属性
+                    this.jsonEnsurer.ensureOptional(params, Constants.PARAM.QUERY);
                 } else {
                     // method必须合法
-                    this.error = new ServiceParamInvalidException(getClass(), "method = " + method);
+                    throw new ServiceParamInvalidException(getClass(), "method = " + method);
                 }
             } catch (AbstractException ex) {
+                peError(LOGGER, ex);
                 this.error = ex;
             }
         }
@@ -170,6 +196,7 @@ public class ActRequest implements Serializable {
                     }
                 }
             } catch (ClassCastException ex) {
+                jvmError(LOGGER, ex);
                 this.error = new ServiceParamInvalidException(getClass(), ex.getMessage());
             }
         }

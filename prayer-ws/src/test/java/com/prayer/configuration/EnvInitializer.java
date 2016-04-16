@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 import com.prayer.business.deployment.impl.DeployBllor;
 import com.prayer.constant.Resources;
 import com.prayer.facade.business.instantor.deployment.DeployInstantor;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.model.business.behavior.ServiceResult;
 
 /**
  * 

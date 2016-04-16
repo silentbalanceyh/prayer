@@ -211,31 +211,43 @@ public interface Constants { // NOPMD
         /** **/
         String ID = "identifier"; // NOPMD
         /** **/
-        String SCRIPT = "script";
-        /** **/
         String DATA = "data";
         /** **/
         String SESSION = "session.id";
         /** **/
         String METHOD = "method";
         /** **/
-        String FILTERS = "filters";
-        /** **/
-        String ORDERS = "orders";
+        String SCRIPT = "script";
+
+        /** 查询根节点 **/
+        String QUERY = "query";
+
+        /** Query用的特殊参数 **/
+        @VertexPoint(Interface.CONSTANT)
+        interface ADMINICLE {
+            /** Projection中的列信息，返回内容从这里读取 **/
+            String FILTERS = "filters";
+            /** Pager分页参数 **/
+            String PAGER = "pager";
+            /** OrderBy参数 **/
+            String ORDERS = "orders";
+        }
 
         /** **/
         @VertexPoint(Interface.CONSTANT)
         interface PAGE { // NOPMD
-            /** Page 参数 **/
-            String NAME = "page";
             /** Index 参数：最小为1即表示第一页 **/
-            String PAGE_INDEX = "index";
+            String INDEX = "index";
             /** Size 参数：每一页的数量 **/
-            String PAGE_SIZE = "size";
+            String SIZE = "size";
+
             /** Return Counter **/
-            String RET_COUNT = "count";
-            /** Return List **/
-            String RET_LIST = "list";
+            interface RET {
+                /** Counter **/
+                String COUNT = "count";
+                /** List **/
+                String LIST = "list";
+            }
         }
     }
 

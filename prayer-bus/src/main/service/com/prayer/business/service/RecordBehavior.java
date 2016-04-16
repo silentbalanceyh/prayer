@@ -146,8 +146,8 @@ public class RecordBehavior implements RecordService {
 
     private JsonObject extractObject(final JsonArray retArr, final Long count) throws AbstractDatabaseException {
         final JsonObject retObj = new JsonObject();
-        retObj.put(Constants.PARAM.PAGE.RET_COUNT, count);
-        retObj.put(Constants.PARAM.PAGE.RET_LIST, retArr);
+        retObj.put(Constants.PARAM.PAGE.RET.COUNT, count);
+        retObj.put(Constants.PARAM.PAGE.RET.LIST, retArr);
         return retObj;
     }
 

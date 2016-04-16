@@ -4,7 +4,7 @@ import org.apache.commons.cli.CommandLine;
 
 import com.prayer.constant.Resources;
 import com.prayer.facade.business.DataService;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.model.business.behavior.ServiceResult;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;

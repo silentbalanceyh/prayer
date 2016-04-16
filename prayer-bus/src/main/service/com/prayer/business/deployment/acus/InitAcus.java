@@ -11,12 +11,11 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.exception.database.DataAccessException;
 import com.prayer.exception.database.OperationNotSupportException;
-import com.prayer.facade.constant.Constants.EXTENSION;
 import com.prayer.facade.business.instantor.deployment.acus.DeployAcus;
+import com.prayer.facade.constant.Constants.EXTENSION;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.fantasm.business.deployment.acus.AbstractEntityAcus;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.model.business.ServiceResult;
 import com.prayer.model.meta.database.PEMeta;
 
 import net.sf.oval.constraint.NotBlank;
@@ -57,16 +56,13 @@ public class InitAcus extends AbstractEntityAcus implements DeployAcus {
             dftFile = Resources.OOB_DATA_FOLDER + "/sql/" + filename + Symbol.DOT + EXTENSION.SQL;
         }
         /** 2.使用Reader **/
-        final ServiceResult<Boolean> ret = new ServiceResult<>();
         info(LOGGER, InfoKey.INF_META_INIT, dftFile);
         /** 3.这里调用的是initialize，所以传入哪个Entity都无所谓，所以传入最不容易变化的Meta **/
         final boolean exeRet = this.accessor(PEMeta.class).initialize(dftFile);
-        if (exeRet) {
-            ret.success(exeRet);
-        } else {
-            ret.failure(new DataAccessException(getClass(), "Metadata Initialize : Sql = " + dftFile));
+        if (!exeRet) {
+            throw new DataAccessException(getClass(), "Metadata Initialize : Sql = " + dftFile);
         }
-        return ret.getResult();
+        return exeRet;
     }
 
     /**

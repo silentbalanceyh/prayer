@@ -69,8 +69,8 @@ public class Pager implements Serializable {
     }
 
     private Pager(final JsonObject pageJson) throws AbstractException {
-        this.pageIndex = this.ensurer.ensureRequired(pageJson, Constants.PARAM.PAGE.PAGE_INDEX);
-        this.pageSize = this.ensurer.ensureRequired(pageJson, Constants.PARAM.PAGE.PAGE_SIZE);
+        this.pageIndex = this.ensurer.ensureRequired(pageJson, Constants.PARAM.PAGE.INDEX);
+        this.pageSize = this.ensurer.ensureRequired(pageJson, Constants.PARAM.PAGE.SIZE);
     }
 
     // ~ Abstract Methods ====================================

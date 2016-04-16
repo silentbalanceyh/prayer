@@ -89,7 +89,7 @@ public final class ObjectTransferer implements Transferer {
      */
     @Override
     public void filter(@NotNull final JsonObject outJson, @NotNull final JsonObject filters) {
-        final JsonArray filterArrs = filters.getJsonArray(Constants.PARAM.FILTERS);
+        final JsonArray filterArrs = filters.getJsonArray(Constants.PARAM.ADMINICLE.FILTERS);
         final Iterator<Object> filterIt = filterArrs.iterator();
         while (filterIt.hasNext()) {
             final Object item = filterIt.next();

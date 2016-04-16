@@ -1,4 +1,4 @@
-package com.prayer.model.business;
+package com.prayer.model.business.behavior;
 
 import java.io.Serializable;
 
@@ -7,11 +7,11 @@ import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractException;
 
 /**
- * 
+ * 将ServiceResult变成default的域，仅在特殊的子类中使用
  * @author Lang
  *
  */
-public class ServiceResult<T> implements Serializable { // NOPMD
+class ServiceResult<T> implements Serializable { // NOPMD
     // ~ Static Fields =======================================
     /**
      * 

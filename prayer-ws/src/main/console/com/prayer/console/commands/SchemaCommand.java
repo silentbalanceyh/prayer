@@ -11,7 +11,7 @@ import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.business.instantor.schema.SchemaInstantor;
 import com.prayer.facade.schema.Schema;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.model.business.behavior.ServiceResult;
 import com.prayer.util.io.IOKit;
 
 import io.vertx.core.json.JsonObject;

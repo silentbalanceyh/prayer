@@ -12,7 +12,7 @@ import com.prayer.constant.log.DebugKey;
 import com.prayer.exception.web.MethodNotAllowedException;
 import com.prayer.facade.business.BasicAuthService;
 import com.prayer.facade.constant.Constants;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.model.business.behavior.ServiceResult;
 import com.prayer.model.web.Responsor;
 import com.prayer.model.web.StatusCode;
 import com.prayer.util.web.Extractor;

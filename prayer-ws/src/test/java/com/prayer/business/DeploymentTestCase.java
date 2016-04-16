@@ -13,7 +13,7 @@ import com.prayer.constant.Resources;
 import com.prayer.exception.system.RecurrenceReferenceException;
 import com.prayer.facade.business.instantor.deployment.DeployInstantor;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.model.business.ServiceResult;
+import com.prayer.model.business.behavior.ServiceResult;
 
 /**
  * 
