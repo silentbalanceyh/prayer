@@ -1,4 +1,4 @@
-package com.prayer.model.web;
+package com.prayer.model.business.behavior;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -30,7 +30,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class WebRequest implements Serializable {
+public class ActRequest implements Serializable {
     // ~ Static Fields =======================================
     /**
      * 
@@ -68,7 +68,7 @@ public class WebRequest implements Serializable {
      * 
      * @param params
      */
-    public WebRequest(@NotNull final JsonObject params) {
+    public ActRequest(@NotNull final JsonObject params) {
         /** 1.参数准备阶段 **/
         this.prepareIdentifier(params);
         /** 2.执行Required验证 **/

@@ -1,7 +1,8 @@
-package com.prayer.model.web;
+package com.prayer.model.business.behavior;
 
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.ServiceResult;
+import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
@@ -11,7 +12,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public class WebResponse extends ServiceResult<JsonObject> {
+public class ActResponse extends ServiceResult<JsonObject> {
     // ~ Static Fields =======================================
     /**
      * 
@@ -31,7 +32,7 @@ public class WebResponse extends ServiceResult<JsonObject> {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public WebResponse() {
+    public ActResponse() {
         super();
         this.code = StatusCode.OK;
         this.method = HttpMethod.GET;
@@ -41,7 +42,7 @@ public class WebResponse extends ServiceResult<JsonObject> {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public WebResponse success(final JsonObject result) {
+    public ActResponse success(final JsonObject result) {
         super.success(result);
         this.code = StatusCode.OK;
         return this;
@@ -49,13 +50,13 @@ public class WebResponse extends ServiceResult<JsonObject> {
 
     /** **/
     @Override
-    public WebResponse failure(final AbstractException failure) {
+    public ActResponse failure(final AbstractException failure) {
         return this.failure(failure, this.code);
     }
 
     // ~ Methods =============================================
     /** **/
-    public WebResponse failure(final AbstractException failure, final StatusCode code) {
+    public ActResponse failure(final AbstractException failure, final StatusCode code) {
         super.failure(failure);
         this.code = code;
         return this;

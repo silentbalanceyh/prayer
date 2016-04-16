@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.business.AbstractService;
-import com.prayer.model.web.WebRequest;
+import com.prayer.model.business.behavior.ActRequest;
 
 /**
  * 
@@ -39,7 +39,7 @@ public class RecordInvalidTestCase extends AbstractService {
     /** **/
     @Test
     public void testWebRequest1() {
-        final WebRequest request = this.prepareRequest("invalid-request1-identifier.json");
+        final ActRequest request = this.prepareRequest("invalid-request1-identifier.json");
         info(LOGGER, request.getError().getErrorMessage());
         assertNotNull(request.getError());
         assertEquals(-30012, request.getError().getErrorCode());
@@ -50,7 +50,7 @@ public class RecordInvalidTestCase extends AbstractService {
     /** **/
     @Test
     public void testWebRequest2() {
-        final WebRequest request = this.prepareRequest("invalid-request2-method.json");
+        final ActRequest request = this.prepareRequest("invalid-request2-method.json");
         info(LOGGER, request.getError().getErrorMessage());
         assertNotNull(request.getError());
         assertEquals(-30012, request.getError().getErrorCode());
@@ -61,7 +61,7 @@ public class RecordInvalidTestCase extends AbstractService {
     /** **/
     @Test
     public void testWebRequest3() {
-        final WebRequest request = this.prepareRequest("invalid-request3-method.json");
+        final ActRequest request = this.prepareRequest("invalid-request3-method.json");
         info(LOGGER, request.getError().getErrorMessage());
         assertNotNull(request.getError());
         assertEquals(-30013, request.getError().getErrorCode());
@@ -69,7 +69,7 @@ public class RecordInvalidTestCase extends AbstractService {
     /** **/
     @Test
     public void testWebRequest4() {
-        final WebRequest request = this.prepareRequest("invalid-request4-data.json");
+        final ActRequest request = this.prepareRequest("invalid-request4-data.json");
         info(LOGGER, request.getError().getErrorMessage());
         assertNotNull(request.getError());
         assertEquals(-30012, request.getError().getErrorCode());

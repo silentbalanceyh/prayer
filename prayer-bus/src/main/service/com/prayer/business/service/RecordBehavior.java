@@ -22,8 +22,8 @@ import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.InquiryMarchal;
-import com.prayer.model.web.WebRequest;
-import com.prayer.model.web.WebResponse;
+import com.prayer.model.business.behavior.ActRequest;
+import com.prayer.model.business.behavior.ActResponse;
 import com.prayer.util.business.Commutator;
 import com.prayer.util.debug.Log;
 
@@ -99,7 +99,7 @@ public class RecordBehavior implements RecordService {
      * @return
      */
     @Override
-    public WebResponse find(@NotNull final WebRequest request) {
+    public ActResponse find(@NotNull final ActRequest request) {
         return this.execute(this::findAct, request);
     }
 
@@ -109,7 +109,7 @@ public class RecordBehavior implements RecordService {
      * @return
      */
     @Override
-    public WebResponse page(@NotNull final WebRequest request) {
+    public ActResponse page(@NotNull final ActRequest request) {
         return this.execute(this::pageAct, request);
     }
 
@@ -117,7 +117,7 @@ public class RecordBehavior implements RecordService {
      * Save方法：Update/Insert
      */
     @Override
-    public WebResponse save(@NotNull final WebRequest request) {
+    public ActResponse save(@NotNull final ActRequest request) {
         return this.execute(this::saveAct, request);
     }
 
@@ -125,7 +125,7 @@ public class RecordBehavior implements RecordService {
      * Delete专用
      */
     @Override
-    public WebResponse remove(@NotNull final WebRequest request) {
+    public ActResponse remove(@NotNull final ActRequest request) {
         return this.execute(this::removeAct, request);
     }
 
@@ -152,7 +152,7 @@ public class RecordBehavior implements RecordService {
     }
 
     /** **/
-    private WebResponse pageAct(final WebRequest request) throws ScriptException, AbstractException {
+    private ActResponse pageAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
         final Record record = instance(this.entityCls, request.getIdentifier());
         /** 2.将Java和脚本引擎连接 **/
@@ -161,13 +161,13 @@ public class RecordBehavior implements RecordService {
         final ConcurrentMap<Long, List<Record>> retMap = this.rdPerformer.performPage(record, marchal);
         /** 4.生成响应结果 **/
         final Map.Entry<Long, List<Record>> entry = retMap.entrySet().iterator().next();
-        final WebResponse response = new WebResponse();
+        final ActResponse response = new ActResponse();
         response.success(extractObject(extractList(entry.getValue()), entry.getKey()));
         return response;
     }
 
     /** **/
-    private WebResponse findAct(final WebRequest request) throws ScriptException, AbstractException {
+    private ActResponse findAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
         final Record record = instance(this.entityCls, request.getIdentifier());
         /** 2.将Java和脚本引擎连接 **/
@@ -175,27 +175,27 @@ public class RecordBehavior implements RecordService {
         /** 3.执行查询 **/
         final List<Record> retList = this.rdPerformer.performFind(record, marchal);
         /** 4.执行结果 **/
-        final WebResponse response = new WebResponse();
+        final ActResponse response = new ActResponse();
         response.success(extractObject(extractList(retList)));
         return response;
 
     }
 
     /** Remove执行方法 **/
-    private WebResponse removeAct(final WebRequest request) throws ScriptException, AbstractException {
+    private ActResponse removeAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
         final Record record = instance(this.entityCls, request.getIdentifier());
         /** 2.将Java和脚本引擎连接 **/
         JSEngine.initJSEnv(request, record);
         /** 3.删除当前记录 **/
         final boolean deleted = this.wrPerformer.performDelete(record);
-        final WebResponse response = new WebResponse();
+        final ActResponse response = new ActResponse();
         response.success(new JsonObject().put("DELETED", deleted));
         return response;
     }
 
     /** Save执行方法 **/
-    private WebResponse saveAct(final WebRequest request) throws ScriptException, AbstractException {
+    private ActResponse saveAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
         final Record record = instance(this.entityCls, request.getIdentifier());
         /** 2.将Java和脚本引擎连接 **/
@@ -208,16 +208,16 @@ public class RecordBehavior implements RecordService {
             inserted = this.wrPerformer.performInsert(record, request.getProjection().getFilters());
         }
         // 返回正确响应结果
-        final WebResponse response = new WebResponse();
+        final ActResponse response = new ActResponse();
         response.success(this.commutator.extract(inserted));
         return response;
     }
 
     /** Controller Method **/
-    private WebResponse execute(final Behavior behavior, final WebRequest request) {
-        final WebResponse response = new WebResponse();
+    private ActResponse execute(final Behavior behavior, final ActRequest request) {
+        final ActResponse response = new ActResponse();
         try {
-            final WebResponse ret = behavior.dispatch(request);
+            final ActResponse ret = behavior.dispatch(request);
             response.success(ret.getResult());
         } catch (ScriptException ex) {
             Log.jvmError(LOGGER, ex);

@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.business.service.RecordBehavior;
 import com.prayer.facade.business.service.RecordService;
-import com.prayer.model.web.WebRequest;
+import com.prayer.model.business.behavior.ActRequest;
 import com.prayer.util.io.IOKit;
 
 import io.vertx.core.json.DecodeException;
@@ -46,12 +46,12 @@ public abstract class AbstractService extends AbstractBusiness {
      * @param file
      * @return
      */
-    protected WebRequest prepareRequest(final String file) {
+    protected ActRequest prepareRequest(final String file) {
         final String content = IOKit.getContent(path(file));
-        WebRequest request = null;
+        ActRequest request = null;
         try{
             final JsonObject item = new JsonObject(content);
-            request = new WebRequest(item);
+            request = new ActRequest(item);
         }catch(DecodeException ex){
             jvmError(getLogger(),ex);
         }

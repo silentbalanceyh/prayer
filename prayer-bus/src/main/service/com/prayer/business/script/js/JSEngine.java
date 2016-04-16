@@ -14,7 +14,7 @@ import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.model.record.Record;
 import com.prayer.model.business.InquiryMarchal;
-import com.prayer.model.web.WebRequest;
+import com.prayer.model.business.behavior.ActRequest;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;
@@ -61,7 +61,7 @@ public final class JSEngine {
      * @throws ScriptException
      */
     @NotNull
-    public static InquiryMarchal initJSEnv(@NotNull final WebRequest request,
+    public static InquiryMarchal initJSEnv(@NotNull final ActRequest request,
             @NotNull @InstanceOf(Record.class) final Record record) throws ScriptException {
         final JSEngine engine = new JSEngine(request.getData());
         final JSEnvExtractor extractor = singleton(JSEnvExtractor.class);

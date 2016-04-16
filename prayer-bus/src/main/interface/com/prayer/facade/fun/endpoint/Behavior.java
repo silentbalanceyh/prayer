@@ -3,8 +3,8 @@ package com.prayer.facade.fun.endpoint;
 import javax.script.ScriptException;
 
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.model.web.WebRequest;
-import com.prayer.model.web.WebResponse;
+import com.prayer.model.business.behavior.ActRequest;
+import com.prayer.model.business.behavior.ActResponse;
 
 /**
  * 
@@ -14,5 +14,5 @@ import com.prayer.model.web.WebResponse;
 @FunctionalInterface
 public interface Behavior {
     /** **/
-    WebResponse dispatch(WebRequest request) throws ScriptException, AbstractException;
+    ActResponse dispatch(ActRequest request) throws ScriptException, AbstractException;
 }

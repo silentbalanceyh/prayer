@@ -11,8 +11,8 @@ import com.prayer.exception.web.JSScriptEngineException;
 import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.fun.endpoint.Behavior;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.model.web.WebRequest;
-import com.prayer.model.web.WebResponse;
+import com.prayer.model.business.behavior.ActRequest;
+import com.prayer.model.business.behavior.ActResponse;
 import com.prayer.util.debug.Log;
 
 import io.vertx.core.json.JsonObject;
@@ -81,9 +81,9 @@ public abstract class AbstractMessager {
     // ~ Private Methods =====================================
     /** 私有函数调用 **/
     private JsonObject execute(final JsonObject requestData, final Behavior behavior) {
-        WebResponse response = new WebResponse();
+        ActResponse response = new ActResponse();
         try {
-            WebRequest request = new WebRequest(requestData);
+            ActRequest request = new ActRequest(requestData);
             if (null == request.getError()) {
                 /** 请求合法 **/
                 response = behavior.dispatch(request);
