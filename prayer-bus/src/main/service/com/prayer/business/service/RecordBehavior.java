@@ -1,5 +1,6 @@
 package com.prayer.business.service;
 
+import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.reflection.Instance.instance;
 import static com.prayer.util.reflection.Instance.reservoir;
 import static com.prayer.util.reflection.Instance.singleton;
@@ -155,6 +156,7 @@ public class RecordBehavior implements RecordService {
     private ActResponse pageAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
         final Record record = instance(this.entityCls, request.getIdentifier());
+        info(LOGGER, "[ACT] " + record.toString());
         /** 2.将Java和脚本引擎连接 **/
         final InquiryMarchal marchal = JSEngine.initJSEnv(request, record);
         /** 3.执行查询 **/
@@ -170,6 +172,7 @@ public class RecordBehavior implements RecordService {
     private ActResponse findAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
         final Record record = instance(this.entityCls, request.getIdentifier());
+        info(LOGGER, "[ACT] " + record.toString());
         /** 2.将Java和脚本引擎连接 **/
         final InquiryMarchal marchal = JSEngine.initJSEnv(request, record);
         /** 3.执行查询 **/
@@ -185,6 +188,7 @@ public class RecordBehavior implements RecordService {
     private ActResponse removeAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
         final Record record = instance(this.entityCls, request.getIdentifier());
+        info(LOGGER, "[ACT] " + record.toString());
         /** 2.将Java和脚本引擎连接 **/
         JSEngine.initJSEnv(request, record);
         /** 3.删除当前记录 **/
@@ -198,11 +202,12 @@ public class RecordBehavior implements RecordService {
     private ActResponse saveAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
         final Record record = instance(this.entityCls, request.getIdentifier());
+        info(LOGGER, "[ACT] " + record.toString());
         /** 2.将Java和脚本引擎连接 **/
         JSEngine.initJSEnv(request, record);
         /** 3.将record执行插入操作 **/
         Record inserted = null;
-        if (Brancher.isUpdate(record)) {
+        if (Brancher.isUpdate(record, request)) {
             inserted = this.wrPerformer.performUpdate(record, request.getProjection().getFilters());
         } else {
             inserted = this.wrPerformer.performInsert(record, request.getProjection().getFilters());

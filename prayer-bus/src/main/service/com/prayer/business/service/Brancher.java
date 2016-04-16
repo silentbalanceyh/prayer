@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.model.business.behavior.ActRequest;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -35,13 +37,14 @@ final class Brancher {
      * @param record
      * @return
      */
-    public static boolean isUpdate(@NotNull @InstanceOf(Record.class) final Record record) {
+    public static boolean isUpdate(@NotNull @InstanceOf(Record.class) final Record record,
+            @NotNull final ActRequest request) {
         boolean isUpdate = true;
         try {
             final ConcurrentMap<String, Value<?>> idKV = record.idKV();
+            final JsonObject data = request.getData();
             for (final String id : idKV.keySet()) {
-                final Value<?> value = idKV.get(id);
-                if (null == value.getValue()) {
+                if (!data.containsKey(id)) {
                     isUpdate = false;
                     break;
                 }
