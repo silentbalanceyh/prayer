@@ -107,16 +107,23 @@ public class ActRequest implements Serializable {
     /** 2.3.执行可选参数Filters **/
     private void ensureFilters(final JsonObject params) {
         if (success()) {
+            /** Filters数据 **/
             try {
                 final JsonObject data = params.getJsonObject(Constants.PARAM.QUERY);
-                JsonArray filterData = this.arrEnsurer.ensureOptional(data, Constants.PARAM.ADMINICLE.FILTERS);
-                if (null == filterData) {
-                    filterData = new JsonArray();
+                JsonArray filterData = new JsonArray();
+                /** 1.是否包含query节点 **/
+                if (null != data) {
+                    filterData = this.arrEnsurer.ensureOptional(data, Constants.PARAM.ADMINICLE.FILTERS);
+                    /** 2.是否可读取filters **/
+                    if (null == filterData) {
+                        filterData = new JsonArray();
+                    }
                 }
                 this.filters = Projection.create(filterData);
             } catch (AbstractException ex) {
                 peError(LOGGER, ex);
                 this.error = ex;
+                this.filters = Projection.create(new JsonArray());
             }
         }
     }
@@ -126,14 +133,20 @@ public class ActRequest implements Serializable {
         if (success()) {
             try {
                 final JsonObject data = params.getJsonObject(Constants.PARAM.QUERY);
-                JsonArray orderData = this.arrEnsurer.ensureOptional(data, Constants.PARAM.ADMINICLE.ORDERS);
-                if (null == orderData) {
-                    orderData = new JsonArray();
+                JsonArray orderData = new JsonArray();
+                /** 1.是否可包含query节点 **/
+                if (null != data) {
+                    orderData = this.arrEnsurer.ensureOptional(data, Constants.PARAM.ADMINICLE.ORDERS);
+                    /** 2.是否可读取orders **/
+                    if (null == orderData) {
+                        orderData = new JsonArray();
+                    }
                 }
                 this.orders = OrderBy.create(orderData);
             } catch (AbstractException ex) {
                 peError(LOGGER, ex);
                 this.error = ex;
+                this.orders = OrderBy.create(new JsonArray());
             }
         }
     }
@@ -143,14 +156,20 @@ public class ActRequest implements Serializable {
         if (success()) {
             try {
                 final JsonObject data = params.getJsonObject(Constants.PARAM.QUERY);
-                JsonObject pageJson = this.jsonEnsurer.ensureOptional(data, Constants.PARAM.ADMINICLE.PAGER);
-                if (null == pageJson) {
-                    pageJson = new JsonObject();
+                JsonObject pageJson = new JsonObject();
+                /** 1.是否可包含query节点 **/
+                if (null != data) {
+                    pageJson = this.jsonEnsurer.ensureOptional(data, Constants.PARAM.ADMINICLE.PAGER);
+                    /** 2.是否可读取pager **/
+                    if (null == pageJson) {
+                        pageJson = new JsonObject();
+                    }
                 }
                 this.pager = Pager.create(pageJson);
             } catch (AbstractException ex) {
                 peError(LOGGER, ex);
                 this.error = ex;
+                this.pager = Pager.create(new JsonObject());
             }
         }
     }

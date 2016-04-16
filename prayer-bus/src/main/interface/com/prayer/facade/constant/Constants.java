@@ -231,22 +231,22 @@ public interface Constants { // NOPMD
             String PAGER = "pager";
             /** OrderBy参数 **/
             String ORDERS = "orders";
-        }
+            
+            /** **/
+            @VertexPoint(Interface.CONSTANT)
+            interface PAGE { // NOPMD
+                /** Index 参数：最小为1即表示第一页 **/
+                String INDEX = "index";
+                /** Size 参数：每一页的数量 **/
+                String SIZE = "size";
 
-        /** **/
-        @VertexPoint(Interface.CONSTANT)
-        interface PAGE { // NOPMD
-            /** Index 参数：最小为1即表示第一页 **/
-            String INDEX = "index";
-            /** Size 参数：每一页的数量 **/
-            String SIZE = "size";
-
-            /** Return Counter **/
-            interface RET {
-                /** Counter **/
-                String COUNT = "count";
-                /** List **/
-                String LIST = "list";
+                /** Return Counter **/
+                interface RET {
+                    /** Counter **/
+                    String COUNT = "count";
+                    /** List **/
+                    String LIST = "list";
+                }
             }
         }
     }

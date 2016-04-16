@@ -57,6 +57,7 @@ public class RecordBehavior implements RecordService {
     /**
      * Read
      */
+    @NotNull
     private transient final RdPerformer rdPerformer;
     /**
      * 转换数据用的类
@@ -86,7 +87,6 @@ public class RecordBehavior implements RecordService {
          */
         this.wrPerformer = reservoir(entityCls.getName(), WrPerformer.class, entityCls);
         this.rdPerformer = reservoir(entityCls.getName(), RdPerformer.class, entityCls);
-
     }
 
     // ~ Abstract Methods ====================================
@@ -146,8 +146,8 @@ public class RecordBehavior implements RecordService {
 
     private JsonObject extractObject(final JsonArray retArr, final Long count) throws AbstractDatabaseException {
         final JsonObject retObj = new JsonObject();
-        retObj.put(Constants.PARAM.PAGE.RET.COUNT, count);
-        retObj.put(Constants.PARAM.PAGE.RET.LIST, retArr);
+        retObj.put(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT, count);
+        retObj.put(Constants.PARAM.ADMINICLE.PAGE.RET.LIST, retArr);
         return retObj;
     }
 

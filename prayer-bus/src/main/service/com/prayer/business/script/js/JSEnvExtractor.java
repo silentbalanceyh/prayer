@@ -11,11 +11,10 @@ import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PEScript;
+import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
@@ -57,8 +56,6 @@ public final class JSEnvExtractor {
      * @return
      */
     @NotNull
-    @NotBlank
-    @NotEmpty
     public String extractJSContent(@NotNull final JsonObject parameters) {
         final String scriptName = parameters.getString(Constants.PARAM.SCRIPT);
         return this.getJsByName(scriptName);
@@ -68,9 +65,6 @@ public final class JSEnvExtractor {
      * 
      * @return
      */
-    @NotNull
-    @NotBlank
-    @NotEmpty
     public String extractJSEnv() {
         return this.getJsByName(JS_GLOBAL_ID);
     }
@@ -79,9 +73,6 @@ public final class JSEnvExtractor {
      * 
      * @return
      */
-    @NotNull
-    @NotBlank
-    @NotEmpty
     public String extractJSMetaEnv() {
         return this.getJsByName(JS_META_ID);
     }
@@ -91,8 +82,10 @@ public final class JSEnvExtractor {
     private String getJsByName(final String scriptName) {
         String content = Constants.EMPTY_STR;
         try {
-            final PEScript script = this.configSev.script(scriptName);
-            content = null == script ? Constants.EMPTY_STR : script.getContent();
+            if (StringKit.isNonNil(scriptName)) {
+                final PEScript script = this.configSev.script(scriptName);
+                content = null == script ? Constants.EMPTY_STR : script.getContent();
+            }
         } catch (AbstractException ex) {
             peError(LOGGER, ex);
         }

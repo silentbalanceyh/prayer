@@ -99,7 +99,9 @@ public final class Instance { // NOPMD
         T ret = cache.get(key);
         if (null == ret) {
             ret = instance(clazz, params);
-            cache.put(key, ret);
+            if (null != ret) {
+                cache.put(key, ret);
+            }
         }
         return ret;
     }
