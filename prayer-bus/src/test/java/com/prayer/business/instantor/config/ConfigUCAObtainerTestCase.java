@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.AbstractConfigInstantor;
+import com.prayer.business.AbstractInstantor;
 import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.entity.Entity;
@@ -22,7 +22,7 @@ import com.prayer.model.meta.vertx.PEUri;
  * @author Lang
  *
  */
-public class ConfigUCAObtainerTestCase extends AbstractConfigInstantor {
+public class ConfigUCAObtainerTestCase extends AbstractInstantor {
     // ~ Static Fields =======================================
 
     /** **/

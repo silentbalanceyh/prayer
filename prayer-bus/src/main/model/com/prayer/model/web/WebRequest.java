@@ -3,6 +3,7 @@ package com.prayer.model.web;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import com.prayer.business.ensurer.JArrayEnsurer;
 import com.prayer.business.ensurer.JObjectEnsurer;
@@ -138,12 +139,17 @@ public class WebRequest implements Serializable {
                 // identifier必须
                 this.identifier = this.strEnsurer.ensureRequired(params, Constants.PARAM.ID);
                 // TODO：script参数暂定义为可选
-                this.script = this.strEnsurer.ensureRequired(params, Constants.PARAM.SCRIPT);
+                this.script = this.strEnsurer.ensureOptional(params, Constants.PARAM.SCRIPT);
                 // method必须
                 final String method = this.strEnsurer.ensureRequired(params, Constants.PARAM.METHOD);
-                this.method = Converter.fromStr(HttpMethod.class, method);
-                // data必须
-                this.data = this.jsonEnsurer.ensureRequired(params, Constants.PARAM.DATA);
+                this.method = Converter.fromStr(HttpMethod.class, method.toUpperCase(Locale.getDefault()));
+                if (null != this.method) {
+                    // data必须
+                    this.data = this.jsonEnsurer.ensureRequired(params, Constants.PARAM.DATA);
+                } else {
+                    // method必须合法
+                    this.error = new ServiceParamInvalidException(getClass(), "method = " + method);
+                }
             } catch (AbstractException ex) {
                 this.error = ex;
             }

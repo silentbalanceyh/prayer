@@ -1,16 +1,22 @@
 package com.prayer.business;
 
+import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.business.service.RecordBehavior;
 import com.prayer.facade.business.service.RecordService;
+import com.prayer.model.web.WebRequest;
+import com.prayer.util.io.IOKit;
+
+import io.vertx.core.json.DecodeException;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 
  * @author Lang
  *
  */
-public abstract class AbstractService extends AbstractBusiness{
+public abstract class AbstractService extends AbstractBusiness {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -20,17 +26,36 @@ public abstract class AbstractService extends AbstractBusiness{
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public String getFolder(){
+    public String getFolder() {
         return "business/service/";
     }
+
     // ~ Methods =============================================
     /**
      * Service: Service - Behavior
      * 
      * @return
      */
-    public RecordService getRecordSrv() {
+    protected RecordService getRecordSrv() {
         return singleton(RecordBehavior.class);
+    }
+
+    /**
+     * 生成WebRequest
+     * 
+     * @param file
+     * @return
+     */
+    protected WebRequest prepareRequest(final String file) {
+        final String content = IOKit.getContent(path(file));
+        WebRequest request = null;
+        try{
+            final JsonObject item = new JsonObject(content);
+            request = new WebRequest(item);
+        }catch(DecodeException ex){
+            jvmError(getLogger(),ex);
+        }
+        return request;
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

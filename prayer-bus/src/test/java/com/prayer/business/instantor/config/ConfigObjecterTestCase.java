@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.AbstractConfigInstantor;
+import com.prayer.business.AbstractInstantor;
 import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.facade.model.entity.Entity;
 import com.prayer.fantasm.exception.AbstractException;
@@ -22,7 +22,7 @@ import com.prayer.model.meta.vertx.PEScript;
  * @author Lang
  *
  */
-public class ConfigObjecterTestCase extends AbstractConfigInstantor {
+public class ConfigObjecterTestCase extends AbstractInstantor {
     // ~ Static Fields =======================================
 
     /** **/
