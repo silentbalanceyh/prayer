@@ -86,7 +86,7 @@ class ServiceResult<T> implements Serializable { // NOPMD
      * 
      * @return
      */
-    public AbstractException getServiceError() {
+    public AbstractException getError() {
         return this.error;
     }
 

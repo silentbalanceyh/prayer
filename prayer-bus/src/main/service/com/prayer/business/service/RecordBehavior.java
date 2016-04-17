@@ -1,7 +1,6 @@
 package com.prayer.business.service;
 
 import static com.prayer.util.debug.Log.info;
-import static com.prayer.util.reflection.Instance.instance;
 import static com.prayer.util.reflection.Instance.reservoir;
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -15,17 +14,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.business.script.js.JSEngine;
+import com.prayer.dao.ObjectTransferer;
 import com.prayer.exception.web.JSScriptEngineException;
 import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.fun.endpoint.Behavior;
 import com.prayer.facade.model.record.Record;
+import com.prayer.facade.util.Transferer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.InquiryMarchal;
 import com.prayer.model.business.behavior.ActRequest;
 import com.prayer.model.business.behavior.ActResponse;
-import com.prayer.util.business.Commutator;
 import com.prayer.util.debug.Log;
 
 import io.vertx.core.json.JsonArray;
@@ -61,10 +61,10 @@ public class RecordBehavior implements RecordService {
     @NotNull
     private transient final RdPerformer rdPerformer;
     /**
-     * 转换数据用的类
+     * 
      */
     @NotNull
-    private transient final Commutator commutator;
+    private transient final Transferer transferer;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -82,7 +82,7 @@ public class RecordBehavior implements RecordService {
         /**
          * 当前转换器
          */
-        this.commutator = singleton(Commutator.class);
+        this.transferer = singleton(ObjectTransferer.class);
         /**
          * 将当前的Performer实例化
          */
@@ -135,7 +135,7 @@ public class RecordBehavior implements RecordService {
     private JsonArray extractList(final List<Record> retList) throws AbstractDatabaseException {
         final JsonArray retArr = new JsonArray();
         for (final Record retR : retList) {
-            final JsonObject data = this.commutator.extract(retR);
+            final JsonObject data = this.transferer.fromRecord(retR);
             retArr.add(data);
         }
         return retArr;
@@ -155,7 +155,7 @@ public class RecordBehavior implements RecordService {
     /** **/
     private ActResponse pageAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
-        final Record record = instance(this.entityCls, request.getIdentifier());
+        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
         info(LOGGER, "[ACT] " + record.toString());
         /** 2.将Java和脚本引擎连接 **/
         final InquiryMarchal marchal = JSEngine.initJSEnv(request, record);
@@ -171,7 +171,7 @@ public class RecordBehavior implements RecordService {
     /** **/
     private ActResponse findAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
-        final Record record = instance(this.entityCls, request.getIdentifier());
+        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
         info(LOGGER, "[ACT] " + record.toString());
         /** 2.将Java和脚本引擎连接 **/
         final InquiryMarchal marchal = JSEngine.initJSEnv(request, record);
@@ -187,7 +187,7 @@ public class RecordBehavior implements RecordService {
     /** Remove执行方法 **/
     private ActResponse removeAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
-        final Record record = instance(this.entityCls, request.getIdentifier());
+        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
         info(LOGGER, "[ACT] " + record.toString());
         /** 2.将Java和脚本引擎连接 **/
         JSEngine.initJSEnv(request, record);
@@ -201,7 +201,7 @@ public class RecordBehavior implements RecordService {
     /** Save执行方法 **/
     private ActResponse saveAct(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record对象 **/
-        final Record record = instance(this.entityCls, request.getIdentifier());
+        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
         info(LOGGER, "[ACT] " + record.toString());
         /** 2.将Java和脚本引擎连接 **/
         JSEngine.initJSEnv(request, record);
@@ -214,7 +214,7 @@ public class RecordBehavior implements RecordService {
         }
         // 返回正确响应结果
         final ActResponse response = new ActResponse();
-        response.success(this.commutator.extract(inserted));
+        response.success(this.transferer.fromRecord(inserted));
         return response;
     }
 

@@ -10,9 +10,13 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.apache.ibatis.exceptions.PersistenceException;
+
 import com.prayer.constant.Accessors;
 import com.prayer.constant.Resources;
+import com.prayer.exception.database.DataAccessException;
 import com.prayer.facade.constant.Constants;
+import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.database.accessor.MetaAccessor;
 import com.prayer.facade.database.mapper.IBatisMapper;
 import com.prayer.facade.database.pool.JdbcConnection;
@@ -93,9 +97,15 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
                     // 4.1.1 -> ID: By Reference
                     if (null == entity.id()) {
                         entity.id(uuid());
+
                     }
                     // 4.1.2 -> 插入
-                    mapper.insert(entity);
+                    /** 转换成DataAccessException **/
+                    try {
+                        mapper.insert(entity);
+                    } catch (PersistenceException ex) {
+                        throw getError(ex);
+                    }
                     retList.add(entity);
                 }
             } else {
@@ -109,7 +119,12 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
                 }
                 // 4.2.2 -> 批量插入
                 final List<Entity> params = Arrays.asList(entities);
-                mapper.batchInsert(params);
+                /** 转换成DataAccessException **/
+                try {
+                    mapper.batchInsert(params);
+                } catch (PersistenceException ex) {
+                    throw getError(ex);
+                }
                 retList.addAll(params);
             }
         }
@@ -128,7 +143,12 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     @Override
     public Entity update(final Entity entity) throws AbstractTransactionException {
         final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
-        mapper.update(entity);
+        /** 转换DataAccessException **/
+        try {
+            mapper.update(entity);
+        } catch (PersistenceException ex) {
+            throw getError(ex);
+        }
         this.helper.endTransaction();
         return entity;
     }
@@ -139,7 +159,12 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     @Override
     public boolean deleteById(final Serializable uniqueId) throws AbstractTransactionException {
         final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
-        mapper.deleteById(uniqueId);
+        /** 转换DataAccessException **/
+        try {
+            mapper.deleteById(uniqueId);
+        } catch (PersistenceException ex) {
+            throw getError(ex);
+        }
         this.helper.endTransaction();
         return true;
     }
@@ -150,7 +175,12 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     @Override
     public boolean deleteById(final Serializable... uniqueId) throws AbstractTransactionException {
         final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
-        mapper.batchDelete(Arrays.asList(uniqueId));
+        /** 转换DataAccessException **/
+        try {
+            mapper.batchDelete(Arrays.asList(uniqueId));
+        } catch (PersistenceException ex) {
+            throw getError(ex);
+        }
         this.helper.endTransaction();
         return true;
     }
@@ -206,7 +236,12 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     @Override
     public boolean deleteList(final String whereClause) throws AbstractTransactionException {
         final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
-        mapper.deleteList(whereClause);
+        /** 转换成DataAccessException **/
+        try {
+            mapper.deleteList(whereClause);
+        } catch (PersistenceException ex) {
+            throw getError(ex);
+        }
         this.helper.endTransaction();
         return true;
     }
@@ -228,7 +263,12 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     @Override
     public boolean purge() throws AbstractTransactionException {
         final IBatisMapper<Entity, Serializable> mapper = this.helper.beginTransaction(this.entityCls);
-        mapper.purge();
+        /** 转换成DataAccessException **/
+        try {
+            mapper.purge();
+        } catch (PersistenceException ex) {
+            throw getError(ex);
+        }
         this.helper.endTransaction();
         return true;
     }
@@ -236,10 +276,20 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     /**
      * 执行元数据的初始化操作，传入初始化文件
      */
+    @Override
     public boolean initialize(final String file) throws AbstractTransactionException {
         /** 1.获取元数据连接 **/
         final JdbcConnection connection = singleton(Accessors.connection());
         /** 2.返回执行结果 **/
         return connection.executeSql(IOKit.getFile(file));
+    }
+
+    private DataAccessException getError(final PersistenceException exp) {
+        final Throwable cause = exp.getCause();
+        String message = Constants.EMPTY_STR;
+        if (null != cause) {
+            message = cause.getMessage().replaceAll(Symbol.NEW_LINE, "");
+        }
+        return new DataAccessException(getClass(), message);
     }
 }

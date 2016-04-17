@@ -1,0 +1,8 @@
+{
+    "identifier":"meta-script",
+    "method":"POST",
+    "data":{
+        "name":"script.test",
+        "namespace":"JSEngine"
+    }
+}

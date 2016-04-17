@@ -189,14 +189,7 @@ public abstract class AbstractViolater {
         /** 5.参数处理完成过后，直接构造最终的Exception **/
         return instance(errorCls, args.toArray());
     }
-    /*
-    private void argsConsole(Object[] programArgs, JsonObject addtional, final String field, final Object[] finalArgs){
-        System.out.println("App Input : " + programArgs);
-        System.out.println("Addtional : " + addtional);
-        System.out.println("Field : " + field);
-        System.out.println("Args : " + finalArgs);
-    }
-    */
+
     /**
      * 子类可用，获取DataValidator引用
      * 
@@ -219,22 +212,24 @@ public abstract class AbstractViolater {
         }
         return fieldName;
     }
+
     /**
      * 
      * @param value
      * @return
      */
-    protected Class<?> extractClass(final Object value){
+    protected Class<?> extractClass(final Object value) {
         Class<?> clazz = null;
-        if(null != value){
+        if (null != value) {
             String cls = null;
             final String literal = value.toString();
-            switch(literal){
+            switch (literal) {
             case "JsonArray":
-            case "JsonObject":{
+            case "JsonObject": {
                 cls = JsonObject.class.getPackage().getName() + Symbol.DOT + literal;
-            }break;
-            default:{
+            }
+                break;
+            default: {
                 cls = String.class.getPackage().getName() + Symbol.DOT + literal;
             }
             }

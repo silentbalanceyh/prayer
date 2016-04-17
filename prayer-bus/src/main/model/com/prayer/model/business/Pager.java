@@ -1,12 +1,8 @@
 package com.prayer.model.business;
 
-import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.business.ensurer.IntegerEnsurer;
 import com.prayer.facade.constant.Constants;
@@ -31,9 +27,6 @@ public class Pager implements Serializable {
      * 
      */
     private static final long serialVersionUID = -7656036586914824667L;
-
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(Pager.class);
     // ~ Instance Fields =====================================
     /**
      * 第几页
@@ -57,7 +50,7 @@ public class Pager implements Serializable {
      * @param pageJson
      * @return
      */
-    public static Pager create(@NotNull final JsonObject pageJson) {
+    public static Pager create(@NotNull final JsonObject pageJson) throws AbstractException{
         return new Pager(pageJson);
     }
 
@@ -75,13 +68,9 @@ public class Pager implements Serializable {
         this.pageSize = pageSize;
     }
 
-    private Pager(final JsonObject pageJson) {
-        try {
-            this.pageIndex = this.ensurer.ensureRequired(pageJson, Constants.PARAM.ADMINICLE.PAGE.INDEX);
-            this.pageSize = this.ensurer.ensureRequired(pageJson, Constants.PARAM.ADMINICLE.PAGE.SIZE);
-        } catch (AbstractException ex) {
-            peError(LOGGER, ex);
-        }
+    private Pager(final JsonObject pageJson) throws AbstractException {
+        this.pageIndex = this.ensurer.ensureRequired(pageJson, Constants.PARAM.ADMINICLE.PAGE.INDEX);
+        this.pageSize = this.ensurer.ensureRequired(pageJson, Constants.PARAM.ADMINICLE.PAGE.SIZE);
     }
 
     // ~ Abstract Methods ====================================

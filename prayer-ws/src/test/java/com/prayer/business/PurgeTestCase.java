@@ -44,10 +44,10 @@ public class PurgeTestCase {
             if (ret.success()) {
                 this.service.purge();
                 if (!ret.success()) {
-                    throw ret.getServiceError();
+                    throw ret.getError();
                 }
             } else {
-                throw ret.getServiceError();
+                throw ret.getError();
             }
         }
     }

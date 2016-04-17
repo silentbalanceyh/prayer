@@ -2,6 +2,7 @@
     "identifier":"meta-script",
     "method":"POST",
     "data":{
-        
+        "name":"script.test1-update",
+        "namespace":"JSEngine1-update"
     }
 }

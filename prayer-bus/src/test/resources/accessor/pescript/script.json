@@ -1,5 +1,5 @@
 {
-    "name":"",
+    "name":"name",
     "namespace":"com.lang.namespace",
     "content":"var i = \"exe\";"
 }

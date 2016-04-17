@@ -104,7 +104,7 @@ public class ActRequest implements Serializable {
         this.ensureFilters(params);
     }
 
-    /** 2.3.执行可选参数Filters **/
+    /** 2.3.执行可选参数Filters，Filters不可以为null **/
     private void ensureFilters(final JsonObject params) {
         if (success()) {
             /** Filters数据 **/
@@ -128,7 +128,7 @@ public class ActRequest implements Serializable {
         }
     }
 
-    /** 2.2.执行可选参数Order **/
+    /** 2.2.执行可选参数OrderBy，OrderBy可以为null **/
     private void ensureOrderBy(final JsonObject params) {
         if (success()) {
             try {
@@ -141,17 +141,18 @@ public class ActRequest implements Serializable {
                     if (null == orderData) {
                         orderData = new JsonArray();
                     }
+                    /** 3.这个时候创建orders **/
+                    this.orders = OrderBy.create(orderData);
                 }
-                this.orders = OrderBy.create(orderData);
             } catch (AbstractException ex) {
                 peError(LOGGER, ex);
                 this.error = ex;
-                this.orders = OrderBy.create(new JsonArray());
+                this.orders = null;
             }
         }
     }
 
-    /** 2.1.执行可选参数Pager **/
+    /** 2.1.执行可选参数Pager，Pager可以为null **/
     private void ensurePager(final JsonObject params) {
         if (success()) {
             try {
@@ -164,12 +165,13 @@ public class ActRequest implements Serializable {
                     if (null == pageJson) {
                         pageJson = new JsonObject();
                     }
+                    /** 3.这个时候创建Pager **/
+                    this.pager = Pager.create(pageJson);
                 }
-                this.pager = Pager.create(pageJson);
             } catch (AbstractException ex) {
                 peError(LOGGER, ex);
                 this.error = ex;
-                this.pager = Pager.create(new JsonObject());
+                this.pager = null;
             }
         }
     }
@@ -220,7 +222,24 @@ public class ActRequest implements Serializable {
             }
         }
     }
+
     // ~ Get/Set =============================================
+    /**
+     * 将数据放到data中
+     * 
+     * @param key
+     * @param value
+     */
+    public void putData(final String key, final Object value) {
+        this.data.put(key, value);
+    }
+
+    /**
+     * 清除Data中的数据
+     */
+    public void clearData() {
+        this.data.clear();
+    }
 
     /**
      * @return the identifier

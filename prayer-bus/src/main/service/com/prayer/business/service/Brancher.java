@@ -44,7 +44,8 @@ final class Brancher {
             final ConcurrentMap<String, Value<?>> idKV = record.idKV();
             final JsonObject data = request.getData();
             for (final String id : idKV.keySet()) {
-                if (!data.containsKey(id)) {
+                /** 1.这里的idKV是列名，所以需要执行toField转换 **/
+                if (!data.containsKey(record.toField(id))) {
                     isUpdate = false;
                     break;
                 }

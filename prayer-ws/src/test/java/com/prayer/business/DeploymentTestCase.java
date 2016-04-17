@@ -51,7 +51,7 @@ public class DeploymentTestCase {
     public void testDeploy() throws AbstractException {
         ServiceResult<Boolean> ret = this.service.manoeuvre(Resources.OOB_DATA_FOLDER);
         if (!ret.success()) {
-            throw ret.getServiceError();
+            throw ret.getError();
         }
     }
 
@@ -60,7 +60,7 @@ public class DeploymentTestCase {
     public void testDeployExp() throws AbstractException {
         ServiceResult<Boolean> ret = this.service.manoeuvre("deploy/test");
         if (!ret.success()) {
-            throw ret.getServiceError();
+            throw ret.getError();
         }
     }
     // ~ Private Methods =====================================

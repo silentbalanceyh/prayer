@@ -112,9 +112,9 @@ public final class Extractor {
                 }
             }
         } else if (ResponseCode.FAILURE == sevRets.getResponseCode()) {
-            ret = Responsor.failure(status, sevRets.getServiceError());
+            ret = Responsor.failure(status, sevRets.getError());
         } else {
-            ret = Responsor.error(sevRets.getServiceError());
+            ret = Responsor.error(sevRets.getError());
         }
         return ret;
     }

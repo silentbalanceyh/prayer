@@ -45,6 +45,10 @@ public class Projection implements Serializable{
             }
         });
         this.filters = colList.toArray(Constants.T_STR_ARR);
+        /** filters需要有默认值 **/
+        if(null == this.filters){
+            this.filters = new String[]{};
+        }
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

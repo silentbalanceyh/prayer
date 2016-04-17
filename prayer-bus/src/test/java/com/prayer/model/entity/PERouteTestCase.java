@@ -72,8 +72,6 @@ public class PERouteTestCase extends AbstractEntityTool {
         final PERoute actual = this.getInstance("/entity/peroute/route2.json");
         actual.writeToBuffer(buffer);
         final PERoute expected = new PERoute(buffer);
-        System.out.println(actual);
-        System.out.println(expected);
         // Compare
         assertEquals(expected, actual);
     }

@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.crucial.Transducer.V;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.entity.Entity;
 import com.prayer.facade.model.record.Record;
 import com.prayer.facade.util.Transferer;
@@ -55,7 +55,11 @@ public final class ObjectTransferer implements Transferer {
     @Override
     public <T extends AbstractEntity<String>> T toEntity(@NotNull @InstanceOfAny(MetaRecord.class) final Record record)
             throws AbstractDatabaseException {
-        T ret = this.extractCls(record);
+        T ret = null;
+        if (null != record && null != record.identifier()) {
+            final String clsName = LOADER.getString(record.identifier() + ".instance");
+            ret = instance(clsName);
+        }
         final JsonObject data = this.fromRecord(record);
         final Entity entity = ret.fromJson(data);
         if (null == entity) {
@@ -136,15 +140,6 @@ public final class ObjectTransferer implements Transferer {
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-
-    private <T extends AbstractEntity<String>> T extractCls(final Record record) {
-        T ret = null;
-        if (null != record && null != record.identifier()) {
-            final String clsName = LOADER.getString(record.identifier() + ".instance");
-            ret = instance(clsName);
-        }
-        return ret;
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

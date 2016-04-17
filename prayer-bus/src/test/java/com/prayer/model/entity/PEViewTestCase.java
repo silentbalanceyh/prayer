@@ -50,8 +50,6 @@ public class PEViewTestCase extends AbstractEntityTool {
     public void testFromJson() {
         final JsonObject expected = this.readData("/entity/peview/view.json");
         final PEView actual = this.getInstance("/entity/peview/view.json");
-        System.out.println(expected.encodePrettily());
-        System.out.println(actual.toJson().encodePrettily());
         // Compare
         assertTrue(expected.equals(actual.toJson()));
     }
