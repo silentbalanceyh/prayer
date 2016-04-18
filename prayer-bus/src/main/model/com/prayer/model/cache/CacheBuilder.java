@@ -1,7 +1,7 @@
 package com.prayer.model.cache;
 
-import com.prayer.constant.Accessors;
 import com.prayer.facade.model.cache.Cache;
+import com.prayer.resource.Injections;
 import com.prayer.util.reflection.Instance;
 import com.prayer.util.resource.DatumLoader;
 
@@ -28,7 +28,7 @@ public final class CacheBuilder {
         final String name = clazz.getName();
         Cache instance = GLOBAL_CACHE.get(name);
         if (null == instance) {
-            instance = Instance.instance(Accessors.cache());
+            instance = Instance.instance(Injections.CACHE);
             GLOBAL_CACHE.put(name, instance);
         }
         return instance;

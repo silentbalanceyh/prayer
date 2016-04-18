@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.prayer.constant.Accessors;
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
@@ -14,6 +13,7 @@ import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.DataType;
+import com.prayer.resource.Injections;
 
 /**
  * 
@@ -55,7 +55,7 @@ public interface JdbcTransducer {
          * @return
          */
         public static JdbcTransducer get() {
-            return singleton(Accessors.transducer());
+            return singleton(Injections.Data.TRANSDUCER);
         }
     }
 }

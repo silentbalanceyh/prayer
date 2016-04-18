@@ -12,11 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.builder.AbstractMsSqlBuilderTool;
-import com.prayer.constant.Accessors;
 import com.prayer.database.pool.impl.JdbcConnImpl;
 import com.prayer.facade.database.dao.schema.DataValidator;
 import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.resource.Injections;
 
 /**
  * 
@@ -46,7 +46,7 @@ public class MsSql003FK1TestCase extends AbstractMsSqlBuilderTool {
     /** 全部执行完 **/
     @BeforeClass
     public static void setUp() throws AbstractException {
-        final DataValidator verifier = singleton(Accessors.validator());
+        final DataValidator verifier = singleton(Injections.Data.VALIDATOR);
         final JdbcConnection connection = singleton(JdbcConnImpl.class);
         if (null != verifier.verifyTable("TST_FKP003")) {
             connection.executeBatch("CREATE TABLE TST_FKP003( T_ID BIGINT PRIMARY KEY );");
@@ -56,7 +56,7 @@ public class MsSql003FK1TestCase extends AbstractMsSqlBuilderTool {
     /** 全部执行完 **/
     @AfterClass
     public static void setDown() throws AbstractException {
-        final DataValidator verifier = singleton(Accessors.validator());
+        final DataValidator verifier = singleton(Injections.Data.VALIDATOR);
         final JdbcConnection connection = singleton(JdbcConnImpl.class);
         if (null == verifier.verifyTable("TST_FKP003")) {
             connection.executeBatch("DROP TABLE TST_FKP003;");

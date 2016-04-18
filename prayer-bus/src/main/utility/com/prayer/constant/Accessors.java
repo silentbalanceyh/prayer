@@ -46,6 +46,7 @@ public final class Accessors {
      * @return
      */
     @NotNull
+    @Deprecated
     public static String databaser() {
         return flat(Resources.DB_DATABASE_DAO, DFT_DB_DATABASER);
     }
@@ -56,6 +57,7 @@ public final class Accessors {
      * @return
      */
     @NotNull
+    @Deprecated
     public static String connection() {
         return flat(Resources.META_JDBC_CONNECTION, DFT_META_JDBC);
     }
@@ -66,6 +68,7 @@ public final class Accessors {
      * @return
      */
     @NotNull
+    @Deprecated
     public static String pool() {
         return flat(Resources.DB_POOL, DFT_DB_POOL);
     }
@@ -76,6 +79,7 @@ public final class Accessors {
      * @return
      */
     @NotNull
+    @Deprecated
     public static String accessor() {
         return flat(Resources.META_ACCESSOR, DFT_META_ACCESSOR);
     }
@@ -97,6 +101,7 @@ public final class Accessors {
      * 
      * @return
      */
+    @Deprecated
     public static String validator() {
         return flat(Resources.DB_VALIDATOR, DFT_DB_VALIDATOR);
     }
@@ -107,6 +112,7 @@ public final class Accessors {
      * @return
      */
     @NotNull
+    @Deprecated
     public static String builder() {
         return flat(Resources.DB_BUILDER, DFT_DB_BUILDER);
     }
@@ -117,6 +123,7 @@ public final class Accessors {
      * @return
      */
     @NotNull
+    @Deprecated
     public static String dao() {
         return flat(Resources.DB_DAO, DFT_DB_DAO);
     }
@@ -127,6 +134,7 @@ public final class Accessors {
      * @return
      */
     @NotNull
+    @Deprecated
     public static String transducer() {
         return flat(Resources.DB_TRANSDUCER, DFT_DB_TRANS);
     }

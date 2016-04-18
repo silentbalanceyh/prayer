@@ -8,8 +8,6 @@ import static org.junit.Assert.fail;
 import org.slf4j.Logger;
 
 import com.prayer.builder.MetadataBuilder;
-import com.prayer.constant.Accessors;
-import com.prayer.constant.Resources;
 import com.prayer.dao.schema.CommuneImporter;
 import com.prayer.dao.schema.SchemaDalor;
 import com.prayer.database.pool.impl.JdbcConnImpl;
@@ -24,6 +22,8 @@ import com.prayer.facade.schema.verifier.Altimeter;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.fantasm.exception.AbstractTransactionException;
+import com.prayer.resource.Injections;
+import com.prayer.resource.Resources;
 import com.prayer.schema.common.SchemaAltimeter;
 
 import net.sf.oval.constraint.NotNull;
@@ -81,7 +81,7 @@ public abstract class AbstractAltimeterTool {
     /** 删除表 **/
     protected void purgeTable(final String table) {
         // TODO: 目前只有SQL模式才检查
-        if (Resources.DB_MODE.equals(DBConstants.MODE_SQL)) {
+        if (Resources.Data.MODE.equals(DBConstants.MODE_SQL)) {
             if (null == validator().verifyTable(table)) {
                 this.connection().executeBatch("DROP TABLE " + table + ";");
             }
@@ -90,7 +90,7 @@ public abstract class AbstractAltimeterTool {
 
     /** **/
     protected DataValidator validator() {
-        return reservoir(Resources.DB_CATEGORY, Accessors.validator());
+        return reservoir(Resources.Data.CATEGORY, Injections.Data.VALIDATOR);
     }
 
     /** **/

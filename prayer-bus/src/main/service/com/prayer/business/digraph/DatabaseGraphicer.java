@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.prayer.constant.Accessors;
-import com.prayer.constant.Resources;
 import com.prayer.dao.data.DatabaseDalor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.database.dao.DatabaseDao;
 import com.prayer.facade.database.dao.schema.DataValidator;
 import com.prayer.facade.util.digraph.NodeData;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.resource.Injections;
+import com.prayer.resource.Resources;
 import com.prayer.util.digraph.Edges;
 import com.prayer.util.digraph.Graphic;
 import com.prayer.util.digraph.Node;
@@ -40,7 +40,7 @@ final class DatabaseGraphicer {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     public DatabaseGraphicer() {
-        this.validator = reservoir(Resources.DB_CATEGORY, Accessors.validator());
+        this.validator = reservoir(Resources.Data.CATEGORY, Injections.Data.VALIDATOR);
         this.dao = singleton(DatabaseDalor.class);
     }
 

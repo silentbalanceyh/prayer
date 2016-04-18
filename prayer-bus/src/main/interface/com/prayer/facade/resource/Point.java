@@ -29,7 +29,11 @@ public interface Point {
             /** Meta 数据库构造器 **/
             String BUILDER = "database.meta.builder";
             /** Meta：数据库中的元数据访问 **/
-            String META_DAO = "database.meta.dalor";
+            String META_DALOR = "database.meta.dalor";
+            /** Data **/
+            String DATA_DALOR = "database.data.dalor";
+            /** Transducer **/
+            String TRANSDUCER = "database.data.transducer";
         }
 
         /** **/

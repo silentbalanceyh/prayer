@@ -4,8 +4,6 @@ import static com.prayer.util.reflection.Instance.reservoir;
 import static com.prayer.util.reflection.Instance.singleton;
 import static org.junit.Assert.fail;
 
-import com.prayer.constant.Accessors;
-import com.prayer.constant.Resources;
 import com.prayer.database.pool.impl.JdbcConnImpl;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
@@ -16,6 +14,8 @@ import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.Verifier;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.fantasm.exception.AbstractSystemException;
+import com.prayer.resource.Injections;
+import com.prayer.resource.Resources;
 import com.prayer.schema.json.SchemaVerifier;
 import com.prayer.util.io.IOKit;
 
@@ -80,7 +80,7 @@ public class AbstractVerifierTool {
 
     /** **/
     protected DataValidator validator() {
-        return reservoir(Resources.DB_CATEGORY, Accessors.validator());
+        return reservoir(Resources.Data.CATEGORY, Injections.Data.VALIDATOR);
     }
 
     /** **/
@@ -91,7 +91,7 @@ public class AbstractVerifierTool {
     /** 删除表 **/
     protected void purgeTable(final String table) {
         // TODO: 目前只有SQL模式才检查
-        if (Resources.DB_MODE.equals(DBConstants.MODE_SQL)) {
+        if (Resources.Data.MODE.equals(DBConstants.MODE_SQL)) {
             if (null == validator().verifyTable(table)) {
                 this.connection().executeBatch("DROP TABLE " + table + ";");
             }

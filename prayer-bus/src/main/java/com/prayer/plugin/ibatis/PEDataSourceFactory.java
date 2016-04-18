@@ -15,12 +15,12 @@ import org.apache.ibatis.datasource.DataSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Accessors;
-import com.prayer.constant.Resources;
 import com.prayer.exception.database.MetadataNotSupportException;
 import com.prayer.facade.constant.DBConstants;
 import com.prayer.facade.database.pool.JdbcPool;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
+import com.prayer.resource.Injections;
+import com.prayer.resource.Resources;
 
 /**
  * 将iBatis的连接池连接到BoneCP的连接池中，目前支持的JDBC数据库就H2，在整个Prayer中，只有元数据才会连接到iBatis
@@ -59,14 +59,14 @@ public class PEDataSourceFactory implements DataSourceFactory {
         // 因为属性已经在DbPool中绑定好了，所以这里没有必要读取props
         try {
             final Set<String> supports = new HashSet<>(Arrays.asList(DB_SUPPORTED));
-            if (supports.contains(Resources.META_CATEGORY)) {
+            if (supports.contains(Resources.Meta.CATEGORY)) {
                 /**
                  * 传入DB_POOL实现类，以及Metadata Database的类型
                  */
-                final JdbcPool pool = singleton(Accessors.pool(), Resources.META_CATEGORY);
+                final JdbcPool pool = singleton(Injections.Data.POOL, Resources.Meta.CATEGORY);
                 this.dataSource = pool.getDataSource();
             } else {
-                throw new MetadataNotSupportException(getClass(), Resources.META_CATEGORY, supports);
+                throw new MetadataNotSupportException(getClass(), Resources.Meta.CATEGORY, supports);
             }
         } catch (AbstractDatabaseException ex) {
             peError(LOGGER, ex);

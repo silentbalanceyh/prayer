@@ -13,7 +13,9 @@ public class Injections {
     // ~ Static Fields =======================================
     /** Inceptor **/
     private static final Inceptor INCEPTOR = InceptBus.build(Point.Injection.class);
-
+    /** Cache **/
+    public static final Class<?> CACHE = INCEPTOR.getClass(Point.Injection.CATCH);
+    
     /** 元数据库访问 **/
     public static final class Meta {
         /** Meta Data 连接 **/
@@ -31,7 +33,11 @@ public class Injections {
         /** Builder **/
         public static final Class<?> BUILDER = INCEPTOR.getClass(Point.Injection.Data.BUILDER);
         /** Meta Dalor **/
-        public static final Class<?> META_DALOR = INCEPTOR.getClass(Point.Injection.Data.META_DAO);
+        public static final Class<?> META_DALOR = INCEPTOR.getClass(Point.Injection.Data.META_DALOR);
+        /** Data Dalor **/
+        public static final Class<?> DATA_DALOR = INCEPTOR.getClass(Point.Injection.Data.DATA_DALOR);
+        /** Tranducer **/
+        public static final Class<?> TRANSDUCER = INCEPTOR.getClass(Point.Injection.Data.TRANSDUCER);
     }
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

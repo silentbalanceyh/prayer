@@ -6,8 +6,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Accessors;
-import com.prayer.constant.Resources;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.JsonKit;
 import com.prayer.util.string.StringKit;
@@ -33,27 +31,6 @@ public class ConTestCase extends AbstractConTestCase {     // NOPMD
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-
-    /** **/
-    @Test
-    public void testCon3() {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(DEBUG_MSG + Accessors.class.getName());
-        }
-        final Accessors ref = instance(Accessors.class.getName());
-        assertNotNull("[E] testCon3", ref);
-    }
-
-    /** **/
-    @Test
-    public void testCon2() {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("[TD] Test constructor5 -> "
-                    + Resources.class.getName());
-        }
-        final Resources ref = instance(Resources.class.getName());
-        assertNotNull("[E] testCon2", ref);
-    }
 
     /** **/
     @Test

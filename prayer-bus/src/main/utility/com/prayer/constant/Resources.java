@@ -24,92 +24,126 @@ public final class Resources { // NOPMD
 
     // System Global Configuration ===========================
     /** 错误信息代码 **/
+    @Deprecated
     public static final String ERR_CODE_FILE = "/errors.properties";
     /** 全局配置文件 **/
+    @Deprecated
     public static final String SYS_GLOBAL_CFG = "/global.properties";
     /** 系统默认英文编码 **/
+    @Deprecated
     public static final Charset SYS_ENCODING;
     /** 系统使用的缓存信息 **/
+    @Deprecated
     public static final String SYS_CACHE_CLS;
     /** 系统的Schema对应的Rules的文件夹 **/
+    @Deprecated
     public static final String SYS_RULES;
 
     // Database Configuration ================================
     /** 数据库模式：INIT/NOSQL **/
+    @Deprecated
     public static final String DB_MODE;
     /** 元数据数据库模式：INIT/NOSQL **/
+    @Deprecated
     public static final String META_MODE;
 
     /** 数据库种类：MYSQL, MSSQL, ORACLE, PGSQL, MONGO **/
+    @Deprecated
     public static final String DB_CATEGORY;
     /** JDBC配置文件路径 **/
+    @Deprecated
     public static final String DB_CFG_FILE;
 
     /** 是否跳过最底层的字段的Validation过程 **/
+    @Deprecated
     public static final boolean DB_V_ENABLED;
 
     // Database Type Mapping =================================
     /** 数据库类型映射文件地址 **/
+    @Deprecated
     public static final String DB_TYPES_FILE;
     // Open Source Configuration =============================
     /** Mybatis数据库配置文件 **/
+    @Deprecated
     public static final String T_CFG_MYBATIS;
     /** Mybatis环境名称Environment **/
+    @Deprecated
     public static final String T_CFG_MB_ENV;
 
     // Metadata INIT File Configuration =======================
     /** 保存的SQL文件地址 **/
+    @Deprecated
     public static final String DB_SQL_DIR;
     /** INIT Error的Mapping映射文件 **/
+    @Deprecated
     public static final String DB_SQL_ERROR;
 
     // Metadata Configuration ================================
 
     /** Meta Data的配置文件路径 **/
+    @Deprecated
     public static final String OOB_SCHEMA_FILE;
     /** Meta Data的数据库类型SQL/NOSQL **/
+    @Deprecated
     public static final String META_CATEGORY;
     /** Meta Data的数据库JDBC连接 **/
+    @Deprecated
     public static final String META_JDBC_CONNECTION;
 
     // File Configuration ====================================
 
     /** Meta Data的OOB数据默认路径 **/
+    @Deprecated
     public static final String OOB_DATA_FOLDER;
     /** Vertx的配置文件路径 **/
+    @Deprecated
     public static final String VX_CFG_FILE;
     /** Server的配置文件路径 **/
+    @Deprecated
     public static final String SEV_CFG_FILE;
     /** Service中的映射文件路径 **/
+    @Deprecated
     public static final String SEV_MAPPING_FILE;
     /** 日志配置文件存储的根目录 **/
+    @Deprecated
     public static final String LOG_CFG_FOLDER;
     /** 安全配置文件路径 **/
+    @Deprecated
     public static final String SEC_CFG_FILE;
     /** Web Config配置文件路径 **/
+    @Deprecated
     public static final String WEB_CFG_FILE;
     /** Database数据库名称 **/
+    @Deprecated
     public static final String DB_DATABASE;
 
     /** 默认不是从CONSOLE启动 **/
+    @Deprecated
     public static boolean useConsole = Boolean.FALSE;
 
     // Switch Configuration ==================================
     /** 数据库连接池实现类名： **/
+    @Deprecated
     public static final String DB_POOL;
     /** 底层元数据的实现访问器 **/
+    @Deprecated
     public static final String META_ACCESSOR;
 
     // 可配置的数据库组件 ====================================
     /** 数据库的Builder **/
+    @Deprecated
     public static final String DB_BUILDER;
     /** 数据库访问Record的Dao实现 **/
+    @Deprecated
     public static final String DB_DAO;
     /** 数据类型转换器 **/
+    @Deprecated
     public static final String DB_TRANSDUCER;
     /** Builder过程的关于Target数据库的验证 **/
+    @Deprecated
     public static final String DB_VALIDATOR;
     /** 从业务数据库读取元数据访问器 **/
+    @Deprecated
     public static final String DB_DATABASE_DAO;
 
     /**
