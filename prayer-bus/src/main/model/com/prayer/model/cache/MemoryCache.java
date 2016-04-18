@@ -63,5 +63,9 @@ public class MemoryCache implements Cache {
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
+    /** **/
+    @Override
+    public String toString(){
+        return CACHE.toString();
+    }
 }

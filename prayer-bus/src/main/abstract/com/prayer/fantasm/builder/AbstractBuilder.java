@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 
 import com.prayer.business.digraph.OrderedBuilder;
-import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.database.pool.impl.JdbcConnImpl;
@@ -33,6 +32,7 @@ import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEKey;
+import com.prayer.resource.Resources;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.InstanceOf;
@@ -65,7 +65,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
     /** **/
     @PostValidateThis
     public AbstractBuilder() {
-        this.connection = reservoir(Resources.DB_CATEGORY, JdbcConnImpl.class);
+        this.connection = reservoir(Resources.Data.CATEGORY, JdbcConnImpl.class);
         this.builder = SqlDDLBuilder.create();
     }
 
@@ -131,11 +131,12 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
             return false;
         }
     }
+
     /**
      * 删除多表语句
      */
     @Override
-    public boolean purge(@NotNull final Set<String> tables) throws AbstractException{
+    public boolean purge(@NotNull final Set<String> tables) throws AbstractException {
         /** 1.顺序构造器 **/
         final OrderedBuilder orderer = singleton(OrderedBuilder.class);
         final ConcurrentMap<Integer, String> ordMap = orderer.buildPurgeOrder(tables);
@@ -149,6 +150,7 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
         }
         return true;
     }
+
     // ~ Methods =============================================
     /** 子类使用连接 **/
     protected JdbcConnection getConnection() {

@@ -5,19 +5,16 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.prayer.constant.Resources;
-import com.prayer.facade.constant.Constants;
 import com.prayer.facade.database.pool.JdbcPool;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.resource.Resources;
 
 import net.sf.oval.constraint.AssertFieldConstraints;
-import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
-import net.sf.oval.guard.Pre;
 
 /**
  * Jdbc连接池类
@@ -36,12 +33,6 @@ public abstract class AbstractJdbcPool implements JdbcPool {
     @NotEmpty
     @NotBlank
     protected transient String category; // NOPMD
-    /**
-     * 资源加载器
-     */
-    @NotNull
-    @InstanceOfAny(PropertyKit.class)
-    protected transient final PropertyKit LOADER = new PropertyKit(getClass(), Resources.DB_CFG_FILE); // NOPMD
 
     // ~ Constructors ========================================
     /**
@@ -49,7 +40,7 @@ public abstract class AbstractJdbcPool implements JdbcPool {
      */
     @PostValidateThis
     protected AbstractJdbcPool() {
-        this(Resources.DB_CATEGORY);
+        this(Resources.Data.CATEGORY);
     }
 
     /**
@@ -109,7 +100,6 @@ public abstract class AbstractJdbcPool implements JdbcPool {
      * @return
      */
     @NotNull
-    @Pre(expr = "_this.category != null", lang = Constants.LANG_GROOVY)
     @Override
     public String getCategory() {
         return this.category;
@@ -120,10 +110,9 @@ public abstract class AbstractJdbcPool implements JdbcPool {
      * 
      * @return
      */
-    @Pre(expr = "_this.loader != null", lang = Constants.LANG_GROOVY)
     @Override
-    public PropertyKit getLoader() {
-        return this.LOADER;
+    public Inceptor getLoader() {
+        return Resources.JDBC;
     }
     // ~ Private Methods =====================================
     // ~ hashCode,equals,toString ============================

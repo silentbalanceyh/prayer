@@ -32,6 +32,7 @@ import net.sf.oval.guard.Pre;
  * @see
  */
 @Guarded
+@Deprecated
 public final class PropertyKit {
     // ~ Static Fields =======================================
     /** **/

@@ -3,10 +3,10 @@ package com.prayer.database.pool.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
 import com.prayer.facade.constant.DBConstants;
+import com.prayer.facade.resource.Inceptor;
 import com.prayer.fantasm.database.pool.AbstractJdbcConnection;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.resource.Resources;
 
 import net.sf.oval.guard.Guarded;
 
@@ -19,7 +19,7 @@ import net.sf.oval.guard.Guarded;
 public class H2ConnImpl extends AbstractJdbcConnection {
     // ~ Static Fields =======================================
     /** **/
-    private static final PropertyKit LOADER = new PropertyKit(H2ConnImpl.class, Resources.DB_CFG_FILE);
+    private static final Inceptor LOADER = Resources.JDBC;
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ConnImpl.class);
 

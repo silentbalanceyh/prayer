@@ -2,10 +2,10 @@ package com.prayer.fantasm.schema;
 
 import static com.prayer.util.reflection.Instance.reservoir;
 
-import com.prayer.constant.Accessors;
-import com.prayer.constant.Resources;
 import com.prayer.facade.database.dao.schema.DataValidator;
 import com.prayer.facade.database.dao.schema.SchemaDao;
+import com.prayer.resource.Injections;
+import com.prayer.resource.Resources;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -54,7 +54,7 @@ public abstract class AbstractAltimeter {
      */
     @NotNull
     private DataValidator validator() {
-        return reservoir(Resources.DB_CATEGORY, Accessors.validator());
+        return reservoir(Resources.Data.CATEGORY, Injections.Data.VALIDATOR);
     }
 
     /**

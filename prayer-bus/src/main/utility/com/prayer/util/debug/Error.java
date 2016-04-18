@@ -2,8 +2,8 @@ package com.prayer.util.debug;
 
 import java.text.MessageFormat;
 
-import com.prayer.constant.Resources;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.facade.resource.Point;
+import com.prayer.resource.InceptBus;
 
 import net.sf.oval.constraint.Max;
 import net.sf.oval.constraint.NotBlank;
@@ -19,10 +19,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class Error { // NOPMD
     // ~ Static Fields =======================================
-    /**
-     * Error property loader to read Error Message
-     */
-    private static PropertyKit loader = new PropertyKit(Error.class, Resources.ERR_CODE_FILE);
     // instance(PropertyKit.class.getName(), Error.class,
     // Resources.ERR_PROP_FILE);
 
@@ -66,7 +62,8 @@ public final class Error { // NOPMD
      */
     @NotNull
     public static String message(@NotNull final String errKey, final Object... params) {
-        return null == loader ? "" : MessageFormat.format(loader.getString(errKey), params);
+        final String errMsg = InceptBus.build(Point.Error.class).getString(errKey);
+        return MessageFormat.format(errMsg, params);
     }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

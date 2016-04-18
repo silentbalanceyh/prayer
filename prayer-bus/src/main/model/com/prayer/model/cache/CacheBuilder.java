@@ -3,6 +3,7 @@ package com.prayer.model.cache;
 import com.prayer.constant.Accessors;
 import com.prayer.facade.model.cache.Cache;
 import com.prayer.util.reflection.Instance;
+import com.prayer.util.resource.DatumLoader;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -17,7 +18,7 @@ import net.sf.oval.guard.Guarded;
 public final class CacheBuilder {
     // ~ Static Fields =======================================
     /** 顶级Cache，Global直接使用 **/
-    private static final Cache GLOBAL_CACHE = Instance.instance(Accessors.cache());
+    private static final Cache GLOBAL_CACHE = DatumLoader.getSystemCache();
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

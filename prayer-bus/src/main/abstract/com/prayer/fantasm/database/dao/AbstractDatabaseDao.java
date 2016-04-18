@@ -5,11 +5,11 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Resources;
 import com.prayer.database.pool.impl.JdbcConnImpl;
 import com.prayer.facade.database.dao.DatabaseDao;
 import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.model.business.Metadata;
+import com.prayer.resource.Resources;
 import com.prayer.util.digraph.Edges;
 import com.prayer.util.jdbc.DatabaseKit;
 
@@ -53,9 +53,9 @@ public abstract class AbstractDatabaseDao implements DatabaseDao {
      */
     @Override
     public String getFile() {
-        final Metadata metadata = this.connection.getMetadata(Resources.DB_CATEGORY);
+        final Metadata metadata = this.connection.getMetadata(Resources.Data.CATEGORY);
         String retFile = DatabaseKit.getDatabaseVersion(metadata.getProductName(), metadata.getProductVersion());
-        return Resources.DB_CATEGORY + retFile;
+        return Resources.Data.CATEGORY + retFile;
     }
 
     /**

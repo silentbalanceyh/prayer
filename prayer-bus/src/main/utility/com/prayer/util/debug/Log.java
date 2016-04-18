@@ -1,15 +1,17 @@
 package com.prayer.util.debug;
 
+import static com.prayer.util.Planar.flat;
+
 import java.text.MessageFormat;
 
 import org.apache.log4j.Level;
 
-import com.prayer.constant.Resources;
 import com.prayer.constant.log.DebugKey;
 import com.prayer.constant.log.ErrorKey;
 import com.prayer.facade.constant.Constants;
+import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.resource.InceptBus;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -27,16 +29,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class Log { // NOPMD
     // ~ Static Fields =======================================
-    /** Info Properties **/
-    private static final PropertyKit I_LOADER = new PropertyKit(Log.class, // NOPMD
-            Resources.LOG_CFG_FOLDER + "/info.properties");
-    /** Debug, Trace Properties **/
-    private static final PropertyKit D_LOADER = new PropertyKit(Log.class, // NOPMD
-            Resources.LOG_CFG_FOLDER + "/debug.properties");
-    /** Error, Warning Properties **/
-    private static final PropertyKit E_LOADER = new PropertyKit(Log.class, // NOPMD
-            Resources.LOG_CFG_FOLDER + "/error.properties");
-
     // ~ Instance Fields =====================================
     // ~ Special Error =======================================
 
@@ -68,13 +60,9 @@ public final class Log { // NOPMD
      * @param exp
      */
     public static void peError(@NotNull final org.slf4j.Logger logger, @NotNull final AbstractException exp) {
-        if (Resources.useConsole) {
-            peDebug(logger, exp);
-        } else {
-            error(logger, ErrorKey.ERR_ENGINE, exp, exp.getClass().getName(), exp.getErrorMessage());
-            if (logger.isTraceEnabled()) {
-                exp.printStackTrace();// NOPMD
-            }
+        error(logger, ErrorKey.ERR_ENGINE, exp, exp.getClass().getName(), exp.getErrorMessage());
+        if (logger.isTraceEnabled()) {
+            exp.printStackTrace();// NOPMD
         }
     }
 
@@ -106,14 +94,9 @@ public final class Log { // NOPMD
         } else {
             message = MessageFormat.format(message(Level.INFO, key), params);
         }
-        if (Resources.useConsole) {
-            // 在Console中打印信息
-            System.out.println(message);    // NOPMD
-        } else {
-            if (logger.isInfoEnabled()) {
-                // Output
-                logger.info(message);
-            }
+        if (logger.isInfoEnabled()) {
+            // Output
+            logger.info(message);
         }
     }
 
@@ -204,14 +187,14 @@ public final class Log { // NOPMD
         switch (level.toInt()) {
         case Level.WARN_INT:
         case Level.ERROR_INT:
-            ret = null == E_LOADER.getString(key) ? key : E_LOADER.getString(key);
+            ret = flat(InceptBus.build(Point.System.class, Point.System.LOGS_ERROR).getString(key), key);
             break;
         case Level.DEBUG_INT:
         case Level.TRACE_INT:
-            ret = null == D_LOADER.getString(key) ? key : D_LOADER.getString(key);
+            ret = flat(InceptBus.build(Point.System.class, Point.System.LOGS_DEBUG).getString(key), key);
             break;
         default:
-            ret = null == I_LOADER.getString(key) ? key : I_LOADER.getString(key);
+            ret = flat(InceptBus.build(Point.System.class, Point.System.LOGS_INFO).getString(key), key);
             break;
         }
         return ret;

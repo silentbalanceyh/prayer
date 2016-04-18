@@ -8,7 +8,7 @@ import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.facade.resource.Inceptor;
 
 /**
  * 连接池的接口，默认使用BoneCP连接池
@@ -40,5 +40,5 @@ public interface JdbcPool {
      * @return
      */
     @VertexApi(Api.READ)
-    PropertyKit getLoader();
+    Inceptor getLoader();
 }

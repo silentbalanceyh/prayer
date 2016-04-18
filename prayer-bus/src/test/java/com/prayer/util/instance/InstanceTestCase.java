@@ -128,10 +128,12 @@ public class InstanceTestCase {
      */
     @Test
     public void testCache4() {
+        CacheBuilder.clean();
         CacheBuilder.build(String.class);
         CacheBuilder.build(Integer.class);
         info(LOGGER, "[T] Cache (String.class) added.  GS = " + CacheBuilder.size());
-        assertEquals(2, CacheBuilder.size());
+        /** 新架构中有2个特殊的 **/
+        assertEquals(4, CacheBuilder.size());
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

@@ -14,30 +14,33 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.jolbox.bonecp.BoneCPDataSource;
-import com.prayer.constant.Resources;
 import com.prayer.database.util.sql.SqlTypes;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.facade.resource.Point;
+import com.prayer.resource.InceptBus;
 
 import io.vertx.core.json.JsonArray;
 
 public class MsSqlTypeAnalyzer {
     // ~ Static Fields =======================================
-    /**
-     * 资源加载器
-     */
-    private static final PropertyKit LOADER = new PropertyKit(MsSqlTypeAnalyzer.class, Resources.DB_CFG_FILE); // NOPMD
     /** **/
     private static BoneCPDataSource DS = null;
+    /** **/
+    private static String CATEGORY = null;
+    /** **/
+    private static Inceptor LOADER = null;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     /** **/
     static {
         if (null == DS) {
-            DS = (BoneCPDataSource) reservoir(Resources.DB_CATEGORY, BoneCPDataSource.class);
-            DS.setDriverClass(LOADER.getString(Resources.DB_CATEGORY + ".jdbc.driver"));
-            DS.setJdbcUrl(LOADER.getString(Resources.DB_CATEGORY + ".jdbc.url"));
-            DS.setUsername(LOADER.getString(Resources.DB_CATEGORY + ".jdbc.username"));
-            DS.setPassword(LOADER.getString(Resources.DB_CATEGORY + ".jdbc.password"));
+            CATEGORY = InceptBus.build(Point.Database.class).getString(Point.Database.Data.CATEGORY);
+            LOADER = InceptBus.build(Point.Database.class,Point.Database.Jdbc.JDBC);
+            DS = (BoneCPDataSource) reservoir(CATEGORY, BoneCPDataSource.class);
+            DS.setDriverClass(LOADER.getString(CATEGORY + ".jdbc.driver"));
+            DS.setJdbcUrl(LOADER.getString(CATEGORY + ".jdbc.url"));
+            DS.setUsername(LOADER.getString(CATEGORY + ".jdbc.username"));
+            DS.setPassword(LOADER.getString(CATEGORY + ".jdbc.password"));
         }
     }
     // ~ Static Methods ======================================
@@ -115,9 +118,9 @@ public class MsSqlTypeAnalyzer {
     }
 
     private static void executeBatch(final String sql) throws SQLException {
-        final Connection conn = DriverManager.getConnection(LOADER.getString(Resources.DB_CATEGORY + ".jdbc.url"),
-                LOADER.getString(Resources.DB_CATEGORY + ".jdbc.username"),
-                LOADER.getString(Resources.DB_CATEGORY + ".jdbc.password"));
+        final Connection conn = DriverManager.getConnection(LOADER.getString(CATEGORY + ".jdbc.url"),
+                LOADER.getString(CATEGORY + ".jdbc.username"),
+                LOADER.getString(CATEGORY + ".jdbc.password"));
         final Statement stms = conn.createStatement();
         stms.executeUpdate(sql);
         stms.close();

@@ -1,49 +1,41 @@
-package com.prayer.bus.meta;
+package com.prayer.resource;
 
-import static org.junit.Assert.fail;
+import static com.prayer.util.debug.Log.info;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.Properties;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.base.AbstractSDTestCase;
-import com.prayer.model.business.behavior.ServiceResult;
-
-import io.vertx.core.json.JsonObject;
+import com.prayer.util.resource.DatumLoader;
 
 /**
  * 
  * @author Lang
  *
  */
-public class ScriptServiceTestCase extends AbstractSDTestCase{
+public class LoaderTestCase {
     // ~ Static Fields =======================================
-
-    /** 日志记录器 **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptServiceTestCase.class);
+    /** **/
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(LoaderTestCase.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public Logger getLogger(){
-        return LOGGER;
-    }
     // ~ Methods =============================================
     /** **/
     @Test
-    public void testApiMetaPage(){
-        final JsonObject params = this.getParameter("page.meta.script.json");
-        final ServiceResult<JsonObject> result = this.getMService().page(params);
-        if(!console(result)){
-            fail("[ERR] Api Call Error ! /api/sec/page/meta/script ");
-        }
+    public void testGetLoader() {
+        final Properties prop = DatumLoader.getLoader();
+        info(LOGGER,"[T] Properties object should not be null. prop = " + prop);
+        assertNotNull(prop);
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
 }

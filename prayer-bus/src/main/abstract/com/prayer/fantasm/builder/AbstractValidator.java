@@ -2,7 +2,6 @@ package com.prayer.fantasm.builder;
 
 import static com.prayer.util.reflection.Instance.reservoir;
 
-import com.prayer.constant.Resources;
 import com.prayer.database.pool.impl.JdbcConnImpl;
 import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.exception.schema.BTColumnNotExistingException;
@@ -12,6 +11,7 @@ import com.prayer.facade.constant.Constants;
 import com.prayer.facade.database.dao.schema.DataValidator;
 import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.resource.Resources;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
@@ -40,7 +40,7 @@ public abstract class AbstractValidator implements DataValidator {
     /** **/
     @PostValidateThis
     public AbstractValidator() {
-        this.connection = reservoir(Resources.DB_CATEGORY, JdbcConnImpl.class);
+        this.connection = reservoir(Resources.Data.CATEGORY, JdbcConnImpl.class);
     }
 
     // ~ Abstract Methods ====================================

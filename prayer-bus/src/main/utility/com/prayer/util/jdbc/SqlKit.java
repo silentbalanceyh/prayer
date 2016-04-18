@@ -15,8 +15,9 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Constants;
+import com.prayer.facade.resource.Point;
+import com.prayer.resource.InceptBus;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -43,7 +44,8 @@ public final class SqlKit {
         int ret = Constants.RC_FAILURE;
         try (final Connection conn = dataSource.getConnection()) {
             final ScriptRunner runner = new ScriptRunner(conn);
-            final ByteArrayInputStream istream = new ByteArrayInputStream(sql.getBytes(Resources.SYS_ENCODING.name()));
+            final ByteArrayInputStream istream = new ByteArrayInputStream(
+                    sql.getBytes(InceptBus.build(Point.System.class).getString(Point.System.ENCODING)));
             final Reader sqlReader = new InputStreamReader(istream);
             // set to false, runs script line by line
             runner.setSendFullScript(false);

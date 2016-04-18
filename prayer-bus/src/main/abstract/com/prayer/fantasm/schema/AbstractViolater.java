@@ -13,8 +13,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Accessors;
-import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.database.dao.schema.DataValidator;
 import com.prayer.facade.fun.schema.Extractor;
@@ -22,6 +20,8 @@ import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.RuleConstants;
 import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.resource.Injections;
+import com.prayer.resource.Resources;
 import com.prayer.schema.json.violater.VDatabase;
 import com.prayer.util.debug.Log;
 import com.prayer.util.reflection.Instance;
@@ -196,7 +196,7 @@ public abstract class AbstractViolater {
      * @return
      */
     protected DataValidator validator() {
-        return reservoir(Resources.DB_CATEGORY, Accessors.validator());
+        return reservoir(Resources.Data.CATEGORY, Injections.Data.VALIDATOR);
     }
 
     /**

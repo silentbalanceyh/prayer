@@ -2,8 +2,8 @@ package com.prayer.dao.data;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.constant.Accessors;
 import com.prayer.facade.database.dao.DatabaseDao;
+import com.prayer.resource.Injections;
 import com.prayer.util.digraph.Edges;
 
 import net.sf.oval.constraint.NotNull;
@@ -28,7 +28,7 @@ public class DatabaseDalor implements DatabaseDao {
 
     /** Database连接 **/
     public DatabaseDalor() {
-        this.dao = singleton(Accessors.databaser());
+        this.dao = singleton(Injections.Data.META_DALOR);
     }
 
     // ~ Abstract Methods ====================================

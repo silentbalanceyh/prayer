@@ -12,8 +12,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 
-import com.prayer.constant.Accessors;
-import com.prayer.constant.Resources;
 import com.prayer.exception.database.DataAccessException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
@@ -23,6 +21,8 @@ import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.facade.fun.accessor.IBatisMixer;
 import com.prayer.facade.model.entity.Entity;
 import com.prayer.fantasm.exception.AbstractTransactionException;
+import com.prayer.resource.Injections;
+import com.prayer.resource.Resources;
 import com.prayer.util.io.IOKit;
 
 import net.sf.oval.constraint.NotNull;
@@ -58,7 +58,7 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
         this.helper = IBatisHelper.create();
         if (OFFSET_FUN.isEmpty()) {
             // TODO: 【完成】暂时是H2的，计算Offset，可使用函数引用进行分离
-            OFFSET_FUN.put(Resources.META_CATEGORY, IBatisPagination::offset);
+            OFFSET_FUN.put(Resources.Meta.CATEGORY, IBatisPagination::offset);
         }
     }
 
@@ -213,8 +213,8 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     @Override
     public List<Entity> getByPage(final int index, final int size, final String orderBy) {
         final IBatisMapper<Entity, Serializable> mapper = this.helper.beginQuery(this.entityCls);
-        final int offset = OFFSET_FUN.get(Resources.META_CATEGORY).offset(index, size);
-        final List<Entity> entities = mapper.selectByPage(Resources.META_CATEGORY, orderBy, size, offset);
+        final int offset = OFFSET_FUN.get(Resources.Meta.CATEGORY).offset(index, size);
+        final List<Entity> entities = mapper.selectByPage(Resources.Meta.CATEGORY, orderBy, size, offset);
         this.helper.endQuery();
         return entities;
     }
@@ -279,7 +279,7 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     @Override
     public boolean initialize(final String file) throws AbstractTransactionException {
         /** 1.获取元数据连接 **/
-        final JdbcConnection connection = singleton(Accessors.connection());
+        final JdbcConnection connection = singleton(Injections.Meta.CONNECTION);
         /** 2.返回执行结果 **/
         return connection.executeSql(IOKit.getFile(file));
     }

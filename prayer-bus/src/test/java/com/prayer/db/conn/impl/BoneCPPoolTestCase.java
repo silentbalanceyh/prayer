@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.prayer.AbstractCommonTool;
-import com.prayer.constant.Resources;
 import com.prayer.database.pool.impl.BoneCPPool;
 import com.prayer.fantasm.database.pool.AbstractJdbcPool;
+import com.prayer.resource.Resources;
 
 import net.sf.oval.exception.ConstraintsViolatedException;
 
@@ -56,7 +56,7 @@ public class BoneCPPoolTestCase extends AbstractCommonTool {
     /** **/
     @Test
     public void testCon4() {
-        final AbstractJdbcPool pool = instance(BoneCPPool.class.getName(), Resources.DB_CATEGORY);
+        final AbstractJdbcPool pool = instance(BoneCPPool.class.getName(), Resources.Data.CATEGORY);
         assertNotNull(pool);
     }
 
@@ -67,6 +67,10 @@ public class BoneCPPoolTestCase extends AbstractCommonTool {
         if (null != pool) {
             assertNotNull(pool.getExecutor());
         }
+    }
+    /** **/
+    @Test
+    public void testGetJdbcConnection(){
     }
     // ~ hashCode,equals,toString ============================
 }

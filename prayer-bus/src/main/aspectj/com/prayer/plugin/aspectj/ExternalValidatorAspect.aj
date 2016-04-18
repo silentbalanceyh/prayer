@@ -2,14 +2,15 @@ package com.prayer.plugin.aspectj;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.constant.Resources;
 import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.facade.model.crucial.Validator;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.record.Record;
+import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.plugin.AbstractValidatorAspect;
 import com.prayer.model.meta.database.PEField;
+import com.prayer.resource.InceptBus;
 
 /**
  * 外部验证器：调用自定义验证Validator验证Record中的字段
@@ -28,7 +29,8 @@ public aspect ExternalValidatorAspect extends AbstractValidatorAspect {
     // ~ Point Cut Implementation ============================
     /** 针对pattern拦截点的实现，需要抛出异常信息 **/
     after(final String field, final Value<?> value) throws AbstractDatabaseException: ValidatorPointCut(field,value){
-        if (Resources.DB_V_ENABLED) {
+        final boolean validation = InceptBus.build(Point.Database.class).getBoolean(Point.Database.VALIDATION);
+        if (validation) {
             // 1.获取被拦截的字段的Schema
             final PEField schema = this.getField(thisJoinPoint.getTarget(), field);
             if (null != schema) {

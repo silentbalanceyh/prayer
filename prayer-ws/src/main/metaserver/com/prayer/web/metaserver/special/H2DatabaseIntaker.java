@@ -1,41 +1,21 @@
-package com.prayer.bus.record;
+package com.prayer.web.metaserver.special;
 
-import static com.prayer.util.debug.Log.info;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import io.vertx.core.json.JsonObject;
+import com.prayer.facade.metaserver.OptionsIntaker;
 
 /**
- * 
+ * H2 Database配置加载器
  * @author Lang
  *
  */
-public class AccountSSTestCase extends AbstractRTestCase{
+public class H2DatabaseIntaker implements OptionsIntaker {
     // ~ Static Fields =======================================
-
-    /** 日志记录器 **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountSSTestCase.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public Logger getLogger(){
-        return LOGGER;
-    }
     // ~ Methods =============================================
-    /**
-     * 
-     */
-    public void testCallSave(){
-        final JsonObject ret = this.callSevApiSave("account/save.json");
-        info(LOGGER,ret.encode());
-    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

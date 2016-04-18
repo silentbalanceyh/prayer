@@ -18,6 +18,7 @@ import net.sf.oval.guard.Guarded;
  * @author Lang
  */
 @Guarded
+@Deprecated
 public final class Resources { // NOPMD
     // ~ Static Fields =======================================
 
@@ -194,7 +195,7 @@ public final class Resources { // NOPMD
         // Jdbc Database Pool
         DB_POOL = LOADER.getString("database.pool.impl");
         // Meta Accessor Implementation
-        META_ACCESSOR = LOADER.getString("database.accessor.impl");
+        META_ACCESSOR = LOADER.getString("meta.accessor.impl");
         // =====================================================
         DB_BUILDER = LOADER.getString("database.meta.builder");
 

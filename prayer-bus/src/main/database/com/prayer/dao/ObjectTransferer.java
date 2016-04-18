@@ -6,20 +6,20 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.crucial.Transducer.V;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.entity.Entity;
 import com.prayer.facade.model.record.Record;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.facade.resource.Point;
 import com.prayer.facade.util.Transferer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.model.AbstractEntity;
-import com.prayer.model.crucial.MetaRaw;
 import com.prayer.model.crucial.MetaRecord;
 import com.prayer.model.type.DataType;
+import com.prayer.resource.InceptBus;
 import com.prayer.util.business.JsonTrier;
-import com.prayer.util.io.PropertyKit;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -41,7 +41,7 @@ import net.sf.oval.guard.Guarded;
 public final class ObjectTransferer implements Transferer {
     // ~ Static Fields =======================================
     /** 元数据资源文件 **/
-    private static final PropertyKit LOADER = new PropertyKit(MetaRaw.class, Resources.OOB_SCHEMA_FILE);
+    private static final Inceptor LOADER = InceptBus.build(Point.Schema.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

@@ -15,8 +15,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
-import com.prayer.constant.Accessors;
-import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.ObjectTransferer;
 import com.prayer.database.util.sql.SqlDMLBuilder;
@@ -30,6 +28,8 @@ import com.prayer.facade.model.crucial.Expression;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.entity.Entity;
 import com.prayer.facade.model.record.Record;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.facade.resource.Point;
 import com.prayer.facade.util.Transferer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractTransactionException;
@@ -37,11 +37,12 @@ import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
 import com.prayer.model.crucial.MetaRecord;
 import com.prayer.model.meta.database.PEField;
+import com.prayer.resource.InceptBus;
+import com.prayer.resource.Injections;
 import com.prayer.util.exception.Interrupter.Api;
 import com.prayer.util.exception.Interrupter.Policy;
 import com.prayer.util.exception.Interrupter.PrimaryKey;
 import com.prayer.util.exception.Interrupter.Response;
-import com.prayer.util.io.PropertyKit;
 import com.prayer.util.jdbc.QueryHelper;
 
 import net.sf.oval.constraint.InstanceOf;
@@ -76,7 +77,7 @@ public abstract class AbstractMetaDalor<ID extends Serializable> implements Reco
     public AbstractMetaDalor() {
         this.transferer = singleton(ObjectTransferer.class);
         this.builder = SqlDMLBuilder.create();
-        this.connection = singleton(Accessors.connection());
+        this.connection = singleton(Injections.Meta.CONNECTION);
     }
 
     // ~ Abstract Methods ====================================
@@ -250,9 +251,9 @@ public abstract class AbstractMetaDalor<ID extends Serializable> implements Reco
     // ~ Private Methods =====================================
     /** 读取元数据的Accessor **/
     private MetaAccessor getDao(final String identifier) {
-        final PropertyKit LOADER = new PropertyKit(getClass(), Resources.OOB_SCHEMA_FILE);
+        final Inceptor LOADER = InceptBus.build(Point.Schema.class);
         final String clsName = LOADER.getString(identifier + ".instance");
-        return reservoir(clsName, clazz(Accessors.accessor()), clazz(clsName));
+        return reservoir(clsName, Injections.Data.ACCESSOR, clazz(clsName));
     }
 
     private String buildPager(final Record record, final String[] columns, final Expression filters,

@@ -2,7 +2,10 @@ package com.prayer.util.entity.bits;
 
 import static com.prayer.util.Converter.fromStr;
 
-import com.prayer.constant.Resources;
+import java.nio.charset.Charset;
+
+import com.prayer.facade.resource.Point;
+import com.prayer.resource.InceptBus;
 import com.prayer.util.string.StringKit;
 
 /**
@@ -13,6 +16,10 @@ import com.prayer.util.string.StringKit;
  */
 public final class BitsEnum {
     // ~ Static Fields =======================================
+    /** **/
+    private static final Charset ENCODING = Charset
+            .forName(InceptBus.build(Point.System.class).getString(Point.System.ENCODING));
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -25,7 +32,7 @@ public final class BitsEnum {
     public static <T extends Enum<T>> T fromBytes(final Class<T> type, final byte[] bytes) {
         T ret = null;
         if (null != bytes && 0 < bytes.length) {
-            final String value = new String(bytes, Resources.SYS_ENCODING);
+            final String value = new String(bytes, ENCODING);
             if (StringKit.isNonNil(value)) {
                 ret = fromStr(type, value);
             }
@@ -42,16 +49,18 @@ public final class BitsEnum {
     public static <T> byte[] toBytes(final T data) {
         byte[] ret = new byte[] {};
         if (null != data && data.getClass() == Enum.class) {
-            ret = data.toString().getBytes(Resources.SYS_ENCODING);
+            ret = data.toString().getBytes(ENCODING);
         }
         return ret;
     }
+
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private BitsEnum(){}
+    private BitsEnum() {
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

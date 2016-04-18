@@ -15,6 +15,8 @@ import com.prayer.dao.data.DatabaseDalor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.database.dao.DatabaseDao;
+import com.prayer.facade.resource.Point;
+import com.prayer.resource.InceptBus;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.PropertyKit;
 import com.prayer.util.string.StringKit;
@@ -56,8 +58,8 @@ public final class SqlTypes {
     /** 初始化数据类型映射表，直接根据Database填充 **/
     static {
         /** 1.可支持类型集合 **/
-        final String typeFile = Resources.DB_TYPES_FILE + dao.getFile() + "/types" + Symbol.DOT
-                + Constants.EXTENSION.JSON;
+        final String mappingFolder = InceptBus.build(Point.Database.class).getString(Point.Database.Jdbc.MAPPING);
+        final String typeFile = mappingFolder + dao.getFile() + "/types" + Symbol.DOT + Constants.EXTENSION.JSON;
         try {
             DB_TYPE_SET.clear();
             final String content = IOKit.getContent(typeFile);
@@ -71,8 +73,7 @@ public final class SqlTypes {
             jvmError(LOGGER, ex);
         }
         /** 2.映射表的信息 **/
-        final String sptFile = Resources.DB_TYPES_FILE + dao.getFile() + "/mapping" + Symbol.DOT
-                + Constants.EXTENSION.JSON;
+        final String sptFile = mappingFolder + dao.getFile() + "/mapping" + Symbol.DOT + Constants.EXTENSION.JSON;
         try {
             DB_SUPPORT_TYPES.clear();
             final String content = IOKit.getContent(sptFile);
@@ -88,8 +89,7 @@ public final class SqlTypes {
         }
 
         /** 3.系统使用的映射表 **/
-        final String mappingFile = Resources.DB_TYPES_FILE + dao.getFile() + "/mapping" + Symbol.DOT
-                + Constants.EXTENSION.PROP;
+        final String mappingFile = mappingFolder + dao.getFile() + "/mapping" + Symbol.DOT + Constants.EXTENSION.PROP;
         DB_MAPPING.clear();
         final PropertyKit loader = new PropertyKit(mappingFile);
         final Properties prop = loader.getProp();
@@ -102,8 +102,7 @@ public final class SqlTypes {
             }
         }
         /** 4.系统使用的类型转换表 **/
-        final String rvectorFile = Resources.DB_TYPES_FILE + dao.getFile() + "/vectors" + Symbol.DOT
-                + Constants.EXTENSION.JSON;
+        final String rvectorFile = mappingFolder + dao.getFile() + "/vectors" + Symbol.DOT + Constants.EXTENSION.JSON;
         try {
             DB_REVERT_VECTORS.clear();
             final String content = IOKit.getContent(rvectorFile);

@@ -12,6 +12,7 @@ import net.sf.oval.guard.Guarded;
  * @see
  */
 @Guarded
+@Deprecated
 public final class Accessors {
     // ~ Static Fields =======================================
     /** 默认值 **/

@@ -13,9 +13,10 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.resource.Point;
+import com.prayer.resource.InceptBus;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
@@ -93,11 +94,12 @@ public final class Converter {
         }
         return toStr(retArr);
     }
+
     /** **/
     @NotNull
     @NotEmpty
     @NotBlank
-    public static String toStr(@NotNull @MinSize(1) final HttpMethod... methods){
+    public static String toStr(@NotNull @MinSize(1) final HttpMethod... methods) {
         final StringBuilder retStr = new StringBuilder();
         for (int i = 0; i < methods.length; i++) {
             retStr.append(methods[i]);
@@ -141,7 +143,7 @@ public final class Converter {
             out.write(data, Constants.ZERO, count);
         }
         if (Constants.ZERO < out.size()) {
-            ret = new String(out.toByteArray(), Resources.SYS_ENCODING);
+            ret = new String(out.toByteArray(), InceptBus.build(Point.System.class).getString(Point.System.ENCODING));
             // Close Output Stream
             out.close();
         }

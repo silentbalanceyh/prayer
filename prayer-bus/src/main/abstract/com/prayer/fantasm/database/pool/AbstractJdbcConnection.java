@@ -1,6 +1,5 @@
 package com.prayer.fantasm.database.pool;
 
-import static com.prayer.constant.Accessors.pool;
 import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.reflection.Instance.reservoir;
 
@@ -22,6 +21,7 @@ import com.prayer.facade.database.pool.JdbcPool;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.model.business.Metadata;
 import com.prayer.model.type.DataType;
+import com.prayer.resource.Injections;
 import com.prayer.util.jdbc.Input;
 import com.prayer.util.jdbc.Output;
 import com.prayer.util.jdbc.SqlKit;
@@ -57,9 +57,9 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
         synchronized (getClass()) {
             if (null == category) {
                 // Fix数据源切换的问题
-                this.dbPool = reservoir("DEFAULT", pool());
+                this.dbPool = reservoir("DEFAULT", Injections.Data.POOL);
             } else {
-                this.dbPool = reservoir(category, pool(), category);
+                this.dbPool = reservoir(category, Injections.Data.POOL, category);
             }
         }
     }
