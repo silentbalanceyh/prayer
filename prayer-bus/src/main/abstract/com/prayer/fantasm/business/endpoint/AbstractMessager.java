@@ -2,12 +2,15 @@ package com.prayer.fantasm.business.endpoint;
 
 import static com.prayer.util.reflection.Instance.reservoir;
 
+import java.util.Arrays;
+
 import javax.script.ScriptException;
 
 import org.slf4j.Logger;
 
 import com.prayer.business.service.RecordBehavior;
 import com.prayer.exception.web.JSScriptEngineException;
+import com.prayer.exception.web.RequestMethodConflictException;
 import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.fun.endpoint.Behavior;
 import com.prayer.fantasm.exception.AbstractException;
@@ -15,6 +18,7 @@ import com.prayer.model.business.behavior.ActRequest;
 import com.prayer.model.business.behavior.ActResponse;
 import com.prayer.util.debug.Log;
 
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -54,37 +58,39 @@ public abstract class AbstractMessager {
     // ~ Override Methods ====================================
     /** 函数映射方式 **/
     public JsonObject put(@NotNull final JsonObject request) {
-        return this.execute(request, this.behavior::save);
+        return this.execute(request, new HttpMethod[] { HttpMethod.PUT }, this.behavior::save);
     }
 
     /** **/
     public JsonObject post(@NotNull final JsonObject request) {
-        return this.execute(request, this.behavior::save);
+        return this.execute(request, new HttpMethod[] { HttpMethod.POST }, this.behavior::save);
     }
 
     /** **/
     public JsonObject delete(@NotNull final JsonObject request) {
-        return this.execute(request, this.behavior::remove);
+        return this.execute(request, new HttpMethod[] { HttpMethod.DELETE }, this.behavior::remove);
     }
 
     /** **/
     public JsonObject get(@NotNull final JsonObject request) {
-        return this.execute(request, this.behavior::find);
+        return this.execute(request, new HttpMethod[] { HttpMethod.GET }, this.behavior::find);
     }
 
     /** **/
     public JsonObject page(@NotNull final JsonObject request) {
-        return this.execute(request, this.behavior::page);
+        return this.execute(request, new HttpMethod[] { HttpMethod.POST }, this.behavior::page);
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     /** 私有函数调用 **/
-    private JsonObject execute(final JsonObject requestData, final Behavior behavior) {
+    private JsonObject execute(final JsonObject requestData, final HttpMethod[] methods, final Behavior behavior) {
         ActResponse response = new ActResponse();
         try {
             ActRequest request = new ActRequest(requestData);
-            if (null == request.getError()) {
+            if (request.success()) {
+                /** 验证方法 **/
+                this.verifyMethod(request, methods, behavior);
                 /** 请求合法 **/
                 response = behavior.dispatch(request);
             } else {
@@ -98,6 +104,15 @@ public abstract class AbstractMessager {
             response.failure(new JSScriptEngineException(getClass(), ex.toString()));
         }
         return response.getResult();
+    }
+    /** 方法验证 **/
+    private void verifyMethod(final ActRequest request, final HttpMethod[] methods, final Behavior behavior)
+            throws AbstractException {
+        /** 1.request中的method是否在允许范围内 **/
+        boolean contains = Arrays.asList(methods).contains(request.getMethod());
+        if (!contains) {
+            throw new RequestMethodConflictException(getClass(), request.getMethod().name(), methods);
+        }
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

@@ -1,0 +1,9 @@
+{
+    "identifier":"meta-address",
+    "method":"POST",
+    "data":{
+        "workClass":"com.prayer.model.entity.clazz.EntityHandler",
+        "consumerAddr":"MSG://QUEUE/PAGE",
+        "consumerHandler":"com.prayer.model.entity.clazz.EntityHandler"
+    }
+}

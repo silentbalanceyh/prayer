@@ -4,6 +4,7 @@ import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.reflection.Instance.reservoir;
 import static com.prayer.util.reflection.Instance.singleton;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.business.script.js.JSEngine;
 import com.prayer.dao.ObjectTransferer;
 import com.prayer.exception.web.JSScriptEngineException;
+import com.prayer.exception.web.RequestMethodConflictException;
 import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.fun.endpoint.Behavior;
@@ -28,6 +30,7 @@ import com.prayer.model.business.behavior.ActRequest;
 import com.prayer.model.business.behavior.ActResponse;
 import com.prayer.util.debug.Log;
 
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
@@ -101,7 +104,7 @@ public class RecordBehavior implements RecordService {
      */
     @Override
     public ActResponse find(@NotNull final ActRequest request) {
-        return this.execute(this::findAct, request);
+        return this.execute(request, new HttpMethod[] { HttpMethod.GET }, this::findAct);
     }
 
     /**
@@ -111,7 +114,7 @@ public class RecordBehavior implements RecordService {
      */
     @Override
     public ActResponse page(@NotNull final ActRequest request) {
-        return this.execute(this::pageAct, request);
+        return this.execute(request, new HttpMethod[] { HttpMethod.POST }, this::pageAct);
     }
 
     /**
@@ -119,7 +122,7 @@ public class RecordBehavior implements RecordService {
      */
     @Override
     public ActResponse save(@NotNull final ActRequest request) {
-        return this.execute(this::saveAct, request);
+        return this.execute(request, new HttpMethod[] { HttpMethod.PUT, HttpMethod.POST }, this::saveAct);
     }
 
     /**
@@ -127,7 +130,7 @@ public class RecordBehavior implements RecordService {
      */
     @Override
     public ActResponse remove(@NotNull final ActRequest request) {
-        return this.execute(this::removeAct, request);
+        return this.execute(request, new HttpMethod[] { HttpMethod.DELETE }, this::removeAct);
     }
 
     // ~ Private Methods =====================================
@@ -218,10 +221,22 @@ public class RecordBehavior implements RecordService {
         return response;
     }
 
+    /** 方法验证 **/
+    private void verifyMethod(final ActRequest request, final HttpMethod[] methods, final Behavior behavior)
+            throws AbstractException {
+        /** 1.request中的method是否在允许范围内 **/
+        boolean contains = Arrays.asList(methods).contains(request.getMethod());
+        if (!contains) {
+            throw new RequestMethodConflictException(getClass(), request.getMethod().name(), methods);
+        }
+    }
+
     /** Controller Method **/
-    private ActResponse execute(final Behavior behavior, final ActRequest request) {
+    private ActResponse execute(final ActRequest request, final HttpMethod[] methods, final Behavior behavior) {
         final ActResponse response = new ActResponse();
         try {
+            /** **/
+            this.verifyMethod(request, methods, behavior);
             final ActResponse ret = behavior.dispatch(request);
             response.success(ret.getResult());
         } catch (ScriptException ex) {

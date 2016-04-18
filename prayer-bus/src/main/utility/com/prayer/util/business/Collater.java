@@ -1,6 +1,9 @@
 package com.prayer.util.business;
 
+import static com.prayer.util.Calculator.intersect;
+
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
@@ -8,6 +11,8 @@ import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import jodd.util.StringUtil;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -24,6 +29,33 @@ public final class Collater { // NOPMD
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    /**
+     * 
+     * @param left
+     * @param right
+     * @return
+     */
+    public static boolean equal(@NotNull final JsonObject left, @NotNull final JsonObject right) {
+        boolean equal = true;
+        final Collection<String> keys = intersect(right.fieldNames(), left.fieldNames());
+        if (keys.size() != left.size() && keys.size() != right.size()) {
+            equal = false;
+        } else {
+            /** 1.左遍历 **/
+            for (final String field : left.fieldNames()) {
+                if (right.containsKey(field)) {
+                    final Object lValue = left.getValue(field);
+                    final Object rValue = right.getValue(field);
+                    equal = equalValue(lValue, rValue);
+                    if (!equal) {
+                        break;
+                    }
+                }
+            }
+        }
+        return equal;
+    }
+
     /**
      * 对比两个Record是否相等，主要对比identifier和data（数据部分）
      * 
@@ -114,6 +146,38 @@ public final class Collater { // NOPMD
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    private static boolean equalValue(final Object left, final Object right) {
+        boolean equal = true;
+        /** Object **/
+        if (null == left && null == right) {
+            equal = true;
+        } else if (null != left && null != right) {
+            /** JsonArray的比较Bug，需要手工修复 **/
+            if (left instanceof JsonArray && right instanceof JsonArray) {
+                final JsonArray lArr = ((JsonArray) left);
+                final JsonArray rArr = ((JsonArray) right);
+                equal = equalValue(lArr.getList(),rArr.getList());
+            } else if (left instanceof JsonObject && right instanceof JsonObject) {
+                /** JsonObject **/
+                final JsonObject lObj = ((JsonObject) left);
+                final JsonObject rObj = ((JsonObject) right);
+                for (final String field : lObj.fieldNames()) {
+                    final Object lValue = lObj.getValue(field);
+                    final Object rValue = rObj.getValue(field);
+                    equal = equalValue(lValue, rValue);
+                    if (!equal) {
+                        break;
+                    }
+                }
+            } else {
+                equal = left.equals(right);
+            }
+        } else {
+            equal = false;
+        }
+        return equal;
+    }
+
     private Collater() {
     }
     // ~ Get/Set =============================================

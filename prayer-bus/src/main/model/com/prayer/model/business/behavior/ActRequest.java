@@ -223,7 +223,7 @@ public class ActRequest implements Serializable {
         }
     }
 
-    // ~ Get/Set =============================================
+    // ~ Data Modify =========================================
     /**
      * 将数据放到data中
      * 
@@ -235,12 +235,21 @@ public class ActRequest implements Serializable {
     }
 
     /**
+     * 
+     * @param method
+     */
+    public void putData(final HttpMethod method) {
+        this.method = method;
+    }
+
+    /**
      * 清除Data中的数据
      */
     public void clearData() {
         this.data.clear();
     }
 
+    // ~ Get/Set =============================================
     /**
      * @return the identifier
      */

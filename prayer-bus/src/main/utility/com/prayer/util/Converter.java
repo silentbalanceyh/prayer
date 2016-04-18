@@ -17,6 +17,7 @@ import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.MinSize;
@@ -91,6 +92,20 @@ public final class Converter {
             retArr[idx] = array.getString(idx);
         }
         return toStr(retArr);
+    }
+    /** **/
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    public static String toStr(@NotNull @MinSize(1) final HttpMethod... methods){
+        final StringBuilder retStr = new StringBuilder();
+        for (int i = 0; i < methods.length; i++) {
+            retStr.append(methods[i]);
+            if (i < methods.length - 1) {
+                retStr.append(Symbol.COMMA);
+            }
+        }
+        return retStr.toString();
     }
 
     /**

@@ -12,11 +12,11 @@ import com.prayer.business.service.AbstractMetaTool;
  * @author Lang
  *
  */
-public class ScriptRecordTestCase extends AbstractMetaTool {
+public class AddressRecordTestCase extends AbstractMetaTool {
     // ~ Static Fields =======================================
 
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptRecordTestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddressRecordTestCase.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -24,19 +24,12 @@ public class ScriptRecordTestCase extends AbstractMetaTool {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public Logger getLogger() {
-        return LOGGER;
-    }
-
-    // ~ Methods =============================================
     /**
      * Save Action对应的接口测试
      */
     @Test
     public void testSave() {
-        this.executeTestCase("save/script-request1.json", Assert::assertTrue);
+        this.executeTestCase("save/address-request1.json", Assert::assertTrue);
     }
 
     /**
@@ -44,8 +37,15 @@ public class ScriptRecordTestCase extends AbstractMetaTool {
      */
     @Test
     public void testUpdate() {
-        this.executeTestCase("save/script-request2.json", "save/script-request2-updated.json", Assert::assertTrue);
+        this.executeTestCase("save/address-request2.json", "save/address-request2-updated.json", Assert::assertTrue);
     }
+
+    /** **/
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
+    }
+    // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

@@ -1,0 +1,28 @@
+{
+    "identifier":"meta-field",
+    "method":"POST",
+    "data":{
+        "name":"TstName",
+        "type":"StringType",
+        "pattern":"aabbesses",
+        "validator":"com.prayer.model.entity.clazz.EntityHandler",
+        "length":192,
+        "datetime":"STRING",
+        "dateFormat":"yyyy-MM-dd HH:mm:ss",
+        "precision":4,
+        "unit":"￥",
+        "maxLength":120,
+        "minLength":30,
+        "max":3000,
+        "min":500,
+        "primarykey":true,
+        "unique":false,
+        "subtable":true,
+        "foreignkey":false,
+        "nullable":true,
+        "columnName":"S_NAME",
+        "columnType":"BOOLEAN",
+        "refTable":"SEC_TABLE",
+        "refId":"R_META_ID"
+    }
+}

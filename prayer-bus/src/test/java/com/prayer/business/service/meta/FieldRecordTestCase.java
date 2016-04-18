@@ -12,11 +12,11 @@ import com.prayer.business.service.AbstractMetaTool;
  * @author Lang
  *
  */
-public class ScriptRecordTestCase extends AbstractMetaTool {
+public class FieldRecordTestCase extends AbstractMetaTool {
     // ~ Static Fields =======================================
 
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptRecordTestCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FieldRecordTestCase.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -32,11 +32,11 @@ public class ScriptRecordTestCase extends AbstractMetaTool {
 
     // ~ Methods =============================================
     /**
-     * Save Action对应的接口测试
+     * Save Action测试接口
      */
     @Test
     public void testSave() {
-        this.executeTestCase("save/script-request1.json", Assert::assertTrue);
+        this.executeTestCase("save/field-request1.json", Assert::assertTrue);
     }
 
     /**
@@ -44,7 +44,7 @@ public class ScriptRecordTestCase extends AbstractMetaTool {
      */
     @Test
     public void testUpdate() {
-        this.executeTestCase("save/script-request2.json", "save/script-request2-updated.json", Assert::assertTrue);
+        this.executeTestCase("save/field-request2.json", "save/field-request2-updated.json", Assert::assertTrue);
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
