@@ -1,0 +1,10 @@
+{
+    "identifier":"meta-vcolumn",
+    "method":"POST",
+    "data":{
+        "name":"testname",
+        "type":"IntType",
+        "columnName":"SEC_NAME",
+        "columnType":"BOOLEAN"
+    }
+}

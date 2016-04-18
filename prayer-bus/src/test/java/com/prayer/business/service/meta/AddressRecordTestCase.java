@@ -5,14 +5,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.service.AbstractMetaTool;
+import com.prayer.business.service.AbstractMetaServiceTool;
 
 /**
  * 
  * @author Lang
  *
  */
-public class AddressRecordTestCase extends AbstractMetaTool {
+public class AddressRecordTestCase extends AbstractMetaServiceTool {
     // ~ Static Fields =======================================
 
     /** **/

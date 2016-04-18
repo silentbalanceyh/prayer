@@ -1,0 +1,18 @@
+{
+    "identifier":"meta-index",
+    "method":"POST",
+    "data":{
+        "name":"IDX_SEC_ROLEA",
+        "columns":[
+            {
+                "name":"S_NAME1",
+                "order":"ASC"
+            },
+            {
+                "name":"S_CODE2",
+                "order":"DESC"
+            }
+        ],
+        "refId":"testRefId"
+    }
+}

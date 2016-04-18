@@ -1,0 +1,18 @@
+{
+    "identifier":"meta-route",
+    "method":"POST",
+    "data":{
+        "parent":"/api",
+        "path":"/sec/curupdate",
+        "consumerMimes":[
+            "application/json"
+        ],
+        "producerMimes":[
+            "application/json"
+        ],
+        "method":"POST",
+        "order":10,
+        "requestHandler":"com.prayer.model.entity.clazz.EntityHandler",
+        "failureHandler":"com.prayer.model.entity.clazz.EntityHandler"
+    }
+}

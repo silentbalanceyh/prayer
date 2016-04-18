@@ -1,0 +1,13 @@
+{
+    "identifier":"meta-key",
+    "method":"POST",
+    "data":{
+        "name":"testname1",
+        "category":"PrimaryKey",
+        "columns":[
+            "SEC_COL11",
+            "SEC_COL21"
+        ],
+        "multi":true
+    }
+}

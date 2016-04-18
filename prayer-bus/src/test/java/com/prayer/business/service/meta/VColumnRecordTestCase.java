@@ -12,12 +12,12 @@ import com.prayer.business.service.AbstractMetaServiceTool;
  * @author Lang
  *
  */
-public class ScriptRecordTestCase extends AbstractMetaServiceTool {
+public class VColumnRecordTestCase extends AbstractMetaServiceTool {
     // ~ Static Fields =======================================
 
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptRecordTestCase.class);
 
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(VColumnRecordTestCase.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -26,25 +26,23 @@ public class ScriptRecordTestCase extends AbstractMetaServiceTool {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public Logger getLogger() {
+    public Logger getLogger(){
         return LOGGER;
     }
-
     // ~ Methods =============================================
     /**
-     * Save Action对应的接口测试
+     * Save Action测试接口
      */
     @Test
-    public void testSave() {
-        this.executeTestCase("save/script-request1.json", Assert::assertTrue);
+    public void testSave(){
+        this.executeTestCase("save/vcolumn-request1.json", Assert::assertTrue);
     }
-
     /**
-     * Update对应的接口测试
+     * 
      */
     @Test
-    public void testUpdate() {
-        this.executeTestCase("save/script-request2.json", "save/script-request2-updated.json", Assert::assertTrue);
+    public void testUpdate(){
+        this.executeTestCase("save/vcolumn-request2.json", "save/vcolumn-request2-updated.json", Assert::assertTrue);
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

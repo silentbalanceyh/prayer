@@ -1,0 +1,14 @@
+{
+    "identifier":"meta-view",
+    "method":"POST",
+    "data":{
+        "status":"USER",
+        "name":"SecView",
+        "namespace":"com.prayer.engine.security",
+        "identifier":"sec.role",
+        "category":"ORACLE",
+        "view":"V_SELECT",
+        "statement":"SELECT * FROM SEC_ROLE",
+        "check":true
+    }
+}

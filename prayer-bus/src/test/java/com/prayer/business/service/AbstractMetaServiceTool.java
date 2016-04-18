@@ -19,7 +19,7 @@ import io.vertx.core.http.HttpMethod;
  * @author Lang
  *
  */
-public abstract class AbstractMetaTool extends AbstractService {
+public abstract class AbstractMetaServiceTool extends AbstractService {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

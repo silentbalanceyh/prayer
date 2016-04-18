@@ -1,0 +1,24 @@
+{
+    "identifier":"meta-verticle",
+    "method":"POST",
+    "data":{
+        "name":"com.prayer.model.entity.clazz.EntityHandler",
+        "instances":8,
+        "group":"__DEFAULTA__",
+        "jsonConfig":{
+            "extension":"sql",
+            "filename":"execute"
+        },
+        "isolatedClasses":[
+            "Classes1",
+            "Classes2"
+        ],
+        "extraCp":[
+            "C:\\data.txt;",
+            "C:/Dev/JDK/lib"
+        ],
+        "ha":true,
+        "worker":false,
+        "multi":false
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "identifier":"meta-meta",
+    "method":"POST",
+    "data":{
+        "status":"SYSTEM",
+        "name":"User",
+        "namespace":"com.prayer.security.model",
+        "category":"ENTITY",
+        "identifier":"sec.role.updated",
+        "mapping":"DIRECT",
+        "policy":"GUID",
+        "table":"SEC_ROLE_1",
+        "subtable":"SEC_TABLE_1",
+        "subkey":"K_ID",
+        "seqname":"SEQ_TESTA",
+        "seqstep":2,
+        "seqinit":1
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "identifier":"meta-trigger",
+    "method":"POST",
+    "data":{
+        "name":"TG_UPDATE",
+        "category":"MSSQL",
+        "target":"VIEW",
+        "opType":"UPDATE",
+        "mode":"BEFORE",
+        "statement":"SELECT * FROM SEC_ROLE",
+        "refId":"referenceId"
+    }
+}

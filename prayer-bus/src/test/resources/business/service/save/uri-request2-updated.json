@@ -1,0 +1,20 @@
+{
+    "identifier":"meta-uri",
+    "method":"POST",
+    "data":{
+        "uri":"/api/sec/role/sub",
+        "method":"GET",
+        "paramType":"FORM",
+        "requiredParam":[
+            "name",
+            "code"
+        ],
+        "identifier":"sec.role.updated",
+        "address":"messageAddressA",
+        "script":"sec.test.test",
+        "returnFilters":[
+            "password"
+        ],
+        "sender":"com.prayer.model.entity.clazz.EntityHandler"
+    }
+}

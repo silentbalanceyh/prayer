@@ -1,0 +1,14 @@
+{
+    "identifier":"meta-view",
+    "method":"POST",
+    "data":{
+        "status":"USER",
+        "name":"SecUpdateView",
+        "namespace":"com.prayer.engine.security",
+        "identifier":"sec.role.test",
+        "category":"MSSQL",
+        "view":"V_SELECT",
+        "statement":"SELECT * FROM SEC_ROLE WHERE ROLE_ID='TEST'",
+        "check":true
+    }
+}
