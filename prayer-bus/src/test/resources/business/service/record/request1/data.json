@@ -1,0 +1,19 @@
+{
+    "identifier":"tst.mod.record1",
+    "method":"POST",
+    "data":{
+        "uk1":"TestUK1Data",
+        "muk1":"TestMUK1Data",
+        "muk2":"TestMUK2Data",
+        "tstring":"StringData",
+        "tlong":65000000,
+        "tint":12000,
+        "txml":"<xml><book></book></xml>",
+        "tjson":"{\"name\":\"Lang.Yu\"}",
+        "tscript":"var i=0;",
+        "tdecimal":22.5,
+        "tdate":"2015-04-01 23:35:00",
+        "tboolean":true,
+        "tbinary":"ByteData"
+    }
+}

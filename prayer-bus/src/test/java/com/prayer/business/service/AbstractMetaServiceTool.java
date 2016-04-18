@@ -1,11 +1,8 @@
 package com.prayer.business.service;
 
-import static com.prayer.util.debug.Log.peError;
-
 import com.prayer.business.AbstractService;
 import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.constant.Constants;
-import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.behavior.ActResponse;
 import com.prayer.model.crucial.MetaRecord;
 import com.prayer.record.fun.Evaluator;
@@ -33,12 +30,12 @@ public abstract class AbstractMetaServiceTool extends AbstractService {
         /** 1.Save Action调用 **/
         final ActResponse response = this.execute(this.getService()::save, dataFile);
         /** 2.无错误 **/
-        evaluator.evalTrue("[T] Test (save) Act : " + dataFile, traceError(response.getError()));
+        evaluator.evalTrue("[T] MetaRecord Test (save) Act : " + dataFile, traceError(response.getError()));
         /** 3.Delete Action调用 **/
         final ActResponse deleted = this.executeWithData(response, dataFile, HttpMethod.DELETE,
                 this.getService()::remove);
         /** 4.无错误 **/
-        evaluator.evalTrue("[T] Purged by (remove) Act : " + dataFile, traceError(deleted.getError()));
+        evaluator.evalTrue("[T] MetaRecord Purged by (remove) Act : " + dataFile, traceError(deleted.getError()));
     }
 
     /** **/
@@ -46,21 +43,21 @@ public abstract class AbstractMetaServiceTool extends AbstractService {
         /** 1.Save Action调用 **/
         final ActResponse response = this.execute(this.getService()::save, dataFile);
         /** 2.无错误 **/
-        evaluator.evalTrue("[T] Prepare (save) Act : " + dataFile, traceError(response.getError()));
+        evaluator.evalTrue("[T] MetaRecord Prepare (save) Act : " + dataFile, traceError(response.getError()));
         /** 3.Update Action调用 **/
         final ActResponse updated = this.executeWithData(response, updatedFile, HttpMethod.PUT,
                 this.getService()::save);
         /** 4.无错误 **/
-        evaluator.evalTrue("[T] Test (save) Act : " + dataFile, traceError(response.getError()));
-        evaluator.evalTrue("[T] Test (save) Act result : " + dataFile,
+        evaluator.evalTrue("[T] MetaRecord Test (save) Act : " + dataFile, traceError(response.getError()));
+        evaluator.evalTrue("[T] MetaRecord Test (save) Act result : " + dataFile,
                 !Collater.equal(response.getResult(), updated.getResult()));
-        evaluator.evalTrue("[T] Test (save) Act uniqueId : " + dataFile, StringKit
+        evaluator.evalTrue("[T] MetaRecord Test (save) Act uniqueId : " + dataFile, StringKit
                 .equals(response.getResult().getString(Constants.PID), updated.getResult().getString(Constants.PID)));
         /** 5.Delete Action调用 **/
         final ActResponse deleted = this.executeWithData(response, dataFile, HttpMethod.DELETE,
                 this.getService()::remove);
         /** 6.无错误 **/
-        evaluator.evalTrue("[T] Purged by (remove) Act : " + dataFile, traceError(deleted.getError()));
+        evaluator.evalTrue("[T] MetaRecord Purged by (remove) Act : " + dataFile, traceError(deleted.getError()));
     }
 
     /** **/
@@ -69,12 +66,6 @@ public abstract class AbstractMetaServiceTool extends AbstractService {
     }
 
     // ~ Private Methods =====================================
-    private boolean traceError(final AbstractException ex) {
-        if (null != ex) {
-            peError(getLogger(), ex);
-        }
-        return null == ex;
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

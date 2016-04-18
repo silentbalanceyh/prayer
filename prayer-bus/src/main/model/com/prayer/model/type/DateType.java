@@ -33,7 +33,7 @@ public class DateType implements Value<Date> {
 
     /** **/
     public DateType(final String value) {
-        this.value = Convert.toDate(value, new Date());
+        this.value = Convert.toDate(value);
     }
 
     /** **/
@@ -80,7 +80,7 @@ public class DateType implements Value<Date> {
 
     /** **/
     public void setValue(final String value) {
-        this.value = Convert.toDate(value, new Date());
+        this.value = Convert.toDate(value);
     }
 
     // ~ hashCode,equals,toString ============================
