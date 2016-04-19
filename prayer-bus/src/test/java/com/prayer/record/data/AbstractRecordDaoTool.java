@@ -12,7 +12,6 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.AbstractCommonTool;
 import com.prayer.Assistant;
 import com.prayer.business.deployment.impl.SchemaBllor;
-import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.data.DataRecordDalor;
 import com.prayer.facade.business.instantor.schema.SchemaInstantor;
@@ -26,6 +25,7 @@ import com.prayer.model.crucial.DataRecord;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.type.StringType;
 import com.prayer.record.fun.Evaluator;
+import com.prayer.resource.Resources;
 import com.prayer.util.business.Collater;
 
 import jodd.util.StringUtil;
@@ -70,7 +70,7 @@ public abstract class AbstractRecordDaoTool extends AbstractCommonTool {
 
     /** 当前访问的Database是否匹配 **/
     protected boolean isValidDB() {
-        return StringUtil.equals(getCategory(), Resources.DB_CATEGORY);
+        return StringUtil.equals(getCategory(), Resources.Data.CATEGORY);
     }
 
     /** 获取服务层访问接口 **/

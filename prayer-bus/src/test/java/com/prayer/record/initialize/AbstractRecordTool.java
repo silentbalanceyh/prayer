@@ -4,10 +4,10 @@ import static com.prayer.util.reflection.Instance.instance;
 
 import com.prayer.AbstractCommonTool;
 import com.prayer.business.deployment.impl.SchemaBllor;
-import com.prayer.constant.Resources;
 import com.prayer.facade.business.instantor.schema.SchemaInstantor;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.resource.Resources;
 import com.prayer.util.string.StringKit;
 
 /**
@@ -40,7 +40,7 @@ public abstract class AbstractRecordTool extends AbstractCommonTool {
     // ~ Methods =============================================
     /** **/
     protected boolean isValidDB() {
-        return StringKit.equals(getCategory(), Resources.DB_CATEGORY);
+        return StringKit.equals(getCategory(), Resources.Data.CATEGORY);
     }
 
     /** **/

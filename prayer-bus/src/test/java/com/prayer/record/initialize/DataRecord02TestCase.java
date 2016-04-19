@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
 import com.prayer.exception.validator.CustomValidatorException;
 import com.prayer.exception.validator.LengthFailureException;
 import com.prayer.exception.validator.NotNullFailureException;
@@ -17,10 +16,12 @@ import com.prayer.exception.validator.PatternFailureException;
 import com.prayer.exception.validator.PrecisionFailureException;
 import com.prayer.exception.validator.RangeFailureException;
 import com.prayer.facade.model.record.Record;
+import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.crucial.DataRecord;
 import com.prayer.plugin.validator.MobileValidator;
+import com.prayer.resource.InceptBus;
 
 /**
  * 
@@ -33,7 +34,8 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataRecord02TestCase.class);
     /** **/
     private static final String IDENTIFIER = "tst.mod.dao8";
-
+    /** **/
+    private static final Boolean VALIDATION = InceptBus.build(Point.Database.class).getBoolean(Point.Database.VALIDATION);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -76,7 +78,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = PatternFailureException.class)
     public void testT05059Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("uk1", "Ruler");
         } else {
@@ -87,7 +89,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = NotNullFailureException.class)
     public void testT05060Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("uk1", "");
         } else {
@@ -98,7 +100,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = LengthFailureException.class)
     public void testT05061Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("muk1", "tst");
         } else {
@@ -109,7 +111,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = LengthFailureException.class)
     public void testT05062Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("muk1", "lang.yu@hp.com");
         } else {
@@ -120,7 +122,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = RangeFailureException.class)
     public void testT05063Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tint", "2");
         } else {
@@ -131,7 +133,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = RangeFailureException.class)
     public void testT05064Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tint", "20000");
         } else {
@@ -142,7 +144,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = RangeFailureException.class)
     public void testT05065Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tlong", "2");
         } else {
@@ -153,7 +155,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = RangeFailureException.class)
     public void testT05066Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tlong", "223");
         } else {
@@ -164,7 +166,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = PrecisionFailureException.class)
     public void testT05067Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tdecimal", "781111211.34");
         } else {
@@ -175,7 +177,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = PrecisionFailureException.class)
     public void testT05068Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tdecimal", "73.3");
         } else {
@@ -186,7 +188,7 @@ public class DataRecord02TestCase extends AbstractMsSqlRecordTool {
     /** **/
     @Test(expected = CustomValidatorException.class)
     public void testT05069Mset() throws AbstractDatabaseException {
-        if (Resources.DB_V_ENABLED) {
+        if (VALIDATION) {
             final Record record = instance(DataRecord.class.getName(), IDENTIFIER);
             record.set("tstring", "15922611448");
         } else {

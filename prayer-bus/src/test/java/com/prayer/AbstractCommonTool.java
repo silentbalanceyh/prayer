@@ -1,13 +1,15 @@
 package com.prayer;
 
-import static com.prayer.util.reflection.Instance.reservoir;
 import static org.junit.Assert.fail;
 
 import java.text.MessageFormat;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 
-import com.prayer.util.io.PropertyKit;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.resource.inceptor.DynamicInceptor;
+import com.prayer.util.resource.DatumLoader;
 
 /**
  * Prayer测试框架基类，用于测试系统的基础
@@ -20,17 +22,17 @@ public abstract class AbstractCommonTool implements ErrorKeys { // NOPMD
     /**
      * Error property ASSERT_LOADER to read Error Message
      */
-    private static PropertyKit ASSERT_LOADER = new PropertyKit(AbstractCommonTool.class, "/asserts.properties");
+    private static Properties ASSERT_LOADER = DatumLoader.getLoader("/asserts.properties");
     // ~ Instance Fields =====================================
     /** **/
-    private transient PropertyKit loader;
+    private transient Inceptor loader;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
 
     // ~ Constructors ========================================
     /** **/
     public AbstractCommonTool() {
-        loader = reservoir(getClass().getName(), PropertyKit.class, "/proploader.properties");
+        loader = new DynamicInceptor("/proploader.properties");
     }
 
     // ~ Abstract Methods ====================================
@@ -58,7 +60,7 @@ public abstract class AbstractCommonTool implements ErrorKeys { // NOPMD
         if (null != clazz) {
             message.append(" Class -> ").append(clazz.getName()).append(" |");
         }
-        message.append(' ').append(MessageFormat.format(ASSERT_LOADER.getString(messageKey), params));
+        message.append(' ').append(MessageFormat.format(ASSERT_LOADER.getProperty(messageKey), params));
         return message.toString();
     }
 
@@ -96,7 +98,7 @@ public abstract class AbstractCommonTool implements ErrorKeys { // NOPMD
      * 
      * @return
      */
-    protected PropertyKit getLoader() {
+    protected Inceptor getLoader() {
         return loader;
     }
     // ~ Private Methods =====================================

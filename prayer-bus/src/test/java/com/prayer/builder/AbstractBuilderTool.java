@@ -6,8 +6,6 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 
-import com.prayer.builder.MetadataBuilder;
-import com.prayer.constant.Resources;
 import com.prayer.dao.schema.CommuneImporter;
 import com.prayer.dao.schema.SchemaDalor;
 import com.prayer.exception.system.SerializationException;
@@ -19,6 +17,7 @@ import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.fantasm.exception.AbstractSystemException;
 import com.prayer.fantasm.exception.AbstractTransactionException;
+import com.prayer.resource.Resources;
 import com.prayer.util.string.StringKit;
 
 /**
@@ -59,7 +58,7 @@ public abstract class AbstractBuilderTool {
     // ~ Methods =============================================
     /** **/
     protected boolean validDB() {
-        return StringKit.equals(getCategory(), Resources.DB_CATEGORY);
+        return StringKit.equals(getCategory(), Resources.Data.CATEGORY);
     }
 
     /**
@@ -183,7 +182,7 @@ public abstract class AbstractBuilderTool {
      */
     private void unMatch() {
         debug(getLogger(),
-                "[T] Database not match ! Expected: " + getCategory() + ", Actual: " + Resources.DB_CATEGORY);
+                "[T] Database not match ! Expected: " + getCategory() + ", Actual: " + Resources.Data.CATEGORY);
     }
 
     // ~ Get/Set =============================================

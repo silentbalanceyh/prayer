@@ -11,16 +11,16 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.resource.Point;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
 import com.prayer.resource.InceptBus;
-import com.prayer.schema.json.rule.DBUpdatingRule;
 import com.prayer.schema.json.rule.DBColumnRule;
 import com.prayer.schema.json.rule.DBConstraintRule;
 import com.prayer.schema.json.rule.DBTableRule;
 import com.prayer.schema.json.rule.DBTypeRule;
+import com.prayer.schema.json.rule.DBUpdatingRule;
 import com.prayer.schema.json.rule.DiffRule;
 import com.prayer.schema.json.rule.DuplicatedRule;
 import com.prayer.schema.json.rule.ExcludeRule;
@@ -39,7 +39,7 @@ import com.prayer.schema.json.rule.RequiredRule;
 import com.prayer.schema.json.rule.UniqueRule;
 import com.prayer.schema.json.rule.UnsupportRule;
 import com.prayer.schema.json.rule.VectorRule;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.util.resource.DatumLoader;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -58,8 +58,6 @@ final class RuleBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(RuleBuilder.class);
     /** Bind Map **/
     private static final ConcurrentMap<Class<?>, Class<?>> BIND_MAP = new ConcurrentHashMap<>();
-    /** 设置BIND_MAP **/
-    private static final PropertyKit LOADER = new PropertyKit(Resources.SYS_RULES + "bind.properties");
     /** Rule包信息 **/
     private static String PKG_RULE;
     /** Violater包信息 **/
@@ -69,11 +67,12 @@ final class RuleBuilder {
     // ~ Static Block ========================================
     /** 填充系统中的映射关系 **/
     static {
-        final Properties bindData = LOADER.getProp();
+    	final String bindFile = InceptBus.build(Point.System.class).getString(Point.System.VALIDATION_RULE) + "bind.properties";
+        final Properties bindData = DatumLoader.getLoader(bindFile);
         /** 读取Package信息 **/
         if (null == PKG_RULE) {
-            PKG_RULE = LOADER.getString("PKG.rule");
-            PKG_VIOLATER = LOADER.getString("PKG.violater");
+            PKG_RULE = bindData.getProperty("PKG.rule");
+            PKG_VIOLATER = bindData.getProperty("PKG.violater");
         } else {
             // 默认值
             PKG_RULE = "com.prayer.schema.json.rule";

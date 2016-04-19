@@ -3,12 +3,12 @@ package com.prayer.schema.ruler;
 import org.junit.After;
 import org.junit.Test;
 
-import com.prayer.constant.Resources;
 import com.prayer.exception.schema.BKeyConstraintInvalidException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.DBConstants;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.resource.Resources;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class _00746ConstraintVerifierTestCase extends AbstractVerifierTool {
     @Test(expected = BKeyConstraintInvalidException.class)
     public void testP00746Meta10029ECombinatedConstraints() throws AbstractException {
         // TODO: 目前只有SQL模式才检查
-        if (Resources.DB_MODE.equals(DBConstants.MODE_SQL)) {
+        if (Resources.Data.MODE.equals(DBConstants.MODE_SQL)) {
             int ret = Constants.RC_FAILURE;
             // 创建临时子表
             if (null != validator().verifyTable("TST_SUB_ROLE1")) {
