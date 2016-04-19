@@ -1,0 +1,17 @@
+{
+    "username":"PRAYER",
+    "password":"db6ea8d90fa0cad8597d332cb1ee3903143588bce135c1f1100a6e62c523dd70",
+    "database":"H2PRAYER",
+    "extension":{
+        "encryption":true,
+        "web.port":8081,
+        "web.allow.others":true,
+        "tcp.allow.others":true,
+        "shell":true
+    },
+    "node":{
+        "baseDir":"H2SINGLE",
+        "tcp.port":8082,
+        "host":"localhost"
+    }
+}

@@ -72,4 +72,11 @@ public interface Inceptor {
      */
     @VertexApi(Api.READ)
     String getFile();
+    /**
+     * 
+     * @param key
+     * @return
+     */
+    @VertexApi(Api.READ)
+    boolean contains(String key);
 }

@@ -1,6 +1,6 @@
 package com.prayer.demo.event;
 
-import com.prayer.constant.Resources;
+import java.nio.charset.Charset;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -42,11 +42,11 @@ public class User implements ClusterSerializable {
 
     @Override
     public void writeToBuffer(Buffer buffer) {
-        byte[] bytes = name.getBytes(Resources.SYS_ENCODING);
+        byte[] bytes = name.getBytes(Charset.forName("UTF-8"));
         buffer.appendInt(bytes.length);
         buffer.appendBytes(bytes);
 
-        bytes = email.getBytes(Resources.SYS_ENCODING);
+        bytes = email.getBytes(Charset.forName("UTF-8"));
         buffer.appendInt(bytes.length);
         buffer.appendBytes(bytes);
     }
@@ -56,12 +56,12 @@ public class User implements ClusterSerializable {
         int len = buffer.getInt(pos);
         pos += 4;
         byte[] bytes = buffer.getBytes(pos, pos + len);
-        name = new String(bytes, Resources.SYS_ENCODING);
+        name = new String(bytes, Charset.forName("UTF-8"));
 
         len = buffer.getInt(pos);
         pos += 4;
         bytes = buffer.getBytes(pos, pos + len);
-        email = new String(bytes, Resources.SYS_ENCODING);
+        email = new String(bytes, Charset.forName("UTF-8"));
         return pos;
     }
 

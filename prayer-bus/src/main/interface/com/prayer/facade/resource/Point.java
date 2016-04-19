@@ -13,6 +13,13 @@ import com.prayer.facade.annotation.VertexPoint;
 public interface Point {
     /** **/
     @VertexPoint(Interface.CONSTANT)
+    interface MetaServer {
+        /** Meta Server对应的配置 **/
+        String CONFIG = "meta.server.config";
+    }
+
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface Injection {
         /** 使用的Cache **/
         String CATCH = "cache.manager";
@@ -58,11 +65,12 @@ public interface Point {
         /** 验证Folder **/
         String VALIDATION_RULE = "system.validation.rules";
     }
+
     /** **/
     @VertexPoint(Interface.CONSTANT)
-    interface Deploy{
-    	/** 默认发布的数据目录 **/
-    	String DATA_FOLDER = "data.folder";
+    interface Deploy {
+        /** 默认发布的数据目录 **/
+        String DATA_FOLDER = "data.folder";
     }
 
     /** **/
@@ -79,17 +87,18 @@ public interface Point {
     interface Jdbc {
         // Fix引用必须，Database和Jdbc是相互独立的，并不在同一个文件，不可使用Database作为Key值
     }
+
     /** 第三方 **/
     @VertexPoint(Interface.CONSTANT)
-    interface TP{
-    	/** MyBatis **/
+    interface TP {
+        /** MyBatis **/
         @VertexPoint(Interface.CONSTANT)
-    	interface MyBatis{
-    		/** 配置文件路径 **/
-        	String CFG_FILE = "mybatis.config.file";
-        	/** 环境名 **/
-        	String ENV = "mybatis.environment";
-    	}
+        interface MyBatis {
+            /** 配置文件路径 **/
+            String CFG_FILE = "mybatis.config.file";
+            /** 环境名 **/
+            String ENV = "mybatis.environment";
+        }
     }
 
     /** **/

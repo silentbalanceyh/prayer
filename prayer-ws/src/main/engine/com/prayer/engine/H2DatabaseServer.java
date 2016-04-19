@@ -80,6 +80,7 @@ public class H2DatabaseServer {
                 this.clusters = this.configurator.getH2CDatabases();
                 info(LOGGER, I_H2_DB_CLS_INIT, Converter.toStr(this.clusters.keySet()));
             } catch (SQLException ex) {
+                ex.printStackTrace();
                 jvmError(LOGGER, ex);
             }
         } else {

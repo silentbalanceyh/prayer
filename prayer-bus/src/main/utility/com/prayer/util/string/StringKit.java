@@ -131,7 +131,7 @@ public final class StringKit {
      */
     public static boolean isNil(final String strValue) {
         boolean ret = false;
-        if (isBlank(strValue) || isEmpty(strValue)) {
+        if (isBlank(strValue) || isEmpty(strValue.trim())) {
             ret = true;
         }
         return ret;

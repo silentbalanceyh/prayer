@@ -165,7 +165,9 @@ public final class SystemEnum { // NOPMD
         /** Engine使用的内部接口，一般为包域 **/
         ENG_PRIVATE, // 私有接口，一般定义为包域
         /** 第三方库需要用才存在的接口 **/
-        THIRD_PART // 第三方接口
+        THIRD_PART, // 第三方接口
+        // --------------------Engine内部接口--------------------------
+        INTERNAL    // Engine内部接口，一般用于Console，Vertx，MetaServer
     }
 
     /** API的种类 **/

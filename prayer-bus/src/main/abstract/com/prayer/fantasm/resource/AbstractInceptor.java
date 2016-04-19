@@ -137,7 +137,9 @@ public abstract class AbstractInceptor implements Inceptor {
     public String getString(@NotNull @NotBlank @NotEmpty final String key) {
         String ret = this.LOADER.getProperty(key);
         /** 1.过滤掉String字面量为null **/
-        if (StringKit.isNonNil(ret) && StringPool.NULL.equals(ret)) {
+        if (StringKit.isNil(ret)){
+            ret = null;
+        }else if (StringKit.isNonNil(ret) && StringPool.NULL.equals(ret)) {
             ret = null;
         }
         return ret;
@@ -149,6 +151,14 @@ public abstract class AbstractInceptor implements Inceptor {
     @Override
     public String getFile() {
         return this.file;
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public boolean contains(@NotNull @NotBlank @NotEmpty final String key) {
+        return this.LOADER.containsKey(key);
     }
 
     // ~ Methods =============================================
