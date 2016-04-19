@@ -5,10 +5,11 @@ import static com.prayer.util.debug.Log.jvmError;
 
 import org.slf4j.Logger;
 
-import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.resource.Point;
 import com.prayer.facade.schema.rule.RuleConstants;
+import com.prayer.resource.InceptBus;
 import com.prayer.util.io.IOKit;
 
 import io.vertx.core.json.DecodeException;
@@ -61,7 +62,8 @@ public abstract class AbstractRule {
      * @return
      */
     protected JsonObject readRule(final String rule, final String name) {
-        final String file = Resources.SYS_RULES + rule + Symbol.DOT + Constants.EXTENSION.JSON;
+    	final String ruleFolder = InceptBus.build(Point.System.class).getString(Point.System.VALIDATION_RULE);
+        final String file = ruleFolder + rule + Symbol.DOT + Constants.EXTENSION.JSON;
         final String content = IOKit.getContent(file);
         JsonObject config = null;
         if (null != content) {

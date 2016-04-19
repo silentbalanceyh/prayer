@@ -1,0 +1,12 @@
+{
+    "debug":"__Meta__ ( subkey Type )",
+    "db.type":{
+        "value":[
+            {
+                "table":"subtable",
+                "column":"subkey",
+                "type":"type"
+            }
+        ]
+    }
+}

@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.builder.MetadataBuilder;
-import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.dao.schema.CommuneImporter;
 import com.prayer.dao.schema.SchemaDalor;
@@ -22,6 +21,7 @@ import com.prayer.facade.database.dao.schema.SchemaDao;
 import com.prayer.facade.schema.Schema;
 import com.prayer.facade.schema.verifier.Altimeter;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.resource.Resources;
 import com.prayer.schema.common.SchemaAltimeter;
 
 import net.sf.oval.constraint.NotBlank;
@@ -77,7 +77,7 @@ public class SchemaBllor implements SchemaInstantor {
         final Altimeter altimeter = singleton(SchemaAltimeter.class, this.dao);
         altimeter.verify(schema);
         /** 3.将读取到的schema存如到H2 Database中 **/
-        info(LOGGER, InfoKey.INF_DP_STEP1, filePath, Resources.META_CATEGORY);
+        info(LOGGER, InfoKey.INF_DP_STEP1, filePath, Resources.Meta.CATEGORY);
         this.dao.save(schema);
         return schema;
     }

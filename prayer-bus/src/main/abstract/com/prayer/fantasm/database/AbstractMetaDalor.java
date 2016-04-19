@@ -253,7 +253,7 @@ public abstract class AbstractMetaDalor<ID extends Serializable> implements Reco
     private MetaAccessor getDao(final String identifier) {
         final Inceptor LOADER = InceptBus.build(Point.Schema.class);
         final String clsName = LOADER.getString(identifier + ".instance");
-        return reservoir(clsName, Injections.Data.ACCESSOR, clazz(clsName));
+        return reservoir(clsName, Injections.Meta.ACCESSOR, clazz(clsName));
     }
 
     private String buildPager(final Record record, final String[] columns, final Expression filters,

@@ -1,0 +1,37 @@
+{
+    "debug":"__meta__ ( policy = GUID )",
+    "in":{
+        "value":{
+            "type":[
+                "StringType"
+            ],
+            "nullable":[
+                "false"
+            ],
+            "unique":[
+                "true"
+            ]
+        },
+        "errors":{
+            "type":{
+                "name":"PKColumnTypePolicyException",
+                "arguments":[
+                    "policy",
+                    "type"
+                ]
+            },
+            "nullable":{
+                "name":"PKNullableConflictException",
+                "arguments":[
+                    "name"
+                ]
+            },
+            "unique":{
+                "name":"PKUniqueConflictException",
+                "arguments":[
+                    "name"
+                ]
+            }
+        }
+    }
+}

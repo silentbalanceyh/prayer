@@ -5,10 +5,10 @@ import static com.prayer.util.reflection.Instance.reservoir;
 import java.io.Serializable;
 import java.util.List;
 
-import com.prayer.constant.Resources;
 import com.prayer.facade.database.accessor.MetaAccessor;
 import com.prayer.facade.model.entity.Entity;
 import com.prayer.fantasm.exception.AbstractTransactionException;
+import com.prayer.resource.Injections;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.Min;
@@ -53,7 +53,7 @@ public class MetaAccessorImpl implements MetaAccessor {
         // PERule -> IBatisAccessorImpl ( PERule.class )
         // PEScript -> IBatisAccessorImpl ( PEScript.class )
         // ......
-        this.accessor = reservoir(entityCls.getName(), Resources.META_ACCESSOR, entityCls);
+        this.accessor = reservoir(entityCls.getName(), Injections.Meta.ACCESSOR, entityCls);
     }
 
     // ~ Abstract Methods ====================================

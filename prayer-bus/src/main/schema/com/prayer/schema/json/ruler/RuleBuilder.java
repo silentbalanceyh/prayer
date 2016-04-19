@@ -15,6 +15,7 @@ import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.facade.schema.rule.Violater;
+import com.prayer.resource.InceptBus;
 import com.prayer.schema.json.rule.DBUpdatingRule;
 import com.prayer.schema.json.rule.DBColumnRule;
 import com.prayer.schema.json.rule.DBConstraintRule;

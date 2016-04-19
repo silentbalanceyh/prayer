@@ -5,7 +5,6 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.database.dao.RecordDao;
 import com.prayer.facade.model.crucial.Expression;
@@ -15,6 +14,7 @@ import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
 import com.prayer.model.crucial.DataRecord;
+import com.prayer.resource.Injections;
 
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.InstanceOfAny;
@@ -46,7 +46,7 @@ public class DataRecordDalor implements RecordDao {
     /** **/
     @PostValidateThis
     public DataRecordDalor() {
-        this.dao = singleton(Resources.DB_DAO);
+        this.dao = singleton(Injections.Data.DATA_DALOR);
     }
 
     // ~ Abstract Methods ====================================

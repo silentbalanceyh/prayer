@@ -19,7 +19,6 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
 import com.prayer.exception.database.DataAccessException;
 import com.prayer.facade.database.mapper.IBatisMapper;
 import com.prayer.facade.database.mapper.PEAddressMapper;
@@ -36,6 +35,8 @@ import com.prayer.facade.database.mapper.PEVColumnMapper;
 import com.prayer.facade.database.mapper.PEVerticleMapper;
 import com.prayer.facade.database.mapper.PEViewMapper;
 import com.prayer.facade.model.entity.Entity;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 import com.prayer.model.meta.database.PEField;
 import com.prayer.model.meta.database.PEIndex;
@@ -50,6 +51,7 @@ import com.prayer.model.meta.vertx.PERule;
 import com.prayer.model.meta.vertx.PEScript;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.meta.vertx.PEVerticle;
+import com.prayer.resource.InceptBus;
 import com.prayer.util.io.IOKit;
 
 import net.sf.oval.guard.Guarded;
@@ -82,10 +84,11 @@ public final class IBatisHelper {
             /** 简单的单例实现 **/
             if (null == factory) {
                 /** 读取MyBatis配置 **/
-                final InputStream configuration = IOKit.getFile(Resources.T_CFG_MYBATIS);
+            	final Inceptor inceptor = InceptBus.build(Point.TP.class);
+                final InputStream configuration = IOKit.getFile(inceptor.getString(Point.TP.MyBatis.CFG_FILE));
                 if (null != configuration) {
                     /** 构造Factory **/
-                    factory = new SqlSessionFactoryBuilder().build(configuration, Resources.T_CFG_MB_ENV);
+                    factory = new SqlSessionFactoryBuilder().build(configuration, inceptor.getString(Point.TP.MyBatis.ENV));
                 }
             }
         } catch (Exception ex) {

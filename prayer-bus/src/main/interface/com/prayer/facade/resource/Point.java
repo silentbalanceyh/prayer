@@ -22,8 +22,6 @@ public interface Point {
         interface Data {
             /** 数据库连接池 **/
             String POOL = "database.data.pool";
-            /** Meta：数据库中的Accessor **/
-            String ACCESSOR = "database.meta.accessor";
             /** 数据库中验证器 **/
             String VALIDATOR = "database.data.validator";
             /** Meta 数据库构造器 **/
@@ -41,6 +39,8 @@ public interface Point {
         interface Meta {
             /** 元数据使用JDBC时的连接类 **/
             String CONNECTION = "meta.connection";
+            /** Meta：数据库中的Accessor **/
+            String ACCESSOR = "database.meta.accessor";
         }
     }
 
@@ -55,6 +55,14 @@ public interface Point {
         String LOGS_ERROR = "system.logs.error";
         /** 消息日志目录 **/
         String LOGS_INFO = "system.logs.info";
+        /** 验证Folder **/
+        String VALIDATION_RULE = "system.validation.rules";
+    }
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
+    interface Deploy{
+    	/** 默认发布的数据目录 **/
+    	String DATA_FOLDER = "data.folder";
     }
 
     /** **/
@@ -71,14 +79,29 @@ public interface Point {
     interface Jdbc {
         // Fix引用必须，Database和Jdbc是相互独立的，并不在同一个文件，不可使用Database作为Key值
     }
+    /** 第三方 **/
+    @VertexPoint(Interface.CONSTANT)
+    interface TP{
+    	/** MyBatis **/
+        @VertexPoint(Interface.CONSTANT)
+    	interface MyBatis{
+    		/** 配置文件路径 **/
+        	String CFG_FILE = "mybatis.config.file";
+        	/** 环境名 **/
+        	String ENV = "mybatis.environment";
+    	}
+    }
 
     /** **/
     @VertexPoint(Interface.CONSTANT)
     interface Database {
         /** 开启底层AOP验证 **/
         String VALIDATION = "aop.validation.enabled";
+        /** Dao的mapping文件 **/
+        String DALOR = "dalor.mapping";
 
         /** Jdbc特有配置 **/
+        @VertexPoint(Interface.CONSTANT)
         interface Jdbc {
             /** JDBC配置文件 **/
             String JDBC = "jdbc.config.file";

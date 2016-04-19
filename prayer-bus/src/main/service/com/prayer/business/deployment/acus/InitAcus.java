@@ -7,16 +7,17 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.exception.database.DataAccessException;
 import com.prayer.exception.database.OperationNotSupportException;
 import com.prayer.facade.business.instantor.deployment.acus.DeployAcus;
 import com.prayer.facade.constant.Constants.EXTENSION;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.business.deployment.acus.AbstractEntityAcus;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.database.PEMeta;
+import com.prayer.resource.InceptBus;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -50,10 +51,11 @@ public class InitAcus extends AbstractEntityAcus implements DeployAcus {
     public boolean deploy(@NotNull @NotEmpty @NotBlank final String filename) throws AbstractException {
         /** 1.文件名计算 **/
         String dftFile = null;
+        final String dataFolder = InceptBus.build(Point.Deploy.class).getString(Point.Deploy.DATA_FOLDER);
         if (filename.toLowerCase(Locale.getDefault()).endsWith(".sql")) {
-            dftFile = Resources.OOB_DATA_FOLDER + "/sql/" + filename;
+            dftFile = dataFolder + "/sql/" + filename;
         } else {
-            dftFile = Resources.OOB_DATA_FOLDER + "/sql/" + filename + Symbol.DOT + EXTENSION.SQL;
+            dftFile = dataFolder + "/sql/" + filename + Symbol.DOT + EXTENSION.SQL;
         }
         /** 2.使用Reader **/
         info(LOGGER, InfoKey.INF_META_INIT, dftFile);

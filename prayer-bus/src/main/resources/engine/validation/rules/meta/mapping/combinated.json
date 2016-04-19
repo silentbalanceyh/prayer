@@ -1,0 +1,45 @@
+{
+    "debug":"__meta__ ( category = ENTITY && mapping = COMBINATED )",
+    "existing":{
+        "value":[
+            [
+                "subkey",
+                "subtable"
+            ]
+        ],
+        "error":{
+            "name":"OptionalAttrMorEException"
+        }
+    },
+    "diff":{
+        "value":{
+            "subtable":"table"
+        },
+        "error":{
+            "name":"DuplicatedTablesException"
+        }
+    },
+    "db.table":{
+        "value":[
+            {
+                "table":"subtable"
+            }
+        ]
+    },
+    "db.column":{
+        "value":[
+            {
+                "table":"subtable",
+                "column":"subkey"
+            }
+        ]
+    },
+    "db.constraint":{
+        "value":[
+            {
+                "table":"subtable",
+                "column":"subkey"
+            }
+        ]
+    }
+}

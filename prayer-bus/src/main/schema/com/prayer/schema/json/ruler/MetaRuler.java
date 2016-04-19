@@ -2,7 +2,6 @@ package com.prayer.schema.json.ruler;
 
 import static com.prayer.util.Converter.fromStr;
 
-import com.prayer.constant.Resources;
 import com.prayer.constant.SystemEnum.Category;
 import com.prayer.constant.SystemEnum.Mapping;
 import com.prayer.constant.SystemEnum.MetaPolicy;
@@ -11,6 +10,7 @@ import com.prayer.facade.schema.rule.ObjectHabitus;
 import com.prayer.facade.schema.rule.Ruler;
 import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.resource.Resources;
 import com.prayer.util.string.StringKit;
 
 import net.sf.oval.constraint.NotNull;
@@ -111,8 +111,8 @@ public final class MetaRuler implements Ruler {
     /** policy == INCREMENT **/
     private void verifyIncrement(final ObjectHabitus habitus) throws AbstractSchemaException {
         /** (8) 2.4.5 SeqName for Oracle/PgSQL **/
-        if (StringKit.equals(Resources.DB_CATEGORY, DBConstants.CATEGORY_ORACLE)
-                || StringKit.equals(Resources.DB_CATEGORY, DBConstants.CATEGORY_PGSQL)) {
+        if (StringKit.equals(Resources.Data.CATEGORY, DBConstants.CATEGORY_ORACLE)
+                || StringKit.equals(Resources.Data.CATEGORY, DBConstants.CATEGORY_PGSQL)) {
             /** (9.2.1) 2.4.5.1. 使用Sequence的情况，必须校验seqname是否存在 **/
             // Required : seqname
             RulerHelper.applyExisting(habitus, FileConfig.CFG_M_PIOG);

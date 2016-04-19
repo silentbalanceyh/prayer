@@ -1,0 +1,12 @@
+{
+    "debug":"__meta__ ( category = ENTITY && mapping = DIRECT )",
+    "exclude":{
+        "value":[
+            "subkey",
+            "subtable"
+        ],
+        "error":{
+            "name":"OptionalAttrMorEException"
+        }
+    }
+}

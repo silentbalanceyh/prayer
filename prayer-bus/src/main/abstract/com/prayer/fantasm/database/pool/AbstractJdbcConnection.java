@@ -57,9 +57,9 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
         synchronized (getClass()) {
             if (null == category) {
                 // Fix数据源切换的问题
-                this.dbPool = reservoir("DEFAULT", Injections.Data.POOL);
+                this.dbPool = reservoir("DEFAULT", Injections.POOL);
             } else {
-                this.dbPool = reservoir(category, Injections.Data.POOL, category);
+                this.dbPool = reservoir(category, Injections.POOL, category);
             }
         }
     }

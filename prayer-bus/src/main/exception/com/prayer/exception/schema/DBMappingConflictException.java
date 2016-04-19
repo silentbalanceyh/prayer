@@ -1,7 +1,7 @@
 package com.prayer.exception.schema;
 
-import com.prayer.constant.Resources;
 import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.resource.Resources;
 
 /**
  * 【Checked】Error-10035：columnType读取到的内容不符合数据库规范，mapping文件有问题
@@ -26,7 +26,7 @@ public class DBMappingConflictException extends AbstractSchemaException {
      * @param columnType
      */
     public DBMappingConflictException(final Class<?> clazz, final String columnType) {
-        super(clazz, -10035, columnType, Resources.DB_CATEGORY);
+        super(clazz, -10035, columnType, Resources.Data.CATEGORY);
     }
 
     // ~ Abstract Methods ====================================

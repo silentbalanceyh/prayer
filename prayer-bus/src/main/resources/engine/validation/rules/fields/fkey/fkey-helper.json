@@ -1,0 +1,23 @@
+{
+    "debug":"__fields__ ( foreignkey = true ( Schema Type Comparing ) )",
+    "unique":{
+        "value":[
+            {
+                "error":"ERR_TYPE",
+                "filter":{
+                    "primarykey":true
+                }
+            }
+        ],
+        "errors":{
+            "ERR_TYPE":{
+                "name":"JTColumnTypeInvalidException",
+                "arguments":[
+                    "table",
+                    "columnName",
+                    "columnType"
+                ]
+            }
+        }
+    }
+}

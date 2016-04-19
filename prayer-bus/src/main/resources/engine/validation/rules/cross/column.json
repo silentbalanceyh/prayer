@@ -1,0 +1,18 @@
+{
+    "debug":"__keys__ -> ( Columns Definition )",
+    "unique":{
+        "value":[
+            {
+                "filter":{
+                }
+            }
+        ],
+        "error":{
+            "name":"ColumnsMissingException",
+            "arguments":[
+                "column",
+                "key"
+            ]
+        }
+    }
+}

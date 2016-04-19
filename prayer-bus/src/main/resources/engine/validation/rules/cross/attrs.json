@@ -1,0 +1,19 @@
+{
+    "debug":"__fields__ -> ( Attribute Appearing Times )",
+    "unique":{
+        "value":[
+            {
+                "filter":{
+                }
+            }
+        ],
+        "error":{
+            "name":"WrongTimeAttrException",
+            "arguments":[
+                "attribute",
+                "expected",
+                "category"
+            ]
+        }
+    }
+}

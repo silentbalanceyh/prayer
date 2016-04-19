@@ -63,7 +63,7 @@ public class PEDataSourceFactory implements DataSourceFactory {
                 /**
                  * 传入DB_POOL实现类，以及Metadata Database的类型
                  */
-                final JdbcPool pool = singleton(Injections.Data.POOL, Resources.Meta.CATEGORY);
+                final JdbcPool pool = singleton(Injections.POOL, Resources.Meta.CATEGORY);
                 this.dataSource = pool.getDataSource();
             } else {
                 throw new MetadataNotSupportException(getClass(), Resources.Meta.CATEGORY, supports);

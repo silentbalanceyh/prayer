@@ -10,15 +10,16 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.constant.Resources;
 import com.prayer.dao.data.DatabaseDalor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.database.dao.DatabaseDao;
+import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.resource.InceptBus;
+import com.prayer.resource.Resources;
 import com.prayer.util.io.IOKit;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.util.resource.DatumLoader;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.json.DecodeException;
@@ -49,7 +50,7 @@ public final class SqlTypes {
     /** 数据库修改类型的向量表 **/
     private static final ConcurrentMap<String, JsonArray> DB_REVERT_VECTORS = new ConcurrentHashMap<>();
     /** 数据库名称获取 **/
-    private static final PropertyKit LOADER = new PropertyKit(Resources.DB_CFG_FILE);
+    private static final Inceptor LOADER = Resources.JDBC;
     /** 数据库元数据访问 **/
     private static final DatabaseDao dao = singleton(DatabaseDalor.class);
 
@@ -91,12 +92,11 @@ public final class SqlTypes {
         /** 3.系统使用的映射表 **/
         final String mappingFile = mappingFolder + dao.getFile() + "/mapping" + Symbol.DOT + Constants.EXTENSION.PROP;
         DB_MAPPING.clear();
-        final PropertyKit loader = new PropertyKit(mappingFile);
-        final Properties prop = loader.getProp();
+        final Properties prop = DatumLoader.getLoader(mappingFile);
         for (final Object key : prop.keySet()) {
             final String keyStr = key.toString();
             final String[] keys = keyStr.split("\\.");
-            if (Constants.TWO == keys.length && StringUtil.equals(keys[0], Resources.DB_CATEGORY)
+            if (Constants.TWO == keys.length && StringUtil.equals(keys[0], Resources.Data.CATEGORY)
                     && StringKit.isNonNil(keys[1])) {
                 DB_MAPPING.put(keys[1], prop.getProperty(keyStr));
             }
@@ -163,7 +163,7 @@ public final class SqlTypes {
      * @return
      */
     public static String database() {
-        return LOADER.getString(Resources.DB_CATEGORY + ".jdbc.database.name");
+        return LOADER.getString(Resources.Data.CATEGORY + ".jdbc.database.name");
     }
 
     // ~ Constructors ========================================

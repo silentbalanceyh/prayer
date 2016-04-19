@@ -36,6 +36,8 @@ public class Resources {
 
     /** **/
     public static final Inceptor JDBC = InceptBus.build(Point.Database.class, Point.Database.Jdbc.JDBC);
+    /** 数据库名 **/
+    public static final String DATABASE = JDBC.getString(Data.CATEGORY + ".jdbc.database.name");
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

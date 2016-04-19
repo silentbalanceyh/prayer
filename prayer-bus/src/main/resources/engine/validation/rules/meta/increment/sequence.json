@@ -1,0 +1,13 @@
+{
+    "debug":"__meta__ ( policy = INCREMENT For (Oracle/PgSQL))",
+    "existing":{
+        "value":[
+            [
+                "seqname"
+            ]
+        ],
+        "error":{
+            "name":"OptionalAttrMorEException"
+        }
+    }
+}

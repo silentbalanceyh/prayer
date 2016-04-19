@@ -1,0 +1,13 @@
+{
+    "debug":"__fields__ ( foreignkey = true (SAME TABLE) )",
+    "duplicated":{
+        "value":[
+            "refTable"
+        ],
+        "errors":{
+            "refTable":{
+                "name":"FKReferenceSameException"
+            }
+        }
+    }
+}

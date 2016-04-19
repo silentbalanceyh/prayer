@@ -1,0 +1,33 @@
+{
+    "debug":"__keys__ multi = false/true",
+    "minlength":{
+        "value":{
+            "columns":2
+        },
+        "errors":{
+            "columns":{
+                "append":true,
+                "name":"PatternNotMatchException",
+                "arguments":[
+                    "value",
+                    "pattern"
+                ]
+            }
+        }
+    },
+    "maxlength":{
+        "value":{
+            "columns":1
+        },
+        "errors":{
+            "columns":{
+                "append":true,
+                "name":"PatternNotMatchException",
+                "arguments":[
+                    "value",
+                    "pattern"
+                ]
+            }
+        }
+    }
+}

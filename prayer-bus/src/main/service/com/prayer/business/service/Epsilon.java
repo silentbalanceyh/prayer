@@ -6,9 +6,10 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.constant.Resources;
 import com.prayer.facade.constant.Constants;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.facade.resource.Point;
+import com.prayer.resource.InceptBus;
+import com.prayer.util.resource.DatumLoader;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -29,8 +30,9 @@ public final class Epsilon {
     /** 映射配置文件 **/
     static {
         /** Dao类映射 **/
-        final PropertyKit loader = new PropertyKit(Resources.SEV_MAPPING_FILE);
-        final Properties prop = loader.getProp();
+    	final String mappingFile = InceptBus.build(Point.Database.class).getString(Point.Database.DALOR);
+        // final PropertyKit loader = new PropertyKit(Resources.SEV_MAPPING_FILE);
+        final Properties prop = DatumLoader.getLoader(mappingFile);
         for (final Object key : prop.keySet()) {
             final String daoStr = key.toString();
             if (daoStr.endsWith(".dao")) {

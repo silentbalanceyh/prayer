@@ -1,0 +1,32 @@
+{
+    "debug":"__meta__ ( category = RELATION )",
+    "exclude":{
+        "value":[
+            "subkey",
+            "subtable"
+        ],
+        "error":{
+            "name":"OptionalAttrMorEException"
+        }
+    },
+    "in":{
+        "value":{
+            "mapping":[
+                "DIRECT"
+            ]
+        },
+        "error":{
+            "name":"InvalidValueException"
+        }
+    },
+    "notin":{
+        "value":{
+            "policy":[
+                "ASSIGNED"
+            ]
+        },
+        "error":{
+            "name":"InvalidValueException"
+        }
+    }
+}

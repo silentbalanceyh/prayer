@@ -1,0 +1,20 @@
+{
+    "debug":"__fields__ -> primarykey ( policy = COLLECTION )",
+    "least":{
+        "value":[
+            {
+                "occurs":2,
+                "filter":{
+                    "primarykey":true
+                }
+            }
+        ],
+        "error":{
+            "name":"PKPolicyConflictException",
+            "arguments":[
+                "policy",
+                "table"
+            ]
+        }
+    }
+}

@@ -1,7 +1,7 @@
 package com.prayer.exception.schema;
 
-import com.prayer.constant.Resources;
 import com.prayer.fantasm.exception.AbstractSchemaException;
+import com.prayer.resource.Resources;
 
 /**
  * 【Checked】Error-10038：数据库改变列类型抛出此异常信息
@@ -29,7 +29,7 @@ public class DBColumnTypeUpdatingException extends AbstractSchemaException {
      */
     public DBColumnTypeUpdatingException(final Class<?> clazz, final String field, final String oldType,
             final String newType) {
-        super(clazz, -10038, field, oldType, newType, Resources.DB_CATEGORY);
+        super(clazz, -10038, field, oldType, newType, Resources.Data.CATEGORY);
     }
 
     // ~ Abstract Methods ====================================

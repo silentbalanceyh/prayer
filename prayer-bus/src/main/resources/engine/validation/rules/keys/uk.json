@@ -1,0 +1,15 @@
+{
+    "debug":"__keys__ ( category = UniqueKey )",
+    "pattern":{
+        "value":{
+            "name":"(UK)\\_[A-Z\\_0-9]*"
+        },
+        "error":{
+            "name":"KeysNameSpecificationException",
+            "arguments":[
+                "name",
+                "category"
+            ]
+        }
+    }
+}

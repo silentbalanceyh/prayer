@@ -2,9 +2,9 @@ package com.prayer.dao.data.special;
 
 import java.text.MessageFormat;
 
-import com.prayer.constant.Resources;
 import com.prayer.facade.database.sql.special.MsSqlStatement;
 import com.prayer.fantasm.database.dao.AbstractDatabaseDao;
+import com.prayer.resource.Resources;
 
 import net.sf.oval.guard.Guarded;
 
@@ -27,7 +27,7 @@ public class MsSqlDatabaseDalor extends AbstractDatabaseDao implements MsSqlStat
     /** **/
     @Override
     public String buildRelSql() {
-        return MessageFormat.format(R_RELATIONS, Resources.DB_DATABASE);
+        return MessageFormat.format(R_RELATIONS, Resources.DATABASE);
     }
 
     /** From **/
