@@ -1,24 +1,29 @@
-package com.prayer.facade.engine;
+package com.prayer.facade.engine.metaserver.h2;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.fantasm.exception.AbstractException;
-
 /**
- * 启动器
+ * 
  * @author Lang
  *
  */
-
 @VertexPoint(Interface.INTERNAL)
-public interface Launcher {
+public interface H2Server extends H2Messages {
     /**
      * 
-     * @param options
+     * @return
      * @throws AbstractException
      */
     @VertexApi(Api.TOOL)
-    void start() throws AbstractException;
+    boolean start() throws AbstractException;
+    /**
+     * 
+     * @return
+     * @throws AbstractException
+     */
+    @VertexApi(Api.TOOL)
+    boolean stop() throws AbstractException;
 }

@@ -32,7 +32,7 @@ public class JdbcOptions implements Options {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient Inceptor inceptor;
+    private transient final Inceptor inceptor;
     /** **/
     private transient AbstractLauncherException error;
 

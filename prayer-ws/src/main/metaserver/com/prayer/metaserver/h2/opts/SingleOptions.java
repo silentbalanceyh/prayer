@@ -14,51 +14,49 @@ import com.prayer.metaserver.warranter.ValueWarranter;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
-@Guarded
-public class ExtOptions implements Options {
+public class SingleOptions implements Options {
     // ~ Static Fields =======================================
+
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExtOptions.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SingleOptions.class);
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
     private transient final Inceptor inceptor;
     /** **/
+    private transient AbstractLauncherException error;
+    /** **/
     @NotNull
     private transient final String INSTANCE;
-    /** **/
-    private transient AbstractLauncherException error;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    private ExtOptions(@NotNull final Inceptor inceptor) {
+    private SingleOptions(@NotNull final Inceptor inceptor) {
         this.inceptor = inceptor;
         this.INSTANCE = this.inceptor.getString("meta.server.instance");
         /** 构造：1.必须参数 **/
         this.warrantRequired();
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
     public JsonObject readOpts() {
         final JsonObject data = new JsonObject();
-        data.put("encryption", this.inceptor.getBoolean(this.INSTANCE + ".encryption.enabled"));
-        data.put("web.port", this.inceptor.getInt(this.INSTANCE + ".web.port"));
-        data.put("web.allow.others", this.inceptor.getBoolean(this.INSTANCE + ".web.allow.others"));
-        data.put("tcp.allow.others", this.inceptor.getBoolean(this.INSTANCE + ".tcp.allow.others"));
-        data.put("shell", this.inceptor.getBoolean(this.INSTANCE + ".shell.enabled"));
+        data.put("tcp.port", this.inceptor.getInt(this.INSTANCE + ".tcp.port"));
+        data.put("host", this.inceptor.getString(this.INSTANCE + ".host"));
         return data;
     }
+
     /** **/
     @Override
     public AbstractLauncherException getError() {
@@ -70,9 +68,7 @@ public class ExtOptions implements Options {
     private void warrantRequired() {
         if (null == this.error) {
             final Warranter vWter = singleton(ValueWarranter.class);
-            final String[] params = new String[] { this.INSTANCE + ".encryption.enabled", this.INSTANCE + ".web.port",
-                    this.INSTANCE + ".web.allow.others", this.INSTANCE + ".tcp.allow.others",
-                    this.INSTANCE + ".shell.enabled" };
+            final String[] params = new String[] { this.INSTANCE + ".host", this.INSTANCE + ".tcp.port" };
             try {
                 vWter.warrant(this.inceptor, params);
             } catch (AbstractLauncherException ex) {

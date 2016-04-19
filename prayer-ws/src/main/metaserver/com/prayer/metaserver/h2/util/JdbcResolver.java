@@ -51,7 +51,6 @@ public final class JdbcResolver {
         if (null != key && 0 <= key.indexOf("${") && 0 <= key.indexOf("}")) {
             value = key.substring(key.indexOf("${") + 2, key.indexOf("}"));
         }
-        System.out.println(value);
         return value;
     }
 

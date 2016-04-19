@@ -13,7 +13,7 @@ import com.prayer.fantasm.exception.AbstractLauncherException;
  * @author Lang
  *
  */
-@VertexPoint(Interface.ENG_PUBLIC)
+@VertexPoint(Interface.INTERNAL)
 public interface OptionsIntaker {
     /**
      * 读取默认配置的接口

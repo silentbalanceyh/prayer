@@ -1,10 +1,12 @@
 {
-    "username":"PRAYER",
-    "password":"db6ea8d90fa0cad8597d332cb1ee3903143588bce135c1f1100a6e62c523dd70",
-    "database":"H2PRAYER",
+    "server":{
+        "username":"PRAYER",
+        "password":"db6ea8d90fa0cad8597d332cb1ee3903143588bce135c1f1100a6e62c523dd70",
+        "database":"H2PRAYER"
+    },
     "extension":{
         "encryption":true,
-        "web.port":8081,
+        "web.port":8082,
         "web.allow.others":true,
         "tcp.allow.others":true,
         "shell":true
@@ -20,36 +22,38 @@
         ],
         "host":"localhost"
     },
-    "nodes":[
-        {
+    "nodes":{
+        "source":{
             "name":"H2PSRC",
             "baseDir":"H2PSRC",
             "tcp.port":9111
         },
-        {
-            "name":"H2PF0",
-            "baseDir":"H2PF0",
-            "tcp.port":9100
-        },
-        {
-            "name":"H2PF1",
-            "baseDir":"H2PF1",
-            "tcp.port":9101
-        },
-        {
-            "name":"H2PF2",
-            "baseDir":"H2PF2",
-            "tcp.port":9102
-        },
-        {
-            "name":"H2PF3",
-            "baseDir":"H2PF3",
-            "tcp.port":9103
-        },
-        {
-            "name":"H2PF4",
-            "baseDir":"H2PF4",
-            "tcp.port":9104
-        }
-    ]
+        "target":[
+            {
+                "name":"H2PF0",
+                "baseDir":"H2PF0",
+                "tcp.port":9100
+            },
+            {
+                "name":"H2PF1",
+                "baseDir":"H2PF1",
+                "tcp.port":9101
+            },
+            {
+                "name":"H2PF2",
+                "baseDir":"H2PF2",
+                "tcp.port":9102
+            },
+            {
+                "name":"H2PF3",
+                "baseDir":"H2PF3",
+                "tcp.port":9103
+            },
+            {
+                "name":"H2PF4",
+                "baseDir":"H2PF4",
+                "tcp.port":9104
+            }
+        ]
+    }
 }

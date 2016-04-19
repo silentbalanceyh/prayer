@@ -13,6 +13,8 @@ import com.prayer.fantasm.exception.AbstractLauncherException;
 import com.prayer.metaserver.warranter.ValueWarranter;
 
 import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -22,17 +24,17 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class ExtOptions implements Options {
+public class NodeOptions implements Options {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExtOptions.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NodeOptions.class);
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
     private transient final Inceptor inceptor;
     /** **/
     @NotNull
-    private transient final String INSTANCE;
+    private transient final String node;
     /** **/
     private transient AbstractLauncherException error;
 
@@ -40,39 +42,41 @@ public class ExtOptions implements Options {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    private ExtOptions(@NotNull final Inceptor inceptor) {
+    public NodeOptions(@NotNull final Inceptor inceptor, @NotNull @NotBlank @NotEmpty final String node) {
         this.inceptor = inceptor;
-        this.INSTANCE = this.inceptor.getString("meta.server.instance");
+        this.node = node;
         /** 构造：1.必须参数 **/
         this.warrantRequired();
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
     public JsonObject readOpts() {
         final JsonObject data = new JsonObject();
-        data.put("encryption", this.inceptor.getBoolean(this.INSTANCE + ".encryption.enabled"));
-        data.put("web.port", this.inceptor.getInt(this.INSTANCE + ".web.port"));
-        data.put("web.allow.others", this.inceptor.getBoolean(this.INSTANCE + ".web.allow.others"));
-        data.put("tcp.allow.others", this.inceptor.getBoolean(this.INSTANCE + ".tcp.allow.others"));
-        data.put("shell", this.inceptor.getBoolean(this.INSTANCE + ".shell.enabled"));
+        data.put("name", this.node);
+        data.put("baseDir", this.inceptor.getString(this.node + ".baseDir"));
+        data.put("tcp.port", this.inceptor.getInt(this.node + ".tcp.port"));
+        /** 如果出现Host参数 **/
+        if (this.inceptor.contains(this.node + ".host")) {
+            data.put("host", this.inceptor.getString(this.node + ".host"));
+        }
         return data;
     }
+
     /** **/
     @Override
     public AbstractLauncherException getError() {
-        return this.error;
+        return error;
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-
     private void warrantRequired() {
         if (null == this.error) {
             final Warranter vWter = singleton(ValueWarranter.class);
-            final String[] params = new String[] { this.INSTANCE + ".encryption.enabled", this.INSTANCE + ".web.port",
-                    this.INSTANCE + ".web.allow.others", this.INSTANCE + ".tcp.allow.others",
-                    this.INSTANCE + ".shell.enabled" };
+            final String[] params = new String[] { this.node + ".baseDir", this.node + ".tcp.port" };
             try {
                 vWter.warrant(this.inceptor, params);
             } catch (AbstractLauncherException ex) {
