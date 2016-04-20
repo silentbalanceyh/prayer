@@ -8,6 +8,7 @@ import com.prayer.fantasm.exception.AbstractException;
 
 /**
  * 启动器
+ * 
  * @author Lang
  *
  */
@@ -16,9 +17,15 @@ import com.prayer.fantasm.exception.AbstractException;
 public interface Launcher {
     /**
      * 
-     * @param options
      * @throws AbstractException
      */
     @VertexApi(Api.TOOL)
     void start() throws AbstractException;
+
+    /**
+     * 
+     * @throws AbstractException
+     */
+    @VertexApi(Api.TOOL)
+    void stop() throws AbstractException;
 }

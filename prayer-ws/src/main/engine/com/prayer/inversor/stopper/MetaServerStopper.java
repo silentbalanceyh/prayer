@@ -1,34 +1,32 @@
-package com.prayer.metaserver.opts.h2;
+package com.prayer.inversor.stopper;
 
-import static com.prayer.util.reflection.Instance.singleton;
-
-import org.junit.Test;
-
-import com.prayer.facade.engine.metaserver.OptionsIntaker;
+import com.prayer.facade.engine.Launcher;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.metaserver.h2.H2OptionsIntaker;
+import com.prayer.metaserver.launcher.H2Launcher;
 
 /**
+ * MetaServer的启动器，用于启动Meta Server
  * 
  * @author Lang
  *
  */
-public class Intaker2TestCase {
+public class MetaServerStopper {
     // ~ Static Fields =======================================
-    /** **/
-    private static final OptionsIntaker INTAKER = singleton(H2OptionsIntaker.class);
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    /**
+     * Main
+     * @param args
+     * @throws AbstractException
+     */
+    public static void main(final String... args) throws AbstractException{
+        final Launcher launcher = new H2Launcher();
+        launcher.stop();
+    }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Test
-    public void testValidOpts1() throws AbstractException {
-        INTAKER.ingest("/metaserver/opts/valid/config.properties");
-    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

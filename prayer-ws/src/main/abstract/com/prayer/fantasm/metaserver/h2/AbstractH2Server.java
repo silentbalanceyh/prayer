@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 
 import com.prayer.facade.engine.Options;
 import com.prayer.facade.engine.metaserver.h2.H2Server;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.facade.resource.Point;
+import com.prayer.resource.InceptBus;
 
 import io.vertx.core.json.JsonObject;
 
@@ -21,10 +24,9 @@ import io.vertx.core.json.JsonObject;
  */
 public abstract class AbstractH2Server implements H2Server {
     // ~ Static Fields =======================================
+    // ~ Instance Fields =====================================
     /** **/
     private transient final Server webServer;
-
-    // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -41,16 +43,16 @@ public abstract class AbstractH2Server implements H2Server {
     public abstract Logger getLogger();
 
     // ~ Override Methods ====================================
-    // ~ Methods =============================================
     /**
      * 获取Server引用
      * 
      * @return
      */
-    protected Server getWebServer() {
+    @Override
+    public Server getWebRef() {
         return this.webServer;
     }
-
+    // ~ Methods =============================================
     // ~ Private Methods =====================================
     /**
      * 
@@ -60,8 +62,10 @@ public abstract class AbstractH2Server implements H2Server {
         /** 1.参数表 **/
         final JsonObject config = options.readOpts().getJsonObject("extension");
         final List<String> params = new ArrayList<>();
+        // 1.1.端口号
         params.add("-webPort");
-        params.add(config.getString("web.port"));
+        params.add(String.valueOf(config.getInteger("web.port")));
+        // 1.2.允许连接
         if (config.getBoolean("web.allow.others")) {
             params.add("-webAllowOthers");
         }

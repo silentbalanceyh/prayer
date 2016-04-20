@@ -26,7 +26,7 @@ public class H2Launcher implements Launcher {
     /** H2 Options **/
     private static final OptionsIntaker INTAKER = singleton(H2OptionsIntaker.class);
     /** **/
-    private static H2Server server = null;
+    private static H2Server SERVER = null;
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -38,6 +38,23 @@ public class H2Launcher implements Launcher {
     /** 启动方法 **/
     @Override
     public void start() throws AbstractException {
+        /** 1.Server配置初始化 **/
+        SERVER = this.getServer();
+        /** 2.启动Server **/
+        SERVER.start();
+    }
+
+    /** 停止方法 **/
+    @Override
+    public void stop() throws AbstractException {
+        /** 1.Server配置初始化 **/
+        SERVER = this.getServer();
+        /** 2.停止Server **/
+        SERVER.stop();
+    }
+
+    private H2Server getServer() throws AbstractException {
+        H2Server server = null;
         /** 1.读取Meta Server配置文件路径 **/
         final String configFile = INCEPTOR.getString(Point.MetaServer.CONFIG);
         /** 2.使用配置文件读取配置 **/
@@ -48,18 +65,12 @@ public class H2Launcher implements Launcher {
         } else {
             server = SingleServer.create(options);
         }
-        /** 4.启动Server **/
-        server.start();
+        return server;
     }
 
     /** 当前配置是否集群 **/
     private boolean isClustered(final Options options) {
         return options.readOpts().containsKey("cluster");
-    }
-
-    public static void main(String args[]) throws AbstractException {
-        Launcher launcher = new H2Launcher();
-        launcher.start();
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

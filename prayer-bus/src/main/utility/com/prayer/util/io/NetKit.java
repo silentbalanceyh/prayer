@@ -3,6 +3,7 @@ package com.prayer.util.io;
 import static com.prayer.util.debug.Log.jvmError;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 
 import org.apache.commons.net.telnet.TelnetClient;
 import org.slf4j.Logger;
@@ -48,13 +49,32 @@ public final class NetKit {
         }
         return ret;
     }
+
+    /**
+     * 
+     * @param port
+     * @return
+     */
+    public static boolean isTaken(@Min(1) final int port) {
+        boolean ret = false;
+        try {
+            final ServerSocket socket = new ServerSocket(port);
+            ret = false;
+            socket.close();
+        } catch (IOException ex) {
+            ret = true;
+        }
+        return ret;
+    }
+
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private NetKit(){}
+    private NetKit() {
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

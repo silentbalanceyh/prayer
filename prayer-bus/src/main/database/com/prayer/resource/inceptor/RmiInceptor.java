@@ -1,29 +1,27 @@
-package com.prayer.starter;
+package com.prayer.resource.inceptor;
 
-import com.prayer.facade.engine.Launcher;
-import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.metaserver.launcher.H2Launcher;
+import com.prayer.fantasm.resource.AbstractInceptor;
 
 /**
- * MetaServer的启动器，用于启动Meta Server
  * 
  * @author Lang
  *
  */
-public class MetaServerBooter {
+public class RmiInceptor extends AbstractInceptor {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /**
+     * 使用默认的Key构造
+     */
+    public RmiInceptor() {
+        super("file.rmi.config");
+    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-
-    public void runTool(final String... args) throws AbstractException {
-        final Launcher launcher = new H2Launcher();
-        launcher.start();
-    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

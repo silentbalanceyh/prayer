@@ -72,6 +72,16 @@ public interface Point {
         /** 默认发布的数据目录 **/
         String DATA_FOLDER = "data.folder";
     }
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
+    interface RMI{
+        /** Meta Server **/
+        String META_SERVER = "rmi.meta.server";
+        /** RMI Port **/
+        String RMI_PORT = "rmi.port";
+        /** RMI Host **/
+        String RMI_HOST = "rmi.host";
+    }
 
     /** **/
     @VertexPoint(Interface.CONSTANT)

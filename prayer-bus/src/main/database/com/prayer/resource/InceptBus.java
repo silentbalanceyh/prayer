@@ -13,6 +13,7 @@ import com.prayer.resource.inceptor.DynamicInceptor;
 import com.prayer.resource.inceptor.ErrorInceptor;
 import com.prayer.resource.inceptor.InjectionInceptor;
 import com.prayer.resource.inceptor.MetaServerInceptor;
+import com.prayer.resource.inceptor.RmiInceptor;
 import com.prayer.resource.inceptor.SchemaInceptor;
 import com.prayer.resource.inceptor.SystemInceptor;
 import com.prayer.resource.inceptor.TpInceptor;
@@ -41,6 +42,7 @@ public final class InceptBus {
         INCEPTORS.put(Point.Deploy.class, Instance.instance(DeployInceptor.class));
         INCEPTORS.put(Point.TP.class, Instance.instance(TpInceptor.class));
         INCEPTORS.put(Point.MetaServer.class, Instance.instance(MetaServerInceptor.class));
+        INCEPTORS.put(Point.RMI.class, Instance.instance(RmiInceptor.class));
         /** 特殊Inceptors **/
         INCEPTORS.put(Point.Jdbc.class, Instance.instance(DatabaseInceptor.class));
     }
