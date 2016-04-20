@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.sql.Clob;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -41,6 +42,22 @@ public final class Converter {
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    /**
+     * 
+     * @param arrs
+     * @return
+     */
+    public static JsonArray merge(final JsonArray... arrs) {
+        final JsonArray ret = new JsonArray();
+        for (final JsonArray arr : arrs) {
+            final int length = arr.size();
+            for (int idx = 0; idx < length; idx++) {
+                final JsonObject item = arr.getJsonObject(idx);
+                ret.add(item.copy());
+            }
+        }
+        return ret;
+    }
     /**
      * 
      * @param instance
@@ -77,7 +94,17 @@ public final class Converter {
     public static String toStr(@NotNull @MinSize(1) final Set<String> sets) {
         return toStr(sets.toArray(Constants.T_STR_ARR));
     }
-
+    /**
+     * 
+     * @param sets
+     * @return
+     */
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    public static String toStr(@NotNull @MinSize(1) final List<String> list) {
+        return toStr(list.toArray(Constants.T_STR_ARR));
+    }
     /**
      * 
      * @param array

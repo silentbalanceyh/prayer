@@ -3,6 +3,9 @@ package com.prayer.metaserver.h2.server.poll;
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;
 
+import java.text.MessageFormat;
+import java.util.List;
+
 import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,20 +18,20 @@ import com.prayer.facade.engine.metaserver.h2.H2Messages.Database;
  * @author Lang
  *
  */
-public class SingleClosurer implements Runnable {
+public class CallbackClosurer implements Runnable {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(SingleClosurer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CallbackClosurer.class);
     // ~ Instance Fields =====================================
     /** **/
-    private transient Server database;
+    private transient List<Server> database;
     /** **/
     private transient H2Exit exit;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
 
-    public SingleClosurer(final Server database, final H2Exit exit) {
+    public CallbackClosurer(final List<Server> database, final H2Exit exit) {
         this.database = database;
         this.exit = exit;
     }
@@ -39,12 +42,26 @@ public class SingleClosurer implements Runnable {
     public void run() {
         while (true) {
             try {
-                /** 30s轮询一次 **/
-                // TODO：轮询暂时不需要配置，30s轮询一次
-                Thread.sleep(10000);
-                if (!database.isRunning(false)) {
+                /** 10s轮询一次 **/
+                // TODO：轮询暂时不需要配置，10s轮询一次
+                Thread.sleep(30000);
+                boolean shutdown = true;
+                int size = this.database.size();
+                for (final Server server : this.database) {
+                    if (server.isRunning(false)) {
+                        shutdown = false;
+                        break;
+                    } else {
+                        size--;
+                        info(LOGGER, MessageFormat.format(Database.INFO_QUEUE, String.valueOf(server.getPort()),
+                                String.valueOf(size)));
+                    }
+                }
+                if (shutdown) {
                     info(LOGGER, Database.Single.T_STOPPED);
                     break;
+                }else{
+                    info(LOGGER,MessageFormat.format(Database.INFO_RUN_QUE, String.valueOf(size)));
                 }
             } catch (InterruptedException ex) {
                 jvmError(LOGGER, ex);

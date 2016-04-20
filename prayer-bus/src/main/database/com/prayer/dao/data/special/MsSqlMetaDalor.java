@@ -15,7 +15,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class MsSqlDatabaseDalor extends AbstractDatabaseDao implements MsSqlStatement {
+public class MsSqlMetaDalor extends AbstractDatabaseDao implements MsSqlStatement {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================

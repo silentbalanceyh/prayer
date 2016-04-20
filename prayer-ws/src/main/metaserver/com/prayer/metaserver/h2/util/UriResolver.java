@@ -2,10 +2,11 @@ package com.prayer.metaserver.h2.util;
 
 import java.text.MessageFormat;
 
-import org.h2.tools.Server;
-
 import com.prayer.facade.engine.Options;
+import com.prayer.facade.engine.metaserver.h2.H2Messages;
+import com.prayer.util.Converter;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
@@ -18,11 +19,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public final class UriResolver {
     // ~ Static Fields =======================================
-    /** Single **/
-    private static final String URI_SINGLE = "jdbc:h2:tcp://{0}:{1}/META/{2}";
-    /** Cluster **/
-    private static final String URI_CLUSTER = "jdbc:h2:tcp://{0}/META/{1}";
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -32,16 +28,22 @@ public final class UriResolver {
         final StringBuilder uri = new StringBuilder();
         /** 2.判断Cluster **/
         final JsonObject config = options.readOpts();
+        final boolean encryption = config.getJsonObject("extension").getBoolean("encryption");
+        final String database = config.getJsonObject("server").getString("database");
         if (isClustered(config)) {
-
+            final JsonArray sources = config.getJsonObject("nodes").getJsonArray("source");
+            final JsonArray targets = config.getJsonObject("nodes").getJsonArray("target");
+            final String host = config.getJsonObject("cluster").getString("host");
+            final String sevList = ParamsResolver.resolve(Converter.merge(sources, targets), host);
+            uri.append(MessageFormat.format(H2Messages.URI_CLUSTER, sevList, database));
         } else {
+
             final String host = config.getJsonObject("nodes").getString("host");
             final String port = String.valueOf(config.getJsonObject("nodes").getInteger("tcp.port"));
-            final String database = config.getJsonObject("server").getString("database");
-            uri.append(MessageFormat.format(URI_SINGLE, host, port, database));
+            uri.append(MessageFormat.format(H2Messages.URI_SINGLE, host, port, database));
         }
         /** 3.是否加密 **/
-        if (config.getJsonObject("extension").getBoolean("encryption")) {
+        if (encryption) {
             uri.append(";PASSWORD_HASH=TRUE");
         }
         /** 4.返回URI **/

@@ -39,7 +39,7 @@ public class ClusterOptions implements Options {
     /** **/
     private transient JsonArray target = new JsonArray();
     /** **/
-    private transient JsonObject source = new JsonObject();
+    private transient JsonArray source = new JsonArray();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -78,8 +78,13 @@ public class ClusterOptions implements Options {
 
     private JsonObject buildCluster() {
         final JsonObject data = new JsonObject();
-        data.put("source", this.inceptor.getString(this.INSTANCE + ".cluster.source"));
-        final String[] nodes = this.inceptor.getArray(this.INSTANCE + ".cluster.target");
+        String[] nodes = this.inceptor.getArray(this.INSTANCE + ".cluster.source");
+        final JsonArray sources = new JsonArray();
+        for (final String node : nodes) {
+            sources.add(node);
+        }
+        data.put("source", sources);
+        nodes = this.inceptor.getArray(this.INSTANCE + ".cluster.target");
         final JsonArray targets = new JsonArray();
         for (final String node : nodes) {
             targets.add(node);
@@ -98,12 +103,15 @@ public class ClusterOptions implements Options {
 
     private void warrantSource() {
         if (null == this.error) {
-            final String nodeName = this.inceptor.getString(this.INSTANCE + ".cluster.source");
-            final Options options = instance(NodeOptions.class, this.inceptor, nodeName);
-            if (null != options && null != options.getError()) {
-                this.error = options.getError();
-            } else {
-                this.source = options.readOpts();
+            final String[] nodes = this.inceptor.getArray(this.INSTANCE + ".cluster.source");
+            for (final String node : nodes) {
+                final Options options = instance(NodeOptions.class, this.inceptor, node);
+                if (null != options && null != options.getError()) {
+                    this.error = options.getError();
+                    break;
+                } else {
+                    this.source.add(options.readOpts());
+                }
             }
         }
     }

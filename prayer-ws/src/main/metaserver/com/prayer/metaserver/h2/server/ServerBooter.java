@@ -6,6 +6,7 @@ import static com.prayer.util.debug.Log.jvmError;
 
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.List;
 
 import org.h2.tools.Server;
 import org.slf4j.Logger;
@@ -36,13 +37,22 @@ class ServerBooter implements H2Messages {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-
-    public boolean startDatabase(@NotNull final Server server, final boolean clustered) {
+    /**
+     * 启动所有的Server
+     * 
+     * @param servers
+     * @param clustered
+     * @return
+     */
+    public boolean startDatabase(@NotNull final List<Server> servers) {
         boolean status = false;
-        if (clustered) {
-
-        } else {
+        for (final Server server : servers) {
             status = this.startDatabase(server);
+            if (status) {
+                continue;
+            } else {
+                break;
+            }
         }
         return status;
     }

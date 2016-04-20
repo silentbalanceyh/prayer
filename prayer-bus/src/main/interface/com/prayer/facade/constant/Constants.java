@@ -19,7 +19,8 @@ public interface Constants { // NOPMD
     /** 全局统一属性ID信息 **/
     // TODO: 这里改动过后可能很多地方无法通过编译
     String PID = "uniqueId";
-
+    /** **/
+    String TCP_PASSWORD = "db6ea8d90fa0cad8597d332cb1ee3903143588bce135c1f1100a6e62c523dd70";
     /** OVol 默认脚本 **/
     String LANG_GROOVY = "groovy";
     /** Script Engine 名称 **/

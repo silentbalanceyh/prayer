@@ -24,6 +24,8 @@ public class Injections {
         public static final Class<?> CONNECTION = INCEPTOR.getClass(Point.Injection.Meta.CONNECTION);
         /** Accessor连接 **/
         public static final Class<?> ACCESSOR = INCEPTOR.getClass(Point.Injection.Meta.ACCESSOR);
+        /** Launcher类 **/
+        public static final Class<?> LAUNCHER = INCEPTOR.getClass(Point.Injection.Meta.LAUNCHER);
     }
     /** 数据库访问 **/
     public static final class Data {

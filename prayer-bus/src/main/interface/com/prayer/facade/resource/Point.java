@@ -47,7 +47,9 @@ public interface Point {
             /** 元数据使用JDBC时的连接类 **/
             String CONNECTION = "meta.connection";
             /** Meta：数据库中的Accessor **/
-            String ACCESSOR = "database.meta.accessor";
+            String ACCESSOR = "meta.accessor";
+            /** Meta：Server启动类 **/
+            String LAUNCHER = "meta.server.launcher";
         }
     }
 

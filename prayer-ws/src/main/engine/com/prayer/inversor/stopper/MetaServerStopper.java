@@ -1,8 +1,10 @@
 package com.prayer.inversor.stopper;
 
+import static com.prayer.util.reflection.Instance.singleton;
+
 import com.prayer.facade.engine.Launcher;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.metaserver.launcher.H2Launcher;
+import com.prayer.resource.Injections;
 
 /**
  * MetaServer的启动器，用于启动Meta Server
@@ -21,7 +23,7 @@ public class MetaServerStopper {
      * @throws AbstractException
      */
     public static void main(final String... args) throws AbstractException{
-        final Launcher launcher = new H2Launcher();
+        final Launcher launcher = singleton(Injections.Meta.LAUNCHER);
         launcher.stop();
     }
     // ~ Constructors ========================================

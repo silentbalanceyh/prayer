@@ -4,6 +4,8 @@ import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.h2.tools.Server;
 import org.slf4j.Logger;
@@ -13,10 +15,11 @@ import com.prayer.facade.engine.Options;
 import com.prayer.facade.engine.metaserver.h2.H2Server;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.metaserver.h2.AbstractH2Server;
-import com.prayer.metaserver.h2.server.poll.SingleClosurer;
+import com.prayer.metaserver.h2.server.poll.CallbackClosurer;
 import com.prayer.metaserver.h2.util.UriResolver;
 import com.prayer.metaserver.model.MetaOptions;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.NotNull;
@@ -35,10 +38,10 @@ public class SingleServer extends AbstractH2Server {
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleServer.class);
     /** **/
-    private static final String RMI_NAME = "H2/OPTIONS";
+    private static final String RMI_NAME = "H2/SINGLE/OPTS";
     // ~ Instance Fields =====================================
     /** 序列化 **/
-    private transient Server database = null;
+    private transient List<Server> database = new ArrayList<>();
     /** 序列化 **/
     private transient Server console = null;
     /** **/
@@ -66,7 +69,7 @@ public class SingleServer extends AbstractH2Server {
     /** **/
     private SingleServer(final Options options) {
         this.options = options;
-        this.database = this.initDatabase(this.options);
+        this.database = this.initDatabase(prepareNode(this.options));
         this.console = this.initWebConsole(this.options);
         /** 启动、停止 **/
         this.booter = singleton(ServerBooter.class);
@@ -84,21 +87,26 @@ public class SingleServer extends AbstractH2Server {
     /** **/
     @Override
     public boolean start() throws AbstractException {
-        boolean status = booter.startDatabase(this.database, false);
+        /** 数据库列表 **/
+        boolean status = booter.startDatabase(this.database);
         /** 1.输出最终信息 **/
         if (!status) {
             return false;
         }
+
         /** 2.获取Web Console **/
         status = booter.startWebConsole(this.console);
         /** 3.如果启动成功，则启动Database **/
         if (!status) {
             return false;
         }
+
         /** 4.读取JsonObject **/
         registry(RMI_NAME, this.options.readOpts());
-        /** 5.开启轮询线程 **/
-        new Thread(new SingleClosurer(this.database, this::exit)).start();
+
+        /** 5.开启轮询线程，监控到database停止过后就将主线程停止 **/
+        new Thread(new CallbackClosurer(this.database, this::exit)).start();
+
         info(LOGGER, MessageFormat.format(Database.JDBC_URI, UriResolver.resolveJdbc(options)));
         return status;
     }
@@ -111,16 +119,30 @@ public class SingleServer extends AbstractH2Server {
         /** 2.必须从远程读取Options，保证Server和Client使用同样激活的配置 **/
         final Options remoteOpts = new MetaOptions(data);
         /** 3.停止H2 **/
-        return stopper.stopDatabase(remoteOpts, false);
+        return stopper.stopDatabase(prepareNode(remoteOpts));
     }
 
-    /** **/
-    public void exit() {
-        info(LOGGER, WebConsole.T_STOPPED);
-        System.exit(0);
-    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    /**
+     * 准备Single的单独数据
+     * 
+     * @param options
+     * @return
+     */
+    private JsonArray prepareNode(final Options options) {
+        final JsonObject opts = options.readOpts();
+        /** 提取Server信息 **/
+        final JsonObject server = new JsonObject();
+        server.put("tcp.port", opts.getJsonObject("nodes").getInteger("tcp.port"));
+        server.put("tcp.allow.others", opts.getJsonObject("extension").getBoolean("tcp.allow.others"));
+        server.put("baseDir", opts.getJsonObject("server").getString("database"));
+        server.put("host", opts.getJsonObject("nodes").getString("host"));
+        /** 提取Array **/
+        final JsonArray optsArr = new JsonArray();
+        optsArr.add(server);
+        return optsArr;
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

@@ -1,5 +1,6 @@
 package com.prayer.fantasm.metaserver.h2;
 
+import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;
 
 import java.rmi.RemoteException;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.h2.tools.Server;
 import org.slf4j.Logger;
 
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.Options;
 import com.prayer.facade.engine.metaserver.h2.H2Quoter;
 import com.prayer.facade.engine.metaserver.h2.H2Server;
@@ -19,6 +21,7 @@ import com.prayer.metaserver.h2.rmi.H2OptionsQuoter;
 import com.prayer.resource.InceptBus;
 import com.prayer.rmi.RemoteInvoker;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -31,7 +34,6 @@ public abstract class AbstractH2Server implements H2Server {
     // ~ Instance Fields =====================================
     /** **/
     private static final Inceptor INCEPTOR = InceptBus.build(Point.RMI.class);
-
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -41,34 +43,50 @@ public abstract class AbstractH2Server implements H2Server {
 
     // ~ Override Methods ====================================
     // ~ Methods =============================================
+    /** **/
+    protected void exit() {
+        info(getLogger(), WebConsole.T_STOPPED);
+        System.exit(0);
+    }
     // ~ Private Methods =====================================
     /**
      * 
      * @param options
      * @return
      */
-    protected Server initDatabase(final Options options) {
+    protected List<Server> initDatabase(final JsonArray optArrs) {
         /** 1.参数表 **/
-        final List<String> params = new ArrayList<>();
-        final JsonObject config = options.readOpts();
-        // 1.1.端口号提取
-        params.add("-tcpPort");
-        params.add(String.valueOf(config.getJsonObject("nodes").getInteger("tcp.port")));
-        // 1.2.baseDir的计算
-        params.add("-baseDir");
-        params.add("~/H2/" + config.getJsonObject("server").getString("database"));
-        // 1.3.是否允许连接
-        if (config.getJsonObject("extension").getBoolean("tcp.allow.others")) {
-            params.add("-tcpAllowOthers");
+        final List<Server> servers = new ArrayList<>();
+        int length = optArrs.size();
+        /** 2.遍历Server表 **/
+        for (int idx = 0; idx < length; idx++) {
+            final List<String> params = new ArrayList<>();
+            final JsonObject config = optArrs.getJsonObject(idx);
+            // 1.1.端口号提取
+            params.add("-tcpPort");
+            params.add(String.valueOf(config.getInteger("tcp.port")));
+            // 1.2.baseDir的计算
+            params.add("-baseDir");
+            params.add("~/H2/" + config.getString("baseDir"));
+            // 1.3.Password
+            params.add("-tcpPassword");
+            params.add(Constants.TCP_PASSWORD);
+            // 1.4.是否允许连接
+            if (config.getBoolean("tcp.allow.others")) {
+                params.add("-tcpAllowOthers");
+            }
+            /** Server实例化 **/
+            Server server = null;
+            try {
+                server = Server.createTcpServer(params.toArray(new String[] {}));
+            } catch (SQLException ex) {
+                jvmError(getLogger(), ex);
+            }
+            if (null != server) {
+                servers.add(server);
+            }
         }
-        /** Server实例化 **/
-        Server server = null;
-        try {
-            server = Server.createTcpServer(params.toArray(new String[] {}));
-        } catch (SQLException ex) {
-            jvmError(getLogger(), ex);
-        }
-        return server;
+        return servers;
     }
 
     /**
