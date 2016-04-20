@@ -1,10 +1,8 @@
 package com.prayer.metaserver.h2.server;
 
-import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.configurator.ServerConfigurator;
 import com.prayer.facade.engine.Options;
 import com.prayer.facade.engine.metaserver.h2.H2Server;
 import com.prayer.fantasm.exception.AbstractException;
@@ -49,7 +47,6 @@ public class ClusterServer extends AbstractH2Server {
     // ~ Constructors ========================================
     /** **/
     private ClusterServer(final Options options) {
-        super(options);
         this.options = options;
     }
 
@@ -73,18 +70,6 @@ public class ClusterServer extends AbstractH2Server {
     public boolean stop() throws AbstractException {
         // TODO Auto-generated method stub
         return false;
-    }
-
-    /** **/
-    @Override
-    public Server getTcpRef() {
-        return null;
-    }
-
-    /** **/
-    @Override
-    public Server getWebRef() {
-        return null;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

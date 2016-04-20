@@ -11,7 +11,7 @@ import com.prayer.fantasm.exception.AbstractException;
  *
  */
 @VertexPoint(Interface.INTERNAL)
-public interface H2Server extends H2Messages,H2Reference {
+public interface H2Server extends H2Messages {
     /**
      * 
      * @return

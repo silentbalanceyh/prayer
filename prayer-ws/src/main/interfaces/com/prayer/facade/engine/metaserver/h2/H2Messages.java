@@ -26,11 +26,8 @@ public interface H2Messages {
         String INFO_STARTED = "( H2 Web Console ) Web console has been started on : {0}. (WEB) Access Point: {1}.";
         /** I:Status **/
         String INFO_STATUS = "( H2 Web Console ) Web console status -> {0}";
-
-        /** I:Not Running **/
-        String INFO_NOT_RUNNING = "( H2 Web Console ) Web console is not started on : {0}.";
-        /** I:Stopping **/
-        String INFO_STOPPING = "( H2 Web Console ) Web console is stopping on : {0}.";
+        /** Stopped **/
+        String T_STOPPED = "( H2 Web Console ) Web console has been stopped successfully !";
     }
 
     /** **/
@@ -54,6 +51,16 @@ public interface H2Messages {
             String INFO_STARTED = "( H2 Database ) H2 database has been started on : {0}. (TCP) Access Point: {1}.";
             /** I:Status **/
             String INFO_STATUS = "( H2 Database ) H2 database status -> {0}";
+            
+            /** I:Not Running **/
+            String INFO_NOT_RUNNING = "( H2 Database ) H2 database is not started on : {0}.";
+            /** I:Stopping **/
+            String INFO_STOPPING = "( H2 Database ) H2 database is stopping on : {0}.";
+            /** I:Stopped **/
+            String INFO_STOPPED = "( H2 Database ) H2 database has been stopped via TCP URI : {0}.";
+            
+            /** T:Stopped **/
+            String T_STOPPED = "( H2 Database ) H2 database has been stopped successfully !";
         }
     }
 }

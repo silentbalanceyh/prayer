@@ -37,7 +37,7 @@ class ServerBooter implements H2Messages {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
 
-    public boolean startDatabase(@NotNull final Server server, boolean clustered) {
+    public boolean startDatabase(@NotNull final Server server, final boolean clustered) {
         boolean status = false;
         if (clustered) {
 

@@ -2,16 +2,21 @@ package com.prayer.metaserver.h2.server;
 
 import static com.prayer.util.debug.Log.error;
 import static com.prayer.util.debug.Log.info;
+import static com.prayer.util.debug.Log.jvmError;
 
+import java.sql.SQLException;
 import java.text.MessageFormat;
 
 import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.engine.Options;
 import com.prayer.facade.engine.metaserver.h2.H2Messages;
 import com.prayer.util.io.NetKit;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -34,25 +39,51 @@ class ServerStopper implements H2Messages {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**
-     * 停止 Web Console
+     * 停止H2
      * 
      * @param server
      * @return
      */
-    public boolean stopWebConsole(@NotNull final Server server) {
-        /** 1.检查端口占用 **/
-        boolean stopped = false;
-        final String port = String.valueOf(server.getPort());
-        if (NetKit.isTaken(server.getPort())) {
-            info(LOGGER, MessageFormat.format(WebConsole.INFO_STOPPING, port));
-            System.out.println(server.getStatus());
+    public boolean stopDatabase(@NotNull final Options options, final boolean clustered) {
+        boolean status = false;
+        if (clustered) {
+
         } else {
-            error(LOGGER, MessageFormat.format(WebConsole.INFO_NOT_RUNNING, port));
+            status = this.stopDatabase(options);
         }
-        return stopped;
+        return status;
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    /**
+     * 
+     * @param options
+     * @return
+     */
+    public boolean stopDatabase(@NotNull final Options options) {
+        final JsonObject data = options.readOpts();
+        final int port = data.getJsonObject("nodes").getInteger("tcp.port");
+        boolean status = false;
+        if (NetKit.isTaken(port)) {
+            info(LOGGER, MessageFormat.format(Database.Single.INFO_STOPPING, String.valueOf(port)));
+            try {
+                final StringBuilder uri = new StringBuilder();
+                uri.append("tcp://").append(data.getJsonObject("nodes").getString("host")).append(Symbol.COLON)
+                        .append(port);
+                final String url = uri.toString();
+                info(LOGGER, MessageFormat.format(Database.Single.INFO_STOPPED, url));
+                Server.shutdownTcpServer(url, "", true, true);
+                status = true;
+            } catch (SQLException ex) {
+                jvmError(LOGGER, ex);
+                ex.printStackTrace();
+            }
+        } else {
+            error(LOGGER, MessageFormat.format(Database.Single.INFO_NOT_RUNNING, String.valueOf(port)));
+        }
+        return status;
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

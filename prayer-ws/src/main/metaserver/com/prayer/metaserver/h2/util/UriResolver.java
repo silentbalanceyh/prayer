@@ -19,7 +19,7 @@ import net.sf.oval.guard.Guarded;
 public final class UriResolver {
     // ~ Static Fields =======================================
     /** Single **/
-    private static final String URI_SINGLE = "jdbc:h2:tcp://{0}:{1}/~/META/{2}";
+    private static final String URI_SINGLE = "jdbc:h2:tcp://{0}:{1}/META/{2}";
     /** Cluster **/
     private static final String URI_CLUSTER = "jdbc:h2:tcp://{0}/META/{1}";
 

@@ -78,7 +78,6 @@ public class RemoteInvoker {
             if (null != retRef) {
                 info(LOGGER, MessageFormat.format(RMIMessages.RMI_REFERENCE, retRef.getClass(),
                         String.valueOf(retRef.hashCode())));
-                System.out.println(retRef);
             }
         } catch (RemoteException | NotBoundException ex) {
             info(LOGGER, MessageFormat.format(RMIMessages.RMI_CLERROR, ex.getMessage()));
