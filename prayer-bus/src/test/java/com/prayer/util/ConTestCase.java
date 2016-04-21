@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.util.io.IOKit;
-import com.prayer.util.io.JsonKit;
+import com.prayer.util.io.JacksonKit;
 import com.prayer.util.string.StringKit;
 
 /**
@@ -36,9 +36,9 @@ public class ConTestCase extends AbstractConTestCase {     // NOPMD
     @Test
     public void testCon4() {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(DEBUG_MSG + JsonKit.class.getName());
+            LOGGER.debug(DEBUG_MSG + JacksonKit.class.getName());
         }
-        final JsonKit ref = instance(JsonKit.class.getName());
+        final JacksonKit ref = instance(JacksonKit.class.getName());
         assertNotNull("[E] testCon4", ref);
     }
 

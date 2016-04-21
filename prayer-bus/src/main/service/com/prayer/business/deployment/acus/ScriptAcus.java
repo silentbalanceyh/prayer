@@ -15,7 +15,7 @@ import com.prayer.fantasm.business.deployment.acus.AbstractEntityAcus;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PEScript;
 import com.prayer.util.io.IOKit;
-import com.prayer.util.io.JsonKit;
+import com.prayer.util.io.JacksonKit;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -67,7 +67,7 @@ public class ScriptAcus extends AbstractEntityAcus implements DeployAcus {
         final List<String> files = IOKit.listFiles(targetFolder);
         for (final String file : files) {
             final String target = targetFolder + file;
-            final List<PEScript> scripts = JsonKit.fromFile(typeRef, target);
+            final List<PEScript> scripts = JacksonKit.fromFile(typeRef, target);
             /** 计算Script内容 **/
             injectContent(scripts, folder);
             if (!scripts.isEmpty()) {

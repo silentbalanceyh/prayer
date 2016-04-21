@@ -16,7 +16,7 @@ import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.util.io.IOKit;
-import com.prayer.util.io.JsonKit;
+import com.prayer.util.io.JacksonKit;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -52,7 +52,7 @@ public class UriAcus extends AbstractEntityAcus implements DeployAcus {
         final List<String> files = IOKit.listFiles(targetFolder);
         for (final String file : files) {
             final String target = targetFolder + file;
-            final List<PEUri> uris = JsonKit.fromFile(typeRef, target);
+            final List<PEUri> uris = JacksonKit.fromFile(typeRef, target);
             injectScript(uris);
             if (!uris.isEmpty()) {
                 accessor(PEUri.class).insert(uris.toArray(new PEUri[] {}));
@@ -91,7 +91,7 @@ public class UriAcus extends AbstractEntityAcus implements DeployAcus {
             final List<String> files = IOKit.listFiles(paramFolder);
             for (final String file : files) {
                 final String ruleFile = paramFolder + "/" + file;
-                final List<PERule> rules = JsonKit.fromFile(typeRef, ruleFile);
+                final List<PERule> rules = JacksonKit.fromFile(typeRef, ruleFile);
                 this.injectRefId(rules, uri);
                 if (!rules.isEmpty()) {
                     accessor(PERule.class).insert(rules.toArray(new PERule[] {}));

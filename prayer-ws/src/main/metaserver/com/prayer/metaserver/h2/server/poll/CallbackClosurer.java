@@ -10,8 +10,9 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.engine.metaserver.h2.H2Exit;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.metaserver.h2.H2Messages.Database;
+import com.prayer.facade.engine.metaserver.h2.fun.H2Exit;
 
 /**
  * 
@@ -40,11 +41,14 @@ public class CallbackClosurer implements Runnable {
 
     @Override
     public void run() {
+        /** 1.轮询次数 **/
+        long time = 0;
+        int duration = 30000;
         while (true) {
             try {
-                /** 10s轮询一次 **/
-                // TODO：轮询暂时不需要配置，10s轮询一次
-                Thread.sleep(30000);
+                /** 30s轮询一次 **/
+                // TODO：轮询暂时不需要配置，30s轮询一次
+                Thread.sleep(duration);
                 boolean shutdown = true;
                 int size = this.database.size();
                 for (final Server server : this.database) {
@@ -60,8 +64,12 @@ public class CallbackClosurer implements Runnable {
                 if (shutdown) {
                     info(LOGGER, Database.Single.T_STOPPED);
                     break;
-                }else{
-                    info(LOGGER,MessageFormat.format(Database.INFO_RUN_QUE, String.valueOf(size)));
+                } else {
+                    time++;
+                    if (Constants.ZERO == time % 10) {
+                        info(LOGGER, MessageFormat.format(Database.INFO_RUN_QUE, String.valueOf(size),
+                                String.valueOf(time)));
+                    }
                 }
             } catch (InterruptedException ex) {
                 jvmError(LOGGER, ex);

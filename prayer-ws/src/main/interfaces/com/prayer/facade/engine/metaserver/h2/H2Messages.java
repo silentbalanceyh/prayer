@@ -57,7 +57,7 @@ public interface H2Messages {
         /** **/
         String INFO_QUEUE = "( H2 Database ) H2 database on Port {0} has been stopped, now the queue size is: {1}";
         /** **/
-        String INFO_RUN_QUE = "( H2 Database ) H2 database queue size is : {0}";
+        String INFO_RUN_QUE = "( H2 Database ) H2 database queue size is : {0}. Refresh Times : {1}.";
 
         /** **/
         @VertexPoint(Interface.CONSTANT)

@@ -99,7 +99,6 @@ public final class Log { // NOPMD
             logger.info(message);
         }
     }
-
     /**
      * ERROR级别的输出信息
      * 
@@ -111,7 +110,6 @@ public final class Log { // NOPMD
             final Object... params) {
         error(logger, key, null, params);
     }
-
     /**
      * ERROR级别的输出信息
      * 

@@ -11,7 +11,7 @@ import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.util.io.JsonKit;
+import com.prayer.util.io.JacksonKit;
 
 /**
  * 
@@ -53,7 +53,7 @@ public class ArrayHandler extends BaseTypeHandler<List<String>> { // NOPMD
     @Override
     public void setNonNullParameter(final PreparedStatement pstmt, final int colIndex, final List<String> parameter,
             final JdbcType jdbcType) throws SQLException {
-        final String paramStr = JsonKit.toStr(parameter);
+        final String paramStr = JacksonKit.toStr(parameter);
         pstmt.setString(colIndex, null == paramStr ? Constants.EMPTY_JARR : paramStr);
     }
 
@@ -63,7 +63,7 @@ public class ArrayHandler extends BaseTypeHandler<List<String>> { // NOPMD
     private List<String> getNull(final boolean ret, final String value) {
         List<String> retList = new ArrayList<>();
         if (ret) {
-            retList = JsonKit.fromStr(retList.getClass(), value);
+            retList = JacksonKit.fromStr(retList.getClass(), value);
         }
         return retList;
     }

@@ -1,4 +1,4 @@
-package com.prayer.inversor.booter;
+package com.prayer.booter.engine;
 
 import static com.prayer.util.reflection.Instance.singleton;
 

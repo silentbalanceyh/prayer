@@ -4,8 +4,9 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import org.apache.commons.cli.CommandLine;
 
-import com.prayer.constant.Resources;
-import com.prayer.util.io.PropertyKit;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.resource.Resources;
+import com.prayer.resource.inceptor.DynamicInceptor;
 
 import io.vertx.core.json.JsonObject;
 
@@ -18,7 +19,7 @@ public class StatusCommand extends AbstractCommand {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
-    private transient final PropertyKit REPORTER = new PropertyKit(getClass(), "/console/report/status.properties");// NOPMD
+    private transient final Inceptor REPORTER = new DynamicInceptor("/console/report/status.properties");// NOPMD
     /** **/
     private transient final JdbcHelper helper;
 
@@ -49,9 +50,9 @@ public class StatusCommand extends AbstractCommand {
         // TODO: 命令status的开发
         if (null != cmdLine) {
             if (cmdLine.hasOption('m')) {
-                retJson = helper.getMetadata(Resources.META_CATEGORY);
+                retJson = helper.getMetadata(Resources.Meta.CATEGORY);
             } else if (cmdLine.hasOption('d')) {
-                retJson = helper.getMetadata(Resources.DB_CATEGORY);
+                retJson = helper.getMetadata(Resources.Data.CATEGORY);
             }
         }
         return report(retJson);

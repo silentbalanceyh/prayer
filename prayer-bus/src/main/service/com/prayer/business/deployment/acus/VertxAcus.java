@@ -15,7 +15,7 @@ import com.prayer.model.meta.vertx.PEAddress;
 import com.prayer.model.meta.vertx.PERoute;
 import com.prayer.model.meta.vertx.PEVerticle;
 import com.prayer.util.io.IOKit;
-import com.prayer.util.io.JsonKit;
+import com.prayer.util.io.JacksonKit;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -74,7 +74,7 @@ public class VertxAcus extends AbstractEntityAcus implements DeployAcus {
         };
         info(LOGGER, "[DP] 4.<Start>.Vertx's ( Addresses ) deployment start...");
         final String target = folder + "/vertx/address.json";
-        final List<PEAddress> addresses = JsonKit.fromFile(typeRef, target);
+        final List<PEAddress> addresses = JacksonKit.fromFile(typeRef, target);
         if (!addresses.isEmpty()) {
             accessor(PEAddress.class).insert(addresses.toArray(new PEAddress[] {}));
         }
@@ -90,7 +90,7 @@ public class VertxAcus extends AbstractEntityAcus implements DeployAcus {
         final List<String> files = IOKit.listFiles(targetFolder);
         for (final String file : files) {
             final String target = targetFolder + file;
-            final List<PERoute> routes = JsonKit.fromFile(typeRef, target);
+            final List<PERoute> routes = JacksonKit.fromFile(typeRef, target);
             if (!routes.isEmpty()) {
                 accessor(PERoute.class).insert(routes.toArray(new PERoute[] {}));
             }
@@ -107,7 +107,7 @@ public class VertxAcus extends AbstractEntityAcus implements DeployAcus {
         };
         info(LOGGER, "[DP] 2.<Start>.Vertx's ( Verticles ) deployment start...");
         final String target = folder + "/vertx/verticle.json";
-        final List<PEVerticle> verticles = JsonKit.fromFile(typeRef, target);
+        final List<PEVerticle> verticles = JacksonKit.fromFile(typeRef, target);
         if (!verticles.isEmpty()) {
             accessor(PEVerticle.class).insert(verticles.toArray(new PEVerticle[] {}));
         }

@@ -1,4 +1,4 @@
-package com.prayer.facade.engine;
+package com.prayer.facade.engine.rmi;
 
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexPoint;

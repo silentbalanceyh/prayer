@@ -1,4 +1,4 @@
-package com.prayer.inversor.stopper;
+package com.prayer.shutter.engine;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -12,7 +12,7 @@ import com.prayer.resource.Injections;
  * @author Lang
  *
  */
-public class MetaServerStopper {
+public class MetaServerShutter {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

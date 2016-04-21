@@ -10,7 +10,6 @@ import com.prayer.console.AbstractConsole;
 import com.prayer.console.EngineConsole;
 import com.prayer.console.H2DatabaseShell;
 import com.prayer.console.HazelcastConsole;
-import com.prayer.constant.Resources;
 import com.prayer.exception.system.StartUpArgsInvalidException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractException;
@@ -35,7 +34,6 @@ public final class ConsoleLauncher extends AbstractConsole {
      */
     public static ConsoleLauncher create(){
         // 开启Console模式
-        Resources.useConsole = true;
         return new ConsoleLauncher();
     }
 

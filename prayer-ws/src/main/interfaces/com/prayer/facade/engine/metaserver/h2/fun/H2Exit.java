@@ -1,4 +1,4 @@
-package com.prayer.facade.engine.metaserver.h2;
+package com.prayer.facade.engine.metaserver.h2.fun;
 /**
  * 
  * @author Lang
