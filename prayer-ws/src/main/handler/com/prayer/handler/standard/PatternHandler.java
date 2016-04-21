@@ -42,7 +42,7 @@ public class PatternHandler implements Handler<RoutingContext> {
         debug(LOGGER, DebugKey.WEB_HANDLER, getClass().getName());
         // 1.Request Extract
         final HttpServerRequest request = context.request();
-        // Process URI
+        // OutGoing URI
         final StringBuilder path = new StringBuilder(request.path());
         final Iterator<Entry<String, String>> entryIt = request.params().entries().iterator();
         while (entryIt.hasNext()) {

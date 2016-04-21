@@ -16,7 +16,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.engine.rmi.RMIMessages;
+import com.prayer.facade.engine.rmi.RmiMessages;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.resource.InceptBus;
@@ -48,14 +48,14 @@ public class RemoteInvoker {
         try {
             final int port = INCEPTOR.getInt(Point.RMI.RMI_PORT);
             final String address = buildAddrs(pattern, params);
-            info(LOGGER, MessageFormat.format(RMIMessages.RMI_ADDR, address));
+            info(LOGGER, MessageFormat.format(RmiMessages.RMI_ADDR, address));
             /** 1.初始化创建registry **/
             final Registry registry = LocateRegistry.createRegistry(port);
             registry.rebind(address, remote);
-            info(LOGGER, MessageFormat.format(RMIMessages.RMI_REGISTRY, remote.getClass(),
+            info(LOGGER, MessageFormat.format(RmiMessages.RMI_REGISTRY, remote.getClass(),
                     String.valueOf(remote.hashCode())));
         } catch (RemoteException ex) {
-            info(LOGGER, MessageFormat.format(RMIMessages.RMI_ERROR, ex.getMessage()));
+            info(LOGGER, MessageFormat.format(RmiMessages.RMI_ERROR, ex.getMessage()));
             jvmError(LOGGER, ex);
         }
     }
@@ -73,15 +73,38 @@ public class RemoteInvoker {
             final int port = INCEPTOR.getInt(Point.RMI.RMI_PORT);
             final String host = INCEPTOR.getString(Point.RMI.RMI_HOST);
             final Registry registry = LocateRegistry.getRegistry(host, port);
-            info(LOGGER, MessageFormat.format(RMIMessages.RMI_LOOKUP, address));
+            info(LOGGER, MessageFormat.format(RmiMessages.RMI_LOOKUP, address));
             retRef = registry.lookup(address);
             if (null != retRef) {
-                info(LOGGER, MessageFormat.format(RMIMessages.RMI_REFERENCE, retRef.getClass(),
+                info(LOGGER, MessageFormat.format(RmiMessages.RMI_REFERENCE, retRef.getClass(),
                         String.valueOf(retRef.hashCode())));
             }
         } catch (RemoteException | NotBoundException ex) {
-            info(LOGGER, MessageFormat.format(RMIMessages.RMI_CLERROR, ex.getMessage()));
+            info(LOGGER, MessageFormat.format(RmiMessages.RMI_CLERROR, ex.getMessage()));
             jvmError(LOGGER, ex);
+            ex.printStackTrace();
+        }
+        return retRef;
+    }
+
+    /**
+     * 查找远程对象
+     * 
+     * @param pattern
+     * @param params
+     * @return
+     */
+    public static Object lookupDirect(final String pattern, final Object... params)
+            throws RemoteException, NotBoundException {
+        final String address = buildAddrs(pattern, params);
+        final int port = INCEPTOR.getInt(Point.RMI.RMI_PORT);
+        final String host = INCEPTOR.getString(Point.RMI.RMI_HOST);
+        final Registry registry = LocateRegistry.getRegistry(host, port);
+        info(LOGGER, MessageFormat.format(RmiMessages.RMI_LOOKUP, address));
+        Object retRef = registry.lookup(address);
+        if (null != retRef) {
+            info(LOGGER, MessageFormat.format(RmiMessages.RMI_REFERENCE, retRef.getClass(),
+                    String.valueOf(retRef.hashCode())));
         }
         return retRef;
     }

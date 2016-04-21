@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.engine.metaserver.h2.H2Messages;
+import com.prayer.facade.metaserver.h2.H2Messages;
 import com.prayer.util.io.NetKit;
 
 import io.vertx.core.json.JsonArray;

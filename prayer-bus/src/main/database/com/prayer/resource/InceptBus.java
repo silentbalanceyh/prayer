@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
+import com.prayer.resource.inceptor.ConsoleInceptor;
 import com.prayer.resource.inceptor.DatabaseInceptor;
 import com.prayer.resource.inceptor.DeployInceptor;
 import com.prayer.resource.inceptor.DynamicInceptor;
@@ -43,6 +44,7 @@ public final class InceptBus {
         INCEPTORS.put(Point.TP.class, Instance.instance(TpInceptor.class));
         INCEPTORS.put(Point.MetaServer.class, Instance.instance(MetaServerInceptor.class));
         INCEPTORS.put(Point.RMI.class, Instance.instance(RmiInceptor.class));
+        INCEPTORS.put(Point.Console.class, Instance.instance(ConsoleInceptor.class));
         /** 特殊Inceptors **/
         INCEPTORS.put(Point.Jdbc.class, Instance.instance(DatabaseInceptor.class));
     }

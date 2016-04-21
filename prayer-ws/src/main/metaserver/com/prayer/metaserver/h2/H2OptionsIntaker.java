@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.engine.Options;
-import com.prayer.facade.engine.metaserver.OptionsIntaker;
+import com.prayer.facade.metaserver.OptionsIntaker;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractLauncherException;

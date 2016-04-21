@@ -3,7 +3,7 @@ package com.prayer.metaserver.h2.rmi;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import com.prayer.facade.engine.metaserver.h2.H2Quoter;
+import com.prayer.facade.metaserver.h2.H2Quoter;
 
 /**
  * 

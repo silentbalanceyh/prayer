@@ -12,7 +12,7 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.engine.metaserver.h2.H2Messages;
+import com.prayer.facade.metaserver.h2.H2Messages;
 import com.prayer.util.io.NetKit;
 
 import net.sf.oval.constraint.NotNull;

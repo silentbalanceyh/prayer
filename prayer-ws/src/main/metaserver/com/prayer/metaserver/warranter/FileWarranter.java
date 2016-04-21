@@ -3,7 +3,7 @@ package com.prayer.metaserver.warranter;
 import java.io.InputStream;
 
 import com.prayer.exception.launcher.ReferenceFileException;
-import com.prayer.facade.engine.metaserver.Warranter;
+import com.prayer.facade.metaserver.Warranter;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.fantasm.exception.AbstractLauncherException;
 import com.prayer.util.io.IOKit;

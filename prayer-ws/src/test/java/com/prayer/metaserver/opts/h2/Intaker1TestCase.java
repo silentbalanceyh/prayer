@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.prayer.exception.launcher.ParameterMissedException;
 import com.prayer.exception.launcher.ReferenceFileException;
-import com.prayer.facade.engine.metaserver.OptionsIntaker;
+import com.prayer.facade.metaserver.OptionsIntaker;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.metaserver.h2.H2OptionsIntaker;
 
