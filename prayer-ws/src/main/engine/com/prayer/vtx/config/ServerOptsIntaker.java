@@ -1,4 +1,4 @@
-package com.prayer.vertx.config;
+package com.prayer.vtx.config;
 
 import static com.prayer.util.Planar.flat;
 import static com.prayer.util.reflection.Instance.singleton;
