@@ -35,8 +35,8 @@ public final class OutGoing {
 
     /** Exit **/
     public static void outExit(final String message) {
-        Outer.outLn("[Consoler] -> {0}", message);
-        Outer.out("[Stop] Background Consoler Stopping... ");
+        Outer.outLn("[Consoler] -> {0} will be stopped.", message);
+        Outer.out("[Stop] Background Consoler Stopping...");
         outProgress(2);
         Outer.outLn("[End] Consoler Exit.");
     }

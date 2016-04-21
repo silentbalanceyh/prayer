@@ -1,7 +1,6 @@
 package com.prayer.fantasm.console;
 
 import com.prayer.console.OutGoing;
-import com.prayer.console.util.Outer;
 import com.prayer.facade.console.Connector;
 import com.prayer.facade.console.Consoler;
 

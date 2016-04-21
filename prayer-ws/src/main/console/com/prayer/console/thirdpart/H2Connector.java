@@ -32,7 +32,7 @@ class H2Connector implements Connector, H2Tidings {
     private static final Inceptor RMI_INCEPTOR = InceptBus.build(Point.RMI.class);
     // ~ Instance Fields =====================================
     /** **/
-    private transient JsonObject options;
+    private transient JsonObject options = new JsonObject();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -68,6 +68,7 @@ class H2Connector implements Connector, H2Tidings {
     private void readJdbc() {
         final Options opts = new MetaOptions(this.options);
         final String uri = UriResolver.resolveJdbc(opts);
+        this.options.getJsonObject("server").put(Data.URL, uri);
         Outer.outLn(JDBC, uri);
     }
 
@@ -77,9 +78,10 @@ class H2Connector implements Connector, H2Tidings {
             final String pattern = RMI_INCEPTOR.getString(Point.RMI.META_SERVER);
             final H2Quoter quoter = (H2Quoter) RemoteInvoker.lookupDirect(pattern, H2Messages.RMI.OPTS_H2);
             if (null != quoter) {
-                this.options = new JsonObject(quoter.service(null));
-                if (null != this.options) {
-                    Outer.outLn(OPTS, this.options.encode());
+                final JsonObject refRvt = new JsonObject(quoter.service(null));
+                if (null != refRvt) {
+                    this.options.mergeIn(refRvt.copy());
+                    Outer.outLn(OPTS, refRvt.encode());
                 }
                 remote = true;
             }
