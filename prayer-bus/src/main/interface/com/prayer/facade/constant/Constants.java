@@ -179,35 +179,6 @@ public interface Constants { // NOPMD
 
     /** **/
     @VertexPoint(Interface.CONSTANT)
-    interface BUS { // NOPMD
-        /** Global ID对应Key **/
-        String ID = PARAM.ID; // NOPMD
-        /** Script Name对应Key **/
-        String SCRIPT = PARAM.SCRIPT;
-        /** Param Data **/
-        String DATA = PARAM.DATA;
-    }
-
-    /**
-     * 
-     * @author Lang
-     *
-     */
-    @VertexPoint(Interface.CONSTANT)
-    interface CMD { // NOPMD
-        /** status Command **/
-        interface STATUS { // NOPMD
-            /** **/
-            String JDBC_URL = "url";
-            /** **/
-            String USERNAME = "username";
-            /** **/
-            String PASSWORD = "password";
-        }
-    }
-
-    /** **/
-    @VertexPoint(Interface.CONSTANT)
     interface PARAM { // NOPMD
         /** **/
         String ID = "identifier"; // NOPMD

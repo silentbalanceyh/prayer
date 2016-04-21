@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.builder.AbstractMsSqlBuilderTool;
-import com.prayer.database.pool.impl.JdbcConnImpl;
+import com.prayer.database.connection.JdbcConnImpl;
 import com.prayer.facade.database.dao.schema.DataValidator;
 import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractException;

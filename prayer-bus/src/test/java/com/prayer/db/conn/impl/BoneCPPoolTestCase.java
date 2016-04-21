@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.prayer.AbstractCommonTool;
-import com.prayer.database.pool.impl.BoneCPPool;
+import com.prayer.database.pool.BoneCPPool;
 import com.prayer.fantasm.database.pool.AbstractJdbcPool;
 import com.prayer.resource.Resources;
 

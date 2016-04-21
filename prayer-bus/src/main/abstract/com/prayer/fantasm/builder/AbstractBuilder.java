@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import com.prayer.business.digraph.OrderedBuilder;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.database.pool.impl.JdbcConnImpl;
+import com.prayer.database.connection.JdbcConnImpl;
 import com.prayer.database.util.sql.SqlDDLBuilder;
 import com.prayer.facade.builder.Builder;
 import com.prayer.facade.builder.Refresher;

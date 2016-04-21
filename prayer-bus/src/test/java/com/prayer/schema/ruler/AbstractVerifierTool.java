@@ -4,7 +4,7 @@ import static com.prayer.util.reflection.Instance.reservoir;
 import static com.prayer.util.reflection.Instance.singleton;
 import static org.junit.Assert.fail;
 
-import com.prayer.database.pool.impl.JdbcConnImpl;
+import com.prayer.database.connection.JdbcConnImpl;
 import com.prayer.exception.system.JsonParserException;
 import com.prayer.exception.system.ResourceIOException;
 import com.prayer.facade.constant.DBConstants;

@@ -4,8 +4,8 @@ import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.constant.SystemEnum.UACSource;
-import com.prayer.database.pool.impl.H2ConnImpl;
-import com.prayer.database.pool.impl.JdbcConnImpl;
+import com.prayer.database.pool.H2ConnImpl;
+import com.prayer.database.pool.JdbcConnImpl;
 import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.util.string.StringKit;

@@ -1,29 +1,42 @@
-package com.prayer.database.accessor.impl;
+package com.prayer.database.connection;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.prayer.facade.constant.DBConstants;
+import com.prayer.fantasm.database.pool.AbstractJdbcConnection;
+
+import net.sf.oval.guard.Guarded;
+
 /**
  * 
  * @author Lang
  *
  */
-public final class IBatisPagination {
+@Guarded
+public class H2ConnImpl extends AbstractJdbcConnection {
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(H2ConnImpl.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /**
-     * 计算Offset
-     * @param index
-     * @param size
-     * @return
-     */
-    public static int offset(final int index, final int size){
-        return (index - 1) * size;
-    }
     // ~ Constructors ========================================
+    /** **/
+    public H2ConnImpl() {
+        super(DBConstants.CATEGORY_H2);
+    }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private IBatisPagination(){}
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

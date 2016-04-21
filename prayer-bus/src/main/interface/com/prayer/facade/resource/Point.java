@@ -68,6 +68,7 @@ public interface Point {
     interface Vertx {
         /** 激活的Vertx实例 **/
         String ACTIVE = "vertx.active";
+
         /** **/
         @VertexPoint(Interface.CONSTANT)
         interface Pool {
@@ -216,9 +217,52 @@ public interface Point {
     interface Schema {
     }
 
+    /** **/
     @VertexPoint(Interface.CONSTANT)
     interface Jdbc {
         // Fix引用必须，Database和Jdbc是相互独立的，并不在同一个文件，不可使用Database作为Key值
+    }
+
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
+    interface Web {
+        /** Login相关配置 **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Login {
+            /** Logout Action **/
+            String ACTION_LOGOUT = "action.logout";
+            /** Login Page **/
+            String ACTION_INDEX = "action.login.index";
+        }
+
+        /** Dynamic动态脚本配置 **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Dynamic {
+            /** 基本路由 **/
+            String BASIC_ROUTE = "dynamic.basic.route";
+            /** 管理员路由 **/
+            String ADMIN_ROUTE = "dynamic.admin.route";
+        }
+
+        /** Static配置 **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Static {
+            /** Favicon专用 **/
+            String FAVICON = "static.favicon";
+            /** Static路由专用 **/
+            String ROUTE = "static.resource";
+            /** 模板引擎名称 **/
+            String TEMPLATE_MODE = "static.template.mode";
+        }
+
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Api {
+            /** 公开Api **/
+            String PUBLIC = "api.public";
+            /** 安全Api **/
+            String SECURE = "api.secure";
+        }
     }
 
     /** 第三方 **/

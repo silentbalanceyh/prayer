@@ -1,31 +1,30 @@
-package com.prayer.fantasm.business.deployment.acus;
-
-import com.prayer.database.accessor.MetaAccessorImpl;
-import com.prayer.facade.database.accessor.MetaAccessor;
-
-import net.sf.oval.guard.Guarded;
-
+package com.prayer.database.accessor;
 /**
  * 
  * @author Lang
  *
  */
-@Guarded
-public abstract class AbstractEntityAcus {
+public final class IBatisPagination {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    /**
+     * 计算Offset
+     * @param index
+     * @param size
+     * @return
+     */
+    public static int offset(final int index, final int size){
+        return (index - 1) * size;
+    }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    
-    /** 获取对应实体的Accessor **/
-    protected MetaAccessor accessor(final Class<?> genericT) {
-        return new MetaAccessorImpl(genericT);
-    }
     // ~ Private Methods =====================================
+    private IBatisPagination(){}
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

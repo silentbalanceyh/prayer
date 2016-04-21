@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.database.pool.impl.JdbcConnImpl;
+import com.prayer.database.connection.JdbcConnImpl;
 import com.prayer.facade.database.dao.DatabaseDao;
 import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.model.business.Metadata;

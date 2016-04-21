@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.prayer.business.configuration.impl.ConfigBllor;
 import com.prayer.business.deployment.impl.DeployBllor;
-import com.prayer.database.accessor.impl.MetaAccessorImpl;
+import com.prayer.database.accessor.MetaAccessorImpl;
 import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.facade.business.instantor.deployment.DeployInstantor;
 import com.prayer.facade.database.accessor.MetaAccessor;

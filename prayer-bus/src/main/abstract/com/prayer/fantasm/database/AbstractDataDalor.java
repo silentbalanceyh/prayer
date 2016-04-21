@@ -13,7 +13,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.database.pool.impl.JdbcConnImpl;
+import com.prayer.database.connection.JdbcConnImpl;
 import com.prayer.database.util.sql.SqlDMLBuilder;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.database.dao.RecordDao;

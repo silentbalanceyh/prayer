@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import com.prayer.builder.MetadataBuilder;
 import com.prayer.dao.schema.CommuneImporter;
 import com.prayer.dao.schema.SchemaDalor;
-import com.prayer.database.pool.impl.JdbcConnImpl;
+import com.prayer.database.connection.JdbcConnImpl;
 import com.prayer.facade.builder.Builder;
 import com.prayer.facade.constant.DBConstants;
 import com.prayer.facade.database.dao.schema.DataValidator;

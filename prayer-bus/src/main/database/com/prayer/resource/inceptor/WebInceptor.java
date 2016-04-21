@@ -1,31 +1,29 @@
-package com.prayer.fantasm.business.deployment.acus;
+package com.prayer.resource.inceptor;
 
-import com.prayer.database.accessor.MetaAccessorImpl;
-import com.prayer.facade.database.accessor.MetaAccessor;
-
-import net.sf.oval.guard.Guarded;
+import com.prayer.fantasm.resource.AbstractInceptor;
 
 /**
  * 
  * @author Lang
  *
  */
-@Guarded
-public abstract class AbstractEntityAcus {
+public class WebInceptor extends AbstractInceptor {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /**
+     * 使用默认的Key构造
+     */
+    public WebInceptor() {
+        super("file.web.config");
+    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
-    
-    /** 获取对应实体的Accessor **/
-    protected MetaAccessor accessor(final Class<?> genericT) {
-        return new MetaAccessorImpl(genericT);
-    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

@@ -1,4 +1,4 @@
-package com.prayer.database.pool.impl;
+package com.prayer.database.pool;
 
 import static com.prayer.util.reflection.Instance.reservoir;
 
