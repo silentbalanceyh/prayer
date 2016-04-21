@@ -2,7 +2,7 @@ package com.prayer.booter.tp;
 
 import org.apache.log4j.PropertyConfigurator;
 
-import com.prayer.console.thirdpart.h2.H2ShellConsoler;
+import com.prayer.console.thirdpart.h2.H2ShellTerminal;
 import com.prayer.facade.console.Consoler;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
@@ -31,8 +31,8 @@ public class H2ShellBooter {
         /** 3.运行过程就直接输出 **/
         PropertyConfigurator.configure(DatumLoader.getLoader(inceptor.getString(Point.Console.SLF4J_CONFIG)));
         /** 4.配置完成过后启动Consoler **/
-        final Consoler consoler = new H2ShellConsoler();
-        consoler.start();
+        final Consoler consoler = new H2ShellTerminal();
+        consoler.start(args);
     }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

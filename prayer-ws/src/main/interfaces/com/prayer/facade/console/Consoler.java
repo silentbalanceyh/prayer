@@ -18,5 +18,5 @@ public interface Consoler {
      * @return
      */
     @VertexApi(Api.TOOL)
-    boolean start();
+    boolean start(String args[]);
 }

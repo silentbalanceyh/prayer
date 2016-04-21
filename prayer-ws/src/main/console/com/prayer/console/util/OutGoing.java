@@ -42,7 +42,7 @@ public final class OutGoing {
     /** Exit **/
     public static void outExit(final String message) {
         if(null != message){
-            outLn("[Consoler] -> {0} ", message);
+            outLn(message);
         }
         outLn("[<Stop>] -------------- Background Consoler Stopping... ---------------");
         outLn("[End] Consoler Exit.");

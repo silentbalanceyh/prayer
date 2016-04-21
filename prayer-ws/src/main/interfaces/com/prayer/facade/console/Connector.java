@@ -12,7 +12,7 @@ public interface Connector {
      * 连接专用接口
      * @return
      */
-    boolean connecting();
+    boolean connecting(String[] args);
     /**
      * 读取接口
      * @return

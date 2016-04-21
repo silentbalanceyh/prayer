@@ -1,42 +1,32 @@
-package com.prayer.console.thirdpart.h2;
+package com.prayer.console.thirdpart.hc;
 
-import java.sql.SQLException;
+import com.prayer.facade.console.Connector;
 
-import org.h2.tools.Shell;
-
-import com.prayer.console.util.OutGoing;
-import com.prayer.facade.console.message.SharedTidings;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 
  * @author Lang
  *
  */
-public class H2ShellThread implements Runnable {
+public class HazelcastConnector implements Connector{
+    /** **/
+    @Override
+    public boolean connecting(final String[] args) {
+        // TODO 将参数转换并且读取配置
+        return true;
+    }
+
+    @Override
+    public JsonObject read() {
+        // TODO 读取配置
+        return new JsonObject();
+    }
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    /** **/
-    private transient String[] params;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /**
-     * 
-     * @param params
-     */
-    public H2ShellThread(final String[] params){
-        this.params = params;
-    }
-    /** **/
-    public void run(){
-        try{
-            /** 2.实例化H2 **/
-            final Shell shell = new Shell();
-            shell.runTool(params);
-        }catch(SQLException ex){
-            OutGoing.outLn(SharedTidings.Error.SHELL, ex.getMessage());
-        }
-    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
