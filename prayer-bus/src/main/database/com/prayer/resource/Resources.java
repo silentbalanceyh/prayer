@@ -14,7 +14,7 @@ public class Resources {
         public static final String MODE;
         /** 数据库种类 **/
         public static final String CATEGORY;
-
+        /** **/
         static {
             CATEGORY = InceptBus.build(Point.Database.class).getString(Point.Database.Data.CATEGORY);
             MODE = InceptBus.build(Point.Database.class).getString(Point.Database.Data.MODE);
@@ -27,7 +27,7 @@ public class Resources {
         public static final String MODE;
         /** 元数据库种类 **/
         public static final String CATEGORY;
-
+        /** **/
         static {
             CATEGORY = InceptBus.build(Point.Database.class).getString(Point.Database.Meta.CATEGORY);
             MODE = InceptBus.build(Point.Database.class).getString(Point.Database.Meta.MODE);

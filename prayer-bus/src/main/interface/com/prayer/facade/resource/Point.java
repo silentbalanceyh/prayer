@@ -13,6 +13,12 @@ import com.prayer.facade.annotation.VertexPoint;
 public interface Point {
     /** **/
     @VertexPoint(Interface.CONSTANT)
+    interface Server{
+        
+        
+    }
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface Console{
         /** Console 配置专用 **/
         String SLF4J_CONFIG = "console.slf4j.config";

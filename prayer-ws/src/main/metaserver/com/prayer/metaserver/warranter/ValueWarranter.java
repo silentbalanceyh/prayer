@@ -1,7 +1,7 @@
 package com.prayer.metaserver.warranter;
 
 import com.prayer.exception.launcher.ParameterMissedException;
-import com.prayer.facade.metaserver.Warranter;
+import com.prayer.facade.engine.Warranter;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.fantasm.exception.AbstractLauncherException;
 

@@ -1,25 +1,24 @@
-package com.prayer.facade.metaserver;
+package com.prayer.facade.engine;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
-import com.prayer.facade.engine.Options;
+import com.prayer.facade.resource.Inceptor;
 import com.prayer.fantasm.exception.AbstractLauncherException;
 
 /**
- * 公共接口，主要用于配置数据读取操作
  * 
  * @author Lang
  *
  */
 @VertexPoint(Interface.INTERNAL)
-public interface OptionsIntaker {
+public interface Warranter {
     /**
-     * 读取默认配置的接口
-     * 
-     * @return
+     * 保证
+     * @param inceptor
+     * @param key
      */
     @VertexApi(Api.READ)
-    Options ingest(String file) throws AbstractLauncherException;
+    void warrant(Inceptor inceptor, String... keys) throws AbstractLauncherException;
 }

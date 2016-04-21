@@ -4,7 +4,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.facade.engine.Launcher;
 import com.prayer.facade.engine.Options;
-import com.prayer.facade.metaserver.OptionsIntaker;
+import com.prayer.facade.engine.OptionsIntaker;
 import com.prayer.facade.metaserver.h2.H2Server;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
