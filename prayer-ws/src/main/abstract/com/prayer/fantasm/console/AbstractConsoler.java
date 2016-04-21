@@ -1,6 +1,6 @@
 package com.prayer.fantasm.console;
 
-import com.prayer.console.OutGoing;
+import com.prayer.console.util.OutGoing;
 import com.prayer.facade.console.Connector;
 import com.prayer.facade.console.Consoler;
 
@@ -32,7 +32,7 @@ public abstract class AbstractConsoler implements Consoler {
     @Override
     public boolean start() {
         /** 1.打印头部信息 **/
-        OutGoing.outHeader();
+        OutGoing.outHeader(this.topic());
         /** 2.连接5秒 **/
         OutGoing.outConnect(this.topic());
         /** 3.连接RMI **/

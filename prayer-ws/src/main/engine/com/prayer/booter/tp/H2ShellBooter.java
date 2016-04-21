@@ -2,7 +2,7 @@ package com.prayer.booter.tp;
 
 import org.apache.log4j.PropertyConfigurator;
 
-import com.prayer.console.thirdpart.H2ShellConsoler;
+import com.prayer.console.thirdpart.h2.H2ShellConsoler;
 import com.prayer.facade.console.Consoler;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;

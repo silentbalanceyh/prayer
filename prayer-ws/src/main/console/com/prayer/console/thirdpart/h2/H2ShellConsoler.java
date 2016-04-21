@@ -1,10 +1,9 @@
-package com.prayer.console.thirdpart;
+package com.prayer.console.thirdpart.h2;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.prayer.console.OutGoing;
-import com.prayer.console.util.Outer;
+import com.prayer.console.util.OutGoing;
 import com.prayer.facade.console.Connector;
 import com.prayer.facade.console.message.H2Tidings;
 import com.prayer.facade.constant.Constants;
@@ -59,9 +58,9 @@ public class H2ShellConsoler extends AbstractConsoler implements H2Tidings {
             /** 3.等待子线程结束  **/
             shell.join();
             /** 4.退出 **/
-            OutGoing.outExit(this.topic());
+            OutGoing.outExit(null);
         } catch (InterruptedException ex) {
-            Outer.outLn(Error.THREAD, ex.getMessage());
+            OutGoing.outLn(Error.THREAD, ex.getMessage());
         }
     }
     // ~ Methods =============================================

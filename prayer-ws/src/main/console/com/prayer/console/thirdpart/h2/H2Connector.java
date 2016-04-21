@@ -1,9 +1,9 @@
-package com.prayer.console.thirdpart;
+package com.prayer.console.thirdpart.h2;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-import com.prayer.console.util.Outer;
+import com.prayer.console.util.OutGoing;
 import com.prayer.facade.console.Connector;
 import com.prayer.facade.console.message.H2Tidings;
 import com.prayer.facade.constant.DBConstants;
@@ -44,7 +44,7 @@ class H2Connector implements Connector, H2Tidings {
     public boolean connecting() {
         /** 1.Meta Server类型是否匹配 **/
         if (!Resources.Meta.CATEGORY.equals(DBConstants.CATEGORY_H2)) {
-            Outer.outLn(Error.CATEGORY, Resources.Meta.CATEGORY);
+            OutGoing.outLn(Error.CATEGORY, Resources.Meta.CATEGORY);
             return false;
         }
         /** 2.读取远程对象 **/
@@ -53,7 +53,7 @@ class H2Connector implements Connector, H2Tidings {
         }
         /** 3.读取JDBC **/
         this.readJdbc();
-        Outer.outLn(SUCCESS);
+        OutGoing.outLn(SUCCESS);
         return true;
     }
 
@@ -69,7 +69,7 @@ class H2Connector implements Connector, H2Tidings {
         final Options opts = new MetaOptions(this.options);
         final String uri = UriResolver.resolveJdbc(opts);
         this.options.getJsonObject("server").put(Data.URL, uri);
-        Outer.outLn(JDBC, uri);
+        OutGoing.outLn(JDBC, uri);
     }
 
     private boolean readRemote() {
@@ -81,12 +81,12 @@ class H2Connector implements Connector, H2Tidings {
                 final JsonObject refRvt = new JsonObject(quoter.service(null));
                 if (null != refRvt) {
                     this.options.mergeIn(refRvt.copy());
-                    Outer.outLn(OPTS, refRvt.encode());
+                    OutGoing.outLn(OPTS, refRvt.encode());
                 }
                 remote = true;
             }
         } catch (RemoteException | NotBoundException ex) {
-            Outer.outLn(Error.RMI, ex.getClass(), ex.getMessage().replaceAll(Symbol.NEW_LINE, ""));
+            OutGoing.outLn(Error.RMI, ex.getClass(), ex.getMessage().replaceAll(Symbol.NEW_LINE, ""));
             remote = false;
         }
         return remote;
