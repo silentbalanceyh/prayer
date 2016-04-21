@@ -48,11 +48,8 @@ public class ConfigAcquirerTestCase extends AbstractInstantor {
         /** 2.调用Config接口读取数据 **/
         final ConfigInstantor instantor = this.getConfigItor();
         /** 3.调用verticles接口 **/
-        final ConcurrentMap<String, List<PEVerticle>> verticles = instantor.verticles();
-        assertEquals(3, verticles.size());
-        assertEquals(1, verticles.get("__DEFAULT3__").size());
-        assertEquals(2, verticles.get("__DEFAULT2__").size());
-        assertEquals(6, verticles.get("__DEFAULT__").size());
+        final ConcurrentMap<String, PEVerticle> verticles = instantor.verticles();
+        assertEquals(9, verticles.size());
         /** 4.删除数据 **/
         this.purgeListData(entities, PEVerticle.class);
     }

@@ -22,7 +22,7 @@
         "multi":true
     },
     {
-        "name":"com.prayer.model.entity.clazz.EntityHandler",
+        "name":"com.prayer.model.entity.clazz.EntityHandler2",
         "instances":10,
         "group":"__DEFAULT2__",
         "jsonConfig":{
@@ -44,7 +44,7 @@
         "multi":true
     },
     {
-        "name":"com.prayer.model.entity.clazz.EntityHandler",
+        "name":"com.prayer.model.entity.clazz.EntityHandler3",
         "instances":10,
         "group":"__DEFAULT2__",
         "jsonConfig":{
@@ -66,7 +66,7 @@
         "multi":true
     },
     {
-        "name":"com.prayer.model.entity.clazz.EntityHandler",
+        "name":"com.prayer.model.entity.clazz.EntityHandler4",
         "instances":10,
         "group":"__DEFAULT__",
         "jsonConfig":{
@@ -88,7 +88,7 @@
         "multi":true
     },
     {
-        "name":"com.prayer.model.entity.clazz.EntityHandler",
+        "name":"com.prayer.model.entity.clazz.EntityHandler5",
         "instances":10,
         "group":"__DEFAULT__",
         "jsonConfig":{
@@ -110,7 +110,7 @@
         "multi":true
     },
     {
-        "name":"com.prayer.model.entity.clazz.EntityHandler",
+        "name":"com.prayer.model.entity.clazz.EntityHandler6",
         "instances":10,
         "group":"__DEFAULT3__",
         "jsonConfig":{
@@ -132,7 +132,7 @@
         "multi":true
     },
     {
-        "name":"com.prayer.model.entity.clazz.EntityHandler",
+        "name":"com.prayer.model.entity.clazz.EntityHandler7",
         "instances":10,
         "group":"__DEFAULT__",
         "jsonConfig":{
@@ -154,7 +154,7 @@
         "multi":true
     },
     {
-        "name":"com.prayer.model.entity.clazz.EntityHandler",
+        "name":"com.prayer.model.entity.clazz.EntityHandler8",
         "instances":10,
         "group":"__DEFAULT__",
         "jsonConfig":{
@@ -176,7 +176,7 @@
         "multi":true
     },
     {
-        "name":"com.prayer.model.entity.clazz.EntityHandler",
+        "name":"com.prayer.model.entity.clazz.EntityHandler9",
         "instances":10,
         "group":"__DEFAULT__",
         "jsonConfig":{

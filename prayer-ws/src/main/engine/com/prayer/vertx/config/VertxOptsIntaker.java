@@ -1,4 +1,4 @@
-package com.prayer.vertx;
+package com.prayer.vertx.config;
 
 import static com.prayer.util.Planar.flat;
 import static com.prayer.util.reflection.Instance.singleton;
@@ -22,7 +22,8 @@ import com.prayer.util.warranter.NumericWarranter;
 import io.vertx.core.VertxOptions;
 
 /**
- * 
+ * Vertx配置项
+ * 单件模式
  * @author Lang
  *
  */

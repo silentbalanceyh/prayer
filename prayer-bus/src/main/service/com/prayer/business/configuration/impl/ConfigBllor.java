@@ -54,8 +54,8 @@ public class ConfigBllor implements ConfigInstantor, Attributes {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public ConcurrentMap<String, List<PEVerticle>> verticles() throws AbstractException {
-        return Inverter.invertList(this.selector.fetchers(PEVerticle.class).inquiryList(), GROUP);
+    public ConcurrentMap<String, PEVerticle> verticles() throws AbstractException {
+        return Inverter.invertOrb(this.selector.fetchers(PEVerticle.class).inquiryList(), NAME);
     }
 
     /** **/

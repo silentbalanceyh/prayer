@@ -1,4 +1,4 @@
-package com.prayer.vertx;
+package com.prayer.vertx.config;
 
 import static com.prayer.util.Planar.flat;
 import static com.prayer.util.reflection.Instance.singleton;
@@ -22,7 +22,7 @@ import io.vertx.core.net.TCPSSLOptions;
 
 /**
  * Server, HttpServer, SSL, Network配置项
- * 
+ * 单件模式
  * @author Lang
  *
  */
@@ -51,21 +51,6 @@ public class ServerOptsIntaker implements Intaker<ConcurrentMap<Integer, HttpSer
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-
-    private void warrantRequired() throws AbstractLauncherException {
-        final Warranter vWter = singleton(ValueWarranter.class);
-        final String[] params = new String[] { "server.port.api", "server.port.web", "server.host" };
-        vWter.warrant(INCEPTOR, params);
-    }
-
-    private void warrantNumeric() throws AbstractLauncherException {
-        final Warranter vWter = singleton(NumericWarranter.class);
-        vWter.warrant(INCEPTOR, buildKeys());
-    }
-
-    private String[] buildKeys() {
-        return new String[] { "server.port.api", "server.port.web" };
-    }
 
     private ConcurrentMap<Integer, HttpServerOptions> buildOpts() {
         if (null == SERVERS) {
@@ -145,6 +130,21 @@ public class ServerOptsIntaker implements Intaker<ConcurrentMap<Integer, HttpSer
         /** Web Socket Frame Size **/
         opt.setMaxWebsocketFrameSize(flat(INCEPTOR.getInt(Point.Server.Http.MAX_WEBSOCKET_FSIZE),
                 HttpServerOptions.DEFAULT_MAX_WEBSOCKET_FRAME_SIZE));
+    }
+    
+    private void warrantRequired() throws AbstractLauncherException {
+        final Warranter vWter = singleton(ValueWarranter.class);
+        final String[] params = new String[] { "server.port.api", "server.port.web", "server.host" };
+        vWter.warrant(INCEPTOR, params);
+    }
+
+    private void warrantNumeric() throws AbstractLauncherException {
+        final Warranter vWter = singleton(NumericWarranter.class);
+        vWter.warrant(INCEPTOR, buildKeys());
+    }
+
+    private String[] buildKeys() {
+        return new String[] { "server.port.api", "server.port.web" };
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
