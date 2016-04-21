@@ -10,7 +10,8 @@ import com.prayer.facade.engine.Options;
 import com.prayer.facade.engine.Warranter;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.fantasm.exception.AbstractLauncherException;
-import com.prayer.metaserver.warranter.ValueWarranter;
+import com.prayer.util.warranter.NumericWarranter;
+import com.prayer.util.warranter.ValueWarranter;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
@@ -47,6 +48,8 @@ public class NodeOptions implements Options {
         this.node = node;
         /** 构造：1.必须参数 **/
         this.warrantRequired();
+        /** 构造：2.数字格式 **/
+        this.warrantNumeric();
     }
 
     // ~ Abstract Methods ====================================
@@ -73,6 +76,19 @@ public class NodeOptions implements Options {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+    private void warrantNumeric() {
+        if (null == this.error) {
+            final Warranter vWter = singleton(NumericWarranter.class);
+            final String[] params = new String[] { this.node + ".tcp.port" };
+            try {
+                vWter.warrant(this.inceptor, params);
+            } catch (AbstractLauncherException ex) {
+                peError(LOGGER, ex);
+                this.error = ex;
+            }
+        }
+    }
+
     private void warrantRequired() {
         if (null == this.error) {
             final Warranter vWter = singleton(ValueWarranter.class);

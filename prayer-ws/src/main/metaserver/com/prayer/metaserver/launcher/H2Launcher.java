@@ -4,15 +4,12 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.facade.engine.Launcher;
 import com.prayer.facade.engine.Options;
-import com.prayer.facade.engine.OptionsIntaker;
+import com.prayer.facade.metaserver.OptionsIntaker;
 import com.prayer.facade.metaserver.h2.H2Server;
-import com.prayer.facade.resource.Inceptor;
-import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.metaserver.h2.H2OptionsIntaker;
 import com.prayer.metaserver.h2.server.ClusterServer;
 import com.prayer.metaserver.h2.server.SingleServer;
-import com.prayer.resource.InceptBus;
 
 /**
  * 
@@ -21,8 +18,6 @@ import com.prayer.resource.InceptBus;
  */
 public class H2Launcher implements Launcher {
     // ~ Static Fields =======================================
-    /** Inceptor **/
-    private static final Inceptor INCEPTOR = InceptBus.build(Point.MetaServer.class);
     /** H2 Options **/
     private static final OptionsIntaker INTAKER = singleton(H2OptionsIntaker.class);
     /** **/
@@ -55,10 +50,8 @@ public class H2Launcher implements Launcher {
 
     private H2Server getServer() throws AbstractException {
         H2Server server = null;
-        /** 1.读取Meta Server配置文件路径 **/
-        final String configFile = INCEPTOR.getString(Point.MetaServer.CONFIG);
         /** 2.使用配置文件读取配置 **/
-        final Options options = INTAKER.ingest(configFile);
+        final Options options = INTAKER.ingest();
         /** 3.使用配置初始化H2 Server **/
         if (this.isClustered(options)) {
             server = ClusterServer.create(options);

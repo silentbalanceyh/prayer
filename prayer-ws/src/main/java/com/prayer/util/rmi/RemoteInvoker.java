@@ -1,4 +1,4 @@
-package com.prayer.rmi;
+package com.prayer.util.rmi;
 
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;

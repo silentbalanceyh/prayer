@@ -2,7 +2,8 @@ package com.prayer.metaserver.h2;
 
 import static com.prayer.util.reflection.Instance.instance;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.prayer.facade.engine.Options;
 import com.prayer.facade.resource.Inceptor;
@@ -28,8 +29,8 @@ public final class H2OptsHoder {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
-    public static LinkedList<Options> buildOptsList(@NotNull final Inceptor inceptor) throws AbstractLauncherException {
-        final LinkedList<Options> options = new LinkedList<>();
+    public static List<Options> buildOptsList(@NotNull final Inceptor inceptor) throws AbstractLauncherException {
+        final List<Options> options = new ArrayList<>();
         /** 1.添加Jdbc参数 **/
         options.add(instance(JdbcOptions.class, inceptor));
         /** 2.添加Ext参数 **/

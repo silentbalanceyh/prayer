@@ -18,7 +18,7 @@ import com.prayer.metaserver.h2.util.UriResolver;
 import com.prayer.metaserver.model.MetaOptions;
 import com.prayer.resource.InceptBus;
 import com.prayer.resource.Resources;
-import com.prayer.rmi.RemoteInvoker;
+import com.prayer.util.rmi.RemoteInvoker;
 
 import io.vertx.core.json.JsonObject;
 

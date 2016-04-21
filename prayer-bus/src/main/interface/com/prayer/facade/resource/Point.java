@@ -13,17 +13,124 @@ import com.prayer.facade.annotation.VertexPoint;
 public interface Point {
     /** **/
     @VertexPoint(Interface.CONSTANT)
-    interface Server{
-        
-        
+    interface Server {
+        /** Host **/
+        String HOST = "server.host";
+        /** Accept Backlog **/
+        String ACCEPT_BACKLOG = "opt.accept.backlog";
+
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Http {
+            /** Compression Support **/
+            String COMPRESSION_SUPPORT = "opt.compression.support";
+            /** Max Chunk Size **/
+            String MAX_CHUNK_SIZE = "opt.chunk.size";
+            /** Web Socket Frame Size **/
+            String MAX_WEBSOCKET_FSIZE = "opt.websocket.frame.size";
+            /** Max Initial Line Length **/
+            String MAX_INITIAL_LINE_LENGTH = "opt.initial.line.length";
+            /** Max Header Size **/
+            String MAX_HEADER_SIZE = "opt.header.size";
+        }
+
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Network {
+            /** Receive Buffer Size **/
+            String REC_BUFFER_SIZE = "opt.receive.buffer.size";
+            /** Send Buffer Size **/
+            String SEND_BUFFER_SIZE = "opt.send.buffer.size";
+            /** Reuse Address **/
+            String REUSE_ADDR = "opt.reuse.address";
+            /** Traffic Class **/
+            String TRAFFIC_CLASS = "opt.traffic.class";
+        }
+
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface TcpSSL {
+            /** Idle Time out **/
+            String IDLE_TIMEOUT = "opt.idle.timeout";
+            /** So Linger **/
+            String SO_LINGER = "opt.so.linger";
+            /** Tcp No Delay **/
+            String TCP_NO_DELAY = "opt.tcp.no.delay";
+            /** Tcp Keep Alive **/
+            String TCP_KEEP_ALIVE = "opt.tcp.keep.alive";
+            /** Use Pooled Buffers **/
+            String USE_POOLED_BUF = "opt.use.pooled.buffer";
+        }
     }
+
     /** **/
     @VertexPoint(Interface.CONSTANT)
-    interface Console{
+    interface Vertx {
+        /** 激活的Vertx实例 **/
+        String ACTIVE = "vertx.active";
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Pool {
+            /** Pool Size Configuration **/
+            String EVTLOOP_SIZE = "vertx.{0}.pool.size.event.loop";
+            /** Worker Size **/
+            String WORKER_SIZE = "vertx.{0}.pool.size.worker";
+            /** Internal Blocking **/
+            String INTERNAL_BLOCKING = "vertx.{0}.pool.size.internal.blocking";
+        }
+
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Cluster {
+            /** Enabled **/
+            String ENABLED = "vertx.{0}.cluster.enabled";
+            /** Host **/
+            String HOST = "vertx.{0}.cluster.host";
+            /** Port **/
+            String PORT = "vertx.{0}.cluster.port";
+            /** Host **/
+            String PUB_HOST = "vertx.{0}.cluster.pub.host";
+            /** Port **/
+            String PUB_PORT = "vertx.{0}.cluster.pub.port";
+
+            /** Ping Interval **/
+            String PING_IV = "vertx.{0}.cluster.ping.interval";
+            /** Ping Interval Reply **/
+            String PING_IV_REPLY = "vertx.{0}.cluster.ping.interval.reply";
+        }
+
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Blocked {
+            /** Blocked thread check internal **/
+            String THREAD_CHK_IV = "vertx.{0}.blocked.thread.check.internal";
+            /** Execute Time Max **/
+            String TIME_MAX_EVTLOOP = "vertx.{0}.execute.time.max.event.loop";
+            /** Max Worker **/
+            String TIME_MAX_WORKER = "vertx.{0}.execute.time.max.worker";
+        }
+
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Ha {
+            /** Enabled **/
+            String ENABLED = "vertx.{0}.ha.enabled";
+            /** Ha Group **/
+            String GROUP = "vertx.{0}.ha.group";
+            /** Quorum Size **/
+            String QUORUM_SIZE = "vertx.{0}.quorum.size";
+            /** Warning Exception Time **/
+            String WARNING_EXPTIME = "vertx.{0}.warning.exception.time";
+        }
+    }
+
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
+    interface Console {
         /** Console 配置专用 **/
         String SLF4J_CONFIG = "console.slf4j.config";
     }
-    
+
     /** **/
     @VertexPoint(Interface.CONSTANT)
     interface MetaServer {
@@ -87,9 +194,10 @@ public interface Point {
         /** 默认发布的数据目录 **/
         String DATA_FOLDER = "data.folder";
     }
+
     /** **/
     @VertexPoint(Interface.CONSTANT)
-    interface RMI{
+    interface RMI {
         /** Meta Server **/
         String META_SERVER = "rmi.meta.server";
         /** RMI Port **/

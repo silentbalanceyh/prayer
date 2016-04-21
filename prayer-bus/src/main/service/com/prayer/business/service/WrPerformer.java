@@ -1,6 +1,5 @@
 package com.prayer.business.service;
 
-import static com.prayer.util.Planar.flat;
 import static com.prayer.util.debug.Log.debug;
 
 import org.slf4j.Logger;
@@ -70,12 +69,12 @@ final class WrPerformer extends AbstractPerformer {
         if (null == error) {
             /** 2.更新遍历，从数据库中拿到原始Record **/
             Record stored = this.findByIds(record);
-            debug(LOGGER, " Updating mode : Queried => " + flat(null == stored, "null", stored.toString()));
+            debug(LOGGER, " Updating mode : Queried => " + (null == stored ? "null" : stored.toString()));
             /** 3.执行数据更新操作 **/
             this.updateData(record, stored);
-            debug(LOGGER, " Updating mode : Updated => " + flat(null == stored, "null", stored.toString()));
+            debug(LOGGER, " Updating mode : Updated => " + (null == stored ? "null" : stored.toString()));
             /** 4.执行最终返回 **/
-            final Record updated = flat(null == stored, null, this.performer().update(stored));
+            final Record updated = (null == stored ? null : this.performer().update(stored));
             this.filter(updated, filters);
             return updated;
         } else {

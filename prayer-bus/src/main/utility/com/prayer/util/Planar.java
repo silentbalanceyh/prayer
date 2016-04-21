@@ -20,17 +20,6 @@ public final class Planar {
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /**
-     * 如果check为true则返回tVal，否则返回fVal
-     * 
-     * @param check
-     * @param tVal
-     * @param fVal
-     * @return
-     */
-    public static <T> T flat(final boolean check, final T tVal, final T fVal) {
-        return check ? tVal : fVal;
-    }
 
     /**
      * 如果value为null则返回dftValue，否则返回value
@@ -51,6 +40,28 @@ public final class Planar {
      */
     public static String flat(@NotNull @NotEmpty @NotBlank final String value) {
         return null == value ? Constants.EMPTY_STR : value;
+    }
+
+    /**
+     * 设置
+     * 
+     * @param value
+     * @param dftVal
+     * @return
+     */
+    public static int flat(@NotNull final int value, @NotNull final int dftVal) {
+        return Constants.RANGE == value ? dftVal : value;
+    }
+
+    /**
+     * 设置
+     * 
+     * @param value
+     * @param dftVal
+     * @return
+     */
+    public static long flat(@NotNull final long value, @NotNull final long dftVal) {
+        return Constants.RANGE == value ? dftVal : value;
     }
 
     /**

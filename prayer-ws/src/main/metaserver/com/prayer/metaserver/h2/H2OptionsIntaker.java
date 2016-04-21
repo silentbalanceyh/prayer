@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.engine.Options;
-import com.prayer.facade.engine.OptionsIntaker;
+import com.prayer.facade.metaserver.OptionsIntaker;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractLauncherException;
@@ -20,9 +20,6 @@ import com.prayer.metaserver.model.MetaOptions;
 import com.prayer.resource.InceptBus;
 
 import io.vertx.core.json.JsonObject;
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -35,6 +32,8 @@ import net.sf.oval.guard.Guarded;
 public class H2OptionsIntaker implements OptionsIntaker {
     // ~ Static Fields =======================================
 
+    /** Inceptor **/
+    private static final Inceptor INCEPTOR = InceptBus.build(Point.MetaServer.class);
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(H2OptionsIntaker.class);
 
@@ -46,9 +45,11 @@ public class H2OptionsIntaker implements OptionsIntaker {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public Options ingest(@NotNull @NotBlank @NotEmpty final String file) throws AbstractLauncherException {
+    public Options ingest() throws AbstractLauncherException {
+        /** 1.读取Meta Server配置文件路径 **/
+        final String configFile = INCEPTOR.getString(Point.MetaServer.CONFIG);
         /** 1.使用file生成DynamicInceptor **/
-        final Inceptor inceptor = InceptBus.build(Point.MetaServer.class, file);
+        final Inceptor inceptor = InceptBus.build(Point.MetaServer.class, configFile);
         /** 2.获取当前所有的Options **/
         final List<Options> optList = H2OptsHoder.buildOptsList(inceptor);
         for (final Options opt : optList) {

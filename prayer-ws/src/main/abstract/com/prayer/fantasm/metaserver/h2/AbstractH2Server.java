@@ -19,7 +19,7 @@ import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.metaserver.h2.rmi.H2OptionsQuoter;
 import com.prayer.resource.InceptBus;
-import com.prayer.rmi.RemoteInvoker;
+import com.prayer.util.rmi.RemoteInvoker;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
