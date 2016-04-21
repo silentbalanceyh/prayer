@@ -1,8 +1,7 @@
-package com.prayer.facade.metaserver.h2;
+package com.prayer.facade.engine.rmi;
 
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexPoint;
-import com.prayer.facade.engine.rmi.RemoteQuoter;
 
 /**
  * 
@@ -10,5 +9,5 @@ import com.prayer.facade.engine.rmi.RemoteQuoter;
  *
  */
 @VertexPoint(Interface.INTERNAL)
-public interface H2Quoter extends RemoteQuoter<String> {
+public interface StandardQuoter extends RemoteQuoter<String> {
 }

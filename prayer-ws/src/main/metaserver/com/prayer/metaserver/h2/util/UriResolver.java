@@ -2,7 +2,7 @@ package com.prayer.metaserver.h2.util;
 
 import java.text.MessageFormat;
 
-import com.prayer.facade.engine.Options;
+import com.prayer.facade.engine.opts.Options;
 import com.prayer.facade.metaserver.h2.H2Messages;
 import com.prayer.util.Converter;
 

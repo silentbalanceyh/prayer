@@ -1,4 +1,4 @@
-package com.prayer.metaserver.h2;
+package com.prayer.metaserver.h2.config;
 
 import static com.prayer.util.debug.Log.info;
 
@@ -7,8 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.engine.Options;
-import com.prayer.facade.metaserver.OptionsIntaker;
+import com.prayer.facade.engine.opts.Options;
+import com.prayer.facade.metaserver.MetaOptsIntaker;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractLauncherException;
@@ -16,7 +16,7 @@ import com.prayer.metaserver.h2.opts.ClusterOptions;
 import com.prayer.metaserver.h2.opts.ExtOptions;
 import com.prayer.metaserver.h2.opts.JdbcOptions;
 import com.prayer.metaserver.h2.opts.SingleOptions;
-import com.prayer.metaserver.model.MetaOptions;
+import com.prayer.model.web.options.JsonOptions;
 import com.prayer.resource.InceptBus;
 
 import io.vertx.core.json.JsonObject;
@@ -29,7 +29,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class H2OptionsIntaker implements OptionsIntaker {
+public class H2OptionsIntaker implements MetaOptsIntaker {
     // ~ Static Fields =======================================
 
     /** Inceptor **/
@@ -79,8 +79,8 @@ public class H2OptionsIntaker implements OptionsIntaker {
                 data.mergeIn(opt.readOpts());
             }
         }
-        info(LOGGER, "Options : \n" + data.encodePrettily());
-        return new MetaOptions(data);
+        info(LOGGER, "Options : " + data.encode());
+        return new JsonOptions(data);
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

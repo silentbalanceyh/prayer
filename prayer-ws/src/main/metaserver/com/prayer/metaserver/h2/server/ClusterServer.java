@@ -16,15 +16,15 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.engine.Options;
+import com.prayer.facade.engine.opts.Options;
 import com.prayer.facade.metaserver.h2.H2Messages;
 import com.prayer.facade.metaserver.h2.H2Server;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.metaserver.h2.AbstractH2Server;
-import com.prayer.metaserver.h2.server.poll.CallbackClosurer;
+import com.prayer.metaserver.h2.callback.CallbackClosurer;
 import com.prayer.metaserver.h2.util.ParamsResolver;
 import com.prayer.metaserver.h2.util.UriResolver;
-import com.prayer.metaserver.model.MetaOptions;
+import com.prayer.model.web.options.JsonOptions;
 import com.prayer.util.Converter;
 
 import io.vertx.core.json.JsonArray;
@@ -65,7 +65,7 @@ public class ClusterServer extends AbstractH2Server {
      * @param options
      * @return
      */
-    public static H2Server create(@NotNull @InstanceOfAny(MetaOptions.class) final Options options) {
+    public static H2Server create(@NotNull @InstanceOfAny(JsonOptions.class) final Options options) {
         if (null == INSTANCE) {
             INSTANCE = new ClusterServer(options);
         }
@@ -128,7 +128,7 @@ public class ClusterServer extends AbstractH2Server {
         /** 1.获取Web Console **/
         final JsonObject data = lookup(H2Messages.RMI.OPTS_H2);
         /** 2.远程读取 **/
-        final Options remoteOpts = new MetaOptions(data);
+        final Options remoteOpts = new JsonOptions(data);
         /** 3.停止H2 **/
         return stopper.stopDatabase(prepareNode(remoteOpts));
     }

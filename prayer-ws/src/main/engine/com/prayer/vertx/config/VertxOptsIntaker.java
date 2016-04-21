@@ -1,4 +1,4 @@
-package com.prayer.vtx.config;
+package com.prayer.vertx.config;
 
 import static com.prayer.util.Planar.flat;
 import static com.prayer.util.reflection.Instance.singleton;
@@ -10,10 +10,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.engine.Intaker;
 import com.prayer.facade.engine.Warranter;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
+import com.prayer.facade.vtx.config.EngineOptsIntaker;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractLauncherException;
 import com.prayer.resource.InceptBus;
@@ -27,7 +27,7 @@ import io.vertx.core.VertxOptions;
  * @author Lang
  *
  */
-public class VertxOptsIntaker implements Intaker<ConcurrentMap<String, VertxOptions>> {
+public class VertxOptsIntaker implements EngineOptsIntaker<String, VertxOptions> {
     // ~ Static Fields =======================================
     /** Vertx实例配置 **/
     private static ConcurrentMap<String, VertxOptions> VERTXS;

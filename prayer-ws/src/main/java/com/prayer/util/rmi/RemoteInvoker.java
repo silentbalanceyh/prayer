@@ -16,7 +16,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.engine.rmi.RmiMessages;
+import com.prayer.facade.engine.cv.RmiMessages;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.resource.InceptBus;

@@ -1,4 +1,4 @@
-package com.prayer.vtx.config;
+package com.prayer.vertx.config;
 
 import static com.prayer.util.Planar.flat;
 import static com.prayer.util.reflection.Instance.singleton;
@@ -6,10 +6,10 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.facade.engine.Intaker;
 import com.prayer.facade.engine.Warranter;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
+import com.prayer.facade.vtx.config.EngineOptsIntaker;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractLauncherException;
 import com.prayer.resource.InceptBus;
@@ -26,7 +26,7 @@ import io.vertx.core.net.TCPSSLOptions;
  * @author Lang
  *
  */
-public class ServerOptsIntaker implements Intaker<ConcurrentMap<Integer, HttpServerOptions>> {
+public class ServerOptsIntaker implements EngineOptsIntaker<Integer, HttpServerOptions> {
     // ~ Static Fields =======================================
     /** 服务选项配置 **/
     private static ConcurrentMap<Integer, HttpServerOptions> SERVERS;

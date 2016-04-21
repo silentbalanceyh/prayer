@@ -1,50 +1,40 @@
-package com.prayer.metaserver.model;
+package com.prayer.util.rmi;
 
-import com.prayer.facade.engine.Options;
-import com.prayer.fantasm.exception.AbstractLauncherException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
-import io.vertx.core.json.JsonObject;
-import net.sf.oval.constraint.NotNull;
-import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
+import com.prayer.facade.engine.rmi.StandardQuoter;
 
 /**
  * 
  * @author Lang
  *
  */
-@Guarded
-public class MetaOptions implements Options {
+public class CommonOptionsQuoter extends UnicastRemoteObject implements StandardQuoter {
     // ~ Static Fields =======================================
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -709340150270708163L;
     // ~ Instance Fields =====================================
-    /** 最终的Options **/
-    @NotNull
-    private transient JsonObject data;
+    /** **/
+    private String reference;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /**
-     * 
-     * @param data
-     */
-    @PostValidateThis
-    public MetaOptions(@NotNull final JsonObject data) {
-        this.data = data;
+    /** **/
+    public CommonOptionsQuoter(final String reference) throws RemoteException {
+        this.reference = reference;
     }
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public JsonObject readOpts() {
-        return this.data;
-    }
-
-    /** **/
-    @Override
-    public AbstractLauncherException getError(){
-        return null;
+    public String service(final String reference) {
+        /** 执行Service赋值 **/
+        return this.reference;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

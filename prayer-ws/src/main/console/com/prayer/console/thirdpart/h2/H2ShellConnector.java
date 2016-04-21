@@ -9,13 +9,13 @@ import com.prayer.facade.console.message.H2Tidings;
 import com.prayer.facade.console.message.SharedTidings;
 import com.prayer.facade.constant.DBConstants;
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.engine.Options;
+import com.prayer.facade.engine.opts.Options;
+import com.prayer.facade.engine.rmi.StandardQuoter;
 import com.prayer.facade.metaserver.h2.H2Messages;
-import com.prayer.facade.metaserver.h2.H2Quoter;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.metaserver.h2.util.UriResolver;
-import com.prayer.metaserver.model.MetaOptions;
+import com.prayer.model.web.options.JsonOptions;
 import com.prayer.resource.InceptBus;
 import com.prayer.resource.Resources;
 import com.prayer.util.rmi.RemoteInvoker;
@@ -66,7 +66,7 @@ class H2ShellConnector implements Connector, H2Tidings {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     private void readJdbc() {
-        final Options opts = new MetaOptions(this.data);
+        final Options opts = new JsonOptions(this.data);
         final String uri = UriResolver.resolveJdbc(opts);
         this.data.getJsonObject("server").put(Data.URL, uri);
         OutGoing.outLn(JDBC, uri);
@@ -76,7 +76,7 @@ class H2ShellConnector implements Connector, H2Tidings {
         boolean remote = false;
         try {
             final String pattern = RMI_INCEPTOR.getString(Point.RMI.META_SERVER);
-            final H2Quoter quoter = (H2Quoter) RemoteInvoker.lookupDirect(pattern, H2Messages.RMI.OPTS_H2);
+            final StandardQuoter quoter = (StandardQuoter) RemoteInvoker.lookupDirect(pattern, H2Messages.RMI.OPTS_H2);
             if (null != quoter) {
                 final JsonObject refRvt = new JsonObject(quoter.service(null));
                 if (null != refRvt) {

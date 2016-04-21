@@ -3,11 +3,11 @@ package com.prayer.metaserver.launcher;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.facade.engine.Launcher;
-import com.prayer.facade.engine.Options;
-import com.prayer.facade.metaserver.OptionsIntaker;
+import com.prayer.facade.engine.opts.Options;
+import com.prayer.facade.metaserver.MetaOptsIntaker;
 import com.prayer.facade.metaserver.h2.H2Server;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.metaserver.h2.H2OptionsIntaker;
+import com.prayer.metaserver.h2.config.H2OptionsIntaker;
 import com.prayer.metaserver.h2.server.ClusterServer;
 import com.prayer.metaserver.h2.server.SingleServer;
 
@@ -19,7 +19,7 @@ import com.prayer.metaserver.h2.server.SingleServer;
 public class H2Launcher implements Launcher {
     // ~ Static Fields =======================================
     /** H2 Options **/
-    private static final OptionsIntaker INTAKER = singleton(H2OptionsIntaker.class);
+    private static final MetaOptsIntaker INTAKER = singleton(H2OptionsIntaker.class);
     /** **/
     private static H2Server SERVER = null;
 

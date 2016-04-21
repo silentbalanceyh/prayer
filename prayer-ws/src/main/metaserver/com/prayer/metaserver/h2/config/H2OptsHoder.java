@@ -1,11 +1,11 @@
-package com.prayer.metaserver.h2;
+package com.prayer.metaserver.h2.config;
 
 import static com.prayer.util.reflection.Instance.instance;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.prayer.facade.engine.Options;
+import com.prayer.facade.engine.opts.Options;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.fantasm.exception.AbstractLauncherException;
 import com.prayer.metaserver.h2.opts.ClusterOptions;

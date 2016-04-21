@@ -12,13 +12,13 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.engine.Options;
-import com.prayer.facade.metaserver.h2.H2Quoter;
+import com.prayer.facade.engine.opts.Options;
+import com.prayer.facade.engine.rmi.StandardQuoter;
 import com.prayer.facade.metaserver.h2.H2Server;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
-import com.prayer.metaserver.h2.rmi.H2OptionsQuoter;
 import com.prayer.resource.InceptBus;
+import com.prayer.util.rmi.CommonOptionsQuoter;
 import com.prayer.util.rmi.RemoteInvoker;
 
 import io.vertx.core.json.JsonArray;
@@ -122,7 +122,7 @@ public abstract class AbstractH2Server implements H2Server {
     protected void registry(final String name, final JsonObject options) {
         final String pattern = INCEPTOR.getString(Point.RMI.META_SERVER);
         try {
-            final H2Quoter quoter = new H2OptionsQuoter(options.encode());
+            final StandardQuoter quoter = new CommonOptionsQuoter(options.encode());
             RemoteInvoker.registry(quoter, pattern, name);
         } catch (RemoteException ex) {
             jvmError(getLogger(), ex);
@@ -138,7 +138,7 @@ public abstract class AbstractH2Server implements H2Server {
         JsonObject data = new JsonObject();
         try {
             final String pattern = INCEPTOR.getString(Point.RMI.META_SERVER);
-            final H2Quoter quoter = (H2Quoter) RemoteInvoker.lookup(pattern, name);
+            final StandardQuoter quoter = (StandardQuoter) RemoteInvoker.lookup(pattern, name);
             data = new JsonObject(quoter.service(null));
         } catch (RemoteException ex) {
             jvmError(getLogger(), ex);

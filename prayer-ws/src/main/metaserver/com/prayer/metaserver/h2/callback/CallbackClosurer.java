@@ -1,4 +1,4 @@
-package com.prayer.metaserver.h2.server.poll;
+package com.prayer.metaserver.h2.callback;
 
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;
@@ -43,11 +43,11 @@ public class CallbackClosurer implements Runnable {
     public void run() {
         /** 1.轮询次数 **/
         long time = 0;
-        int duration = 30000;
+        int duration = 10000;
         while (true) {
             try {
-                /** 30s轮询一次 **/
-                // TODO：轮询暂时不需要配置，30s轮询一次
+                /** 10s轮询一次 **/
+                // TODO：轮询暂时不需要配置，10s轮询一次
                 Thread.sleep(duration);
                 boolean shutdown = true;
                 int size = this.database.size();
@@ -61,12 +61,13 @@ public class CallbackClosurer implements Runnable {
                                 String.valueOf(size)));
                     }
                 }
+                // 满足了停止的条件，直接停止H2的Server
                 if (shutdown) {
                     info(LOGGER, Database.Single.T_STOPPED);
                     break;
                 } else {
                     time++;
-                    if (Constants.ZERO == time % 10) {
+                    if (Constants.ZERO == time % 180) {
                         info(LOGGER, MessageFormat.format(Database.INFO_RUN_QUE, String.valueOf(size),
                                 String.valueOf(time)));
                     }

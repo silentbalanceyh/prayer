@@ -1,4 +1,4 @@
-package com.prayer.vtx.config;
+package com.prayer.vertx.config;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.business.configuration.impl.ConfigBllor;
 import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.engine.Intaker;
+import com.prayer.facade.vtx.config.EngineOptsIntaker;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PEVerticle;
 
@@ -21,7 +21,7 @@ import jodd.util.StringUtil;
  * @author Lang
  *
  */
-public class DeployOptsIntaker implements Intaker<ConcurrentMap<String, DeploymentOptions>> {
+public class DeployOptsIntaker implements EngineOptsIntaker<String, DeploymentOptions> {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
