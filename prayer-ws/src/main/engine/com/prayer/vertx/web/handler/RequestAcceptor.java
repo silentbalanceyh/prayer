@@ -1,33 +1,33 @@
-package com.prayer.booter.engine;
+package com.prayer.vertx.web.handler;
 
-import static com.prayer.util.reflection.Instance.singleton;
-
-import com.prayer.facade.engine.Launcher;
-import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.vertx.launcher.VertxLauncher;
+import io.vertx.core.Handler;
+import io.vertx.ext.web.RoutingContext;
 
 /**
+ * 请求接收器
  * 
  * @author Lang
  *
  */
-public class EngineBooter {
+public class RequestAcceptor implements Handler<RoutingContext> {
+
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
+
+    public static RequestAcceptor create() {
+        return new RequestAcceptor();
+    }
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /**
-     * 
-     * @param args
-     * @throws AbstractException
-     */
-    public static void main(final String args[]) throws AbstractException {
-        final Launcher launcher = singleton(VertxLauncher.class);
-        launcher.start();
-    }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    @Override
+    public void handle(RoutingContext event) {
+        // TODO Auto-generated method stub
+
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

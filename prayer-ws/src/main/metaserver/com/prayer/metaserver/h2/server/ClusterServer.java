@@ -23,6 +23,7 @@ import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.metaserver.h2.AbstractH2Server;
 import com.prayer.metaserver.h2.callback.CallbackClosurer;
 import com.prayer.metaserver.h2.util.ParamsResolver;
+import com.prayer.metaserver.h2.util.RemoteRefers;
 import com.prayer.metaserver.h2.util.UriResolver;
 import com.prayer.model.web.options.JsonOptions;
 import com.prayer.util.Converter;
@@ -114,7 +115,7 @@ public class ClusterServer extends AbstractH2Server {
         }
 
         /** 5.读取JsonObject **/
-        registry(H2Messages.RMI.OPTS_H2, this.options.readOpts());
+        RemoteRefers.registry(H2Messages.RMI.OPTS_H2, this.options.readOpts());
         /** 6.开启轮询线程，监控到database停止过后就将主线程停止 **/
         new Thread(new CallbackClosurer(this.database, this::exit)).start();
 
@@ -126,7 +127,7 @@ public class ClusterServer extends AbstractH2Server {
     @Override
     public boolean stop() throws AbstractException {
         /** 1.获取Web Console **/
-        final JsonObject data = lookup(H2Messages.RMI.OPTS_H2);
+        final JsonObject data = RemoteRefers.lookup(H2Messages.RMI.OPTS_H2);
         /** 2.远程读取 **/
         final Options remoteOpts = new JsonOptions(data);
         /** 3.停止H2 **/

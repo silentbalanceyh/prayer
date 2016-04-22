@@ -5,11 +5,13 @@ import static com.prayer.util.reflection.Instance.singleton;
 import com.prayer.facade.engine.Launcher;
 import com.prayer.facade.engine.opts.Options;
 import com.prayer.facade.metaserver.MetaOptsIntaker;
+import com.prayer.facade.metaserver.h2.H2Messages;
 import com.prayer.facade.metaserver.h2.H2Server;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.metaserver.h2.config.H2OptionsIntaker;
 import com.prayer.metaserver.h2.server.ClusterServer;
 import com.prayer.metaserver.h2.server.SingleServer;
+import com.prayer.metaserver.h2.util.RemoteRefers;
 
 /**
  * 
@@ -46,6 +48,12 @@ public class H2Launcher implements Launcher {
         SERVER = this.getServer();
         /** 2.停止Server **/
         SERVER.stop();
+    }
+
+    /** 是否在运行 **/
+    @Override
+    public boolean running() {
+        return RemoteRefers.isRunning(H2Messages.RMI.OPTS_H2);
     }
 
     private H2Server getServer() throws AbstractException {

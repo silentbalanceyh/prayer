@@ -28,4 +28,11 @@ public interface Launcher {
      */
     @VertexApi(Api.TOOL)
     void stop() throws AbstractException;
+    /**
+     * 
+     * @return
+     * @throws AbstractException
+     */
+    @VertexApi(Api.TOOL)
+    boolean running();
 }

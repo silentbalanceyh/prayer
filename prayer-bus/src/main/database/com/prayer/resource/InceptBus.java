@@ -16,10 +16,12 @@ import com.prayer.resource.inceptor.InjectionInceptor;
 import com.prayer.resource.inceptor.MetaServerInceptor;
 import com.prayer.resource.inceptor.RmiInceptor;
 import com.prayer.resource.inceptor.SchemaInceptor;
+import com.prayer.resource.inceptor.SecurityInceptor;
 import com.prayer.resource.inceptor.ServerInceptor;
 import com.prayer.resource.inceptor.SystemInceptor;
 import com.prayer.resource.inceptor.TpInceptor;
 import com.prayer.resource.inceptor.VertxInceptor;
+import com.prayer.resource.inceptor.WebInceptor;
 import com.prayer.util.reflection.Instance;
 import com.prayer.util.string.StringKit;
 
@@ -49,6 +51,8 @@ public final class InceptBus {
         INCEPTORS.put(Point.Console.class, Instance.instance(ConsoleInceptor.class));
         INCEPTORS.put(Point.Server.class, Instance.instance(ServerInceptor.class));
         INCEPTORS.put(Point.Vertx.class, Instance.instance(VertxInceptor.class));
+        INCEPTORS.put(Point.Web.class, Instance.instance(WebInceptor.class));
+        INCEPTORS.put(Point.Security.class, Instance.instance(SecurityInceptor.class));
         /** 特殊Inceptors **/
         INCEPTORS.put(Point.Jdbc.class, Instance.instance(DatabaseInceptor.class));
     }

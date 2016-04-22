@@ -3,7 +3,6 @@ package com.prayer.fantasm.metaserver.h2;
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;
 
-import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +12,7 @@ import org.slf4j.Logger;
 
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.opts.Options;
-import com.prayer.facade.engine.rmi.StandardQuoter;
 import com.prayer.facade.metaserver.h2.H2Server;
-import com.prayer.facade.resource.Inceptor;
-import com.prayer.facade.resource.Point;
-import com.prayer.resource.InceptBus;
-import com.prayer.util.rmi.CommonOptionsQuoter;
-import com.prayer.util.rmi.RemoteInvoker;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -32,8 +25,6 @@ import io.vertx.core.json.JsonObject;
 public abstract class AbstractH2Server implements H2Server {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-    /** **/
-    private static final Inceptor INCEPTOR = InceptBus.build(Point.RMI.class);
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -112,39 +103,6 @@ public abstract class AbstractH2Server implements H2Server {
             jvmError(getLogger(), ex);
         }
         return server;
-    }
-
-    // ~ RMI =================================================
-    /**
-     * 
-     * @param name
-     */
-    protected void registry(final String name, final JsonObject options) {
-        final String pattern = INCEPTOR.getString(Point.RMI.META_SERVER);
-        try {
-            final StandardQuoter quoter = new CommonOptionsQuoter(options.encode());
-            RemoteInvoker.registry(quoter, pattern, name);
-        } catch (RemoteException ex) {
-            jvmError(getLogger(), ex);
-        }
-    }
-
-    /**
-     * 
-     * @param name
-     * @return
-     */
-    protected JsonObject lookup(final String name) {
-        JsonObject data = new JsonObject();
-        try {
-            final String pattern = INCEPTOR.getString(Point.RMI.META_SERVER);
-            final StandardQuoter quoter = (StandardQuoter) RemoteInvoker.lookup(pattern, name);
-            data = new JsonObject(quoter.service(null));
-        } catch (RemoteException ex) {
-            jvmError(getLogger(), ex);
-            ex.printStackTrace();
-        }
-        return data;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

@@ -13,6 +13,24 @@ import com.prayer.facade.annotation.VertexPoint;
 public interface Point {
     /** **/
     @VertexPoint(Interface.CONSTANT)
+    interface Security {
+
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Cors {
+            /** **/
+            String ORIGIN = "cors.origin";
+            /** **/
+            String METHODS = "cors.methods";
+            /** **/
+            String HEADERS = "cors.headers";
+            /** **/
+            String CREDENTIALS = "cors.credentials";
+        }
+    }
+
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface Server {
         /** Host **/
         String HOST = "server.host";
@@ -226,6 +244,9 @@ public interface Point {
     /** **/
     @VertexPoint(Interface.CONSTANT)
     interface Web {
+        /** ORDERS **/
+        String HANDLER_ORDERS = "orders.file.config";
+
         /** Login相关配置 **/
         @VertexPoint(Interface.CONSTANT)
         interface Login {
@@ -250,7 +271,7 @@ public interface Point {
             /** Favicon专用 **/
             String FAVICON = "static.favicon";
             /** Static路由专用 **/
-            String ROUTE = "static.resource";
+            String RESOURCE = "static.resource";
             /** 模板引擎名称 **/
             String TEMPLATE_MODE = "static.template.mode";
         }
@@ -262,6 +283,50 @@ public interface Point {
             String PUBLIC = "api.public";
             /** 安全Api **/
             String SECURE = "api.secure";
+        }
+
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Orders {
+
+            /** Static Order **/
+            String STATIC = "handler.static";
+            /** Favicon **/
+            String FAVICON = "handler.favicon";
+            /** Template Mode **/
+            String TPLMODE = "handler.tpl";
+
+            /** Dynamic **/
+            String DYNAMIC = "handler.dynamic";
+            /** Dynamic Admin **/
+            String DYNAMIC_ADMIN = "handler.dynamic.admin";
+
+            /** CORS **/
+            String CORS = "handler.cors";
+            /** Cookie **/
+            String COOKIE = "handler.cookie";
+            /** Body **/
+            String BODY = "handler.body";
+
+            /** **/
+            @VertexPoint(Interface.CONSTANT)
+            interface Api {
+                /** 1.URI **/
+                String URI = "handler.strainer.uri";
+                /** 2.Acceptor **/
+                String ACCEPTOR = "handler.acceptor";
+                /** 3.Inspector **/
+                String INSPECTOR = "handler.inspector";
+                /** 4.Data Strainer **/
+                String DATA = "handler.strainer.data";
+                /** 5.Stdn **/
+                String STDN = "handler.stdn";
+                
+                /** 6.Failure **/
+                String FAILURE = "handler.failure";
+                /** 7.Service Sender **/
+                String SERVICE = "handler.service";
+            }
         }
     }
 

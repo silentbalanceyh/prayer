@@ -1,36 +1,42 @@
-package com.prayer.booter.engine;
+package com.prayer.exception.launcher;
 
-import static com.prayer.util.reflection.Instance.singleton;
-
-import com.prayer.facade.engine.Launcher;
-import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.vertx.launcher.VertxLauncher;
+import com.prayer.fantasm.exception.AbstractLauncherException;
 
 /**
  * 
  * @author Lang
  *
  */
-public class EngineBooter {
+public class MetaServerStoppedException extends AbstractLauncherException {
     // ~ Static Fields =======================================
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8127168231696251326L;
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    // ~ Constructors ========================================
     /**
      * 
-     * @param args
-     * @throws AbstractException
+     * @param clazz
      */
-    public static void main(final String args[]) throws AbstractException {
-        final Launcher launcher = singleton(VertxLauncher.class);
-        launcher.start();
+    public MetaServerStoppedException(final Class<?> clazz) {
+        super(clazz, -40004);
     }
-    // ~ Constructors ========================================
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /**
+     * 
+     */
+    @Override
+    public int getErrorCode() {
+        return -40004;
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
 }

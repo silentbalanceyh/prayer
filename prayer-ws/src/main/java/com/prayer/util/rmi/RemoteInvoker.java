@@ -69,20 +69,10 @@ public class RemoteInvoker {
     public static Object lookup(final String pattern, final Object... params) {
         Object retRef = null;
         try {
-            final String address = buildAddrs(pattern, params);
-            final int port = INCEPTOR.getInt(Point.RMI.RMI_PORT);
-            final String host = INCEPTOR.getString(Point.RMI.RMI_HOST);
-            final Registry registry = LocateRegistry.getRegistry(host, port);
-            info(LOGGER, MessageFormat.format(RmiMessages.RMI_LOOKUP, address));
-            retRef = registry.lookup(address);
-            if (null != retRef) {
-                info(LOGGER, MessageFormat.format(RmiMessages.RMI_REFERENCE, retRef.getClass(),
-                        String.valueOf(retRef.hashCode())));
-            }
+            retRef = lookupDirect(pattern, params);
         } catch (RemoteException | NotBoundException ex) {
             info(LOGGER, MessageFormat.format(RmiMessages.RMI_CLERROR, ex.getMessage()));
             jvmError(LOGGER, ex);
-            ex.printStackTrace();
         }
         return retRef;
     }

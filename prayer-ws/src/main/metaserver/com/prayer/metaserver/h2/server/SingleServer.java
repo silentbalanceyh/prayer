@@ -17,6 +17,7 @@ import com.prayer.facade.metaserver.h2.H2Server;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.metaserver.h2.AbstractH2Server;
 import com.prayer.metaserver.h2.callback.CallbackClosurer;
+import com.prayer.metaserver.h2.util.RemoteRefers;
 import com.prayer.metaserver.h2.util.UriResolver;
 import com.prayer.model.web.options.JsonOptions;
 
@@ -101,7 +102,7 @@ public class SingleServer extends AbstractH2Server {
         }
 
         /** 4.读取JsonObject **/
-        registry(H2Messages.RMI.OPTS_H2, this.options.readOpts());
+        RemoteRefers.registry(H2Messages.RMI.OPTS_H2, this.options.readOpts());
 
         /** 5.开启轮询线程，监控到database停止过后就将主线程停止 **/
         new Thread(new CallbackClosurer(this.database, this::exit)).start();
@@ -114,7 +115,7 @@ public class SingleServer extends AbstractH2Server {
     @Override
     public boolean stop() throws AbstractException {
         /** 1.获取Web Console **/
-        final JsonObject data = lookup(H2Messages.RMI.OPTS_H2);
+        final JsonObject data = RemoteRefers.lookup(H2Messages.RMI.OPTS_H2);
         /** 2.必须从远程读取Options，保证Server和Client使用同样激活的配置 **/
         final Options remoteOpts = new JsonOptions(data);
         /** 3.停止H2 **/

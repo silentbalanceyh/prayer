@@ -1,33 +1,41 @@
-package com.prayer.booter.engine;
+package com.prayer.vertx.web.route;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.facade.engine.Launcher;
-import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.vertx.launcher.VertxLauncher;
+import com.prayer.facade.vtx.route.HubFabricator;
+import com.prayer.model.meta.vertx.PERoute;
+
+import io.vertx.ext.web.Route;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
  * 
  * @author Lang
  *
  */
-public class EngineBooter {
+@Guarded
+public class HandlerFabricator implements HubFabricator {
+
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /**
-     * 
-     * @param args
-     * @throws AbstractException
-     */
-    public static void main(final String args[]) throws AbstractException {
-        final Launcher launcher = singleton(VertxLauncher.class);
-        launcher.start();
-    }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public void immitRoute(@NotNull final Route routeRef, @NotNull final PERoute entity) {
+        /** 1.设置Request Handler **/
+        if (null != entity.getRequestHandler()) {
+            routeRef.handler(singleton(entity.getRequestHandler()));
+        }
+        /** 2.设置Failure Handler **/
+        if (null != entity.getFailureHandler()) {
+            routeRef.failureHandler(singleton(entity.getFailureHandler()));
+        }
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
