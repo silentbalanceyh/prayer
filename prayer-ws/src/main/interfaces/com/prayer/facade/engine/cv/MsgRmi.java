@@ -9,7 +9,7 @@ import com.prayer.facade.annotation.VertexPoint;
  *
  */
 @VertexPoint(Interface.CONSTANT)
-public interface RmiMessages {
+public interface MsgRmi {
     /** **/
     String RMI_ADDR = "( RMI ) Registrying address : {0}";
     /** **/

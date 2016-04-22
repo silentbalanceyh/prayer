@@ -44,9 +44,14 @@ public class DigraphSorter {
             final String key = this.findIndegreeZero(graphic);
             if (null == key) {
                 /**
-                 * 不能找到，表示图有环
+                 * 不能找到，表示图有环，节点最少为2才有环，否则直接跳出循环，没有只要执行排序
                  */
-                throw new RecurrenceReferenceException(getClass(), "\n" + graphic.toString());
+                final int nodes = graphic.getVertexRef().size();
+                if (Constants.ONE < nodes) {
+                    throw new RecurrenceReferenceException(getClass(), "\n" + graphic.toString());
+                } else {
+                    break;
+                }
             }
             /**
              * 将找到的节点移除

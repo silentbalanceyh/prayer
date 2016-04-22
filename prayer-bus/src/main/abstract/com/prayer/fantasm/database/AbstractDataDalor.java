@@ -151,7 +151,6 @@ public abstract class AbstractDataDalor implements RecordDao { // NOPMD
             // 父类方法，不过滤任何传参流程
             final String sql = builder.buildInsert(record.table(), record.columns());
             // QueryHelper.prepInsertSQL(record, Constants.T_STR_ARR);
-            System.out.println(sql);
             final List<Value<?>> params = QueryHelper.prepParam(record, Constants.T_STR_ARR);
             jdbc.insert(sql, params, false, null);
         }

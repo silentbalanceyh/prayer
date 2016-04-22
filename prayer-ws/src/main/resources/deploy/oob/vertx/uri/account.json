@@ -1,7 +1,7 @@
 [
     {
         "uri":"/api/sec/account/:id",
-        "globalId":"sec.account",
+        "identifier":"sec.account",
         "script":"js.api.get.sec.account.id",
         "requiredParam":[
             "id"
@@ -12,7 +12,7 @@
     },
     {
         "uri":"/api/sec/account",
-        "globalId":"sec.account",
+        "identifier":"sec.account",
         "method":"DELETE",
         "requiredParam":[
             "id"
@@ -20,7 +20,7 @@
     },
     {
         "uri":"/api/sec/page/account",
-        "globalId":"sec.account",
+        "identifier":"sec.account",
         "method":"POST",
         "paramType":"BODY",
         "address":"MSG://RECORD/PAGER/QUEUE",
@@ -35,7 +35,7 @@
     {
         "uri":"/api/sec/account",
         "method":"POST",
-        "globalId":"sec.account",
+        "identifier":"sec.account",
         "requiredParam":[
             "username",
             "password",
@@ -49,7 +49,7 @@
     {
         "uri":"/api/sec/account",
         "method":"PUT",
-        "globalId":"sec.account",
+        "identifier":"sec.account",
         "requiredParam":[
             "id"
         ],

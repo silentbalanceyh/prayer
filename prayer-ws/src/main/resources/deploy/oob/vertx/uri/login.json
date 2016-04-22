@@ -3,7 +3,7 @@
         "uri":"/api/sec/login",
         "paramType":"CUSTOM",
         "address":"MSG://SECURITY/QUEUE",
-        "globalId":"sec.account",
+        "identifier":"sec.account",
         "requiredParam":[
             "username",
             "password"

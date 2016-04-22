@@ -130,13 +130,13 @@ public final class Log { // NOPMD
                 message = MessageFormat.format(message(Level.ERROR, key), params);
             }
             // Output
-            if(null == exp){
+            if (null == exp) {
                 logger.error(message);
-            }else{
-                if(exp instanceof AbstractException){
-                    final AbstractException error = (AbstractException)exp;
-                    logger.error("[ *** ERROR-" + error.getErrorCode() + " *** ] " + message);
-                }else{
+            } else {
+                if (exp instanceof AbstractException) {
+                    final AbstractException error = (AbstractException) exp;
+                    logger.error("[ *** ERROR" + error.getErrorCode() + " *** ] " + message);
+                } else {
                     logger.error("[ *** JVM ERROR *** ] : " + message);
                 }
             }

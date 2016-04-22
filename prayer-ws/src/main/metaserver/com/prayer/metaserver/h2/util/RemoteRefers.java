@@ -1,5 +1,6 @@
 package com.prayer.metaserver.h2.util;
 
+import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;
 
 import java.rmi.RemoteException;
@@ -57,8 +58,11 @@ public final class RemoteRefers {
         try {
             final String pattern = INCEPTOR.getString(Point.RMI.META_SERVER);
             final StandardQuoter quoter = (StandardQuoter) RemoteInvoker.lookup(pattern, name);
-            if(null != quoter){
+            if (null != quoter) {
                 data = new JsonObject(quoter.service(null));
+                if (null != data) {
+                    info(LOGGER, "( Remote Options ) : " + data.encode());
+                }
             }
         } catch (RemoteException ex) {
             jvmError(LOGGER, ex);

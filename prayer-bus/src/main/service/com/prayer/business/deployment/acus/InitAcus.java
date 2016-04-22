@@ -51,7 +51,7 @@ public class InitAcus extends AbstractEntityAcus implements DeployAcus {
     public boolean deploy(@NotNull @NotEmpty @NotBlank final String filename) throws AbstractException {
         /** 1.文件名计算 **/
         String dftFile = null;
-        final String dataFolder = InceptBus.build(Point.Deploy.class).getString(Point.Deploy.DATA_FOLDER);
+        final String dataFolder = InceptBus.build(Point.Deploy.class).getString(Point.Deploy.META_FOLDER);
         if (filename.toLowerCase(Locale.getDefault()).endsWith(".sql")) {
             dftFile = dataFolder + "/sql/" + filename;
         } else {

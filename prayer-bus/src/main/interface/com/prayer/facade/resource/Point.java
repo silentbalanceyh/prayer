@@ -210,8 +210,10 @@ public interface Point {
     /** **/
     @VertexPoint(Interface.CONSTANT)
     interface Deploy {
-        /** 默认发布的数据目录 **/
-        String DATA_FOLDER = "data.folder";
+        /** 默认发布的元数据文件 **/
+        String INIT_FILE = "meta.init.file";
+        /** 默认发布的元数据目录 **/
+        String META_FOLDER = "meta.folder";
     }
 
     /** **/

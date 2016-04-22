@@ -48,7 +48,7 @@ public final class JacksonKit { // NOPMD
             @NotNull @NotEmpty @NotBlank final String file) throws AbstractSystemException {
         T ret = null;
         try {
-            final InputStream inStream = IOKit.getFile(file, JacksonKit.class);
+            final InputStream inStream = IOKit.getFile(file);
             ret = MAPPER.readValue(inStream, reference);
         } catch (JsonParseException ex) {
             jvmError(LOGGER, ex);
@@ -57,6 +57,7 @@ public final class JacksonKit { // NOPMD
             throw error; // NOPMD
         } catch (IOException ex) {
             jvmError(LOGGER, ex);
+            ex.printStackTrace();
             final AbstractSystemException error = new ResourceIOException(JacksonKit.class, file); // NOPMD
             peError(LOGGER, error);
             throw error;// NOPMD

@@ -14,13 +14,6 @@ public interface H2Messages {
     String URI_SINGLE = "jdbc:h2:tcp://{0}:{1}/META/{2}";
     /** Cluster **/
     String URI_CLUSTER = "jdbc:h2:tcp://{0}/META/{1}";
-    
-    /** **/
-    @VertexPoint(Interface.CONSTANT)
-    interface RMI{
-        /** Single **/
-        String OPTS_H2 = "H2/OPTS";
-    }
 
     /** **/
     @VertexPoint(Interface.CONSTANT)

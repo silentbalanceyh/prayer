@@ -2,7 +2,7 @@
     {
         "uri":"/api/sec/role",
         "method":"POST",
-        "globalId":"sec.role",
+        "identifier":"sec.role",
         "requiredParam":[
             "name",
             "code"

@@ -1,6 +1,10 @@
 package com.prayer.booter.engine;
 
+import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.engine.Launcher;
 import com.prayer.fantasm.exception.AbstractException;
@@ -13,6 +17,10 @@ import com.prayer.vertx.launcher.VertxLauncher;
  */
 public class EngineBooter {
     // ~ Static Fields =======================================
+
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(EngineBooter.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -21,9 +29,13 @@ public class EngineBooter {
      * @param args
      * @throws AbstractException
      */
-    public static void main(final String args[]) throws AbstractException {
+    public static void main(final String args[]) {
         final Launcher launcher = singleton(VertxLauncher.class);
-        launcher.start();
+        try {
+            launcher.start();
+        } catch (AbstractException ex) {
+            peError(LOGGER, ex);
+        }
     }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================

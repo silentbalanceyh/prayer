@@ -79,7 +79,7 @@ public class H2OptionsIntaker implements MetaOptsIntaker {
                 data.mergeIn(opt.readOpts());
             }
         }
-        info(LOGGER, "Options : " + data.encode());
+        info(LOGGER, "( Options ) : " + data.encode());
         return new JsonOptions(data);
     }
     // ~ Get/Set =============================================
