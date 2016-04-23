@@ -6,6 +6,9 @@ import com.prayer.facade.engine.Launcher;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.resource.Injections;
 
+import net.sf.oval.internal.Log;
+import net.sf.oval.logging.LoggerFactorySLF4JImpl;
+
 /**
  * MetaServer的启动器，用于启动Meta Server
  * 
@@ -23,6 +26,9 @@ public class MetaServerShutter {
      * @throws AbstractException
      */
     public static void main(final String... args) throws AbstractException{
+        /** 1.在Consoler中替换日志输出 **/
+        Log.setLoggerFactory(new LoggerFactorySLF4JImpl());
+        
         final Launcher launcher = singleton(Injections.Meta.LAUNCHER);
         launcher.stop();
     }

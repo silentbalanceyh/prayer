@@ -25,7 +25,7 @@ interface ConfigAcquirer {
      * @return
      */
     @VertexApi(Api.READ)
-    ConcurrentMap<String, PEVerticle> verticles() throws AbstractException;
+    ConcurrentMap<Class<?>, PEVerticle> verticles() throws AbstractException;
 
     /**
      * 读取所有的Route，按照父路径进行分组：parent

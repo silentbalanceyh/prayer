@@ -61,7 +61,12 @@ public final class RemoteRefers {
             if (null != quoter) {
                 data = new JsonObject(quoter.service(null));
                 if (null != data) {
+                    /** 过滤密码 **/
+                    final String password = data.getJsonObject("server").getString("password");
+                    data.getJsonObject("server").remove("password");
+                    /** 不输出密码 **/
                     info(LOGGER, "( Remote Options ) : " + data.encode());
+                    data.getJsonObject("server").put("password", password);
                 }
             }
         } catch (RemoteException ex) {

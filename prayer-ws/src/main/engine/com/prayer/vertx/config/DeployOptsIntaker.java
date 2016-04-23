@@ -36,11 +36,11 @@ public class DeployOptsIntaker implements EngineOptsIntaker<String, DeploymentOp
     @Override
     public ConcurrentMap<String, DeploymentOptions> ingest() throws AbstractException {
         /** 1.从系统中读取verticles **/
-        final ConcurrentMap<String, PEVerticle> verticles = instantor.verticles();
+        final ConcurrentMap<Class<?>, PEVerticle> verticles = instantor.verticles();
         /** 2.生成发布选项 **/
         final ConcurrentMap<String, DeploymentOptions> ret = new ConcurrentHashMap<>();
-        for (final String name : verticles.keySet()) {
-            ret.put(name, this.buildOpts(verticles.get(name)));
+        for (final Class<?> clazz : verticles.keySet()) {
+            ret.put(clazz.getName(), this.buildOpts(verticles.get(clazz)));
         }
         return ret;
     }

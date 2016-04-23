@@ -10,6 +10,9 @@ import com.prayer.common.launcher.DeploymentLauncher;
 import com.prayer.facade.engine.Launcher;
 import com.prayer.fantasm.exception.AbstractException;
 
+import net.sf.oval.internal.Log;
+import net.sf.oval.logging.LoggerFactorySLF4JImpl;
+
 /**
  * MetaServer的部署器，用于执行标准目录的部署
  * 
@@ -28,6 +31,9 @@ public class DeploymentBooter {
      * 执行器
      */
     public static void main(final String[] args) {
+        /** 1.在Consoler中替换日志输出 **/
+        Log.setLoggerFactory(new LoggerFactorySLF4JImpl());
+        
         final Launcher launcher = singleton(DeploymentLauncher.class);
         try {
             launcher.start();

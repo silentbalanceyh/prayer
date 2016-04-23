@@ -10,6 +10,9 @@ import com.prayer.facade.engine.Launcher;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.vertx.launcher.VertxLauncher;
 
+import net.sf.oval.internal.Log;
+import net.sf.oval.logging.LoggerFactorySLF4JImpl;
+
 /**
  * 
  * @author Lang
@@ -30,6 +33,9 @@ public class EngineBooter {
      * @throws AbstractException
      */
     public static void main(final String args[]) {
+        /** 1.在Consoler中替换日志输出 **/
+        Log.setLoggerFactory(new LoggerFactorySLF4JImpl());
+        /** 2.启动 **/
         final Launcher launcher = singleton(VertxLauncher.class);
         try {
             launcher.start();

@@ -49,6 +49,7 @@ public class VerticleAsyncHandler implements Handler<AsyncResult<String>> {
             @NotNull final DeploymentOptions option) {
         this.name = name;
         this.option = option;
+        
     }
 
     // ~ Abstract Methods ====================================

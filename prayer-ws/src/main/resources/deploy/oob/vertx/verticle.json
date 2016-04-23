@@ -1,35 +1,12 @@
 [
     {
-        "name":"com.prayer.verticle.standard.RouterVerticle",
+        "name":"com.prayer.vertx.web.RouterAgent",
         "instances":32,
         "ha":true
     },
     {
-        "name":"com.prayer.verticle.standard.WebVerticle",
+        "name":"com.prayer.vertx.web.RecordWorker",
         "instances":32,
-        "ha":true
-    },
-    {
-        "name":"com.prayer.verticle.worker.RecordWorker",
-        "instances":128,
-        "ha":true,
-        "worker":true
-    },
-    {
-        "name":"com.prayer.verticle.worker.PagerWorker",
-        "instances":128,
-        "ha":true,
-        "worker":true
-    },
-    {
-        "name":"com.prayer.verticle.worker.SecurityWorker",
-        "instances":128,
-        "ha":true,
-        "worker":true
-    },
-    {
-        "name":"com.prayer.verticle.worker.H2PagerWorker",
-        "instances":128,
         "ha":true,
         "worker":true
     }

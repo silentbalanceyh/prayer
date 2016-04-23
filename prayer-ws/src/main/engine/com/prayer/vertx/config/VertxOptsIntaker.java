@@ -22,8 +22,8 @@ import com.prayer.util.warranter.NumericWarranter;
 import io.vertx.core.VertxOptions;
 
 /**
- * Vertx配置项
- * 单件模式
+ * Vertx配置项 单件模式
+ * 
  * @author Lang
  *
  */
@@ -106,8 +106,9 @@ public class VertxOptsIntaker implements EngineOptsIntaker<String, VertxOptions>
         opt.setClusterPort(flat(INCEPTOR.getInt(this.buildKey(Point.Vertx.Cluster.PORT, instance)),
                 VertxOptions.DEFAULT_CLUSTER_PORT));
         /** Publish Host **/
-        opt.setClusterPublicHost(flat(INCEPTOR.getString(this.buildKey(Point.Vertx.Cluster.PUB_HOST, instance)),
-                VertxOptions.DEFAULT_CLUSTER_PUBLIC_HOST));
+        // VertxOptions.DEFAULT_CLUSTER_PUBLIC_HOST的值是null
+        opt.setClusterPublicHost(
+                flat(INCEPTOR.getString(this.buildKey(Point.Vertx.Cluster.PUB_HOST, instance)), Constants.EMPTY_STR));
         /** Publish Port **/
         opt.setClusterPublicPort(flat(INCEPTOR.getInt(this.buildKey(Point.Vertx.Cluster.PUB_PORT, instance)),
                 VertxOptions.DEFAULT_CLUSTER_PUBLIC_PORT));

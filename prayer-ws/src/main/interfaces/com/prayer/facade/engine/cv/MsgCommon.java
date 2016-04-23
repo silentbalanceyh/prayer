@@ -1,4 +1,5 @@
 package com.prayer.facade.engine.cv;
+
 /**
  * 通用信息
  * @author Lang
