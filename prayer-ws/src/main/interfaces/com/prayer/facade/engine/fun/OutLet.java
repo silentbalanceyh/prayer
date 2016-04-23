@@ -1,11 +1,11 @@
-package com.prayer.facade.metaserver.h2.fun;
+package com.prayer.facade.engine.fun;
 /**
  * 
  * @author Lang
  *
  */
 @FunctionalInterface
-public interface H2Exit {
+public interface OutLet {
     /**
      * 
      */

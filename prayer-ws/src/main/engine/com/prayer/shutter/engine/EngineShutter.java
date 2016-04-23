@@ -6,35 +6,37 @@ import static com.prayer.util.reflection.Instance.singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.common.launcher.DeploymentLauncher;
 import com.prayer.facade.engine.Launcher;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.vertx.launcher.VertxLauncher;
 
 import net.sf.oval.internal.Log;
 import net.sf.oval.logging.LoggerFactorySLF4JImpl;
 
 /**
- * MetaServer的部署器，用于执行标准目录的部署
  * 
  * @author Lang
  *
  */
-public class DeploymentShutter {
+public class EngineShutter {
     // ~ Static Fields =======================================
+
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeploymentShutter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EngineShutter.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /**
-     * 执行器
+     * 
+     * @param args
+     * @throws AbstractException
      */
-    public static void main(final String[] args) {
+    public static void main(final String args[]) {
         /** 1.在Consoler中替换日志输出 **/
         Log.setLoggerFactory(new LoggerFactorySLF4JImpl());
-        
-        final Launcher launcher = singleton(DeploymentLauncher.class);
+        /** 2.启动 **/
+        final Launcher launcher = singleton(VertxLauncher.class);
         try {
             launcher.stop();
         } catch (AbstractException ex) {

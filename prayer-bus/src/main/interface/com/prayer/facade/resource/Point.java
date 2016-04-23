@@ -221,6 +221,8 @@ public interface Point {
     interface RMI {
         /** Meta Server **/
         String META_SERVER = "rmi.meta.server";
+        /** Vertx实例 **/
+        String VERTX = "rmi.vertx";
         /** RMI Port **/
         String RMI_PORT = "rmi.port";
         /** RMI Host **/
@@ -323,7 +325,7 @@ public interface Point {
                 String DATA = "handler.strainer.data";
                 /** 5.Stdn **/
                 String STDN = "handler.stdn";
-                
+
                 /** 6.Failure **/
                 String FAILURE = "handler.failure";
                 /** 7.Service Sender **/

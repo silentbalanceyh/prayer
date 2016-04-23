@@ -13,7 +13,7 @@ public interface MsgRmi {
     /** **/
     String RMI_ADDR = "( RMI ) Registrying address : {0}";
     /** **/
-    String RMI_REGISTRY = "( RMI ) Instance of {0} ( hashCode = {1} ) has been registered successfully.";
+    String RMI_REGISTRY = "( RMI ) Instance of {0} has been registered successfully. Registered Data : {1} ";
     /** **/
     String RMI_ERROR = "( RMI ) Instance registry met exception : {0}";
     /** **/

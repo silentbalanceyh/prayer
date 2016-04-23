@@ -1,4 +1,4 @@
-package com.prayer.metaserver.h2.util;
+package com.prayer.vertx.util;
 
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;
@@ -8,14 +8,14 @@ import java.rmi.RemoteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.rmi.StandardQuoter;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.resource.InceptBus;
 import com.prayer.util.rmi.CommonOptionsQuoter;
 import com.prayer.util.rmi.RemoteInvoker;
-
-import io.vertx.core.json.JsonObject;
+import com.prayer.util.string.StringKit;
 
 /**
  * 
@@ -36,12 +36,12 @@ public final class RemoteRefers {
      * RMI写入
      * 
      * @param name
-     * @param options
+     * @param information
      */
-    public static void registry(final String name, final JsonObject options) {
-        final String pattern = INCEPTOR.getString(Point.RMI.META_SERVER);
+    public static void registry(final String name, final String information) {
+        final String pattern = INCEPTOR.getString(Point.RMI.VERTX);
         try {
-            final StandardQuoter quoter = new CommonOptionsQuoter(options.encode());
+            final StandardQuoter quoter = new CommonOptionsQuoter(information);
             RemoteInvoker.registry(quoter, pattern, name);
         } catch (RemoteException ex) {
             jvmError(LOGGER, ex);
@@ -53,16 +53,15 @@ public final class RemoteRefers {
      * @param name
      * @return
      */
-    public static JsonObject lookup(final String name) {
-        JsonObject data = new JsonObject();
+    public static String lookup(final String name) {
+        String data = Constants.EMPTY_STR;
         try {
-            final String pattern = INCEPTOR.getString(Point.RMI.META_SERVER);
+            final String pattern = INCEPTOR.getString(Point.RMI.VERTX);
             final StandardQuoter quoter = (StandardQuoter) RemoteInvoker.lookup(pattern, name);
             if (null != quoter) {
-                data = new JsonObject(quoter.getData());
+                data = quoter.getData();
                 if (null != data) {
-                    /** 不输出密码 **/
-                    info(LOGGER, "( Remote Options ) : " + data.encode());
+                    info(LOGGER, "( Remote Options ) : " + data);
                 }
             }
         } catch (RemoteException ex) {
@@ -77,8 +76,8 @@ public final class RemoteRefers {
      * @return
      */
     public static boolean isRunning(final String name) {
-        final JsonObject data = lookup(name);
-        return !data.isEmpty();
+        final String data = lookup(name);
+        return StringKit.isNonNil(data);
     }
 
     // ~ Constructors ========================================
@@ -90,4 +89,5 @@ public final class RemoteRefers {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

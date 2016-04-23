@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.constant.Constants;
+import com.prayer.facade.engine.fun.OutLet;
 import com.prayer.facade.metaserver.h2.H2Messages.Database;
-import com.prayer.facade.metaserver.h2.fun.H2Exit;
 
 /**
  * 
@@ -27,12 +27,12 @@ public class CallbackClosurer implements Runnable {
     /** **/
     private transient List<Server> database;
     /** **/
-    private transient H2Exit exit;
+    private transient OutLet exit;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
 
-    public CallbackClosurer(final List<Server> database, final H2Exit exit) {
+    public CallbackClosurer(final List<Server> database, final OutLet exit) {
         this.database = database;
         this.exit = exit;
     }

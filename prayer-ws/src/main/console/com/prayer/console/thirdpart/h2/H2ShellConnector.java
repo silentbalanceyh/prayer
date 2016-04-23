@@ -78,7 +78,7 @@ class H2ShellConnector implements Connector, H2Tidings {
             final String pattern = RMI_INCEPTOR.getString(Point.RMI.META_SERVER);
             final StandardQuoter quoter = (StandardQuoter) RemoteInvoker.lookupDirect(pattern, RmiKeys.META_SERVER_OPTS);
             if (null != quoter) {
-                final JsonObject refRvt = new JsonObject(quoter.service(null));
+                final JsonObject refRvt = new JsonObject(quoter.getData());
                 if (null != refRvt) {
                     this.data.mergeIn(refRvt.copy());
                     OutGoing.outLn(OPTS, refRvt.encode());

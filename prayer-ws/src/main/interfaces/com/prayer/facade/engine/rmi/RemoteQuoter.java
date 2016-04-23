@@ -18,5 +18,5 @@ import com.prayer.facade.annotation.VertexPoint;
 public interface RemoteQuoter<T> extends Remote {
     /** **/
     @VertexApi(Api.TOOL)
-    T service(T reference) throws RemoteException;
+    T getData() throws RemoteException;
 }

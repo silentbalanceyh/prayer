@@ -4,12 +4,10 @@ import static com.prayer.util.debug.Log.error;
 import static com.prayer.util.debug.Log.info;
 
 import java.text.MessageFormat;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.cv.MsgVertx;
 
 import io.vertx.core.AsyncResult;
@@ -42,8 +40,6 @@ public class CompletionHandler implements Handler<AsyncResult<String>> {
     /** **/
     @NotNull
     private transient final DeploymentOptions option;
-    /** **/
-    private transient AtomicInteger counter;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -63,38 +59,19 @@ public class CompletionHandler implements Handler<AsyncResult<String>> {
     // ~ Override Methods ====================================
     @Override
     public void handle(@NotNull final AsyncResult<String> event) {
-        if (null != this.counter) {
-            /** 1.发布统计 **/
-            final int counter = this.counter.getAndAdd(Constants.ONE);
-            if (event.succeeded()) {
-                if (counter <= 1) {
-                    info(LOGGER, MessageFormat.format(MsgVertx.DP_HANDLER, getClass().getSimpleName(), this.name,
-                            this.option.getInstances(), this.option.toJson().encode()));
-                }
-            } else {
-                if (counter <= 1) {
-                    error(LOGGER, MessageFormat.format(MsgVertx.DP_HANDLER_ERR, getClass().getSimpleName(), this.name,
-                            this.option.getInstances()));
-                }
-            }
+        /** 1.发布统计 **/
+        if (event.succeeded()) {
+            info(LOGGER, MessageFormat.format(MsgVertx.DP_HANDLER, getClass().getSimpleName(), this.name,
+                    this.option.getInstances(), this.option.toJson().encode()));
+        } else {
+            error(LOGGER, MessageFormat.format(MsgVertx.DP_HANDLER_ERR, getClass().getSimpleName(), this.name,
+                    this.option.getInstances()));
         }
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
-    /** **/
-    public void setCounter(@NotNull final AtomicInteger counter) {
-        this.counter = counter;
-    }
-
-    /** 发布的数量满的时候 **/
-    public int getCounter() {
-        if (null == this.counter) {
-            return Constants.RANGE;
-        }
-        return this.counter.get();
-    }
     // ~ hashCode,equals,toString ============================
 
 }

@@ -41,12 +41,10 @@ public class H2Launcher implements Launcher {
     /** 启动方法 **/
     @Override
     public void start() throws AbstractException {
-        if (!running()) {
-            /** 1.Server配置初始化 **/
-            SERVER = this.getServer();
-            /** 2.启动Server **/
-            SERVER.start();
-        }
+        /** 1.Server配置初始化 **/
+        SERVER = this.getServer();
+        /** 2.启动Server **/
+        SERVER.start();
     }
 
     /** 停止方法 **/

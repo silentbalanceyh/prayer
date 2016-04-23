@@ -32,7 +32,7 @@ public class CommonOptionsQuoter extends UnicastRemoteObject implements Standard
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public String service(final String reference) {
+    public String getData() {
         /** 执行Service赋值 **/
         return this.reference;
     }
