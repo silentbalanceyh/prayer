@@ -11,11 +11,11 @@ import com.prayer.facade.annotation.VertexPoint;
 @VertexPoint(Interface.CONSTANT)
 public interface MsgRmi {
     /** **/
-    String RMI_ADDR = "( RMI ) Registrying address : {0}";
+    String RMI_ADDR = "( RMI Server ) Registrying address : {0}";
     /** **/
-    String RMI_REGISTRY = "( RMI ) Instance of {0} has been registered successfully. Registered Data : {1} ";
+    String RMI_REGISTRY = "( RMI Server ) Instance of {0} has been registered successfully. Registered Data : {1} ";
     /** **/
-    String RMI_ERROR = "( RMI ) Instance registry met exception : {0}";
+    String RMI_ERROR = "( RMI Server ) Instance registry met exception : {0}";
     /** **/
     String RMI_LOOKUP = "( RMI Client ) Lookup remote object reference via address: {0}";
     /** **/
