@@ -22,7 +22,7 @@ import com.prayer.facade.metaserver.h2.H2Messages;
 import com.prayer.facade.metaserver.h2.H2Server;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.metaserver.h2.AbstractH2Server;
-import com.prayer.metaserver.h2.callback.CallbackClosurer;
+import com.prayer.metaserver.h2.callback.MetaServerClosurer;
 import com.prayer.metaserver.h2.util.ParamsResolver;
 import com.prayer.metaserver.h2.util.RemoteRefers;
 import com.prayer.metaserver.h2.util.UriResolver;
@@ -118,7 +118,7 @@ public class ClusterServer extends AbstractH2Server {
         /** 5.读取JsonObject **/
         RemoteRefers.registry(RmiKeys.META_SERVER_OPTS, this.options.readOpts());
         /** 6.开启轮询线程，监控到database停止过后就将主线程停止 **/
-        new Thread(new CallbackClosurer(this.database, this::exit)).start();
+        new Thread(new MetaServerClosurer(this.database, this::exit)).start();
 
         info(LOGGER, MessageFormat.format(Database.JDBC_URI, UriResolver.resolveJdbc(options)));
         return status;

@@ -16,11 +16,4 @@ public interface Promulgator {
      * @throws AbstractException
      */
     boolean deploy(VertxOptions options) throws AbstractException;
-
-    /**
-     * 
-     * @return
-     * @throws AbstractException
-     */
-    boolean undeploy() throws AbstractException;
 }

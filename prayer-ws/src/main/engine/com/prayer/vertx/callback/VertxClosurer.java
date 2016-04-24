@@ -19,11 +19,11 @@ import com.prayer.vertx.util.RemoteRefers;
  * @author Lang
  *
  */
-public class CallbackClosurer implements Runnable {
+public class VertxClosurer implements Runnable {
     // ~ Static Fields =======================================
 
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(CallbackClosurer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VertxClosurer.class);
     // ~ Instance Fields =====================================
     /** **/
     private transient String stopAddr;
@@ -33,7 +33,7 @@ public class CallbackClosurer implements Runnable {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    public CallbackClosurer(final String stopAddr, final OutLet exit) {
+    public VertxClosurer(final String stopAddr, final OutLet exit) {
         this.stopAddr = stopAddr;
         this.exit = exit;
     }

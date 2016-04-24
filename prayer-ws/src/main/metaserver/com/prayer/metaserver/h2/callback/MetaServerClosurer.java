@@ -19,10 +19,10 @@ import com.prayer.facade.metaserver.h2.H2Messages.Database;
  * @author Lang
  *
  */
-public class CallbackClosurer implements Runnable {
+public class MetaServerClosurer implements Runnable {
     // ~ Static Fields =======================================
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(CallbackClosurer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MetaServerClosurer.class);
     // ~ Instance Fields =====================================
     /** **/
     private transient List<Server> database;
@@ -32,7 +32,7 @@ public class CallbackClosurer implements Runnable {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
 
-    public CallbackClosurer(final List<Server> database, final OutLet exit) {
+    public MetaServerClosurer(final List<Server> database, final OutLet exit) {
         this.database = database;
         this.exit = exit;
     }

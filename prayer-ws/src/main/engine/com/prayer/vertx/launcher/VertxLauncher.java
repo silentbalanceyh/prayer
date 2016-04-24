@@ -17,7 +17,7 @@ import com.prayer.facade.engine.cv.RmiKeys;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.facade.vtx.Promulgator;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.vertx.callback.CallbackClosurer;
+import com.prayer.vertx.callback.VertxClosurer;
 import com.prayer.vertx.config.VertxOptsIntaker;
 import com.prayer.vertx.util.RemoteRefers;
 
@@ -41,9 +41,6 @@ public class VertxLauncher implements Launcher {
     private static final String RUNNING = "RUNNING";
 
     // ~ Instance Fields =====================================
-    /** **/
-    private transient final Promulgator promulgator = singleton(SinglePromulgator.class, INSTANCE);
-
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -56,22 +53,25 @@ public class VertxLauncher implements Launcher {
         if (Ensurer.running(getClass(), LOGGER)) {
             final VertxOptions options = this.initOpts();
             /** 2.先写入配置到RMI **/
+            Promulgator promulgator = null;
             if (options.isClustered()) {
                 /** 3.集群发布 **/
-                info(LOGGER, MessageFormat.format(MsgVertx.VX_START, getClass().getSimpleName(), "Cluster"));
-
+                info(LOGGER, MessageFormat.format(MsgVertx.VX_START, getClass().getSimpleName(), INSTANCE, "Cluster"));
+                promulgator = singleton(ClusterPromulgator.class, INSTANCE);
             } else {
-                info(LOGGER, MessageFormat.format(MsgVertx.VX_START, getClass().getSimpleName(), "Standalone"));
+                info(LOGGER,
+                        MessageFormat.format(MsgVertx.VX_START, getClass().getSimpleName(), INSTANCE, "Standalone"));
                 /** 3.单节点发布 **/
-                promulgator.deploy(options);
+                promulgator = singleton(SinglePromulgator.class, INSTANCE);
             }
+            promulgator.deploy(options);
             /** 4.将Vertx的启动数据写入RMI **/
             final String address = MessageFormat.format(RmiKeys.VERTX_OPTS, INSTANCE);
             RemoteRefers.registry(address, options.toString());
             /** 5.写入RUNNING写入到关闭位置，如果检索不到这个值就退出 **/
             RemoteRefers.registry(STOP_ADDR, RUNNING);
             /** 6.开启新线程，处理Stop **/
-            new Thread(new CallbackClosurer(STOP_ADDR, this::outlet)).start();
+            new Thread(new VertxClosurer(STOP_ADDR, this::outlet)).start();
         }
     }
 
