@@ -59,9 +59,9 @@ public final class HubExecutor {
         final boolean isWorker = options.isWorker();
         String address = "";
         if (isWorker) {
-            address = MessageFormat.format(RmiKeys.VERTCILE_OPTS, instance, "WORKER", name, options.getInstances());
+            address = MessageFormat.format(RmiKeys.VERTCILE_OPTS, instance, "WORKER", name);
         } else {
-            address = MessageFormat.format(RmiKeys.VERTCILE_OPTS, instance, "AGENT", name, options.getInstances());
+            address = MessageFormat.format(RmiKeys.VERTCILE_OPTS, instance, "AGENT", name);
         }
         return address;
     }

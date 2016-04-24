@@ -3,11 +3,13 @@ package com.prayer.vertx.web;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
+import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.facade.engine.cv.RmiKeys;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
@@ -15,6 +17,7 @@ import com.prayer.facade.vtx.route.Fabricator;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.resource.InceptBus;
 import com.prayer.vertx.opts.ServerOptsIntaker;
+import com.prayer.vertx.util.RemoteRefers;
 import com.prayer.vertx.web.router.CorsFabricator;
 import com.prayer.vertx.web.router.LocateFabricator;
 import com.prayer.vertx.web.router.RecvFabricator;
@@ -25,6 +28,8 @@ import com.prayer.vertx.web.router.WebFabricator;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import net.sf.oval.guard.Guarded;
@@ -65,7 +70,7 @@ public class RouterAgent extends AbstractVerticle {
     public void start() {
         try {
             /** 0.Http Server **/
-            final ConcurrentMap<Integer,HttpServerOptions> configMap = INTAKER.ingest();
+            final ConcurrentMap<Integer, HttpServerOptions> configMap = INTAKER.ingest();
             final HttpServerOptions options = configMap.get(INCEPTOR.getInt("server.port.api"));
             final HttpServer server = vertx.createHttpServer(options);
             /** 1.读取Router引用，处理Block Thread的问题 **/
@@ -82,8 +87,10 @@ public class RouterAgent extends AbstractVerticle {
                     /** 5.Api Default 配置 **/
                     this.injectRouter(router);
                     /** 6.Server监听 **/
-                    routes(router);
                     server.requestHandler(router::accept).listen();
+                    /** 7.成功过后写入RMI **/
+                    final String addr = MessageFormat.format(RmiKeys.VERTX_ROUTES, String.valueOf(options.getPort()));
+                    this.registryRoutes(router, addr);
                 }
             });
         } catch (AbstractException ex) {
@@ -94,13 +101,17 @@ public class RouterAgent extends AbstractVerticle {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    // TODO：Debug用，后期会Remove
-    private void routes(final Router router){
-        for(final Route route: router.getRoutes()){
-            System.out.println(route);
+    private void registryRoutes(final Router router, final String address) {
+        final JsonArray routes = new JsonArray();
+        for (final Route route : router.getRoutes()) {
+            final JsonObject objects = new JsonObject();
+            objects.put("path", route.getPath());
+            objects.put("details", route.toString());
+            routes.add(objects);
         }
+        RemoteRefers.registry(address, routes.encode());
     }
-    
+
     private void injectRouter(final Router router) {
         /** 1.Web专用 **/
         // Cookie

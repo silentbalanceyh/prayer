@@ -13,11 +13,13 @@ public interface RmiKeys {
     // {0} Vertx Instance名称
     // {1} Vertx中的实例的数量
     String VERTX_OPTS = "RUNNING/{0}/INSTANCE";
+    /** 按照Port的分类 **/
+    String VERTX_ROUTES = "RUNNING/INSTANCE/PORT/{0}/ROUTES";
     /** 正在运行的Verticles的信息 **/
     // {0} Vertx Instance名称
     // {1} WORKER/STANDARD
     // {2} Verticle实例的类名
-    String VERTCILE_OPTS = "RUNNING/{0}/{1}/{2}/{3}";
+    String VERTCILE_OPTS = "RUNNING/{0}/{1}/{2}";
     /** 是否停止该实例 **/
     String VERTX_STOP = "SHUTDOWN/{0}/OK";
 }
