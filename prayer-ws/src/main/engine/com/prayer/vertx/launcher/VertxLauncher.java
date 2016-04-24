@@ -1,5 +1,6 @@
 package com.prayer.vertx.launcher;
 
+import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.text.MessageFormat;
@@ -9,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.booter.util.Ensurer;
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.Launcher;
+import com.prayer.facade.engine.cv.MsgVertx;
 import com.prayer.facade.engine.cv.RmiKeys;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.facade.vtx.Promulgator;
@@ -34,6 +37,8 @@ public class VertxLauncher implements Launcher {
     private static final String INSTANCE = "PRAYER-ENGINE";
     /** **/
     private static final String STOP_ADDR = MessageFormat.format(RmiKeys.VERTX_STOP, INSTANCE);
+    /** **/
+    private static final String RUNNING = "RUNNING";
 
     // ~ Instance Fields =====================================
     /** **/
@@ -53,24 +58,31 @@ public class VertxLauncher implements Launcher {
             /** 2.先写入配置到RMI **/
             if (options.isClustered()) {
                 /** 3.集群发布 **/
+                info(LOGGER, MessageFormat.format(MsgVertx.VX_START, getClass().getSimpleName(), "Cluster"));
+
             } else {
+                info(LOGGER, MessageFormat.format(MsgVertx.VX_START, getClass().getSimpleName(), "Standalone"));
                 /** 3.单节点发布 **/
                 promulgator.deploy(options);
             }
             /** 4.将Vertx的启动数据写入RMI **/
             final String address = MessageFormat.format(RmiKeys.VERTX_OPTS, INSTANCE);
             RemoteRefers.registry(address, options.toString());
-            /** 5.开启新线程，处理Stop **/
-            new Thread(new CallbackClosurer(STOP_ADDR, this::exit)).start();
+            /** 5.写入RUNNING写入到关闭位置，如果检索不到这个值就退出 **/
+            RemoteRefers.registry(STOP_ADDR, RUNNING);
+            /** 6.开启新线程，处理Stop **/
+            new Thread(new CallbackClosurer(STOP_ADDR, this::outlet)).start();
         }
     }
 
     @Override
     public void stop() {
         /** 1.写入数据到STOP地址 **/
-        RemoteRefers.registry(STOP_ADDR, String.valueOf(Boolean.TRUE));
-        /** 2.退出 **/
-        System.exit(0);
+        RemoteRefers.registry(STOP_ADDR, Constants.EMPTY_STR);
+        /** 关闭信息的打印 **/
+        info(LOGGER, MessageFormat.format(MsgVertx.VX_STOP, getClass().getSimpleName()));
+        /** 2.退出Client **/
+        this.outlet();
     }
 
     @Override
@@ -82,13 +94,9 @@ public class VertxLauncher implements Launcher {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private void exit() {
-        try {
-            this.promulgator.undeploy();
-            System.out.println("Stopped...");
-        } catch (AbstractException ex) {
-            
-        }
+    private void outlet() {
+        /** 退出程序 **/
+        System.exit(0);
     }
 
     /** 初始化Vertx配置 **/

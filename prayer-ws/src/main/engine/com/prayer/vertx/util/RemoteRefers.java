@@ -1,6 +1,5 @@
 package com.prayer.vertx.util;
 
-import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;
 
 import java.rmi.RemoteException;
@@ -57,12 +56,9 @@ public final class RemoteRefers {
         String data = Constants.EMPTY_STR;
         try {
             final String pattern = INCEPTOR.getString(Point.RMI.VERTX);
-            final StandardQuoter quoter = (StandardQuoter) RemoteInvoker.lookup(pattern, name);
+            final StandardQuoter quoter = (StandardQuoter) RemoteInvoker.lookupLogs(pattern,false,name);
             if (null != quoter) {
                 data = quoter.getData();
-                if (null != data) {
-                    info(LOGGER, "( Remote Options ) : " + data);
-                }
             }
         } catch (RemoteException ex) {
             jvmError(LOGGER, ex);

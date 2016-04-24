@@ -63,15 +63,26 @@ public class RemoteInvoker {
     }
 
     /**
-     * 查找远程对象
+     * 查找远程对象，打印日志信息
      * 
      * @param pattern
      * @param params
      */
     public static Object lookup(final String pattern, final Object... params) {
+        return lookupLogs(pattern, true, params);
+    }
+
+    /**
+     * 查找远程对象，可控制日志信息的打印
+     * @param pattern
+     * @param outLog
+     * @param params
+     * @return
+     */
+    public static Object lookupLogs(final String pattern, final boolean outLog, final Object... params) {
         Object retRef = null;
         try {
-            retRef = lookupDirect(pattern, params);
+            retRef = lookupDirect(pattern, outLog, params);
         } catch (RemoteException | NotBoundException ex) {
             info(LOGGER, MessageFormat.format(MsgRmi.RMI_CLERROR, ex.getMessage()));
             jvmError(LOGGER, ex);
@@ -86,17 +97,21 @@ public class RemoteInvoker {
      * @param params
      * @return
      */
-    public static Object lookupDirect(final String pattern, final Object... params)
+    public static Object lookupDirect(final String pattern, final boolean outLog, final Object... params)
             throws RemoteException, NotBoundException {
         final String address = buildAddrs(pattern, params);
         final int port = INCEPTOR.getInt(Point.RMI.RMI_PORT);
         final String host = INCEPTOR.getString(Point.RMI.RMI_HOST);
         final Registry registry = LocateRegistry.getRegistry(host, port);
-        info(LOGGER, MessageFormat.format(MsgRmi.RMI_LOOKUP, address));
+        if (outLog) {
+            info(LOGGER, MessageFormat.format(MsgRmi.RMI_LOOKUP, address));
+        }
         Object retRef = registry.lookup(address);
         if (null != retRef) {
-            info(LOGGER,
-                    MessageFormat.format(MsgRmi.RMI_REFERENCE, retRef.getClass(), String.valueOf(retRef.hashCode())));
+            if (outLog) {
+                info(LOGGER, MessageFormat.format(MsgRmi.RMI_REFERENCE, retRef.getClass(),
+                        String.valueOf(retRef.hashCode())));
+            }
         }
         return retRef;
     }
