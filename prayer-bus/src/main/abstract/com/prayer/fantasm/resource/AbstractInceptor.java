@@ -11,7 +11,6 @@ import com.prayer.util.resource.DatumLoader;
 import com.prayer.util.string.StringKit;
 import com.prayer.util.string.StringPool;
 
-import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -91,7 +90,6 @@ public abstract class AbstractInceptor implements Inceptor {
      * 
      */
     @Override
-    @Min(-1)
     public int getInt(@NotNull @NotBlank @NotEmpty final String key) {
         final String value = this.getString(key);
         int ret = Constants.RANGE;
@@ -107,7 +105,6 @@ public abstract class AbstractInceptor implements Inceptor {
      * @return
      */
     @Override
-    @Min(-1)
     public long getLong(@NotNull @NotBlank @NotEmpty final String key) {
         final String value = this.getString(key);
         long ret = Constants.RANGE;

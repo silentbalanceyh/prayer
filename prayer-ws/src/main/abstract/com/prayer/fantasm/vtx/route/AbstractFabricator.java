@@ -17,6 +17,7 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public abstract class AbstractFabricator {
     // ~ Static Fields =======================================
+
     /** Web Inceptor **/
     private static final Inceptor INCEPTOR = InceptBus.build(Point.Web.class);
     /** Order Inceptor **/
@@ -44,6 +45,7 @@ public abstract class AbstractFabricator {
     protected static final String PATH_API = INCEPTOR.getString(Point.Web.Api.PUBLIC);
     /** Secure Api Path **/
     protected static final String PATH_SEC_API = INCEPTOR.getString(Point.Web.Api.SECURE);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

@@ -10,7 +10,7 @@ import com.prayer.console.util.OutGoing;
 import com.prayer.facade.console.message.SharedTidings;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.vertx.opts.HazelcastIntaker;
+import com.prayer.vertx.tp.opts.HazelcastIntaker;
 
 /**
  * 

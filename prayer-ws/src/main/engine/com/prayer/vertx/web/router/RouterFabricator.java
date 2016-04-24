@@ -1,9 +1,13 @@
 package com.prayer.vertx.web.router;
 
+import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.business.configuration.impl.ConfigBllor;
 import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
@@ -28,6 +32,9 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class RouterFabricator implements Fabricator {
     // ~ Static Fields =======================================
+
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(RouterFabricator.class);
     // ~ Instance Fields =====================================
     /** **/
     private transient ConfigInstantor instantor = singleton(ConfigBllor.class);
@@ -38,20 +45,24 @@ public class RouterFabricator implements Fabricator {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     @Override
-    public void immitRouter(@NotNull final Router router) throws AbstractException {
-        /** 1.从系统中读取所有的Route **/
-        final ConcurrentMap<String, List<PERoute>> routes = instantor.routes();
-        /** 2.如果读取成功 **/
-        if (null == routes || routes.isEmpty()) {
-            // TODO: 读取失败
-        } else {
-            for (final List<PERoute> routeList : routes.values()) {
-                /** 3.遍历内部 **/
-                for (final PERoute route : routeList) {
-                    /** 4.执行内部函数操作单个Route **/
-                    this.immitRouter(router, route);
+    public void immitRouter(@NotNull final Router router) {
+        try {
+            /** 1.从系统中读取所有的Route **/
+            final ConcurrentMap<String, List<PERoute>> routes = instantor.routes();
+            /** 2.如果读取成功 **/
+            if (null == routes || routes.isEmpty()) {
+                // TODO: 读取失败
+            } else {
+                for (final List<PERoute> routeList : routes.values()) {
+                    /** 3.遍历内部 **/
+                    for (final PERoute route : routeList) {
+                        /** 4.执行内部函数操作单个Route **/
+                        this.immitRouter(router, route);
+                    }
                 }
             }
+        } catch (AbstractException ex) {
+            peError(LOGGER, ex);
         }
     }
     // ~ Methods =============================================

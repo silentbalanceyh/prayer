@@ -14,7 +14,7 @@ import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.facade.vtx.Promulgator;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.vertx.deploy.handler.ClusterHandler;
-import com.prayer.vertx.opts.HazelcastIntaker;
+import com.prayer.vertx.tp.opts.HazelcastIntaker;
 
 import io.vertx.core.VertxOptions;
 import io.vertx.core.impl.VertxFactoryImpl;

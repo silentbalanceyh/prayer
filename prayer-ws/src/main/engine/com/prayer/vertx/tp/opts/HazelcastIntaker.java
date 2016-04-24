@@ -1,4 +1,4 @@
-package com.prayer.vertx.opts;
+package com.prayer.vertx.tp.opts;
 
 import com.hazelcast.config.Config;
 import com.prayer.facade.engine.opts.Intaker;

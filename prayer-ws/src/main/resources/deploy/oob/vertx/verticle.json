@@ -1,12 +1,12 @@
 [
     {
         "name":"com.prayer.vertx.web.RouterAgent",
-        "instances":32,
+        "instances":1,
         "ha":true
     },
     {
         "name":"com.prayer.vertx.web.RecordWorker",
-        "instances":32,
+        "instances":1,
         "ha":true,
         "worker":true
     }

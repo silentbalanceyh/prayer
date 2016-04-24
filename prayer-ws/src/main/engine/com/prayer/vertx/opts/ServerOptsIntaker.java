@@ -1,4 +1,4 @@
-package com.prayer.vertx.config;
+package com.prayer.vertx.opts;
 
 import static com.prayer.util.Planar.flat;
 import static com.prayer.util.reflection.Instance.singleton;
@@ -6,6 +6,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.Warranter;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
@@ -21,15 +22,15 @@ import io.vertx.core.net.NetServerOptions;
 import io.vertx.core.net.TCPSSLOptions;
 
 /**
- * Server, HttpServer, SSL, Network配置项
- * 单件模式
+ * Server, HttpServer, SSL, Network配置项 单件模式
+ * 
  * @author Lang
  *
  */
 public class ServerOptsIntaker implements EngineOptsIntaker<Integer, HttpServerOptions> {
     // ~ Static Fields =======================================
     /** 服务选项配置 **/
-    private static ConcurrentMap<Integer, HttpServerOptions> SERVERS;
+    private static final ConcurrentMap<Integer, HttpServerOptions> SERVERS = new ConcurrentHashMap<>();
     /** 读取器 **/
     private static final Inceptor INCEPTOR = InceptBus.build(Point.Server.class);
 
@@ -53,8 +54,7 @@ public class ServerOptsIntaker implements EngineOptsIntaker<Integer, HttpServerO
     // ~ Private Methods =====================================
 
     private ConcurrentMap<Integer, HttpServerOptions> buildOpts() {
-        if (null == SERVERS) {
-            SERVERS = new ConcurrentHashMap<>();
+        if (SERVERS.isEmpty()) {
             final String[] keys = this.buildKeys();
             /** 1.迭代 **/
             for (final String key : keys) {
@@ -95,7 +95,10 @@ public class ServerOptsIntaker implements EngineOptsIntaker<Integer, HttpServerO
         /** Idle Time out **/
         opt.setIdleTimeout(flat(INCEPTOR.getInt(Point.Server.TcpSSL.IDLE_TIMEOUT), TCPSSLOptions.DEFAULT_IDLE_TIMEOUT));
         /** So Linger **/
-        opt.setSoLinger(INCEPTOR.getInt(Point.Server.TcpSSL.SO_LINGER));
+        int param = INCEPTOR.getInt(Point.Server.TcpSSL.SO_LINGER);
+        if (Constants.ZERO < param) {
+            opt.setSoLinger(param);
+        }
         /** Tcp No Delay **/
         opt.setTcpNoDelay(INCEPTOR.getBoolean(Point.Server.TcpSSL.TCP_NO_DELAY));
         /** Tcp Keep Alive **/
@@ -106,13 +109,23 @@ public class ServerOptsIntaker implements EngineOptsIntaker<Integer, HttpServerO
 
     private void injectNetOpts(final HttpServerOptions opt) {
         /** Receive Buffer Size **/
-        opt.setReceiveBufferSize(INCEPTOR.getInt(Point.Server.Network.REC_BUFFER_SIZE));
+        int param = INCEPTOR.getInt(Point.Server.Network.REC_BUFFER_SIZE);
+        if (Constants.ZERO < param) {
+            opt.setReceiveBufferSize(param);
+        }
         /** Send Buffer Size **/
-        opt.setSendBufferSize(INCEPTOR.getInt(Point.Server.Network.SEND_BUFFER_SIZE));
+        param = INCEPTOR.getInt(Point.Server.Network.SEND_BUFFER_SIZE);
+        if (Constants.ZERO < param) {
+            opt.setSendBufferSize(param);
+        }
         /** Reuse Address **/
         opt.setReuseAddress(INCEPTOR.getBoolean(Point.Server.Network.REUSE_ADDR));
+
         /** Traffic Class **/
-        opt.setTrafficClass(INCEPTOR.getInt(Point.Server.Network.TRAFFIC_CLASS));
+        param = INCEPTOR.getInt(Point.Server.Network.TRAFFIC_CLASS);
+        if (Constants.ZERO <= param && param <= 255) {
+            opt.setTrafficClass(param);
+        }
     }
 
     private void injectHttpOpts(final HttpServerOptions opt) {
@@ -131,7 +144,7 @@ public class ServerOptsIntaker implements EngineOptsIntaker<Integer, HttpServerO
         opt.setMaxWebsocketFrameSize(flat(INCEPTOR.getInt(Point.Server.Http.MAX_WEBSOCKET_FSIZE),
                 HttpServerOptions.DEFAULT_MAX_WEBSOCKET_FRAME_SIZE));
     }
-    
+
     private void warrantRequired() throws AbstractLauncherException {
         final Warranter vWter = singleton(ValueWarranter.class);
         final String[] params = new String[] { "server.port.api", "server.port.web", "server.host" };

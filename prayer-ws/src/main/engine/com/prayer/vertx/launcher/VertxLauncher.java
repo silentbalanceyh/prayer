@@ -18,7 +18,7 @@ import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.facade.vtx.Promulgator;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.vertx.callback.VertxClosurer;
-import com.prayer.vertx.config.VertxOptsIntaker;
+import com.prayer.vertx.opts.VertxOptsIntaker;
 import com.prayer.vertx.util.RemoteRefers;
 
 import io.vertx.core.VertxOptions;

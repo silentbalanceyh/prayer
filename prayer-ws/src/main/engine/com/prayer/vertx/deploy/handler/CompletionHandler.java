@@ -2,6 +2,7 @@ package com.prayer.vertx.deploy.handler;
 
 import static com.prayer.util.debug.Log.error;
 import static com.prayer.util.debug.Log.info;
+import static com.prayer.util.debug.Log.jvmError;
 
 import java.text.MessageFormat;
 
@@ -66,6 +67,11 @@ public class CompletionHandler implements Handler<AsyncResult<String>> {
         } else {
             error(LOGGER, MessageFormat.format(MsgVertx.DP_HANDLER_ERR, getClass().getSimpleName(), this.name,
                     this.option.getInstances()));
+            if (null != event.cause()) {
+                jvmError(LOGGER, event.cause());
+                // TODO: Debug
+                event.cause().printStackTrace();
+            }
         }
     }
 
