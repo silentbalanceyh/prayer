@@ -1,4 +1,4 @@
-package com.prayer.vertx.web.handler.aop;
+package com.prayer.vertx.handler.aop;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -21,7 +21,7 @@ import io.vertx.ext.web.RoutingContext;
 public aspect AjUriStrainer {
     // ~ Point Cut ===========================================
     /** 切点定义，只有Acceptor才会执行 **/
-    pointcut UriPointCut(final RoutingContext event): execution(void com.prayer.vertx.web.handler.RequestAcceptor.handle(RoutingContext)) && args(event) && target(Handler);
+    pointcut UriPointCut(final RoutingContext event): execution(void com.prayer.vertx.handler.RequestAcceptor.handle(RoutingContext)) && args(event) && target(Handler);
 
     // ~ Point Cut Implements ================================
     /** 切点实现 **/

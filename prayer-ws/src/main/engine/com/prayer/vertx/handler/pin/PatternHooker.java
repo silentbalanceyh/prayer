@@ -1,32 +1,24 @@
-    package com.prayer.vertx.web.handler;
+package com.prayer.vertx.handler.pin;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
 /**
- * 请求接收器
  * 
  * @author Lang
  *
  */
-public class DataInspector implements Handler<RoutingContext> {
-
+public class PatternHooker implements Handler<RoutingContext>{
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-
-    public static DataInspector create() {
-        return new DataInspector();
-    }
-
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** 占位用的Handler，无实际意义，主要用于Pattern钩子 **/
     @Override
-    public void handle(RoutingContext event) {
-        // TODO Auto-generated method stub
-        System.out.println(getClass() + " : " + Thread.currentThread().getName());
+    public void handle(final RoutingContext event) {
         event.next();
     }
     // ~ Methods =============================================

@@ -1,4 +1,6 @@
-package com.prayer.vertx.web.handler;
+package com.prayer.vertx.handler;
+
+import com.prayer.facade.engine.cv.WebKeys;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
@@ -9,13 +11,13 @@ import io.vertx.ext.web.RoutingContext;
  * @author Lang
  *
  */
-public class DataStrainer implements Handler<RoutingContext> {
+public class RequestAcceptor implements Handler<RoutingContext> {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
 
-    public static DataStrainer create() {
-        return new DataStrainer();
+    public static RequestAcceptor create() {
+        return new RequestAcceptor();
     }
 
     // ~ Static Block ========================================
@@ -24,8 +26,10 @@ public class DataStrainer implements Handler<RoutingContext> {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     @Override
-    public void handle(RoutingContext event) {
+    public void handle(final RoutingContext event) {
         // TODO Auto-generated method stub
+        final String uri = event.get(WebKeys.Request.URI);
+        System.out.println(uri);
         System.out.println(getClass() + " : " + Thread.currentThread().getName());
         event.next();
     }

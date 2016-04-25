@@ -18,6 +18,11 @@ public class Injections {
     /** Data连接 **/
     public static final Class<?> POOL = INCEPTOR.getClass(Point.Injection.Data.POOL);
     
+    public static final class Web{
+        /** URI Hooker **/
+        public static final Class<?> URI_HOOKER = INCEPTOR.getClass(Point.Injection.Web.URI_HOOKER);
+    }
+    
     /** 元数据库访问 **/
     public static final class Meta {
         /** Meta Data 连接 **/

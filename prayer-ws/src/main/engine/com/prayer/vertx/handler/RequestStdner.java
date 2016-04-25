@@ -1,17 +1,23 @@
-package com.prayer.vertx.web.executor;
+package com.prayer.vertx.handler;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
 /**
- * Engine执行器
+ * 请求接收器
  * 
  * @author Lang
  *
  */
-public class EngineExecutor implements Handler<RoutingContext> {
+public class RequestStdner implements Handler<RoutingContext> {
+
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
+
+    public static RequestStdner create() {
+        return new RequestStdner();
+    }
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================

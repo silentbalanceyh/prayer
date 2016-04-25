@@ -165,6 +165,12 @@ public interface Point {
 
         /** **/
         @VertexPoint(Interface.CONSTANT)
+        interface Web {
+            /** Pattern的Hooker钩子 **/
+            String URI_HOOKER = "web.uri.hooker";
+        }
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
         interface Data {
             /** 数据库连接池 **/
             String POOL = "database.data.pool";

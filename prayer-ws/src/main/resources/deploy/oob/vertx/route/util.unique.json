@@ -1,16 +1,6 @@
 [
     {
         "path":"/sec/util/unique/:identifier/:name/:value",
-        "order":-10000,
-        "requestHandler":"com.prayer.vertx.web.handler.no.PlaceHolderExecutor"
-    },
-    {
-        "path":"/sec/util/uniques/:identifier",
-        "order":-10000,
-        "requestHandler":"com.prayer.vertx.web.handler.no.PlaceHolderExecutor"
-    },
-    {
-        "path":"/sec/util/unique/:identifier/:name/:value",
         "order":-8000
     }    
 ]

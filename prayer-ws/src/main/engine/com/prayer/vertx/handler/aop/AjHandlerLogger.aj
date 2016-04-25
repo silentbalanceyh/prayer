@@ -1,4 +1,4 @@
-package com.prayer.vertx.web.handler.aop;
+package com.prayer.vertx.handler.aop;
 
 import static com.prayer.util.debug.Log.info;
 
@@ -21,7 +21,7 @@ import io.vertx.ext.web.RoutingContext;
 public aspect AjHandlerLogger {
     // ~ Point Cut ===========================================
     /** 切点定义 **/
-    pointcut LogPointCut(final RoutingContext event): execution(void com.prayer.vertx.web.handler.*.handle(RoutingContext)) && args(event) && target(Handler);
+    pointcut LogPointCut(final RoutingContext event): execution(void com.prayer.vertx.handler.*.handle(RoutingContext)) && args(event) && target(Handler);
 
     // ~ Point Cut Implements ================================
     /** 切点实现 **/

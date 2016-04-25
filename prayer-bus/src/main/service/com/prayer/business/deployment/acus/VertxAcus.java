@@ -2,6 +2,7 @@ package com.prayer.business.deployment.acus;
 
 import static com.prayer.util.debug.Log.info;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,14 +10,21 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.prayer.facade.business.instantor.deployment.acus.DeployAcus;
+import com.prayer.facade.constant.Constants;
+import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.business.deployment.acus.AbstractEntityAcus;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PEAddress;
 import com.prayer.model.meta.vertx.PERoute;
 import com.prayer.model.meta.vertx.PEVerticle;
+import com.prayer.resource.InceptBus;
+import com.prayer.resource.Injections;
 import com.prayer.util.io.IOKit;
 import com.prayer.util.io.JacksonKit;
 
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -82,6 +90,29 @@ public class VertxAcus extends AbstractEntityAcus implements DeployAcus {
                 + addresses.size() + ", File = " + target);
     }
 
+    /** URI Hooker专用 **/
+    private void injectUriHooker(final List<PERoute> routes) throws AbstractException {
+        final List<PERoute> hookerLst = new ArrayList<>();
+        for (final PERoute route : routes) {
+            /** 1.钩子挂载点 **/
+            if (Constants.ZERO <= route.getPath().indexOf(Symbol.COLON)) {
+                /** 2.拷贝数据 **/
+                final JsonObject data = route.toJson();
+                final PERoute hooker = new PERoute(data);
+                /** 3.特殊钩子数据 **/
+                hooker.setRequestHandler(Injections.Web.URI_HOOKER);
+                final Inceptor inceptor = InceptBus.build(Point.Web.class, Point.Web.HANDLER_ORDERS);
+                hooker.setOrder(inceptor.getInt(Point.Web.Orders.Api.URI));
+                /** 4.设置null的ID **/
+                hooker.id(null);
+                hookerLst.add(hooker);
+            }
+        }
+        if (!hookerLst.isEmpty()) {
+            accessor(PERoute.class).insert(hookerLst.toArray(new PERoute[] {}));
+        }
+    }
+
     private void deployRoute(final String folder) throws AbstractException {
         final TypeReference<List<PERoute>> typeRef = new TypeReference<List<PERoute>>() {
         };
@@ -93,6 +124,7 @@ public class VertxAcus extends AbstractEntityAcus implements DeployAcus {
             final List<PERoute> routes = JacksonKit.fromFile(typeRef, target);
             if (!routes.isEmpty()) {
                 accessor(PERoute.class).insert(routes.toArray(new PERoute[] {}));
+                this.injectUriHooker(routes);
             }
             info(LOGGER, "[DP] 3. - Vertx's ( Routes ) of " + target + " have been deployed successfully. Size = "
                     + routes.size());
