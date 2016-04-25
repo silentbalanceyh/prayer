@@ -1,11 +1,11 @@
 [
     {
-        "name":"com.prayer.vertx.web.actor.RouterAgent",
+        "name":"com.prayer.vertx.actor.agent.RouterAgent",
         "instances":1,
         "ha":true
     },
     {
-        "name":"com.prayer.vertx.web.actor.PublishWorker",
+        "name":"com.prayer.vertx.actor.worker.PublishWorker",
         "instances":1,
         "ha":true,
         "worker":true

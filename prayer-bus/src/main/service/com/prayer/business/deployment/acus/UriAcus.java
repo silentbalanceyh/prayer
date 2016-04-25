@@ -107,7 +107,7 @@ public class UriAcus extends AbstractEntityAcus implements DeployAcus {
 
     private void injectRefId(final List<PERule> rules, final PEUri uri) {
         for (final PERule rule : rules) {
-            rule.setRefUriId(uri.getUniqueId());
+            rule.setRefUID(uri.getUniqueId());
         }
     }
 

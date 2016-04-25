@@ -52,7 +52,7 @@ public class ConfigUCAObtainerTestCase extends AbstractInstantor {
                 uriId = uri.id().toString();
                 for(final Entity entity: entities){
                     final PERule rule = (PERule)entity;
-                    rule.setRefUriId(uri.id().toString());
+                    rule.setRefUID(uri.id().toString());
                     this.accessor(PERule.class).update(rule);
                 }
             }

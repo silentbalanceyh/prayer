@@ -71,7 +71,7 @@ public class PERule extends AbstractEntity<String> { // NOPMD
 
     /** R_URI_ID **/
     @JsonProperty(REF_UID)
-    private String refUriId;
+    private String refUID;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -103,7 +103,7 @@ public class PERule extends AbstractEntity<String> { // NOPMD
         writeClass(data, COMPONENT_CLASS, this::getComponentClass);
         writeJObject(data, CONFIG, this::getConfig);
         writeString(data, ERROR_MESSAGE, this::getErrorMessage);
-        writeString(data, REF_UID, this::getRefUriId);
+        writeString(data, REF_UID, this::getRefUID);
         return data;
     }
 
@@ -118,7 +118,7 @@ public class PERule extends AbstractEntity<String> { // NOPMD
         readClass(data, COMPONENT_CLASS, this::setComponentClass);
         readJObject(data, CONFIG, this::setConfig);
         readString(data, ERROR_MESSAGE, this::setErrorMessage);
-        readString(data, REF_UID, this::setRefUriId);
+        readString(data, REF_UID, this::setRefUID);
         return this;
     }
 
@@ -133,7 +133,7 @@ public class PERule extends AbstractEntity<String> { // NOPMD
         writeClass(buffer, this::getComponentClass);
         writeJObject(buffer, this::getConfig);
         writeString(buffer, this::getErrorMessage);
-        writeString(buffer, this::getRefUriId);
+        writeString(buffer, this::getRefUID);
     }
 
     /** 从Buffer中读取 **/
@@ -147,7 +147,7 @@ public class PERule extends AbstractEntity<String> { // NOPMD
         pos = readClass(pos, buffer, this::setComponentClass);
         pos = readJObject(pos, buffer, this::setConfig);
         pos = readString(pos, buffer, this::setErrorMessage);
-        pos = readString(pos, buffer, this::setRefUriId);
+        pos = readString(pos, buffer, this::setRefUID);
         return pos;
     }
 
@@ -279,18 +279,18 @@ public class PERule extends AbstractEntity<String> { // NOPMD
     }
 
     /**
-     * @return the refUriId
+     * @return the refUID
      */
-    public String getRefUriId() {
-        return refUriId;
+    public String getRefUID() {
+        return refUID;
     }
 
     /**
-     * @param refUriId
-     *            the refUriId to set
+     * @param refUID
+     *            the refUID to set
      */
-    public void setRefUriId(final String refUriId) {
-        this.refUriId = refUriId;
+    public void setRefUID(final String refUID) {
+        this.refUID = refUID;
     }
 
     // ~ hashCode,equals,toString ============================
@@ -306,7 +306,7 @@ public class PERule extends AbstractEntity<String> { // NOPMD
         final int prime = Constants.HASH_BASE;
         int result = 1;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((refUriId == null) ? 0 : refUriId.hashCode());
+        result = prime * result + ((refUID == null) ? 0 : refUID.hashCode());
         result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
         result = prime * result + ((componentClass == null) ? 0 : componentClass.hashCode());
         return result;
@@ -332,11 +332,11 @@ public class PERule extends AbstractEntity<String> { // NOPMD
         } else if (!name.equals(other.name)) {
             return false;
         }
-        if (refUriId == null) {
-            if (other.refUriId != null) {
+        if (refUID == null) {
+            if (other.refUID != null) {
                 return false;
             }
-        } else if (!refUriId.equals(other.refUriId)) {
+        } else if (!refUID.equals(other.refUID)) {
             return false;
         }
         if (uniqueId == null) {

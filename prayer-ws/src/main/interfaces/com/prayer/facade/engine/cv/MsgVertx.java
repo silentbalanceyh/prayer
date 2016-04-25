@@ -20,4 +20,6 @@ public interface MsgVertx extends MsgCommon {
     String VX_STOP = "( {0} ) Stop Vertx Engine, please wait for server to be stopped...";
     /** **/
     String VX_STOPPED = "( {0} ) Vertx Engine has been stopped successfully!";
+    /** **/
+    String ES_URI = "( {0} ) Vertx Engine has published ( Uri/Rule ) configuration data to {1} successfully! ( RMI Not Needed )";
 }

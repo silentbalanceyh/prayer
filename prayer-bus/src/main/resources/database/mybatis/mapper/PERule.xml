@@ -12,7 +12,7 @@
         <result column="J_COMPONENT_CLASS" property="componentClass" typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
         <result column="J_CONFIG" property="config" typeHandler="com.prayer.plugin.db.handler.JsonObjectHandler" />
         <result column="J_ERROR_MSG" property="errorMessage" />
-        <result column="R_URI_ID" property="refUriId" />
+        <result column="R_URI_ID" property="refUID" />
     </resultMap>
     <insert id="insert" parameterType="Rule" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
@@ -35,7 +35,7 @@
                 #{componentClass,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{config, typeHandler=com.prayer.plugin.db.handler.JsonObjectHandler},
                 #{errorMessage},
-                #{refUriId}
+                #{refUID}
             )
         ]]>
     </insert>
@@ -63,7 +63,7 @@
                 #{item.componentClass,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{item.config, typeHandler=com.prayer.plugin.db.handler.JsonObjectHandler},
                 #{item.errorMessage},
-                #{item.refUriId}
+                #{item.refUID}
             )]]>
         </foreach>
     </insert>
@@ -77,7 +77,7 @@
                 J_COMPONENT_CLASS=#{componentClass,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 J_CONFIG=#{config,typeHandler=com.prayer.plugin.db.handler.JsonObjectHandler},
                 J_ERROR_MSG=#{errorMessage},
-                R_URI_ID=#{refUriId}
+                R_URI_ID=#{refUID}
             WHERE K_ID=#{uniqueId}
         ]]>
     </update>

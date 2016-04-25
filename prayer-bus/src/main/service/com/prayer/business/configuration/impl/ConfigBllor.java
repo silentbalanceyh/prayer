@@ -66,6 +66,18 @@ public class ConfigBllor implements ConfigInstantor, Attributes {
 
     /** **/
     @Override
+    public ConcurrentMap<String, PEUri> uris() throws AbstractException {
+        return Inverter.invertOrb(this.selector.fetchers(PEUri.class).inquiryList(), ID);
+    }
+
+    /** **/
+    @Override
+    public ConcurrentMap<String, List<PERule>> rules() throws AbstractException {
+        return Inverter.invertList(this.selector.fetchers(PERule.class).inquiryList(), REF_UID);
+    }
+
+    /** **/
+    @Override
     public PEScript script(@NotNull @NotEmpty @NotBlank final String name) throws AbstractException {
         return this.selector.fetchers(PEScript.class)
                 .inquiry(AndEqer.reference().build(MetaColumns.column(PEScript.class, NAME), name));

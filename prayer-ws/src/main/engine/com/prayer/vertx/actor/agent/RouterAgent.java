@@ -1,4 +1,4 @@
-package com.prayer.vertx.web.actor;
+package com.prayer.vertx.actor.agent;
 
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
