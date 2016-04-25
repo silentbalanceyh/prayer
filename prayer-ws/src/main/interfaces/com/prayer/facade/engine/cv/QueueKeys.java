@@ -8,5 +8,5 @@ package com.prayer.facade.engine.cv;
  */
 public interface QueueKeys {
     /** 某个URI的信息表 **/
-    String URI_ADDR = "MSG://INTERNAL/URI{0}";
+    String URI_ADDR = "MSG://INTERNAL/QUEUE/URI{0}";
 }

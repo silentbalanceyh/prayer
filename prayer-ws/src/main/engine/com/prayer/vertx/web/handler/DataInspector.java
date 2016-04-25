@@ -1,4 +1,4 @@
-package com.prayer.vertx.web.handler;
+    package com.prayer.vertx.web.handler;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
@@ -26,7 +26,8 @@ public class DataInspector implements Handler<RoutingContext> {
     @Override
     public void handle(RoutingContext event) {
         // TODO Auto-generated method stub
-
+        System.out.println(getClass() + " : " + Thread.currentThread().getName());
+        event.next();
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

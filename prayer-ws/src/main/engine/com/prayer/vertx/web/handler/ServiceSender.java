@@ -26,7 +26,8 @@ public class ServiceSender implements Handler<RoutingContext> {
     @Override
     public void handle(RoutingContext event) {
         // TODO Auto-generated method stub
-
+        System.out.println(getClass() + " : " + Thread.currentThread().getName());
+        event.response().end("Service");
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
