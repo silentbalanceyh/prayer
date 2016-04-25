@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.business.configuration.impl.ConfigBllor;
 import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
-import com.prayer.facade.engine.cv.QueueKeys;
+import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.vtx.config.EngineOptsIntaker;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PERule;
@@ -80,7 +80,7 @@ public class UriOptsIntaker implements EngineOptsIntaker<String, JsonObject> {
         final StringBuilder uriPoint = new StringBuilder();
         uriPoint.append(rawData.getUri()).append('/')
                 .append(rawData.getMethod().toString().toUpperCase(Locale.getDefault()));
-        return MessageFormat.format(QueueKeys.URI_ADDR, uriPoint);
+        return MessageFormat.format(WebKeys.URI_ADDR, uriPoint);
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

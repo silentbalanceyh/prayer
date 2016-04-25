@@ -80,4 +80,62 @@
             <artifactId>asm-analysis</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <!-- AJDT Compile -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>${maven.mojo.aspectj.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjrt</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.sun</groupId>
+                        <artifactId>tools</artifactId>
+                        <version>${jdk.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <complianceLevel>${ajc.version}</complianceLevel>
+                    <source>${ajc.version}</source>
+                    <target>${ajc.version}</target>
+                    <!-- 除开Util-Comet以外，其他项目必须包含此片段，主要用于适配.aj文件来启动OVal的防御式编程 -->
+                    <!-- Begin -->
+                    <!-- 暂时忽略警告信息，目前存在一个Xlint:typeNotExposedToWeaver的问题 -->
+                    <Xlint>ignore</Xlint>
+                    <!-- End -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <configuration>
+                            <ajdtBuildDefFile>src/main/resources/engine/tp/aop/${aspectj.compile.file}</ajdtBuildDefFile>
+                        </configuration>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <configuration>
+                            <ajdtBuildDefFile>src/main/resources/engine/tp/aop/${aspectj.test.file}</ajdtBuildDefFile>
+                        </configuration>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

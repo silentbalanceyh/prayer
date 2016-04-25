@@ -29,7 +29,7 @@ public class HandlerFabricator implements HubFabricator {
     public void immitRoute(@NotNull final Route routeRef, @NotNull final PERoute entity) {
         /** 1.设置Request Handler **/
         if (null != entity.getRequestHandler()) {
-            routeRef.handler(singleton(entity.getRequestHandler()));
+            routeRef.blockingHandler(singleton(entity.getRequestHandler()));
         }
         /** 2.设置Failure Handler **/
         if (null != entity.getFailureHandler()) {

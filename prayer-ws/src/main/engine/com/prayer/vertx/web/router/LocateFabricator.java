@@ -28,7 +28,7 @@ public class LocateFabricator extends AbstractFabricator implements Fabricator {
     @Override
     public void immitRouter(@NotNull final Router router) {
         /** Service **/
-        router.route(PATH_API).last().blockingHandler(this.buildSender());
+        router.route(PATH_API).last().handler(this.buildSender());
         /** Failure **/
         router.route(PATH_API).order(orders().getInt(Point.Web.Orders.Api.FAILURE)).failureHandler(this.buildFailure());
     }

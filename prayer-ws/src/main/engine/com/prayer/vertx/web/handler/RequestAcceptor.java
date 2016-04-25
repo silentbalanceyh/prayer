@@ -1,5 +1,7 @@
 package com.prayer.vertx.web.handler;
 
+import com.prayer.facade.engine.cv.WebKeys;
+
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
@@ -26,6 +28,8 @@ public class RequestAcceptor implements Handler<RoutingContext> {
     @Override
     public void handle(RoutingContext event) {
         // TODO Auto-generated method stub
+        final String uri = event.get(WebKeys.Request.URI);
+        System.out.println(uri);
         System.out.println(getClass() + " : " + Thread.currentThread().getName());
         event.next();
     }

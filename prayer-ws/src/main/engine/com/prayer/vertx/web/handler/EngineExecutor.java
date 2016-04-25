@@ -4,20 +4,14 @@ import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
 /**
- * 请求接收器
+ * Engine执行器
  * 
  * @author Lang
  *
  */
-public class UriStrainer implements Handler<RoutingContext> {
-
+public class EngineExecutor implements Handler<RoutingContext> {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-
-    public static UriStrainer create() {
-        return new UriStrainer();
-    }
-
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================

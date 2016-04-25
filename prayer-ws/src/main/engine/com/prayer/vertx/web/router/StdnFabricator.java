@@ -30,11 +30,11 @@ public class StdnFabricator extends AbstractFabricator implements Fabricator {
     @Override
     public void immitRouter(@NotNull final Router router) {
         /** Data Inspector **/
-        router.route(PATH_API).order(orders().getInt(Point.Web.Orders.Api.INSPECTOR)).handler(this.buildInspector());
+        router.route(PATH_API).order(orders().getInt(Point.Web.Orders.Api.INSPECTOR)).blockingHandler(this.buildInspector());
         /** Data Strainer **/
-        router.route(PATH_API).order(orders().getInt(Point.Web.Orders.Api.DATA)).handler(this.buildStrainer());
+        router.route(PATH_API).order(orders().getInt(Point.Web.Orders.Api.DATA)).blockingHandler(this.buildStrainer());
         /** Stdner **/
-        router.route(PATH_API).order(orders().getInt(Point.Web.Orders.Api.STDN)).handler(this.buildStdner());
+        router.route(PATH_API).order(orders().getInt(Point.Web.Orders.Api.STDN)).blockingHandler(this.buildStdner());
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
