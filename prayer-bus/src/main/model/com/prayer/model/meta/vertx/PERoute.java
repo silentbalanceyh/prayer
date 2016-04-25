@@ -66,7 +66,7 @@ public class PERoute extends AbstractEntity<String> { // NOPMD
     @JsonProperty(REQUEST_HANDLER)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private Class<?> requestHandler = clazz("com.prayer.vertx.web.handler.EngineExecutor");
+    private Class<?> requestHandler = clazz("com.prayer.vertx.web.executor.EngineExecutor");
 
     /** S_FHANDLER **/
     @JsonProperty(FAILURE_HANDLER)

@@ -1,15 +1,14 @@
-package com.prayer.vertx.web.handler;
+package com.prayer.vertx.web.handler.no;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
 /**
- * Engine执行器
  * 
  * @author Lang
  *
  */
-public class EngineExecutor implements Handler<RoutingContext> {
+public class PlaceHolderExecutor implements Handler<RoutingContext>{
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -17,10 +16,9 @@ public class EngineExecutor implements Handler<RoutingContext> {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** 占位用的Handler，无实际意义，主要用于Pattern钩子 **/
     @Override
-    public void handle(RoutingContext event) {
-        // TODO Auto-generated method stub
-        System.out.println(getClass() + " : " + Thread.currentThread().getName());
+    public void handle(final RoutingContext event) {
         event.next();
     }
     // ~ Methods =============================================

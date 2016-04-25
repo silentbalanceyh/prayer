@@ -35,11 +35,12 @@ public aspect AjUriStrainer {
             /** 3.计算URI **/
             final StringBuilder path = new StringBuilder(finalUri);
             /** 4.参数提取 **/
-            final Iterator<Entry<String, String>> entryIt = request.params().entries().iterator();
+            final Iterator<Entry<String, String>> entryIt = request.params().iterator();
             while (entryIt.hasNext()) {
                 final Entry<String, String> item = entryIt.next();
                 final int start = path.indexOf(item.getValue());
                 /** 5.包含值则替换成name **/
+                System.out.println(start);
                 if (Constants.ZERO <= start) {
                     final int end = start + item.getValue().length();
                     path.replace(start, end, Symbol.COLON + item.getKey());
