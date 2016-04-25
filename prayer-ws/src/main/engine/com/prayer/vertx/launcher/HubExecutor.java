@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.facade.engine.cv.RmiKeys;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.vertx.deploy.handler.CompletionHandler;
+import com.prayer.vertx.handler.deploy.CompletionHandler;
 import com.prayer.vertx.opts.DeployOptsIntaker;
 import com.prayer.vertx.util.RemoteRefers;
 

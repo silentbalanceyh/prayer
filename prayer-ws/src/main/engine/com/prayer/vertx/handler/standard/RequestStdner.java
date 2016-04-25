@@ -1,4 +1,4 @@
-package com.prayer.vertx.handler;
+package com.prayer.vertx.handler.standard;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
@@ -9,13 +9,13 @@ import io.vertx.ext.web.RoutingContext;
  * @author Lang
  *
  */
-public class DataStrainer implements Handler<RoutingContext> {
+public class RequestStdner implements Handler<RoutingContext> {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
 
-    public static DataStrainer create() {
-        return new DataStrainer();
+    public static RequestStdner create() {
+        return new RequestStdner();
     }
 
     // ~ Static Block ========================================

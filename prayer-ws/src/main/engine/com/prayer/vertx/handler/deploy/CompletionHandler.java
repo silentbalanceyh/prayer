@@ -1,4 +1,4 @@
-package com.prayer.vertx.deploy.handler;
+package com.prayer.vertx.handler.deploy;
 
 import static com.prayer.util.debug.Log.error;
 import static com.prayer.util.debug.Log.info;

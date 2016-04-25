@@ -1,4 +1,4 @@
-package com.prayer.vertx.handler;
+package com.prayer.vertx.handler.standard;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
@@ -9,13 +9,13 @@ import io.vertx.ext.web.RoutingContext;
  * @author Lang
  *
  */
-public class RequestStdner implements Handler<RoutingContext> {
+public class FailureHandler implements Handler<RoutingContext> {
 
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
 
-    public static RequestStdner create() {
-        return new RequestStdner();
+    public static FailureHandler create() {
+        return new FailureHandler();
     }
 
     // ~ Static Block ========================================
@@ -27,7 +27,7 @@ public class RequestStdner implements Handler<RoutingContext> {
     public void handle(RoutingContext event) {
         // TODO Auto-generated method stub
         System.out.println(getClass() + " : " + Thread.currentThread().getName());
-        event.next();
+        event.response().end("Error");
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

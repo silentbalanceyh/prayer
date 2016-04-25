@@ -5,7 +5,6 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -46,41 +45,43 @@ public class UriOptsIntaker implements EngineOptsIntaker<String, JsonObject> {
         final ConcurrentMap<String, List<PERule>> rules = instantor.rules();
         /** 2.生成最终结果 **/
         final ConcurrentMap<String, JsonObject> uriData = new ConcurrentHashMap<>();
+
         for (final String id : uris.keySet()) {
             /** 3.生成Message Addrs **/
             final PEUri uri = uris.get(id);
-            final String address = this.buildAddr(uri);
-            /** 4.生成Rule信息 **/
-            List<PERule> ruleList = rules.get(id);
-            if (null == ruleList) {
-                ruleList = new ArrayList<>();
+            /** 4.为了区分404和405，不构造Method到地址中 **/
+            final String address = MessageFormat.format(WebKeys.URI_ADDR, uri.getUri());
+            JsonObject message = new JsonObject();
+            if (uriData.containsKey(address)) {
+                message = uriData.get(address);
             }
-            uriData.put(address, this.buildData(uri, ruleList));
+            /** 5.添加Message **/
+            message.put(uri.getMethod().name(), this.buildData(uri, rules));
+            /** 6.填充address中对应的JsonObject **/
+            uriData.put(address, message);
         }
         return uriData;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private JsonObject buildData(final PEUri rawData, final List<PERule> rulesData) {
+    private JsonObject buildData(final PEUri rawData, final ConcurrentMap<String, List<PERule>> rulesData) {
+        /** 4.生成Rule信息 **/
+        List<PERule> ruleList = rulesData.get(rawData.id().toString());
+        if (null == ruleList) {
+            ruleList = new ArrayList<>();
+        }
         final JsonObject data = new JsonObject();
         data.put("uri", rawData.toJson());
         /** 1.构造Rules **/
         final JsonArray ruleData = new JsonArray();
         if (null != ruleData) {
-            for (final PERule rule : rulesData) {
+            for (final PERule rule : ruleList) {
                 ruleData.add(rule.toJson());
             }
         }
         data.put("rules", ruleData);
         return data;
-    }
-
-    private String buildAddr(final PEUri rawData) {
-        final StringBuilder uriPoint = new StringBuilder();
-        uriPoint.append(rawData.getUri()).append('/')
-                .append(rawData.getMethod().toString().toUpperCase(Locale.getDefault()));
-        return MessageFormat.format(WebKeys.URI_ADDR, uriPoint);
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

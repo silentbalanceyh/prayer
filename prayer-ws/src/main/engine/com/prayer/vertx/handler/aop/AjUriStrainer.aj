@@ -21,7 +21,7 @@ import io.vertx.ext.web.RoutingContext;
 public aspect AjUriStrainer {
     // ~ Point Cut ===========================================
     /** 切点定义，只有Acceptor才会执行 **/
-    pointcut UriPointCut(final RoutingContext event): execution(void com.prayer.vertx.handler.RequestAcceptor.handle(RoutingContext)) && args(event) && target(Handler);
+    pointcut UriPointCut(final RoutingContext event): execution(void com.prayer.vertx.handler.standard.RequestAcceptor.handle(RoutingContext)) && args(event) && target(Handler);
 
     // ~ Point Cut Implements ================================
     /** 切点实现 **/
@@ -40,7 +40,6 @@ public aspect AjUriStrainer {
                 final Entry<String, String> item = entryIt.next();
                 final int start = path.indexOf(item.getValue());
                 /** 5.包含值则替换成name **/
-                System.out.println(start);
                 if (Constants.ZERO <= start) {
                     final int end = start + item.getValue().length();
                     path.replace(start, end, Symbol.COLON + item.getKey());

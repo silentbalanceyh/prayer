@@ -1,4 +1,4 @@
-    package com.prayer.vertx.handler;
+    package com.prayer.vertx.handler.standard;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
