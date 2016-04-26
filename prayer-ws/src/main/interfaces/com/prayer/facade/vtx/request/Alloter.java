@@ -1,5 +1,8 @@
 package com.prayer.facade.vtx.request;
 
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 /**
@@ -9,9 +12,9 @@ import io.vertx.ext.web.RoutingContext;
  */
 public interface Alloter {
     /**
+     * 提供回调函数
      * 
-     * @param request
-     * @param bus
+     * @param context
      */
-    void accept(RoutingContext context);
+    void accept(RoutingContext context, Handler<AsyncResult<JsonObject>> handler);
 }

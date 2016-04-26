@@ -14,4 +14,18 @@ public interface WebKeys {
         /** 请求的真实URI地址 **/
         String URI = "REQUEST.URI";
     }
+    
+    interface Shared{
+        /** **/
+        interface Params{
+            /** JsonObject -> map **/
+            String MAP = "map";
+            /** JsonObject -> key **/
+            String KEY = "key";
+            /** JsonObject -> value **/
+            String VALUE = "value";
+        }
+        /** SharedData中的Key，用于存储URI和Rule **/
+        String URI = "SHARED.URI";
+    }
 }

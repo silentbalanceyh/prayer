@@ -21,8 +21,13 @@ public interface MsgVertx extends MsgCommon {
     /** **/
     String VX_STOPPED = "( {0} ) Vertx Engine has been stopped successfully!";
     /** **/
-    String ES_URI = "( {0} ) Vertx Engine has published ( Uri/Rule ) configuration data to {1} successfully! ( RMI Not Needed )";
-    
+    String ES_URI = "( {0} ) Vertx Engine has pushed ( Uri/Rule ) configuration data to {1} successfully! ( RMI Not Needed )";
+
     /** 2.Handler的基本信息 **/
     String INF_HANDLER = "( {0} ) Path: {1}, Handler: {2}.";
+
+    /** PUT **/
+    String MAP_PUT = "( {0} ) SharedMap ( name = {1}, hash = {2} ) executed PUT with ( key = {3}, value = {4} ).";
+    /** **/
+    String MAP_GET = "( {0} ) SharedMap ( name = {1}, hash = {2} ) executed GET with key = {3}, the result value is {4}.";
 }

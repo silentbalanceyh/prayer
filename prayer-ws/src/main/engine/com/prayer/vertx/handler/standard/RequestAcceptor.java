@@ -2,7 +2,6 @@ package com.prayer.vertx.handler.standard;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.vtx.request.Alloter;
 import com.prayer.vertx.web.dispatcher.NormalizeAlloter;
 
@@ -21,20 +20,27 @@ public class RequestAcceptor implements Handler<RoutingContext> {
     // ~ Instance Fields =====================================
     /** **/
     private transient Alloter nomalized = singleton(NormalizeAlloter.class);
+
     // ~ Static Block ========================================
     /** **/
     public static RequestAcceptor create() {
         return new RequestAcceptor();
     }
+
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     @Override
     public void handle(final RoutingContext event) {
-        // TODO Auto-generated method stub
-        final String uri = event.get(WebKeys.Request.URI);
-        nomalized.accept(event);
+        /** 1.直接运行 **/
+        nomalized.accept(event, handler -> {
+            if (handler.succeeded()) {
+                System.out.println(handler.result());
+            }else{
+                System.out.println(handler.result());
+            }
+        });
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

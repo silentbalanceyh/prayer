@@ -12,12 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.engine.cv.MsgVertx;
+import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.vertx.opts.uri.UriOptsIntaker;
+import com.prayer.vertx.util.SharedDator;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -30,37 +31,54 @@ public class PublishWorker extends AbstractVerticle {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PublishWorker.class);
-    // ~ Instance Fields =====================================
     /** **/
     private static final Intaker<ConcurrentMap<String, JsonObject>> INTAKER = singleton(UriOptsIntaker.class);
+    // ~ Instance Fields =====================================
+    /** **/
+    private transient ConcurrentMap<String, JsonObject> uriData = new ConcurrentHashMap<>();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    // ~ Abstract Methods ====================================
-    // ~ Override Methods ====================================
     /** **/
-    @Override
-    public void start() {
-        /** 1.提取EventBus **/
-        final EventBus evtBus = vertx.eventBus();
-        /** 2.读取配置操作 **/
-        final ConcurrentMap<String, JsonObject> retData = new ConcurrentHashMap<>();
+    public PublishWorker() {
         try {
-            retData.putAll(INTAKER.ingest());
+            uriData.putAll(INTAKER.ingest());
         } catch (AbstractException ex) {
             peError(LOGGER, ex);
         }
-        /** 3.并行Publish **/
-        retData.forEach((key, value) -> {
-            /** 4.发布URI数据到系统中 **/
-            evtBus.publish(key, value);
-            /** 5.日志输出 **/
-            info(LOGGER, MessageFormat.format(MsgVertx.ES_URI, getClass().getSimpleName(), key));
+    }
+
+    // ~ Abstract Methods ====================================
+    // ~ Override Methods ====================================
+    /** 同步启动 **/
+    @Override
+    public void start() {
+        uriData.forEach((key, value) -> {
+            if (vertx.isClustered()) {
+                /** Cluster模式 **/
+                SharedDator.put(vertx, this.buildParams(key, value), handler -> {
+                    if (handler.succeeded()) {
+                        info(LOGGER, MessageFormat.format(MsgVertx.ES_URI, getClass().getSimpleName(), key));
+                    }
+                });
+            } else {
+                /** Local模式 **/
+                SharedDator.put(vertx, this.buildParams(key, value));
+                info(LOGGER, MessageFormat.format(MsgVertx.ES_URI, getClass().getSimpleName(), key));
+            }
         });
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private JsonObject buildParams(final String key, final JsonObject value) {
+        final JsonObject params = new JsonObject();
+        params.put(WebKeys.Shared.Params.MAP, WebKeys.Shared.URI);
+        params.put(WebKeys.Shared.Params.KEY, key);
+        params.put(WebKeys.Shared.Params.VALUE, value);
+        return params;
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 
