@@ -9,10 +9,14 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.exception.web._405PatternGetDeleteOnlyException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.engine.cv.MsgVertx;
+import com.prayer.model.web.StatusCode;
+import com.prayer.vertx.util.Fault;
 import com.prayer.vertx.util.UriAcquirer;
+import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpMethod;
@@ -28,6 +32,7 @@ public class PatternHooker implements Handler<RoutingContext> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(PatternHooker.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -42,7 +47,7 @@ public class PatternHooker implements Handler<RoutingContext> {
         final HttpMethod method = request.method();
         /** 2.GET或DELETE方法才会执行该URI过滤操作 **/
         String finalUri = request.path();
-        info(LOGGER,MessageFormat.format(MsgVertx.REQ_BPATH, getClass().getSimpleName(),finalUri));
+        info(LOGGER, MessageFormat.format(MsgVertx.REQ_BPATH, getClass().getSimpleName(), finalUri));
         if (HttpMethod.GET == method || HttpMethod.DELETE == method) {
             /** 3.计算URI **/
             final StringBuilder path = new StringBuilder(finalUri);
@@ -59,11 +64,16 @@ public class PatternHooker implements Handler<RoutingContext> {
             }
             /** 6.计算最终值 **/
             finalUri = path.toString();
+            /** 7.将内容放到Context中 **/
+            info(LOGGER, MessageFormat.format(MsgVertx.REQ_APATH, getClass().getSimpleName(), finalUri));
+            UriAcquirer.lay(event, finalUri);
+            event.next();
+        } else {
+            final Envelop envelop = Envelop.failure(
+                    new _405PatternGetDeleteOnlyException(getClass(), method.toString()),
+                    StatusCode.METHOD_NOT_ALLOWED);
+            Fault.route(event, envelop);
         }
-        /** 7.将内容放到Context中 **/
-        info(LOGGER,MessageFormat.format(MsgVertx.REQ_APATH, getClass().getSimpleName(),finalUri));
-        UriAcquirer.lay(event, finalUri);
-        event.next();
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

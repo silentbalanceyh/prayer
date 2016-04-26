@@ -7,12 +7,14 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class MethodNotAllowedException extends AbstractWebException {
+public class _500InternalServerErrorException extends AbstractWebException{
+
     // ~ Static Fields =======================================
+
     /**
      * 
      */
-    private static final long serialVersionUID = -2080638607986131681L;
+    private static final long serialVersionUID = 1439272589774091263L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -20,17 +22,18 @@ public class MethodNotAllowedException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param method
      */
-    public MethodNotAllowedException(final Class<?> clazz, final String method){
-        super(clazz, -30003, method);
+    public _500InternalServerErrorException(final Class<?> clazz){
+        super(clazz, -30000);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
+    /**
+     * 
+     */
     @Override
     public int getErrorCode(){
-        return -30003;
+        return -30000;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

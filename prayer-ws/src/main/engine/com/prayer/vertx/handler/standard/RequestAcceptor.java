@@ -6,6 +6,7 @@ import com.prayer.facade.vtx.request.Allotor;
 import com.prayer.facade.vtx.request.Asynchor;
 import com.prayer.vertx.dispatcher.async.NormalizeAsynchor;
 import com.prayer.vertx.dispatcher.sync.MediaAllotor;
+import com.prayer.vertx.util.Fault;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.Handler;
@@ -36,18 +37,19 @@ public class RequestAcceptor implements Handler<RoutingContext> {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
     @Override
     public void handle(final RoutingContext event) {
         /** 1.直接运行 **/
         nomalized.accept(event, handler -> {
             Envelop envelop = handler.result();
             /** 出现了404，405，500错误 **/
-            if (!envelop.succeeded()) {
-                event.fail(envelop.code());
+            if (Fault.route(event, envelop)) {
+                /** 2.检查媒体类型 **/
+                envelop = media.accept(event, envelop.result());
             }
-            /** 2.检查媒体类型 **/
-            envelop = media.accept(event, envelop.result());
-            
+            /** 没有出现任何Fault路由 **/
+            event.next();
         });
     }
     // ~ Methods =============================================

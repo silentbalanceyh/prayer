@@ -82,7 +82,7 @@ public final class ErrorChecker {
     /** **/
     private static boolean checkStatus(final JsonObject status, final StatusCode statusCode) {
         boolean ret = true;
-        if (status.getInteger("code") != statusCode.status()) {
+        if (status.getInteger("code") != statusCode.code()) {
             ret = false;
         }
         if (!StringUtil.equals(status.getString("literal"), statusCode.name().toUpperCase(Locale.getDefault()))) {
@@ -100,7 +100,7 @@ public final class ErrorChecker {
             ret = checkErrorCode(data.getJsonObject("error"), errorCode);
         }
         // Http Status
-        ret = ret && checkHttpStatus(resp, statusCode.status());
+        ret = ret && checkHttpStatus(resp, statusCode.code());
         if (null != data && null != data.getJsonObject("status")) {
             // Return Code
             ret = ret && checkReturnCode(data, ResponseCode.FAILURE);

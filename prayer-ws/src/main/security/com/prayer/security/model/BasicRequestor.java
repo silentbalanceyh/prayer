@@ -178,7 +178,7 @@ public final class BasicRequestor implements Requestor, Serializable, ClusterSer
         this.request.put(JsonKey.REQUEST.AUTHORIZATION, authorization);
         if (null == authorization) {
             this.response.put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.FAILURE);
-            this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
+            this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.code());
         } else {
             try {
                 final String[] parts = authorization.split(String.valueOf(Symbol.SPACE));
@@ -198,19 +198,19 @@ public final class BasicRequestor implements Requestor, Serializable, ClusterSer
                     }
                     // 4.设置
                     this.response.put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.SUCCESS);
-                    this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.OK.status());
+                    this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.OK.code());
                 } else {
                     this.response.put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.FAILURE);
-                    this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
+                    this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.code());
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {
                 jvmError(LOGGER,ex);
                 this.response.put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.FAILURE);
-                this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
+                this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.code());
             } catch (IllegalArgumentException ex) {
                 jvmError(LOGGER,ex);
                 this.response.put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.FAILURE);
-                this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
+                this.response.put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.code());
             }
         }
     }

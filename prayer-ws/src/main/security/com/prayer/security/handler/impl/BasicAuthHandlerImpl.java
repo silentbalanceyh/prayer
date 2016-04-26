@@ -114,7 +114,7 @@ public class BasicAuthHandlerImpl extends AuthHandlerImpl implements BasicAuthHa
         final Requestor requestor = Extractor.requestor(context);
         final JsonObject response = requestor.getResponse();
         // 1.找不到Authorization头部信息
-        if (StatusCode.UNAUTHORIZED.status() == response.getInteger(JsonKey.RESPONSE.STATUS)) {
+        if (StatusCode.UNAUTHORIZED.code() == response.getInteger(JsonKey.RESPONSE.STATUS)) {
             Future.error401(getClass(), context);
             return;
         } else {

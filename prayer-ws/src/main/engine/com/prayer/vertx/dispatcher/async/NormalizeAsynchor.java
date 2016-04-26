@@ -2,10 +2,12 @@ package com.prayer.vertx.dispatcher.async;
 
 import java.text.MessageFormat;
 
+import com.prayer.exception.web._404UriSpecificationMissingException;
+import com.prayer.exception.web._405MethodNotAllowedException;
+import com.prayer.exception.web._500InternalServerErrorException;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.vtx.request.Asynchor;
 import com.prayer.model.web.StatusCode;
-import com.prayer.vertx.util.EnvelopKit;
 import com.prayer.vertx.util.SharedDator;
 import com.prayer.vertx.util.UriAcquirer;
 import com.prayer.vertx.web.model.Envelop;
@@ -20,6 +22,7 @@ import io.vertx.ext.web.RoutingContext;
 
 /**
  * 判断请求的基本信息，因为Cluster模式下需要使用异步方式访问SharedData，所以采用了异步接口
+ * 
  * @author Lang
  *
  */
@@ -48,7 +51,7 @@ public class NormalizeAsynchor implements Asynchor {
                     final Envelop envelop = this.buildResult(uriData, context);
                     handler.handle(Future.<Envelop> succeededFuture(envelop));
                 } else {
-                    handler.handle(Future.<Envelop> succeededFuture(buildError()));
+                    handler.handle(Future.<Envelop> succeededFuture(build500Error()));
                 }
             });
         } else {
@@ -63,8 +66,8 @@ public class NormalizeAsynchor implements Asynchor {
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private Envelop buildError() {
-        return EnvelopKit.build(getClass(), StatusCode.INTERNAL_SERVER_ERROR);
+    private Envelop build500Error() {
+        return Envelop.failure(new _500InternalServerErrorException(getClass()), StatusCode.INTERNAL_SERVER_ERROR);
     }
 
     private Envelop buildResult(final JsonObject data, final RoutingContext context) {
@@ -72,14 +75,16 @@ public class NormalizeAsynchor implements Asynchor {
         if (null == data) {
             /** 404 **/
             final String uri = UriAcquirer.acquirer(context);
-            ret = EnvelopKit.build(getClass(), StatusCode.NOT_FOUND, uri);
+            ret = Envelop.failure(new _404UriSpecificationMissingException(getClass(), uri), StatusCode.NOT_FOUND);
         } else {
-            /** 405 **/
+            /** 405 Error的判断，主要是DELETE和GET的判断区分 **/
             final HttpMethod method = context.request().method();
             if (data.containsKey(method.name())) {
                 ret = Envelop.success(data);
-            }else{
-                ret = EnvelopKit.build(getClass(), StatusCode.METHOD_NOT_ALLOWED, method.toString());
+            } else {
+                ret = Envelop.failure(
+                        new _405MethodNotAllowedException(getClass(), method.toString(), UriAcquirer.acquirer(context)),
+                        StatusCode.METHOD_NOT_ALLOWED);
             }
         }
         return ret;

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.constant.SystemEnum.ReturnType;
-import com.prayer.exception.web.InternalServerErrorException;
+import com.prayer.exception.web._500InternalServerErrorException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractException;
 
@@ -80,7 +80,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
      * @return
      */
     public static Responsor serviceError(@NotNull final Class<?> clazz) {
-        final AbstractException error = new InternalServerErrorException(clazz);
+        final AbstractException error = new _500InternalServerErrorException(clazz);
         return failure(StatusCode.INTERNAL_SERVER_ERROR, error, error.getErrorMessage());
     }
 
@@ -188,7 +188,7 @@ public final class Responsor implements Serializable, ClusterSerializable {
         final JsonObject result = new JsonObject();
         // 1.Status节点
         result.put(JsonKey.RESPONSOR.STATUS.NAME,
-                new JsonObject().put(JsonKey.RESPONSOR.STATUS.CODE, this.status.status())
+                new JsonObject().put(JsonKey.RESPONSOR.STATUS.CODE, this.status.code())
                         .put(JsonKey.RESPONSOR.STATUS.LITERAL, this.status));
         // 2.Response节点
         result.put(JsonKey.RESPONSOR.RETURNCODE, this.code.name());

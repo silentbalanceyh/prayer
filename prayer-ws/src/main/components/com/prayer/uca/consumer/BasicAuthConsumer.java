@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.business.impl.std.BasicAuthSevImpl;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.exception.web.MethodNotAllowedException;
+import com.prayer.exception.web._405MethodNotAllowedException;
 import com.prayer.facade.business.BasicAuthService;
 import com.prayer.facade.constant.Constants;
 import com.prayer.model.business.behavior.ServiceResult;
@@ -70,7 +70,7 @@ public final class BasicAuthConsumer implements Handler<Message<Object>> {
             responsor = Extractor.responsor(result, StatusCode.OK);
         } else {
             responsor = Responsor.failure(StatusCode.METHOD_NOT_ALLOWED,
-                    new MethodNotAllowedException(getClass(), method.toString()));
+                    new _405MethodNotAllowedException(getClass(), method.toString()));
         }
         event.reply(responsor.getResult());
     }

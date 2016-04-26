@@ -69,11 +69,11 @@ public final class JsonRecordSender implements WebSender {
             }
         } else {
             if (null == event.result()) {
-                Future.failure(this.response, "event.result() == null", StatusCode.INTERNAL_SERVER_ERROR.status(),
+                Future.failure(this.response, "event.result() == null", StatusCode.INTERNAL_SERVER_ERROR.code(),
                         StatusCode.INTERNAL_SERVER_ERROR.name());
             } else {
                 Future.failure(this.response, event.result().body().toString(),
-                        StatusCode.INTERNAL_SERVER_ERROR.status(), StatusCode.INTERNAL_SERVER_ERROR.name());
+                        StatusCode.INTERNAL_SERVER_ERROR.code(), StatusCode.INTERNAL_SERVER_ERROR.name());
             }
         }
     }

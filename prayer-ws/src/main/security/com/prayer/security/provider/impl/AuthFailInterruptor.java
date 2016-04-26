@@ -78,7 +78,7 @@ final class AuthFailInterruptor {
             error(LOGGER, AUE_AUTH_FAILURE);
         }
         data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.RETURNCODE, ResponseCode.FAILURE);
-        data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.status());
+        data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.STATUS, StatusCode.UNAUTHORIZED.code());
         data.getJsonObject(JsonKey.RESPONSE.NAME).put(JsonKey.RESPONSE.KEY, key);
         handler.handle(Future.failedFuture(data.encode()));
     }

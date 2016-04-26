@@ -91,7 +91,7 @@ public class BasicAuthResultHandler implements Handler<AsyncResult<User>> {
                 handler.authorise(authenticated, context, requestor);
             }
         } else {
-            if (StatusCode.UNAUTHORIZED.status() == requestor.getResponse().getInteger(JsonKey.RESPONSE.STATUS)) {
+            if (StatusCode.UNAUTHORIZED.code() == requestor.getResponse().getInteger(JsonKey.RESPONSE.STATUS)) {
                 Future.error401(getClass(), context, requestor.getResponse().getString(JsonKey.RESPONSE.KEY));
                 return;
             } else {

@@ -228,14 +228,18 @@ public enum StatusCode {
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** 返回状态代码 **/
-    public int status() {
+    public int code() {
         return this.statusCode;
+    }
+    /** 返回状态代码 **/
+    public String message(){
+        return this.message;
     }
 
     /** **/
     @Override
     public String toString() {
-        return this.message;
+        return this.message();
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

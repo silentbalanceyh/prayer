@@ -13,10 +13,12 @@ public interface WebKeys {
     interface Request {
         /** 请求的真实URI地址 **/
         String URI = "REQUEST.URI";
+        /** 出现错误的时候的Envelop信息 **/
+        String ENVP = "ERROR.ENVP";
     }
 
     /** 响应信息格式 **/
-    interface Envelope {
+    interface Envelop {
         /** Status根节点 **/
         String STATUS = "status";
         /** Error根节点 **/
@@ -29,7 +31,7 @@ public interface WebKeys {
             /** 状态代码 **/
             String CODE = "code";
             /** 状态Title **/
-            String TITLE = "title";
+            String MESSAGE = "message";
         }
 
         /** Error节点 **/

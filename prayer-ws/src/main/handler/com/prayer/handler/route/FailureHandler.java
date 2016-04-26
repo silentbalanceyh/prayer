@@ -40,7 +40,7 @@ public class FailureHandler implements ErrorHandler {
         // 2.获取RestfulResult
         final Responsor responser = (Responsor) context.get(Constants.KEY.CTX_RESPONSOR);
 
-        Future.failure(response, responser.getResult().toString(), responser.getStatus().status(),
+        Future.failure(response, responser.getResult().toString(), responser.getStatus().code(),
                 responser.getStatus().name());
     }
 

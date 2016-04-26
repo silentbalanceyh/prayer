@@ -6,7 +6,7 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class UriSpecificationMissingException extends AbstractWebException{
+public class _404UriSpecificationMissingException extends AbstractWebException{
     // ~ Static Fields =======================================
     /**
      * 
@@ -21,7 +21,7 @@ public class UriSpecificationMissingException extends AbstractWebException{
      * @param clazz
      * @param path
      */
-    public UriSpecificationMissingException(final Class<?> clazz, final String path){
+    public _404UriSpecificationMissingException(final Class<?> clazz, final String path){
         super(clazz, -30002, path);
     }
     // ~ Abstract Methods ====================================

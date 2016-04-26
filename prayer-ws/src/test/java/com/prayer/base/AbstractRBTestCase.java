@@ -79,12 +79,12 @@ public abstract class AbstractRBTestCase {
             // 只有subStr不为null的时候执行这种检查
             if (null != subStr) {
                 checkRet = 0 <= display.indexOf(subStr);
-                assertTrue("[TST] ( " + code.status() + " : " + code.toString() + " ) Unsuccessful ! ", checkRet);
+                assertTrue("[TST] ( " + code.code() + " : " + code.toString() + " ) Unsuccessful ! ", checkRet);
             } else {
-                assertTrue("[TST] ( " + code.status() + " : " + code.toString() + " ) Unsuccessful ! ", checkRet);
+                assertTrue("[TST] ( " + code.code() + " : " + code.toString() + " ) Unsuccessful ! ", checkRet);
             }
         } else {
-            fail("[ERR" + errorCode + "] <" + method.name() + "> ( " + code.status() + " : " + code.toString()
+            fail("[ERR" + errorCode + "] <" + method.name() + "> ( " + code.code() + " : " + code.toString()
                     + " ) Basic Information Checking Failure !");
         }
         // 特殊的结果返回使用
@@ -106,7 +106,7 @@ public abstract class AbstractRBTestCase {
     /** **/
     protected boolean checkSuccess(final JsonObject resp) {
         boolean ret = true;
-        if (StatusCode.OK.status() != resp.getInteger("code")) {
+        if (StatusCode.OK.code() != resp.getInteger("code")) {
             ret = false;
         }
         if (!StringUtil.equals(resp.getString("status"), "PASSED")) {
@@ -120,13 +120,13 @@ public abstract class AbstractRBTestCase {
         final Object statusVal = data.getValue("status");
         if (Integer.class == statusVal.getClass()) {
             // Security Web Service Interface
-            if (StatusCode.OK.status() != data.getInteger("status")) {
+            if (StatusCode.OK.code() != data.getInteger("status")) {
                 ret = false;
             }
         }else if(JsonObject.class == statusVal.getClass()){
             // Business Web Service Interface
             final JsonObject status = data.getJsonObject("status");
-            if (StatusCode.OK.status() != status.getInteger("code")){
+            if (StatusCode.OK.code() != status.getInteger("code")){
                 ret = false;
             }
         }

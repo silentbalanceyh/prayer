@@ -147,8 +147,8 @@ public final class Envelop implements Serializable, ClusterSerializable {
     }
 
     /** 读取状态代码 **/
-    public int code() {
-        return this.status.status();
+    public StatusCode status() {
+        return this.status;
     }
 
     /** 读取最终响应结果 **/
@@ -157,9 +157,9 @@ public final class Envelop implements Serializable, ClusterSerializable {
         /** 1.构建Status节点 **/
         if (null != status) {
             final JsonObject status = new JsonObject();
-            status.put(WebKeys.Envelope.Status.CODE, this.status.status());
-            status.put(WebKeys.Envelope.Status.TITLE, this.status.toString());
-            result.put(WebKeys.Envelope.STATUS, status);
+            status.put(WebKeys.Envelop.Status.CODE, this.status.code());
+            status.put(WebKeys.Envelop.Status.MESSAGE, this.status.message());
+            result.put(WebKeys.Envelop.STATUS, status);
         }
         /** 2.构建Error节点 **/
         if (null == this.error) {
@@ -167,7 +167,7 @@ public final class Envelop implements Serializable, ClusterSerializable {
             final JsonObject data = new JsonObject();
             /** 4.放入Header **/
             if (null != this.headers) {
-                data.put(WebKeys.Envelope.Data.HEADER, this.headers);
+                data.put(WebKeys.Envelop.Data.HEADER, this.headers);
             }
             /** 5.放入Body **/
             if (null != this.data && Constants.ZERO < this.data.length()) {
@@ -175,15 +175,15 @@ public final class Envelop implements Serializable, ClusterSerializable {
                 final JsonObject content = new JsonObject();
                 content.readFromBuffer(Constants.POS, this.data);
                 /** 6.生成响应 **/
-                data.put(WebKeys.Envelope.Data.BODY, content);
+                data.put(WebKeys.Envelop.Data.BODY, content);
             }
-            result.put(WebKeys.Envelope.DATA, data);
+            result.put(WebKeys.Envelop.DATA, data);
         } else {
             /** 3.有Error按照Error返回 **/
             final JsonObject error = new JsonObject();
-            error.put(WebKeys.Envelope.Error.CODE, this.error.getErrorCode());
-            error.put(WebKeys.Envelope.Error.MESSAGE, this.error.getErrorMessage());
-            result.put(WebKeys.Envelope.ERROR, error);
+            error.put(WebKeys.Envelop.Error.CODE, this.error.getErrorCode());
+            error.put(WebKeys.Envelop.Error.MESSAGE, this.error.getErrorMessage());
+            result.put(WebKeys.Envelop.ERROR, error);
         }
         return result;
     }
