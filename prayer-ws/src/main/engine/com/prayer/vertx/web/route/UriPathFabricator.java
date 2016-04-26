@@ -1,6 +1,5 @@
 package com.prayer.vertx.web.route;
 
-import com.prayer.facade.constant.Constants;
 import com.prayer.facade.vtx.route.HubFabricator;
 import com.prayer.model.meta.vertx.PERoute;
 
@@ -33,7 +32,7 @@ public class UriPathFabricator implements HubFabricator {
         routeRef.path(path);
         routeRef.method(method);
         /** 3.设置Order信息 **/
-        if(Constants.ORDER.NOT_SET != entity.getOrder()){
+        if(Integer.MIN_VALUE != entity.getOrder()){
             routeRef.order(entity.getOrder());
         }
     }

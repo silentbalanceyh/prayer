@@ -13,5 +13,11 @@
     "returnFilters":[
         "password"
     ],
-    "sender":"com.prayer.model.entity.clazz.EntityHandler"
+    "sender":"com.prayer.model.entity.clazz.EntityHandler",
+    "contentMimes":[
+        "application/json"
+    ],
+    "acceptMimes":[
+        "application/json"
+    ]
 }

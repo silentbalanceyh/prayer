@@ -11,6 +11,34 @@ import com.prayer.facade.annotation.VertexPoint;
  */
 @VertexPoint(Interface.CONSTANT)
 public interface Point {
+
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
+    interface Uri {
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Route {
+            /** **/
+            String PARENT = "route.parent";
+            /** **/
+            String HANDLER = "route.request.handler";
+            /** **/
+            String METHOD = "route.method";
+            /** **/
+            String MIMES_CONSUMER = "route.mimes.consumer";
+            /** **/
+            String MIMES_PRODUCER = "route.mimes.producer";
+        }
+        /** **/
+        String ADDRESS = "uri.address";
+        /** **/
+        String SENDER = "uri.sender";
+        /** **/
+        String MIMES_CONTENT = "uri.mimes.content";
+        /** **/
+        String MIMES_ACCEPT = "uri.mimes.accept";
+    }
+
     /** **/
     @VertexPoint(Interface.CONSTANT)
     interface Security {
@@ -169,6 +197,7 @@ public interface Point {
             /** Pattern的Hooker钩子 **/
             String URI_HOOKER = "web.uri.hooker";
         }
+
         /** **/
         @VertexPoint(Interface.CONSTANT)
         interface Data {

@@ -2,8 +2,10 @@ package com.prayer.vertx.handler.standard;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.facade.vtx.request.Alloter;
-import com.prayer.vertx.web.dispatcher.NormalizeAlloter;
+import com.prayer.facade.vtx.request.Allotor;
+import com.prayer.facade.vtx.request.Asynchor;
+import com.prayer.vertx.dispatcher.async.NormalizeAsynchor;
+import com.prayer.vertx.dispatcher.sync.MediaAllotor;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.Handler;
@@ -20,7 +22,9 @@ public class RequestAcceptor implements Handler<RoutingContext> {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
-    private transient Alloter nomalized = singleton(NormalizeAlloter.class);
+    private transient Asynchor nomalized = singleton(NormalizeAsynchor.class);
+    /** **/
+    private transient Allotor media = singleton(MediaAllotor.class);
 
     // ~ Static Block ========================================
     /** **/
@@ -36,10 +40,14 @@ public class RequestAcceptor implements Handler<RoutingContext> {
     public void handle(final RoutingContext event) {
         /** 1.直接运行 **/
         nomalized.accept(event, handler -> {
-            final Envelop envelop = handler.result();
+            Envelop envelop = handler.result();
+            /** 出现了404，405，500错误 **/
+            if (!envelop.succeeded()) {
+                event.fail(envelop.code());
+            }
+            /** 2.检查媒体类型 **/
+            envelop = media.accept(event, envelop.result());
             
-            System.out.println(envelop.result());
-            System.out.println(event.currentRoute());
         });
     }
     // ~ Methods =============================================

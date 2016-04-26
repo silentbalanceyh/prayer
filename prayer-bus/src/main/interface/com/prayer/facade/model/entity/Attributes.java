@@ -98,6 +98,10 @@ public interface Attributes {
     String PARAM_TYPE = "paramType";
 
     String REQUIRED_PARAM = "requiredParam";
+    
+    String CONTENT_MIMES = "contentMimes";
+    
+    String ACCEPT_MIMES = "acceptMimes";
 
     String GLOBAL_ID = "identifier";
 

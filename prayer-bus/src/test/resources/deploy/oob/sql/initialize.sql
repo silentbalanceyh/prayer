@@ -275,8 +275,10 @@ CREATE TABLE EVX_URI(
 	S_SCRIPT VARCHAR(256) NOT NULL,				-- 这个Api调用的脚本名称，业务逻辑层脚本名
 	S_SENDER VARCHAR(256) NOT NULL,				-- 当前这个Api调用的Message Sender
 	MSG_ADDRESS VARCHAR(256) NOT NULL,			-- 当前URL对应的Event Bus上的地址信息
-	L_REQUIRED_PARAM VARCHAR(2048),				-- 必须参数列表,
-	L_RETURN_FILTERS VARCHAR(2048),				-- 返回结果中需要过滤的属性值
+	L_REQUIRED_PARAM CLOB,				        -- 必须参数列表,
+	L_RETURN_FILTERS CLOB,				        -- 返回结果中需要过滤的属性值
+	L_CONTENT_MIMES CLOB,                       -- Content Type中对应MIME
+	L_ACCEPT_MIMES CLOB,                        -- Accept Type中对应MIME
 	PRIMARY KEY(K_ID)
 );
 -- EVX_URI的索引创建

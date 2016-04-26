@@ -47,16 +47,21 @@ public class UriDaoTestCase extends AbstractRecordDaoTool {
     protected Logger getLogger() {
         return LOGGER;
     }
+
     /** **/
     @Override
     protected ConcurrentMap<String, Value<?>> specValues() {
         final ConcurrentMap<String, Value<?>> data = new ConcurrentHashMap<>();
-        data.put("paramType",new StringType(Assistant.randArray("QUERY","FORM","BODY","CUSTOM")));
-        data.put("method",new StringType(Assistant.randArray("OPTIONS","GET","HEAD","POST","PUT","DELETE","TRACE","CONNECT","PATCH")));
+        data.put("paramType", new StringType(Assistant.randArray("QUERY", "FORM", "BODY", "CUSTOM")));
+        data.put("method", new StringType(
+                Assistant.randArray("OPTIONS", "GET", "HEAD", "POST", "PUT", "DELETE", "TRACE", "CONNECT", "PATCH")));
         data.put("sender", new StringType(EntityHandler.class.getName()));
         final JsonArray array = new JsonArray("[]");
-        data.put("requiredParam",new StringType(array.encode()));
-        data.put("returnFilters",new StringType(array.encode()));
+        data.put("requiredParam", new StringType(array.encode()));
+        data.put("returnFilters", new StringType(array.encode()));
+        array.add("application/json");
+        data.put("contentMimes", new StringType(array.encode()));
+        data.put("acceptMimes", new StringType(array.encode()));
         return data;
     }
     // ~ Methods =============================================

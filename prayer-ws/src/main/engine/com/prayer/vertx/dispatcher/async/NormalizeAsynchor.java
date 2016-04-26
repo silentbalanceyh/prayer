@@ -1,9 +1,9 @@
-package com.prayer.vertx.web.dispatcher;
+package com.prayer.vertx.dispatcher.async;
 
 import java.text.MessageFormat;
 
 import com.prayer.facade.engine.cv.WebKeys;
-import com.prayer.facade.vtx.request.Alloter;
+import com.prayer.facade.vtx.request.Asynchor;
 import com.prayer.model.web.StatusCode;
 import com.prayer.vertx.util.EnvelopKit;
 import com.prayer.vertx.util.SharedDator;
@@ -19,15 +19,14 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 /**
- * 判断请求的基本信息
- * 
+ * 判断请求的基本信息，因为Cluster模式下需要使用异步方式访问SharedData，所以采用了异步接口
  * @author Lang
  *
  */
 // 404：当前URI地址是否存在
 // 405：当前Method是否允许
 // 500：内部服务器错误
-public class NormalizeAlloter implements Alloter {
+public class NormalizeAsynchor implements Asynchor {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

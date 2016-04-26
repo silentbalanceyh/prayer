@@ -1,7 +1,5 @@
 package com.prayer.model.meta.vertx;
 
-import static com.prayer.util.reflection.Instance.clazz;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,9 +10,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.entity.Attributes;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.model.AbstractEntity;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
+import com.prayer.resource.InceptBus;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
@@ -33,6 +34,8 @@ public class PERoute extends AbstractEntity<String> { // NOPMD
      * 
      */
     private static final long serialVersionUID = -9091453176338568079L;
+    /** **/
+    private static final Inceptor INCEPTOR = InceptBus.build(Point.Uri.class);
     // ~ Instance Fields =====================================
     /** K_ID: EVX_ROUTE表的主键 **/
     @JsonProperty(ID)
@@ -40,7 +43,7 @@ public class PERoute extends AbstractEntity<String> { // NOPMD
 
     /** S_PARENT **/
     @JsonProperty(PARENT)
-    private String parent = "/api";
+    private String parent = INCEPTOR.getString(Point.Uri.Route.PARENT);
 
     /** S_PATH **/
     @JsonProperty(PATH)
@@ -48,11 +51,11 @@ public class PERoute extends AbstractEntity<String> { // NOPMD
 
     /** S_MIME_CONSUMER **/
     @JsonProperty(CONSUMER_MIMES)
-    private List<String> consumerMimes = Arrays.asList(new String[] { "json" });
+    private List<String> consumerMimes = Arrays.asList(INCEPTOR.getArray(Point.Uri.Route.MIMES_CONSUMER));
 
     /** S_MIME_PRODUCER **/
     @JsonProperty(PRODUCER_MIMES)
-    private List<String> producerMimes = Arrays.asList(new String[] { "json" });
+    private List<String> producerMimes = Arrays.asList(INCEPTOR.getArray(Point.Uri.Route.MIMES_PRODUCER));
 
     /** S_METHOD **/
     @JsonProperty(METHOD)
@@ -60,13 +63,13 @@ public class PERoute extends AbstractEntity<String> { // NOPMD
 
     /** S_ORDER **/
     @JsonProperty(ORDER)
-    private int order = Constants.ORDER.NOT_SET;
+    private int order = Integer.MIN_VALUE;
 
     /** S_SHANDLER **/
     @JsonProperty(REQUEST_HANDLER)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private Class<?> requestHandler = clazz("com.prayer.vertx.handler.executor.EngineExecutor");
+    private Class<?> requestHandler = INCEPTOR.getClass(Point.Uri.Route.HANDLER);
 
     /** S_FHANDLER **/
     @JsonProperty(FAILURE_HANDLER)

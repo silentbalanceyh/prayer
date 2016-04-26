@@ -1,8 +1,7 @@
 package com.prayer.model.meta.vertx;
 
-import static com.prayer.util.reflection.Instance.clazz;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -13,9 +12,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.constant.SystemEnum.ParamType;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.entity.Attributes;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.model.AbstractEntity;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
+import com.prayer.resource.InceptBus;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
@@ -34,6 +36,9 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
      * 
      */
     private static final long serialVersionUID = -685942970952420895L;
+
+    /** **/
+    private static final Inceptor INCEPTOR = InceptBus.build(Point.Uri.class);
     // ~ Instance Fields =====================================
     /** K_ID: EVX_URI表的主键 **/
     @JsonProperty(ID)
@@ -51,7 +56,7 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
     @JsonProperty(PARAM_TYPE)
     private ParamType paramType = (HttpMethod.GET == this.method) ? ParamType.QUERY : ParamType.BODY;
 
-    /** S_REQUIRED_PARAM **/
+    /** L_REQUIRED_PARAM **/
     @JsonProperty(REQUIRED_PARAM)
     private List<String> requiredParam = new ArrayList<>();
 
@@ -61,7 +66,7 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
 
     /** MSG_ADDRESS **/
     @JsonProperty(ADDRESS)
-    private String address = "MSG://RECORD/QUEUE";
+    private String address = INCEPTOR.getString(Point.Uri.ADDRESS);
 
     /** S_SCRIPT **/
     @JsonProperty(SCRIPT)
@@ -71,11 +76,19 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
     @JsonProperty(RETURN_FILTERS)
     private List<String> returnFilters = new ArrayList<>();
 
+    /** L_CONTENT_MIMES **/
+    @JsonProperty(CONTENT_MIMES)
+    private List<String> contentMimes = Arrays.asList(INCEPTOR.getArray(Point.Uri.MIMES_CONTENT));
+
+    /** L_ACCEPT_MIMES **/
+    @JsonProperty(ACCEPT_MIMES)
+    private List<String> acceptMimes = Arrays.asList(INCEPTOR.getArray(Point.Uri.MIMES_ACCEPT));
+
     /** S_SENDER **/
     @JsonProperty(SENDER)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private Class<?> sender = clazz("com.prayer.uca.sender.JsonRecordSender");
+    private Class<?> sender = INCEPTOR.getClass(Point.Uri.SENDER);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -109,6 +122,8 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
         writeString(data, ADDRESS, this::getAddress);
         writeString(data, SCRIPT, this::getScript);
         writeList(data, RETURN_FILTERS, this::getReturnFilters);
+        writeList(data, CONTENT_MIMES, this::getContentMimes);
+        writeList(data, ACCEPT_MIMES, this::getAcceptMimes);
         writeClass(data, SENDER, this::getSender);
         return data;
     }
@@ -143,6 +158,8 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
         writeString(buffer, this::getScript);
         writeList(buffer, this::getReturnFilters);
         writeClass(buffer, this::getSender);
+        writeList(buffer, this::getContentMimes);
+        writeList(buffer, this::getAcceptMimes);
     }
 
     /** 从Buffer中读取 **/
@@ -158,6 +175,8 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
         pos = readString(pos, buffer, this::setScript);
         pos = readList(pos, buffer, this::setReturnFilters);
         pos = readClass(pos, buffer, this::setSender);
+        pos = readList(pos, buffer, this::setContentMimes);
+        pos = readList(pos, buffer, this::setAcceptMimes);
         return pos;
     }
     // ~ Methods =============================================
@@ -299,6 +318,36 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
      */
     public void setReturnFilters(final List<String> returnFilters) {
         this.returnFilters = returnFilters;
+    }
+
+    /**
+     * @return the contentMimes
+     */
+    public List<String> getContentMimes() {
+        return contentMimes;
+    }
+
+    /**
+     * @param contentMimes
+     *            the contentMimes to set
+     */
+    public void setContentMimes(final List<String> contentMimes) {
+        this.contentMimes = contentMimes;
+    }
+
+    /**
+     * @return the acceptMimes
+     */
+    public List<String> getAcceptMimes() {
+        return acceptMimes;
+    }
+
+    /**
+     * @param acceptMimes
+     *            the acceptMimes to set
+     */
+    public void setAcceptMimes(final List<String> acceptMimes) {
+        this.acceptMimes = acceptMimes;
     }
 
     /**

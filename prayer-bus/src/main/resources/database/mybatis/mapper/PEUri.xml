@@ -14,6 +14,8 @@
         <result column="S_SCRIPT" property="script" />
         <result column="S_SENDER" property="sender" typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
         <result column="L_RETURN_FILTERS" property="returnFilters" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
+        <result column="L_CONTENT_MIMES" property="contentMimes" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
+        <result column="L_ACCEPT_MIMES" property="acceptMimes" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
     </resultMap>
     <insert id="insert" parameterType="Uri" keyColumn="K_ID" keyProperty="uniqueId">
         <![CDATA[
@@ -27,7 +29,9 @@
                 S_SCRIPT,
                 S_SENDER,
                 L_REQUIRED_PARAM,
-                L_RETURN_FILTERS
+                L_RETURN_FILTERS,
+                L_CONTENT_MIMES,
+                L_ACCEPT_MIMES
             ) VALUES (
                 #{uniqueId},
                 #{uri},
@@ -38,7 +42,9 @@
                 #{script},
                 #{sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
-                #{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
+                #{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                #{contentMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                #{acceptMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             )
         ]]>
     </insert>
@@ -54,7 +60,9 @@
                 S_SCRIPT,
                 S_SENDER,
                 L_REQUIRED_PARAM,
-                L_RETURN_FILTERS
+                L_RETURN_FILTERS,
+                L_CONTENT_MIMES,
+                L_ACCEPT_MIMES
             ) VALUES
         ]]>
         <foreach collection="list" item="item" index="index" separator=",">
@@ -68,7 +76,9 @@
                 #{item.script},
                 #{item.sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{item.requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
-                #{item.returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
+                #{item.returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                #{item.contentMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                #{item.acceptMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             )]]>
         </foreach>
     </insert>
@@ -83,7 +93,9 @@
                 S_SCRIPT=#{script},
                 S_SENDER=#{sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
-                L_RETURN_FILTERS=#{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
+                L_RETURN_FILTERS=#{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                L_CONTENT_MIMES=#{contentMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
+                L_ACCEPT_MIMES=#{acceptMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler}
             WHERE K_ID=#{uniqueId}
         ]]>
     </update>

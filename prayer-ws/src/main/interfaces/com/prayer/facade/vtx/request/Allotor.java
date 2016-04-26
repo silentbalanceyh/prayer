@@ -2,8 +2,7 @@ package com.prayer.facade.vtx.request;
 
 import com.prayer.vertx.web.model.Envelop;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 /**
@@ -11,11 +10,11 @@ import io.vertx.ext.web.RoutingContext;
  * @author Lang
  *
  */
-public interface Alloter {
+public interface Allotor {
     /**
-     * 提供回调函数
-     * 
+     * 同步无回调模式
      * @param context
+     * @return
      */
-    void accept(RoutingContext context, Handler<AsyncResult<Envelop>> handler);
+    Envelop accept(RoutingContext context,JsonObject params);
 }

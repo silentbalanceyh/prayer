@@ -57,15 +57,16 @@ public final class Envelop implements Serializable, ClusterSerializable {
     public static Envelop success(final ActResponse response, final StatusCode status) {
         return new Envelop(response, status);
     }
+
     /** Success **/
-    public static Envelop success(final JsonObject data){
+    public static Envelop success(final JsonObject data) {
         return new Envelop(data);
     }
     // ~ Constructors ========================================
 
     // ~ Failure Response ====================================
     /** 成功 **/
-    private Envelop(final JsonObject data){
+    private Envelop(final JsonObject data) {
         this.headers = new JsonObject();
         this.error = null;
         this.status = StatusCode.OK;
@@ -139,10 +140,17 @@ public final class Envelop implements Serializable, ClusterSerializable {
     public void setStatus(final StatusCode status) {
         this.status = status;
     }
+
     /** **/
-    public boolean succeeded(){
+    public boolean succeeded() {
         return null == this.error;
     }
+
+    /** 读取状态代码 **/
+    public int code() {
+        return this.status.status();
+    }
+
     /** 读取最终响应结果 **/
     public JsonObject result() {
         final JsonObject result = new JsonObject();
