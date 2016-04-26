@@ -77,7 +77,9 @@ public class NormalizeAlloter implements Alloter {
         } else {
             /** 405 **/
             final HttpMethod method = context.request().method();
-            if (!data.containsKey(method.name())) {
+            if (data.containsKey(method.name())) {
+                ret = Envelop.success(data);
+            }else{
                 ret = EnvelopKit.build(getClass(), StatusCode.METHOD_NOT_ALLOWED, method.toString());
             }
         }

@@ -57,9 +57,21 @@ public final class Envelop implements Serializable, ClusterSerializable {
     public static Envelop success(final ActResponse response, final StatusCode status) {
         return new Envelop(response, status);
     }
+    /** Success **/
+    public static Envelop success(final JsonObject data){
+        return new Envelop(data);
+    }
     // ~ Constructors ========================================
 
     // ~ Failure Response ====================================
+    /** 成功 **/
+    private Envelop(final JsonObject data){
+        this.headers = new JsonObject();
+        this.error = null;
+        this.status = StatusCode.OK;
+        this.data = Buffer.buffer();
+        data.writeToBuffer(this.data);
+    }
 
     private Envelop(final AbstractException error, final StatusCode status) {
         this.headers = new JsonObject();

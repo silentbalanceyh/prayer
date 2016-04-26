@@ -37,7 +37,9 @@ public class RequestAcceptor implements Handler<RoutingContext> {
         /** 1.直接运行 **/
         nomalized.accept(event, handler -> {
             final Envelop envelop = handler.result();
+            
             System.out.println(envelop.result());
+            System.out.println(event.currentRoute());
         });
     }
     // ~ Methods =============================================
