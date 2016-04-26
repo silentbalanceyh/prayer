@@ -1,8 +1,9 @@
 package com.prayer.facade.vtx.request;
 
+import com.prayer.vertx.web.model.Envelop;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 /**
@@ -16,5 +17,5 @@ public interface Alloter {
      * 
      * @param context
      */
-    void accept(RoutingContext context, Handler<AsyncResult<JsonObject>> handler);
+    void accept(RoutingContext context, Handler<AsyncResult<Envelop>> handler);
 }

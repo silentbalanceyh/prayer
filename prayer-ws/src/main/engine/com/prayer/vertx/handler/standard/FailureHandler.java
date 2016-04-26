@@ -27,6 +27,7 @@ public class FailureHandler implements Handler<RoutingContext> {
     public void handle(RoutingContext event) {
         // TODO Auto-generated method stub
         System.out.println(getClass() + " : " + Thread.currentThread().getName());
+        System.out.println(event.getBody().toString());
         event.response().end("Error");
     }
     // ~ Methods =============================================

@@ -24,9 +24,7 @@ public class RecvFabricator extends AbstractFabricator implements Fabricator {
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /**
-     * 
-     */
+    /** **/
     @Override
     public void immitRouter(@NotNull final Router router) {
         /** 2.Acceptor **/

@@ -2,7 +2,6 @@ package com.prayer.model.business.behavior;
 
 import java.io.Serializable;
 
-import com.prayer.constant.SystemEnum.ResponseCode;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractException;
 
@@ -24,8 +23,6 @@ class ServiceResult<T> implements Serializable { // NOPMD
     private transient String errorMessage;
     /** 内部Error **/
     private transient AbstractException error; // NOPMD
-    /** 从业务层返回的相应的代码 **/
-    private transient ResponseCode responseCode;
     /** 返回的对象信息 **/
     private transient T result;
 
@@ -43,8 +40,7 @@ class ServiceResult<T> implements Serializable { // NOPMD
     // ~ Methods =============================================
     /** 判断当前结果是否执行成功 **/
     public boolean success() {
-        return Constants.RC_SUCCESS == this.errorCode && ResponseCode.SUCCESS == this.responseCode && null == this.error
-                && null == this.errorMessage;
+        return Constants.RC_SUCCESS == this.errorCode && null == this.error;
     }
 
     /** 返回SUCCESS **/
@@ -55,30 +51,27 @@ class ServiceResult<T> implements Serializable { // NOPMD
         this.errorMessage = null;
         // Data
         this.result = result;
-        // Flat
-        this.responseCode = ResponseCode.SUCCESS;
         return this;
     }
 
     /** 返回Error **/
     public ServiceResult<T> error(final AbstractException error) {
-        this.setError(ResponseCode.ERROR, error);
+        this.setError(error);
         return this;
     }
 
     /** 返回Failure **/
     public ServiceResult<T> failure(final AbstractException failure) {
-        this.setError(ResponseCode.FAILURE, failure);
+        this.setError(failure);
         return this;
     }
 
     // ~ Private Methods =====================================
-    private void setError(final ResponseCode responseCode, final AbstractException error) {
+    private void setError(final AbstractException error) {
         this.error = error;
         this.errorCode = error.getErrorCode();
         this.errorMessage = error.getErrorMessage();
         this.result = null; // NOPMD
-        this.responseCode = responseCode;
     }
 
     // ~ Get/Set =============================================
@@ -102,13 +95,6 @@ class ServiceResult<T> implements Serializable { // NOPMD
      */
     public String getErrorMessage() {
         return errorMessage;
-    }
-
-    /**
-     * @return the responseCode
-     */
-    public ResponseCode getResponseCode() {
-        return responseCode;
     }
 
     /**

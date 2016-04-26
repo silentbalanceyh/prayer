@@ -30,4 +30,9 @@ public interface MsgVertx extends MsgCommon {
     String MAP_PUT = "( {0} ) SharedMap ( name = {1}, hash = {2} ) executed PUT with ( key = {3}, value = {4} ).";
     /** **/
     String MAP_GET = "( {0} ) SharedMap ( name = {1}, hash = {2} ) executed GET with key = {3}, the result value is {4}.";
+    
+    /** **/
+    String REQ_BPATH = "( {0} ) Before : Request path ( Metadata ) is {1}.";
+    /** **/
+    String REQ_APATH = "( {0} ) After : Request path ( Metadata ) is {1}.";
 }

@@ -1,10 +1,17 @@
 package com.prayer.vertx.handler.pin;
 
+import static com.prayer.util.debug.Log.info;
+
+import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.engine.cv.MsgVertx;
 import com.prayer.vertx.util.UriAcquirer;
 
 import io.vertx.core.Handler;
@@ -19,6 +26,8 @@ import io.vertx.ext.web.RoutingContext;
  */
 public class PatternHooker implements Handler<RoutingContext> {
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatternHooker.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -33,6 +42,7 @@ public class PatternHooker implements Handler<RoutingContext> {
         final HttpMethod method = request.method();
         /** 2.GET或DELETE方法才会执行该URI过滤操作 **/
         String finalUri = request.path();
+        info(LOGGER,MessageFormat.format(MsgVertx.REQ_BPATH, getClass().getSimpleName(),finalUri));
         if (HttpMethod.GET == method || HttpMethod.DELETE == method) {
             /** 3.计算URI **/
             final StringBuilder path = new StringBuilder(finalUri);
@@ -51,6 +61,7 @@ public class PatternHooker implements Handler<RoutingContext> {
             finalUri = path.toString();
         }
         /** 7.将内容放到Context中 **/
+        info(LOGGER,MessageFormat.format(MsgVertx.REQ_APATH, getClass().getSimpleName(),finalUri));
         UriAcquirer.lay(event, finalUri);
         event.next();
     }

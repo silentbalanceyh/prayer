@@ -68,13 +68,6 @@ public final class SystemEnum { // NOPMD
         STRING, TIMER
     }
 
-    /** 从Business的相应标记 **/
-    public static enum ResponseCode {
-        SUCCESS, // 成功返回
-        FAILURE, // 非系统运行异常失败返回
-        ERROR // 系统运行异常失败返回
-    }
-
     /** 标记状态列 **/
     public static enum StatusFlag {
         UPDATE, // 需要更新的列

@@ -18,7 +18,7 @@ import io.vertx.ext.web.RoutingContext;
  * @author Lang
  *
  */
-public aspect AjHandlerLogger {
+public aspect AjLogger {
     // ~ Point Cut ===========================================
     /** 切点定义 **/
     pointcut LogPointCut(final RoutingContext event): execution(void com.prayer.vertx.handler.standard.*.handle(RoutingContext)) && args(event) && target(Handler);

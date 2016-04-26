@@ -103,6 +103,11 @@ public class VertxAcus extends AbstractEntityAcus implements DeployAcus {
                 hooker.setRequestHandler(Injections.Web.URI_HOOKER);
                 final Inceptor inceptor = InceptBus.build(Point.Web.class, Point.Web.HANDLER_ORDERS);
                 hooker.setOrder(inceptor.getInt(Point.Web.Orders.Api.URI));
+                /** 4.Hooker需要打开Mimes限制 **/
+                final List<String> mimes = new ArrayList<>();
+                mimes.add("*/*");
+                hooker.setConsumerMimes(mimes);
+                hooker.setProducerMimes(mimes);
                 /** 4.设置null的ID **/
                 hooker.id(null);
                 hookerLst.add(hooker);
