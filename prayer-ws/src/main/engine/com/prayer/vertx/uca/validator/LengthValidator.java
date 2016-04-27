@@ -30,7 +30,7 @@ public class LengthValidator extends AbstractUCA implements WebValidator {
     /** 最大值 **/
     private final static String MAX_LENGTH = "maxLength";
     /** Error **/
-    private final static String MESSAGE = "The value {0} length must be between ( {1} ~ {2} ).";
+    private final static String MESSAGE = "The value \"{0}\" length must be between ( {1} ~ {2} ).";
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -45,7 +45,7 @@ public class LengthValidator extends AbstractUCA implements WebValidator {
         Envelop stumer = Envelop.success();
         try {
             /** 1.检查提供的配置信息 **/
-            this.skewerString(config, MIN_LENGTH, MAX_LENGTH);
+            this.skewerNumber(config, MIN_LENGTH, MAX_LENGTH);
             /** 2.读取配置 **/
             final Integer minLength = getNumber(config, MIN_LENGTH);
             final Integer maxLength = getNumber(config, MAX_LENGTH);

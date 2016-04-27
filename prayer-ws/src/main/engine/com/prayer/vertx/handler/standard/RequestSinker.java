@@ -55,6 +55,7 @@ public class RequestSinker implements Handler<RoutingContext> {
         }
         /** 如果flow中包含了异常信息则会有问题 **/
         if (Fault.route(event, stumer)) {
+            event.put(WebKeys.Request.PARAMS, stumer);
             /** 构造参数信息 **/
             this.injectUAC(event, envelop);
             event.next();

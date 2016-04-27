@@ -50,13 +50,12 @@ public class JsonResolver extends AbstractResolver implements Resolver {
         /** 3.直接处理参数信息，无法读取则抛出异常 **/
         final JsonObject params = this.extract(context, uri);
         if (null == params) {
-            throw new _400ParamsExtractingException(getClass(), path, uri.getParamType().name(),
-                    method.name());
+            throw new _400ParamsExtractingException(getClass(), path, uri.getParamType().name(), method.name());
         }
         /** 4.验证Required参数，丢失Required参数抛出异常 **/
         final String required = this.isRequired(params, uri.getRequiredParam());
-        if(null != required){
-            throw new _400RequiredParamMissingException(getClass(),required, path, toStr(uri.getRequiredParam()));
+        if (null != required) {
+            throw new _400RequiredParamMissingException(getClass(), required, path, toStr(uri.getRequiredParam()));
         }
         return params;
     }
@@ -75,17 +74,13 @@ public class JsonResolver extends AbstractResolver implements Resolver {
         JsonObject params = null;
         try {
             // 1. --> JsonObject
-            final JsonObject obj = context.getBodyAsJson();
-            params = new JsonObject();
-            params.put(WebKeys.Params.NAME, obj);
-            params.put(WebKeys.Params.TYPE, "JObject");
+            params = context.getBodyAsJson();
         } catch (DecodeException ex) {
             try {
                 // 2. --> JsonArray
                 final JsonArray array = context.getBodyAsJsonArray();
                 params = new JsonObject();
                 params.put(WebKeys.Params.NAME, array);
-                params.put(WebKeys.Params.TYPE, "JArray");
             } catch (DecodeException arrEx) {
                 params = null;
             }
@@ -96,7 +91,6 @@ public class JsonResolver extends AbstractResolver implements Resolver {
                 params = new JsonObject();
                 final String value = context.getBodyAsString();
                 params.put(WebKeys.Params.NAME, value);
-                params.put(WebKeys.Params.TYPE, "String");
             } catch (ClassCastException ex) {
                 params = null;
             }

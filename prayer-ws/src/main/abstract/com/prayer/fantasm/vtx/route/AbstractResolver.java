@@ -3,7 +3,6 @@ package com.prayer.fantasm.vtx.route;
 import java.util.List;
 
 import com.prayer.constant.SystemEnum.ParamType;
-import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.util.string.StringKit;
@@ -115,8 +114,6 @@ public abstract class AbstractResolver {
                 params.put(item.getKey(), item.getValue());
             }
         });
-        // String类型的值
-        params.put(WebKeys.Params.TYPE, "String");
         return params;
     }
     

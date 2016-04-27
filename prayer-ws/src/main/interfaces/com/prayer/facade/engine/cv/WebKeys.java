@@ -25,8 +25,6 @@ public interface WebKeys {
     }
     
     interface Params{
-        /** 参数类型 **/
-        String TYPE = "type";
         /** 参数本身值 **/
         String NAME = "parameters";
     }
@@ -40,6 +38,8 @@ public interface WebKeys {
         String SOLICITOR = "REQ.SOLICITOR";
         /** Envelop数据传递 **/
         String ENVP = "REQ.ENVP";
+        /** 读取的参数 **/
+        String PARAMS = "REQ.PARAMS";
 
         interface Rule {
             /** 请求过程中的Uri信息 **/
