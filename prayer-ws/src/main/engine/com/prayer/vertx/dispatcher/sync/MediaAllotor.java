@@ -7,6 +7,7 @@ import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.vtx.headers.Acceptor;
 import com.prayer.facade.vtx.request.Allotor;
 import com.prayer.model.meta.vertx.PEUri;
+import com.prayer.vertx.headers.AcceptAcceptor;
 import com.prayer.vertx.headers.ContentTypeAcceptor;
 import com.prayer.vertx.web.model.Envelop;
 
@@ -26,6 +27,9 @@ public class MediaAllotor implements Allotor {
     // ~ Instance Fields =====================================
     /** **/
     private transient Acceptor ctAcceptor = singleton(ContentTypeAcceptor.class);
+    /** **/
+    private transient Acceptor acAcceptor = singleton(AcceptAcceptor.class);
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -39,6 +43,10 @@ public class MediaAllotor implements Allotor {
         final PEUri entity = this.buildEntity(request.method(), params);
         /** 2.验证Content-Type **/
         Envelop envelop = ctAcceptor.accept(request, entity.getContentMimes().toArray(Constants.T_STR_ARR));
+        if (envelop.succeeded()) {
+            /** 3.验证客户端偏好 Accept **/
+            envelop = acAcceptor.accept(request, entity.getAcceptMimes().toArray(Constants.T_STR_ARR));
+        }
         return envelop;
     }
 

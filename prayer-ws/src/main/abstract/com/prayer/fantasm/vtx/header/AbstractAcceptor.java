@@ -32,7 +32,8 @@ public abstract class AbstractAcceptor {
         if (headers.contains(headerKey)) {
             envelop = Envelop.success(new JsonObject());
         } else {
-            envelop = Envelop.failure(new _400HeaderKeyMissedException(getClass(), headerKey), StatusCode.BAD_REQUEST);
+            envelop = Envelop.failure(new _400HeaderKeyMissedException(getClass(), headerKey, request.path()),
+                    StatusCode.BAD_REQUEST);
         }
         return envelop;
     }
