@@ -1,4 +1,4 @@
-package com.prayer.util.web;
+package com.prayer.vertx.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +17,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class Validator { // NOPMD
+public final class Skewer { // NOPMD
     // ~ Static Fields =======================================
 
     /**
@@ -27,7 +27,7 @@ public final class Validator { // NOPMD
      * @param max
      * @return
      */
-    public static boolean verifyRange(@NotNull final Number value, @NotNull final Number min, // NOPMD
+    public static boolean skewerRange(@NotNull final Number value, @NotNull final Number min, // NOPMD
             @NotNull final Number max) {
         boolean flag = false;
         final double range = Constants.RANGE;
@@ -59,7 +59,7 @@ public final class Validator { // NOPMD
      * @param maxLength
      * @return
      */
-    public static boolean verifyLength(@NotNull @NotBlank @NotEmpty final String value, @Min(-1) final int minLength, // NOPMD
+    public static boolean skewerLength(@NotNull @NotBlank @NotEmpty final String value, @Min(-1) final int minLength, // NOPMD
             @Min(-1) final int maxLength) {
         boolean flag = false;
         final int length = value.length();
@@ -89,7 +89,7 @@ public final class Validator { // NOPMD
      * @param regex
      * @return
      */
-    public static boolean verifyPattern(@NotNull @NotBlank @NotEmpty final String value,
+    public static boolean skewerPattern(@NotNull @NotBlank @NotEmpty final String value,
             @NotNull @NotBlank @NotEmpty final String regex) {
         final Pattern pattern = Pattern.compile(regex);
         final Matcher matcher = pattern.matcher(value);
@@ -97,7 +97,7 @@ public final class Validator { // NOPMD
     }
 
     
-    private Validator() {
+    private Skewer() {
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

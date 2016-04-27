@@ -5,7 +5,7 @@ import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.uca.WebValidator;
 import com.prayer.util.web.Extractor;
 import com.prayer.util.web.Interruptor;
-import com.prayer.util.web.Validator;
+import com.prayer.vertx.util.Skewer;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
@@ -38,7 +38,7 @@ public class RegexValidator implements WebValidator{
         // 2.检查值
         final String regex = Extractor.getString(config, REGEX_KEY);
         // 3.检查Pattern
-        return Validator.verifyPattern(value.literal(), regex);
+        return Skewer.verifyPattern(value.literal(), regex);
     }
     
     // ~ Abstract Methods ====================================

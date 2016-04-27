@@ -100,8 +100,8 @@ public class VerticleDeployer {
                * DATA_SYNC.size()); } else { info(LOGGER, I_VERTICLE_COUNT,
                * SYNC, DATA_SYNC.size()); for (final String name :
                * DATA_SYNC.keySet()) { // 1.检查当前配置
-               * Interruptor.interruptClass(getClass(), name, "Verticle");
-               * Interruptor.interruptExtends(getClass(), name,
+               * ClassKatana.interruptClass(getClass(), name, "Verticle");
+               * ClassKatana.interruptExtends(getClass(), name,
                * AbstractVerticle.class, Verticle.class); // 2.发布这个Verticle
                * final DeploymentOptions option = DATA_SYNC.get(name);
                * this.vertxRef.deployVerticle(name, option); info(LOGGER,

@@ -10,7 +10,7 @@ import com.prayer.exception.web.DependParameterInvalidException;
 import com.prayer.exception.web.DependParamsMissingException;
 import com.prayer.exception.web.DependQueryInvalidException;
 import com.prayer.exception.web.DependRuleInvalidException;
-import com.prayer.exception.web.ValidationFailureException;
+import com.prayer.exception.web._400ValidatorFailureException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractWebException;
@@ -76,7 +76,7 @@ public final class UCADependant {   // NOPMD
             if (DependRule.VALIDATE == rule) {
                 final Boolean ret = retJson.getBoolean(WebDependant.VAL_RET);
                 if (!ret) {
-                    throw new ValidationFailureException(ruleModel.getErrorMessage());
+                    throw new _400ValidatorFailureException(ruleModel.getErrorMessage());
                 }
             } else if (DependRule.CONVERT == rule) {
                 // 返回Convert的值信息

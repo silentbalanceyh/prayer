@@ -1,0 +1,8 @@
+{
+    "config":{
+        "regex":"Pattern"
+    },
+    "comments":{
+        "regex":"正则表达式相关信息"
+    }
+}

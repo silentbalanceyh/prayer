@@ -7,34 +7,29 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class UCAConfigErrorException extends AbstractWebException{
+public class _400UCANotFoundException extends AbstractWebException {
     // ~ Static Fields =======================================
+
     /**
      * 
      */
-    private static final long serialVersionUID = 5463958285630375991L;
+    private static final long serialVersionUID = 3952954586289967386L;
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /**
-     * 
-     * @param clazz
-     * @param paramName
-     * @param validator
-     * @param errorMsg
-     */
-    public UCAConfigErrorException(final Class<?> clazz, final String paramName, final String validator, final String errorMsg){
-        super(clazz, -30004, paramName, validator, errorMsg);
+    /** **/
+    public _400UCANotFoundException(final Class<?> clazz, final String className) {
+        super(clazz, -30005, className);
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /**
-     * 
-     */
+    /** **/
     @Override
-    public int getErrorCode(){
-        return -30004;
+    public int getErrorCode() {
+        return -30005;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

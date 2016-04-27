@@ -2,18 +2,20 @@ package com.prayer.exception.web;
 
 import com.prayer.fantasm.exception.AbstractWebException;
 
+import io.vertx.core.json.JsonObject;
+
 /**
  * 
  * @author Lang
  *
  */
-public class UCAConfigMissingException extends AbstractWebException {
+public class _400ConfigFormatException extends AbstractWebException {
     // ~ Static Fields =======================================
-    
     /**
      * 
      */
-    private static final long serialVersionUID = -399033351901524071L;
+    private static final long serialVersionUID = 5463958285630375991L;
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -21,19 +23,23 @@ public class UCAConfigMissingException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param paramName
-     * @param validator
-     * @param errorMsg
+     * @param name
+     * @param config
+     * @param type
      */
-    public UCAConfigMissingException(final Class<?> clazz, final String paramName, final String validator, final String errorMsg){
-        super(clazz, -30008, paramName, validator, errorMsg);
+    public _400ConfigFormatException(final Class<?> clazz, final String name, final JsonObject config,
+            final String type) {
+        super(clazz, -30004, name, config.encode(), type);
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
+    /**
+     * 
+     */
     @Override
-    public int getErrorCode(){
-        return -30008;
+    public int getErrorCode() {
+        return -30004;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

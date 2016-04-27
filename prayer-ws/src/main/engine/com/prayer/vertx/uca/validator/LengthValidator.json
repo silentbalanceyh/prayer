@@ -1,0 +1,10 @@
+{
+    "config":{
+        "minLength":-1,
+        "maxLength":-1
+    },
+    "comments":{
+        "minLength":"最小长度，临界值-1",
+        "maxLength":"最大长度，临界值-1"
+    }
+}

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.web.SpecialDataTypeException;
-import com.prayer.exception.web.ValidationFailureException;
+import com.prayer.exception.web._400ValidatorFailureException;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractWebException;
@@ -20,7 +20,7 @@ import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.XmlType;
 import com.prayer.uca.WebValidator;
 import com.prayer.util.web.Interruptor;
-import com.prayer.util.web.Validator;
+import com.prayer.vertx.util.Skewer;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.MinSize;
@@ -92,7 +92,7 @@ public final class UCAValidator {
             final boolean ret = validator.validate(paramName, value, config);
             // 5.验证失败，特殊的Exception
             if (!ret) {
-                error = new ValidationFailureException(ruleModel.getErrorMessage());
+                error = new _400ValidatorFailureException(ruleModel.getErrorMessage());
             }
         } catch (AbstractWebException ex) {
             peError(LOGGER, ex);
@@ -100,7 +100,7 @@ public final class UCAValidator {
         } catch (AbstractDatabaseException ex) {
             peError(LOGGER, ex);
             // 三种复杂基础类型的数据格式问题
-            error = new SpecialDataTypeException(Validator.class, ruleModel.getType(), paramValue);
+            error = new SpecialDataTypeException(Skewer.class, ruleModel.getType(), paramValue);
         }
         return error;
     }

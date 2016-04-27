@@ -1,0 +1,8 @@
+{
+    "config":{
+        "algorithm":"MD5"
+    },
+    "comments":{
+        "algorithm":"使用的算法"
+    }
+}

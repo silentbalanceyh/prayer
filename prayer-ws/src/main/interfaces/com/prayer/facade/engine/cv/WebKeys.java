@@ -15,7 +15,7 @@ public interface WebKeys {
         String URI = "uri";
         /** Rule本身信息 **/
         interface UAC {
-            /** Validator **/
+            /** Skewer **/
             String VALIDATOR = "validator";
             /** Convertor **/
             String CONVERTOR = "convertor";

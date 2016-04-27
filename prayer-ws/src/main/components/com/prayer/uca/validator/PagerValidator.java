@@ -6,7 +6,7 @@ import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.uca.WebValidator;
 import com.prayer.util.web.Extractor;
 import com.prayer.util.web.Interruptor;
-import com.prayer.util.web.Validator;
+import com.prayer.vertx.util.Skewer;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
@@ -46,8 +46,8 @@ public class PagerValidator implements WebValidator {
         Interruptor.interruptNumberConfig(getClass(), name, page, KEY_PG_IDX);
         Interruptor.interruptNumberConfig(getClass(), name, page, KEY_PG_SIZE);
         // 3.范围检查
-        ret = Validator.verifyRange(Extractor.getNumber(page, KEY_PG_IDX), Constants.ONE, Constants.RANGE);
-        ret = ret && Validator.verifyRange(Extractor.getNumber(page, KEY_PG_SIZE), Constants.ONE, Constants.RANGE);
+        ret = Skewer.verifyRange(Extractor.getNumber(page, KEY_PG_IDX), Constants.ONE, Constants.RANGE);
+        ret = ret && Skewer.verifyRange(Extractor.getNumber(page, KEY_PG_SIZE), Constants.ONE, Constants.RANGE);
         return ret;
     }
     // ~ Methods =============================================

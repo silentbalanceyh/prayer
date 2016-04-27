@@ -7,10 +7,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.web.UCAConfigErrorException;
-import com.prayer.exception.web.UCAConfigMissingException;
+import com.prayer.exception.web._400ConfigFormatException;
+import com.prayer.exception.web._400ConfigRequiredException;
 import com.prayer.exception.web.UCAInvalidException;
-import com.prayer.exception.web.UCANotFoundException;
+import com.prayer.exception.web._400UCANotFoundException;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.util.reflection.Instance;
 
@@ -48,7 +48,7 @@ public final class Interruptor {
             @NotNull final JsonObject config, @NotNull @NotBlank @NotEmpty final String key)
                     throws AbstractWebException {
         if (!config.containsKey(key)) {
-            final AbstractWebException error = new UCAConfigMissingException(clazz, name, clazz.getName(), key);
+            final AbstractWebException error = new _400ConfigRequiredException(clazz, name, clazz.getName(), key);
             peError(LOGGER, error);
             throw error;
         }
@@ -68,7 +68,7 @@ public final class Interruptor {
             @NotNull @NotBlank @NotEmpty final String key) throws AbstractWebException {
         final String retStr = Extractor.getString(config, key);
         if (null == retStr) {
-            final AbstractWebException error = new UCAConfigErrorException(clazz, name, clazz.getName(),
+            final AbstractWebException error = new _400ConfigFormatException(clazz, name, clazz.getName(),
                     key + " = " + config.getString(key));
             peError(LOGGER, error);
             throw error;
@@ -89,7 +89,7 @@ public final class Interruptor {
             @NotNull @NotBlank @NotEmpty final String key) throws AbstractWebException {
         final Integer retNum = Extractor.getNumber(config, key);
         if (null == retNum) {
-            final AbstractWebException error = new UCAConfigErrorException(clazz, name, clazz.getName(),
+            final AbstractWebException error = new _400ConfigFormatException(clazz, name, clazz.getName(),
                     key + " = " + config.getString(key));
             peError(LOGGER, error);
             throw error;
@@ -109,7 +109,7 @@ public final class Interruptor {
                     throws AbstractWebException {
         final Class<?> targetClass = Instance.clazz(className);
         if (null == targetClass) {
-            final AbstractWebException error = new UCANotFoundException(clazz, className);
+            final AbstractWebException error = new _400UCANotFoundException(clazz, className);
             peError(LOGGER, error);
             throw error;
         }

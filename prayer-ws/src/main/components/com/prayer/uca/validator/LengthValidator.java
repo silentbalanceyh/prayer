@@ -5,7 +5,7 @@ import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.uca.WebValidator;
 import com.prayer.util.web.Extractor;
 import com.prayer.util.web.Interruptor;
-import com.prayer.util.web.Validator;
+import com.prayer.vertx.util.Skewer;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotBlank;
@@ -42,7 +42,7 @@ public class LengthValidator implements WebValidator {
         // 2.检查值
         final Integer minLength = Extractor.getNumber(config, MIN_LENGTH_KEY);
         final Integer maxLength = Extractor.getNumber(config, MAX_LENGTH_KEY);
-        return Validator.verifyLength(value.literal(), minLength, maxLength);
+        return Skewer.verifyLength(value.literal(), minLength, maxLength);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
