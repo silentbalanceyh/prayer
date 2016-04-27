@@ -65,7 +65,6 @@ public class RequestAcceptor implements Handler<RoutingContext> {
             }
         });
     }
-
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

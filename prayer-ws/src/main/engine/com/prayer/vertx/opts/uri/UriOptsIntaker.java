@@ -66,21 +66,45 @@ public class UriOptsIntaker implements EngineOptsIntaker<String, JsonObject> {
     // ~ Private Methods =====================================
 
     private JsonObject buildData(final PEUri rawData, final ConcurrentMap<String, List<PERule>> rulesData) {
-        /** 4.生成Rule信息 **/
+        /** 1.生成Rule信息 **/
         List<PERule> ruleList = rulesData.get(rawData.id().toString());
         if (null == ruleList) {
             ruleList = new ArrayList<>();
         }
         final JsonObject data = new JsonObject();
+
         data.put(WebKeys.UriMeta.URI, rawData.toJson());
-        /** 1.构造Rules **/
-        final JsonArray ruleData = new JsonArray();
-        if (null != ruleData) {
+
+        /** 2.构造最终三个节点 **/
+        final JsonArray validators = new JsonArray();
+        final JsonArray convertors = new JsonArray();
+        final JsonArray dependents = new JsonArray();
+        /** 3.构造组件配置 **/
+        if (null != ruleList && !ruleList.isEmpty()) {
             for (final PERule rule : ruleList) {
-                ruleData.add(rule.toJson());
+                switch (rule.getComponentType()) {
+                // 添加验证器
+                case VALIDATOR: {
+                    validators.add(rule.toJson());
+                }
+                    break;
+                // 添加转换器
+                case CONVERTOR: {
+                    convertors.add(rule.toJson());
+                }
+                    break;
+                // 添加关联器
+                case DEPENDANT: {
+                    dependents.add(rule.toJson());
+                }
+                    break;
+                }
             }
         }
-        data.put(WebKeys.UriMeta.RULES, ruleData);
+        /** 4.添加组件配置 **/
+        data.put(WebKeys.UriMeta.UAC.VALIDATOR, validators);
+        data.put(WebKeys.UriMeta.UAC.CONVERTOR, convertors);
+        data.put(WebKeys.UriMeta.UAC.DEPENDENT, dependents);
         return data;
     }
     // ~ Get/Set =============================================

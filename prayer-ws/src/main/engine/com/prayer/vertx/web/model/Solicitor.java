@@ -28,9 +28,7 @@ public final class Solicitor implements Serializable {
     /** 请求过程中构建遇到的问题 **/
     private transient AbstractException error;
     /** 请求过程中的纯参数信息 **/
-    private transient final Buffer params;
-    /** 请求过程中的认证头信息 **/
-    private transient final Token token;
+    private transient Buffer params;
     /** 真实访问的URI **/
     private transient final String uri;
     /** 需要使用的Headers **/
@@ -46,33 +44,18 @@ public final class Solicitor implements Serializable {
      * @return
      */
     public static Solicitor create(@NotNull final HttpServerRequest request, @NotNull final Envelop envelop) {
-        return new Solicitor(request, envelop, null);
-    }
-
-    /**
-     * Secure：初始化安全请求
-     * 
-     * @param request
-     * @param envelop
-     * @param token
-     * @return
-     */
-    public static Solicitor create(@NotNull final HttpServerRequest request, @NotNull final Envelop envelop,
-            final Token token) {
-        return new Solicitor(request, envelop, token);
+        return new Solicitor(request, envelop);
     }
 
     // ~ Constructors ========================================
 
     /** 构造函数，带Token **/
-    private Solicitor(final HttpServerRequest request, final Envelop envelop, final Token token) {
+    private Solicitor(final HttpServerRequest request, final Envelop envelop) {
         /** 1.将请求头的信息填充到headers中 **/
         this.headers = initHeaders(request);
         /** 2.将请求的路径赋值给uri **/
         this.uri = request.path();
-        /** 3.初始化Token **/
-        this.token = null == token ? Token.create(request) : token;
-        
+        /** 3.初始化真实请求 **/
     }
 
     // ~ Abstract Methods ====================================

@@ -13,8 +13,15 @@ public interface WebKeys {
     interface UriMeta {
         /** Uri本身信息 **/
         String URI = "uri";
-        /** Rules本身信息 **/
-        String RULES = "rules";
+        /** Rule本身信息 **/
+        interface UAC {
+            /** Validator **/
+            String VALIDATOR = "validator";
+            /** Convertor **/
+            String CONVERTOR = "convertor";
+            /** Dependent **/
+            String DEPENDENT = "dependent";
+        }
     }
     
     interface Params{
@@ -37,6 +44,12 @@ public interface WebKeys {
         interface Rule {
             /** 请求过程中的Uri信息 **/
             String URI = "RULE.REQ.URI";
+            /** 跳过VALIDATOR **/
+            String SKIPV = "VALIDATOR.SKIP";
+            /** 跳过CONVERTOR **/
+            String SKIPC = "CONVERTOR.SKIP";
+            /** 跳过DEPENDANT **/
+            String SKIPD = "DEPENDANT.SKIP";
         }
 
         interface Token {
