@@ -19,8 +19,6 @@ public class EngineExecutor implements Handler<RoutingContext> {
     // ~ Override Methods ====================================
     @Override
     public void handle(RoutingContext event) {
-        // TODO Auto-generated method stub
-        System.out.println(getClass() + " : " + Thread.currentThread().getName());
         event.next();
     }
     // ~ Methods =============================================

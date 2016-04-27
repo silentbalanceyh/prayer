@@ -5,7 +5,7 @@ import com.prayer.facade.vtx.route.Fabricator;
 import com.prayer.fantasm.vtx.route.AbstractFabricator;
 import com.prayer.vertx.handler.standard.DataInspector;
 import com.prayer.vertx.handler.standard.DataStrainer;
-import com.prayer.vertx.handler.standard.RequestStdner;
+import com.prayer.vertx.handler.standard.DataStdner;
 
 import io.vertx.ext.web.Router;
 import net.sf.oval.constraint.NotNull;
@@ -51,8 +51,8 @@ public class StdnFabricator extends AbstractFabricator implements Fabricator {
         return strainer;
     }
 
-    private RequestStdner buildStdner() {
-        final RequestStdner stdner = RequestStdner.create();
+    private DataStdner buildStdner() {
+        final DataStdner stdner = DataStdner.create();
         // TODO：Vertx-Web：可扩展Web规范器STDN
         return stdner;
     }

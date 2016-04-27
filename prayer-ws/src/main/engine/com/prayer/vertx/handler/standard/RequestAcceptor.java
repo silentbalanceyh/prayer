@@ -77,6 +77,8 @@ public class RequestAcceptor implements Handler<RoutingContext> {
         event.put(WebKeys.Request.Data.Meta.PEV, UriRuler.buildValidator(event, envelop));
         /** 3.提取UCA **/
         event.put(WebKeys.Request.Data.Meta.PEC, UriRuler.buildConvertor(event, envelop));
+        /** 4.提取UCA **/
+        event.put(WebKeys.Request.Data.Meta.PED, UriRuler.buildDependent(event, envelop));
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

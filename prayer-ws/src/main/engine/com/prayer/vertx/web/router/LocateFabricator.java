@@ -4,7 +4,7 @@ import com.prayer.facade.resource.Point;
 import com.prayer.facade.vtx.route.Fabricator;
 import com.prayer.fantasm.vtx.route.AbstractFabricator;
 import com.prayer.vertx.handler.standard.FailureHandler;
-import com.prayer.vertx.handler.standard.ServiceSender;
+import com.prayer.vertx.handler.standard.MessageLocator;
 
 import io.vertx.ext.web.Router;
 import net.sf.oval.constraint.NotNull;
@@ -35,8 +35,8 @@ public class LocateFabricator extends AbstractFabricator implements Fabricator {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private ServiceSender buildSender() {
-        final ServiceSender sender = ServiceSender.create();
+    private MessageLocator buildSender() {
+        final MessageLocator sender = MessageLocator.create();
         // TODO：Vertx-Web定义Failure
         return sender;
     }

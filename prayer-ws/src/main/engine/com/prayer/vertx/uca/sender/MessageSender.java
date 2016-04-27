@@ -1,33 +1,40 @@
-package com.prayer.vertx.handler.standard;
+package com.prayer.vertx.uca.sender;
 
-import io.vertx.core.Handler;
-import io.vertx.ext.web.RoutingContext;
+import com.prayer.facade.vtx.endpoint.MessageXDCR;
+
+import io.vertx.core.AsyncResult;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonObject;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.guard.Guarded;
 
 /**
- * 请求接收器
  * 
  * @author Lang
  *
  */
-public class ServiceSender implements Handler<RoutingContext> {
-
+@Guarded
+public class MessageSender implements MessageXDCR {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
-
-    public static ServiceSender create() {
-        return new ServiceSender();
-    }
-
+    /** 响应信息 **/
+    private transient HttpServerResponse response;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    /** **/
+    public MessageSender(@NotNull final HttpServerResponse response){
+        this.response = response;
+    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
     @Override
-    public void handle(RoutingContext event) {
-        // TODO Auto-generated method stub
-        System.out.println(getClass() + " : " + Thread.currentThread().getName());
-        event.response().end("Service");
+    public void handle(final AsyncResult<Message<JsonObject>> event) {
+        if(event.succeeded()){
+            
+        }
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

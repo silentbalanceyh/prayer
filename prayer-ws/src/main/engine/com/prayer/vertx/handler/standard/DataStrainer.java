@@ -52,14 +52,13 @@ public class DataStrainer implements Handler<RoutingContext> {
             event.next();
         } else {
             /** 3.抽取Parameters **/
-            final Envelop stumer = event.get(WebKeys.Request.Data.PARAMS);
-            final JsonObject params = stumer.getRaw();
+            final JsonObject params = event.get(WebKeys.Request.Data.PARAMS);
             /** 4.转换流程 **/
             final Envelop converted = this.convert(rules, params);
             /** 400 错误 **/
             if (Fault.route(event, converted)) {
                 /** 重新填充Params参数 **/
-                event.put(WebKeys.Request.Data.PARAMS, Envelop.success(params));
+                event.put(WebKeys.Request.Data.PARAMS, params);
                 event.next();
             } else {
                 // Fix: Response Already Written

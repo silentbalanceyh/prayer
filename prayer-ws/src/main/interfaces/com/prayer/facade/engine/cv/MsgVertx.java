@@ -35,7 +35,9 @@ public interface MsgVertx extends MsgCommon {
     String REQ_BPATH = "( {0} ) Before : Request path ( Metadata ) is {1}.";
     /** **/
     String REQ_APATH = "( {0} ) After : Request path ( Metadata ) is {1}.";
-    
+
     /** **/
     String REQ_ACCEPT_MATCH = "( {0} ) Actual: {1} ( q = {2} ), Expect: {3}, the match result is {4}";
+    /** **/
+    String SEV_ENDDATA = "( {0} ) Message Locating to address : {1}, message data {2} has been send by Sender: {3}.";
 }

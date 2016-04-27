@@ -48,8 +48,7 @@ public class DataInspector implements Handler<RoutingContext> {
             event.next();
         } else {
             /** 3.抽取Parameters **/
-            final Envelop stumer = event.get(WebKeys.Request.Data.PARAMS);
-            final JsonObject params = stumer.getRaw();
+            final JsonObject params = event.get(WebKeys.Request.Data.PARAMS);
             /** 4.验证流程 **/
             final Envelop validated = this.validate(rules, params);
             /** 400 错误 **/
