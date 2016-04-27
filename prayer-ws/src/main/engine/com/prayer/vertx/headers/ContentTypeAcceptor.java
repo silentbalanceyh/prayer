@@ -2,6 +2,7 @@ package com.prayer.vertx.headers;
 
 import static com.prayer.util.Converter.toStr;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.prayer.exception.web._415MimeNotMatchException;
@@ -35,12 +36,12 @@ public class ContentTypeAcceptor extends AbstractAcceptor implements Acceptor {
      * 如果最终Accept了，返回为空数据的Envelop
      */
     @Override
-    public Envelop accept(final HttpServerRequest request, final List<String> expectes) {
+    public Envelop accept(final HttpServerRequest request, final String... expectes) {
         /** 1.检查Content-Type是否存在 **/
         Envelop envelop = this.acceptRequired(request, HttpHeaders.CONTENT_TYPE.toString());
         if (envelop.succeeded()) {
             /** 2.检查Content-Type和期望值是否匹配 **/
-            envelop = this.acceptMimes(request, expectes);
+            envelop = this.acceptMimes(request, Arrays.asList(expectes));
         }
         return envelop;
     }

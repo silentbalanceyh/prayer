@@ -1,7 +1,5 @@
 package com.prayer.facade.vtx.headers;
 
-import java.util.List;
-
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.vertx.web.model.Envelop;
 
@@ -20,5 +18,5 @@ public interface Acceptor {
      * @return
      * @throws AbstractWebException
      */
-    Envelop accept(HttpServerRequest request, List<String> expectes);
+    Envelop accept(HttpServerRequest request, String... expectes);
 }

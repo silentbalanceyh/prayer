@@ -2,6 +2,7 @@ package com.prayer.vertx.dispatcher.sync;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.vtx.headers.Acceptor;
 import com.prayer.facade.vtx.request.Allotor;
@@ -37,7 +38,7 @@ public class MediaAllotor implements Allotor {
         final HttpServerRequest request = context.request();
         final PEUri entity = this.buildEntity(request.method(), params);
         /** 2.验证Content-Type **/
-        Envelop envelop = ctAcceptor.accept(request, entity.getContentMimes());
+        Envelop envelop = ctAcceptor.accept(request, entity.getContentMimes().toArray(Constants.T_STR_ARR));
         return envelop;
     }
 

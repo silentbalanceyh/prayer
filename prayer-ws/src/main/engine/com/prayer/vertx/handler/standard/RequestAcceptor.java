@@ -49,11 +49,10 @@ public class RequestAcceptor implements Handler<RoutingContext> {
                 envelop = media.accept(event, envelop.result());
             }
             /** 出现了415，406类型 **/
-            if (Fault.route(event, envelop)){
-                
+            if (Fault.route(event, envelop)) {
+
             }
             /** 没有出现任何Fault路由 **/
-            System.out.println(envelop.result());
             event.next();
         });
     }

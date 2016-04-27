@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.net.HttpHeaders;
 import com.prayer.exception.web._405PatternGetDeleteOnlyException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
@@ -68,7 +67,6 @@ public class PatternHooker implements Handler<RoutingContext> {
             /** 7.将内容放到Context中 **/
             info(LOGGER, MessageFormat.format(MsgVertx.REQ_APATH, getClass().getSimpleName(), finalUri));
             UriAcquirer.lay(event, finalUri);
-            System.out.println(HttpHeaders.CONTENT_TYPE);
             event.next();
         } else {
             final Envelop envelop = Envelop.failure(
