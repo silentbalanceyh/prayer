@@ -21,13 +21,13 @@ public final class Fault {
     /**
      * 
      * @param context
-     * @param envelop
+     * @param stumer
      */
-    public static boolean route(final RoutingContext event, @NotNull final Envelop envelop) {
-        final boolean noroute = envelop.succeeded();
+    public static boolean route(final RoutingContext event, @NotNull final Envelop stumer) {
+        final boolean noroute = stumer.succeeded();
         if (!noroute) {
-            event.put(WebKeys.Request.ENVP, envelop);
-            event.fail(envelop.status().code());
+            event.put(WebKeys.Request.ERR_ENVP, stumer);
+            event.fail(stumer.status().code());
         }
         return noroute;
     }
@@ -38,7 +38,7 @@ public final class Fault {
      * @return
      */
     public static Envelop get(final RoutingContext event) {
-        return event.get(WebKeys.Request.ENVP);
+        return event.get(WebKeys.Request.ERR_ENVP);
     }
 
     // ~ Constructors ========================================

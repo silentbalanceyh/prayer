@@ -1,47 +1,28 @@
-package com.prayer.exception.web;
+package com.prayer.resource.inceptor;
 
-import com.prayer.fantasm.exception.AbstractWebException;
-
+import com.prayer.fantasm.resource.AbstractInceptor;
 /**
  * 
  * @author Lang
  *
  */
-public class RequiredParamMissingException extends AbstractWebException {
-
+public class ResolverInceptor extends AbstractInceptor {
     // ~ Static Fields =======================================
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1807839960694798981L;
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /**
-     * 
-     * @param clazz
-     * @param uriPath
-     * @param paramType
-     * @param String
+     * 使用默认的Key构造
      */
-    public RequiredParamMissingException(final Class<?> clazz, final String uriPath, final String paramType,
-            final String paramName) {
-        super(clazz, -30001, paramType, paramName, uriPath);
+    public ResolverInceptor() {
+        super("file.resolver.config");
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /**
-     * 
-     */
-    @Override
-    public int getErrorCode(){
-        return -30001;
-    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

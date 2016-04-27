@@ -71,23 +71,23 @@ public class NormalizeAsynchor implements Asynchor {
     }
 
     private Envelop buildResult(final JsonObject data, final RoutingContext context) {
-        Envelop ret = null;
+        Envelop stumer = null;
         if (null == data) {
             /** 404 **/
             final String uri = UriAcquirer.acquirer(context);
-            ret = Envelop.failure(new _404UriSpecificationMissingException(getClass(), uri), StatusCode.NOT_FOUND);
+            stumer = Envelop.failure(new _404UriSpecificationMissingException(getClass(), uri), StatusCode.NOT_FOUND);
         } else {
             /** 405 Error的判断，主要是DELETE和GET的判断区分 **/
             final HttpMethod method = context.request().method();
             if (data.containsKey(method.name())) {
-                ret = Envelop.success(data);
+                stumer = Envelop.success(data);
             } else {
-                ret = Envelop.failure(
+                stumer = Envelop.failure(
                         new _405MethodNotAllowedException(getClass(), method.toString(), UriAcquirer.acquirer(context)),
                         StatusCode.METHOD_NOT_ALLOWED);
             }
         }
-        return ret;
+        return stumer;
     }
 
     private JsonObject buildParams(final String address) {

@@ -72,7 +72,7 @@ public class UriOptsIntaker implements EngineOptsIntaker<String, JsonObject> {
             ruleList = new ArrayList<>();
         }
         final JsonObject data = new JsonObject();
-        data.put("uri", rawData.toJson());
+        data.put(WebKeys.UriMeta.URI, rawData.toJson());
         /** 1.构造Rules **/
         final JsonArray ruleData = new JsonArray();
         if (null != ruleData) {
@@ -80,7 +80,7 @@ public class UriOptsIntaker implements EngineOptsIntaker<String, JsonObject> {
                 ruleData.add(rule.toJson());
             }
         }
-        data.put("rules", ruleData);
+        data.put(WebKeys.UriMeta.RULES, ruleData);
         return data;
     }
     // ~ Get/Set =============================================

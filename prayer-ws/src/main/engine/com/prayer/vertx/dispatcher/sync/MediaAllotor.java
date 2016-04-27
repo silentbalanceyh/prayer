@@ -3,7 +3,6 @@ package com.prayer.vertx.dispatcher.sync;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.vtx.headers.Acceptor;
 import com.prayer.facade.vtx.request.Allotor;
 import com.prayer.model.meta.vertx.PEUri;
@@ -13,7 +12,6 @@ import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 /**
@@ -37,25 +35,22 @@ public class MediaAllotor implements Allotor {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public Envelop accept(final RoutingContext context, final JsonObject params) {
+    public Envelop accept(final RoutingContext context, final Envelop params) {
         /** 1.使用上一步检测的结果读取PEUri **/
         final HttpServerRequest request = context.request();
-        final PEUri entity = this.buildEntity(request.method(), params);
+        final HttpMethod method = request.method();
+        final PEUri entity = new PEUri(params.getUriData(method));
         /** 2.验证Content-Type **/
-        Envelop envelop = ctAcceptor.accept(request, entity.getContentMimes().toArray(Constants.T_STR_ARR));
-        if (envelop.succeeded()) {
+        Envelop stumer = ctAcceptor.accept(request, entity.getContentMimes().toArray(Constants.T_STR_ARR));
+        if (stumer.succeeded()) {
             /** 3.验证客户端偏好 Accept **/
-            envelop = acAcceptor.accept(request, entity.getAcceptMimes().toArray(Constants.T_STR_ARR));
+            stumer = acAcceptor.accept(request, entity.getAcceptMimes().toArray(Constants.T_STR_ARR));
         }
-        return envelop;
+        return stumer;
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    private PEUri buildEntity(final HttpMethod method, final JsonObject params) {
-        final JsonObject data = params.getJsonObject(WebKeys.Envelop.DATA).getJsonObject(WebKeys.Envelop.Data.BODY);
-        return new PEUri(data);
-    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

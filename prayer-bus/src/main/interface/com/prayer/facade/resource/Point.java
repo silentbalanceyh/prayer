@@ -29,6 +29,7 @@ public interface Point {
             /** **/
             String MIMES_PRODUCER = "route.mimes.producer";
         }
+
         /** **/
         String ADDRESS = "uri.address";
         /** **/
@@ -276,6 +277,11 @@ public interface Point {
 
     /** **/
     @VertexPoint(Interface.CONSTANT)
+    interface Resolver {
+    }
+
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface Jdbc {
         // Fix引用必须，Database和Jdbc是相互独立的，并不在同一个文件，不可使用Database作为Key值
     }
@@ -352,13 +358,15 @@ public interface Point {
             interface Api {
                 /** 1.URI **/
                 String URI = "handler.strainer.uri";
-                /** 2.Acceptor **/
+                /** 2.Sinkor **/
+                String SINKER = "handler.sinker";
+                /** 3.Acceptor **/
                 String ACCEPTOR = "handler.acceptor";
-                /** 3.Inspector **/
+                /** 4.Inspector **/
                 String INSPECTOR = "handler.inspector";
-                /** 4.Data Strainer **/
+                /** 5.Data Strainer **/
                 String DATA = "handler.strainer.data";
-                /** 5.Stdn **/
+                /** 6.Stdn **/
                 String STDN = "handler.stdn";
 
                 /** 6.Failure **/

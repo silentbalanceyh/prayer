@@ -1,6 +1,11 @@
 package com.prayer.vertx.web.model;
 
+import static com.prayer.util.debug.Log.jvmError;
+
 import java.io.Serializable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.cv.WebKeys;
@@ -10,11 +15,14 @@ import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.impl.ClusterSerializable;
 import net.sf.oval.guard.Guarded;
 
 /**
+ * Envelop的特殊信息，主要处理响应，包括每一步的
  * 
  * @author Lang
  *
@@ -26,6 +34,9 @@ public final class Envelop implements Serializable, ClusterSerializable {
      * 
      */
     private static final long serialVersionUID = -9108149074184872121L;
+
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(Envelop.class);
     // ~ Instance Fields =====================================
     /** 返回的状态代码 **/
     private transient StatusCode status;
@@ -61,6 +72,11 @@ public final class Envelop implements Serializable, ClusterSerializable {
     /** Success **/
     public static Envelop success(final JsonObject data) {
         return new Envelop(data);
+    }
+
+    /** 空数据成功返回Success **/
+    public static Envelop success() {
+        return success(new JsonObject());
     }
     // ~ Constructors ========================================
 
@@ -149,6 +165,28 @@ public final class Envelop implements Serializable, ClusterSerializable {
     /** 读取状态代码 **/
     public StatusCode status() {
         return this.status;
+    }
+
+    /** 直接读取Body的数据内容 **/
+    public JsonObject getRaw() {
+        return this.result().getJsonObject(WebKeys.Envelop.DATA).getJsonObject(WebKeys.Envelop.Data.BODY);
+    }
+
+    /** 根据Method读取PEUri配置数据 **/
+    public JsonObject getUriData(final HttpMethod method) {
+        JsonObject data = this.getRaw();
+        if (data.containsKey(method.name())) {
+            try {
+                data = data.getJsonObject(method.name()).getJsonObject(WebKeys.UriMeta.URI);
+            } catch (DecodeException ex) {
+                jvmError(LOGGER, ex);
+                data.clear();
+            } catch (ClassCastException ex) {
+                jvmError(LOGGER, ex);
+                data.clear();
+            }
+        }
+        return data;
     }
 
     /** 读取最终响应结果 **/

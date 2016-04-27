@@ -69,10 +69,10 @@ public class PatternHooker implements Handler<RoutingContext> {
             UriAcquirer.lay(event, finalUri);
             event.next();
         } else {
-            final Envelop envelop = Envelop.failure(
+            final Envelop stumer = Envelop.failure(
                     new _405PatternGetDeleteOnlyException(getClass(), method.toString()),
                     StatusCode.METHOD_NOT_ALLOWED);
-            Fault.route(event, envelop);
+            Fault.route(event, stumer);
         }
     }
     // ~ Methods =============================================

@@ -7,12 +7,14 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class BodyParamDecodingException extends AbstractWebException {
+public class _400RequiredParamMissingException extends AbstractWebException {
+
     // ~ Static Fields =======================================
+
     /**
      * 
      */
-    private static final long serialVersionUID = 8108120269473430350L;
+    private static final long serialVersionUID = 1807839960694798981L;
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -21,18 +23,22 @@ public class BodyParamDecodingException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param uri
+     * @param uriPath
+     * @param paramType
+     * @param String
      */
-    public BodyParamDecodingException(final Class<?> clazz, final String uri) {
-        super(clazz, -30010, uri);
+    public _400RequiredParamMissingException(final Class<?> clazz, final String uriPath, final String paramType,
+            final String paramName) {
+        super(clazz, -30001, paramType, paramName, uriPath);
     }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
+    /**
+     * 
+     */
     @Override
-    public int getErrorCode() {
-        return -30010;
+    public int getErrorCode(){
+        return -30001;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

@@ -2,6 +2,7 @@ package com.prayer.vertx.handler.standard;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
+import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.vtx.request.Allotor;
 import com.prayer.facade.vtx.request.Asynchor;
 import com.prayer.vertx.dispatcher.async.NormalizeAsynchor;
@@ -42,20 +43,29 @@ public class RequestAcceptor implements Handler<RoutingContext> {
     public void handle(final RoutingContext event) {
         /** 1.直接运行 **/
         nomalized.accept(event, handler -> {
-            Envelop envelop = handler.result();
+            Envelop stumer = handler.result();
+            /** 2.最终Rule，指定到带有Rule配置的Envelop中 **/
+            final Envelop envelop = stumer;
             /** 出现了404，405，500错误 **/
-            if (Fault.route(event, envelop)) {
+            if (Fault.route(event, stumer)) {
                 /** 2.检查媒体类型 **/
-                envelop = media.accept(event, envelop.result());
+                stumer = media.accept(event, stumer);
+            } else {
+                // Fix: Response Already Written
+                return;
             }
             /** 出现了415，406类型 **/
-            if (Fault.route(event, envelop)) {
-
+            if (Fault.route(event, stumer)) {
+                /** 没有出现任何Fault路由 **/
+                event.put(WebKeys.Request.ENVP, envelop);
+                event.next();
+            } else {
+                // Fix: Response Already Written
+                return;
             }
-            /** 没有出现任何Fault路由 **/
-            event.next();
         });
     }
+
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

@@ -9,12 +9,42 @@ package com.prayer.facade.engine.cv;
 public interface WebKeys {
     /** 某个URI的信息表 **/
     String URI_ADDR = "MSG://INTERNAL/QUEUE/URI{0}";
+    
+    interface UriMeta {
+        /** Uri本身信息 **/
+        String URI = "uri";
+        /** Rules本身信息 **/
+        String RULES = "rules";
+    }
+    
+    interface Params{
+        /** 参数类型 **/
+        String TYPE = "type";
+        /** 参数本身值 **/
+        String NAME = "parameters";
+    }
 
     interface Request {
         /** 请求的真实URI地址 **/
         String URI = "REQUEST.URI";
         /** 出现错误的时候的Envelop信息 **/
-        String ENVP = "ERROR.ENVP";
+        String ERR_ENVP = "ERROR.ENVP";
+        /** Solicitor传递 **/
+        String SOLICITOR = "REQ.SOLICITOR";
+        /** Envelop数据传递 **/
+        String ENVP = "REQ.ENVP";
+
+        interface Rule {
+            /** 请求过程中的Uri信息 **/
+            String URI = "RULE.REQ.URI";
+        }
+
+        interface Token {
+            /** 请求过程中的模式 **/
+            String MODE = "AUTH.MODE";
+            /** 请求过程中的Token **/
+            String TOKEN = "AUTH.TOKEN";
+        }
     }
 
     /** 响应信息格式 **/

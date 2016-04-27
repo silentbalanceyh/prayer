@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.net.HttpHeaders;
 import com.prayer.constant.Resources;
-import com.prayer.exception.web.BodyParamDecodingException;
+import com.prayer.exception.web._400WrongRequestFlowException;
 import com.prayer.exception.web._500InternalServerErrorException;
 import com.prayer.exception.web._405MethodNotAllowedException;
 import com.prayer.exception.web.NotAuthorizationException;
-import com.prayer.exception.web.RequiredParamMissingException;
+import com.prayer.exception.web._400RequiredParamMissingException;
 import com.prayer.exception.web._404UriSpecificationMissingException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractWebException;
@@ -66,9 +66,9 @@ public final class Future {
             @NotNull final int errorCode, final Object... params) {
         AbstractWebException error = null;
         if (-30010 == errorCode) {
-            error = new BodyParamDecodingException(clazz, params[0].toString());
+            error = new _400WrongRequestFlowException(clazz, params[0].toString());
         } else if (-30001 == errorCode) {
-            error = new RequiredParamMissingException(clazz, params[0].toString(), params[1].toString(),
+            error = new _400RequiredParamMissingException(clazz, params[0].toString(), params[1].toString(),
                     params[2].toString());
         }
         final Responsor responsor = Responsor.failure(StatusCode.BAD_REQUEST, error);

@@ -14,6 +14,7 @@ import com.prayer.resource.inceptor.DynamicInceptor;
 import com.prayer.resource.inceptor.ErrorInceptor;
 import com.prayer.resource.inceptor.InjectionInceptor;
 import com.prayer.resource.inceptor.MetaServerInceptor;
+import com.prayer.resource.inceptor.ResolverInceptor;
 import com.prayer.resource.inceptor.RmiInceptor;
 import com.prayer.resource.inceptor.SchemaInceptor;
 import com.prayer.resource.inceptor.SecurityInceptor;
@@ -55,6 +56,7 @@ public final class InceptBus {
         INCEPTORS.put(Point.Web.class, Instance.instance(WebInceptor.class));
         INCEPTORS.put(Point.Security.class, Instance.instance(SecurityInceptor.class));
         INCEPTORS.put(Point.Uri.class, Instance.instance(UriInceptor.class));
+        INCEPTORS.put(Point.Resolver.class, Instance.instance(ResolverInceptor.class));
         /** 特殊Inceptors **/
         INCEPTORS.put(Point.Jdbc.class, Instance.instance(DatabaseInceptor.class));
     }

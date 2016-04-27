@@ -2,15 +2,12 @@ package com.prayer.fantasm.business.endpoint;
 
 import static com.prayer.util.reflection.Instance.reservoir;
 
-import java.util.Arrays;
-
 import javax.script.ScriptException;
 
 import org.slf4j.Logger;
 
 import com.prayer.business.service.RecordBehavior;
 import com.prayer.exception.web.JSScriptEngineException;
-import com.prayer.exception.web.RequestMethodConflictException;
 import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.fun.endpoint.Behavior;
 import com.prayer.fantasm.exception.AbstractException;
@@ -90,7 +87,7 @@ public abstract class AbstractMessager {
             ActRequest request = new ActRequest(requestData);
             if (request.success()) {
                 /** 验证方法 **/
-                this.verifyMethod(request, methods, behavior);
+                // this.verifyMethod(request, methods, behavior);
                 /** 请求合法 **/
                 response = behavior.dispatch(request);
             } else {
@@ -104,15 +101,6 @@ public abstract class AbstractMessager {
             response.failure(new JSScriptEngineException(getClass(), ex.toString()));
         }
         return response.getResult();
-    }
-    /** 方法验证 **/
-    private void verifyMethod(final ActRequest request, final HttpMethod[] methods, final Behavior behavior)
-            throws AbstractException {
-        /** 1.request中的method是否在允许范围内 **/
-        boolean contains = Arrays.asList(methods).contains(request.getMethod());
-        if (!contains) {
-            throw new RequestMethodConflictException(getClass(), request.getMethod().name(), methods);
-        }
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

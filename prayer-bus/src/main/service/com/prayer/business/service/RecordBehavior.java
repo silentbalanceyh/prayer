@@ -4,7 +4,6 @@ import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.reflection.Instance.reservoir;
 import static com.prayer.util.reflection.Instance.singleton;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
@@ -17,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import com.prayer.business.script.js.JSEngine;
 import com.prayer.dao.ObjectTransferer;
 import com.prayer.exception.web.JSScriptEngineException;
-import com.prayer.exception.web.RequestMethodConflictException;
 import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.fun.endpoint.Behavior;
@@ -221,22 +219,11 @@ public class RecordBehavior implements RecordService {
         return response;
     }
 
-    /** 方法验证 **/
-    private void verifyMethod(final ActRequest request, final HttpMethod[] methods, final Behavior behavior)
-            throws AbstractException {
-        /** 1.request中的method是否在允许范围内 **/
-        boolean contains = Arrays.asList(methods).contains(request.getMethod());
-        if (!contains) {
-            throw new RequestMethodConflictException(getClass(), request.getMethod().name(), methods);
-        }
-    }
-
     /** Controller Method **/
     private ActResponse execute(final ActRequest request, final HttpMethod[] methods, final Behavior behavior) {
         final ActResponse response = new ActResponse();
         try {
             /** **/
-            this.verifyMethod(request, methods, behavior);
             final ActResponse ret = behavior.dispatch(request);
             response.success(ret.getResult());
         } catch (ScriptException ex) {

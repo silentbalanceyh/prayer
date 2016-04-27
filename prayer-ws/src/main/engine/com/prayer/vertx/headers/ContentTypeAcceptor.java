@@ -14,7 +14,6 @@ import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerRequest;
-import io.vertx.core.json.JsonObject;
 
 /**
  * 
@@ -60,7 +59,7 @@ public class ContentTypeAcceptor extends AbstractAcceptor implements Acceptor {
             }
         }
         /** 2.返回Envelop **/
-        Envelop envelop = Envelop.success(new JsonObject());
+        Envelop envelop = Envelop.success();
         if (!flag) {
             envelop = Envelop.failure(new _415MimeNotMatchException(getClass(), toStr(expectes), value),
                     StatusCode.UNSUPPORTED_MEDIA_TYPE);

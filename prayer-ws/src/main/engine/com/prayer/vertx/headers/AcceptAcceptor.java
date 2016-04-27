@@ -21,7 +21,6 @@ import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerRequest;
-import io.vertx.core.json.JsonObject;
 
 /**
  * 
@@ -48,7 +47,7 @@ public class AcceptAcceptor extends AbstractAcceptor implements Acceptor {
         Envelop envelop = null;
         if (expectList.contains("*/*")) {
             /** 2.服务端不限制偏好信息，不做任何检查 **/
-            envelop = Envelop.success(new JsonObject());
+            envelop = Envelop.success();
         } else {
             /** 2.偏好有要求，先检查Accept头 **/
             envelop = this.acceptRequired(request, HttpHeaders.ACCEPT.toString());
@@ -66,7 +65,7 @@ public class AcceptAcceptor extends AbstractAcceptor implements Acceptor {
         /** 1.从Accept中提取每种Mime以及偏好值 **/
         final ConcurrentMap<String, Double> mimes = MimeParser.accept(request.headers());
         /** 2.Vertx中使用了expectes中的producer匹配，所以必须让Accept头中的信息和expectes匹配 **/
-        Envelop envelop = Envelop.success(new JsonObject());
+        Envelop envelop = Envelop.success();
         /** 3.客户端万能偏好 **/
         if (!mimes.containsKey("*/*") || 0.0 >= mimes.get("*/*")) {
             // 移除掉*/*，这个时候*/*的值已经是0.0以下了，不需要检测

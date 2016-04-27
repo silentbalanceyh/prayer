@@ -2,7 +2,6 @@ package com.prayer.facade.vtx.request;
 
 import com.prayer.vertx.web.model.Envelop;
 
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 /**
@@ -16,5 +15,5 @@ public interface Allotor {
      * @param context
      * @return
      */
-    Envelop accept(RoutingContext context,JsonObject params);
+    Envelop accept(RoutingContext context,Envelop envelop);
 }
