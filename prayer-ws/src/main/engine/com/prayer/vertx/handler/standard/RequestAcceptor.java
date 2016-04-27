@@ -8,6 +8,7 @@ import com.prayer.facade.vtx.request.Asynchor;
 import com.prayer.vertx.dispatcher.async.NormalizeAsynchor;
 import com.prayer.vertx.dispatcher.sync.MediaAllotor;
 import com.prayer.vertx.util.Fault;
+import com.prayer.vertx.util.UriRuler;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.Handler;
@@ -57,7 +58,8 @@ public class RequestAcceptor implements Handler<RoutingContext> {
             /** 出现了415，406类型 **/
             if (Fault.route(event, stumer)) {
                 /** 没有出现任何Fault路由 **/
-                event.put(WebKeys.Request.ENVP, envelop);
+                // event.put(WebKeys.Request.ENVP, envelop);
+                this.initChannel(event, envelop);
                 event.next();
             } else {
                 // Fix: Response Already Written
@@ -67,6 +69,15 @@ public class RequestAcceptor implements Handler<RoutingContext> {
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
+
+    private void initChannel(final RoutingContext event, final Envelop envelop) {
+        /** 1.提取PEUri **/
+        event.put(WebKeys.Request.Data.Meta.PEURI, UriRuler.buildUri(event, envelop));
+        /** 2.提取UCA **/
+        event.put(WebKeys.Request.Data.Meta.PEV, UriRuler.buildValidator(event, envelop));
+        /** 3.提取UCA **/
+        event.put(WebKeys.Request.Data.Meta.PEC, UriRuler.buildConvertor(event, envelop));
+    }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

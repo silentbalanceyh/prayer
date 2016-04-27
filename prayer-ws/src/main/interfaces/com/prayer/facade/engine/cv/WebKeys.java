@@ -9,10 +9,11 @@ package com.prayer.facade.engine.cv;
 public interface WebKeys {
     /** 某个URI的信息表 **/
     String URI_ADDR = "MSG://INTERNAL/QUEUE/URI{0}";
-    
+
     interface UriMeta {
         /** Uri本身信息 **/
         String URI = "uri";
+
         /** Rule本身信息 **/
         interface UAC {
             /** Skewer **/
@@ -23,8 +24,8 @@ public interface WebKeys {
             String DEPENDENT = "dependent";
         }
     }
-    
-    interface Params{
+
+    interface Params {
         /** 参数本身值 **/
         String NAME = "parameters";
     }
@@ -34,22 +35,21 @@ public interface WebKeys {
         String URI = "REQUEST.URI";
         /** 出现错误的时候的Envelop信息 **/
         String ERR_ENVP = "ERROR.ENVP";
-        /** Solicitor传递 **/
-        String SOLICITOR = "REQ.SOLICITOR";
-        /** Envelop数据传递 **/
-        String ENVP = "REQ.ENVP";
-        /** 读取的参数 **/
-        String PARAMS = "REQ.PARAMS";
 
-        interface Rule {
-            /** 请求过程中的Uri信息 **/
-            String URI = "RULE.REQ.URI";
-            /** 跳过VALIDATOR **/
-            String SKIPV = "VALIDATOR.SKIP";
-            /** 跳过CONVERTOR **/
-            String SKIPC = "CONVERTOR.SKIP";
-            /** 跳过DEPENDANT **/
-            String SKIPD = "DEPENDANT.SKIP";
+        interface Data {
+            /** 参数信息 **/
+            String PARAMS = "DATA.REQ.PARAMS";
+
+            interface Meta {
+                /** PEUri **/
+                String PEURI = "DATA.URI";
+                /** List<PERule> **/
+                String PEV = "DATA.VALIDATOR";
+                /** List<PERule> **/
+                String PEC = "DATA.CONVERTOR";
+                /** List<PERule> **/
+                String PED = "DATA.DEPENDENT";
+            }
         }
 
         interface Token {

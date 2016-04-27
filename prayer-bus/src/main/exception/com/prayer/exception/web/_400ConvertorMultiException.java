@@ -6,7 +6,7 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class ConvertorMultiException extends AbstractWebException{
+public class _400ConvertorMultiException extends AbstractWebException{
     // ~ Static Fields =======================================
     /**
      * 
@@ -19,10 +19,10 @@ public class ConvertorMultiException extends AbstractWebException{
     /**
      * 
      * @param clazz
-     * @param paramName
+     * @param name
      */
-    public ConvertorMultiException(final Class<?> clazz, final String paramName){
-        super(clazz, -30009, paramName);
+    public _400ConvertorMultiException(final Class<?> clazz, final String name){
+        super(clazz, -30009, name);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

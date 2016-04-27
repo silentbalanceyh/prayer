@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.business.configuration.impl.ConfigBllor;
 import com.prayer.constant.log.DebugKey;
-import com.prayer.exception.web.ConvertorMultiException;
+import com.prayer.exception.web._400ConvertorMultiException;
 import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractWebException;
@@ -101,7 +101,7 @@ public class ConversionHandler implements Handler<RoutingContext> {
                 if (null != convertors) {
                     // 3.读取这个字段上所有的Convertors
                     if (Constants.ONE < convertors.size()) {
-                        error = new ConvertorMultiException(getClass(), field); // NOPMD
+                        error = new _400ConvertorMultiException(getClass(), field); // NOPMD
                         throw error;
                     } else if (Constants.ONE == convertors.size()) {
                         // 直接通过Convertor处理

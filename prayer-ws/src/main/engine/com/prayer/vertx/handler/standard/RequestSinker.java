@@ -13,7 +13,6 @@ import com.prayer.vertx.web.model.Refiner;
 
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerRequest;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
@@ -45,19 +44,18 @@ public class RequestSinker implements Handler<RoutingContext> {
         /** 1.初始化Resolver **/
         Envelop stumer = this.initResolver(event);
         /** 2.从上一个节点中抽取Envelop **/
-        final Envelop envelop = event.get(WebKeys.Request.ENVP);
+        final PEUri uri = event.get(WebKeys.Request.Data.Meta.PEURI);
         if (Fault.route(event, stumer)) {
             /** 3.执行Flow **/
-            stumer = injectRequest(event, envelop);
+            stumer = injectRequest(event, uri);
         } else {
             // Fix: Response Already Written
             return;
         }
         /** 如果flow中包含了异常信息则会有问题 **/
         if (Fault.route(event, stumer)) {
-            event.put(WebKeys.Request.PARAMS, stumer);
+            event.put(WebKeys.Request.Data.PARAMS, stumer);
             /** 构造参数信息 **/
-            this.injectUAC(event, envelop);
             event.next();
         } else {
             // Fix: Response Already Written
@@ -67,24 +65,9 @@ public class RequestSinker implements Handler<RoutingContext> {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private void injectUAC(final RoutingContext context, final Envelop envelop) {
-        /** SKIP设置 **/
-        final JsonObject rawData = envelop.getRaw();
-        final JsonArray validators = rawData.getJsonObject(context.request().method().name())
-                .getJsonArray(WebKeys.UriMeta.UAC.VALIDATOR);
-        context.put(WebKeys.Request.Rule.SKIPV, null == validators || validators.isEmpty());
-        final JsonArray convertors = rawData.getJsonObject(context.request().method().name())
-                .getJsonArray(WebKeys.UriMeta.UAC.CONVERTOR);
-        context.put(WebKeys.Request.Rule.SKIPC, null == convertors || convertors.isEmpty());
-        final JsonArray dependants = rawData.getJsonObject(context.request().method().name())
-                .getJsonArray(WebKeys.UriMeta.UAC.DEPENDENT);
-        context.put(WebKeys.Request.Rule.SKIPD, null == dependants || dependants.isEmpty());
-    }
-
-    private Envelop injectRequest(final RoutingContext context, final Envelop envelop) {
+    private Envelop injectRequest(final RoutingContext context, final PEUri uri) {
         Envelop stumer = Envelop.success();
         try {
-            final PEUri uri = new PEUri(envelop.getUriData(context.request().method()));
             final JsonObject data = this.resolver.resolve(context, uri);
             if (null != data) {
                 stumer = Envelop.success(data);
