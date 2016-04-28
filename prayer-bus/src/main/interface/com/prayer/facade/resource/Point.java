@@ -241,6 +241,8 @@ public interface Point {
         String LOGS_INFO = "system.logs.info";
         /** 验证Folder **/
         String VALIDATION_RULE = "system.validation.rules";
+        /** Script文件夹 **/
+        String SCRIPT_FOLDER = "system.script.folders";
     }
 
     /** **/

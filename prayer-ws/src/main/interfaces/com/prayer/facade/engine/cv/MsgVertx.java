@@ -21,6 +21,8 @@ public interface MsgVertx extends MsgCommon {
     /** **/
     String VX_STOPPED = "( {0} ) Vertx Engine has been stopped successfully!";
     /** **/
+    String VX_EXP_STOPPED = "( {0} ) Because Meta Server has been stopped, Vertx Engine also has been stopped at the same time.";
+    /** **/
     String ES_URI = "( {0} ) Vertx Engine has pushed ( Uri/Rule ) configuration data to {1} successfully! ( RMI Not Needed )";
 
     /** 2.Handler的基本信息 **/

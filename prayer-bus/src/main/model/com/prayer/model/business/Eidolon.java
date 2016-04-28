@@ -19,7 +19,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class InquiryMarchal implements Serializable {
+public class Eidolon implements Serializable {
     // ~ Static Fields =======================================
     /**
      * 
@@ -46,7 +46,7 @@ public class InquiryMarchal implements Serializable {
      * 只能使用Record执行初始化
      * @param record
      */
-    public InquiryMarchal(@NotNull final Record record){
+    public Eidolon(@NotNull final Record record){
         this.record = record;
     }
     // ~ Abstract Methods ====================================

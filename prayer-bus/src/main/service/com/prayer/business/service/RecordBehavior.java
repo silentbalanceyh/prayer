@@ -23,7 +23,7 @@ import com.prayer.facade.model.record.Record;
 import com.prayer.facade.util.Transferer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.model.business.InquiryMarchal;
+import com.prayer.model.business.Eidolon;
 import com.prayer.model.business.behavior.ActRequest;
 import com.prayer.model.business.behavior.ActResponse;
 import com.prayer.util.debug.Log;
@@ -159,7 +159,7 @@ public class RecordBehavior implements RecordService {
         final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
         info(LOGGER, "[ACT] " + record.toString());
         /** 2.将Java和脚本引擎连接 **/
-        final InquiryMarchal marchal = JSEngine.initJSEnv(request, record);
+        final Eidolon marchal = JSEngine.initJSEnv(request, record);
         /** 3.执行查询 **/
         final ConcurrentMap<Long, List<Record>> retMap = this.rdPerformer.performPage(record, marchal);
         /** 4.生成响应结果 **/
@@ -175,7 +175,7 @@ public class RecordBehavior implements RecordService {
         final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
         info(LOGGER, "[ACT] " + record.toString());
         /** 2.将Java和脚本引擎连接 **/
-        final InquiryMarchal marchal = JSEngine.initJSEnv(request, record);
+        final Eidolon marchal = JSEngine.initJSEnv(request, record);
         /** 3.执行查询 **/
         final List<Record> retList = this.rdPerformer.performFind(record, marchal);
         /** 4.执行结果 **/

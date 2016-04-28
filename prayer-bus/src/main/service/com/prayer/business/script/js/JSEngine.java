@@ -13,7 +13,7 @@ import javax.script.SimpleScriptContext;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.model.record.Record;
-import com.prayer.model.business.InquiryMarchal;
+import com.prayer.model.business.Eidolon;
 import com.prayer.model.business.behavior.ActRequest;
 import com.prayer.util.string.StringKit;
 
@@ -61,12 +61,12 @@ public final class JSEngine {
      * @throws ScriptException
      */
     @NotNull
-    public static InquiryMarchal initJSEnv(@NotNull final ActRequest request,
+    public static Eidolon initJSEnv(@NotNull final ActRequest request,
             @NotNull @InstanceOf(Record.class) final Record record) throws ScriptException {
         final JSEngine engine = new JSEngine(request.getData());
         final JSEnvExtractor extractor = singleton(JSEnvExtractor.class);
         // 1.设置变量绑定
-        final InquiryMarchal env = new InquiryMarchal(record);
+        final Eidolon env = new Eidolon(record);
         env.setRecord(record);
         engine.put(JSEngine.ENV, env);
         // 2.关于OrderBy的判断，参数中包含了orders的信息

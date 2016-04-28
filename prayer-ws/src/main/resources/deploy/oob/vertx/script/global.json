@@ -1,7 +1,0 @@
-[
-    {
-        "name":"js.global.util",
-        "namespace":"engine.script.global",
-        "content":"deploy/oob/js/engine.js"
-    }
-]

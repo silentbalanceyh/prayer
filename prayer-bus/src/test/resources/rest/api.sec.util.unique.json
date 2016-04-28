@@ -1,0 +1,10 @@
+{
+    "identifier":"${data.identifier}",
+    "method":"GET",
+    "script":"js.api.get.sec.util.unique",
+    "data":{
+        "name":"code",
+        "identifier":"sec.role",
+        "value":"SYSTEM.ADMIN"
+    }
+}

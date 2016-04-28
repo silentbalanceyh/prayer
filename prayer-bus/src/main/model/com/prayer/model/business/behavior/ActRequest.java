@@ -1,6 +1,5 @@
 package com.prayer.model.business.behavior;
 
-import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -13,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import com.prayer.business.ensurer.JArrayEnsurer;
 import com.prayer.business.ensurer.JObjectEnsurer;
 import com.prayer.business.ensurer.StringEnsurer;
+import com.prayer.business.service.RecordIDAnagnorisis;
 import com.prayer.exception.web.ServiceParamInvalidException;
+import com.prayer.facade.business.service.IdAnagnorisis;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.entity.Ensurer;
 import com.prayer.fantasm.exception.AbstractException;
@@ -21,7 +22,6 @@ import com.prayer.model.business.OrderBy;
 import com.prayer.model.business.Pager;
 import com.prayer.model.business.Projection;
 import com.prayer.util.Converter;
-import com.prayer.util.string.StringKit;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
@@ -206,19 +206,15 @@ public class ActRequest implements Serializable {
     /** 0.ID值的过滤 **/
     private void prepareIdentifier(final JsonObject params) {
         if (success()) {
+            final IdAnagnorisis anagnorisis = singleton(RecordIDAnagnorisis.class);
             try {
-                final String identifier = params.getString(Constants.PARAM.ID);
-                if (StringKit.isNonNil(identifier) && identifier.startsWith("RP")) {
-                    final String[] replacedId = identifier.split("\\$");
-                    if (Constants.ONE < replacedId.length) {
-                        final String idAttr = replacedId[Constants.ONE];
-                        final String idValue = params.getJsonObject(Constants.PARAM.ID).getString(idAttr);
-                        params.put(Constants.PARAM.ID, idValue);
-                    }
-                }
-            } catch (ClassCastException ex) {
-                jvmError(LOGGER, ex);
-                this.error = new ServiceParamInvalidException(getClass(), ex.getMessage());
+                anagnorisis.identifier(params);
+                System.out.println(params);
+                /** 对当前Record的identifier进行赋值 **/
+                this.identifier = params.getString(Constants.PARAM.ID);
+            } catch (AbstractException ex) {
+                peError(LOGGER, ex);
+                this.error = ex;
             }
         }
     }

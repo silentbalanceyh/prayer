@@ -1,6 +1,5 @@
 package com.prayer.metaserver.launcher;
 
-import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
@@ -63,7 +62,7 @@ public class H2Launcher implements Launcher {
         try {
             running = Ensurer.running(getClass(), LOGGER);
         } catch (AbstractException ex) {
-            peError(LOGGER, ex);
+            running = false;
         }
         return running;
     }

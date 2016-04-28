@@ -11,6 +11,7 @@ import io.vertx.ext.web.RoutingContext;
 
 /**
  * 【AOP】响应中的Header调试
+ * 
  * @author Lang
  *
  */
@@ -18,7 +19,8 @@ public aspect AjResponseHeader {
     // ~ Point Cut ===========================================
     /** 切点定义 **/
     pointcut HeaderPointCut(final RoutingContext event): execution(void com.prayer.vertx.handler.standard.FailureHandler.handle(RoutingContext)) && args(event) && target(Handler);
- // ~ Point Cut Implements ================================
+
+    // ~ Point Cut Implements ================================
     /** 切点实现 **/
     after(final RoutingContext event):HeaderPointCut(event){
         final Class<?> target = thisJoinPoint.getTarget().getClass();

@@ -16,7 +16,7 @@ import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.business.AbstractPerformer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.model.business.InquiryMarchal;
+import com.prayer.model.business.Eidolon;
 import com.prayer.model.business.OrderBy;
 
 import net.sf.oval.constraint.NotNull;
@@ -60,7 +60,7 @@ public class RdPerformer extends AbstractPerformer {
      * @return
      */
     @NotNull
-    public List<Record> performFind(@NotNull final Record record, @NotNull final InquiryMarchal marchal)
+    public List<Record> performFind(@NotNull final Record record, @NotNull final Eidolon marchal)
             throws AbstractException {
         /** 1.生成响应结果 **/
         List<Record> retList = null;
@@ -88,7 +88,7 @@ public class RdPerformer extends AbstractPerformer {
      */
     @NotNull
     public ConcurrentMap<Long, List<Record>> performPage(@NotNull final Record record,
-            @NotNull final InquiryMarchal marchal) throws AbstractException {
+            @NotNull final Eidolon marchal) throws AbstractException {
         /** 1.生成响应结果 **/
         ConcurrentMap<Long, List<Record>> data = new ConcurrentHashMap<>();
         /** 2.读取Marchal中的Order By **/

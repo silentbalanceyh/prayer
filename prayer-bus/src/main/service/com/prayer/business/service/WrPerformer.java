@@ -95,7 +95,7 @@ final class WrPerformer extends AbstractPerformer {
             for (final String field : from.fields().keySet()) {
                 final Value<?> value = from.get(field);
                 // TODO: 标记为NU的不更新
-                if (null != value && !StringUtil.equals(value.literal(), "NU")) {
+                if (null != value && !StringUtil.equals(value.literal(), "$NU$")) {
                     to.set(field, from.get(field));
                 }
             }

@@ -35,7 +35,7 @@ public class PEMeta extends AbstractEntity<String> { // NOPMD
 
     /** S_STATUS：Meta的状态 **/
     @JsonProperty(STATUS)
-    private Status status;
+    private Status status = Status.SYSTEM;
 
     // !Meta基本配置数据---------------------------------------
     /** S_NAME：Meta对应的Model名称 **/
