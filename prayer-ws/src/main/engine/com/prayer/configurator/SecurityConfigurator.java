@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.Resources;
-import com.prayer.constant.SystemEnum.SecurityMode;
+import com.prayer.constant.SystemEnum.SecureMode;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.security.AuthConstants;
@@ -44,7 +44,7 @@ public class SecurityConfigurator {
     private transient final PropertyKit LOADER = new PropertyKit(SecurityConfigurator.class, Resources.SEC_CFG_FILE);
     /** **/
     @NotNull
-    private transient final SecurityMode mode;
+    private transient final SecureMode mode;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -52,7 +52,7 @@ public class SecurityConfigurator {
     /** **/
     @PostValidateThis
     public SecurityConfigurator() {
-        this.mode = fromStr(SecurityMode.class, this.LOADER.getString("server.security.mode"));
+        this.mode = fromStr(SecureMode.class, this.LOADER.getString("server.security.mode"));
     }
 
     // ~ Abstract Methods ====================================
@@ -103,7 +103,7 @@ public class SecurityConfigurator {
      * 
      * @return
      */
-    public SecurityMode getMode() {
+    public SecureMode getMode() {
         return this.mode;
     }
 
@@ -135,7 +135,7 @@ public class SecurityConfigurator {
     /** Basic Options **/
     private JsonObject getBasicOptions() {
         final JsonObject options = new JsonObject();
-        final String prefix = SecurityMode.BASIC.toString();
+        final String prefix = SecureMode.BASIC.toString();
         // 固定属性
         options.put(PROVIDER, this.LOADER.getString(prefix + Symbol.DOT + PROVIDER));
         options.put(AuthConstants.BASIC.REALM, this.LOADER.getString(prefix + Symbol.DOT + AuthConstants.BASIC.REALM));

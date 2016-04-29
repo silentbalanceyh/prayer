@@ -4,7 +4,7 @@ import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configurator.SecurityConfigurator;
-import com.prayer.constant.SystemEnum.SecurityMode;
+import com.prayer.constant.SystemEnum.SecureMode;
 import com.prayer.constant.SystemEnum.TemplateEngine;
 import com.prayer.constant.web.WebConfig;
 import com.prayer.facade.constant.Constants;
@@ -78,7 +78,7 @@ public final class RouterInjector {
     public static void injectSecurity(@NotNull final Router router) {
         final SecurityConfigurator securitor = singleton(SecurityConfigurator.class);
         final AuthProvider authProvider = securitor.getProvider();
-        if (SecurityMode.BASIC == securitor.getMode()) {
+        if (SecureMode.BASIC == securitor.getMode()) {
             router.route(WebConfig.WEB_SECURE_API).order(Constants.ORDER.SEC.AUTH)
                     .blockingHandler(BasicAuthHandler.create(authProvider));
         }

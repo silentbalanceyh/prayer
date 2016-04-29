@@ -81,6 +81,7 @@ final class SchemaGraphicer {
                 data.add(this.extractKey(dataFile));
             }
         }
+        System.out.println(data);
         return data.toArray(Constants.T_STR_ARR);
     }
 

@@ -4,7 +4,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.configurator.SecurityConfigurator;
 import com.prayer.constant.SystemEnum.ResponseCode;
-import com.prayer.constant.SystemEnum.SecurityMode;
+import com.prayer.constant.SystemEnum.SecureMode;
 import com.prayer.facade.constant.Constants;
 import com.prayer.model.business.behavior.ServiceResult;
 import com.prayer.model.meta.vertx.PEUri;
@@ -127,7 +127,7 @@ public final class Extractor {
     public static Requestor requestor(@NotNull final RoutingContext context) {
         Requestor requestor = context.get(Constants.KEY.CTX_REQUESTOR);
         if (null == requestor) {
-            if (SecurityMode.BASIC == SECURITOR.getMode()) {
+            if (SecureMode.BASIC == SECURITOR.getMode()) {
                 requestor = BasicRequestor.create(context);
             }
         }

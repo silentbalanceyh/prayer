@@ -15,7 +15,7 @@ import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.vertx.opts.uri.UriOptsIntaker;
+import com.prayer.vertx.config.uri.UriOptsIntaker;
 import com.prayer.vertx.util.SharedDator;
 
 import io.vertx.core.AbstractVerticle;

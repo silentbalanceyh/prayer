@@ -16,7 +16,7 @@ import com.prayer.facade.resource.Point;
 import com.prayer.facade.vtx.route.Fabricator;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.resource.InceptBus;
-import com.prayer.vertx.opts.ServerOptsIntaker;
+import com.prayer.vertx.config.ServerOptsIntaker;
 import com.prayer.vertx.util.RemoteRefers;
 import com.prayer.vertx.web.router.CorsFabricator;
 import com.prayer.vertx.web.router.LocateFabricator;

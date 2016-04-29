@@ -1,4 +1,4 @@
-package com.prayer.vertx.web.model;
+package com.prayer.secure.model;
 
 import java.io.Serializable;
 

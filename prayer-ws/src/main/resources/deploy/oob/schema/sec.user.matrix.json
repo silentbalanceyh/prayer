@@ -1,10 +1,10 @@
 {
     "__meta__":{
         "namespace":"com.prayer.security.model",
-        "name":"AccountMatrix",
+        "name":"UserMatrix",
         "category":"ENTITY",
-        "table":"SEC_ACCOUNT_MATRIX",
-        "identifier":"sec.account.matrix",
+        "table":"SEC_USER_MATRIX",
+        "identifier":"sec.user.matrix",
         "mapping":"DIRECT",
         "policy":"GUID"
     },
@@ -18,11 +18,11 @@
             ]
         },
         {
-            "name":"FK_SEC_AMATRIX_ACCOUNT_ID",
+            "name":"FK_SEC_AMATRIX_USER_ID",
             "category":"ForeignKey",
             "multi":false,
             "columns":[
-                "R_ACCOUNT_ID"
+                "R_USER_ID"
             ]
         }
     ],
@@ -38,11 +38,11 @@
         {
             "name":"accountId",
             "type":"StringType",
-            "columnName":"R_ACCOUNT_ID",
+            "columnName":"R_USER_ID",
             "columnType":"STRING1",
             "length":192,
             "foreignkey":true,
-            "refTable":"SEC_ACCOUNT",
+            "refTable":"SEC_USER",
             "refId":"PK_ID"
         },
         {

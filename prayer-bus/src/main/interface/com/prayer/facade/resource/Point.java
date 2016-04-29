@@ -52,6 +52,41 @@ public interface Point {
     /** **/
     @VertexPoint(Interface.CONSTANT)
     interface Security {
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Shared {
+            /** **/
+            String MODE = "secure.mode";
+            /** **/
+            String REALM = "secure.realm";
+            /** Schema Identifier **/
+            String IDENTIFIER = "secure.identifier";
+            /** **/
+            @VertexPoint(Interface.CONSTANT)
+            interface User{
+                /** **/
+                String USER_ID = "secure.user.id";
+                /** **/
+                String EMAIL = "secure.email";
+                /** **/
+                String MOBILE = "secure.mobile";
+            }
+
+            /** **/
+            @VertexPoint(Interface.CONSTANT)
+            interface Tp {
+                /** **/
+                String ALIPAY = "secure.alipay";
+                /** **/
+                String TAOBAO = "secure.taobao";
+                /** **/
+                String QQ = "secure.qq";
+                /** **/
+                String WEIBO = "secure.weibo";
+                /** **/
+                String WEBCHAT = "secure.webchat";
+            }
+        }
 
         /** **/
         @VertexPoint(Interface.CONSTANT)
@@ -207,9 +242,10 @@ public interface Point {
             /** Pattern的Hooker钩子 **/
             String URI_HOOKER = "web.uri.hooker";
         }
+
         /** **/
         @VertexPoint(Interface.CONSTANT)
-        interface Service{
+        interface Service {
             /** Script Engine **/
             String SCRIPT_ENGINE = "script.engine";
         }

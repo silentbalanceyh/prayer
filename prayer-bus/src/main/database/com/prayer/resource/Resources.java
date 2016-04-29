@@ -1,5 +1,8 @@
 package com.prayer.resource;
 
+import static com.prayer.util.Converter.fromStr;
+
+import com.prayer.constant.SystemEnum.SecureMode;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 
@@ -38,6 +41,15 @@ public class Resources {
     public static final Inceptor JDBC = InceptBus.build(Point.Database.class, Point.Database.Jdbc.JDBC);
     /** 数据库名 **/
     public static final String DATABASE = JDBC.getString(Data.CATEGORY + ".jdbc.database.name");
+
+    /** 安全Key **/
+    public static final class Security {
+        /** 读取安全模式 **/
+        public static final SecureMode MODE = fromStr(SecureMode.class,
+                InceptBus.build(Point.Security.class).getString(Point.Security.Shared.MODE));
+        /** 读取Realm信息 **/
+        public static final String REALM = InceptBus.build(Point.Security.class).getString(Point.Security.Shared.REALM);
+    }
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

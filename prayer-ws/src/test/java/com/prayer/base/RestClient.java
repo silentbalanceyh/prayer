@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.configurator.SecurityConfigurator;
 import com.prayer.configurator.ServerConfigurator;
 import com.prayer.constant.Resources;
-import com.prayer.constant.SystemEnum.SecurityMode;
+import com.prayer.constant.SystemEnum.SecureMode;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.util.io.IOKit;
@@ -190,7 +190,7 @@ public class RestClient {
     private JsonObject executeRequest(final HttpRequestBase request, final ConcurrentMap<String, String> headers) {
         final JsonObject ret = new JsonObject();
         ret.put("status", "SKIP");
-        if (SecurityMode.BASIC == SECUTOR.getMode() && running) {
+        if (SecureMode.BASIC == SECUTOR.getMode() && running) {
             // 直接注入Header
             this.injectHeaders(request, headers);
             // 请求发送
@@ -203,7 +203,7 @@ public class RestClient {
             final ConcurrentMap<String, String> headers, final JsonObject data) {
         final JsonObject ret = new JsonObject();
         ret.put("status", "SKIP");
-        if (SecurityMode.BASIC == SECUTOR.getMode() && running) {
+        if (SecureMode.BASIC == SECUTOR.getMode() && running) {
             // 直接注入Header
             this.injectHeaders(request, headers);
             try {

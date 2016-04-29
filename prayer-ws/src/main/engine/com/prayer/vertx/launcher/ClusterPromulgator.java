@@ -13,8 +13,8 @@ import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.facade.vtx.Promulgator;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.vertx.config.tp.HazelcastIntaker;
 import com.prayer.vertx.handler.deploy.ClusterHandler;
-import com.prayer.vertx.opts.tp.HazelcastIntaker;
 
 import io.vertx.core.VertxOptions;
 import io.vertx.core.impl.VertxFactoryImpl;

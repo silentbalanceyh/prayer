@@ -1,4 +1,4 @@
-package com.prayer.vertx.opts.uri;
+package com.prayer.vertx.config.uri;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.prayer.business.configuration.impl.ConfigBllor;
 import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
 import com.prayer.facade.engine.cv.WebKeys;
-import com.prayer.facade.vtx.config.EngineOptsIntaker;
+import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.model.meta.vertx.PEUri;
@@ -25,7 +25,7 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-public class UriOptsIntaker implements EngineOptsIntaker<String, JsonObject> {
+public class UriOptsIntaker implements Intaker<ConcurrentMap<String, JsonObject>> {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
 

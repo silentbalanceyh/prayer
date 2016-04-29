@@ -109,7 +109,7 @@ public final class SystemEnum { // NOPMD
     }
 
     /** 认证模式 **/
-    public static enum SecurityMode {
+    public static enum SecureMode {
         BASIC, // BASIC
         DIGEST, // DIGEST
         OAUTH2 // OAUTH2

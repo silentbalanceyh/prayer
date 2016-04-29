@@ -12,7 +12,7 @@ import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.resource.InceptBus;
-import com.prayer.vertx.opts.ServerOptsIntaker;
+import com.prayer.vertx.config.ServerOptsIntaker;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
