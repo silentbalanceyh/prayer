@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import com.prayer.dao.ObjectTransferer;
 import com.prayer.dao.data.DataRecordDalor;
 import com.prayer.facade.business.instantor.deployment.DataInstantor;
-import com.prayer.facade.constant.Constants.EXTENSION;
-import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.database.dao.RecordDao;
 import com.prayer.facade.model.record.Record;
 import com.prayer.facade.util.Transferer;
@@ -58,7 +56,7 @@ public class DataBllor implements DataInstantor {
     /** **/
     public DataBllor() {
         /** 实例化当前的Dao **/
-        this.performer = reservoir(DataRecordDalor.class.getName(), DataRecord.class);
+        this.performer = reservoir(DataRecord.class.getName(),DataRecordDalor.class);
         this.transferer = singleton(ObjectTransferer.class);
     }
 
@@ -73,19 +71,25 @@ public class DataBllor implements DataInstantor {
         for (final String file : entities) {
             /** 3.注：文件名就是identifier **/
             final String identifier = file;
-            final String dataFile = folder + "/" + file + Symbol.DOT + EXTENSION.JSON;
-            /** 4.数据导入 **/
-            final JsonArray dataArr = this.buildRaw(dataFile);
-            final int size = dataArr.size();
-            info(LOGGER, MessageFormat.format(DATA_PROC, getClass().getSimpleName(), dataFile, identifier));
-            for (int idx = 0; idx < size; idx++) {
-                /** 5.读取对象数据 **/
-                final JsonObject data = dataArr.getJsonObject(idx);
-                /** 6.初始化Record **/
-                final Record record = this.transferer.toRecord(identifier, DataRecord.class, data);
-                /** 7.插入Record **/
-                this.performer.insert(record);
+            final String dataFolder = folder + "/" + file;
+            /** 4.枚举目录下所有文件 **/
+            final List<String> dataFiles = IOKit.listFiles(dataFolder);
+            for(final String dataFile: dataFiles){
+                final String finalFile = dataFolder + "/" + dataFile;
+                /** 4.数据导入 **/
+                final JsonArray dataArr = this.buildRaw(finalFile);
+                final int size = dataArr.size();
+                info(LOGGER, MessageFormat.format(DATA_PROC, getClass().getSimpleName(), finalFile, identifier));
+                for (int idx = 0; idx < size; idx++) {
+                    /** 5.读取对象数据 **/
+                    final JsonObject data = dataArr.getJsonObject(idx);
+                    /** 6.初始化Record **/
+                    final Record record = this.transferer.toRecord(identifier, DataRecord.class, data);
+                    /** 7.插入Record **/
+                    this.performer.insert(record);
+                }
             }
+            
         }
         return true;
     }
@@ -98,6 +102,7 @@ public class DataBllor implements DataInstantor {
             data = new JsonArray(IOKit.getContent(file));
         } catch (DecodeException ex) {
             jvmError(LOGGER, ex);
+            ex.printStackTrace();
         }
         return data;
     }
