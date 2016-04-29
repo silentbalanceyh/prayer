@@ -15,10 +15,10 @@ import com.prayer.facade.engine.rmi.StandardQuoter;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.metaserver.h2.util.UriResolver;
-import com.prayer.model.web.options.JsonOptions;
 import com.prayer.resource.InceptBus;
 import com.prayer.resource.Resources;
 import com.prayer.util.rmi.RemoteInvoker;
+import com.prayer.vertx.web.options.JsonOptions;
 
 import io.vertx.core.json.JsonObject;
 

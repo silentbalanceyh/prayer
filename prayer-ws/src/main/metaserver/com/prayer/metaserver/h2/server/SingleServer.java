@@ -19,7 +19,7 @@ import com.prayer.fantasm.metaserver.h2.AbstractH2Server;
 import com.prayer.metaserver.h2.callback.MetaServerClosurer;
 import com.prayer.metaserver.h2.util.RemoteRefers;
 import com.prayer.metaserver.h2.util.UriResolver;
-import com.prayer.model.web.options.JsonOptions;
+import com.prayer.vertx.web.options.JsonOptions;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

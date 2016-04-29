@@ -26,8 +26,8 @@ import com.prayer.metaserver.h2.callback.MetaServerClosurer;
 import com.prayer.metaserver.h2.util.ParamsResolver;
 import com.prayer.metaserver.h2.util.RemoteRefers;
 import com.prayer.metaserver.h2.util.UriResolver;
-import com.prayer.model.web.options.JsonOptions;
 import com.prayer.util.Converter;
+import com.prayer.vertx.web.options.JsonOptions;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

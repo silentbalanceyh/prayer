@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.prayer</groupId>
         <artifactId>prayer</artifactId>
-        <version>0.5-SNAPSHOT</version>
+        <version>0.8-SNAPSHOT</version>
     </parent>
     <artifactId>prayer-sample</artifactId>
     <name>Prayer Samples of JDK</name>
@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
-    	<!-- Http Client -->
+        <!-- Http Client -->
         <!-- Vert.X Web -->
         <dependency>
             <groupId>io.vertx</groupId>

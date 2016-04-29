@@ -16,8 +16,8 @@ import com.prayer.metaserver.h2.opts.ClusterOptions;
 import com.prayer.metaserver.h2.opts.ExtOptions;
 import com.prayer.metaserver.h2.opts.JdbcOptions;
 import com.prayer.metaserver.h2.opts.SingleOptions;
-import com.prayer.model.web.options.JsonOptions;
 import com.prayer.resource.InceptBus;
+import com.prayer.vertx.web.options.JsonOptions;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.guard.Guarded;

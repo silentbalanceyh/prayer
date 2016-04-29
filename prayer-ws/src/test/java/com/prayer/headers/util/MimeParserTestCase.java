@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.prayer.vertx.util.MimeParser;
+import com.prayer.util.vertx.MimeParser;
 
 /**
  * 

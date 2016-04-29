@@ -9,7 +9,7 @@ import com.prayer.exception.web._415MimeNotMatchException;
 import com.prayer.facade.vtx.headers.Acceptor;
 import com.prayer.fantasm.vtx.header.AbstractAcceptor;
 import com.prayer.model.web.StatusCode;
-import com.prayer.vertx.util.MimeParser;
+import com.prayer.util.vertx.MimeParser;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.http.HttpHeaders;

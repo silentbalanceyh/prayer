@@ -8,8 +8,8 @@ import com.prayer.exception.web._500InternalServerErrorException;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.vtx.request.Asynchor;
 import com.prayer.model.web.StatusCode;
-import com.prayer.vertx.util.SharedDator;
-import com.prayer.vertx.util.UriAcquirer;
+import com.prayer.util.vertx.SharedDator;
+import com.prayer.util.vertx.UriAcquirer;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.AsyncResult;
