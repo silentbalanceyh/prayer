@@ -14,6 +14,7 @@ import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.resource.Point;
 import com.prayer.resource.InceptBus;
+import com.prayer.resource.Resources;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
@@ -41,7 +42,7 @@ public final class StringKit {
     public static String decodeURL(final String inputValue) {
         String ret = inputValue;
         try {
-            ret = URLDecoder.decode(inputValue, InceptBus.build(Point.System.class).getString(Point.System.ENCODING));
+            ret = URLDecoder.decode(inputValue, Resources.ENCODING.name());
         } catch (UnsupportedEncodingException ex) {
             jvmError(LOGGER, ex);
         } catch (IllegalArgumentException ex) {

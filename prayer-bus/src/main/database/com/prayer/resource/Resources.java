@@ -2,6 +2,8 @@ package com.prayer.resource;
 
 import static com.prayer.util.Converter.fromStr;
 
+import java.nio.charset.Charset;
+
 import com.prayer.constant.SystemEnum.SecureMode;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
@@ -41,6 +43,8 @@ public class Resources {
     public static final Inceptor JDBC = InceptBus.build(Point.Database.class, Point.Database.Jdbc.JDBC);
     /** 数据库名 **/
     public static final String DATABASE = JDBC.getString(Data.CATEGORY + ".jdbc.database.name");
+    /** 全局编码方式 **/
+    public static final Charset ENCODING = Charset.forName(InceptBus.build(Point.System.class).getString(Point.System.ENCODING));
 
     /** 安全Key **/
     public static final class Security {

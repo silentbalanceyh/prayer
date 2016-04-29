@@ -43,12 +43,16 @@ public interface SecKeys {
     }
     /** Basic认证 **/
     @VertexPoint(Interface.CONSTANT)
-    interface Basic {
+    interface User {
         /** 用户常量 **/
         @VertexPoint(Interface.CONSTANT)
-        interface User {
-
+        interface Basic {
+            /** **/
             String ID = "id";
+            /** **/
+            String USERNAME = Shared.USERNAME;
+            /** **/
+            String TOKEN = "token";
         }
     }
 }

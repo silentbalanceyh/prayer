@@ -11,10 +11,9 @@ import com.google.common.net.HttpHeaders;
 import com.prayer.exception.web._500InternalServerErrorException;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.engine.cv.msg.MsgVertx;
-import com.prayer.facade.resource.Point;
 import com.prayer.facade.vtx.endpoint.MessageXDCR;
 import com.prayer.fantasm.exception.AbstractException;
-import com.prayer.resource.InceptBus;
+import com.prayer.resource.Resources;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.AsyncResult;
@@ -34,8 +33,6 @@ public class MessageSender implements MessageXDCR {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageSender.class);
-    /** **/
-    private static final String ENCODING = InceptBus.build(Point.System.class).getString(Point.System.ENCODING);
     // ~ Instance Fields =====================================
     /** 响应信息 **/
     private transient HttpServerResponse response;
@@ -54,7 +51,7 @@ public class MessageSender implements MessageXDCR {
     @Override
     public void handle(final AsyncResult<Message<JsonObject>> event) {
         /** 1.读取编码方式 **/
-        response.headers().add(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + ENCODING);
+        response.headers().add(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + Resources.ENCODING.name());
         /** 2.数据抽取 **/
         if (event.succeeded()) {
             final JsonObject data = event.result().body();
@@ -65,7 +62,7 @@ public class MessageSender implements MessageXDCR {
                 final JsonObject status = this.getStatus(data);
                 response.setStatusCode(status.getInteger(WebKeys.Envelop.Status.CODE));
                 response.setStatusMessage(status.getString(WebKeys.Envelop.Status.MESSAGE));
-                response.end(data.encode(), ENCODING);
+                response.end(data.encode(), Resources.ENCODING.name());
             } else {
                 this.fireInternalError();
             }
@@ -83,7 +80,7 @@ public class MessageSender implements MessageXDCR {
         /** 提取响应信息 **/
         response.setStatusCode(envelop.status().code());
         response.setStatusMessage(envelop.status().message());
-        response.end(envelop.result().encode(), ENCODING);
+        response.end(envelop.result().encode(), Resources.ENCODING.name());
     }
 
     private JsonObject getStatus(final JsonObject data) {

@@ -1,13 +1,11 @@
 package com.prayer.model.type;
 
 import java.lang.reflect.Type;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.crucial.Value;
-import com.prayer.facade.resource.Point;
-import com.prayer.resource.InceptBus;
+import com.prayer.resource.Resources;
 
 /**
  * 字节数组
@@ -72,7 +70,7 @@ public class BinaryType implements Value<byte[]> {
     /** **/
     @Override
     public String literal(){
-        return new String(this.value,Charset.forName(InceptBus.build(Point.System.class).getString(Point.System.ENCODING)));
+        return new String(this.value,Resources.ENCODING);
     }
 
     // ~ Methods =============================================

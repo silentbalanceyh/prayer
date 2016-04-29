@@ -18,6 +18,7 @@ import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.resource.Point;
 import com.prayer.resource.InceptBus;
+import com.prayer.resource.Resources;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
@@ -170,7 +171,7 @@ public final class Converter {
             out.write(data, Constants.ZERO, count);
         }
         if (Constants.ZERO < out.size()) {
-            ret = new String(out.toByteArray(), InceptBus.build(Point.System.class).getString(Point.System.ENCODING));
+            ret = new String(out.toByteArray(), Resources.ENCODING);
             // Close Output Stream
             out.close();
         }

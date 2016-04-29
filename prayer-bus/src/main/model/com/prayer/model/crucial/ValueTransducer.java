@@ -1,12 +1,10 @@
 package com.prayer.model.crucial;
 
 import java.math.BigDecimal;
-import java.nio.charset.Charset;
 
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.crucial.Transducer;
 import com.prayer.facade.model.crucial.Value;
-import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.type.BinaryType;
 import com.prayer.model.type.BooleanType;
@@ -19,7 +17,7 @@ import com.prayer.model.type.LongType;
 import com.prayer.model.type.ScriptType;
 import com.prayer.model.type.StringType;
 import com.prayer.model.type.XmlType;
-import com.prayer.resource.InceptBus;
+import com.prayer.resource.Resources;
 
 import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.InstanceOf;
@@ -75,8 +73,7 @@ public final class ValueTransducer implements Transducer { // NOPMD
         }
             break;
         case BINARY: {
-			final byte[] bytes = data.getString(field)
-					.getBytes(Charset.forName(InceptBus.build(Point.System.class).getString(Point.System.ENCODING)));
+            final byte[] bytes = data.getString(field).getBytes(Resources.ENCODING);
             ret = new BinaryType(bytes);
         }
             break;

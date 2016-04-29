@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +23,9 @@ import org.slf4j.LoggerFactory;
 import com.prayer.constant.log.InfoKey;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.resource.Point;
 import com.prayer.plugin.io.filter.OnlyDirectoryFilter;
 import com.prayer.plugin.io.filter.OnlyFileFilter;
-import com.prayer.resource.InceptBus;
+import com.prayer.resource.Resources;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -45,10 +43,6 @@ public final class IOKit {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(IOKit.class);
-
-    /** **/
-    // private static final Charset ENCODING = Charset
-    // .forName(InceptBus.build(Point.System.class).getString(Point.System.ENCODING));
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -74,9 +68,7 @@ public final class IOKit {
         try {
             if (null != inStream) {
                 /** 防止循环引用，将下边这段代码转移到局部变量中 **/
-                final Charset ENCODING = Charset
-                        .forName(InceptBus.build(Point.System.class).getString(Point.System.ENCODING));
-                reader = new BufferedReader(new InputStreamReader(inStream, ENCODING));
+                reader = new BufferedReader(new InputStreamReader(inStream, Resources.ENCODING));
                 String line = null;
                 while (null != (line = reader.readLine())) { // NOPMD
                     builder.append(line).append(Symbol.NEW_LINE);

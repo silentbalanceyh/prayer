@@ -5,7 +5,6 @@ import static com.prayer.util.debug.Log.jvmError;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -16,8 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.resource.Point;
-import com.prayer.resource.InceptBus;
+import com.prayer.resource.Resources;
 
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
@@ -45,7 +43,7 @@ public final class SqlKit {
         try (final Connection conn = dataSource.getConnection()) {
             final ScriptRunner runner = new ScriptRunner(conn);
             final ByteArrayInputStream istream = new ByteArrayInputStream(
-                    sql.getBytes(InceptBus.build(Point.System.class).getString(Point.System.ENCODING)));
+                    sql.getBytes(Resources.ENCODING));
             final Reader sqlReader = new InputStreamReader(istream);
             // set to false, runs script line by line
             runner.setSendFullScript(false);
@@ -54,7 +52,7 @@ public final class SqlKit {
             // 默认日志级别输出SQL语句是DEBUG级别，只要不是级别则不会输出
             // conn.close();
             ret = Constants.RC_SUCCESS;
-        } catch (SQLException | UnsupportedEncodingException ex) {
+        } catch (SQLException ex) {
             jvmError(LOGGER, ex);
         }
         return ret;
