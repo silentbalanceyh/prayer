@@ -17,6 +17,8 @@ import com.prayer.facade.engine.cv.RmiKeys;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.facade.vtx.Promulgator;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.resource.Injections;
+import com.prayer.script.js.JSWorkshop;
 import com.prayer.vertx.callback.VertxClosurer;
 import com.prayer.vertx.opts.VertxOptsIntaker;
 import com.prayer.vertx.util.RemoteRefers;
@@ -72,6 +74,10 @@ public class VertxLauncher implements Launcher {
             RemoteRefers.registry(STOP_ADDR, RUNNING);
             /** 6.开启新线程，处理Stop **/
             new Thread(new VertxClosurer(STOP_ADDR, this::outlet)).start();
+            /** 7.初始化脚本引擎 **/
+            {
+                singleton(Injections.Service.SCRIPT_ENGINE);
+            }
         }
     }
 

@@ -17,12 +17,19 @@ public class Injections {
     public static final Class<?> CACHE = INCEPTOR.getClass(Point.Injection.CATCH);
     /** Data连接 **/
     public static final Class<?> POOL = INCEPTOR.getClass(Point.Injection.Data.POOL);
-    
-    public static final class Web{
+
+    /** Web **/
+    public static final class Web {
         /** URI Hooker **/
         public static final Class<?> URI_HOOKER = INCEPTOR.getClass(Point.Injection.Web.URI_HOOKER);
     }
-    
+
+    /** Script Engine **/
+    public static final class Service {
+        /** Script **/
+        public static final Class<?> SCRIPT_ENGINE = INCEPTOR.getClass(Point.Injection.Service.SCRIPT_ENGINE);
+    }
+
     /** 元数据库访问 **/
     public static final class Meta {
         /** Meta Data 连接 **/
@@ -32,6 +39,7 @@ public class Injections {
         /** Launcher类 **/
         public static final Class<?> LAUNCHER = INCEPTOR.getClass(Point.Injection.Meta.LAUNCHER);
     }
+
     /** 数据库访问 **/
     public static final class Data {
         /** Validator **/

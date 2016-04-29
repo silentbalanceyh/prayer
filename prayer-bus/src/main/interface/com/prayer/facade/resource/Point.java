@@ -207,6 +207,12 @@ public interface Point {
             /** Pattern的Hooker钩子 **/
             String URI_HOOKER = "web.uri.hooker";
         }
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
+        interface Service{
+            /** Script Engine **/
+            String SCRIPT_ENGINE = "script.engine";
+        }
 
         /** **/
         @VertexPoint(Interface.CONSTANT)

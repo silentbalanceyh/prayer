@@ -31,7 +31,7 @@ public class RecvFabricator extends AbstractFabricator implements Fabricator {
         /** 1.Acceptor **/
         router.route(PATH_API).order(orders().getInt(Point.Web.Orders.Api.ACCEPTOR)).handler(this.buildAcceptor());
         /** 2.Sinker **/
-        router.route(PATH_API).order(orders().getInt(Point.Web.Orders.Api.SINKER)).handler(this.buildSinker());
+        router.route(PATH_API).order(orders().getInt(Point.Web.Orders.Api.SINKER)).blockingHandler(this.buildSinker());
     }
 
     // ~ Methods =============================================
