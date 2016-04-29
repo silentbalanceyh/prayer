@@ -7,9 +7,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.entity.Attributes;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.model.AbstractEntity;
 import com.prayer.plugin.jackson.ClassDeserializer;
 import com.prayer.plugin.jackson.ClassSerializer;
+import com.prayer.resource.InceptBus;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -28,6 +31,10 @@ public class PEAddress extends AbstractEntity<String> { // NOPMD
      * 
      */
     private static final long serialVersionUID = -1215877643355466773L;
+    /**
+     * 
+     */
+    private static final Inceptor INCEPTOR = InceptBus.build(Point.Uri.class);
     // ~ Instance Fields =====================================
     /** K_ID: EVX_ADDRESS表的主键 **/
     @JsonProperty(ID)
@@ -39,12 +46,12 @@ public class PEAddress extends AbstractEntity<String> { // NOPMD
     private Class<?> workClass;
     /** S_CONSUMER_ADDR **/
     @JsonProperty(CONSUMER_ADDR)
-    private String consumerAddr;
+    private String consumerAddr = INCEPTOR.getString(Point.Uri.Address.QUEUE);
     /** S_CONSUMER_HANDLER **/
     @JsonProperty(CONSUMER_HANDLER)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private Class<?> consumerHandler;
+    private Class<?> consumerHandler = INCEPTOR.getClass(Point.Uri.Address.CONSUMER);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -175,9 +182,10 @@ public class PEAddress extends AbstractEntity<String> { // NOPMD
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override
-    public String toString(){
+    public String toString() {
         return this.toJson().encode();
     }
+
     /** **/
     @Override
     public int hashCode() {

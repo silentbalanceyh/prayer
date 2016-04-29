@@ -13,8 +13,8 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-@VertexPoint(Interface.ENG_PRIVATE)
-interface WriteEndPoint {
+@VertexPoint(Interface.RESTFUL)
+public interface WriteEndPoint {
     /**
      * PUT请求专用方法
      * @param request

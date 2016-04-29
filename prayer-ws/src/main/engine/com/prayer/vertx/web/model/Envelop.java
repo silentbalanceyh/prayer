@@ -7,18 +7,15 @@ import java.io.Serializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.behavior.ActResponse;
 import com.prayer.model.web.StatusCode;
 
 import io.vertx.core.MultiMap;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.shareddata.impl.ClusterSerializable;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -28,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class Envelop implements Serializable, ClusterSerializable {
+public final class Envelop implements Serializable {
     // ~ Static Fields =======================================
     /**
      * 
@@ -43,7 +40,7 @@ public final class Envelop implements Serializable, ClusterSerializable {
     /** 是否包含自定义错误 **/
     private transient AbstractException error;
     /** 最终返回数据信息 **/
-    private transient final Buffer data;
+    private transient final JsonObject data;
     /** Http Header信息 **/
     private transient final JsonObject headers;
 
@@ -86,13 +83,12 @@ public final class Envelop implements Serializable, ClusterSerializable {
         this.headers = new JsonObject();
         this.error = null;
         this.status = StatusCode.OK;
-        this.data = Buffer.buffer();
-        data.writeToBuffer(this.data);
+        this.data = data;
     }
 
     private Envelop(final AbstractException error, final StatusCode status) {
         this.headers = new JsonObject();
-        this.data = Buffer.buffer();
+        this.data = new JsonObject();
         this.error = error;
         this.status = status;
     }
@@ -102,10 +98,10 @@ public final class Envelop implements Serializable, ClusterSerializable {
     private Envelop(final ActResponse response, final StatusCode status) {
         this.headers = new JsonObject();
         if (response.success()) {
-            this.data = Buffer.buffer(response.getResult().encode());
+            this.data = response.getResult();
             this.error = null;
         } else {
-            this.data = Buffer.buffer();
+            this.data = new JsonObject();
             this.error = response.getError();
         }
         this.status = status;
@@ -113,23 +109,6 @@ public final class Envelop implements Serializable, ClusterSerializable {
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /**
-     * 
-     */
-    @Override
-    public void writeToBuffer(final Buffer buffer) {
-        // 响应结果写入到Buffer中
-        this.result().writeToBuffer(buffer);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public int readFromBuffer(final int pos, final Buffer buffer) {
-        // 响应结果读取到Buffer中
-        return this.result().readFromBuffer(pos, buffer);
-    }
 
     /**
      * 
@@ -208,10 +187,10 @@ public final class Envelop implements Serializable, ClusterSerializable {
                 data.put(WebKeys.Envelop.Data.HEADER, this.headers);
             }
             /** 5.放入Body **/
-            if (null != this.data && Constants.ZERO < this.data.length()) {
+            if (null != this.data && !this.data.isEmpty()) {
                 /** 5.读取Data信息 **/
                 final JsonObject content = new JsonObject();
-                content.readFromBuffer(Constants.POS, this.data);
+                content.mergeIn(this.data);
                 /** 6.生成响应 **/
                 data.put(WebKeys.Envelop.Data.BODY, content);
             }
@@ -226,6 +205,7 @@ public final class Envelop implements Serializable, ClusterSerializable {
         return result;
     }
     // ~ Private Methods =====================================
+    
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

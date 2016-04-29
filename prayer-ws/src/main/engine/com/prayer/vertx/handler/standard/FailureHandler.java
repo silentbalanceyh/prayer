@@ -1,6 +1,8 @@
 package com.prayer.vertx.handler.standard;
 
 import com.google.common.net.HttpHeaders;
+import com.prayer.facade.resource.Point;
+import com.prayer.resource.InceptBus;
 import com.prayer.vertx.util.Fault;
 import com.prayer.vertx.web.model.Envelop;
 
@@ -34,11 +36,13 @@ public class FailureHandler implements Handler<RoutingContext> {
         final Envelop envelop = Fault.get(event);
         /** 2.设置相应信息 **/
         final HttpServerResponse response = event.response();
-        /** 3.从Envelop中抽取响应所需详细信息 **/
+        /** 3.编码方式 **/
+        String encoding = InceptBus.build(Point.System.class).getString(Point.System.ENCODING);
+        /** 4.从Envelop中抽取响应所需详细信息 **/
         response.setStatusCode(envelop.status().code());
         response.setStatusMessage(envelop.status().message());
-        response.headers().add(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
-        response.end(envelop.result().encode());
+        response.headers().add(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + encoding);
+        response.end(envelop.result().encode(),encoding);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

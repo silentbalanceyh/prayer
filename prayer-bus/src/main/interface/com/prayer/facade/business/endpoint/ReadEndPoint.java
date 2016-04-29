@@ -14,8 +14,8 @@ import io.vertx.core.json.JsonObject;
  * @author Lang
  *
  */
-@VertexPoint(Interface.ENG_PRIVATE)
-interface ReadEndPoint {
+@VertexPoint(Interface.RESTFUL)
+public interface ReadEndPoint {
 
     /**
      * GET请求专用方法

@@ -42,4 +42,8 @@ public interface MsgVertx extends MsgCommon {
     String REQ_ACCEPT_MATCH = "( {0} ) Actual: {1} ( q = {2} ), Expect: {3}, the match result is {4}";
     /** **/
     String SEV_ENDDATA = "( {0} ) Message Locating to address : {1}, message data {2} has been send by Sender: {3}.";
+    /** **/
+    String SEV_SENDER = "( {0} ) Message Sender {1} has got response data {2} from event Bus.";
+    /** **/
+    String SEV_CONSUMER = "( {0} ) Message Consumer {1} has got request data, call service method ( Stubor ).";
 }

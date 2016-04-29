@@ -209,7 +209,6 @@ public class ActRequest implements Serializable {
              // identifier必须
                 this.identifier = this.strEnsurer.ensureRequired(params, Constants.PARAM.ID);
                 anagnorisis.identifier(params);
-                System.out.println(params);
                 /** 对当前Record的identifier进行赋值 **/
                 this.identifier = params.getString(Constants.PARAM.ID);
             } catch (AbstractException ex) {

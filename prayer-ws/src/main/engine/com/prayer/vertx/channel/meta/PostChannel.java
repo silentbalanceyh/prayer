@@ -1,13 +1,14 @@
-package com.prayer.vertx.actor.worker;
+package com.prayer.vertx.channel.meta;
 
-import io.vertx.core.AbstractVerticle;
+import com.prayer.facade.engine.fun.Invoker;
+import com.prayer.fantasm.vtx.uca.AbstractChannel;
 
 /**
- * VertX中的Worker部署，根据当前Worker的Class读取对应的EventBus的信息
+ * DataRecord访问
  * @author Lang
- *
+ * 
  */
-public class RecordWorker extends AbstractVerticle{
+public class PostChannel extends AbstractChannel {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -15,9 +16,13 @@ public class RecordWorker extends AbstractVerticle{
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public Invoker getAction(){
+        return this.getMetaKit()::post;
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
 }

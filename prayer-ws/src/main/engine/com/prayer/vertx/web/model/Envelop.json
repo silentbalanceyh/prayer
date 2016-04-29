@@ -1,0 +1,18 @@
+{
+    "status":{
+        "code",
+        "message"
+    },
+    "error":{
+        "code",
+        "message"
+    },
+    "data":{
+        "header":{
+            
+        },
+        "body":{
+            
+        }
+    }
+}

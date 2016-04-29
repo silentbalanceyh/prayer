@@ -73,7 +73,7 @@ public interface WebKeys {
         interface Status {
             /** 状态代码 **/
             String CODE = "code";
-            /** 状态Title **/
+            /** 状态Message **/
             String MESSAGE = "message";
         }
 

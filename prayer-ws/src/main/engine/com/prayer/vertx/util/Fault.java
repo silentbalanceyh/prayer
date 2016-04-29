@@ -18,6 +18,7 @@ public final class Fault {
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
+    
     /**
      * 
      * @param context
