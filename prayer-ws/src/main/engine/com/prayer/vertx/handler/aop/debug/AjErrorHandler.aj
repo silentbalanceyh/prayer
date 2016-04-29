@@ -16,25 +16,25 @@ import io.vertx.ext.web.RoutingContext;
 public aspect AjErrorHandler {
     // ~ Point Cut ===========================================
     /** 切点定义 **/
-    pointcut ErrorPointCut(final RoutingContext event):execution(void com.prayer.vertx.handler.standard.*.handle(RoutingContext)) && args(event);
+    pointcut NonSecureErrorPointCut(final RoutingContext event):execution(void com.prayer.vertx.handler.standard.*.handle(RoutingContext)) && args(event);
 
     /** 抛出异常 **/
-    after(final RoutingContext event)throwing(Throwable ex):ErrorPointCut(event){
+    after(final RoutingContext event)throwing(Throwable ex):NonSecureErrorPointCut(event){
         final Class<?> target = thisJoinPoint.getTarget().getClass();
         final Logger logger = LoggerFactory.getLogger(target);
         jvmError(logger, ex);
         ex.printStackTrace();
     }
-    // ~ Static Fields =======================================
-    // ~ Instance Fields =====================================
-    // ~ Static Block ========================================
-    // ~ Static Methods ======================================
-    // ~ Constructors ========================================
-    // ~ Abstract Methods ====================================
-    // ~ Override Methods ====================================
-    // ~ Methods =============================================
-    // ~ Private Methods =====================================
-    // ~ Get/Set =============================================
-    // ~ hashCode,equals,toString ============================
+    
+    /** 切点定义 **/
+    pointcut SecureErrorPointCut(final RoutingContext event):execution(void com.prayer.secure.basic.BasicKeaper.handle(RoutingContext)) && args(event);
+
+    /** 抛出异常 **/
+    after(final RoutingContext event)throwing(Throwable ex):SecureErrorPointCut(event){
+        final Class<?> target = thisJoinPoint.getTarget().getClass();
+        final Logger logger = LoggerFactory.getLogger(target);
+        jvmError(logger, ex);
+        ex.printStackTrace();
+    }
 
 }

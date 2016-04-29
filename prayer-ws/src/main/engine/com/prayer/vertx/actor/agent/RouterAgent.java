@@ -22,6 +22,7 @@ import com.prayer.vertx.web.router.CorsFabricator;
 import com.prayer.vertx.web.router.LocateFabricator;
 import com.prayer.vertx.web.router.RecvFabricator;
 import com.prayer.vertx.web.router.RouterFabricator;
+import com.prayer.vertx.web.router.SecureFabricator;
 import com.prayer.vertx.web.router.StdnFabricator;
 import com.prayer.vertx.web.router.WebFabricator;
 
@@ -137,6 +138,10 @@ public class RouterAgent extends AbstractVerticle {
         // Sender
         // Failure Handler
         fabricator = singleton(LocateFabricator.class);
+        fabricator.immitRouter(router);
+        /** 6.Secure **/
+        // Keaper
+        fabricator = singleton(SecureFabricator.class);
         fabricator.immitRouter(router);
     }
     // ~ Get/Set =============================================

@@ -21,17 +21,29 @@ import io.vertx.ext.web.RoutingContext;
 public aspect AjLogger {
     // ~ Point Cut ===========================================
     /** 切点定义 **/
-    pointcut LogPointCut(final RoutingContext event): execution(void com.prayer.vertx.handler.standard.*.handle(RoutingContext)) && args(event) && target(Handler);
+    pointcut NonSecurePointCut(final RoutingContext event): execution(void com.prayer.vertx.handler.standard.*.handle(RoutingContext)) && args(event) && target(Handler);
 
-    // ~ Point Cut Implements ================================
     /** 切点实现 **/
-    before(final RoutingContext event):LogPointCut(event){
+    before(final RoutingContext event):NonSecurePointCut(event){
         /** 1.获取每个参数信息 **/
         final Class<?> target = thisJoinPoint.getTarget().getClass();
         final String path = event.request().path();
         /** 2.读取对应日志器 **/
         final Logger logger = LoggerFactory.getLogger(target);
         info(logger, MessageFormat.format(MsgVertx.INF_HANDLER, target.getSimpleName(), path, target.getName()));
-        
+    }
+
+    // ~ Point Cut Implements ================================
+    /** 切点定义 **/
+    pointcut SecureLogPointCut(final RoutingContext event): execution(void com.prayer.secure.basic.BasicKeaper.handle(RoutingContext)) && args(event) && target(Handler);
+
+    /** 切点实现 **/
+    before(final RoutingContext event):SecureLogPointCut(event){
+        /** 1.获取每个参数信息 **/
+        final Class<?> target = thisJoinPoint.getTarget().getClass();
+        final String path = event.request().path();
+        /** 2.读取对应日志器 **/
+        final Logger logger = LoggerFactory.getLogger(target);
+        info(logger, MessageFormat.format(MsgVertx.INF_HANDLER, target.getSimpleName(), path, target.getName()));
     }
 }

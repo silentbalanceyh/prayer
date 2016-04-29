@@ -53,6 +53,10 @@ public interface Point {
     @VertexPoint(Interface.CONSTANT)
     interface Security {
         /** **/
+        String PROVIDER = "secure.provider";
+        /** **/
+        String HANDLER = "secure.handler";
+        /** **/
         @VertexPoint(Interface.CONSTANT)
         interface Shared {
             /** **/
@@ -409,6 +413,8 @@ public interface Point {
             /** **/
             @VertexPoint(Interface.CONSTANT)
             interface Api {
+                /** 0.Secure **/
+                String AUTH = "handler.secure";
                 /** 1.URI **/
                 String URI = "handler.strainer.uri";
                 /** 2.Sinkor **/
