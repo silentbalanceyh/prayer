@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import com.prayer.business.deployment.impl.DeployBllor;
 import com.prayer.exception.launcher.MetaServerStoppedException;
 import com.prayer.facade.business.instantor.deployment.DeployInstantor;
-import com.prayer.facade.engine.cv.MsgCommon;
 import com.prayer.facade.engine.cv.RmiKeys;
+import com.prayer.facade.engine.cv.msg.MsgCommon;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.metaserver.h2.util.RemoteRefers;
 

@@ -8,7 +8,7 @@ import java.text.MessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.facade.engine.cv.MsgVertx;
+import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.facade.engine.fun.OutLet;
 import com.prayer.util.string.StringKit;
 import com.prayer.vertx.util.RemoteRefers;

@@ -1,4 +1,4 @@
-package com.prayer.facade.engine.cv;
+package com.prayer.facade.engine.cv.msg;
 
 /**
  * 

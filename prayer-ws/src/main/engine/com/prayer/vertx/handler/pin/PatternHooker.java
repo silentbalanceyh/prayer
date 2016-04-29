@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.exception.web._405PatternGetDeleteOnlyException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
-import com.prayer.facade.engine.cv.MsgVertx;
+import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.model.web.StatusCode;
 import com.prayer.vertx.util.Fault;
 import com.prayer.vertx.util.UriAcquirer;

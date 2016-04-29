@@ -1,9 +1,14 @@
-package com.prayer.facade.engine.cv;
+package com.prayer.facade.engine.cv.msg;
+
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+
 /**
  * 数据发布过程的消息
  * @author Lang
  *
  */
+@VertexPoint(Interface.CONSTANT)
 public interface MsgDeployment extends MsgCommon {
     /** **/
     String INIT_FILE = "( {0} ) Start to initialize Meta Server... ( filename = {1} )";

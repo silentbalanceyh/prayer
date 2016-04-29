@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.net.HttpHeaders;
 import com.prayer.exception.web._500InternalServerErrorException;
-import com.prayer.facade.engine.cv.MsgVertx;
 import com.prayer.facade.engine.cv.WebKeys;
+import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.facade.resource.Point;
 import com.prayer.facade.vtx.endpoint.MessageXDCR;
 import com.prayer.fantasm.exception.AbstractException;

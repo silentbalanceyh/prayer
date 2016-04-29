@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.engine.cv.MsgVertx;
+import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.model.business.behavior.ActResponse;
 import com.prayer.vertx.web.model.Envelop;
 

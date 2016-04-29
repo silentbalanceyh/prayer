@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hazelcast.config.Config;
-import com.prayer.facade.engine.cv.MsgVertx;
+import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.facade.vtx.Promulgator;
 import com.prayer.fantasm.exception.AbstractException;

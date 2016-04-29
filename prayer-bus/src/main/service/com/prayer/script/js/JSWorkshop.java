@@ -3,6 +3,7 @@ package com.prayer.script.js;
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import javax.script.Bindings;
@@ -33,6 +34,12 @@ public final class JSWorkshop implements Workshop {
 
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(JSWorkshop.class);
+    /** **/
+    private static final String MSG_START = "( {0} ) Script Engine start to initilize...";
+    /** **/
+    private static final String MSG_INIT = "( {0} ) Initilizing JavaScript File -> {1} ";
+    /** **/
+    private static final String MSG_END = "( {0} ) Script Engine has been initilized successfully!";
     /** 初始化一个 **/
     private static Workshop WORKSHOP;
     // ~ Instance Fields =====================================
@@ -80,10 +87,10 @@ public final class JSWorkshop implements Workshop {
     // ~ Private Methods =====================================
     private void initEnv() {
         /** 1.读取所有的文件 **/
-        info(LOGGER," Script Engine start to initilize...");
+        info(LOGGER, MessageFormat.format(MSG_START, getClass().getSimpleName()));
         final List<String> files = JSReader.readScripts();
         for (final String file : files) {
-            info(LOGGER, " Initilizing JavaScript file : " + file);
+            info(LOGGER, MessageFormat.format(MSG_INIT, getClass().getSimpleName(), file));
             final String content = IOKit.getContent(file);
             if (StringKit.isNonNil(content)) {
                 /** 2.执行脚本内容 **/
@@ -95,7 +102,7 @@ public final class JSWorkshop implements Workshop {
                 }
             }
         }
-        info(LOGGER," Script Engine has been initilized successfully! ");
+        info(LOGGER, MessageFormat.format(MSG_END, getClass().getSimpleName()));
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

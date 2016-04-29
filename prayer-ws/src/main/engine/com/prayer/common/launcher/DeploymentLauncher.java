@@ -14,7 +14,7 @@ import com.prayer.business.deployment.impl.DeployBllor;
 import com.prayer.exception.system.ApiNotSupportException;
 import com.prayer.facade.business.instantor.deployment.DeployInstantor;
 import com.prayer.facade.engine.Launcher;
-import com.prayer.facade.engine.cv.MsgDeployment;
+import com.prayer.facade.engine.cv.msg.MsgDeployment;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
 import com.prayer.fantasm.exception.AbstractException;

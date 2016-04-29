@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.web._406ClientNotAcceptException;
-import com.prayer.facade.engine.cv.MsgVertx;
+import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.facade.vtx.headers.Acceptor;
 import com.prayer.fantasm.vtx.header.AbstractAcceptor;
 import com.prayer.model.web.StatusCode;

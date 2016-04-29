@@ -1,20 +1,27 @@
 package com.prayer.facade.engine.cv;
 
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexPoint;
+
 /**
  * 内部使用的Message Queue
  * 
  * @author Lang
  *
  */
+@VertexPoint(Interface.CONSTANT)
 public interface WebKeys {
     /** 某个URI的信息表 **/
     String URI_ADDR = "MSG://INTERNAL/QUEUE/URI{0}";
 
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
     interface UriMeta {
         /** Uri本身信息 **/
         String URI = "uri";
 
         /** Rule本身信息 **/
+        @VertexPoint(Interface.CONSTANT)
         interface UAC {
             /** Skewer **/
             String VALIDATOR = "validator";
@@ -25,21 +32,27 @@ public interface WebKeys {
         }
     }
 
+    @VertexPoint(Interface.CONSTANT)
     interface Params {
         /** 参数本身值 **/
         String NAME = "parameters";
     }
 
+    @VertexPoint(Interface.CONSTANT)
     interface Request {
         /** 请求的真实URI地址 **/
         String URI = "REQUEST.URI";
         /** 出现错误的时候的Envelop信息 **/
         String ERR_ENVP = "ERROR.ENVP";
 
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
         interface Data {
             /** 参数信息 **/
             String PARAMS = "DATA.REQ.PARAMS";
 
+            /** **/
+            @VertexPoint(Interface.CONSTANT)
             interface Meta {
                 /** PEUri **/
                 String PEURI = "DATA.URI";
@@ -52,6 +65,8 @@ public interface WebKeys {
             }
         }
 
+        /** **/
+        @VertexPoint(Interface.CONSTANT)
         interface Token {
             /** 请求过程中的模式 **/
             String MODE = "AUTH.MODE";
@@ -61,6 +76,7 @@ public interface WebKeys {
     }
 
     /** 响应信息格式 **/
+    @VertexPoint(Interface.CONSTANT)
     interface Envelop {
         /** Status根节点 **/
         String STATUS = "status";
@@ -70,6 +86,7 @@ public interface WebKeys {
         String DATA = "data";
 
         /** Http状态代码 **/
+        @VertexPoint(Interface.CONSTANT)
         interface Status {
             /** 状态代码 **/
             String CODE = "code";
@@ -78,6 +95,7 @@ public interface WebKeys {
         }
 
         /** Error节点 **/
+        @VertexPoint(Interface.CONSTANT)
         interface Error {
             /** 系统的Error Code **/
             String CODE = "code";
@@ -86,6 +104,7 @@ public interface WebKeys {
         }
 
         /** **/
+        @VertexPoint(Interface.CONSTANT)
         interface Data {
             /** Headers信息 **/
             String HEADER = "header";
@@ -94,8 +113,10 @@ public interface WebKeys {
         }
     }
 
+    @VertexPoint(Interface.CONSTANT)
     interface Shared {
         /** **/
+        @VertexPoint(Interface.CONSTANT)
         interface Params {
             /** JsonObject -> map **/
             String MAP = "map";

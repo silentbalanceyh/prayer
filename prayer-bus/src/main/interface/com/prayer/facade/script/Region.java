@@ -2,6 +2,10 @@ package com.prayer.facade.script;
 
 import javax.script.ScriptException;
 
+import com.prayer.constant.SystemEnum.Api;
+import com.prayer.constant.SystemEnum.Interface;
+import com.prayer.facade.annotation.VertexApi;
+import com.prayer.facade.annotation.VertexPoint;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.Eidolon;
 import com.prayer.model.business.behavior.ActRequest;
@@ -12,6 +16,7 @@ import com.prayer.model.business.behavior.ActRequest;
  * @author Lang
  *
  */
+@VertexPoint(Interface.ENG_PUBLIC)
 public interface Region {
 
     /**
@@ -20,5 +25,6 @@ public interface Region {
      * @return
      * @throws ScriptException
      */
+    @VertexApi(Api.TOOL)
     Eidolon execute(ActRequest request) throws ScriptException, AbstractException;
 }
