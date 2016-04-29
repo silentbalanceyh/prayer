@@ -12,6 +12,3 @@ Value = system.value;
 
 // ------------------从Java中读取绑定-------------
 $ID = system["ID"];
-$Data = $data;      // Java绑定的记录信息
-$ENV = $env;        // Java绑定的记录信息
-

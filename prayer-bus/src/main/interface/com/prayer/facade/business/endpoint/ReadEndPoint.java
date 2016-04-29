@@ -4,6 +4,7 @@ import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
+import com.prayer.model.business.behavior.ActResponse;
 
 import io.vertx.core.json.JsonObject;
 
@@ -23,7 +24,7 @@ interface ReadEndPoint {
      * @return
      */
     @VertexApi(Api.READ)
-    JsonObject get(JsonObject request);
+    ActResponse get(JsonObject request);
 
     /**
      * （POST）Page请求专用方法专用方法
@@ -33,5 +34,5 @@ interface ReadEndPoint {
      */
 
     @VertexApi(Api.READ)
-    JsonObject page(JsonObject request);
+    ActResponse page(JsonObject request);
 }

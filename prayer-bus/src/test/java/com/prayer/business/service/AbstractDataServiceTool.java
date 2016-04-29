@@ -7,6 +7,7 @@ import com.prayer.model.crucial.DataRecord;
 import com.prayer.record.fun.Evaluator;
 
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 
@@ -35,12 +36,16 @@ public abstract class AbstractDataServiceTool extends AbstractService {
         evaluator.evalTrue("[TS] Schema Preparing (save) Result : " + ret, ret);
         if (ret) {
             /** 2.执行Save操作 **/
-            final ActResponse response = this.execute(this.getService()::save, dataFile);
+            final JsonObject data = this.execute(this.getService()::save, dataFile);
+            ActResponse response = new ActResponse();
+            response.success(data);
             /** 3.无错误 **/
             evaluator.evalTrue("[T] DataRecord Test (save) Act : " + dataFile, traceError(response.getError()));
             /** 4.Delete Action调用 **/
-            final ActResponse deleted = this.executeWithData(response, id, dataFile, HttpMethod.DELETE,
+            final JsonObject delData = this.executeWithData(response, id, dataFile, HttpMethod.DELETE,
                     this.getService()::remove);
+            final ActResponse deleted = new ActResponse();
+            deleted.success(delData);
             /** 5.无错误 **/
             evaluator.evalTrue("[T] DataRecord Purged by (remove) Act : " + dataFile, traceError(deleted.getError()));
             /** 6.删除Schema **/

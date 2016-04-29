@@ -1,5 +1,6 @@
 package com.prayer.business.script.js;
 
+@Deprecated
 public class JSLibraryLoader {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================

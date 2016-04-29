@@ -54,34 +54,34 @@ public abstract class AbstractMessager {
 
     // ~ Override Methods ====================================
     /** 函数映射方式 **/
-    public JsonObject put(@NotNull final JsonObject request) {
+    public ActResponse put(@NotNull final JsonObject request) {
         return this.execute(request, new HttpMethod[] { HttpMethod.PUT }, this.behavior::save);
     }
 
     /** **/
-    public JsonObject post(@NotNull final JsonObject request) {
+    public ActResponse post(@NotNull final JsonObject request) {
         return this.execute(request, new HttpMethod[] { HttpMethod.POST }, this.behavior::save);
     }
 
     /** **/
-    public JsonObject delete(@NotNull final JsonObject request) {
+    public ActResponse delete(@NotNull final JsonObject request) {
         return this.execute(request, new HttpMethod[] { HttpMethod.DELETE }, this.behavior::remove);
     }
 
     /** **/
-    public JsonObject get(@NotNull final JsonObject request) {
+    public ActResponse get(@NotNull final JsonObject request) {
         return this.execute(request, new HttpMethod[] { HttpMethod.GET }, this.behavior::find);
     }
 
     /** **/
-    public JsonObject page(@NotNull final JsonObject request) {
+    public ActResponse page(@NotNull final JsonObject request) {
         return this.execute(request, new HttpMethod[] { HttpMethod.POST }, this.behavior::page);
     }
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     /** 私有函数调用 **/
-    private JsonObject execute(final JsonObject requestData, final HttpMethod[] methods, final Behavior behavior) {
+    private ActResponse execute(final JsonObject requestData, final HttpMethod[] methods, final Behavior behavior) {
         ActResponse response = new ActResponse();
         try {
             ActRequest request = new ActRequest(requestData);
@@ -89,7 +89,8 @@ public abstract class AbstractMessager {
                 /** 验证方法 **/
                 // this.verifyMethod(request, methods, behavior);
                 /** 请求合法 **/
-                response = behavior.dispatch(request);
+                final JsonObject data = behavior.dispatch(request);
+                response.success(data);
             } else {
                 throw request.getError();
             }
@@ -100,7 +101,7 @@ public abstract class AbstractMessager {
             Log.jvmError(getLogger(), ex);
             response.failure(new JSScriptEngineException(getClass(), ex.toString()));
         }
-        return response.getResult();
+        return response;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

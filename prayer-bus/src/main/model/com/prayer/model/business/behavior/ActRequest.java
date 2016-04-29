@@ -180,8 +180,6 @@ public class ActRequest implements Serializable {
     private void ensureRequired(final JsonObject params) {
         if (success()) {
             try {
-                // identifier必须
-                this.identifier = this.strEnsurer.ensureRequired(params, Constants.PARAM.ID);
                 // TODO：script参数暂定义为可选
                 this.script = this.strEnsurer.ensureOptional(params, Constants.PARAM.SCRIPT);
                 // method必须
@@ -208,6 +206,8 @@ public class ActRequest implements Serializable {
         if (success()) {
             final IdAnagnorisis anagnorisis = singleton(RecordIDAnagnorisis.class);
             try {
+             // identifier必须
+                this.identifier = this.strEnsurer.ensureRequired(params, Constants.PARAM.ID);
                 anagnorisis.identifier(params);
                 System.out.println(params);
                 /** 对当前Record的identifier进行赋值 **/

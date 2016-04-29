@@ -6,8 +6,8 @@
         "componentType":"VALIDATOR",
         "componentClass":"com.prayer.vertx.uca.validator.LengthValidator",
         "config":{
-            "minLength":4,
-            "maxLength":10
+            "minLength":3,
+            "maxLength":256
         },
         "errorMessage":"长度出现问题，请联系管理员。"
     }

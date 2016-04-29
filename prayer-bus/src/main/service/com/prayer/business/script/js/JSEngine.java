@@ -29,7 +29,9 @@ import net.sf.oval.guard.Guarded;
  * @author Lang
  *
  */
+
 @Guarded
+@Deprecated
 public final class JSEngine {
     // ~ Static Fields =======================================
     /**

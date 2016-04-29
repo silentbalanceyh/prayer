@@ -4,7 +4,8 @@ import javax.script.ScriptException;
 
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.behavior.ActRequest;
-import com.prayer.model.business.behavior.ActResponse;
+
+import io.vertx.core.json.JsonObject;
 
 /**
  * 
@@ -14,5 +15,5 @@ import com.prayer.model.business.behavior.ActResponse;
 @FunctionalInterface
 public interface Behavior {
     /** **/
-    ActResponse dispatch(ActRequest request) throws ScriptException, AbstractException;
+    JsonObject dispatch(ActRequest request) throws ScriptException, AbstractException;
 }

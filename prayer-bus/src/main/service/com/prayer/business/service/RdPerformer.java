@@ -60,20 +60,20 @@ public class RdPerformer extends AbstractPerformer {
      * @return
      */
     @NotNull
-    public List<Record> performFind(@NotNull final Record record, @NotNull final Eidolon marchal)
-            throws AbstractException {
+    public List<Record> performFind(@NotNull final Eidolon marchal) throws AbstractException {
         /** 1.生成响应结果 **/
         List<Record> retList = null;
         /** 2.读取Marchal中的Order By **/
         final OrderBy orders = marchal.getOrder();
+        final Record record = marchal.getRecord();
         if (null != orders && orders.valid()) {
             // Order By Processing...
-            retList = this.performer().queryByFilter(record, getColumns(record, marchal.getFilters()), marchal.getValues(),
-                    marchal.getExpr(), marchal.getOrder());
+            retList = this.performer().queryByFilter(record, getColumns(record, marchal.getFilters()),
+                    marchal.getValues(), marchal.getExpr(), marchal.getOrder());
         } else {
             // Non Order By Processing...
-            retList = this.performer().queryByFilter(record, getColumns(record, marchal.getFilters()), marchal.getValues(),
-                    marchal.getExpr());
+            retList = this.performer().queryByFilter(record, getColumns(record, marchal.getFilters()),
+                    marchal.getValues(), marchal.getExpr());
         }
         return retList;
     }
@@ -87,12 +87,12 @@ public class RdPerformer extends AbstractPerformer {
      * @throws AbstractException
      */
     @NotNull
-    public ConcurrentMap<Long, List<Record>> performPage(@NotNull final Record record,
-            @NotNull final Eidolon marchal) throws AbstractException {
+    public ConcurrentMap<Long, List<Record>> performPage(@NotNull final Eidolon marchal) throws AbstractException {
         /** 1.生成响应结果 **/
         ConcurrentMap<Long, List<Record>> data = new ConcurrentHashMap<>();
         /** 2.读取Marchal中的Order By **/
         final OrderBy orders = marchal.getOrder();
+        final Record record = marchal.getRecord();
         if (null != orders && orders.valid()) {
             // Page Action
             data = this.performer().queryByPage(record, getColumns(record, marchal.getFilters()), marchal.getValues(),

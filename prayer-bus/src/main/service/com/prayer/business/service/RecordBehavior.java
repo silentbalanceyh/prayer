@@ -20,12 +20,14 @@ import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.fun.endpoint.Behavior;
 import com.prayer.facade.model.record.Record;
+import com.prayer.facade.script.Region;
 import com.prayer.facade.util.Transferer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.Eidolon;
 import com.prayer.model.business.behavior.ActRequest;
 import com.prayer.model.business.behavior.ActResponse;
+import com.prayer.script.js.JSRegion;
 import com.prayer.util.debug.Log;
 
 import io.vertx.core.http.HttpMethod;
@@ -101,8 +103,15 @@ public class RecordBehavior implements RecordService {
      * @return
      */
     @Override
-    public ActResponse find(@NotNull final ActRequest request) {
-        return this.execute(request, new HttpMethod[] { HttpMethod.GET }, this::findAct);
+    public JsonObject find(@NotNull final ActRequest request) throws ScriptException, AbstractException {
+        /** 1.初始化Region **/
+        final Region region = new JSRegion(this.entityCls);
+        /** 2.执行脚本请求 **/
+        final Eidolon marchal = region.execute(request);
+        /** 3.执行查询 **/
+        final List<Record> retList = this.rdPerformer.performFind(marchal);
+        /** 4.执行结果 **/
+        return extractObject(extractList(retList));
     }
 
     /**
@@ -111,24 +120,53 @@ public class RecordBehavior implements RecordService {
      * @return
      */
     @Override
-    public ActResponse page(@NotNull final ActRequest request) {
-        return this.execute(request, new HttpMethod[] { HttpMethod.POST }, this::pageAct);
+    public JsonObject page(@NotNull final ActRequest request) throws ScriptException, AbstractException {
+        /** 1.初始化Record对象 **/
+        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
+        info(LOGGER, "[ACT] " + record.toString());
+        /** 2.将Java和脚本引擎连接 **/
+        final Eidolon marchal = JSEngine.initJSEnv(request, record);
+        /** 3.执行查询 **/
+        final ConcurrentMap<Long, List<Record>> retMap = this.rdPerformer.performPage(marchal);
+        /** 4.生成响应结果 **/
+        final Map.Entry<Long, List<Record>> entry = retMap.entrySet().iterator().next();
+        return extractObject(extractList(entry.getValue()), entry.getKey());
     }
 
     /**
      * Save方法：Update/Insert
      */
     @Override
-    public ActResponse save(@NotNull final ActRequest request) {
-        return this.execute(request, new HttpMethod[] { HttpMethod.PUT, HttpMethod.POST }, this::saveAct);
+    public JsonObject save(@NotNull final ActRequest request) throws ScriptException, AbstractException{
+        /** 1.初始化Record对象 **/
+        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
+        info(LOGGER, "[ACT] " + record.toString());
+        /** 2.将Java和脚本引擎连接 **/
+        JSEngine.initJSEnv(request, record);
+        /** 3.将record执行插入操作 **/
+        Record inserted = null;
+        if (Brancher.isUpdate(record, request)) {
+            inserted = this.wrPerformer.performUpdate(record, request.getProjection().getFilters());
+        } else {
+            inserted = this.wrPerformer.performInsert(record, request.getProjection().getFilters());
+        }
+        // 返回正确响应结果
+        return this.transferer.fromRecord(inserted);
     }
 
     /**
      * Delete专用
      */
     @Override
-    public ActResponse remove(@NotNull final ActRequest request) {
-        return this.execute(request, new HttpMethod[] { HttpMethod.DELETE }, this::removeAct);
+    public JsonObject remove(@NotNull final ActRequest request) throws ScriptException, AbstractException{
+        /** 1.初始化Record对象 **/
+        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
+        info(LOGGER, "[ACT] " + record.toString());
+        /** 2.将Java和脚本引擎连接 **/
+        JSEngine.initJSEnv(request, record);
+        /** 3.删除当前记录 **/
+        final boolean deleted = this.wrPerformer.performDelete(record);
+        return new JsonObject().put("DELETED", deleted);
     }
 
     // ~ Private Methods =====================================
@@ -151,89 +189,6 @@ public class RecordBehavior implements RecordService {
         retObj.put(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT, count);
         retObj.put(Constants.PARAM.ADMINICLE.PAGE.RET.LIST, retArr);
         return retObj;
-    }
-
-    /** **/
-    private ActResponse pageAct(final ActRequest request) throws ScriptException, AbstractException {
-        /** 1.初始化Record对象 **/
-        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
-        info(LOGGER, "[ACT] " + record.toString());
-        /** 2.将Java和脚本引擎连接 **/
-        final Eidolon marchal = JSEngine.initJSEnv(request, record);
-        /** 3.执行查询 **/
-        final ConcurrentMap<Long, List<Record>> retMap = this.rdPerformer.performPage(record, marchal);
-        /** 4.生成响应结果 **/
-        final Map.Entry<Long, List<Record>> entry = retMap.entrySet().iterator().next();
-        final ActResponse response = new ActResponse();
-        response.success(extractObject(extractList(entry.getValue()), entry.getKey()));
-        return response;
-    }
-
-    /** **/
-    private ActResponse findAct(final ActRequest request) throws ScriptException, AbstractException {
-        /** 1.初始化Record对象 **/
-        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
-        info(LOGGER, "[ACT] " + record.toString());
-        /** 2.将Java和脚本引擎连接 **/
-        final Eidolon marchal = JSEngine.initJSEnv(request, record);
-        /** 3.执行查询 **/
-        final List<Record> retList = this.rdPerformer.performFind(record, marchal);
-        /** 4.执行结果 **/
-        final ActResponse response = new ActResponse();
-        response.success(extractObject(extractList(retList)));
-        return response;
-
-    }
-
-    /** Remove执行方法 **/
-    private ActResponse removeAct(final ActRequest request) throws ScriptException, AbstractException {
-        /** 1.初始化Record对象 **/
-        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
-        info(LOGGER, "[ACT] " + record.toString());
-        /** 2.将Java和脚本引擎连接 **/
-        JSEngine.initJSEnv(request, record);
-        /** 3.删除当前记录 **/
-        final boolean deleted = this.wrPerformer.performDelete(record);
-        final ActResponse response = new ActResponse();
-        response.success(new JsonObject().put("DELETED", deleted));
-        return response;
-    }
-
-    /** Save执行方法 **/
-    private ActResponse saveAct(final ActRequest request) throws ScriptException, AbstractException {
-        /** 1.初始化Record对象 **/
-        final Record record = this.transferer.toRecord(request.getIdentifier(), this.entityCls, request.getData());
-        info(LOGGER, "[ACT] " + record.toString());
-        /** 2.将Java和脚本引擎连接 **/
-        JSEngine.initJSEnv(request, record);
-        /** 3.将record执行插入操作 **/
-        Record inserted = null;
-        if (Brancher.isUpdate(record, request)) {
-            inserted = this.wrPerformer.performUpdate(record, request.getProjection().getFilters());
-        } else {
-            inserted = this.wrPerformer.performInsert(record, request.getProjection().getFilters());
-        }
-        // 返回正确响应结果
-        final ActResponse response = new ActResponse();
-        response.success(this.transferer.fromRecord(inserted));
-        return response;
-    }
-
-    /** Controller Method **/
-    private ActResponse execute(final ActRequest request, final HttpMethod[] methods, final Behavior behavior) {
-        final ActResponse response = new ActResponse();
-        try {
-            /** **/
-            final ActResponse ret = behavior.dispatch(request);
-            response.success(ret.getResult());
-        } catch (ScriptException ex) {
-            Log.jvmError(LOGGER, ex);
-            response.failure(new JSScriptEngineException(getClass(), ex.toString()));
-        } catch (AbstractException ex) {
-            Log.peError(LOGGER, ex);
-            response.failure(ex);
-        }
-        return response;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

@@ -1,6 +1,7 @@
 package com.prayer.script.js;
 
 import static com.prayer.util.reflection.Instance.singleton;
+import static org.junit.Assert.assertNotNull;
 
 import javax.script.ScriptException;
 
@@ -25,6 +26,7 @@ public class WorkshopTestCase {
     @Test
     public void testInit() throws ScriptException {
         final Workshop workshop = singleton(JSWorkshop.class);
+        assertNotNull(workshop);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

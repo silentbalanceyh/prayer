@@ -25,6 +25,7 @@ import net.sf.oval.guard.PostValidateThis;
  *
  */
 @Guarded
+@Deprecated
 public final class JSEnvExtractor {
     // ~ Static Fields =======================================
 

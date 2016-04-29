@@ -1,7 +1,7 @@
 [
     {
         "uri":"/api/sec/util/unique/:identifier/:name/:value",
-        "identifier":"RP$identifier",
+        "identifier":"${data.identifier}",
         "script":"js.api.get.sec.util.unique",
         "requiredParam":[
             "identifier",

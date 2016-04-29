@@ -5,6 +5,8 @@ import static com.prayer.util.debug.Log.jvmError;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.reservoir;
 
+import javax.script.ScriptException;
+
 import com.prayer.business.fun.ActMethod;
 import com.prayer.business.service.RecordBehavior;
 import com.prayer.facade.business.service.RecordService;
@@ -47,7 +49,7 @@ public abstract class AbstractService extends AbstractBusiness {
         return reservoir(entityCls.getName(), RecordBehavior.class, entityCls);
     }
 
-    protected ActResponse executeWithData(final ActResponse response, final String id, final String file,
+    protected JsonObject executeWithData(final ActResponse response, final String id, final String file,
             final HttpMethod method, final ActMethod act) {
         /** 3.生成uniqueId的Json信息 **/
         final JsonObject data = response.getResult();
@@ -59,7 +61,15 @@ public abstract class AbstractService extends AbstractBusiness {
         request.putData(id, data.getString(id));
         info(getLogger(), "[T] Updated request : " + request.getData().encode());
         /** 4.执行Delete操作 **/
-        return act.execute(request);
+        JsonObject ret = new JsonObject();
+        try {
+            ret = act.execute(request);
+        } catch (AbstractException ex) {
+            this.traceError(ex);
+        } catch (ScriptException ex) {
+            jvmError(getLogger(), ex);
+        }
+        return ret;
     }
 
     /**
@@ -69,7 +79,7 @@ public abstract class AbstractService extends AbstractBusiness {
      * @param act
      * @return
      */
-    protected ActResponse executeWithData(final ActResponse response, final String file, final HttpMethod method,
+    protected JsonObject executeWithData(final ActResponse response, final String file, final HttpMethod method,
             final ActMethod act) {
         return this.executeWithData(response, Constants.PID, file, method, act);
     }
@@ -81,9 +91,17 @@ public abstract class AbstractService extends AbstractBusiness {
      * @param file
      * @return
      */
-    protected ActResponse execute(final ActMethod act, final String file) {
+    protected JsonObject execute(final ActMethod act, final String file) {
         final ActRequest request = this.prepareRequest(file);
-        return act.execute(request);
+        JsonObject ret = new JsonObject();
+        try {
+            ret = act.execute(request);
+        } catch (AbstractException ex) {
+            this.traceError(ex);
+        } catch (ScriptException ex) {
+            jvmError(getLogger(), ex);
+        }
+        return ret;
     }
 
     // ~ Private Methods =====================================

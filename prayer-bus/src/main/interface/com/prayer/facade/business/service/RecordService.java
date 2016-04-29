@@ -1,11 +1,15 @@
 package com.prayer.facade.business.service;
 
+import javax.script.ScriptException;
+
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.behavior.ActRequest;
-import com.prayer.model.business.behavior.ActResponse;
+
+import io.vertx.core.json.JsonObject;
 
 /**
  * 
@@ -20,26 +24,26 @@ public interface RecordService {
      * @return
      */
     @VertexApi(Api.READ)
-    ActResponse find(ActRequest request);
+    JsonObject find(ActRequest request) throws ScriptException, AbstractException;
     /**
      * PAGE专用
      * @param request
      * @return
      */
     @VertexApi(Api.READ)
-    ActResponse page(ActRequest request);
+    JsonObject page(ActRequest request) throws ScriptException, AbstractException;
     /**
      * Save专用：PUT，POST
      * @param request
      * @return
      */
     @VertexApi(Api.WRITE)
-    ActResponse save(ActRequest request);
+    JsonObject save(ActRequest request) throws ScriptException, AbstractException;
     /**
      * DELETE专用：DELETE
      * @param request
      * @return
      */
     @VertexApi(Api.WRITE)
-    ActResponse remove(ActRequest request);
+    JsonObject remove(ActRequest request) throws ScriptException, AbstractException;
 }

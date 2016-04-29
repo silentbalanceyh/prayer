@@ -22,6 +22,7 @@ import com.prayer.model.type.XmlType;
  * @author Lang
  *
  */
+@Deprecated
 public final class JSValue {
     // ~ Static Fields =======================================
     /** **/

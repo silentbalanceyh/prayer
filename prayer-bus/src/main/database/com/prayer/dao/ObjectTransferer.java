@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
+import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.crucial.Transducer.V;
 import com.prayer.facade.model.crucial.Value;
@@ -130,11 +131,18 @@ public final class ObjectTransferer implements Transferer {
     public Record toRecord(@NotNull @NotBlank @NotEmpty final String identifier, @NotNull final Class<?> recordCls,
             @NotNull final JsonObject data) throws AbstractDatabaseException {
         final Record record = instance(recordCls.getName(), identifier);
-        final ConcurrentMap<String, DataType> fields = record.fields();
-        for (final String field : fields.keySet()) {
-            final DataType type = fields.get(field);
-            final Value<?> value = V.get().getValue(data, type, field);
-            record.set(field, value);
+        if (null != record) {
+            final ConcurrentMap<String, DataType> fields = record.fields();
+            for (final String field : fields.keySet()) {
+                final DataType type = fields.get(field);
+                final Value<?> value = V.get().getValue(data, type, field);
+                record.set(field, value);
+            }
+        }else{
+            /**
+             * 如果Schema可以找到，那么铁定可以初始化成功，所以初始化出问题就直接抛出SchemaNotFound
+             */
+            throw new SchemaNotFoundException(ObjectTransferer.class,identifier);
         }
         return record;
     }
