@@ -69,7 +69,12 @@ public class LongType implements Value<Long> {
     public String literal(){
         return String.valueOf(this.value.getValue());
     }
-
+    /** **/
+    // 数值类型不检查
+    @Override
+    public boolean isCorrect(){
+        return true;
+    }
     // ~ Methods =============================================
     /** **/
     public void setValue(final Integer value) {

@@ -66,7 +66,12 @@ public class DecimalType implements Value<BigDecimal> {
     public String literal(){
         return this.value.toString();
     }
-
+    /** **/
+    // 数值类型不检查
+    @Override
+    public boolean isCorrect(){
+        return true;
+    }
     // ~ Methods =============================================
     /** **/
     public void setValue(final String value) {

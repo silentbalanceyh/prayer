@@ -20,6 +20,7 @@ import com.prayer.vertx.web.model.Envelop;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -29,7 +30,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public abstract class AbstractSender<T> implements MessageAsker<T> {
+public abstract class AbstractJsonSender implements MessageAsker<JsonObject> {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 响应信息 **/
@@ -41,21 +42,21 @@ public abstract class AbstractSender<T> implements MessageAsker<T> {
      * 
      * @param response
      */
-    public AbstractSender(@NotNull final HttpServerResponse response){
+    public AbstractJsonSender(@NotNull final HttpServerResponse response){
         this.response = response;
     }
     // ~ Abstract Methods ====================================
     /**
      * 构建响应器
      */
-    public abstract Responder<T> getResponder();
+    public abstract Responder<JsonObject> getResponder();
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public void handle(final AsyncResult<Message<T>> event) {
+    public void handle(final AsyncResult<Message<JsonObject>> event) {
         /** 1.判断分流 **/
         if (event.succeeded()) {
-            final T data = event.result().body();
+            final JsonObject data = event.result().body();
             if (null != data) {
                 info(getLogger(), MessageFormat.format(MsgVertx.SEV_SENDER, getClass().getSimpleName(), getClass().getName(),
                         data.toString()));

@@ -72,6 +72,13 @@ public class BinaryType implements Value<byte[]> {
     public String literal(){
         return new String(this.value,Resources.ENCODING);
     }
+    /** **/
+    // 1.value字节数组可以无数据，长度为1；
+    // 2.value字节数据不可以包含null指针；
+    @Override
+    public boolean isCorrect(){
+        return null != this.value;
+    }
 
     // ~ Methods =============================================
     /** **/

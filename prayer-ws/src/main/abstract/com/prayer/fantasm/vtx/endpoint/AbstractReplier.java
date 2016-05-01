@@ -54,8 +54,7 @@ public abstract class AbstractReplier {
      * @param event
      */
     public void handle(@NotNull final Message<JsonObject> event) {
-        info(getLogger(),
-                MessageFormat.format(MsgVertx.SEV_CONSUMER, getClass().getSimpleName(), getClass().getName()));
+
         /** 1.从Event Bus中读取Event **/
         final JsonObject params = event.body();
         /** 2.读取请求方法信息 **/
@@ -75,6 +74,8 @@ public abstract class AbstractReplier {
             envelop = Envelop.failure(ex);
         }
         /** 5.返回响应结果 **/
+        info(getLogger(),
+                MessageFormat.format(MsgVertx.SEV_CONSUMER, getClass().getSimpleName(), getClass().getName()));
         event.reply(envelop.result());
     }
     // ~ Private Methods =====================================

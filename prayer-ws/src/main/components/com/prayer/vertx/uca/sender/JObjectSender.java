@@ -3,8 +3,8 @@ package com.prayer.vertx.uca.sender;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.facade.vtx.uca.request.Responder;
-import com.prayer.fantasm.vtx.endpoint.AbstractSender;
-import com.prayer.vertx.uca.responder.JsonResponder;
+import com.prayer.fantasm.vtx.endpoint.AbstractJsonSender;
+import com.prayer.vertx.uca.responder.JObjectResponder;
 
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
@@ -17,23 +17,22 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class MessageSender extends AbstractSender<JsonObject> {
+public class JObjectSender extends AbstractJsonSender {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public MessageSender(@NotNull final HttpServerResponse response) {
+    public JObjectSender(@NotNull final HttpServerResponse response) {
         super(response);
     }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** 读取对应的Responder **/
     @Override
     public Responder<JsonObject> getResponder() {
-        return singleton(JsonResponder.class);
+        return singleton(JObjectResponder.class);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

@@ -113,9 +113,7 @@ public final class ObjectTransferer implements Transferer {
         final Set<String> fields = record.fields().keySet();
         final JsonObject data = new JsonObject();
         for (final String field : fields) {
-            if (null == record.get(field)) {
-                data.put(field, Constants.EMPTY_STR);
-            } else {
+            if (null != record.get(field) && record.get(field).isCorrect()) {
                 // Fix JsonArray为null的问题
                 final String literal = record.get(field).literal();
                 JsonTrier.putTried(data, field, literal);
@@ -138,11 +136,11 @@ public final class ObjectTransferer implements Transferer {
                 final Value<?> value = V.get().getValue(data, type, field);
                 record.set(field, value);
             }
-        }else{
+        } else {
             /**
              * 如果Schema可以找到，那么铁定可以初始化成功，所以初始化出问题就直接抛出SchemaNotFound
              */
-            throw new SchemaNotFoundException(ObjectTransferer.class,identifier);
+            throw new SchemaNotFoundException(ObjectTransferer.class, identifier);
         }
         return record;
     }

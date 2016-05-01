@@ -54,4 +54,10 @@ public interface Value<R> {
      */
     @VertexApi(Api.READ)
     String literal();
+    /**
+     * 合法值的检查
+     * @return
+     */
+    @VertexApi(Api.TOOL)
+    boolean isCorrect();
 }

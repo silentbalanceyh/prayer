@@ -83,7 +83,12 @@ public class StringType implements Value<String> {
     public String literal() {
         return null == this.value ? "null" : this.value.toString();
     }
-
+    /** **/
+    // 1.不可以为null指针
+    @Override
+    public boolean isCorrect(){
+        return null != this.value;
+    }
     // ~ Methods =============================================
     /** **/
     public AbstractSystemException getError() {

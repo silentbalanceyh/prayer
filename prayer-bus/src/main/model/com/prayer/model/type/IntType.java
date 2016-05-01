@@ -95,7 +95,12 @@ public class IntType implements Value<Integer> {
     public String literal(){
         return String.valueOf(this.value.getValue());
     }
-
+    /** **/
+    // 数值类型不检查
+    @Override
+    public boolean isCorrect(){
+        return true;
+    }
     // ~ Methods =============================================
     /**
      * set重载

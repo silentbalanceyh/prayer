@@ -71,7 +71,12 @@ public class DateType implements Value<Date> {
     public String literal() {
         return this.value.toString();
     }
-
+    /** **/
+    // 1.Date内容不可以为null指针
+    @Override
+    public boolean isCorrect(){
+        return null != this.value;
+    }
     // ~ Methods =============================================
     /** **/
     public void setValue(final Long value) {

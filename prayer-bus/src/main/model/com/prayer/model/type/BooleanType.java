@@ -92,6 +92,13 @@ public class BooleanType implements Value<Boolean> {
     public String literal() {
         return StringUtil.toLowerCase(String.valueOf(this.value.getValue()));
     }
+    /**
+     * True和False都可以
+     */
+    @Override
+    public boolean isCorrect(){
+        return true;
+    }
 
     // ~ Methods =============================================
     /**
