@@ -1,13 +1,14 @@
-package com.prayer.facade.vtx.uca;
+package com.prayer.facade.vtx.uca.request;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
-import com.prayer.facade.model.crucial.Value;
 import com.prayer.vertx.web.model.Envelop;
 
-import io.vertx.core.json.JsonObject;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.ext.web.RoutingContext;
 
 /**
  * 
@@ -15,14 +16,12 @@ import io.vertx.core.json.JsonObject;
  *
  */
 @VertexPoint(Interface.INTERNAL)
-public interface WebValidator {
+public interface Asynchor {
     /**
+     * 异步回调模式
      * 
-     * @param name
-     * @param value
-     * @param config
-     * @return
+     * @param context
      */
     @VertexApi(Api.TOOL)
-    Envelop validate(String name, Value<?> value, JsonObject config);
+    void accept(RoutingContext context, Handler<AsyncResult<Envelop>> handler);
 }

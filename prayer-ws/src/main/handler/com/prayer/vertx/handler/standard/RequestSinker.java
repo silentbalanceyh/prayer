@@ -2,7 +2,7 @@ package com.prayer.vertx.handler.standard;
 
 import com.prayer.exception.web._500InternalServerErrorException;
 import com.prayer.facade.engine.cv.WebKeys;
-import com.prayer.facade.vtx.request.Resolver;
+import com.prayer.facade.vtx.uca.request.Resolver;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.StatusCode;

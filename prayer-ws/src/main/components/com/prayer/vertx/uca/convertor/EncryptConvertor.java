@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.util.Encryptor;
-import com.prayer.facade.vtx.uca.WebConvertor;
+import com.prayer.facade.vtx.uca.Convertor;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.fantasm.vtx.uca.AbstractUCA;
 import com.prayer.model.web.StatusCode;
@@ -25,7 +25,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class EncryptConvertor extends AbstractUCA implements WebConvertor {
+public class EncryptConvertor extends AbstractUCA implements Convertor {
     // ~ Static Fields =======================================
     /** 加密使用的算法 **/
     private final static String ALGORITHM = "algorithm";

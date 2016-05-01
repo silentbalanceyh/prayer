@@ -6,7 +6,7 @@ import com.prayer.exception.web._400ParamsExtractingException;
 import com.prayer.exception.web._400RequiredParamMissingException;
 import com.prayer.exception.web._400WrongRequestFlowException;
 import com.prayer.facade.engine.cv.WebKeys;
-import com.prayer.facade.vtx.request.Resolver;
+import com.prayer.facade.vtx.uca.request.Resolver;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.fantasm.vtx.route.AbstractResolver;
 import com.prayer.model.meta.vertx.PEUri;

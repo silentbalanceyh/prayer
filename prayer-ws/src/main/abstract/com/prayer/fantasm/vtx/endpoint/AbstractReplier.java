@@ -1,4 +1,4 @@
-package com.prayer.fantasm.vtx.uca;
+package com.prayer.fantasm.vtx.endpoint;
 
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.debug.Log.info;
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.cv.msg.MsgVertx;
-import com.prayer.facade.vtx.Channel;
+import com.prayer.facade.vtx.endpoint.Channel;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.behavior.ActResponse;
 import com.prayer.vertx.web.model.Envelop;

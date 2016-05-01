@@ -1,4 +1,4 @@
-package com.prayer.facade.vtx.request;
+package com.prayer.facade.vtx.uca.request;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;

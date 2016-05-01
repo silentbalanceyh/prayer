@@ -12,7 +12,6 @@ import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.business.behavior.ActResponse;
 import com.prayer.model.web.StatusCode;
 
-import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
@@ -41,8 +40,6 @@ public final class Envelop implements Serializable {
     private transient AbstractException error;
     /** 最终返回数据信息 **/
     private transient final JsonObject data;
-    /** Http Header信息 **/
-    private transient final JsonObject headers;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -80,14 +77,12 @@ public final class Envelop implements Serializable {
     // ~ Failure Response ====================================
     /** 成功 **/
     private Envelop(final JsonObject data) {
-        this.headers = new JsonObject();
         this.error = null;
         this.status = StatusCode.OK;
         this.data = data;
     }
 
     private Envelop(final AbstractException error, final StatusCode status) {
-        this.headers = new JsonObject();
         this.data = new JsonObject();
         this.error = error;
         this.status = status;
@@ -96,7 +91,6 @@ public final class Envelop implements Serializable {
     // ~ Success Response ====================================
     /** 根据Act的Response生成对应的响应 **/
     private Envelop(final ActResponse response, final StatusCode status) {
-        this.headers = new JsonObject();
         if (response.success()) {
             this.data = response.getResult();
             this.error = null;
@@ -119,17 +113,6 @@ public final class Envelop implements Serializable {
     }
 
     // ~ Methods =============================================
-    /** 添加Header **/
-    public void addHeader(final MultiMap headers) {
-        headers.forEach(item -> {
-            this.headers.put(item.getKey(), item.getValue());
-        });
-    }
-
-    /** 添加Header **/
-    public void addHeader(final String key, final String value) {
-        this.headers.put(key, value);
-    }
 
     /** 重设状态代码 **/
     public void setStatus(final StatusCode status) {
@@ -183,9 +166,9 @@ public final class Envelop implements Serializable {
             /** 3.无Error则正常返回 **/
             final JsonObject data = new JsonObject();
             /** 4.放入Header **/
-            if (null != this.headers) {
-                data.put(WebKeys.Envelop.Data.HEADER, this.headers);
-            }
+            // if (null != this.headers) {
+            // data.put(WebKeys.Envelop.Data.HEADER, this.headers);
+            // }
             /** 5.放入Body **/
             if (null != this.data && !this.data.isEmpty()) {
                 /** 5.读取Data信息 **/
@@ -205,7 +188,7 @@ public final class Envelop implements Serializable {
         return result;
     }
     // ~ Private Methods =====================================
-    
+
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
 

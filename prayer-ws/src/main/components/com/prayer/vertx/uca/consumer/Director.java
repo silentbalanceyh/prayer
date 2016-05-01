@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.facade.vtx.Channel;
+import com.prayer.facade.vtx.endpoint.Channel;
 
 import io.vertx.core.http.HttpMethod;
 import net.sf.oval.guard.Guarded;

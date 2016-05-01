@@ -10,7 +10,7 @@ import com.prayer.exception.web._400ConvertorMultiException;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.model.crucial.Transducer.V;
 import com.prayer.facade.model.crucial.Value;
-import com.prayer.facade.vtx.uca.WebConvertor;
+import com.prayer.facade.vtx.uca.Convertor;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PERule;
@@ -101,7 +101,7 @@ public class DataStrainer implements Handler<RoutingContext> {
                 /** 3.提取配置信息 **/
                 final JsonObject config = rule.getConfig();
                 /** 4.处理结果 **/
-                final WebConvertor convertor = singleton(ucaCls);
+                final Convertor convertor = singleton(ucaCls);
                 stumer = convertor.convert(name, valueObj, config);
             }
         } catch (AbstractDatabaseException ex) {

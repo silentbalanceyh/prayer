@@ -7,7 +7,7 @@ import java.util.List;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.model.crucial.Transducer.V;
 import com.prayer.facade.model.crucial.Value;
-import com.prayer.facade.vtx.uca.WebValidator;
+import com.prayer.facade.vtx.uca.Validator;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.model.web.StatusCode;
@@ -92,7 +92,7 @@ public class DataInspector implements Handler<RoutingContext> {
                 /** 3.提取配置信息 **/
                 final JsonObject config = rule.getConfig();
                 /** 4.验证结果 **/
-                final WebValidator validator = singleton(ucaCls);
+                final Validator validator = singleton(ucaCls);
                 stumer = validator.validate(name, valueObj, config);
             }
         } catch (AbstractDatabaseException ex) {

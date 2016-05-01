@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 
 import com.prayer.exception.web._400ValidatorFailureException;
 import com.prayer.facade.model.crucial.Value;
-import com.prayer.facade.vtx.uca.WebValidator;
+import com.prayer.facade.vtx.uca.Validator;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.fantasm.vtx.uca.AbstractUCA;
 import com.prayer.model.web.StatusCode;
@@ -23,7 +23,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class LengthValidator extends AbstractUCA implements WebValidator {
+public class LengthValidator extends AbstractUCA implements Validator {
     // ~ Static Fields =======================================
     /** 最小值 **/
     private final static String MIN_LENGTH = "minLength";

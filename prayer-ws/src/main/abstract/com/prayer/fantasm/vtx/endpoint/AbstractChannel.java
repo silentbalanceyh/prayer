@@ -1,4 +1,4 @@
-package com.prayer.fantasm.vtx.uca;
+package com.prayer.fantasm.vtx.endpoint;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
@@ -7,7 +7,7 @@ import com.prayer.business.endpoint.MetaMessager;
 import com.prayer.facade.business.endpoint.DataStubor;
 import com.prayer.facade.business.endpoint.MetaStubor;
 import com.prayer.facade.engine.fun.Invoker;
-import com.prayer.facade.vtx.Channel;
+import com.prayer.facade.vtx.endpoint.Channel;
 import com.prayer.model.business.behavior.ActResponse;
 
 import io.vertx.core.json.JsonObject;

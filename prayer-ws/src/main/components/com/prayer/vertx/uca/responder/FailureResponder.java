@@ -1,40 +1,48 @@
-package com.prayer.vertx.uca.sender;
-
-import static com.prayer.util.reflection.Instance.singleton;
+package com.prayer.vertx.uca.responder;
 
 import com.prayer.facade.vtx.uca.request.Responder;
-import com.prayer.fantasm.vtx.endpoint.AbstractSender;
-import com.prayer.vertx.uca.responder.JsonResponder;
+import com.prayer.resource.Resources;
+import com.prayer.vertx.web.model.Envelop;
 
+import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
 /**
+ * 根据Envelop来构造响应结果
  * 
  * @author Lang
  *
  */
 @Guarded
-public class MessageSender extends AbstractSender<JsonObject> {
+public class FailureResponder implements Responder<Envelop> {
+    /**
+     * 计算响应头
+     **/
+    @Override
+    public void reckonHeaders(@NotNull final HttpServerResponse response, @NotNull final Envelop data) {
+        /** 1.状态代码设置 **/
+        response.setStatusCode(data.status().code());
+        response.setStatusMessage(data.status().message());
+        /** 2.响应头的处理 **/
+        response.headers().add(HttpHeaders.CONTENT_TYPE, Resources.CONTENT_TYPE);
+    }
+
+    /**
+     * 错误Body的构造
+     */
+    @Override
+    public String buildBody(@NotNull final Envelop data) {
+        return data.result().encode();
+    }
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    public MessageSender(@NotNull final HttpServerResponse response) {
-        super(response);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** 读取对应的Responder **/
-    @Override
-    public Responder<JsonObject> getResponder() {
-        return singleton(JsonResponder.class);
-    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

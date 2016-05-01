@@ -1,4 +1,4 @@
-package com.prayer.vertx.headers;
+package com.prayer.vertx.uca.headers;
 
 import static com.prayer.util.Converter.toStr;
 import static com.prayer.util.debug.Log.info;
@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.web._406ClientNotAcceptException;
 import com.prayer.facade.engine.cv.msg.MsgVertx;
-import com.prayer.facade.vtx.headers.Acceptor;
-import com.prayer.fantasm.vtx.header.AbstractAcceptor;
+import com.prayer.facade.vtx.uca.headers.Acceptor;
+import com.prayer.fantasm.vtx.uca.AbstractAcceptor;
 import com.prayer.model.web.StatusCode;
 import com.prayer.util.vertx.MimeParser;
 import com.prayer.vertx.web.model.Envelop;

@@ -1,7 +1,7 @@
 package com.prayer.vertx.uca.katana;
 
 import com.prayer.exception.web._400ConfigRequiredException;
-import com.prayer.facade.vtx.uca.WebKatana;
+import com.prayer.facade.vtx.uca.Katana;
 import com.prayer.fantasm.exception.AbstractWebException;
 
 import io.vertx.core.json.JsonObject;
@@ -17,7 +17,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class RequiredKatana implements WebKatana {
+public class RequiredKatana implements Katana {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

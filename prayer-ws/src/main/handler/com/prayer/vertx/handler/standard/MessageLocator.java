@@ -52,7 +52,8 @@ public class MessageLocator implements Handler<RoutingContext> {
         final EventBus bus = vertx.eventBus();
         /** 3.提取Sender **/
         final MessageSender sender = instance(uri.getSender(), event.response());
-        info(LOGGER, MessageFormat.format(MsgVertx.SEV_ENDDATA, getClass().getSimpleName(), uri.getAddress(),
+        /** 4.日志输出的第一个参数设置成Sender **/
+        info(LOGGER, MessageFormat.format(MsgVertx.SEV_ENDDATA, sender.getClass().getSimpleName(), uri.getAddress(),
                 params.encode(), sender.getClass().getName()));
         bus.send(uri.getAddress(), params, sender);
     }

@@ -3,7 +3,7 @@ package com.prayer.fantasm.vtx.uca;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.vtx.uca.WebKatana;
+import com.prayer.facade.vtx.uca.Katana;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.vertx.uca.katana.NumberKatana;
 import com.prayer.vertx.uca.katana.RequiredKatana;
@@ -26,11 +26,11 @@ public abstract class AbstractUCA {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** **/
-    private transient WebKatana reqKatana = singleton(RequiredKatana.class);
+    private transient Katana reqKatana = singleton(RequiredKatana.class);
     /** **/
-    private transient WebKatana strKatana = singleton(StringKatana.class);
+    private transient Katana strKatana = singleton(StringKatana.class);
     /** **/
-    private transient WebKatana numKatana = singleton(NumberKatana.class);
+    private transient Katana numKatana = singleton(NumberKatana.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

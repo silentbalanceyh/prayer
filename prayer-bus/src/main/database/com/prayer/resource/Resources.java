@@ -45,7 +45,8 @@ public class Resources {
     public static final String DATABASE = JDBC.getString(Data.CATEGORY + ".jdbc.database.name");
     /** 全局编码方式 **/
     public static final Charset ENCODING = Charset.forName(InceptBus.build(Point.System.class).getString(Point.System.ENCODING));
-
+    /** 默认响应头 **/
+    public static final String CONTENT_TYPE = "application/json;charset=" + Resources.ENCODING;
     /** 安全Key **/
     public static final class Security {
         /** 读取安全模式 **/

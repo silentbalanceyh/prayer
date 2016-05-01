@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 import com.prayer.exception.web._400ResolverMissingException;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
-import com.prayer.facade.vtx.request.Resolver;
+import com.prayer.facade.vtx.uca.request.Resolver;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.resource.InceptBus;
 

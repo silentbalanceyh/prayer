@@ -1,4 +1,4 @@
-package com.prayer.fantasm.vtx.header;
+package com.prayer.fantasm.vtx.uca;
 
 import com.prayer.exception.web._400HeaderKeyMissedException;
 import com.prayer.model.web.StatusCode;

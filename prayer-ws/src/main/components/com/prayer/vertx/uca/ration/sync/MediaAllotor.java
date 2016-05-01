@@ -1,13 +1,13 @@
-package com.prayer.vertx.dispatcher.sync;
+package com.prayer.vertx.uca.ration.sync;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.vtx.headers.Acceptor;
-import com.prayer.facade.vtx.request.Allotor;
+import com.prayer.facade.vtx.uca.headers.Acceptor;
+import com.prayer.facade.vtx.uca.request.Allotor;
 import com.prayer.model.meta.vertx.PEUri;
-import com.prayer.vertx.headers.AcceptAcceptor;
-import com.prayer.vertx.headers.ContentTypeAcceptor;
+import com.prayer.vertx.uca.headers.AcceptAcceptor;
+import com.prayer.vertx.uca.headers.ContentTypeAcceptor;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.http.HttpMethod;

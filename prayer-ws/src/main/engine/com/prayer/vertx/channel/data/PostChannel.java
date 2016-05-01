@@ -1,7 +1,7 @@
 package com.prayer.vertx.channel.data;
 
 import com.prayer.facade.engine.fun.Invoker;
-import com.prayer.fantasm.vtx.uca.AbstractChannel;
+import com.prayer.fantasm.vtx.endpoint.AbstractChannel;
 
 /**
  * DataRecord访问

@@ -3,12 +3,12 @@ package com.prayer.vertx.handler.standard;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.facade.engine.cv.WebKeys;
-import com.prayer.facade.vtx.request.Allotor;
-import com.prayer.facade.vtx.request.Asynchor;
+import com.prayer.facade.vtx.uca.request.Allotor;
+import com.prayer.facade.vtx.uca.request.Asynchor;
 import com.prayer.util.vertx.Fault;
 import com.prayer.util.vertx.UriRuler;
-import com.prayer.vertx.dispatcher.async.NormalizeAsynchor;
-import com.prayer.vertx.dispatcher.sync.MediaAllotor;
+import com.prayer.vertx.uca.ration.async.NormalizeAsynchor;
+import com.prayer.vertx.uca.ration.sync.MediaAllotor;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.Handler;

@@ -106,8 +106,6 @@ public interface WebKeys {
         /** **/
         @VertexPoint(Interface.CONSTANT)
         interface Data {
-            /** Headers信息 **/
-            String HEADER = "header";
             /** Body信息 **/
             String BODY = "body";
         }

@@ -1,8 +1,8 @@
 package com.prayer.vertx.uca.consumer;
 
-import com.prayer.facade.vtx.Channel;
+import com.prayer.facade.vtx.endpoint.Channel;
 import com.prayer.facade.vtx.endpoint.MessageReplier;
-import com.prayer.fantasm.vtx.uca.AbstractReplier;
+import com.prayer.fantasm.vtx.endpoint.AbstractReplier;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;

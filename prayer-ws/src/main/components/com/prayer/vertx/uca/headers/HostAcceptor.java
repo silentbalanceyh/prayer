@@ -1,7 +1,7 @@
-package com.prayer.vertx.headers;
+package com.prayer.vertx.uca.headers;
 
-import com.prayer.facade.vtx.headers.Acceptor;
-import com.prayer.fantasm.vtx.header.AbstractAcceptor;
+import com.prayer.facade.vtx.uca.headers.Acceptor;
+import com.prayer.fantasm.vtx.uca.AbstractAcceptor;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.http.HttpHeaders;

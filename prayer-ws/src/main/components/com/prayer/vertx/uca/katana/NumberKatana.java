@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.web._400ConfigFormatException;
-import com.prayer.facade.vtx.uca.WebKatana;
+import com.prayer.facade.vtx.uca.Katana;
 import com.prayer.fantasm.exception.AbstractWebException;
 
 import io.vertx.core.json.JsonObject;
@@ -19,7 +19,7 @@ import net.sf.oval.constraint.NotNull;
  * @author Lang
  *
  */
-public class NumberKatana implements WebKatana {
+public class NumberKatana implements Katana {
     // ~ Static Fields =======================================
 
     /** **/

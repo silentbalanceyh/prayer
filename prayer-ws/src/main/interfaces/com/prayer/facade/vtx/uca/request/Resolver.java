@@ -1,14 +1,15 @@
-package com.prayer.facade.vtx.uca;
+package com.prayer.facade.vtx.uca.request;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
 import com.prayer.facade.annotation.VertexApi;
 import com.prayer.facade.annotation.VertexPoint;
-import com.prayer.facade.model.crucial.Value;
+import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.fantasm.exception.AbstractWebException;
-import com.prayer.vertx.web.model.Envelop;
+import com.prayer.model.meta.vertx.PEUri;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 
 /**
  * 
@@ -16,15 +17,15 @@ import io.vertx.core.json.JsonObject;
  *
  */
 @VertexPoint(Interface.INTERNAL)
-public interface WebConvertor {
+public interface Resolver {
     /**
+     * 直接返回String类型的参数值
      * 
-     * @param name
-     * @param value
-     * @param config
+     * @param request
+     * @param uri
      * @return
-     * @throws AbstractWebException
+     * @throws AbstractException
      */
     @VertexApi(Api.TOOL)
-    Envelop convert(String name, Value<?> value, JsonObject config);
+    JsonObject resolve(RoutingContext context, PEUri uri) throws AbstractWebException;
 }

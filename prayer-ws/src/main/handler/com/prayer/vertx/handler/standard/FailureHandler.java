@@ -1,8 +1,11 @@
 package com.prayer.vertx.handler.standard;
 
-import com.google.common.net.HttpHeaders;
+import static com.prayer.util.reflection.Instance.singleton;
+
+import com.prayer.facade.vtx.uca.request.Responder;
 import com.prayer.resource.Resources;
 import com.prayer.util.vertx.Fault;
+import com.prayer.vertx.uca.responder.FailureResponder;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.Handler;
@@ -35,12 +38,11 @@ public class FailureHandler implements Handler<RoutingContext> {
         final Envelop envelop = Fault.get(event);
         /** 2.设置相应信息 **/
         final HttpServerResponse response = event.response();
-        /** 3.编码方式 **/
-        /** 4.从Envelop中抽取响应所需详细信息 **/
-        response.setStatusCode(envelop.status().code());
-        response.setStatusMessage(envelop.status().message());
-        response.headers().add(HttpHeaders.CONTENT_TYPE, "application/json;charset=" + Resources.ENCODING);
-        response.end(envelop.result().encode(), Resources.ENCODING.name());
+        /** 3.构造响应器 **/
+        final Responder<Envelop> responder = singleton(FailureResponder.class);
+        responder.reckonHeaders(response, envelop);
+        /** 4.输出响应信息 **/
+        response.end(responder.buildBody(envelop), Resources.ENCODING.name());
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
