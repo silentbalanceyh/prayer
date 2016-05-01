@@ -1,6 +1,5 @@
 [
     {
-        "path":"/sec/util/unique/:identifier/:name/:value",
-        "order":-8000
+        "path":"/sec/util/unique/:identifier/:name/:value"
     }    
 ]

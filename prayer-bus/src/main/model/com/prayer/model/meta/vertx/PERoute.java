@@ -36,6 +36,8 @@ public class PERoute extends AbstractEntity<String> { // NOPMD
     private static final long serialVersionUID = -9091453176338568079L;
     /** **/
     private static final Inceptor INCEPTOR = InceptBus.build(Point.Uri.class);
+    /** **/
+    private static final Inceptor ORDINTOR = InceptBus.build(Point.Web.class, Point.Web.HANDLER_ORDERS);
     // ~ Instance Fields =====================================
     /** K_ID: EVX_ROUTE表的主键 **/
     @JsonProperty(ID)
@@ -63,7 +65,7 @@ public class PERoute extends AbstractEntity<String> { // NOPMD
 
     /** S_ORDER **/
     @JsonProperty(ORDER)
-    private int order = Integer.MIN_VALUE;
+    private int order = ORDINTOR.getInt(Point.Web.Orders.Api.ENGINE);
 
     /** S_SHANDLER **/
     @JsonProperty(REQUEST_HANDLER)

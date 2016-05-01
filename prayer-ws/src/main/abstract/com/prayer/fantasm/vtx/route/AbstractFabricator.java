@@ -17,7 +17,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public abstract class AbstractFabricator {
     // ~ Static Fields =======================================
-
     /** Web Inceptor **/
     private static final Inceptor INCEPTOR = InceptBus.build(Point.Web.class);
     /** Order Inceptor **/
