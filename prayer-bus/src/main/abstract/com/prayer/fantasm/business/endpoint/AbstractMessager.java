@@ -2,12 +2,16 @@ package com.prayer.fantasm.business.endpoint;
 
 import static com.prayer.util.reflection.Instance.reservoir;
 
+import java.util.Arrays;
+
 import javax.script.ScriptException;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.business.service.RecordBehavior;
 import com.prayer.exception.web.JSScriptEngineException;
+import com.prayer.exception.web._500MethodNotSupportException;
 import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.fun.endpoint.Behavior;
 import com.prayer.fantasm.exception.AbstractException;
@@ -49,18 +53,15 @@ public abstract class AbstractMessager {
     }
 
     // ~ Abstract Methods ====================================
-    /** **/
-    public abstract Logger getLogger();
-
     // ~ Override Methods ====================================
     /** 函数映射方式 **/
     public ActResponse put(@NotNull final JsonObject request) {
         return this.execute(request, new HttpMethod[] { HttpMethod.PUT }, this.behavior::save);
     }
 
-    /** **/
+    /** GET请求可以使用POST请求完成 **/
     public ActResponse post(@NotNull final JsonObject request) {
-        return this.execute(request, new HttpMethod[] { HttpMethod.POST }, this.behavior::save);
+        return this.execute(request, new HttpMethod[] { HttpMethod.POST, HttpMethod.GET }, this.behavior::save);
     }
 
     /** **/
@@ -79,6 +80,13 @@ public abstract class AbstractMessager {
     }
 
     // ~ Methods =============================================
+    /**
+     * 日志记录器
+     **/
+    public final Logger getLogger() {
+        return LoggerFactory.getLogger(getClass());
+    }
+
     // ~ Private Methods =====================================
     /** 私有函数调用 **/
     private ActResponse execute(final JsonObject requestData, final HttpMethod[] methods, final Behavior behavior) {
@@ -87,7 +95,7 @@ public abstract class AbstractMessager {
             ActRequest request = new ActRequest(requestData);
             if (request.success()) {
                 /** 验证方法 **/
-                // this.verifyMethod(request, methods, behavior);
+                this.verifyMethod(request, methods);
                 /** 请求合法 **/
                 final JsonObject data = behavior.dispatch(request);
                 response.success(data);
@@ -102,6 +110,13 @@ public abstract class AbstractMessager {
             response.failure(new JSScriptEngineException(getClass(), ex.toString()));
         }
         return response;
+    }
+
+    private void verifyMethod(final ActRequest request, final HttpMethod[] methods) throws AbstractException {
+        final HttpMethod method = request.getMethod();
+        if (!Arrays.asList(methods).contains(method)) {
+            throw new _500MethodNotSupportException(getClass(), method);
+        }
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

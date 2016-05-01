@@ -1,8 +1,5 @@
 package com.prayer.schema.json.rule;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.facade.schema.rule.Rule;
 import com.prayer.fantasm.schema.AbstractRule;
 
@@ -19,9 +16,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class DBUpdatingRule extends AbstractRule implements Rule {
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(DBUpdatingRule.class);
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -37,11 +31,6 @@ public class DBUpdatingRule extends AbstractRule implements Rule {
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public Logger getLogger() {
-        return LOGGER;
-    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

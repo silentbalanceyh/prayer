@@ -13,8 +13,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.h2.tools.CreateCluster;
 import org.h2.tools.Server;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.engine.cv.RmiKeys;
 import com.prayer.facade.engine.opts.Options;
@@ -45,8 +43,6 @@ public class ClusterServer extends AbstractH2Server {
     // ~ Static Fields =======================================
     /** **/
     private static H2Server INSTANCE = null;
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClusterServer.class);
     // ~ Instance Fields =====================================
 
     /** 序列化 **/
@@ -87,11 +83,6 @@ public class ClusterServer extends AbstractH2Server {
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public Logger getLogger() {
-        return LOGGER;
-    }
 
     /** **/
     @Override
@@ -120,7 +111,7 @@ public class ClusterServer extends AbstractH2Server {
         /** 6.开启轮询线程，监控到database停止过后就将主线程停止 **/
         new Thread(new MetaServerClosurer(this.database, this::exit)).start();
 
-        info(LOGGER, MessageFormat.format(Database.JDBC_URI, UriResolver.resolveJdbc(options)));
+        info(getLogger(), MessageFormat.format(Database.JDBC_URI, UriResolver.resolveJdbc(options)));
         return status;
     }
 
@@ -145,12 +136,12 @@ public class ClusterServer extends AbstractH2Server {
             final ConcurrentMap<String, String> params = this.prepareParams(options);
             cluster.execute(params.get("-urlSource"), params.get("-urlTarget"), params.get("-user"),
                     params.get("-password"), params.get("-serverList"));
-            info(LOGGER, Cluster.INFO_CLUSTER);
+            info(getLogger(), Cluster.INFO_CLUSTER);
             ret = true;
         } catch (SQLException ex) {
-            jvmError(LOGGER, ex);
+            jvmError(getLogger(), ex);
             ex.printStackTrace();
-            info(LOGGER, MessageFormat.format(Cluster.ERROR_CLUSTER, ex.getMessage()));
+            info(getLogger(), MessageFormat.format(Cluster.ERROR_CLUSTER, ex.getMessage()));
         }
         return ret;
     }
@@ -166,10 +157,10 @@ public class ClusterServer extends AbstractH2Server {
         /** 2.Source和Target **/
         {
             params.put("-urlSource", this.prepareParams(opts, "source"));
-            info(LOGGER, MessageFormat.format(Cluster.INFO_SRCS,
+            info(getLogger(), MessageFormat.format(Cluster.INFO_SRCS,
                     opts.getJsonObject("cluster").getJsonArray("source").encode()));
             params.put("-urlTarget", this.prepareParams(opts, "target"));
-            info(LOGGER, MessageFormat.format(Cluster.INFO_DEST,
+            info(getLogger(), MessageFormat.format(Cluster.INFO_DEST,
                     opts.getJsonObject("cluster").getJsonArray("target").encode()));
         }
         /** 3.设置Server参数 **/

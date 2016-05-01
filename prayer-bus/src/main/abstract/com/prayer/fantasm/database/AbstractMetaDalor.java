@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.ObjectTransferer;
@@ -81,10 +82,6 @@ public abstract class AbstractMetaDalor<ID extends Serializable> implements Reco
     }
 
     // ~ Abstract Methods ====================================
-
-    /** Log Reference **/
-    public abstract Logger getLogger();
-
     // ~ Override Methods ====================================
     /** **/
     @Override
@@ -241,7 +238,10 @@ public abstract class AbstractMetaDalor<ID extends Serializable> implements Reco
     }
 
     // ~ Methods =============================================
-
+    /** Log Reference **/
+    public final Logger getLogger(){
+        return LoggerFactory.getLogger(getClass());
+    }
     /** **/
     @NotNull
     protected Transferer transferer() {

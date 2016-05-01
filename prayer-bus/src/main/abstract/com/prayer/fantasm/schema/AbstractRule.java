@@ -4,6 +4,7 @@ import static com.prayer.util.debug.Log.debug;
 import static com.prayer.util.debug.Log.jvmError;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
@@ -50,9 +51,6 @@ public abstract class AbstractRule {
     }
 
     // ~ Abstract Methods ====================================
-    /** **/
-    public abstract Logger getLogger();
-
     // ~ Override Methods ====================================
     /**
      * 子类用于读取Rule的专用类
@@ -141,6 +139,12 @@ public abstract class AbstractRule {
      */
     public String position() {
         return this.position;
+    }
+    /**
+     * 日志记录器
+     * **/
+    public final Logger getLogger(){
+        return LoggerFactory.getLogger(getClass());
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

@@ -3,6 +3,7 @@ package com.prayer.fantasm.business;
 import static com.prayer.util.reflection.Instance.reservoir;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.business.service.Epsilon;
 import com.prayer.constant.SystemEnum.MetaPolicy;
@@ -38,9 +39,6 @@ public abstract class AbstractPerformer {
     }
 
     // ~ Abstract Methods ====================================
-    /** 子类实现方法 **/
-    protected abstract Logger getLogger();
-
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /** 读取数据库访问器 **/
@@ -57,6 +55,12 @@ public abstract class AbstractPerformer {
             stored = this.performer.selectById(record, id);
         }
         return stored;
+    }
+    /**
+     * 日志记录器
+     * **/
+    public final Logger getLogger(){
+        return LoggerFactory.getLogger(getClass());
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

@@ -1,8 +1,11 @@
 package com.prayer.util.string;
-
+/** **/
 public interface StringPool {
+    /** **/
     String AMPERSAND        = "&";
+    /** **/
     String AND              = "and";
+    /** **/
     String AT               = "@";
     String ASTERISK         = "*";
     String STAR             = ASTERISK;

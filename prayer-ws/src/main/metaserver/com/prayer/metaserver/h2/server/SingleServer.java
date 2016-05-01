@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.h2.tools.Server;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.engine.cv.RmiKeys;
 import com.prayer.facade.engine.opts.Options;
@@ -37,8 +35,6 @@ public class SingleServer extends AbstractH2Server {
     // ~ Static Fields =======================================
     /** **/
     private static H2Server INSTANCE = null;
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(SingleServer.class);
     // ~ Instance Fields =====================================
     /** 序列化 **/
     private transient List<Server> database = new ArrayList<>();
@@ -80,12 +76,6 @@ public class SingleServer extends AbstractH2Server {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public Logger getLogger() {
-        return LOGGER;
-    }
-
-    /** **/
-    @Override
     public boolean start() throws AbstractException {
         /** 数据库列表 **/
         boolean status = booter.startDatabase(this.database);
@@ -107,7 +97,7 @@ public class SingleServer extends AbstractH2Server {
         /** 5.开启轮询线程，监控到database停止过后就将主线程停止 **/
         new Thread(new MetaServerClosurer(this.database, this::exit)).start();
 
-        info(LOGGER, MessageFormat.format(Database.JDBC_URI, UriResolver.resolveJdbc(options)));
+        info(getLogger(), MessageFormat.format(Database.JDBC_URI, UriResolver.resolveJdbc(options)));
         return status;
     }
 

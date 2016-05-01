@@ -1,8 +1,5 @@
 package com.prayer.business.endpoint;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.facade.business.endpoint.DataStubor;
 import com.prayer.fantasm.business.endpoint.AbstractMessager;
 import com.prayer.model.crucial.DataRecord;
@@ -14,9 +11,6 @@ import com.prayer.model.crucial.DataRecord;
  */
 public final class DataMessager extends AbstractMessager implements DataStubor {
     // ~ Static Fields =======================================
-
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataMessager.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -28,11 +22,6 @@ public final class DataMessager extends AbstractMessager implements DataStubor {
     
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public Logger getLogger(){
-        return LOGGER;
-    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

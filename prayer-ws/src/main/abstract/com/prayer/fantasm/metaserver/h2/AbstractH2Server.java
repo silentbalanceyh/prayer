@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.h2.tools.Server;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.opts.Options;
@@ -29,15 +30,19 @@ public abstract class AbstractH2Server implements H2Server {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
-    /** **/
-    public abstract Logger getLogger();
-
     // ~ Override Methods ====================================
     // ~ Methods =============================================
     /** **/
     protected void exit() {
         info(getLogger(), WebConsole.T_STOPPED);
         System.exit(0);
+    }
+    /**
+     * 
+     * @return
+     */
+    public final Logger getLogger(){
+        return LoggerFactory.getLogger(getClass());
     }
     // ~ Private Methods =====================================
     /**

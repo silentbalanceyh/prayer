@@ -2,12 +2,13 @@ package com.prayer.exception.web;
 
 import com.prayer.fantasm.exception.AbstractWebException;
 
+import io.vertx.core.http.HttpMethod;
 /**
  * 
  * @author Lang
  *
  */
-public class UCAInvalidException extends AbstractWebException {
+public class _500MethodNotSupportException extends AbstractWebException {
     // ~ Static Fields =======================================
 
     /**
@@ -20,8 +21,8 @@ public class UCAInvalidException extends AbstractWebException {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public UCAInvalidException(final Class<?> clazz, final String className, final String specification) {
-        super(clazz, -30006, className, specification);
+    public _500MethodNotSupportException(final Class<?> clazz, final HttpMethod method) {
+        super(clazz, -30006, method.name());
     }
 
     // ~ Abstract Methods ====================================

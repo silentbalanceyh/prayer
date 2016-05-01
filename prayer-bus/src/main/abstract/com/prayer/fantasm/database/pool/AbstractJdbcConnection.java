@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcOperations;
 
 import com.prayer.facade.constant.Constants;
@@ -65,9 +66,6 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     }
 
     // ~ Abstract Methods ====================================
-    /** 子类处理方法 **/
-    public abstract Logger getLogger();
-
     // ~ Override Methods ====================================
     /** **/
     @Override
@@ -165,6 +163,11 @@ public abstract class AbstractJdbcConnection implements JdbcConnection {
     /** 获取Jdbc连接池引用 **/
     private JdbcPool getPool() {
         return this.dbPool;
+    }
+    
+    /** 子类处理方法 **/
+    public final Logger getLogger(){
+        return LoggerFactory.getLogger(getClass());
     }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

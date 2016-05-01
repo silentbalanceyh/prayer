@@ -1,8 +1,5 @@
 package com.prayer.database.connection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.facade.constant.DBConstants;
 import com.prayer.fantasm.database.pool.AbstractJdbcConnection;
 
@@ -16,9 +13,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class H2ConnImpl extends AbstractJdbcConnection {
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(H2ConnImpl.class);
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -30,11 +24,6 @@ public class H2ConnImpl extends AbstractJdbcConnection {
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public Logger getLogger() {
-        return LOGGER;
-    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

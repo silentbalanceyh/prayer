@@ -6,9 +6,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.exception.web.ServiceOrderByException;
 import com.prayer.exception.web.ServiceReturnSizeException;
 import com.prayer.facade.constant.Constants;
@@ -30,10 +27,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class RdPerformer extends AbstractPerformer {
     // ~ Static Fields =======================================
-
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(RdPerformer.class);
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -45,12 +38,6 @@ public class RdPerformer extends AbstractPerformer {
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public Logger getLogger() {
-        return LOGGER;
-    }
-
     // ~ Methods =============================================
     /**
      * 执行Find操作

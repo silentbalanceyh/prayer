@@ -11,7 +11,7 @@ import com.google.common.net.HttpHeaders;
 import com.prayer.exception.web._500InternalServerErrorException;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.engine.cv.msg.MsgVertx;
-import com.prayer.facade.vtx.endpoint.MessageXDCR;
+import com.prayer.facade.vtx.endpoint.MessageAsker;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.resource.Resources;
 import com.prayer.vertx.web.model.Envelop;
@@ -29,7 +29,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class MessageSender implements MessageXDCR {
+public class MessageSender implements MessageAsker<JsonObject> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageSender.class);

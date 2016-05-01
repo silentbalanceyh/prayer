@@ -1,10 +1,11 @@
-package com.prayer.schema.json.rule;
+package com.prayer.vertx.uca.consumer;
 
-import com.prayer.facade.schema.rule.Rule;
-import com.prayer.fantasm.schema.AbstractRule;
+import com.prayer.facade.vtx.Channel;
+import com.prayer.facade.vtx.endpoint.MessageReplier;
+import com.prayer.fantasm.vtx.uca.AbstractReplier;
 
-import net.sf.oval.constraint.NotBlank;
-import net.sf.oval.constraint.NotEmpty;
+import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -14,24 +15,19 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class MinLengthRule extends AbstractRule implements Rule{
+public class MetaConsumer extends AbstractReplier implements MessageReplier<JsonObject> {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /** **/
-    public static Rule create(@NotNull @NotEmpty @NotBlank final String rule) {
-        return new MinLengthRule(rule);
-    }
-
     // ~ Constructors ========================================
-    /** 私有构造函数 **/
-    private MinLengthRule(final String rule) {
-        super(rule, Names.RULE_LEN_MIN);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
+    @Override
+    public Channel getChannel(@NotNull final HttpMethod method){
+        return Director.Meta.select(method);
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================

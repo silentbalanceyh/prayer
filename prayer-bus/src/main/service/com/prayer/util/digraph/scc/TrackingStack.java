@@ -15,10 +15,10 @@ public class TrackingStack {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** SCC中的Stack **/
-    private transient Stack<String> keys = new Stack<>();
+    private transient final Stack<String> keys = new Stack<>();
     // ~ Static Block ========================================
     /** 记录时间戳信息 **/
-    private transient List<String> container = new ArrayList<>();
+    private transient final List<String> container = new ArrayList<>();
 
     // ~ Static Methods ======================================
     // ~ Constructors ========================================

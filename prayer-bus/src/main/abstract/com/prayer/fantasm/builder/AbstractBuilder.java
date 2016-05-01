@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.business.digraph.OrderedBuilder;
 import com.prayer.constant.SystemEnum.MetaPolicy;
@@ -73,9 +74,6 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
 
     /** 判断当前表是否存在 **/
     public abstract DataValidator getValidator();
-
-    /** 日志记录器 **/
-    public abstract Logger getLogger();
 
     /** 字段处理器 **/
     public abstract FieldSaber getFieldSaber();
@@ -152,6 +150,10 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
     }
 
     // ~ Methods =============================================
+    /** 日志记录器 **/
+    public final Logger getLogger(){
+        return LoggerFactory.getLogger(getClass());
+    }
     /** 子类使用连接 **/
     protected JdbcConnection getConnection() {
         return this.connection;

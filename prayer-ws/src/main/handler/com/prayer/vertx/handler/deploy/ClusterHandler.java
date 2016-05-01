@@ -32,7 +32,7 @@ public class ClusterHandler implements Handler<AsyncResult<Vertx>> {
     @NotNull
     @NotEmpty
     @NotBlank
-    private transient String instanceRef;
+    private transient final String instanceRef;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================

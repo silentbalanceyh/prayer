@@ -4,9 +4,6 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import java.text.MessageFormat;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.builder.mssql.part.MsSqlFieldSaber;
 import com.prayer.builder.mssql.part.MsSqlKeySaber;
 import com.prayer.builder.mssql.part.MsSqlValidator;
@@ -33,9 +30,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 public class MsSqlBuilder extends AbstractBuilder implements MsSqlStatement, MsSqlWord {
     // ~ Static Fields =======================================
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(MsSqlBuilder.class);
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -70,12 +64,6 @@ public class MsSqlBuilder extends AbstractBuilder implements MsSqlStatement, MsS
     }
 
     // ~ 日志组件 =============================================
-    /** **/
-    @Override
-    public Logger getLogger() {
-        return LOGGER;
-    }
-
     // ~ 自增长SQL语句 ========================================
     /** **/
     @Override

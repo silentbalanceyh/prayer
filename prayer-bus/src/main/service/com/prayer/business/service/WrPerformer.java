@@ -2,9 +2,6 @@ package com.prayer.business.service;
 
 import static com.prayer.util.debug.Log.debug;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.record.Record;
@@ -24,10 +21,6 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 final class WrPerformer extends AbstractPerformer {
     // ~ Static Fields =======================================
-
-    /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(WrPerformer.class);
-
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -39,23 +32,18 @@ final class WrPerformer extends AbstractPerformer {
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public Logger getLogger() {
-        return LOGGER;
-    }
     // ~ Methods =============================================
 
     /** 执行删除动作 **/
     public boolean performDelete(@NotNull final Record record) throws AbstractException {
-        debug(LOGGER, " Deleting mode : Deleted => " + record.toString());
+        debug(getLogger(), " Deleting mode : Deleted => " + record.toString());
         return this.performer().delete(record);
     }
 
     /** 执行插入动作 **/
     public Record performInsert(@NotNull final Record record, @NotNull final String[] filters)
             throws AbstractException {
-        debug(LOGGER, " Inserting mode : Inserted => " + record.toString());
+        debug(getLogger(), " Inserting mode : Inserted => " + record.toString());
         final Record inserted = this.performer().insert(record);
         this.filter(inserted, filters);
         return inserted;
@@ -69,10 +57,10 @@ final class WrPerformer extends AbstractPerformer {
         if (null == error) {
             /** 2.更新遍历，从数据库中拿到原始Record **/
             Record stored = this.findByIds(record);
-            debug(LOGGER, " Updating mode : Queried => " + (null == stored ? "null" : stored.toString()));
+            debug(getLogger(), " Updating mode : Queried => " + (null == stored ? "null" : stored.toString()));
             /** 3.执行数据更新操作 **/
             this.updateData(record, stored);
-            debug(LOGGER, " Updating mode : Updated => " + (null == stored ? "null" : stored.toString()));
+            debug(getLogger(), " Updating mode : Updated => " + (null == stored ? "null" : stored.toString()));
             /** 4.执行最终返回 **/
             final Record updated = (null == stored ? null : this.performer().update(stored));
             this.filter(updated, filters);

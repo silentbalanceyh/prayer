@@ -4,6 +4,7 @@ import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.business.configuration.impl.ConfigBllor;
 import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
@@ -29,8 +30,6 @@ public abstract class AbstractWorker extends AbstractVerticle {
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
-    /** Logger **/
-    public abstract Logger getLogger();
     // ~ Override Methods ====================================
     /** 主要方法，重写start **/
     @Override
@@ -51,6 +50,13 @@ public abstract class AbstractWorker extends AbstractVerticle {
         }
     }
     // ~ Methods =============================================
+    /**
+     * 
+     * @return
+     */
+    public final Logger getLogger(){
+        return LoggerFactory.getLogger(getClass());
+    }
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
