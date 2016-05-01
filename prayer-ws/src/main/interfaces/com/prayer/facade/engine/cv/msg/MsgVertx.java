@@ -45,5 +45,5 @@ public interface MsgVertx extends MsgCommon {
     /** **/
     String SEV_SENDER = "( {0} ) Message Sender {1} has got response data {2} from event Bus.";
     /** **/
-    String SEV_CONSUMER = "( {0} ) Message Consumer {1} has got request data, call service method ( Stubor ).";
+    String SEV_CONSUMER = "( {0} ) Message Consumer {1} has got request data {2}, call service method ( Stubor ).";
 }

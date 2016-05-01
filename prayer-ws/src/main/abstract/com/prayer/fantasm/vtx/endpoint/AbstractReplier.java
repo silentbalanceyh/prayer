@@ -75,7 +75,7 @@ public abstract class AbstractReplier {
         }
         /** 5.返回响应结果 **/
         info(getLogger(),
-                MessageFormat.format(MsgVertx.SEV_CONSUMER, getClass().getSimpleName(), getClass().getName()));
+                MessageFormat.format(MsgVertx.SEV_CONSUMER, getClass().getSimpleName(), getClass().getName(), envelop.result().encode()));
         event.reply(envelop.result());
     }
     // ~ Private Methods =====================================
