@@ -1,7 +1,7 @@
 package com.prayer.shutter.engine;
 
 import static com.prayer.util.debug.Log.peError;
-import static com.prayer.util.reflection.Instance.singleton;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +33,9 @@ public class DeploymentShutter {
     public static void main(final String[] args) {
         /** 1.在Consoler中替换日志输出 **/
         Log.setLoggerFactory(new LoggerFactorySLF4JImpl());
-        
-        final Launcher launcher = singleton(DeploymentLauncher.class);
+        /** **/
+        final boolean schema = true;
+        final Launcher launcher = reservoir(String.valueOf(schema), DeploymentLauncher.class, schema);
         try {
             launcher.stop();
         } catch (AbstractException ex) {

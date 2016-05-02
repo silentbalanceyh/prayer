@@ -59,6 +59,8 @@ public class DeployBllor implements DeployInstantor {
         /** 1.执行数据库Schema部分的Deploy **/
         if (schema) {
             this.selector.selectors(Acus.SCHEMA).deploy(folder);
+        }else{
+            info(LOGGER,"[DP] 1.<Start ~ End> Skip schema deployment because of input: schema = " + schema);
         }
         /** 2.执行Vertx的Deploy **/
         this.selector.selectors(Acus.VERTX).deploy(folder);
@@ -74,6 +76,8 @@ public class DeployBllor implements DeployInstantor {
         /** 1.执行数据库Schema部分的Purge **/
         if (schema) {
             this.selector.selectors(Acus.SCHEMA).purge();
+        }else{
+            info(LOGGER,"[DP] 1.<Start ~ End> Skip schema purging because of input: schema = " + schema);
         }
         /** 2.执行Vertx的Purge **/
         this.selector.selectors(Acus.VERTX).purge();

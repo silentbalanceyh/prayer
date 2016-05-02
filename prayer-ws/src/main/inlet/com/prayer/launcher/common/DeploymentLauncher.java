@@ -43,10 +43,11 @@ public class DeploymentLauncher implements Launcher {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    
-    public DeploymentLauncher(final boolean schema){
+
+    public DeploymentLauncher(final boolean schema) {
         this.schema = schema;
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
@@ -57,11 +58,13 @@ public class DeploymentLauncher implements Launcher {
         /** 2.再执行Deploy **/
         this.deployMeta();
     }
+
     /** **/
     @Override
     public void stop() throws AbstractException {
         this.purgeMeta();
     }
+
     /** **/
     @Override
     public boolean running() {
@@ -85,18 +88,21 @@ public class DeploymentLauncher implements Launcher {
 
     private void deployMeta() throws AbstractException {
         /** 读取Init File **/
-        final String file = INCEPTOR.getString(Point.Deploy.INIT_FILE);
         final String appName = getClass().getSimpleName();
-        info(LOGGER, MessageFormat.format(MsgDeployment.INIT_FILE, appName, file));
-        /** 执行Init **/
-        boolean inited = INSTANTOR.initialize(file);
+        boolean inited = true;
+        if (this.schema) {
+            final String file = INCEPTOR.getString(Point.Deploy.INIT_FILE);
+            info(LOGGER, MessageFormat.format(MsgDeployment.INIT_FILE, appName, file));
+            /** 执行Init **/
+            inited = INSTANTOR.initialize(file);
+        }
         if (inited) {
             /** 读取Folder **/
             info(LOGGER, MessageFormat.format(MsgDeployment.INIT_FILED, appName, Resources.Meta.CATEGORY));
             final String folder = INCEPTOR.getString(Point.Deploy.META_FOLDER);
             info(LOGGER, MessageFormat.format(MsgDeployment.INIT_META, appName, folder));
             /** 执行Deploy **/
-            inited = INSTANTOR.manoeuvre(folder,this.schema);
+            inited = INSTANTOR.manoeuvre(folder, this.schema);
             if (inited) {
                 info(LOGGER, MessageFormat.format(MsgDeployment.INIT_METAED, appName, Resources.Meta.CATEGORY));
             }
