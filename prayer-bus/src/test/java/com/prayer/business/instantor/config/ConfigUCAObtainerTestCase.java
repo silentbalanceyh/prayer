@@ -27,6 +27,7 @@ public class ConfigUCAObtainerTestCase extends AbstractInstantor {
 
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigUCAObtainerTestCase.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -35,49 +36,56 @@ public class ConfigUCAObtainerTestCase extends AbstractInstantor {
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public Logger getLogger(){
+    public Logger getLogger() {
         return LOGGER;
     }
+
     // ~ Methods =============================================
     /** **/
     @Test
-    public void testUCA() throws AbstractException{
+    public void testUCA() throws AbstractException {
         /** 1.准备数据 **/
         final List<Entity> entities = this.preparedListData("instantor3-config-rule.json", PERule.class);
         final List<Entity> uris = this.preparedListData("instantor3-config-uri.json", PEUri.class);
         String uriId = null;
         {
-            if(Constants.ONE == uris.size()){
+            if (Constants.ONE == uris.size()) {
                 final Entity uri = uris.get(Constants.IDX);
                 uriId = uri.id().toString();
-                for(final Entity entity: entities){
-                    final PERule rule = (PERule)entity;
+                for (final Entity entity : entities) {
+                    final PERule rule = (PERule) entity;
                     rule.setRefUID(uri.id().toString());
-                    this.accessor(PERule.class).update(rule);
+                    try {
+                        this.accessor(PERule.class).update(rule);
+                    } catch (AbstractException ex) {
+                        throw ex;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         }
         /** 2.调用Config接口读取数据 **/
         final ConfigInstantor instantor = this.getConfigItor();
         /** 3.调用UCA接口 -- Dependants **/
-        final ConcurrentMap<String,List<PERule>> dependants = instantor.dependants(uriId);
-        assertEquals(3,dependants.size());
-        assertEquals(1,dependants.get("TEST.RULE6").size());
-        assertEquals(1,dependants.get("TEST.RULE5").size());
-        assertEquals(1,dependants.get("TEST.RULE4").size());
+        final ConcurrentMap<String, List<PERule>> dependants = instantor.dependants(uriId);
+        assertEquals(3, dependants.size());
+        assertEquals(1, dependants.get("TEST.RULE6").size());
+        assertEquals(1, dependants.get("TEST.RULE5").size());
+        assertEquals(1, dependants.get("TEST.RULE4").size());
         /** 3.调用UCA接口 -- Convertors **/
-        final ConcurrentMap<String,List<PERule>> convertors = instantor.convertors(uriId);
-        assertEquals(2,convertors.size());
-        assertEquals(1,convertors.get("TEST.RULE6").size());
-        assertEquals(1,convertors.get("TEST.RULE5").size());
+        final ConcurrentMap<String, List<PERule>> convertors = instantor.convertors(uriId);
+        assertEquals(2, convertors.size());
+        assertEquals(1, convertors.get("TEST.RULE6").size());
+        assertEquals(1, convertors.get("TEST.RULE5").size());
         /** 3.调用UCA接口 -- Validators **/
-        final ConcurrentMap<String,List<PERule>> validators = instantor.validators(uriId);
-        assertEquals(5,validators.size());
-        assertEquals(1,validators.get("TEST.RULE4").size());
-        assertEquals(3,validators.get("TEST.RULE1").size());
-        assertEquals(2,validators.get("TEST.RULE2").size());
-        assertEquals(2,validators.get("TEST.RULE3").size());
-        assertEquals(2,validators.get("TEST.RULE7").size());
+        final ConcurrentMap<String, List<PERule>> validators = instantor.validators(uriId);
+        assertEquals(5, validators.size());
+        assertEquals(1, validators.get("TEST.RULE4").size());
+        assertEquals(3, validators.get("TEST.RULE1").size());
+        assertEquals(2, validators.get("TEST.RULE2").size());
+        assertEquals(2, validators.get("TEST.RULE3").size());
+        assertEquals(2, validators.get("TEST.RULE7").size());
         /** 4.删除数据 **/
         this.purgeListData(entities, PERule.class);
         this.purgeListData(uris, PEUri.class);

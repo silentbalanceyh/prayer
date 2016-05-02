@@ -37,11 +37,16 @@ public class DeploymentLauncher implements Launcher {
     private static final Inceptor INCEPTOR = InceptBus.build(Point.Deploy.class);
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(DeploymentLauncher.class);
-
     // ~ Instance Fields =====================================
+    /** **/
+    private transient boolean schema;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
+    
+    public DeploymentLauncher(final boolean schema){
+        this.schema = schema;
+    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
@@ -74,7 +79,7 @@ public class DeploymentLauncher implements Launcher {
         /** 检查Meta Server是否在运行 **/
         if (Ensurer.running(getClass(), LOGGER)) {
             /** 执行Purge **/
-            Ensurer.purge(getClass(), LOGGER);
+            Ensurer.purge(getClass(), LOGGER, this.schema);
         }
     }
 
@@ -91,7 +96,7 @@ public class DeploymentLauncher implements Launcher {
             final String folder = INCEPTOR.getString(Point.Deploy.META_FOLDER);
             info(LOGGER, MessageFormat.format(MsgDeployment.INIT_META, appName, folder));
             /** 执行Deploy **/
-            inited = INSTANTOR.manoeuvre(folder);
+            inited = INSTANTOR.manoeuvre(folder,this.schema);
             if (inited) {
                 info(LOGGER, MessageFormat.format(MsgDeployment.INIT_METAED, appName, Resources.Meta.CATEGORY));
             }

@@ -54,10 +54,10 @@ public final class Ensurer {
      * @param appName
      * @return
      */
-    public static boolean purge(final Class<?> clazz, final Logger logger) throws AbstractException {
+    public static boolean purge(final Class<?> clazz, final Logger logger, final boolean schema) throws AbstractException {
         /** **/
         final DeployInstantor instantor = singleton(DeployBllor.class);
-        boolean purged = instantor.purge();
+        boolean purged = instantor.purge(schema);
         if (purged) {
             info(logger, MessageFormat.format(MsgCommon.META_PURGE_RET, clazz.getSimpleName(), purged));
         }

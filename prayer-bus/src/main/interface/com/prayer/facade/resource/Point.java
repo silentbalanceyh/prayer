@@ -44,6 +44,8 @@ public interface Point {
         /** **/
         String SENDER = "uri.sender";
         /** **/
+        String RESPONDER = "uri.responder";
+        /** **/
         String MIMES_CONTENT = "uri.mimes.content";
         /** **/
         String MIMES_ACCEPT = "uri.mimes.accept";

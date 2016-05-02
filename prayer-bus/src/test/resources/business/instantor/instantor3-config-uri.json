@@ -13,6 +13,7 @@
         "returnFilters":[
             "password"
         ],
-        "sender":"com.prayer.model.entity.clazz.EntityHandler"
+        "sender":"com.prayer.model.entity.clazz.EntityHandler",
+        "responder":"com.prayer.model.entity.clazz.EntityHandler"
     }
 ]

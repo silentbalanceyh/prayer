@@ -47,8 +47,6 @@ public interface Attributes {
     String WORK_CLASS = "workClass";
     /** PEAddress -> consumerAddr **/
     String CONSUMER_ADDR = "consumerAddr";
-    /** PEAddress -> consumerHandler **/
-    String CONSUMER_HANDLER = "consumerHandler";
 
     // ~ Verticle Attr ======================================
     /** PEVerticle -> instances **/
@@ -112,7 +110,11 @@ public interface Attributes {
     String RETURN_FILTERS = "returnFilters";
 
     String SENDER = "sender";
-
+    
+    String CONSUMER_HANDLER = "consumerHandler";
+    
+    String RESPONDER = "responder";
+    
     // ~ Meta Attr ==========================================
 
     String STATUS = "status";

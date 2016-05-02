@@ -138,6 +138,9 @@ public final class Instance { // NOPMD
             throw ex;
         } catch (SecurityException ex) {
             jvmError(LOGGER, ex);
+        } catch (Exception ex){
+            jvmError(LOGGER,ex);
+            ex.printStackTrace();
         }
         return ret;
     }

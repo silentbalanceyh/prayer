@@ -2,14 +2,12 @@ package com.prayer.business.deployment.acus;
 
 import static com.prayer.util.debug.Log.info;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.prayer.facade.constant.Constants.EXTENSION;
 import com.prayer.facade.business.instantor.deployment.acus.DeployAcus;
+import com.prayer.facade.constant.Constants.EXTENSION;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.fantasm.business.deployment.acus.AbstractEntityAcus;
 import com.prayer.fantasm.exception.AbstractException;
@@ -42,8 +40,17 @@ public class ScriptAcus extends AbstractEntityAcus implements DeployAcus {
     /** **/
     @Override
     public boolean deploy(@NotNull @NotBlank @NotEmpty final String folder) throws AbstractException {
-        /** 4.发布Script **/
-        this.deployScript(folder);
+        final TypeReference<PEScript> typeRef = new TypeReference<PEScript>() {
+        };
+
+        info(LOGGER, "[DP] 5.Engine's ( Scripts ) deployment start...");
+        final String scriptData = folder + "/script.json";
+        final PEScript script = JacksonKit.fromFile(typeRef, scriptData);
+        info(LOGGER, "[DP] 5. - .Engine's ( Scripts ) of " + scriptData + " have been deployed successfully. ");
+        /** 计算Script内容 **/
+        this.injectContent(script, folder);
+        accessor(PEScript.class).insert(script);
+        info(LOGGER, "[DP] 5.( ENG_SCRIPT ) Engine's ( Script ) have been deployed successfully. Folder = " + scriptData);
         return true;
     }
 
@@ -58,36 +65,13 @@ public class ScriptAcus extends AbstractEntityAcus implements DeployAcus {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private void deployScript(final String folder) throws AbstractException {
-        final TypeReference<List<PEScript>> typeRef = new TypeReference<List<PEScript>>() {
-        };
-
-        info(LOGGER, "[DP] 5.<Start>.Engine's ( Scripts ) deployment start...");
-        final String targetFolder = folder + "/vertx/script/";
-        final List<String> files = IOKit.listFiles(targetFolder);
-        for (final String file : files) {
-            final String target = targetFolder + file;
-            final List<PEScript> scripts = JacksonKit.fromFile(typeRef, target);
-            /** 计算Script内容 **/
-            injectContent(scripts, folder);
-            if (!scripts.isEmpty()) {
-                accessor(PEScript.class).insert(scripts.toArray(new PEScript[] {}));
-            }
-            info(LOGGER, "[DP] 5. - .Engine's ( Scripts ) of " + target + " have been deployed successfully. Size = "
-                    + scripts.size());
-        }
-        info(LOGGER, "[DP] 5.<End>.( ENG_SCRIPT ) Engine's ( Scripts ) have been deployed successfully. Folder = "
-                + targetFolder);
-    }
-
-    private void injectContent(final List<PEScript> scripts, final String folder) {
-        for (final PEScript script : scripts) {
-            if (null == script.getContent()) {
-                final String path = folder + "/" + script.getName().replaceAll("\\.", "/") + Symbol.DOT + EXTENSION.JS;
-                script.setContent(IOKit.getContent(path));
-            } else {
-                script.setContent(IOKit.getContent(script.getContent()));
-            }
+    private void injectContent(final PEScript script, final String folder) {
+        if (null == script.getContent()) {
+            final String path = folder + "/" + script.getName() + Symbol.DOT + EXTENSION.JS;
+            info(LOGGER, "[DP] 5. - .Engine's ( Scripts ) of " + path + " content have been deployed successfully. ");
+            script.setContent(IOKit.getContent(path));
+        } else {
+            script.setContent(IOKit.getContent(script.getContent()));
         }
     }
     // ~ Get/Set =============================================

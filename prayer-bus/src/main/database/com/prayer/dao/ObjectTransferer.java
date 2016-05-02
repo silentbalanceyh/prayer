@@ -110,13 +110,15 @@ public final class ObjectTransferer implements Transferer {
     @Override
     @NotNull
     public JsonObject fromRecord(@InstanceOf(Record.class) final Record record) throws AbstractDatabaseException {
-        final Set<String> fields = record.fields().keySet();
         final JsonObject data = new JsonObject();
-        for (final String field : fields) {
-            if (null != record.get(field) && record.get(field).isCorrect()) {
-                // Fix JsonArray为null的问题
-                final String literal = record.get(field).literal();
-                JsonTrier.putTried(data, field, literal);
+        if (null != record) {
+            final Set<String> fields = record.fields().keySet();
+            for (final String field : fields) {
+                if (null != record.get(field) && record.get(field).isCorrect()) {
+                    // Fix JsonArray为null的问题
+                    final String literal = record.get(field).literal();
+                    JsonTrier.putTried(data, field, literal);
+                }
             }
         }
         return data;

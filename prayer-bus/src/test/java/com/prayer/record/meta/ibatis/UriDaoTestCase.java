@@ -62,6 +62,7 @@ public class UriDaoTestCase extends AbstractRecordDaoTool {
         array.add("application/json");
         data.put("contentMimes", new StringType(array.encode()));
         data.put("acceptMimes", new StringType(array.encode()));
+        data.put("responder", new StringType(EntityHandler.class.getName()));
         return data;
     }
     // ~ Methods =============================================

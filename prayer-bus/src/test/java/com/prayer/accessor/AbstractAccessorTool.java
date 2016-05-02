@@ -127,6 +127,7 @@ public abstract class AbstractAccessorTool<T> {
             return ret;
         } catch (Exception ex) {
             jvmError(getLogger(), ex);
+            ex.printStackTrace();
             return false;
         }
     }
@@ -282,6 +283,7 @@ public abstract class AbstractAccessorTool<T> {
             return ret;
         } catch (Exception ex) {
             jvmError(getLogger(), ex);
+            ex.printStackTrace();
             return false;
         }
     }

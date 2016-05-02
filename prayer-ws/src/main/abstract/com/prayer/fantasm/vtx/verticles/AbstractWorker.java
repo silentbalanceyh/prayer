@@ -17,9 +17,12 @@ import net.sf.oval.constraint.NotNull;
 
 /**
  * Vertx中的抽象Worker
+ * 构造绑定关系
  * @author Lang
- *
  */
+// 1.一个地址绑定一个Worker，Worker不可以共享地址，且一个Worker最好不去Consume两个地址
+// 2.一个地址绑定一个Consumer
+// Bind: Address -> Worker -> Consumer
 public abstract class AbstractWorker extends AbstractVerticle {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================

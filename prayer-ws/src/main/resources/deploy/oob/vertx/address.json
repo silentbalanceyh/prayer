@@ -1,5 +1,5 @@
 [
     {
-        "workClass":"com.prayer.vertx.actor.worker.MessageWorker"
+        "workClass":"com.prayer.vertx.actor.worker.DataWorker"
     }
 ]

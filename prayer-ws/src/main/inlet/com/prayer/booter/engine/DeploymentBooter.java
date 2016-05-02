@@ -1,7 +1,7 @@
 package com.prayer.booter.engine;
 
 import static com.prayer.util.debug.Log.peError;
-import static com.prayer.util.reflection.Instance.singleton;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +33,10 @@ public class DeploymentBooter {
     public static void main(final String[] args) {
         /** 1.在Consoler中替换日志输出 **/
         Log.setLoggerFactory(new LoggerFactorySLF4JImpl());
-        
-        final Launcher launcher = singleton(DeploymentLauncher.class);
+        /** 2.是否处理Schema部分的Purge和Deploy **/
+        // TODO：后期从args中传递
+        final boolean schema = false;
+        final Launcher launcher = reservoir(String.valueOf(schema), DeploymentLauncher.class, schema);
         try {
             launcher.start();
         } catch (AbstractException ex) {

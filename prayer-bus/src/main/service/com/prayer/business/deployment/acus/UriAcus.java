@@ -1,6 +1,7 @@
 package com.prayer.business.deployment.acus;
 
 import static com.prayer.util.debug.Log.info;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +38,9 @@ public class UriAcus extends AbstractEntityAcus implements DeployAcus {
     private static final Logger LOGGER = LoggerFactory.getLogger(UriAcus.class);
 
     // ~ Instance Fields =====================================
+    /** **/
+    private transient final DeployAcus scriptAcus = singleton(ScriptAcus.class);
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -45,64 +49,66 @@ public class UriAcus extends AbstractEntityAcus implements DeployAcus {
     /** **/
     @Override
     public boolean deploy(@NotNull @NotBlank @NotEmpty final String folder) throws AbstractException {
-        final TypeReference<List<PEUri>> typeRef = new TypeReference<List<PEUri>>() {
+        final TypeReference<PEUri> typeRef = new TypeReference<PEUri>() {
         };
-        info(LOGGER, "[DP] 6.<Start>.Vertx's ( Uris ) deployment start...");
-        final String targetFolder = folder + "/vertx/uri/";
-        final List<String> files = IOKit.listFiles(targetFolder);
-        for (final String file : files) {
-            final String target = targetFolder + file;
-            final List<PEUri> uris = JacksonKit.fromFile(typeRef, target);
-            injectScript(uris);
-            if (!uris.isEmpty()) {
-                accessor(PEUri.class).insert(uris.toArray(new PEUri[] {}));
-                this.deployRules(uris, folder);
+        info(LOGGER, "[DP] 5.<Start>.Vertx's ( Uris ) deployment start...");
+        final String rootFolder = folder + "/vertx/uri";
+        /** URI Folder **/
+        final List<String> folders = IOKit.listDirectories(rootFolder);
+        for (final String methods : folders) {
+            /** Method Folder **/
+            final String uriFolder = rootFolder + "/" + methods;
+            final List<String> files = IOKit.listDirectories(uriFolder);
+            for (final String file : files) {
+                final String targetFolder = uriFolder + "/" + file;
+                final String target = targetFolder + "/data.json";
+                final PEUri uri = JacksonKit.fromFile(typeRef, target);
+                this.injectScript(uri);
+                accessor(PEUri.class).insert(uri);
+                info(LOGGER, "[DP] 5. - Vertx's ( Uris ) of " + target + " have been deployed successfully.");
+                // 1.发布Rules
+                this.deployRules(uri, targetFolder);
+                // 2.发布对应的Scripts
+                this.scriptAcus.deploy(targetFolder);
             }
-            info(LOGGER, "[DP] 6. - Vertx's ( Uris ) of " + target + " have been deployed successfully. Size = "
-                    + uris.size());
         }
         info(LOGGER,
-                "[DP] 6.<End>.( EVX_URI ) Vertx's ( Uris ) have been deployed successfully. Folder = " + targetFolder);
+                "[DP] 5.<End>.( EVX_URI ) Vertx's ( Uris ) have been deployed successfully. Folder = " + rootFolder);
         return true;
     }
 
     /** **/
     @Override
     public boolean purge() throws AbstractException {
-        info(LOGGER, "[PG] - 6.<Start>.Vertx's ( Uri -> Rule ) purging start...");
+        info(LOGGER, "[PG] - 5.<Start>.Vertx's ( Uri -> Rule ) purging start...");
         accessor(PERule.class).purge();
-        info(LOGGER, "[PG] - 6.<End>.Vertx's ( Uri -> Rule ) data have been purged successfully.");
-        info(LOGGER, "[PG] 6.<Start>.Vertx's ( Uris ) purging start...");
+        info(LOGGER, "[PG] - 5.<End>.Vertx's ( Uri -> Rule ) data have been purged successfully.");
+        info(LOGGER, "[PG] 5.<Start>.Vertx's ( Uris ) purging start...");
         accessor(PEUri.class).purge();
-        info(LOGGER, "[PG] 6.<End>.Vertx's ( Uris ) data have been purged successfully.");
+        info(LOGGER, "[PG] 5.<End>.Vertx's ( Uris ) data have been purged successfully.");
         return true;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private void deployRules(final List<PEUri> uris, final String folder) throws AbstractException {
+    private void deployRules(PEUri uri, final String folder) throws AbstractException {
         final TypeReference<List<PERule>> typeRef = new TypeReference<List<PERule>>() {
         };
-        for (final PEUri uri : uris) {
-            info(LOGGER, "[DP] - 6.<Start>.Vertx's ( Uri -> Rule ) deployment start...");
-            final String ruleFolder = folder + "/vertx/rule/";
-            final String paramFolder = ruleFolder + uri.getMethod().toString().toLowerCase(Locale.getDefault()) + "/"
-                    + uri.getUri().substring(1, uri.getUri().length()).replaceAll("/", ".").replaceAll(":", "\\$");
-            final List<String> files = IOKit.listFiles(paramFolder);
-            for (final String file : files) {
-                final String ruleFile = paramFolder + "/" + file;
-                final List<PERule> rules = JacksonKit.fromFile(typeRef, ruleFile);
-                this.injectRefId(rules, uri);
-                if (!rules.isEmpty()) {
-                    accessor(PERule.class).insert(rules.toArray(new PERule[] {}));
-                }
-                info(LOGGER, "[DP] - 6. - Vertx's ( Uris -> Rule ) of " + ruleFile
-                        + " have been deployed successfully. Size = " + rules.size());
+        info(LOGGER, "[DP] - 5.Vertx's ( Uri -> Rule ) deployment start...");
+        final String ruleFolder = folder + "/rules/";
+        final List<String> files = IOKit.listFiles(ruleFolder);
+        for (final String file : files) {
+            final String ruleFile = ruleFolder + file;
+            final List<PERule> rules = JacksonKit.fromFile(typeRef, ruleFile);
+            this.injectRefId(rules, uri);
+            if (!rules.isEmpty()) {
+                accessor(PERule.class).insert(rules.toArray(new PERule[] {}));
             }
-            info(LOGGER,
-                    "[DP] - 6.<End>.( EVX_RULE ) Vertx's ( Uri -> Rule ) have been deployed successfully. Folder = "
-                            + ruleFolder);
+            info(LOGGER, "[DP] - 5. - Vertx's ( Uris -> Rule ) of " + ruleFile
+                    + " have been deployed successfully. Size = " + rules.size());
         }
+        info(LOGGER, "[DP] - 5.( EVX_RULE ) Vertx's ( Uri -> Rule ) have been deployed successfully. Folder = "
+                + ruleFolder);
     }
 
     private void injectRefId(final List<PERule> rules, final PEUri uri) {
@@ -111,16 +117,14 @@ public class UriAcus extends AbstractEntityAcus implements DeployAcus {
         }
     }
 
-    private void injectScript(final List<PEUri> uris) {
-        for (final PEUri uri : uris) {
-            if (null == uri.getScript()) {
-                final StringBuilder script = new StringBuilder(Constants.BUFFER_SIZE); // NOPMD
-                script.append("js.api.").append(uri.getMethod().toString().toLowerCase(Locale.getDefault()))
-                        .append('.');
-                final String exeJS = uri.getUri().replaceAll("/api/", "").replaceAll("/", "\\.");
-                script.append(exeJS);
-                uri.setScript(script.toString());
-            }
+    private void injectScript(final PEUri uri) {
+        if (null == uri.getScript()) {
+            final StringBuilder script = new StringBuilder(Constants.BUFFER_SIZE); // NOPMD
+            script.append("api.");
+            final String exeJS = uri.getUri().replaceAll("/api/", "").replaceAll("/", "\\.");
+            script.append(exeJS);
+            script.append('.').append(uri.getMethod().toString().toLowerCase(Locale.getDefault()));
+            uri.setScript(script.toString());
         }
     }
     // ~ Get/Set =============================================

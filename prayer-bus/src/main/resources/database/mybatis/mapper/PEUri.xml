@@ -13,6 +13,7 @@
         <result column="MSG_ADDRESS" property="address" />
         <result column="S_SCRIPT" property="script" />
         <result column="S_SENDER" property="sender" typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
+        <result column="S_RESPONDER" property="responder" typeHandler="com.prayer.plugin.db.handler.ClassHandler" />
         <result column="L_RETURN_FILTERS" property="returnFilters" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
         <result column="L_CONTENT_MIMES" property="contentMimes" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
         <result column="L_ACCEPT_MIMES" property="acceptMimes" typeHandler="com.prayer.plugin.db.handler.ArrayHandler" />
@@ -28,6 +29,7 @@
                 S_GLOBAL_ID,
                 S_SCRIPT,
                 S_SENDER,
+                S_RESPONDER,
                 L_REQUIRED_PARAM,
                 L_RETURN_FILTERS,
                 L_CONTENT_MIMES,
@@ -41,6 +43,7 @@
                 #{globalId},
                 #{script},
                 #{sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
+                #{responder,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{contentMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
@@ -59,6 +62,7 @@
                 S_GLOBAL_ID,
                 S_SCRIPT,
                 S_SENDER,
+                S_RESPONDER,
                 L_REQUIRED_PARAM,
                 L_RETURN_FILTERS,
                 L_CONTENT_MIMES,
@@ -75,6 +79,7 @@
                 #{item.globalId},
                 #{item.script},
                 #{item.sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
+                #{item.responder,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 #{item.requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 #{item.contentMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
@@ -92,6 +97,7 @@
                 S_GLOBAL_ID=#{globalId},
                 S_SCRIPT=#{script},
                 S_SENDER=#{sender,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
+                S_RESPONDER=#{responder,typeHandler=com.prayer.plugin.db.handler.ClassHandler},
                 L_REQUIRED_PARAM=#{requiredParam, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 L_RETURN_FILTERS=#{returnFilters, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},
                 L_CONTENT_MIMES=#{contentMimes, typeHandler=com.prayer.plugin.db.handler.ArrayHandler},

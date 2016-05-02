@@ -26,16 +26,16 @@ public interface DeployInstantor {
      * 2.执行Deploy操作，将目录下边所有的元数据导入到Metadata中，并且在数据库中生成对应Database表
      * 
      * @param folder
+     * @param schema 是否处理Schema的元数据
      * @return
      */
     @VertexApi(Api.WRITE)
-    boolean manoeuvre(String folder) throws AbstractException;
-
+    boolean manoeuvre(String folder,boolean schema) throws AbstractException;
     /**
      * 3.执行Purge操作，必须删除SQL数据库中的表信息
-     * 
+     * @param schema 是否处理Schema的元数据
      * @return
      */
     @VertexApi(Api.WRITE)
-    boolean purge() throws AbstractException;
+    boolean purge(boolean schema) throws AbstractException;
 }

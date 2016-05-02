@@ -1,5 +1,6 @@
 package com.prayer.model.entity;
 
+import static com.prayer.util.reflection.Instance.clazz;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -51,6 +52,7 @@ public class PEAddressTestCase extends AbstractEntityTool {
     public void testFromJson() {
         final JsonObject expected = this.readData("/entity/peaddress/address.json");
         final PEAddress actual = this.getInstance("/entity/peaddress/address.json");
+        actual.setConsumerHandler(clazz("com.prayer.model.entity.clazz.EntityHandler"));
         // Compare
         assertTrue(expected.equals(actual.toJson()));
     }

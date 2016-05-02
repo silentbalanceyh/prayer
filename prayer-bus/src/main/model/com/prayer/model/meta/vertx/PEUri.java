@@ -89,6 +89,12 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> sender = INCEPTOR.getClass(Point.Uri.SENDER);
+    
+    /** S_RESPONDER **/
+    @JsonProperty(RESPONDER)
+    @JsonSerialize(using = ClassSerializer.class)
+    @JsonDeserialize(using = ClassDeserializer.class)
+    private Class<?> responder = INCEPTOR.getClass(Point.Uri.RESPONDER);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -125,6 +131,7 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
         writeList(data, CONTENT_MIMES, this::getContentMimes);
         writeList(data, ACCEPT_MIMES, this::getAcceptMimes);
         writeClass(data, SENDER, this::getSender);
+        writeClass(data, RESPONDER, this::getResponder);
         return data;
     }
 
@@ -142,6 +149,7 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
         readString(data, SCRIPT, this::setScript);
         readList(data, RETURN_FILTERS, this::setReturnFilters);
         readClass(data, SENDER, this::setSender);
+        readClass(data, RESPONDER, this::setResponder);
         return this;
     }
 
@@ -160,6 +168,7 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
         writeClass(buffer, this::getSender);
         writeList(buffer, this::getContentMimes);
         writeList(buffer, this::getAcceptMimes);
+        writeClass(buffer, this::getResponder);
     }
 
     /** 从Buffer中读取 **/
@@ -177,6 +186,7 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
         pos = readClass(pos, buffer, this::setSender);
         pos = readList(pos, buffer, this::setContentMimes);
         pos = readList(pos, buffer, this::setAcceptMimes);
+        pos = readClass(pos, buffer, this::setResponder);
         return pos;
     }
     // ~ Methods =============================================
@@ -363,6 +373,20 @@ public class PEUri extends AbstractEntity<String> { // NOPMD
      */
     public void setSender(final Class<?> sender) {
         this.sender = sender;
+    }
+
+    /**
+     * @return the responder
+     */
+    public Class<?> getResponder() {
+        return responder;
+    }
+
+    /**
+     * @param responder the responder to set
+     */
+    public void setResponder(final Class<?> responder) {
+        this.responder = responder;
     }
 
     // ~ hashCode,equals,toString ============================
