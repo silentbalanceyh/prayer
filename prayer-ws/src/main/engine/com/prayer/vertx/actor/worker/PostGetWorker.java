@@ -2,11 +2,11 @@ package com.prayer.vertx.actor.worker;
 
 import com.prayer.fantasm.vtx.verticles.AbstractWorker;
 /**
- * 登录专用Worker
+ * 用POST方法替代GET行为的Worker
  * @author Lang
  *
  */
-public class LoginWorker extends AbstractWorker{
+public class PostGetWorker extends AbstractWorker{
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -18,5 +18,4 @@ public class LoginWorker extends AbstractWorker{
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
 }

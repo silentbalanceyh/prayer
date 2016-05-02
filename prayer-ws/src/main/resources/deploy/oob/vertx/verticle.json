@@ -15,5 +15,11 @@
         "instances":1,
         "ha":true,
         "worker":true
+    },
+    {
+        "name":"com.prayer.vertx.actor.worker.PostGetWorker",
+        "instances":1,
+        "ha":true,
+        "worker":true
     }
 ]

@@ -1,0 +1,9 @@
+{
+    "identifier":"sec.user",
+    "method":"POST",
+    "script":"api.login.post",
+    "data":{
+        "username":"lang.yu",
+        "password":"pl,okmijn123"
+    }
+}

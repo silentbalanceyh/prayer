@@ -9,6 +9,7 @@ import net.sf.oval.guard.Guarded;
 
 /**
  * 接口返回True或False
+ * 
  * @author Lang
  *
  */
@@ -24,18 +25,21 @@ public class LogicalResponder extends CommonResponder {
     /** Body **/
     @Override
     public String buildBody(@NotNull final JsonObject data) {
-        final JsonObject bodyRef = data.getJsonObject(WebKeys.Envelop.DATA).getJsonObject(WebKeys.Envelop.Data.BODY);
-        /** 执行body的转换 **/
-        boolean result = false;
-        if (bodyRef.containsKey(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT)) {
-            final int count = bodyRef.getInteger(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT);
-            if (Constants.ZERO < count) {
-                result = true;
+        if (data.containsKey(WebKeys.Envelop.DATA)) {
+            final JsonObject bodyRef = data.getJsonObject(WebKeys.Envelop.DATA)
+                    .getJsonObject(WebKeys.Envelop.Data.BODY);
+            /** 执行body的转换 **/
+            boolean result = false;
+            if (bodyRef.containsKey(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT)) {
+                final int count = bodyRef.getInteger(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT);
+                if (Constants.ZERO < count) {
+                    result = true;
+                }
             }
+            /** 将data节点清空 **/
+            data.remove(WebKeys.Envelop.DATA);
+            data.put(WebKeys.Envelop.DATA, result);
         }
-        /** 将data节点清空 **/
-        data.remove(WebKeys.Envelop.DATA);
-        data.put(WebKeys.Envelop.DATA, result);
         return data.encode();
     }
     // ~ Methods =============================================

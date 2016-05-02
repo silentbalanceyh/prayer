@@ -18,7 +18,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class CrossConsumer extends AbstractReplier implements MessageReplier<JsonObject> {
+public class PostGetConsumer extends AbstractReplier implements MessageReplier<JsonObject> {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================

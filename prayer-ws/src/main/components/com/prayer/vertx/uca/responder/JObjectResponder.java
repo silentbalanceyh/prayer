@@ -10,11 +10,12 @@ import net.sf.oval.guard.Guarded;
 
 /**
  * 如果读取的数据只有一条，返回JsonObject作为data节点
+ * 
  * @author Lang
  *
  */
 @Guarded
-public class JObjectResponder extends CommonResponder{
+public class JObjectResponder extends CommonResponder {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -25,15 +26,18 @@ public class JObjectResponder extends CommonResponder{
     /** Body **/
     @Override
     public String buildBody(@NotNull final JsonObject data) {
-        final JsonObject bodyRef = data.getJsonObject(WebKeys.Envelop.DATA).getJsonObject(WebKeys.Envelop.Data.BODY);
-        /** 执行Body的转换 **/
-        if (bodyRef.containsKey(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT)) {
-            final int count = bodyRef.getInteger(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT);
-            final JsonArray arrData = bodyRef.getJsonArray(Constants.PARAM.ADMINICLE.PAGE.RET.LIST);
-            if(Constants.ONE == count && Constants.ONE == arrData.size()){
-                final JsonObject finalData = arrData.getJsonObject(Constants.IDX).copy();
-                data.remove(WebKeys.Envelop.DATA);
-                data.put(WebKeys.Envelop.DATA, finalData);
+        if (data.containsKey(WebKeys.Envelop.DATA)) {
+            final JsonObject bodyRef = data.getJsonObject(WebKeys.Envelop.DATA)
+                    .getJsonObject(WebKeys.Envelop.Data.BODY);
+            /** 执行Body的转换 **/
+            if (bodyRef.containsKey(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT)) {
+                final int count = bodyRef.getInteger(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT);
+                final JsonArray arrData = bodyRef.getJsonArray(Constants.PARAM.ADMINICLE.PAGE.RET.LIST);
+                if (Constants.ONE == count && Constants.ONE == arrData.size()) {
+                    final JsonObject finalData = arrData.getJsonObject(Constants.IDX).copy();
+                    data.remove(WebKeys.Envelop.DATA);
+                    data.put(WebKeys.Envelop.DATA, finalData);
+                }
             }
         }
         /** 回传Data节点 **/

@@ -61,7 +61,7 @@ public abstract class AbstractMessager {
 
     /** GET请求可以使用POST请求完成 **/
     public ActResponse post(@NotNull final JsonObject request) {
-        return this.execute(request, new HttpMethod[] { HttpMethod.POST, HttpMethod.GET }, this.behavior::save);
+        return this.execute(request, new HttpMethod[] { HttpMethod.POST }, this.behavior::save);
     }
 
     /** **/
@@ -71,7 +71,7 @@ public abstract class AbstractMessager {
 
     /** **/
     public ActResponse get(@NotNull final JsonObject request) {
-        return this.execute(request, new HttpMethod[] { HttpMethod.GET }, this.behavior::find);
+        return this.execute(request, new HttpMethod[] { HttpMethod.GET, HttpMethod.POST }, this.behavior::find);
     }
 
     /** **/

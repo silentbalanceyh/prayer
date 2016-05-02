@@ -10,6 +10,7 @@ import com.prayer.vertx.uca.responder.FailureResponder;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -38,7 +39,21 @@ final class ErrorAtaghan {
         /** 3.生成最终响应结果 **/
         response.end(responder.buildBody(envelop), Resources.ENCODING.name());
     }
-
+    /**
+     * 
+     * @param clazz
+     * @param response
+     */
+    public static void sendError(final Class<?> clazz, final HttpServerResponse response, final JsonObject data) {
+        /** 1.500 Error **/
+        final AbstractException error = new _500InternalServerErrorException(clazz);
+        final Envelop envelop = Envelop.failure(error);
+        /** 2.构造响应器 **/
+        final Responder<Envelop> responder = singleton(FailureResponder.class);
+        responder.reckonHeaders(response, envelop);
+        /** 3.生成最终响应结果 **/
+        response.end(responder.buildBody(envelop), Resources.ENCODING.name());
+    }
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

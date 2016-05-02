@@ -31,15 +31,6 @@ public interface Point {
         }
 
         /** **/
-        @VertexPoint(Interface.CONSTANT)
-        interface Address {
-            /** **/
-            String QUEUE = "addr.queue";
-            /** **/
-            String CONSUMER = "addr.consumer";
-        }
-
-        /** **/
         String ADDRESS = "uri.address";
         /** **/
         String SENDER = "uri.sender";
