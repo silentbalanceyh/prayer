@@ -1,17 +1,21 @@
 package com.prayer.exception.web;
 
+import com.prayer.constant.SystemEnum.SecureMode;
 import com.prayer.fantasm.exception.AbstractWebException;
+
 /**
  * 
  * @author Lang
  *
  */
-public class JSScriptEngineException extends AbstractWebException{
+public class _401AuthHeaderInvalidException extends AbstractWebException {
     // ~ Static Fields =======================================
+
     /**
      * 
      */
-    private static final long serialVersionUID = -163631521238575428L;
+    private static final long serialVersionUID = -6845648301729642876L;
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -19,20 +23,22 @@ public class JSScriptEngineException extends AbstractWebException{
     /**
      * 
      * @param clazz
-     * @param scriptMsg
+     * @param value
      */
-    public JSScriptEngineException(final Class<?> clazz, final String scriptMsg){
-        super(clazz, -30011, scriptMsg);
+    public _401AuthHeaderInvalidException(final Class<?> clazz, final SecureMode mode) {
+        super(clazz, -30019, mode.name());
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public int getErrorCode(){
-        return -30011;
+    public int getErrorCode() {
+        return -30019;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }

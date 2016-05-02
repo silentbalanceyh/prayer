@@ -1,20 +1,17 @@
-package com.prayer.exception.web;
+package com.prayer.exception.system;
 
 import com.prayer.fantasm.exception.AbstractWebException;
-
 /**
  * 
  * @author Lang
  *
  */
-public class PrimaryKeyMissingException extends AbstractWebException {
+public class JSScriptEngineException extends AbstractWebException{
     // ~ Static Fields =======================================
-
     /**
      * 
      */
-    private static final long serialVersionUID = -7665279214253073480L;
-
+    private static final long serialVersionUID = -163631521238575428L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -22,24 +19,20 @@ public class PrimaryKeyMissingException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param keys
+     * @param scriptMsg
      */
-    public PrimaryKeyMissingException(final Class<?> clazz, final String keys) {
-        super(clazz, -30015, keys);
+    public JSScriptEngineException(final Class<?> clazz, final String scriptMsg){
+        super(clazz, -20010, scriptMsg);
     }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /**
-     * 
-     */
+    /** **/
     @Override
-    public int getErrorCode() {
-        return -30015;
+    public int getErrorCode(){
+        return -20010;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
 }

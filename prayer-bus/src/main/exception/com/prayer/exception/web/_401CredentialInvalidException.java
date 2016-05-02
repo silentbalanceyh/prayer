@@ -7,13 +7,12 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class DependParameterInvalidException extends AbstractWebException {
+public class _401CredentialInvalidException extends AbstractWebException {
     // ~ Static Fields =======================================
-
     /**
      * 
      */
-    private static final long serialVersionUID = 4823534064595430927L;
+    private static final long serialVersionUID = -179985579332024790L;
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -22,10 +21,10 @@ public class DependParameterInvalidException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param type
+     * @param token
      */
-    public DependParameterInvalidException(final Class<?> clazz, final Class<?> type) {
-        super(clazz, -30023, type.getName());
+    public _401CredentialInvalidException(final Class<?> clazz, final String token) {
+        super(clazz, -30020, token);
     }
 
     // ~ Abstract Methods ====================================
@@ -33,7 +32,7 @@ public class DependParameterInvalidException extends AbstractWebException {
     /** **/
     @Override
     public int getErrorCode() {
-        return -30023;
+        return -30020;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

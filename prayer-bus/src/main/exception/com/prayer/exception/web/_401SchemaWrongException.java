@@ -7,12 +7,13 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class DependantMultiException extends AbstractWebException {
+public class _401SchemaWrongException extends AbstractWebException {
     // ~ Static Fields =======================================
+
     /**
      * 
      */
-    private static final long serialVersionUID = -179985579332024790L;
+    private static final long serialVersionUID = -7665279214253073480L;
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -21,18 +22,20 @@ public class DependantMultiException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param paramName
+     * @param keys
      */
-    public DependantMultiException(final Class<?> clazz, final String paramName) {
-        super(clazz, -30020, paramName);
+    public _401SchemaWrongException(final Class<?> clazz, final String current, final String expected) {
+        super(clazz, -30015, current, expected);
     }
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
+    /**
+     * 
+     */
     @Override
     public int getErrorCode() {
-        return -30020;
+        return -30015;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

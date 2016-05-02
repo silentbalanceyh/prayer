@@ -3,7 +3,6 @@ package com.prayer.util.vertx;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.vertx.web.model.Envelop;
 
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;

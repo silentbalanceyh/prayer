@@ -1,11 +1,21 @@
-package com.prayer.secure.model;
+package com.prayer.secure.basic;
+
+import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
 
+import com.prayer.constant.SystemEnum.SecureMode;
+import com.prayer.exception.web._401AuthHeaderInvalidException;
 import com.prayer.exception.web._401AuthHeaderMissingException;
+import com.prayer.exception.web._401CredentialInvalidException;
+import com.prayer.exception.web._401PasswordPlainTextException;
+import com.prayer.exception.web._401SchemaWrongException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.util.EDCoder;
 import com.prayer.fantasm.exception.AbstractException;
+import com.prayer.resource.Resources;
+import com.prayer.util.coder.Base64Coder;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.MultiMap;
@@ -20,7 +30,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class Token implements Serializable {
+public final class BasicToken implements Serializable {
     // ~ Static Fields =======================================
     /**
      * 
@@ -43,12 +53,12 @@ public final class Token implements Serializable {
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** **/
-    public static Token create(@NotNull final HttpServerRequest request) {
-        return new Token(request);
+    public static BasicToken create(@NotNull final HttpServerRequest request) {
+        return new BasicToken(request);
     }
     // ~ Constructors ========================================
 
-    private Token(final HttpServerRequest request) {
+    private BasicToken(final HttpServerRequest request) {
         /** 1.根据Authorization头初始化Token的信息 **/
         final MultiMap map = request.headers();
         if (map.contains(HttpHeaders.AUTHORIZATION)) {
@@ -56,14 +66,46 @@ public final class Token implements Serializable {
             if (StringKit.isNil(auth)) {
                 this.error = new _401AuthHeaderMissingException(getClass(), request.path());
             } else {
-                final String[] authArr = auth.split(String.valueOf(Symbol.SPACE));
-                if (Constants.TWO == authArr.length) {
-                    this.schema = authArr[Constants.IDX];
-                    this.token = authArr[Constants.ONE];
-                }
+                /** 解析Header/Token **/
+                this.parseHeader(auth);
             }
         } else {
             this.error = new _401AuthHeaderMissingException(getClass(), request.path());
+        }
+    }
+
+    private void parseHeader(final String authHeader) {
+        final String[] authArr = authHeader.split(String.valueOf(Symbol.SPACE));
+        if (Constants.TWO == authArr.length) {
+            this.schema = authArr[Constants.IDX];
+            /** 解析Token **/
+            if (StringKit.isNil(schema) || !schema.equalsIgnoreCase(SecureMode.BASIC.name())) {
+                this.error = new _401SchemaWrongException(getClass(), this.schema, SecureMode.BASIC.name());
+            } else {
+                this.parseToken(authArr[Constants.ONE]);
+            }
+        } else {
+            this.error = new _401AuthHeaderInvalidException(getClass(), SecureMode.BASIC);
+        }
+    }
+
+    private void parseToken(final String token) {
+        final EDCoder coder = singleton(Base64Coder.class);
+        final String[] credential = coder.decode(token).split(String.valueOf(Symbol.COLON));
+        if (Constants.TWO == credential.length) {
+            if (StringKit.isNil(credential[Constants.IDX]) || StringKit.isNil(credential[Constants.ONE])) {
+                this.error = new _401CredentialInvalidException(getClass(), token);
+            } else if (32 != credential[Constants.ONE].length()) {
+                this.error = new _401PasswordPlainTextException(getClass(), credential[Constants.ONE]);
+            } else {
+                /** 抽取数据 **/
+                this.username = credential[Constants.IDX];
+                this.password = credential[Constants.ONE];
+                this.token = token;
+                this.realm = Resources.Security.REALM;
+            }
+        } else {
+            this.error = new _401CredentialInvalidException(getClass(), token);
         }
     }
 
@@ -72,33 +114,28 @@ public final class Token implements Serializable {
     // ~ Methods =============================================
     /**
      * 当前Token是否获取到，不验证Valid
+     * 
      * @return
      */
-    public boolean obtained(){
+    public boolean obtained() {
         return null == this.error;
     }
+
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     /**
      * 
      * @return
      */
-    public AbstractException getError(){
+    public AbstractException getError() {
         return this.error;
     }
+
     /**
      * @return the schema
      */
     public String getSchema() {
         return schema;
-    }
-
-    /**
-     * @param schema
-     *            the schema to set
-     */
-    public void setSchema(final String schema) {
-        this.schema = schema;
     }
 
     /**
@@ -109,26 +146,10 @@ public final class Token implements Serializable {
     }
 
     /**
-     * @param username
-     *            the username to set
-     */
-    public void setUsername(final String username) {
-        this.username = username;
-    }
-
-    /**
      * @return the password
      */
     public String getPassword() {
         return password;
-    }
-
-    /**
-     * @param password
-     *            the password to set
-     */
-    public void setPassword(final String password) {
-        this.password = password;
     }
 
     /**
@@ -139,33 +160,17 @@ public final class Token implements Serializable {
     }
 
     /**
-     * @param realm
-     *            the realm to set
-     */
-    public void setRealm(final String realm) {
-        this.realm = realm;
-    }
-
-    /**
      * @return the token
      */
     public String getToken() {
         return token;
     }
 
-    /**
-     * @param token
-     *            the token to set
-     */
-    public void setToken(final String token) {
-        this.token = token;
-    }
-
     // ~ hashCode,equals,toString ============================
     /** **/
     @Override
     public String toString() {
-        return "Token [schema=" + schema + ", username=" + username + ", password=" + password + ", realm=" + realm
+        return "BasicToken [schema=" + schema + ", username=" + username + ", password=" + password + ", realm=" + realm
                 + ", token=" + token + "]";
     }
 }

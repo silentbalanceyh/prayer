@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.business.service.RecordBehavior;
-import com.prayer.exception.web.JSScriptEngineException;
+import com.prayer.exception.system.JSScriptEngineException;
 import com.prayer.exception.web._500MethodNotSupportException;
 import com.prayer.facade.business.service.RecordService;
 import com.prayer.facade.fun.endpoint.Behavior;
