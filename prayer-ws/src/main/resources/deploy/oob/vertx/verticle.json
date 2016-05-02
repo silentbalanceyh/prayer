@@ -15,11 +15,5 @@
         "instances":1,
         "ha":true,
         "worker":true
-    },
-    {
-        "name":"com.prayer.vertx.actor.worker.LoginWorker",
-        "instances":1,
-        "ha":true,
-        "worker":true
     }
 ]

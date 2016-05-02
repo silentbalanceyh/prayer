@@ -2,6 +2,7 @@ package com.prayer.vertx.handler.standard;
 
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.reflection.Instance.instance;
+import static com.prayer.util.reflection.Instance.reservoir;
 
 import java.text.MessageFormat;
 
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.facade.vtx.endpoint.MessageAsker;
+import com.prayer.facade.vtx.uca.request.Responder;
 import com.prayer.model.meta.vertx.PEUri;
 
 import io.vertx.core.Handler;
@@ -51,7 +53,10 @@ public class MessageLocator implements Handler<RoutingContext> {
         final Vertx vertx = event.vertx();
         final EventBus bus = vertx.eventBus();
         /** 3.提取Sender **/
-        final MessageAsker<JsonObject> sender = instance(uri.getSender(), event.response());
+        final String key = uri.getResponder().getName();
+        /** 按照Responder的类型将Sender分类 **/
+        final Responder<JsonObject> responder = reservoir(key, uri.getResponder());
+        final MessageAsker<JsonObject> sender = instance(uri.getSender(), event.response(), responder);
         /** 4.日志输出的第一个参数设置成Sender **/
         info(LOGGER, MessageFormat.format(MsgVertx.SEV_ENDDATA, sender.getClass().getSimpleName(), uri.getAddress(),
                 params.encode(), sender.getClass().getName()));

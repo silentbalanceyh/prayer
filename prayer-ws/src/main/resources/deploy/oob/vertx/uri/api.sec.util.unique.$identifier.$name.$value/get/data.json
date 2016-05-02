@@ -2,10 +2,10 @@
     "uri":"/api/sec/util/unique/:identifier/:name/:value",
     "identifier":"${data.identifier}",
     "script":"api.sec.util.unique.get",
-    "sender":"com.prayer.vertx.uca.sender.LogicalSender",
     "requiredParam":[
         "identifier",
         "name",
         "value"
-    ]
+    ],
+    "responder":"com.prayer.vertx.uca.responder.LogicalResponder"
 }
