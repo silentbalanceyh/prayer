@@ -4,6 +4,7 @@ import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.util.string.StringKit;
+import com.prayer.util.vertx.Feature;
 
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
@@ -52,7 +53,8 @@ public class DataStdner implements Handler<RoutingContext> {
         /** 5.填充Data **/
         params.put(Constants.PARAM.DATA, data);
         event.put(WebKeys.Request.Data.PARAMS, params);
-        event.next();
+        /** SUCCESS-ROUTE：正确路由 **/
+        Feature.next(event);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

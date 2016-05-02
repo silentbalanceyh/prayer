@@ -15,7 +15,7 @@ import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.model.web.StatusCode;
-import com.prayer.util.vertx.Fault;
+import com.prayer.util.vertx.Feature;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.Handler;
@@ -56,13 +56,10 @@ public class DataStrainer implements Handler<RoutingContext> {
             /** 4.转换流程 **/
             final Envelop converted = this.convert(rules, params);
             /** 400 错误 **/
-            if (Fault.route(event, converted)) {
-                /** 重新填充Params参数 **/
+            if(Feature.route(event, converted)){
+                /** SUCCESS-ROUTE：正确路由 **/
                 event.put(WebKeys.Request.Data.PARAMS, params);
-                event.next();
-            } else {
-                // Fix: Response Already Written
-                return;
+                Feature.next(event);
             }
         }
     }

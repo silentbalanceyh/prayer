@@ -6,7 +6,7 @@ import com.prayer.facade.vtx.uca.request.Resolver;
 import com.prayer.fantasm.exception.AbstractWebException;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.StatusCode;
-import com.prayer.util.vertx.Fault;
+import com.prayer.util.vertx.Feature;
 import com.prayer.util.vertx.MimeParser;
 import com.prayer.vertx.web.model.Envelop;
 import com.prayer.vertx.web.model.Refiner;
@@ -45,23 +45,17 @@ public class RequestSinker implements Handler<RoutingContext> {
         Envelop stumer = this.initResolver(event);
         /** 2.从上一个节点中抽取Envelop **/
         final PEUri uri = event.get(WebKeys.Request.Data.Meta.PEURI);
-        if (Fault.route(event, stumer)) {
+        if (Feature.route(event, stumer)) {
             /** 3.执行Flow **/
             stumer = injectRequest(event, uri);
-        } else {
-            // Fix: Response Already Written
-            return;
         }
         /** 如果flow中包含了异常信息则会有问题 **/
-        if (Fault.route(event, stumer)) {
+        if (Feature.route(event, stumer)) {
             /** 提取参数 **/
             event.put(WebKeys.Request.Data.PARAMS, stumer.getRaw());
-            /** 构造参数信息 **/
-            event.next();
-        } else {
-            // Fix: Response Already Written
-            return;
         }
+        /** 构造参数信息 **/
+        Feature.next(event);
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

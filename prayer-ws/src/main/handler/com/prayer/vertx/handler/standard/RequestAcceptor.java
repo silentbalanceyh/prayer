@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.vtx.uca.request.Allotor;
 import com.prayer.facade.vtx.uca.request.Asynchor;
-import com.prayer.util.vertx.Fault;
+import com.prayer.util.vertx.Feature;
 import com.prayer.util.vertx.UriRuler;
 import com.prayer.vertx.uca.ration.async.NormalizeAsynchor;
 import com.prayer.vertx.uca.ration.sync.MediaAllotor;
@@ -48,23 +48,17 @@ public class RequestAcceptor implements Handler<RoutingContext> {
             /** 2.最终Rule，指定到带有Rule配置的Envelop中 **/
             final Envelop envelop = stumer;
             /** 出现了404，405，500错误 **/
-            if (Fault.route(event, stumer)) {
+            if (Feature.route(event, stumer)) {
                 /** 2.检查媒体类型 **/
                 stumer = media.accept(event, stumer);
-            } else {
-                // Fix: Response Already Written
-                return;
             }
             /** 出现了415，406类型 **/
-            if (Fault.route(event, stumer)) {
+            if (Feature.route(event, stumer)) {
                 /** 没有出现任何Fault路由 **/
-                // event.put(WebKeys.Request.ENVP, envelop);
                 this.initChannel(event, envelop);
-                event.next();
-            } else {
-                // Fix: Response Already Written
-                return;
             }
+            /** SUCCESS-ROUTE：正确路由 **/
+            Feature.next(event);
         });
     }
     // ~ Methods =============================================

@@ -7,7 +7,7 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class NotAuthorizationException extends AbstractWebException {
+public class _401AuthHeaderMissingException extends AbstractWebException {
     // ~ Static Fields =======================================
     /**
      * 
@@ -23,7 +23,7 @@ public class NotAuthorizationException extends AbstractWebException {
      * @param clazz
      * @param uri
      */
-    public NotAuthorizationException(final Class<?> clazz, final String uri) {
+    public _401AuthHeaderMissingException(final Class<?> clazz, final String uri) {
         super(clazz, -30014, uri);
     }
 

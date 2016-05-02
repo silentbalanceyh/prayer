@@ -11,7 +11,7 @@ import com.prayer.facade.vtx.uca.Validator;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.meta.vertx.PERule;
 import com.prayer.model.web.StatusCode;
-import com.prayer.util.vertx.Fault;
+import com.prayer.util.vertx.Feature;
 import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.Handler;
@@ -45,18 +45,17 @@ public class DataInspector implements Handler<RoutingContext> {
         final List<PERule> rules = event.get(WebKeys.Request.Data.Meta.PEV);
         if (rules.isEmpty()) {
             /** 2.跳过不执行验证 **/
-            event.next();
+            /** SUCCESS-ROUTE：正确路由 **/
+            Feature.next(event);
         } else {
             /** 3.抽取Parameters **/
             final JsonObject params = event.get(WebKeys.Request.Data.PARAMS);
             /** 4.验证流程 **/
             final Envelop validated = this.validate(rules, params);
             /** 400 错误 **/
-            if (Fault.route(event, validated)) {
-                event.next();
-            } else {
-                // Fix: Response Already Written
-                return;
+            if(Feature.route(event, validated)){
+                /** SUCCESS-ROUTE：正确路由 **/
+                Feature.next(event);
             }
         }
     }

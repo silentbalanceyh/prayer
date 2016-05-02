@@ -14,7 +14,7 @@ import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.model.web.StatusCode;
-import com.prayer.util.vertx.Fault;
+import com.prayer.util.vertx.Feature;
 import com.prayer.util.vertx.UriAcquirer;
 import com.prayer.vertx.web.model.Envelop;
 
@@ -67,12 +67,14 @@ public class PatternHooker implements Handler<RoutingContext> {
             /** 7.将内容放到Context中 **/
             info(LOGGER, MessageFormat.format(MsgVertx.REQ_APATH, getClass().getSimpleName(), finalUri));
             UriAcquirer.lay(event, finalUri);
-            event.next();
+            /** SUCCESS-ROUTE：正确路由 **/
+            Feature.next(event);
         } else {
             final Envelop stumer = Envelop.failure(
                     new _405PatternGetDeleteOnlyException(getClass(), method.toString()),
                     StatusCode.METHOD_NOT_ALLOWED);
-            Fault.route(event, stumer);
+            /** ERROR-ROUTE：错误路由 **/
+            Feature.route(event, stumer);
         }
     }
     // ~ Methods =============================================

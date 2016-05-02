@@ -4,7 +4,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import com.prayer.facade.vtx.uca.request.Responder;
 import com.prayer.resource.Resources;
-import com.prayer.util.vertx.Fault;
+import com.prayer.util.vertx.Feature;
 import com.prayer.vertx.uca.responder.FailureResponder;
 import com.prayer.vertx.web.model.Envelop;
 
@@ -35,7 +35,7 @@ public class FailureHandler implements Handler<RoutingContext> {
     @Override
     public void handle(final RoutingContext event) {
         /** 1.直接从event中读取Envelop **/
-        final Envelop envelop = Fault.get(event);
+        final Envelop envelop = Feature.get(event);
         /** 2.设置相应信息 **/
         final HttpServerResponse response = event.response();
         /** 3.构造响应器 **/
