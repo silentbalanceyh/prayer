@@ -2,6 +2,8 @@ package com.prayer.script.js;
 
 import static com.prayer.util.reflection.Instance.singleton;
 
+import java.text.MessageFormat;
+
 import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
@@ -35,9 +37,11 @@ import net.sf.oval.guard.PostValidateThis;
 public class JSRegion implements Region {
     // ~ Static Fields =======================================
     /** **/
-    private static final String DATA = "data";
+    private static final String DATA = Symbol.DOLLER + "data";
     /** **/
-    private static final String ENV = "env";
+    private static final String ENV = Symbol.DOLLER + "env";
+    /** **/
+    private static final String ERR_BLOCK = "try'{' {0} '}'catch(error)'{' throw error; '}'";
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
@@ -72,8 +76,16 @@ public class JSRegion implements Region {
         final Eidolon eidolon = this.initEnv(request);
         /** 2.读取Script的信息 **/
         final String script = this.getScript(request.getScript());
-        /** 3.直接执行 **/
-        this.workshop.getEngine().eval(script);
+        try {
+            /** 将代码放在Error Block中执行 **/
+            this.workshop.getEngine().eval(MessageFormat.format(ERR_BLOCK, script));
+        } catch (ScriptException ex) {
+            if (ex.getCause().getCause() instanceof AbstractException) {
+                throw (AbstractException) ex.getCause().getCause();
+            } else {
+                throw ex;
+            }
+        }
         /** 4.执行过后返回最终结果值 **/
         return eidolon;
     }
@@ -84,7 +96,9 @@ public class JSRegion implements Region {
         String content = Constants.EMPTY_STR;
         if (StringKit.isNonNil(name)) {
             final PEScript script = this.instantor.script(name);
-            content = script.getContent();
+            if (null != script) {
+                content = script.getContent();
+            }
         }
         return content;
     }
@@ -92,18 +106,27 @@ public class JSRegion implements Region {
     private Eidolon initEnv(final ActRequest request) throws ScriptException, AbstractException {
         /** 1.初始化Record **/
         final Record record = this.transferer.toRecord(request.getIdentifier(), this.recordCls, request.getData());
-        final Eidolon env = new Eidolon(record);
-        env.setOrder(request.getOrders());
-        env.setPager(request.getPager());
-        env.setProjection(request.getProjection());
+        final Eidolon $env = new Eidolon(record);
+        $env.setOrder(request.getOrders());
+        $env.setPager(request.getPager());
+        $env.setProjection(request.getProjection());
         /** 2.获取Script Engine **/
         final ScriptEngine engine = this.workshop.getEngine();
         final ScriptContext context = engine.getContext();
         final Bindings bindings = context.getBindings(ScriptContext.ENGINE_SCOPE);
         /** 3.将变量信息注入到Bindings中 **/
-        bindings.put(Symbol.DOLLER + DATA, engine.eval(Symbol.BRACKET_SL + request.getData().encode() + Symbol.BRACKET_SR));
-        bindings.put(Symbol.DOLLER + ENV, env);
-        return env;
+        final Object $data = engine.eval(Symbol.BRACKET_SL + request.getData().encode() + Symbol.BRACKET_SR);
+        if (bindings.containsKey(DATA)) {
+            bindings.replace(DATA, $data);
+        } else {
+            bindings.put(DATA, $data);
+        }
+        if (bindings.containsKey(ENV)) {
+            bindings.replace(ENV, $env);
+        } else {
+            bindings.put(ENV, $env);
+        }
+        return $env;
     }
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================

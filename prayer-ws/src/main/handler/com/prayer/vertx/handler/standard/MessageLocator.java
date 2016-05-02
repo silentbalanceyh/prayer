@@ -54,8 +54,8 @@ public class MessageLocator implements Handler<RoutingContext> {
         final EventBus bus = vertx.eventBus();
         /** 3.提取Sender **/
         final String key = uri.getResponder().getName();
-        /** 按照Responder的类型将Sender分类 **/
         final Responder<JsonObject> responder = reservoir(key, uri.getResponder());
+        // Fix: java.lang.IllegalStateException: Response has already been written
         final MessageAsker<JsonObject> sender = instance(uri.getSender(), event.response(), responder);
         /** 4.日志输出的第一个参数设置成Sender **/
         info(LOGGER, MessageFormat.format(MsgVertx.SEV_ENDDATA, sender.getClass().getSimpleName(), uri.getAddress(),

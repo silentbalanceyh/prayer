@@ -40,7 +40,8 @@ public final class Envelop implements Serializable {
     private transient AbstractException error;
     /** 最终返回数据信息 **/
     private transient final JsonObject data;
-
+    /** 返回给用户的数据信息 **/
+    private transient final JsonObject user;
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     /** Failure **/
@@ -80,12 +81,14 @@ public final class Envelop implements Serializable {
         this.error = null;
         this.status = StatusCode.OK;
         this.data = data;
+        this.user = new JsonObject();
     }
 
     private Envelop(final AbstractException error, final StatusCode status) {
         this.data = new JsonObject();
         this.error = error;
         this.status = status;
+        this.user = new JsonObject();
     }
 
     // ~ Success Response ====================================
@@ -99,6 +102,7 @@ public final class Envelop implements Serializable {
             this.error = response.getError();
         }
         this.status = status;
+        this.user = new JsonObject();
     }
 
     // ~ Abstract Methods ====================================
@@ -127,6 +131,11 @@ public final class Envelop implements Serializable {
     /** 读取状态代码 **/
     public StatusCode status() {
         return this.status;
+    }
+    
+    /** 添加用户信息到响应中，主要处理PERule **/
+    public void attach(final String key, final String message){
+        this.user.put(key, message);
     }
 
     /** 直接读取Body的数据内容 **/
@@ -184,6 +193,10 @@ public final class Envelop implements Serializable {
             error.put(WebKeys.Envelop.Error.CODE, this.error.getErrorCode());
             error.put(WebKeys.Envelop.Error.MESSAGE, this.error.getErrorMessage());
             result.put(WebKeys.Envelop.ERROR, error);
+        }
+        /** 3.将界面信息添加到响应结果 **/
+        if (null != this.user && !this.user.isEmpty()){
+            result.put(WebKeys.Envelop.INFO, this.user);
         }
         return result;
     }

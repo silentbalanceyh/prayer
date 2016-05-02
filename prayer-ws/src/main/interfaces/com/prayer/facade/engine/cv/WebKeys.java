@@ -84,6 +84,8 @@ public interface WebKeys {
         String ERROR = "error";
         /** Data数据节点 **/
         String DATA = "data";
+        /** User用户节点 **/
+        String INFO = "info";
 
         /** Http状态代码 **/
         @VertexPoint(Interface.CONSTANT)

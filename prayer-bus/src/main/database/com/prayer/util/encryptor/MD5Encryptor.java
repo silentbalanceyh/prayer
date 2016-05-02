@@ -46,7 +46,6 @@ public class MD5Encryptor implements Encryptor{
             final byte[] middle = digester.digest(); // MD5计算结果是一个128位长整数
             // 16个字节表示
             final char[] middleStr = new char[16 * 2]; // 每个16进制数使用两个字符
-
             // 16进制数需要32个字符
             int position = 0; // 转换结果中的字符位置
             for (int idx = 0; idx < 16; idx++) {

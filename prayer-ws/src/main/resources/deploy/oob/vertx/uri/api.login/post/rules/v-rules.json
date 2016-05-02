@@ -1,0 +1,26 @@
+[
+    {
+        "name":"username",
+        "type":"StringType",
+        "order":1,
+        "componentType":"VALIDATOR",
+        "componentClass":"com.prayer.vertx.uca.validator.LengthValidator",
+        "config":{
+            "minLength":6,
+            "maxLength":-1
+        },
+        "errorMessage":"username的长度必须超过6，请输入合法用户名。"
+    },
+    {
+        "name":"password",
+        "type":"StringType",
+        "order":2,
+        "componentType":"VALIDATOR",
+        "componentClass":"com.prayer.vertx.uca.validator.LengthValidator",
+        "config":{
+            "minLength":32,
+            "maxLength":32
+        },
+        "errorMessage":"password长度不合法，必须在客户端加密，请联系管理员。"
+    }
+]

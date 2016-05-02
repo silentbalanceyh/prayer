@@ -74,6 +74,8 @@ public class DataInspector implements Handler<RoutingContext> {
                 final String value = params.getString(name);
                 stumer = this.validate(rule, name, value);
                 if (!stumer.succeeded()) {
+                    /** 1.验证失败，添加界面的用户信息 **/
+                    stumer.attach(WebKeys.Envelop.INFO, rule.getErrorMessage());
                     break;
                 }
             }
