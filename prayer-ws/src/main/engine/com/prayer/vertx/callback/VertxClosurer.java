@@ -43,11 +43,11 @@ public class VertxClosurer implements Runnable {
     /** **/
     @Override
     public void run() {
-        /** 10s轮询一次 **/
-        int duration = 10000;
+        /** 5s轮询一次 **/
+        int duration = 5000;
         while (true) {
             try {
-                /** 1.10s轮询一次 **/
+                /** 1.5s轮询一次 **/
                 Thread.sleep(duration);
                 final String isStop = RemoteRefers.lookup(this.stopAddr);
                 /** 2.读取不到任何值就Stop **/

@@ -33,11 +33,12 @@ public class JObjectResponder extends CommonResponder {
             if (bodyRef.containsKey(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT)) {
                 final int count = bodyRef.getInteger(Constants.PARAM.ADMINICLE.PAGE.RET.COUNT);
                 final JsonArray arrData = bodyRef.getJsonArray(Constants.PARAM.ADMINICLE.PAGE.RET.LIST);
+                JsonObject finalData = new JsonObject();
                 if (Constants.ONE == count && Constants.ONE == arrData.size()) {
-                    final JsonObject finalData = arrData.getJsonObject(Constants.IDX).copy();
-                    data.remove(WebKeys.Envelop.DATA);
-                    data.put(WebKeys.Envelop.DATA, finalData);
+                    finalData = arrData.getJsonObject(Constants.IDX).copy();
                 }
+                data.remove(WebKeys.Envelop.DATA);
+                data.put(WebKeys.Envelop.DATA, finalData);
             }
         }
         /** 回传Data节点 **/

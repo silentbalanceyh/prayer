@@ -95,6 +95,7 @@ public class JSRegion implements Region {
         final Eidolon env = new Eidolon(record);
         env.setOrder(request.getOrders());
         env.setPager(request.getPager());
+        env.setProjection(request.getProjection());
         /** 2.获取Script Engine **/
         final ScriptEngine engine = this.workshop.getEngine();
         final ScriptContext context = engine.getContext();

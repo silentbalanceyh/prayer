@@ -5,6 +5,9 @@
     "method":"POST",
     "paramType":"BODY",
     "address":"MSG://MESSAGE/QUEUE/POST/GET",
+    "returnFilters":[
+        "password"
+    ],
     "requiredParam":[
         "username",
         "password"

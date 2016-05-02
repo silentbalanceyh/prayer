@@ -44,11 +44,13 @@ public class Eidolon implements Serializable {
     // ~ Constructors ========================================\
     /**
      * 只能使用Record执行初始化
+     * 
      * @param record
      */
-    public Eidolon(@NotNull final Record record){
+    public Eidolon(@NotNull final Record record) {
         this.record = record;
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================
@@ -159,7 +161,20 @@ public class Eidolon implements Serializable {
     /** **/
     @Override
     public String toString() {
-        return "JSEnv [expr=" + expr + ", record=" + record + ", order=" + order + ", pager=" + pager + ", values="
-                + values + "]";
+        final StringBuilder console = new StringBuilder();
+        if (null != this.getRecord()) {
+            console.append("1.Record:").append(this.getRecord()).append("\n");
+        }
+        if (null != this.getExpr()) {
+            console.append("2.Expression:").append(this.getExpr().toSql()).append("\n");
+        }
+        if (null != this.getValues()) {
+            console.append("3.Values:\n");
+            for (final Value<?> value : this.getValues()) {
+                console.append(value.toString()).append(",");
+            }
+            console.append("\n");
+        }
+        return console.toString();
     }
 }

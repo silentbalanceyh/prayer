@@ -162,11 +162,10 @@ public class ActRequest implements Serializable {
                 if (null != data) {
                     pageJson = this.jsonEnsurer.ensureOptional(data, Constants.PARAM.ADMINICLE.PAGER);
                     /** 2.是否可读取pager **/
-                    if (null == pageJson) {
-                        pageJson = new JsonObject();
+                    if (null != pageJson) {
+                        /** 3.这个时候创建Pager **/
+                        this.pager = Pager.create(pageJson);
                     }
-                    /** 3.这个时候创建Pager **/
-                    this.pager = Pager.create(pageJson);
                 }
             } catch (AbstractException ex) {
                 peError(LOGGER, ex);

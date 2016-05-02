@@ -4,6 +4,11 @@
     "script":"api.login.post",
     "data":{
         "username":"lang.yu",
-        "password":"pl,okmijn123"
+        "password":"E559D4DA17DD1C17BE86FCF49E60E322"
+    },
+    "query":{
+        "filters":[
+            "password"
+        ]
     }
 }

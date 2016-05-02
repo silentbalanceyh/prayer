@@ -8,6 +8,7 @@ var colPwd = record.toColumn("password");
 var exprUser = Cond.EQ(colUser);
 var exprPwd = Cond.EQ(colPwd);
 var expr = Cond.AND(exprUser,exprPwd);
+$env.setExpr(expr);
 /** 参数设置 **/
 var username = Type.String($data["username"]);
 var password = Type.String($data["password"]);

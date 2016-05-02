@@ -6,6 +6,7 @@ import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.Handler;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
@@ -44,11 +45,11 @@ public class DataStdner implements Handler<RoutingContext> {
             params.put(Constants.PARAM.SCRIPT, uri.getScript());
         }
         /** 3.处理Query参数，如果带Query则需要 **/
-        if (data.containsKey(Constants.PARAM.QUERY)) {
-            params.put(Constants.PARAM.QUERY, data.getJsonObject(Constants.PARAM.QUERY).copy());
-            data.remove(Constants.PARAM.QUERY);
-        }
-        /** 4.填充Data **/
+        params.put(Constants.PARAM.QUERY, new JsonObject());
+        /** 4.1.根据uri中配置填充Query -> filters **/
+        params.getJsonObject(Constants.PARAM.QUERY).put(Constants.PARAM.ADMINICLE.FILTERS,
+                new JsonArray(uri.getReturnFilters()));
+        /** 5.填充Data **/
         params.put(Constants.PARAM.DATA, data);
         event.put(WebKeys.Request.Data.PARAMS, params);
         event.next();

@@ -2,6 +2,7 @@ package com.prayer.booter.engine;
 
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.reservoir;
+import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.prayer.facade.engine.Launcher;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.launcher.common.DeploymentLauncher;
+import com.prayer.launcher.vertx.VertxLauncher;
 
 import net.sf.oval.internal.Log;
 import net.sf.oval.logging.LoggerFactorySLF4JImpl;
@@ -39,6 +41,9 @@ public class DeploymentBooter {
         final Launcher launcher = reservoir(String.valueOf(schema), DeploymentLauncher.class, schema);
         try {
             launcher.start();
+            /** 3.发布完成过后执行Engine的重启，开发的时候用 **/
+            final Launcher engine = singleton(VertxLauncher.class);
+            engine.stop();
         } catch (AbstractException ex) {
             peError(LOGGER, ex);
         }
