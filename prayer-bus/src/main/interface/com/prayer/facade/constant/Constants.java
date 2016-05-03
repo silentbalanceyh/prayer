@@ -21,8 +21,6 @@ public interface Constants { // NOPMD
     String PID = "uniqueId";
     /** **/
     String TCP_PASSWORD = "db6ea8d90fa0cad8597d332cb1ee3903143588bce135c1f1100a6e62c523dd70";
-    /** OVol 默认脚本 **/
-    String LANG_GROOVY = "groovy";
     /** Script Engine 名称 **/
     String SCRIPT_ENGINE = "nashorn";
 
@@ -117,64 +115,6 @@ public interface Constants { // NOPMD
     interface WEB { // NOPMD
         /** **/
         String SESSION_USER = "user";
-    }
-
-    /** **/
-    @VertexPoint(Interface.CONSTANT)
-    interface ORDER { // NOPMD
-        /** 默认的顺序，但不设置，作为临界值 **/
-        int NOT_SET = -20000;
-        /** Failure Handler **/
-        int FAILURE = 20000;
-
-        /** 前后台共用 **/
-        @VertexPoint(Interface.CONSTANT)
-        interface SHD { // NOPMD
-            /** CORS Handler **/
-            int CORS = -19900;
-            /** Cookie Handler Order **/
-            int COOKIE = -19800;
-            /** Body Handler Order **/
-            int BODY = -19700;
-        }
-
-        @VertexPoint(Interface.CONSTANT)
-        interface SEC { // NOPMD
-            /** Authentication Handler Order **/
-            int AUTH = -19600; // Web No，Engine Yes
-        }
-
-        /** Engine专用 **/
-        @VertexPoint(Interface.CONSTANT)
-        interface ENG { // NOPMD
-            /** Router Handler Order **/
-            int ROUTER = -9900;
-            /** Service Handler Order **/
-            int SERVICE = 19000;
-        }
-
-        /** Web专用 **/
-        @VertexPoint(Interface.CONSTANT)
-        interface WEB { // NOPMD
-            /** Session Handler Order **/
-            int SESSION = -10000;
-            /** User Session Handler Order **/
-            int USER_SESSION = -9980; // NOPMD
-            /** Redirect之前的预处理 **/
-            int SHARED = -9990;
-            /** Logout **/
-            int LOGOUT = -9970;
-            /** Redirect Handler Order **/
-            int ADMIN = -9960;
-            /** Static Handler **/
-            int STATIC = -9950;
-            /** Template Handler **/
-            int DYNAMIC = -9940;
-            /** Context **/
-            int CONTEXT = -9930;
-            /** PROFILE **/
-            int OD_PROFILE = -9910;
-        }
     }
 
     /** **/

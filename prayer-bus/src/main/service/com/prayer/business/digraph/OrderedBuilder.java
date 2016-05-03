@@ -89,7 +89,7 @@ public class OrderedBuilder {
         final Graphic graphic = executor.build(folder);
         /** 2.检查连通性 **/
         this.checkSCC(graphic);
-
+        /** 3.打印图信息 **/
         return this.buildIdOrd(graphic);
     }
 

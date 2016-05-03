@@ -37,7 +37,6 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
-import net.sf.oval.guard.Pre;
 
 /**
  * 
@@ -49,8 +48,6 @@ public class DataRecord implements Record { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(DataRecord.class);
-    /** 前置条件 **/
-    private static final String PRE_SCHEMA_CON = "_this._schema != null && _this.data != null";
     /** **/
     private static final String RULE_ID = "_identifier";
     // ~ Instance Fields =====================================
@@ -77,7 +74,7 @@ public class DataRecord implements Record { // NOPMD
      * @param _identifier
      */
     @PostValidateThis
-    public DataRecord(@AssertFieldConstraints(RULE_ID) final String identifier) throws AbstractDatabaseException{
+    public DataRecord(@AssertFieldConstraints(RULE_ID) final String identifier) throws AbstractDatabaseException {
         this._identifier = identifier.trim();
         this.instantor = singleton(MilieuBllor.class);
         try {
@@ -86,8 +83,8 @@ public class DataRecord implements Record { // NOPMD
             this._schema = null; // NOPMD
             peError(LOGGER, ex);
         }
-        if(null == this._schema){
-            throw new SchemaNotFoundException(getClass(),identifier);
+        if (null == this._schema) {
+            throw new SchemaNotFoundException(getClass(), identifier);
         }
         this.data = new ConcurrentHashMap<>();
     }
@@ -96,7 +93,6 @@ public class DataRecord implements Record { // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public void set(@AssertFieldConstraints(RULE_ID) final String name, @InstanceOf(Value.class) final Value<?> value)
             throws AbstractDatabaseException {
         this.verifyField(name);
@@ -105,7 +101,6 @@ public class DataRecord implements Record { // NOPMD
 
     /** **/
     @Override
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public void set(@AssertFieldConstraints(RULE_ID) final String name, final String value)
             throws AbstractDatabaseException {
         this.verifyField(name);
@@ -129,7 +124,6 @@ public class DataRecord implements Record { // NOPMD
     /** **/
     @Override
     @InstanceOf(Value.class)
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public Value<?> column(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
         final PEField colInfo = this._schema.getColumn(column);
@@ -147,7 +141,6 @@ public class DataRecord implements Record { // NOPMD
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public Set<String> columns() {
         return this._schema.getColumns();
     }
@@ -156,7 +149,6 @@ public class DataRecord implements Record { // NOPMD
     @Override
     @NotNull
     @InstanceOfAny(MetaPolicy.class)
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public MetaPolicy policy() {
         return this._schema.getPolicy();
     }
@@ -164,7 +156,6 @@ public class DataRecord implements Record { // NOPMD
     /** 获取表名 **/
     @Override
     @NotNull
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public String table() {
         return this._schema.getTable();
     }
@@ -172,7 +163,6 @@ public class DataRecord implements Record { // NOPMD
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public String toField(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
         final PEField field = this._schema.getColumn(column);
@@ -182,7 +172,6 @@ public class DataRecord implements Record { // NOPMD
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public String toColumn(@AssertFieldConstraints(RULE_ID) final String field) throws AbstractDatabaseException {
         this.verifyField(field);
         final PEField column = this._schema.getField(field);
@@ -193,7 +182,6 @@ public class DataRecord implements Record { // NOPMD
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, Value<?>> idKV() {
         final List<PEField> pkFields = this._schema.getPrimaryKeys();
         final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
@@ -216,7 +204,6 @@ public class DataRecord implements Record { // NOPMD
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public List<PEField> idschema() {
         return this._schema.getPrimaryKeys();
     }
@@ -225,7 +212,6 @@ public class DataRecord implements Record { // NOPMD
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, DataType> fields() {
         final ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
         for (final String name : this._schema.fieldNames()) {
@@ -238,7 +224,6 @@ public class DataRecord implements Record { // NOPMD
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_SCHEMA_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, DataType> columnTypes() {
         final ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
         for (final String name : this._schema.fieldNames()) {

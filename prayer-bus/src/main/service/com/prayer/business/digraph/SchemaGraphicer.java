@@ -1,9 +1,14 @@
 package com.prayer.business.digraph;
 
+import static com.prayer.util.debug.Log.info;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.schema.verifier.Attributes;
@@ -30,6 +35,8 @@ import net.sf.oval.guard.Guarded;
 @Guarded
 final class SchemaGraphicer {
     // ~ Static Fields =======================================
+    /** **/
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaGraphicer.class);
     // ~ Instance Fields =====================================
     /** 从Key到Data的映射 **/
     private transient ConcurrentMap<String, String> dataMap = new ConcurrentHashMap<>();
@@ -52,6 +59,7 @@ final class SchemaGraphicer {
         final Edges fromTo = this.buildMapping(folder);
         final Graphic graphic = this.buildGraphic(data, fromTo);
         /** 3.根据Json数据构造Graphic **/
+        info(LOGGER,"( SchemaGraphicer ) Graphic -> \n" + graphic.toString());
         return graphic;
     }
     // ~ Private Methods =====================================
@@ -81,7 +89,6 @@ final class SchemaGraphicer {
                 data.add(this.extractKey(dataFile));
             }
         }
-        System.out.println(data);
         return data.toArray(Constants.T_STR_ARR);
     }
 

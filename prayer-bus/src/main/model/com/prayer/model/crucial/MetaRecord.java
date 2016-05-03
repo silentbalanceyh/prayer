@@ -19,8 +19,8 @@ import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.exception.database.SchemaNotFoundException;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.crucial.Transducer.V;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.model.meta.database.PEField;
@@ -36,7 +36,6 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.PostValidateThis;
-import net.sf.oval.guard.Pre;
 
 /**
  * 特别注意columns()和columnTypes()两个方法并不是重复方法，columns()是TreeSet，有一个默认顺序，而columnTypes
@@ -50,11 +49,6 @@ public class MetaRecord implements Record { // NOPMD
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaRecord.class);
-
-    /** 前置条件 **/
-    private static final String PRE_M_READER_CON = "_this.raw != null";
-    /** 数据前置条件 **/
-    private static final String PRE_DATA_CON = "_this.data != null";
     /** **/
     private static final String RULE_ID = "_identifier";
     // ~ Instance Fields =====================================
@@ -97,7 +91,6 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     @NotNull
     @InstanceOfAny(MetaPolicy.class)
-    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public MetaPolicy policy() {
         MetaPolicy policy = null;
         try {
@@ -111,7 +104,6 @@ public class MetaRecord implements Record { // NOPMD
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public String table() {
         String table = null;
         try {
@@ -126,7 +118,6 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, Value<?>> idKV() throws AbstractDatabaseException {
         final ConcurrentMap<String, Value<?>> retMap = new ConcurrentHashMap<>();
         for (final PEField field : this.idschema()) {
@@ -148,7 +139,6 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public List<PEField> idschema() {
         List<PEField> schemata = new ArrayList<>();
         try {
@@ -162,7 +152,6 @@ public class MetaRecord implements Record { // NOPMD
     /** **/
     @Override
     @InstanceOf(Value.class)
-    @Pre(expr = PRE_DATA_CON + " && " + PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public Value<?> column(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         this.verifyColumn(column);
         final String field = this.toField(column);
@@ -172,7 +161,6 @@ public class MetaRecord implements Record { // NOPMD
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public Set<String> columns() {
         // 注意Column的顺序，这里使用的是TreeSet
         final Set<String> retSet = new TreeSet<>();
@@ -187,7 +175,6 @@ public class MetaRecord implements Record { // NOPMD
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, DataType> columnTypes() {
         ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
         try {
@@ -200,7 +187,6 @@ public class MetaRecord implements Record { // NOPMD
 
     /** **/
     @Override
-    @Pre(expr = PRE_DATA_CON, lang = Constants.LANG_GROOVY)
     public void set(@AssertFieldConstraints(RULE_ID) final String name, @InstanceOf(Value.class) final Value<?> value)
             throws AbstractDatabaseException {
         this.verifyField(name);
@@ -209,7 +195,6 @@ public class MetaRecord implements Record { // NOPMD
 
     /** **/
     @Override
-    @Pre(expr = PRE_DATA_CON, lang = Constants.LANG_GROOVY)
     public void set(@AssertFieldConstraints(RULE_ID) final String name, final String value)
             throws AbstractDatabaseException {
         this.verifyField(name);
@@ -222,7 +207,6 @@ public class MetaRecord implements Record { // NOPMD
     /** **/
     @Override
     @InstanceOf(Value.class)
-    @Pre(expr = PRE_DATA_CON, lang = Constants.LANG_GROOVY)
     public Value<?> get(@AssertFieldConstraints(RULE_ID) final String name) throws AbstractDatabaseException {
         this.verifyField(name);
         return this.data.get(name);
@@ -233,7 +217,6 @@ public class MetaRecord implements Record { // NOPMD
      */
     @Override
     @NotNull
-    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public String identifier() {
         return this._identifier;
     }
@@ -241,7 +224,6 @@ public class MetaRecord implements Record { // NOPMD
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public String toField(@AssertFieldConstraints(RULE_ID) final String column) throws AbstractDatabaseException {
         // 1.检查Column是否存在
         this.verifyColumn(column);
@@ -253,7 +235,6 @@ public class MetaRecord implements Record { // NOPMD
     /** **/
     @Override
     @NotNull
-    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public String toColumn(@AssertFieldConstraints(RULE_ID) final String field) throws AbstractDatabaseException {
         // 1.检查Field是否存在
         this.verifyField(field);
@@ -268,7 +249,6 @@ public class MetaRecord implements Record { // NOPMD
     @Override
     @NotNull
     @MinSize(1)
-    @Pre(expr = PRE_M_READER_CON, lang = Constants.LANG_GROOVY)
     public ConcurrentMap<String, DataType> fields() {
         ConcurrentMap<String, DataType> retMap = new ConcurrentHashMap<>();
         try {

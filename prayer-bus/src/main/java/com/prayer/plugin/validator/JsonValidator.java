@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.exception.database.ContentErrorException;
-import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.crucial.Validator;
 import com.prayer.facade.model.crucial.Value;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
@@ -16,7 +15,6 @@ import jodd.json.JsonParser;
 import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.Pre;
 
 /**
  * Internal Extractor：Json格式验证器
@@ -41,7 +39,6 @@ final class JsonValidator implements Validator { // NOPMD
     // ~ Override Methods ====================================
     /** **/
     @Override
-    @Pre(expr = "_this.PARSER != null", lang = Constants.LANG_GROOVY)
     public boolean validate(@InstanceOf(Value.class) final Value<?> value, final Object... params)
             throws AbstractDatabaseException {
         boolean ret = false;
