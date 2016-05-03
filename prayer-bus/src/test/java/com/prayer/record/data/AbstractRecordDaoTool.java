@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.AbstractCommonTool;
 import com.prayer.Assistant;
-import com.prayer.business.schema.SchemaBllor;
+import com.prayer.business.instantor.schema.SchemaBllor;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.dao.data.DataRecordDalor;
 import com.prayer.facade.business.instantor.schema.SchemaInstantor;

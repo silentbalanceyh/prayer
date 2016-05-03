@@ -43,7 +43,7 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
     private transient final Class<?> entityCls;
     /** Helper **/
     @NotNull
-    private transient final IBatisHelper helper;
+    private transient final IBatisHelper helper = IBatisHelper.create();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -55,7 +55,6 @@ public class IBatisAccessorImpl implements MetaAccessor { // NOPMD
      */
     public IBatisAccessorImpl(final Class<?> entityCls) {
         this.entityCls = entityCls;
-        this.helper = IBatisHelper.create();
         if (OFFSET_FUN.isEmpty()) {
             // TODO: 【完成】暂时是H2的，计算Offset，可使用函数引用进行分离
             OFFSET_FUN.put(Resources.Meta.CATEGORY, IBatisPagination::offset);

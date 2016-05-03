@@ -20,7 +20,6 @@ import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 注意OVal验证了对象的实际类型，这个Dao只能针对GenericRecord类型
@@ -34,17 +33,11 @@ public class DataRecordDalor implements RecordDao {
     // ~ Instance Fields =====================================
     /** 抽象Dao **/
     @NotNull
-    private transient final RecordDao dao;
+    private transient final RecordDao dao = singleton(Injections.Data.DATA_DALOR);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    @PostValidateThis
-    public DataRecordDalor() {
-        this.dao = singleton(Injections.Data.DATA_DALOR);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /**

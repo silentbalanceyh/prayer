@@ -3,7 +3,7 @@ package com.prayer.record.initialize;
 import static com.prayer.util.reflection.Instance.instance;
 
 import com.prayer.AbstractCommonTool;
-import com.prayer.business.schema.SchemaBllor;
+import com.prayer.business.instantor.schema.SchemaBllor;
 import com.prayer.facade.business.instantor.schema.SchemaInstantor;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractException;

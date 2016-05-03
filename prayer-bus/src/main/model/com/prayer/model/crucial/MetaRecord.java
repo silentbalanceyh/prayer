@@ -61,7 +61,7 @@ public class MetaRecord implements Record { // NOPMD
     @NotNull
     private transient final MetaRaw raw;
     /** 当前Record中的数据 **/
-    private transient final ConcurrentMap<String, Value<?>> data;
+    private transient final ConcurrentMap<String, Value<?>> data = new ConcurrentHashMap<>();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -79,8 +79,6 @@ public class MetaRecord implements Record { // NOPMD
         if (null == this.raw) {
             throw new SchemaNotFoundException(getClass(), identifier);
         }
-        // 3.数据Map信息
-        this.data = new ConcurrentHashMap<>();
     }
 
     // ~ Abstract Methods ====================================

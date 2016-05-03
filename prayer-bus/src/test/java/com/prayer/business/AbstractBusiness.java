@@ -7,7 +7,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import org.slf4j.Logger;
 
-import com.prayer.business.schema.SchemaBllor;
+import com.prayer.business.instantor.schema.SchemaBllor;
 import com.prayer.facade.business.instantor.schema.SchemaInstantor;
 import com.prayer.facade.database.dao.schema.DataValidator;
 import com.prayer.facade.schema.Schema;

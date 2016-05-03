@@ -14,7 +14,6 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -29,19 +28,10 @@ public class DeployBllor implements DeployInstantor {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient final AcusSelector selector; // NOPMD
+    private transient final AcusSelector selector = singleton(AcusSelector.class); // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-
-    /**
-     * 发布用的连接初始化
-     */
-    @PostValidateThis
-    public DeployBllor() {
-        this.selector = singleton(AcusSelector.class);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================

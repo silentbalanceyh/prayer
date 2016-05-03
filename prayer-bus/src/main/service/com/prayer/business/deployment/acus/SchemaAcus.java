@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.business.digraph.OrderedBuilder;
-import com.prayer.business.schema.SchemaBllor;
+import com.prayer.business.instantor.schema.SchemaBllor;
 import com.prayer.facade.business.instantor.deployment.acus.DeployAcus;
 import com.prayer.facade.business.instantor.schema.SchemaInstantor;
 import com.prayer.facade.schema.Schema;
@@ -19,7 +19,6 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 2.执行Schema的Deploy用的发布器
@@ -35,21 +34,14 @@ public class SchemaAcus implements DeployAcus {
     // ~ Instance Fields =====================================
     /** 主要用于Deploy **/
     @NotNull
-    private transient final OrderedBuilder builder; // NOPMD
+    private transient final OrderedBuilder builder = singleton(OrderedBuilder.class); // NOPMD
     /** Schema Service **/
     @NotNull
-    private transient final SchemaInstantor service;
+    private transient final SchemaInstantor service = singleton(SchemaBllor.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    @PostValidateThis
-    public SchemaAcus() {
-        this.builder = singleton(OrderedBuilder.class);
-        this.service = singleton(SchemaBllor.class);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/

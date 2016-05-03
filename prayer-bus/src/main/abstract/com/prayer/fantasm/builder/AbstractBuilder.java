@@ -36,12 +36,10 @@ import com.prayer.model.meta.database.PEKey;
 import com.prayer.resource.Resources;
 import com.prayer.util.string.StringKit;
 
-import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 抽象层的Builder信息
@@ -55,21 +53,12 @@ public abstract class AbstractBuilder implements Builder, SQLStatement {
     // ~ Instance Fields =====================================
     /** 数据库连接 **/
     @NotNull
-    @InstanceOf(JdbcConnection.class)
-    private transient final JdbcConnection connection; // NOPMD
+    private transient final JdbcConnection connection = reservoir(Resources.Data.CATEGORY, JdbcConnImpl.class); // NOPMD
     /** Constraints **/
-    private transient final SqlDDLBuilder builder;
+    private transient final SqlDDLBuilder builder = SqlDDLBuilder.create();
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-
-    /** **/
-    @PostValidateThis
-    public AbstractBuilder() {
-        this.connection = reservoir(Resources.Data.CATEGORY, JdbcConnImpl.class);
-        this.builder = SqlDDLBuilder.create();
-    }
-
     // ~ Abstract Methods ====================================
 
     /** 判断当前表是否存在 **/

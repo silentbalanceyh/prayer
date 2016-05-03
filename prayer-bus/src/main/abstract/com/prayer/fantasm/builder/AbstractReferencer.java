@@ -38,7 +38,7 @@ public abstract class AbstractReferencer implements Referencer {
     @InstanceOf(JdbcConnection.class)
     private transient final JdbcConnection connection; // NOPMD
     /** DDL的处理器 **/
-    private transient final SqlDDLBuilder builder; // NOPMD
+    private transient final SqlDDLBuilder builder = SqlDDLBuilder.create(); // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
@@ -51,7 +51,6 @@ public abstract class AbstractReferencer implements Referencer {
     @PostValidateThis
     public AbstractReferencer(@NotNull final JdbcConnection connection) {
         this.connection = connection;
-        this.builder = SqlDDLBuilder.create();
     }
 
     // ~ Abstract Methods ====================================

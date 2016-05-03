@@ -48,13 +48,13 @@ public class JSRegion implements Region {
     private transient final Class<?> recordCls;
     /** **/
     @NotNull
-    private transient final Workshop workshop;
+    private transient final Workshop workshop = singleton(JSWorkshop.class);
     /** **/
     @NotNull
-    private transient final Transferer transferer;
+    private transient final Transferer transferer = singleton(ObjectTransferer.class);
     /** **/
     @NotNull
-    private transient final ConfigInstantor instantor;
+    private transient final ConfigInstantor instantor = singleton(ConfigBllor.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -63,9 +63,6 @@ public class JSRegion implements Region {
     @PostValidateThis
     public JSRegion(@NotNull final Class<?> recordCls) {
         this.recordCls = recordCls;
-        this.workshop = singleton(JSWorkshop.class);
-        this.transferer = singleton(ObjectTransferer.class);
-        this.instantor = singleton(ConfigBllor.class);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================

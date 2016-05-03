@@ -3,7 +3,7 @@ package com.prayer.secure.basic;
 import static com.prayer.util.Converter.fromStr;
 import static com.prayer.util.reflection.Instance.singleton;
 
-import com.prayer.business.secure.basic.BasicAuthBllor;
+import com.prayer.business.instantor.secure.basic.BasicAuthBllor;
 import com.prayer.constant.SystemEnum.Credential;
 import com.prayer.dao.ObjectTransferer;
 import com.prayer.exception.web._401AuthorizationFailureException;

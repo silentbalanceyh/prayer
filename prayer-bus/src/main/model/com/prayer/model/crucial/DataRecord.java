@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.business.schema.MilieuBllor;
+import com.prayer.business.instantor.schema.MilieuBllor;
 import com.prayer.constant.SystemEnum.MetaPolicy;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
@@ -61,10 +61,10 @@ public class DataRecord implements Record { // NOPMD
     private transient Schema _schema; // NOPMD
     /** 访问H2的Schema数据层接口 **/
     @NotNull
-    private transient EnvInstantor instantor;
+    private transient final EnvInstantor instantor = singleton(MilieuBllor.class);
     /** 当前Record中的数据 **/
     @NotNull
-    private transient final ConcurrentMap<String, Value<?>> data;
+    private transient final ConcurrentMap<String, Value<?>> data = new ConcurrentHashMap<>();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -76,7 +76,6 @@ public class DataRecord implements Record { // NOPMD
     @PostValidateThis
     public DataRecord(@AssertFieldConstraints(RULE_ID) final String identifier) throws AbstractDatabaseException {
         this._identifier = identifier.trim();
-        this.instantor = singleton(MilieuBllor.class);
         try {
             this._schema = this.instantor.get(identifier);
         } catch (AbstractTransactionException ex) {
@@ -86,7 +85,6 @@ public class DataRecord implements Record { // NOPMD
         if (null == this._schema) {
             throw new SchemaNotFoundException(getClass(), identifier);
         }
-        this.data = new ConcurrentHashMap<>();
     }
 
     // ~ Abstract Methods ====================================

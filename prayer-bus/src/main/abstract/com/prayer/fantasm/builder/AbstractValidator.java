@@ -13,12 +13,10 @@ import com.prayer.facade.database.pool.JdbcConnection;
 import com.prayer.fantasm.exception.AbstractSchemaException;
 import com.prayer.resource.Resources;
 
-import net.sf.oval.constraint.InstanceOf;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -31,18 +29,10 @@ public abstract class AbstractValidator implements DataValidator {
     // ~ Instance Fields =====================================
     /** 数据库连接 **/
     @NotNull
-    @InstanceOf(JdbcConnection.class)
-    private transient final JdbcConnection connection; // NOPMD
+    private transient final JdbcConnection connection = reservoir(Resources.Data.CATEGORY, JdbcConnImpl.class); // NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-
-    /** **/
-    @PostValidateThis
-    public AbstractValidator() {
-        this.connection = reservoir(Resources.Data.CATEGORY, JdbcConnImpl.class);
-    }
-
     // ~ Abstract Methods ====================================
     /** 检查数据库中的Table是否存在 **/
     protected abstract String buildTableSQL(final String table);

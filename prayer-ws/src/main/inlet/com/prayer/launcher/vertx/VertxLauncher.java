@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.booter.util.Ensurer;
-import com.prayer.business.schema.MilieuBllor;
+import com.prayer.business.instantor.schema.MilieuBllor;
 import com.prayer.facade.business.instantor.schema.EnvInstantor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.Launcher;

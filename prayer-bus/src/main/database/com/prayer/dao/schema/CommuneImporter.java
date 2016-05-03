@@ -16,7 +16,6 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -30,17 +29,11 @@ public final class CommuneImporter implements Importer {
     // ~ Instance Fields =====================================
     /** 获取系统验证器 **/
     @NotNull
-    private transient final Verifier verifier;
+    private transient final Verifier verifier = new SchemaVerifier();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** 获取当前系统验证器 **/
-    @PostValidateThis
-    public CommuneImporter() {
-        this.verifier = new SchemaVerifier();
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================

@@ -22,5 +22,17 @@
             "maxLength":32
         },
         "errorMessage":"password长度不合法，必须在客户端加密，请联系管理员。"
+    },
+    {
+        "name":"username",
+        "type":"StringType",
+        "order":3,
+        "componentType":"VALIDATOR",
+        "componentClass":"com.prayer.vertx.uca.validator.MissingValidator",
+        "config":{
+            "identifier":"sec.user",
+            "field":"username"
+        },
+        "errorMessage":"当前用户名不存在，请输入合法用户名。"
     }
 ]

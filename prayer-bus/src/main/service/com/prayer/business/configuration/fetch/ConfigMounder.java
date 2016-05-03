@@ -19,6 +19,7 @@ import com.prayer.fantasm.exception.AbstractException;
 
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -44,6 +45,7 @@ public class ConfigMounder implements ConfigFetcher {
      * 
      * @param entityCls
      */
+    @PostValidateThis
     public ConfigMounder(@NotNull final Class<?> entityCls) {
         this.entityCls = entityCls;
     }

@@ -54,7 +54,7 @@ public class RecordBehavior implements RecordService {
      * 
      */
     @NotNull
-    private transient final Transferer transferer;
+    private transient final Transferer transferer = singleton(ObjectTransferer.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -69,10 +69,6 @@ public class RecordBehavior implements RecordService {
          * 当前Behavior的实体类型
          */
         this.entityCls = entityCls;
-        /**
-         * 当前转换器
-         */
-        this.transferer = singleton(ObjectTransferer.class);
         /**
          * 将当前的Performer实例化
          */

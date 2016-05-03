@@ -1,0 +1,10 @@
+{
+    "identifier":"${data.identifier}",
+    "method":"GET",
+    "script":"api.sec.util.unique.get",
+    "data":{
+        "name":"name",
+        "identifier":"sec.user",
+        "value":"lang.yu"
+    }
+}

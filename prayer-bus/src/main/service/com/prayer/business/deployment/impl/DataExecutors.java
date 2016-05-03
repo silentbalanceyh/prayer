@@ -11,19 +11,16 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.business.instantor.util.CommonQuerier;
 import com.prayer.dao.ObjectTransferer;
 import com.prayer.dao.data.DataRecordDalor;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.database.dao.RecordDao;
-import com.prayer.facade.model.crucial.Expression;
-import com.prayer.facade.model.crucial.Transducer.V;
-import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.record.Record;
 import com.prayer.facade.util.Transferer;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.crucial.DataRecord;
-import com.prayer.model.query.Restrictions;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -41,6 +38,8 @@ public final class DataExecutors {
     private static final RecordDao DAO = reservoir(DataRecord.class.getName(), DataRecordDalor.class);
     /** **/
     private static final Transferer TRANS = singleton(ObjectTransferer.class);
+    /** **/
+    private static final CommonQuerier QUERIER = singleton(CommonQuerier.class);
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -82,12 +81,12 @@ public final class DataExecutors {
         /** 1.计算Source **/
         final JsonObject source = data.getJsonObject("source");
         final List<Record> sources = queryRecords(source);
-        if(Constants.ONE == sources.size()){
+        if (Constants.ONE == sources.size()) {
             /** 2.计算Targets **/
             final Record sourceR = sources.get(Constants.IDX);
             final JsonObject target = data.getJsonObject("target");
             final List<Record> targets = queryRecords(target);
-            for(final Record targetR: targets){
+            for (final Record targetR : targets) {
                 /** 3.构造Relations **/
                 final JsonObject entity = new JsonObject();
                 entity.put(source.getString("field"), sourceR.get(Constants.PID).literal());
@@ -121,39 +120,11 @@ public final class DataExecutors {
                     params.add(values.toString());
                 }
                 /** 提取返回值 **/
-                records.addAll(queryRecords(identifier, field, params.toArray(Constants.T_STR_ARR)));
+                records.addAll(QUERIER.queryMuster(identifier, field, params.toArray(Constants.T_STR_ARR)));
             }
             // 如果长度不为1跳过
         }
         return records;
-    }
-
-    private static List<Record> queryRecords(final String identifier, final String field, final String... value)
-            throws AbstractException {
-        /** 1.实例化Record **/
-        final Record record = instance(DataRecord.class, identifier);
-        Expression expr = null;
-        /** 2.构造Expression **/
-        if (Constants.ONE == value.length) {
-            expr = Restrictions.eq(record.toColumn(field));
-        } else if (Constants.TWO == value.length) {
-            final String column = record.toColumn(field);
-            expr = Restrictions.or(Restrictions.eq(column), Restrictions.eq(column));
-        } else if (Constants.TWO < value.length) {
-            final String column = record.toColumn(field);
-            Expression finalExpr = Restrictions.eq(column);
-            for (int idx = 1; idx < value.length; idx++) {
-                finalExpr = Restrictions.or(finalExpr, Restrictions.eq(column));
-            }
-            expr = finalExpr;
-        }
-        /** 3.Values **/
-        final List<Value<?>> values = new ArrayList<>();
-        for (final String item : value) {
-            values.add(V.get().getValue(record.fields().get(field), item));
-        }
-        /** 4.读取最终数据 **/
-        return DAO.queryByFilter(record, Constants.T_STR_ARR, values, expr);
     }
 
     /** Purge操作 **/

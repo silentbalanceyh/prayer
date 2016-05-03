@@ -48,21 +48,14 @@ public class DataBllor implements DataInstantor {
     // ~ Instance Fields =====================================
     /** 底层调用 **/
     @NotNull
-    private transient final SchemaDao schemaDao;
+    private transient final SchemaDao schemaDao = singleton(SchemaDalor.class);
     /** **/
     @NotNull
-    private transient final OrderedBuilder builder;
+    private transient final OrderedBuilder builder = singleton(OrderedBuilder.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    public DataBllor() {
-        /** 实例化当前的Dao **/
-        this.schemaDao = singleton(SchemaDalor.class);
-        this.builder = singleton(OrderedBuilder.class);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/

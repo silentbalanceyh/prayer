@@ -28,15 +28,10 @@ public abstract class AbstractDatabaseDao implements DatabaseDao {
     /** 数据库连接 **/
     @NotNull
     @InstanceOf(JdbcConnection.class)
-    private transient final JdbcConnection connection; // NOPMD
+    private transient final JdbcConnection connection = singleton(JdbcConnImpl.class);// NOPMD
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-
-    public AbstractDatabaseDao() {
-        this.connection = singleton(JdbcConnImpl.class);
-    }
-
     // ~ Abstract Methods ====================================
     /** 读取Relation的SQL语句 **/
     public abstract String buildRelSql();

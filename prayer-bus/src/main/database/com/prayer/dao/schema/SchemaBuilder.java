@@ -26,7 +26,7 @@ public final class SchemaBuilder {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 序列化生成器 **/
-    private transient Serializer serializer;
+    private transient Serializer serializer = singleton(JsonSerializer.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -60,9 +60,6 @@ public final class SchemaBuilder {
     }
 
     // ~ Constructors ========================================
-    private SchemaBuilder() {
-        this.serializer = singleton(JsonSerializer.class);
-    }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================

@@ -27,16 +27,11 @@ public class MetadataBuilder implements Builder {
     // ~ Instance Fields =====================================
     /** Builder引用 **/
     @NotNull
-    private transient final Builder builder;
+    private transient final Builder builder = singleton(Injections.Data.BUILDER);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** 实现Builder的操作 **/
-    public MetadataBuilder() {
-        this.builder = singleton(Injections.Data.BUILDER);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/

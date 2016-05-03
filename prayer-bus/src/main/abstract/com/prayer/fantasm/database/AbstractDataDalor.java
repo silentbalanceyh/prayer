@@ -34,7 +34,6 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -47,17 +46,11 @@ public abstract class AbstractDataDalor implements RecordDao { // NOPMD
     // ~ Instance Fields =====================================
     /** 构造SQL语句构造器 **/
     @NotNull
-    private transient final SqlDMLBuilder builder;
+    private transient final SqlDMLBuilder builder = SqlDMLBuilder.create();
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    @PostValidateThis
-    public AbstractDataDalor() {
-        this.builder = SqlDMLBuilder.create();
-    }
-
     // ~ Abstract Methods ====================================
     /**
      * 获取Increment中需要过滤的ID列

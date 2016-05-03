@@ -23,7 +23,6 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -37,19 +36,11 @@ public class ConfigBllor implements ConfigInstantor, Attributes {
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
-    private transient MoundSelector selector;
+    private transient MoundSelector selector = singleton(MoundSelector.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /**
-     * 配置需要使用的Selector初始化
-     */
-    @PostValidateThis
-    public ConfigBllor() {
-        this.selector = singleton(MoundSelector.class);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/

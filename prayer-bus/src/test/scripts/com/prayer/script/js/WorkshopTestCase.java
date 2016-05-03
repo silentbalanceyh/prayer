@@ -7,7 +7,7 @@ import javax.script.ScriptException;
 
 import org.junit.Test;
 
-import com.prayer.business.secure.basic.BasicAuthBllor;
+import com.prayer.business.instantor.secure.basic.BasicAuthBllor;
 import com.prayer.facade.business.instantor.secure.SecureInstantor;
 import com.prayer.facade.model.record.Record;
 import com.prayer.facade.script.Workshop;

@@ -32,18 +32,13 @@ final class DatabaseGraphicer {
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 数据库验证器 **/
-    private transient DataValidator validator;
+    private transient DataValidator validator = reservoir(Resources.Data.CATEGORY, Injections.Data.VALIDATOR);
     /** 数据库访问使用的Dao **/
-    private transient DatabaseDao dao;
+    private transient DatabaseDao dao = singleton(DatabaseDalor.class);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    public DatabaseGraphicer() {
-        this.validator = reservoir(Resources.Data.CATEGORY, Injections.Data.VALIDATOR);
-        this.dao = singleton(DatabaseDalor.class);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     // ~ Methods =============================================

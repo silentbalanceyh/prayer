@@ -1,0 +1,10 @@
+{
+    "config":{
+        "identifier":"sec.user",
+        "field":"username"
+    },
+    "comments":{
+        "identifier":"需要检查的Schema对应ID",
+        "field":"需要检查的字段名称"
+    }
+}

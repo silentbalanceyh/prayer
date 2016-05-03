@@ -51,7 +51,6 @@ import net.sf.oval.constraint.InstanceOfAny;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.PostValidateThis;
 
 /**
  * 
@@ -64,23 +63,15 @@ public abstract class AbstractMetaDalor<ID extends Serializable> implements Reco
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     /** 转换器 **/
-    private transient final Transferer transferer;
+    private transient final Transferer transferer = singleton(ObjectTransferer.class);
     /** 构造SQL语句构造器 **/
-    private transient final SqlDMLBuilder builder;
+    private transient final SqlDMLBuilder builder = SqlDMLBuilder.create();
     /** 构造JDBC直接的Connection连接 **/
-    private transient final JdbcConnection connection;
+    private transient final JdbcConnection connection = singleton(Injections.Meta.CONNECTION);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
-    /** **/
-    @PostValidateThis
-    public AbstractMetaDalor() {
-        this.transferer = singleton(ObjectTransferer.class);
-        this.builder = SqlDMLBuilder.create();
-        this.connection = singleton(Injections.Meta.CONNECTION);
-    }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
