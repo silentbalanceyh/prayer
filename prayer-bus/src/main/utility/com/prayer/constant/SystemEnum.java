@@ -115,6 +115,13 @@ public final class SystemEnum { // NOPMD
         OAUTH2 // OAUTH2
     }
 
+    /** 登录方式，默认使用账号、Email、手机，不包含第三方 **/
+    public static enum Credential {
+        USERNAME, // 账号登录方式
+        EMAIL, // Email登录方式
+        MOBILE // Mobile手机登录方式
+    }
+
     /** 返回类型 **/
     public static enum ReturnType {
         OBJECT, // JsonObject
@@ -160,7 +167,7 @@ public final class SystemEnum { // NOPMD
         /** 第三方库需要用才存在的接口 **/
         THIRD_PART, // 第三方接口
         // --------------------Engine内部接口--------------------------
-        INTERNAL    // Engine内部接口，一般用于Console，Vertx，MetaServer
+        INTERNAL // Engine内部接口，一般用于Console，Vertx，MetaServer
     }
 
     /** API的种类 **/

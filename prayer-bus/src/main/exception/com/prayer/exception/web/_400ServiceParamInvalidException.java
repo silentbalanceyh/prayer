@@ -1,19 +1,17 @@
 package com.prayer.exception.web;
 
 import com.prayer.fantasm.exception.AbstractWebException;
-
 /**
  * 
  * @author Lang
  *
  */
-public class DependParamsMissingException extends AbstractWebException {
+public class _400ServiceParamInvalidException extends AbstractWebException {
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = -594147386772603070L;
-
+    private static final long serialVersionUID = -6393877199785119675L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -21,22 +19,20 @@ public class DependParamsMissingException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param field
+     * @param param
      */
-    public DependParamsMissingException(final Class<?> clazz, final String param, final String field) {
-        super(clazz, -30021, param, field);
+    public _400ServiceParamInvalidException(final Class<?> clazz, final String message){
+        super(clazz, -30013, message);
     }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public int getErrorCode() {
-        return -30021;
+    public int getErrorCode(){
+        return -30013;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
 }

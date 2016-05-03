@@ -16,6 +16,12 @@ public interface SecKeys {
     String REALM = "realm";
     /** 用户Schema Mode 的全局ID **/
     String IDENTIFIER = "identifier";
+    /** 访问的URI **/
+    String URI = "request-uri";
+    /** 访问的Resource ID **/
+    String RES_ID = "resource-id";
+    /** 访问的具体认证信息，从Token中提取 **/
+    String CREDENTIAL = "credential";
     
     /** 配置常量 **/
     @VertexPoint(Interface.CONSTANT)
@@ -26,6 +32,8 @@ public interface SecKeys {
         String MOBILE = "mobile";
         /** 用户Email **/
         String EMAIL = "email";
+        /** 使用了哪种登录方式 **/
+        String TYPE = "credential";
     }
     /** Tp Options **/
     @VertexPoint(Interface.CONSTANT)
@@ -50,9 +58,9 @@ public interface SecKeys {
             /** **/
             String ID = "id";
             /** **/
-            String USERNAME = Shared.USERNAME;
-            /** **/
             String TOKEN = "token";
+            /** **/
+            String PASSWORD = "password";
         }
     }
 }

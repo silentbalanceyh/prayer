@@ -7,7 +7,7 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class ServiceReturnSizeException extends AbstractWebException{
+public class _500ServiceReturnSizeException extends AbstractWebException{
     // ~ Static Fields =======================================
     /**
      * 
@@ -22,7 +22,7 @@ public class ServiceReturnSizeException extends AbstractWebException{
      * @param clazz
      * @param size
      */
-    public ServiceReturnSizeException(final Class<?> clazz, final String size){
+    public _500ServiceReturnSizeException(final Class<?> clazz, final String size){
         super(clazz, -30017, size);
     }
     // ~ Abstract Methods ====================================

@@ -1,6 +1,11 @@
 package com.prayer.secure.basic;
 
+import com.prayer.exception.web._401AuthorizationFailureException;
+import com.prayer.facade.engine.cv.SecKeys;
+import com.prayer.fantasm.exception.AbstractException;
+
 import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
@@ -15,7 +20,6 @@ import net.sf.oval.guard.Guarded;
  */
 @Guarded
 public class BasicJunctor implements AuthProvider {
-
     // ~ Static Fields =======================================
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -26,8 +30,10 @@ public class BasicJunctor implements AuthProvider {
     /** **/
     @Override
     public void authenticate(@NotNull final JsonObject data, @NotNull final Handler<AsyncResult<User>> handler) {
-        // TODO Auto-generated method stub
-        
+        System.out.println(data.encode());
+        final BasicUser user = new BasicUser();
+        final AbstractException error = new _401AuthorizationFailureException(getClass(),data.getString(SecKeys.URI));
+        handler.handle(Future.<User>failedFuture(error));
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

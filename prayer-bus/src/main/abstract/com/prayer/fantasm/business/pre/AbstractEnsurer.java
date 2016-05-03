@@ -1,7 +1,7 @@
 package com.prayer.fantasm.business.pre;
 
-import com.prayer.exception.web.ServiceParamInvalidException;
-import com.prayer.exception.web.ServiceParamMissingException;
+import com.prayer.exception.web._400ServiceParamInvalidException;
+import com.prayer.exception.web._400ServiceParamMissingException;
 import com.prayer.facade.model.entity.Ensurer;
 import com.prayer.fantasm.exception.AbstractException;
 
@@ -39,10 +39,10 @@ public abstract class AbstractEnsurer<R> implements Ensurer<JsonObject, R> {
             try {
                 ret = this.extractValue(params,attr);
             } catch (ClassCastException ex) {
-                throw new ServiceParamInvalidException(getClass(), ex.getMessage());
+                throw new _400ServiceParamInvalidException(getClass(), ex.getMessage());
             }
         } else {
-            throw new ServiceParamMissingException(getClass(), attr);
+            throw new _400ServiceParamMissingException(getClass(), attr);
         }
         return ret;
     }
@@ -55,7 +55,7 @@ public abstract class AbstractEnsurer<R> implements Ensurer<JsonObject, R> {
             try {
                 ret = this.extractValue(params,attr);
             } catch (ClassCastException ex) {
-                throw new ServiceParamInvalidException(getClass(), ex.getMessage());
+                throw new _400ServiceParamInvalidException(getClass(), ex.getMessage());
             }
         }
         return ret;

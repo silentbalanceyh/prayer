@@ -6,12 +6,12 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class ServiceParamInvalidException extends AbstractWebException {
+public class _400ServiceParamMissingException extends AbstractWebException {
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = -6393877199785119675L;
+    private static final long serialVersionUID = -8491683210329845390L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -21,15 +21,15 @@ public class ServiceParamInvalidException extends AbstractWebException {
      * @param clazz
      * @param param
      */
-    public ServiceParamInvalidException(final Class<?> clazz, final String message){
-        super(clazz, -30013, message);
+    public _400ServiceParamMissingException(final Class<?> clazz, final String param){
+        super(clazz, -30012, param);
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
     public int getErrorCode(){
-        return -30013;
+        return -30012;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

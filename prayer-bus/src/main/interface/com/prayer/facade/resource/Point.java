@@ -228,6 +228,11 @@ public interface Point {
         /** Meta Server对应的配置 **/
         String CONFIG = "meta.server.config";
     }
+    /** **/
+    @VertexPoint(Interface.CONSTANT)
+    interface Pattern{
+        
+    }
 
     /** **/
     @VertexPoint(Interface.CONSTANT)

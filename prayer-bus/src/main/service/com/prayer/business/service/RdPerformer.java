@@ -6,8 +6,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.prayer.exception.web.ServiceOrderByException;
-import com.prayer.exception.web.ServiceReturnSizeException;
+import com.prayer.exception.web._400ServiceOrderByException;
+import com.prayer.exception.web._500ServiceReturnSizeException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.record.Record;
 import com.prayer.fantasm.business.AbstractPerformer;
@@ -86,12 +86,12 @@ public class RdPerformer extends AbstractPerformer {
                     marchal.getExpr(), marchal.getOrder(), marchal.getPager());
         } else {
             // Page必须带Order By
-            throw new ServiceOrderByException(getClass());
+            throw new _400ServiceOrderByException(getClass());
         }
         /** 3.构造结果 **/
         if (Constants.ONE != data.size()) {
             // Return Size Exception
-            throw new ServiceReturnSizeException(getClass(), String.valueOf(Constants.ONE));
+            throw new _500ServiceReturnSizeException(getClass(), String.valueOf(Constants.ONE));
         }
         return data;
     }

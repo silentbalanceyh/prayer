@@ -28,5 +28,6 @@ public interface EnvInstantor {
      * @return
      * @throws AbstractDatabaseException
      */
+    @VertexApi(Api.READ)
     Schema get(String identifier) throws AbstractDatabaseException;
 }

@@ -13,7 +13,7 @@ import com.prayer.business.ensurer.JArrayEnsurer;
 import com.prayer.business.ensurer.JObjectEnsurer;
 import com.prayer.business.ensurer.StringEnsurer;
 import com.prayer.business.service.RecordIDAnagnorisis;
-import com.prayer.exception.web.ServiceParamInvalidException;
+import com.prayer.exception.web._400ServiceParamInvalidException;
 import com.prayer.facade.business.service.IdAnagnorisis;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.model.entity.Ensurer;
@@ -191,7 +191,7 @@ public class ActRequest implements Serializable {
                     this.jsonEnsurer.ensureOptional(params, Constants.PARAM.QUERY);
                 } else {
                     // method必须合法
-                    throw new ServiceParamInvalidException(getClass(), "method = " + method);
+                    throw new _400ServiceParamInvalidException(getClass(), "method = " + method);
                 }
             } catch (AbstractException ex) {
                 peError(LOGGER, ex);

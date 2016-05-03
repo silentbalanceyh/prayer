@@ -45,7 +45,7 @@ public class BasicUser extends AbstractUser {
     public BasicUser(final AuthProvider provider, @NotNull final JsonObject data) {
         this.provider = provider;
         this.id = data.getString(SecKeys.User.Basic.ID);
-        this.username = data.getString(SecKeys.User.Basic.USERNAME);
+        this.username = data.getString(SecKeys.Shared.USERNAME);
         this.token = data.getString(SecKeys.User.Basic.TOKEN);
         /** Principal授权信息 **/
         this.principal = new JsonObject();

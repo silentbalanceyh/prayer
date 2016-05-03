@@ -4,6 +4,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import java.io.Serializable;
 
+import com.prayer.constant.SystemEnum.Credential;
 import com.prayer.constant.SystemEnum.SecureMode;
 import com.prayer.exception.web._401AuthHeaderInvalidException;
 import com.prayer.exception.web._401AuthHeaderMissingException;
@@ -12,15 +13,18 @@ import com.prayer.exception.web._401PasswordPlainTextException;
 import com.prayer.exception.web._401SchemaWrongException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
+import com.prayer.facade.engine.cv.SecKeys;
 import com.prayer.facade.util.EDCoder;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.resource.Resources;
+import com.prayer.secure.util.IdResolver;
 import com.prayer.util.coder.Base64Coder;
 import com.prayer.util.string.StringKit;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.json.JsonObject;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
 
@@ -132,38 +136,26 @@ public final class BasicToken implements Serializable {
     }
 
     /**
-     * @return the schema
+     * 
+     * @return
      */
-    public String getSchema() {
-        return schema;
-    }
-
-    /**
-     * @return the username
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * @return the password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @return the realm
-     */
-    public String getRealm() {
-        return realm;
-    }
-
-    /**
-     * @return the token
-     */
-    public String getToken() {
-        return token;
+    public JsonObject getCredential() {
+        final JsonObject credential = new JsonObject();
+        /** 1.填充Realm和Password **/
+        credential.put(SecKeys.User.Basic.PASSWORD, this.password);
+        credential.put(SecKeys.REALM, this.realm);
+        /** 2.计算Username **/
+        final Credential type = IdResolver.resolve(this.username);
+        credential.put(SecKeys.Shared.TYPE, type.name());
+        /** 3.根据登录结果放不同的登录Id **/
+        if (Credential.MOBILE == type) {
+            credential.put(SecKeys.Shared.MOBILE, this.username);
+        } else if (Credential.EMAIL == type) {
+            credential.put(SecKeys.Shared.EMAIL, this.username);
+        } else {
+            credential.put(SecKeys.Shared.USERNAME, this.username);
+        }
+        return credential;
     }
 
     // ~ hashCode,equals,toString ============================

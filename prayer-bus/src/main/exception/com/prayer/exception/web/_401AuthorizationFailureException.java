@@ -1,19 +1,18 @@
 package com.prayer.exception.web;
 
 import com.prayer.fantasm.exception.AbstractWebException;
-import com.prayer.model.type.DataType;
 
 /**
  * 
  * @author Lang
  *
  */
-public class SpecialDataTypeException extends AbstractWebException {
+public class _401AuthorizationFailureException extends AbstractWebException {
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = 8488944115046139528L;
+    private static final long serialVersionUID = -594147386772603070L;
 
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
@@ -22,11 +21,10 @@ public class SpecialDataTypeException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param type
-     * @param value
+     * @param field
      */
-    public SpecialDataTypeException(final Class<?> clazz, final DataType type, final String value) {
-        super(clazz, -30018, type.toString(), value);
+    public _401AuthorizationFailureException(final Class<?> clazz, final String uri) {
+        super(clazz, -30021, uri);
     }
 
     // ~ Abstract Methods ====================================
@@ -34,7 +32,7 @@ public class SpecialDataTypeException extends AbstractWebException {
     /** **/
     @Override
     public int getErrorCode() {
-        return -30018;
+        return -30021;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

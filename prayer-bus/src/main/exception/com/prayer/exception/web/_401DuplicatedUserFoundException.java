@@ -7,12 +7,13 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class DependQueryInvalidException extends AbstractWebException {
+public class _401DuplicatedUserFoundException extends AbstractWebException {
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = 4872740806754646479L;
+    private static final long serialVersionUID = 8488944115046139528L;
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -20,17 +21,19 @@ public class DependQueryInvalidException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param query
+     * @param type
+     * @param value
      */
-    public DependQueryInvalidException(final Class<?> clazz, final String query){
-        super(clazz, -30024, query);
+    public _401DuplicatedUserFoundException(final Class<?> clazz, final String field, final String value) {
+        super(clazz, -30018, field, value);
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public int getErrorCode(){
-        return -30024;
+    public int getErrorCode() {
+        return -30018;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

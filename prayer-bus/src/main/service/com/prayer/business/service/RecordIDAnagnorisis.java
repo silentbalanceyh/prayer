@@ -5,7 +5,7 @@ import static com.prayer.util.debug.Log.jvmError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.prayer.exception.web.ServiceParamInvalidException;
+import com.prayer.exception.web._400ServiceParamInvalidException;
 import com.prayer.facade.business.service.IdAnagnorisis;
 import com.prayer.facade.constant.Constants;
 import com.prayer.fantasm.exception.AbstractException;
@@ -42,7 +42,7 @@ public class RecordIDAnagnorisis implements IdAnagnorisis {
             params.put(Constants.PARAM.ID, retValue);
         } catch (ClassCastException ex) {
             jvmError(LOGGER, ex);
-            throw new ServiceParamInvalidException(getClass(), ex.getMessage());
+            throw new _400ServiceParamInvalidException(getClass(), ex.getMessage());
         }
     }
 

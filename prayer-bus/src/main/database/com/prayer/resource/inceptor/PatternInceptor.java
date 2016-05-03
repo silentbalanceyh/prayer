@@ -1,38 +1,29 @@
-package com.prayer.exception.web;
+package com.prayer.resource.inceptor;
 
-import com.prayer.fantasm.exception.AbstractWebException;
+import com.prayer.fantasm.resource.AbstractInceptor;
+
 /**
  * 
  * @author Lang
  *
  */
-public class ServiceParamMissingException extends AbstractWebException {
+public class PatternInceptor extends AbstractInceptor {
     // ~ Static Fields =======================================
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -8491683210329845390L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /**
-     * 
-     * @param clazz
-     * @param param
+     * 使用默认的Key构造
      */
-    public ServiceParamMissingException(final Class<?> clazz, final String param){
-        super(clazz, -30012, param);
+    public PatternInceptor() {
+        super("file.pattern.config");
     }
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
-    /** **/
-    @Override
-    public int getErrorCode(){
-        return -30012;
-    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
+
 }
