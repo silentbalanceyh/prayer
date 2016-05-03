@@ -121,13 +121,13 @@ public class BasicAuthBllor implements SecureInstantor {
 
     // ~ Methods =============================================
     // ~ Private Methods =====================================
-    
-    private void checkRealm(final String realm) throws AbstractException{
-        if(!realm.equals(Resources.Security.REALM)){
-            throw new _401RealmIncorrectException(getClass(),realm,Resources.Security.REALM);
+
+    private void checkRealm(final String realm) throws AbstractException {
+        if (!realm.equals(Resources.Security.REALM)) {
+            throw new _401RealmIncorrectException(getClass(), realm, Resources.Security.REALM);
         }
     }
-    
+
     private void validate(final Record record, final String password) throws AbstractException {
         final Value<?> stored = record.get(PWD);
         if (null == stored || !stored.isCorrect() || !stored.getValue().toString().equals(password)) {
@@ -147,8 +147,7 @@ public class BasicAuthBllor implements SecureInstantor {
         final Value<?> value = V.get().getValue(type, inputValue);
         params.add(value);
         /** 5.读取Record列表 **/
-        final List<Record> records = this.performer.queryByFilter(record, new String[] { record.toColumn(PWD) }, params,
-                filters);
+        final List<Record> records = this.performer.queryByFilter(record, Constants.T_STR_ARR, params, filters);
         if (Constants.ONE < records.size()) {
             throw new _401DuplicatedUserFoundException(getClass(), field, inputValue);
         } else if (records.size() < Constants.ONE) {

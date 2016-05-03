@@ -1,6 +1,6 @@
 package com.prayer.business.service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -104,16 +104,12 @@ public class RdPerformer extends AbstractPerformer {
      * @return
      */
     private String[] getColumns(final Record record, final String[] filters) throws AbstractDatabaseException {
-        /** 1.获取所有定义过的Field **/
-        final Set<String> fields = record.fields().keySet();
-        /** 3.构造最终列的返回 **/
-        final List<String> columns = new ArrayList<>();
+        /** 1.获取所有定义过的Columns **/
+        final Set<String> columns = new HashSet<>(record.columns());
+        /** 2.构造最终列的返回 **/
         for (final String field : filters) {
-            fields.remove(field);
-        }
-        /** 4.将Field转换成列 **/
-        for (final String field : fields) {
-            columns.add(record.toColumn(field));
+            final String column = record.toColumn(field);
+            columns.remove(column);
         }
         return columns.toArray(Constants.T_STR_ARR);
     }

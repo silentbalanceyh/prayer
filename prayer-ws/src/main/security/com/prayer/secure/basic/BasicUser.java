@@ -1,5 +1,6 @@
 package com.prayer.secure.basic;
 
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.cv.SecKeys;
 import com.prayer.resource.Resources;
 
@@ -48,6 +49,9 @@ public class BasicUser extends AbstractUser {
         this.username = data.getString(SecKeys.Shared.USERNAME);
         this.token = data.getString(SecKeys.User.Basic.TOKEN);
         /** Principal授权信息 **/
+        if(data.containsKey(Constants.PID)){
+            data.remove(Constants.PID);
+        }
         this.principal = new JsonObject();
         this.principal.mergeIn(data);
     }

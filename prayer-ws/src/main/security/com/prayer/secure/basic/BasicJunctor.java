@@ -49,7 +49,6 @@ public class BasicJunctor implements AuthProvider {
         try {
             /** 1.读取用户 **/
             final Record record = this.readUser(data);
-            System.out.println(record);
             /** 2.构造BasicUser **/
             final BasicUser user = this.buildUser(record, data);
             /** 3.正确响应 **/
@@ -76,7 +75,6 @@ public class BasicJunctor implements AuthProvider {
         data.put(SecKeys.User.Basic.TOKEN, dataJson.getString(SecKeys.User.Basic.PASSWORD));
         String username = INCEPTOR.getString(Point.Security.Shared.User.USER_ID);
         data.put(SecKeys.Shared.USERNAME, data.getString(username));
-        System.out.println(data);
         return new BasicUser(this, data);
     }
 

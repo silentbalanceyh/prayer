@@ -82,6 +82,7 @@ public final class Input {
             public PreparedStatement createPreparedStatement(final Connection con) throws SQLException {
                 final PreparedStatement stmt = con.prepareStatement(sql);
                 final int size = values.size();
+                debug(LOGGER,"[D] Sql Statement: " + sql);
                 for (int idx = 1; idx <= size; idx++) {
                     // 以数据库的Index为主，数据库从1开始索引，数组本身从0开始索引
                     debug(LOGGER, DebugKey.INFO_JDBC_PARAM, idx, values.get(idx - 1));
