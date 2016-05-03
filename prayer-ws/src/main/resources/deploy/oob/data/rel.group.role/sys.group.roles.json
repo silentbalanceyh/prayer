@@ -1,0 +1,23 @@
+{
+    "type":"RELATION",
+    "data":[
+        {
+            "source":{
+                "field":"groupId",
+                "id":"sec.group",
+                "value":{
+                    "name":"ADMIN.GROUP"
+                }
+            },
+            "target":{
+                "field":"roleId",
+                "id":"sec.role",
+                "value":{
+                    "code":[
+                        "ROLE_ADMIN"
+                    ]
+                }
+            }
+        }
+    ]
+}

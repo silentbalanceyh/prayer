@@ -1,0 +1,20 @@
+{
+    "type":"ENTITY",
+    "data":[
+        {
+            "name":"功能检查",
+            "code":"UTIL.CHECK",
+            "sequence":1
+        },
+        {
+            "name":"角色读取",
+            "code":"SEC.READ",
+            "sequence":2
+        },
+        {
+            "name":"角色管理",
+            "code":"SEC.MANAGER",
+            "sequence":3
+        }
+    ]
+}

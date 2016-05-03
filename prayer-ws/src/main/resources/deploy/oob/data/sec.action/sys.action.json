@@ -1,0 +1,12 @@
+{
+    "type":"ENTITY",
+    "data":[
+        {
+            "name":"独立字段检查",
+            "code":"API.UTIL.UNIQUE",
+            "urlId":"/api/util/unique",
+            "resource":"",
+            "resourceId":""
+        }
+    ]
+}

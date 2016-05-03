@@ -1,0 +1,23 @@
+{
+    "type":"RELATION",
+    "data":[
+        {
+            "source":{
+                "field":"permissionId",
+                "id":"sec.permission",
+                "value":{
+                    "code":"UTIL.CHECK"
+                }
+            },
+            "target":{
+                "field":"actionId",
+                "id":"sec.action",
+                "value":{
+                    "code":[
+                        "API.UTIL.UNIQUE"
+                    ]
+                }
+            }
+        }
+    ]
+}

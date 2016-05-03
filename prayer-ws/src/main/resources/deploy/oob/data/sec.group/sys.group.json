@@ -1,0 +1,26 @@
+{
+    "type":"ENTITY",
+    "data":[
+        {
+            "name":"SYSTEM.GROUP",
+            "comments":"系统管理员组",
+            "left":1,
+            "right":2,
+            "level":1
+        },
+        {
+            "name":"USER.GROUP",
+            "comments":"用户组组",
+            "left":3,
+            "right":4,
+            "level":1
+        },
+        {
+            "name":"ADMIN.GROUP",
+            "comments":"后台管理员组",
+            "left":5,
+            "right":6,
+            "level":1
+        }
+    ]
+}

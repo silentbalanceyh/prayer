@@ -1,0 +1,23 @@
+{
+    "type":"RELATION",
+    "data":[
+        {
+            "source":{
+                "field":"groupId",
+                "id":"sec.group",
+                "value":{
+                    "name":"ADMIN.GROUP"
+                }
+            },
+            "target":{
+                "field":"userId",
+                "id":"sec.user",
+                "value":{
+                    "username":[
+                        "lang.yu"
+                    ]
+                }
+            }
+        }
+    ]
+}

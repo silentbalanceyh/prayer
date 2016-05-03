@@ -1,0 +1,23 @@
+{
+    "type":"RELATION",
+    "data":[
+        {
+            "source":{
+                "field":"roleId",
+                "id":"sec.role",
+                "value":{
+                    "code":"ROLE_SYSTEM"
+                }
+            },
+            "target":{
+                "field":"permissionId",
+                "id":"sec.permission",
+                "value":{
+                    "code":[
+                        "UTIL.CHECK"
+                    ]
+                }
+            }
+        }
+    ]
+}
