@@ -12,6 +12,7 @@ import com.prayer.vertx.web.model.Envelop;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
+import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.impl.AuthHandlerImpl;
 import net.sf.oval.constraint.NotNull;
@@ -47,6 +48,8 @@ public class BasicKeaper extends AuthHandlerImpl implements SecureKeaper {
             this.authProvider.authenticate(this.buildCredential(event, token), result -> {
                 if (result.succeeded()) {
                     /** 4.认证成功 **/
+                    final User user = result.result();
+                    System.out.println(user);
                     Feature.next(event);
                 } else {
                     /** 4.认证失败 **/

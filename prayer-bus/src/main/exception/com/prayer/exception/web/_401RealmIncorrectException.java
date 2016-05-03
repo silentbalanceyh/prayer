@@ -1,6 +1,5 @@
 package com.prayer.exception.web;
 
-import com.prayer.constant.SystemEnum.DependRule;
 import com.prayer.fantasm.exception.AbstractWebException;
 
 /**
@@ -8,13 +7,12 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class DependRuleConflictException extends AbstractWebException {
+public class _401RealmIncorrectException extends AbstractWebException {
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = -722010831877869699L;
-
+    private static final long serialVersionUID = 2752930385216672214L;
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -22,19 +20,17 @@ public class DependRuleConflictException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param expected
-     * @param actual
+     * @param value
      */
-    public DependRuleConflictException(final Class<?> clazz, final DependRule expected, final DependRule actual) {
-        super(clazz, -30025, expected.toString(), actual.toString());
+    public _401RealmIncorrectException(final Class<?> clazz, final String realm, final String expected){
+        super(clazz, -30022, realm, expected);
     }
-
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public int getErrorCode() {
-        return -30025;
+    public int getErrorCode(){
+        return -30022;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

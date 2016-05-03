@@ -119,5 +119,9 @@ public class BasicUser extends AbstractUser {
     // ~ Private Methods =====================================
     // ~ Get/Set =============================================
     // ~ hashCode,equals,toString ============================
-
+    /** **/
+    @Override
+    public String toString() {
+        return "BasicUser [username=" + username + ", id=" + id + ", token=" + token + ", principal=" + principal + "]";
+    }
 }

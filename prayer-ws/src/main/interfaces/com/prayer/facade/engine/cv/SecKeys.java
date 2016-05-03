@@ -33,7 +33,7 @@ public interface SecKeys {
         /** 用户Email **/
         String EMAIL = "email";
         /** 使用了哪种登录方式 **/
-        String TYPE = "credential";
+        String TYPE = CREDENTIAL;
     }
     /** Tp Options **/
     @VertexPoint(Interface.CONSTANT)

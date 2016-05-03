@@ -7,12 +7,13 @@ import com.prayer.fantasm.exception.AbstractWebException;
  * @author Lang
  *
  */
-public class DependRuleInvalidException extends AbstractWebException {
+public class _401PasswordWrongException extends AbstractWebException {
     // ~ Static Fields =======================================
     /**
      * 
      */
-    private static final long serialVersionUID = 2752930385216672214L;
+    private static final long serialVersionUID = -722010831877869699L;
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -20,17 +21,18 @@ public class DependRuleInvalidException extends AbstractWebException {
     /**
      * 
      * @param clazz
-     * @param value
+     * @param password
      */
-    public DependRuleInvalidException(final Class<?> clazz, final String value){
-        super(clazz, -30022, value);
+    public _401PasswordWrongException(final Class<?> clazz, final String password) {
+        super(clazz, -30025, password);
     }
+
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
     /** **/
     @Override
-    public int getErrorCode(){
-        return -30022;
+    public int getErrorCode() {
+        return -30025;
     }
     // ~ Methods =============================================
     // ~ Private Methods =====================================

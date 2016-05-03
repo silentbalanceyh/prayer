@@ -23,8 +23,8 @@ public class _401AuthorizationFailureException extends AbstractWebException {
      * @param clazz
      * @param field
      */
-    public _401AuthorizationFailureException(final Class<?> clazz, final String uri) {
-        super(clazz, -30021, uri);
+    public _401AuthorizationFailureException(final Class<?> clazz, final String uri, final String errorMsg) {
+        super(clazz, -30021, uri, errorMsg);
     }
 
     // ~ Abstract Methods ====================================
