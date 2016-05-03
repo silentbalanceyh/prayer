@@ -1,13 +1,16 @@
-[
-    {
-        "username":"lang.yu",
-        "password":"E559D4DA17DD1C17BE86FCF49E60E322",
-        "email":"lang.yu@hpe.com",
-        "mobile":"15922611447",
-        "qq":"445191171",
-        "weibo":"silentbalanceyh@126.com",
-        "webchat":"silentyh",
-        "alipay":"silentbalanceyh@126.com",
-        "taobao":"silentbalanceyh@gmail.com"
-    }
-]
+{
+    "type":"ENTITY",
+    "data":[
+        {
+            "username":"lang.yu",
+            "password":"E559D4DA17DD1C17BE86FCF49E60E322",
+            "email":"lang.yu@hpe.com",
+            "mobile":"15922611447",
+            "qq":"445191171",
+            "weibo":"silentbalanceyh@126.com",
+            "webchat":"silentyh",
+            "alipay":"silentbalanceyh@126.com",
+            "taobao":"silentbalanceyh@gmail.com"
+        }
+    ]
+}

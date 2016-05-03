@@ -6,6 +6,8 @@ import static com.prayer.util.debug.Log.debug;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +16,9 @@ import com.prayer.database.accessor.MetaAccessorImpl;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.database.accessor.MetaAccessor;
 import com.prayer.facade.database.dao.schema.SchemaDao;
+import com.prayer.facade.model.entity.Attributes;
 import com.prayer.facade.model.entity.Entity;
 import com.prayer.facade.schema.Schema;
-import com.prayer.facade.schema.verifier.Attributes;
 import com.prayer.fantasm.exception.AbstractTransactionException;
 import com.prayer.model.crucial.schema.JsonSchema;
 import com.prayer.model.meta.database.PEField;
@@ -117,7 +119,7 @@ public final class SchemaDalor implements SchemaDao {
         for (final Entity meta : metas) {
             if (null != meta) {
                 final JsonObject data = meta.toJson();
-                tables.add(data.getString(Attributes.M_TABLE));
+                tables.add(data.getString(Attributes.TABLE));
             }
         }
         /** 1.先删除Key **/
@@ -129,6 +131,17 @@ public final class SchemaDalor implements SchemaDao {
         return tables;
     }
 
+    /** **/
+    @Override
+    public ConcurrentMap<String, String> get() throws AbstractTransactionException {
+        final ConcurrentMap<String, String> map = new ConcurrentHashMap<>();
+        final List<Entity> list = accessor(PEMeta.class).getAll();
+        for (final Entity entity : list) {
+            final JsonObject meta = entity.toJson();
+            map.put(meta.getString(Attributes.TABLE), meta.getString(Attributes.IDENTIFIER));
+        }
+        return map;
+    }
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 

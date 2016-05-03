@@ -37,7 +37,7 @@ public class DeploymentBooter {
         Log.setLoggerFactory(new LoggerFactorySLF4JImpl());
         /** 2.是否处理Schema部分的Purge和Deploy **/
         // TODO：后期从args中传递
-        final boolean schema = false;
+        final boolean schema = true;
         final Launcher launcher = reservoir(String.valueOf(schema), DeploymentLauncher.class, schema);
         try {
             launcher.start();

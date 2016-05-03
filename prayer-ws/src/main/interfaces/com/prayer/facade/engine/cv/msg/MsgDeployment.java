@@ -23,4 +23,8 @@ public interface MsgDeployment extends MsgCommon {
     String DATA_FILE = "( {0} ) Start to loading data into Transaction Database ... ( folder = {1} )";
     /** **/
     String DATA_FIELD = "( {0} ) Data has been loaded into Transaction Database successfully!. Category = {1}";
+    /** **/
+    String DATA_PURGE = "( {0} ) Start to purging data from Transaction Database ...";
+    /** **/
+    String DATA_PURGED = "( {0} ) Data has been purged from Transaction Database successfully! Category = {1}";
 }

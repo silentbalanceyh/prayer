@@ -66,7 +66,6 @@ public class OrderedBuilder {
         try {
             /** 1.构建图信息 **/
             final Graphic graphic = executor.build(tables);
-
             ret = this.buildIdOrd(graphic);
         } catch (DecodeException ex) {
             jvmError(LOGGER, ex);

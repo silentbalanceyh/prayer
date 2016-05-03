@@ -4,7 +4,7 @@
         "name":"RUserRole",
         "category":"RELATION",
         "table":"REL_USER_ROLE",
-        "identifier":"rel.account.role",
+        "identifier":"rel.user.role",
         "mapping":"DIRECT",
         "policy":"COLLECTION"
     },
@@ -37,7 +37,7 @@
     ],
     "__fields__":[
         {
-            "name":"accountId",
+            "name":"userId",
             "type":"StringType",
             "columnName":"R_USER_ID",
             "columnType":"STRING1",

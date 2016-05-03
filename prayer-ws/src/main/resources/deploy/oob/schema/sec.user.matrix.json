@@ -36,7 +36,7 @@
             "primarykey":true
         },
         {
-            "name":"accountId",
+            "name":"userId",
             "type":"StringType",
             "columnName":"R_USER_ID",
             "columnType":"STRING1",

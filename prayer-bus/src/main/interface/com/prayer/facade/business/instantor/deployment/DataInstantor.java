@@ -19,5 +19,11 @@ public interface DataInstantor {
      * @throws AbstractException
      */
     @VertexApi(Api.WRITE)
-    boolean push(String folder) throws AbstractException;
+    boolean loading(String folder) throws AbstractException;
+    /**
+     * 2.执行Purge操作
+     * @return
+     * @throws AbstractException
+     */
+    boolean purge() throws AbstractException;
 }

@@ -1,0 +1,23 @@
+{
+    "type":"RELATION",
+    "data":[
+        {
+            "source":{
+                "field":"roleId",
+                "id":"sec.role",
+                "value":{
+                    "code":"ROLE_SYSTEM"
+                }
+            },
+            "target":{
+                "field":"userId",
+                "id":"sec.user",
+                "value":{
+                    "username":[
+                        "lang.yu"
+                    ]
+                }
+            }
+        }
+    ]
+}

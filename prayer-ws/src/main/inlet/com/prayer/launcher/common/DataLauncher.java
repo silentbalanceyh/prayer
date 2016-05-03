@@ -50,7 +50,7 @@ public class DataLauncher implements Launcher {
         final String folder = INCEPTOR.getString(Point.Deploy.META_FOLDER) + "/data";
         info(LOGGER, MessageFormat.format(MsgDeployment.DATA_FILE, getClass().getSimpleName(), folder));
         /** 2.导入数据 **/
-        final boolean loaded = INSTANTOR.push(folder);
+        final boolean loaded = INSTANTOR.loading(folder);
         if (loaded) {
             info(LOGGER, MessageFormat.format(MsgDeployment.DATA_FIELD, getClass().getSimpleName(),
                     Resources.Data.CATEGORY));
@@ -61,7 +61,10 @@ public class DataLauncher implements Launcher {
     @Override
     public void stop() throws AbstractException {
         try {
-            throw new ApiNotSupportException(getClass(), "stop");
+            info(LOGGER, MessageFormat.format(MsgDeployment.DATA_PURGE, getClass().getSimpleName()));
+            INSTANTOR.purge();
+            info(LOGGER, MessageFormat.format(MsgDeployment.DATA_PURGED, getClass().getSimpleName(),
+                    Resources.Data.CATEGORY));
         } catch (AbstractException ex) {
             peError(LOGGER, ex);
         }

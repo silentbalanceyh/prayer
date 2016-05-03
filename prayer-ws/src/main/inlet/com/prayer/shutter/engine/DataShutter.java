@@ -1,4 +1,4 @@
-package com.prayer.booter.engine;
+package com.prayer.shutter.engine;
 
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
@@ -18,11 +18,11 @@ import net.sf.oval.logging.LoggerFactorySLF4JImpl;
  * @author Lang
  *
  */
-public class DataBooter {
+public class DataShutter {
     // ~ Static Fields =======================================
 
     /** **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataBooter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataShutter.class);
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -39,9 +39,7 @@ public class DataBooter {
         Log.setLoggerFactory(new LoggerFactorySLF4JImpl());
         final Launcher launcher = singleton(DataLauncher.class);
         try{
-            // TODO: 先Purge **/
             launcher.stop();
-            launcher.start();
         }catch(AbstractException ex){
             peError(LOGGER,ex);
         }

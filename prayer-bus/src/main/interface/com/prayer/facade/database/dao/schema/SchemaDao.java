@@ -1,6 +1,7 @@
 package com.prayer.facade.database.dao.schema;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 import com.prayer.constant.SystemEnum.Api;
 import com.prayer.constant.SystemEnum.Interface;
@@ -54,4 +55,15 @@ public interface SchemaDao {
      */
     @VertexApi(Api.READ)
     Schema get(String identifier) throws AbstractTransactionException;
+
+    /**
+     * 读取系统中所有的Schema信息
+     * 
+     * @return
+     * @throws AbstractTransactionException
+     */
+    // Key: table
+    // Value: identifier
+    @VertexApi(Api.READ)
+    ConcurrentMap<String,String> get() throws AbstractTransactionException;
 }
