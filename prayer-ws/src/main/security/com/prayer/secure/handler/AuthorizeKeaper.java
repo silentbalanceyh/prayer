@@ -1,12 +1,18 @@
-package com.prayer.secure.basic;
+package com.prayer.secure.handler;
+
+import static com.prayer.util.reflection.Instance.instance;
 
 import com.prayer.exception.web._500InternalServerErrorException;
 import com.prayer.facade.engine.cv.SecKeys;
 import com.prayer.facade.engine.cv.WebKeys;
+import com.prayer.facade.resource.Inceptor;
+import com.prayer.facade.resource.Point;
 import com.prayer.facade.secure.SecureKeaper;
+import com.prayer.facade.secure.Token;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PEUri;
 import com.prayer.model.web.StatusCode;
+import com.prayer.resource.InceptBus;
 import com.prayer.util.vertx.Feature;
 import com.prayer.vertx.web.model.Envelop;
 
@@ -24,14 +30,17 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public class BasicKeaper extends AuthHandlerImpl implements SecureKeaper {
+public class AuthorizeKeaper extends AuthHandlerImpl implements SecureKeaper {
     // ~ Static Fields =======================================
+    /** Security Inceptor **/
+    private static final Inceptor SECIPTOR = InceptBus.build(Point.Security.class);
+
     // ~ Instance Fields =====================================
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     /** **/
-    public BasicKeaper(@NotNull final AuthProvider provider) {
+    public AuthorizeKeaper(@NotNull final AuthProvider provider) {
         super(provider);
     }
 
@@ -41,7 +50,7 @@ public class BasicKeaper extends AuthHandlerImpl implements SecureKeaper {
     @Override
     public void handle(@NotNull final RoutingContext event) {
         /** 1.提取Token **/
-        final BasicToken token = BasicToken.create(event.request());
+        final Token token = instance(SECIPTOR.getClass(Point.Security.TOKEN), event.request());
         /** 2.判断Token是否取到 **/
         if (token.obtained()) {
             /** 3.验证 **/
@@ -74,7 +83,7 @@ public class BasicKeaper extends AuthHandlerImpl implements SecureKeaper {
     // ~ Methods =============================================
     // ~ Private Methods =====================================
 
-    private JsonObject buildCredential(final RoutingContext event, final BasicToken token) {
+    private JsonObject buildCredential(final RoutingContext event, final Token token) {
         final JsonObject credential = new JsonObject();
         /** 1.提取URI **/
         final PEUri uri = event.get(WebKeys.Request.Data.Meta.PEURI);

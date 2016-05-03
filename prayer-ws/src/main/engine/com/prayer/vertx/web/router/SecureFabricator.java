@@ -5,7 +5,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 import com.prayer.facade.resource.Point;
 import com.prayer.facade.vtx.route.Fabricator;
 import com.prayer.fantasm.vtx.route.AbstractFabricator;
-import com.prayer.secure.basic.BasicKeaper;
+import com.prayer.secure.handler.AuthorizeKeaper;
 
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.web.Router;
@@ -41,9 +41,9 @@ public class SecureFabricator extends AbstractFabricator implements Fabricator {
      * 
      * @return
      */
-    private BasicKeaper buildSecure() {
+    private AuthorizeKeaper buildSecure() {
         final AuthProvider provider = singleton(this.securitor().getClass(Point.Security.PROVIDER));
-        final BasicKeaper keaper = singleton(this.securitor().getClass(Point.Security.HANDLER), provider);
+        final AuthorizeKeaper keaper = singleton(AuthorizeKeaper.class, provider);
         // TODO：扩展Security
         return keaper;
     }

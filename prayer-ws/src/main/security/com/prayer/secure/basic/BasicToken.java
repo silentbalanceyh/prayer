@@ -14,6 +14,7 @@ import com.prayer.exception.web._401SchemaWrongException;
 import com.prayer.facade.constant.Constants;
 import com.prayer.facade.constant.Symbol;
 import com.prayer.facade.engine.cv.SecKeys;
+import com.prayer.facade.secure.Token;
 import com.prayer.facade.util.EDCoder;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.resource.Resources;
@@ -34,7 +35,7 @@ import net.sf.oval.guard.Guarded;
  *
  */
 @Guarded
-public final class BasicToken implements Serializable {
+public final class BasicToken implements Token,Serializable {
     // ~ Static Fields =======================================
     /**
      * 
@@ -56,13 +57,12 @@ public final class BasicToken implements Serializable {
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
-    /** **/
-    public static BasicToken create(@NotNull final HttpServerRequest request) {
-        return new BasicToken(request);
-    }
     // ~ Constructors ========================================
-
-    private BasicToken(final HttpServerRequest request) {
+    /**
+     * 
+     * @param request
+     */
+    public BasicToken(@NotNull final HttpServerRequest request) {
         /** 1.根据Authorization头初始化Token的信息 **/
         final MultiMap map = request.headers();
         if (map.contains(HttpHeaders.AUTHORIZATION)) {
@@ -121,6 +121,7 @@ public final class BasicToken implements Serializable {
      * 
      * @return
      */
+    @Override
     public boolean obtained() {
         return null == this.error;
     }
@@ -131,6 +132,7 @@ public final class BasicToken implements Serializable {
      * 
      * @return
      */
+    @Override
     public AbstractException getError() {
         return this.error;
     }
@@ -139,6 +141,7 @@ public final class BasicToken implements Serializable {
      * 
      * @return
      */
+    @Override
     public JsonObject getCredential() {
         final JsonObject credential = new JsonObject();
         /** 1.填充Realm和Password **/

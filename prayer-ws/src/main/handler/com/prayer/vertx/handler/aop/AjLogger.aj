@@ -35,7 +35,7 @@ public aspect AjLogger {
 
     // ~ Point Cut Implements ================================
     /** 切点定义 **/
-    pointcut SecureLogPointCut(final RoutingContext event): execution(void com.prayer.secure.basic.BasicKeaper.handle(RoutingContext)) && args(event) && target(Handler);
+    pointcut SecureLogPointCut(final RoutingContext event): execution(void com.prayer.secure.handler.AuthorizeKeaper.handle(RoutingContext)) && args(event) && target(Handler);
 
     /** 切点实现 **/
     before(final RoutingContext event):SecureLogPointCut(event){

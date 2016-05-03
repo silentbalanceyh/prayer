@@ -48,7 +48,7 @@ public interface Point {
         /** **/
         String PROVIDER = "secure.provider";
         /** **/
-        String HANDLER = "secure.handler";
+        String TOKEN = "secure.token";
 
         /** **/
         @VertexPoint(Interface.CONSTANT)

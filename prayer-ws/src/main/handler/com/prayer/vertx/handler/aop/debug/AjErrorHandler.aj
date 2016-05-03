@@ -27,7 +27,7 @@ public aspect AjErrorHandler {
     }
     
     /** 切点定义 **/
-    pointcut SecureErrorPointCut(final RoutingContext event):execution(void com.prayer.secure.basic.BasicKeaper.handle(RoutingContext)) && args(event);
+    pointcut SecureErrorPointCut(final RoutingContext event):execution(void com.prayer.secure.handler.AuthorizeKeaper.handle(RoutingContext)) && args(event);
 
     /** 抛出异常 **/
     after(final RoutingContext event)throwing(Throwable ex):SecureErrorPointCut(event){
