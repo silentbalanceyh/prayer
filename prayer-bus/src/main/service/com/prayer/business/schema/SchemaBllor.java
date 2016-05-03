@@ -1,4 +1,4 @@
-package com.prayer.business.deployment.impl;
+package com.prayer.business.schema;
 
 import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.reflection.Instance.singleton;

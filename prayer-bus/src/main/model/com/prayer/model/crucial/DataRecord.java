@@ -11,15 +11,15 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.business.schema.MilieuBllor;
 import com.prayer.constant.SystemEnum.MetaPolicy;
-import com.prayer.dao.schema.SchemaDalor;
 import com.prayer.exception.database.ColumnInvalidException;
 import com.prayer.exception.database.FieldInvalidException;
 import com.prayer.exception.database.SchemaNotFoundException;
+import com.prayer.facade.business.instantor.schema.EnvInstantor;
 import com.prayer.facade.constant.Constants;
-import com.prayer.facade.database.dao.schema.SchemaDao;
-import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.crucial.Transducer.V;
+import com.prayer.facade.model.crucial.Value;
 import com.prayer.facade.model.record.Record;
 import com.prayer.facade.schema.Schema;
 import com.prayer.fantasm.exception.AbstractDatabaseException;
@@ -64,7 +64,7 @@ public class DataRecord implements Record { // NOPMD
     private transient Schema _schema; // NOPMD
     /** 访问H2的Schema数据层接口 **/
     @NotNull
-    private transient SchemaDao dao;
+    private transient EnvInstantor instantor;
     /** 当前Record中的数据 **/
     @NotNull
     private transient final ConcurrentMap<String, Value<?>> data;
@@ -79,9 +79,9 @@ public class DataRecord implements Record { // NOPMD
     @PostValidateThis
     public DataRecord(@AssertFieldConstraints(RULE_ID) final String identifier) throws AbstractDatabaseException{
         this._identifier = identifier.trim();
-        this.dao = singleton(SchemaDalor.class);
+        this.instantor = singleton(MilieuBllor.class);
         try {
-            this._schema = this.dao.get(identifier);
+            this._schema = this.instantor.get(identifier);
         } catch (AbstractTransactionException ex) {
             this._schema = null; // NOPMD
             peError(LOGGER, ex);

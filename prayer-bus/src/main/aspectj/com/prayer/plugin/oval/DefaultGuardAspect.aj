@@ -10,5 +10,6 @@ import net.sf.oval.guard.GuardAspect;
 public aspect DefaultGuardAspect extends GuardAspect {
     public DefaultGuardAspect() {
         super();
+        /** 是不是开发环境才会使用这个东西有待商榷 **/
     }
 }
