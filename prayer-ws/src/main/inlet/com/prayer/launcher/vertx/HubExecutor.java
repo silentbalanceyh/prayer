@@ -4,6 +4,7 @@ import static com.prayer.util.reflection.Instance.singleton;
 
 import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.prayer.facade.engine.cv.RmiKeys;
 import com.prayer.facade.engine.opts.Intaker;
@@ -39,15 +40,17 @@ public final class HubExecutor {
         /** 2.获取发布信息 **/
         final ConcurrentMap<String, DeploymentOptions> OPTIONS = INTAKER.ingest();
         /** 3.直接Deploy **/
+        final AtomicInteger counter = new AtomicInteger(OPTIONS.size());
         for (final String name : OPTIONS.keySet()) {
             /** 4.读取Options **/
             final DeploymentOptions option = OPTIONS.get(name);
-            /** 5.初始化Handler **/
-            final CompletionHandler handler = new CompletionHandler(name, option);
-            vertxRef.deployVerticle(name, option, handler);
-            /** 6.写入信息到RMI **/
+            /** 5.写入信息到RMI **/
             RemoteRefers.registry(getAddress(instance, name, option), option.toJson().encode());
+            /** 6.初始化Handler **/
+            final CompletionHandler handler = new CompletionHandler(name, option, counter);
+            vertxRef.deployVerticle(name, option, handler);
         }
+        
     }
 
     // ~ Constructors ========================================

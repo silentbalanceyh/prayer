@@ -1,24 +1,24 @@
 [
     {
         "name":"com.prayer.vertx.actor.agent.RouterAgent",
-        "instances":1,
+        "instances":2,
         "ha":true
     },
     {
         "name":"com.prayer.vertx.actor.worker.PublishWorker",
-        "instances":1,
+        "instances":2,
         "ha":true,
         "worker":true
     },
     {
         "name":"com.prayer.vertx.actor.worker.DataWorker",
-        "instances":1,
+        "instances":2,
         "ha":true,
         "worker":true
     },
     {
         "name":"com.prayer.vertx.actor.worker.PostGetWorker",
-        "instances":1,
+        "instances":2,
         "ha":true,
         "worker":true
     }

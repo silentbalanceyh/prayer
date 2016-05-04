@@ -17,6 +17,10 @@ public interface MsgVertx extends MsgCommon {
     /** **/
     String VX_START = "( {0} ) Start Vertx Engine ( name = {1} ) in {2} mode, it''s booting...";
     /** **/
+    String VX_API = "( {0} ) \n****************   Api Endpoint Inforamation ****************\n*    Secure Endpoint: http://{1}:{2}{3}\n*   Publish Endpoint: http://{1}:{2}{4}\n*************************************************************\n";
+    /** **/
+    String VX_SERVER = "( {0} ) Http Server has been started successfully. Status: RUNNING";
+    /** **/
     String VX_STOP = "( {0} ) Stop Vertx Engine, please wait for server to be stopped...";
     /** **/
     String VX_STOPPED = "( {0} ) Vertx Engine has been stopped successfully!";

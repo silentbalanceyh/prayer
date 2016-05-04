@@ -7,10 +7,12 @@ import static com.prayer.util.reflection.Instance.singleton;
 import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.cv.WebKeys;
 import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.facade.engine.opts.Intaker;
@@ -36,6 +38,8 @@ public class PublishWorker extends AbstractVerticle {
     // ~ Instance Fields =====================================
     /** **/
     private transient ConcurrentMap<String, JsonObject> uriData = new ConcurrentHashMap<>();
+    /** **/
+    private static final AtomicInteger FLAG = new AtomicInteger(Constants.ONE);
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -58,14 +62,16 @@ public class PublishWorker extends AbstractVerticle {
             if (vertx.isClustered()) {
                 /** Cluster模式 **/
                 SharedDator.put(vertx, this.buildParams(key, value), handler -> {
-                    if (handler.succeeded()) {
+                    if (handler.succeeded() && Constants.ONE == FLAG.getAndIncrement()) {
                         info(LOGGER, MessageFormat.format(MsgVertx.ES_URI, getClass().getSimpleName(), key));
                     }
                 });
             } else {
                 /** Local模式 **/
                 SharedDator.put(vertx, this.buildParams(key, value));
-                info(LOGGER, MessageFormat.format(MsgVertx.ES_URI, getClass().getSimpleName(), key));
+                if (Constants.ONE == FLAG.getAndIncrement()) {
+                    info(LOGGER, MessageFormat.format(MsgVertx.ES_URI, getClass().getSimpleName(), key));
+                }
             }
         });
     }

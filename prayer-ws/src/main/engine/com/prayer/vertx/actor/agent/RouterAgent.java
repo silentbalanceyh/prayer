@@ -1,15 +1,19 @@
 package com.prayer.vertx.actor.agent;
 
+import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
 
 import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.cv.RmiKeys;
+import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.facade.engine.opts.Intaker;
 import com.prayer.facade.resource.Inceptor;
 import com.prayer.facade.resource.Point;
@@ -46,12 +50,16 @@ public class RouterAgent extends AbstractVerticle {
     // ~ Static Fields =======================================
 
     /** 读取器 **/
-    protected static final Inceptor INCEPTOR = InceptBus.build(Point.Server.class);
+    private static final Inceptor INCEPTOR = InceptBus.build(Point.Server.class);
+    /** Api Endpoint **/
+    private static final Inceptor WEBINCEPTOR = InceptBus.build(Point.Web.class);
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(RouterAgent.class);
     /** **/
     private static final Intaker<ConcurrentMap<Integer, HttpServerOptions>> INTAKER = singleton(
             ServerOptsIntaker.class);
+    /** **/
+    private static final AtomicInteger FLAG = new AtomicInteger(Constants.ONE);
     // ~ Instance Fields =====================================
     /** Router构造 **/
     private transient Fabricator fabricator = singleton(RouterFabricator.class);
@@ -89,9 +97,19 @@ public class RouterAgent extends AbstractVerticle {
                     this.injectRouter(router);
                     /** 6.Server监听 **/
                     server.requestHandler(router::accept).listen();
-                    /** 7.成功过后写入RMI **/
-                    final String addr = MessageFormat.format(RmiKeys.VERTX_ROUTES, String.valueOf(options.getPort()));
-                    this.registryRoutes(router, addr);
+                    // 必须使用该变量控制日志仅写一次，而且RMI的内容也只写一次
+                    if (Constants.ONE == FLAG.getAndIncrement()) {
+                        /** 7.成功过后写入RMI **/
+                        final String addr = MessageFormat.format(RmiKeys.VERTX_ROUTES,
+                                String.valueOf(options.getPort()));
+                        this.registryRoutes(router, addr);
+                        /** 8.成功写入过后输出最终日志 **/
+                        final String secApi = WEBINCEPTOR.getString(Point.Web.Api.SECURE);
+                        final String pubApi = WEBINCEPTOR.getString(Point.Web.Api.PUBLIC);
+                        info(LOGGER, MessageFormat.format(MsgVertx.VX_API, getClass().getSimpleName(),
+                                options.getHost(), String.valueOf(options.getPort()), secApi, pubApi));
+                        info(LOGGER, MessageFormat.format(MsgVertx.VX_SERVER, getClass().getSimpleName()));
+                    }
                 }
             });
         } catch (AbstractException ex) {

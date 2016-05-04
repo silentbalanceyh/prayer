@@ -51,11 +51,11 @@ public class RemoteInvoker {
         try {
             final int port = INCEPTOR.getInt(Point.RMI.RMI_PORT);
             final String address = buildAddrs(pattern, params);
-            info(LOGGER, MessageFormat.format(MsgRmi.RMI_ADDR, address));
             /** 1.初始化创建registry **/
             Registry registry = getRegistry(port);
             registry.rebind(address, remote);
-            info(LOGGER, MessageFormat.format(MsgRmi.RMI_REGISTRY, remote.getClass().getName(), remote.getData()));
+            info(LOGGER,
+                    MessageFormat.format(MsgRmi.RMI_REGINFO, address, remote.getClass().getName(), remote.getData()));
         } catch (RemoteException ex) {
             info(LOGGER, MessageFormat.format(MsgRmi.RMI_ERROR, ex.getMessage()));
             jvmError(LOGGER, ex);
@@ -74,6 +74,7 @@ public class RemoteInvoker {
 
     /**
      * 查找远程对象，可控制日志信息的打印
+     * 
      * @param pattern
      * @param outLog
      * @param params

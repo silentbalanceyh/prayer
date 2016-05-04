@@ -5,10 +5,15 @@ import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.jvmError;
 
 import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.facade.constant.Constants;
 import com.prayer.facade.engine.cv.msg.MsgVertx;
 
 import io.vertx.core.AsyncResult;
@@ -32,6 +37,9 @@ public class CompletionHandler implements Handler<AsyncResult<String>> {
     // ~ Static Fields =======================================
     /** **/
     private static final Logger LOGGER = LoggerFactory.getLogger(CompletionHandler.class);
+    /** 日志数据，并行日志 **/
+    @NotNull
+    private static Set<String> logs;
     // ~ Instance Fields =====================================
     /** **/
     @NotNull
@@ -41,6 +49,9 @@ public class CompletionHandler implements Handler<AsyncResult<String>> {
     /** **/
     @NotNull
     private transient final DeploymentOptions option;
+    /** **/
+    @NotNull
+    private transient final AtomicInteger counter;
 
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
@@ -51,19 +62,31 @@ public class CompletionHandler implements Handler<AsyncResult<String>> {
      * @param options
      */
     @PostValidateThis
-    public CompletionHandler(@NotNull final String name, @NotNull final DeploymentOptions option) {
+    public CompletionHandler(@NotNull final String name, @NotNull final DeploymentOptions option,
+            @NotNull AtomicInteger counter) {
         this.name = name;
         this.option = option;
+        this.counter = counter;
+        if (null == logs) {
+            logs = new HashSet<>();
+        }
     }
 
     // ~ Abstract Methods ====================================
     // ~ Override Methods ====================================
+    /** **/
     @Override
     public void handle(@NotNull final AsyncResult<String> event) {
         /** 1.发布统计 **/
         if (event.succeeded()) {
-            info(LOGGER, MessageFormat.format(MsgVertx.DP_HANDLER, getClass().getSimpleName(), this.name,
+            logs.add(MessageFormat.format(MsgVertx.DP_HANDLER, getClass().getSimpleName(), this.name,
                     this.option.getInstances(), this.option.toJson().encode()));
+            if (Constants.ZERO == counter.decrementAndGet()) {
+                final Iterator<String> it = logs.iterator();
+                while (it.hasNext()) {
+                    info(LOGGER, it.next());
+                }
+            }
         } else {
             error(LOGGER, MessageFormat.format(MsgVertx.DP_HANDLER_ERR, getClass().getSimpleName(), this.name,
                     this.option.getInstances()));
