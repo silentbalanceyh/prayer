@@ -1,13 +1,19 @@
 package com.prayer.fantasm.vtx.verticles;
 
+import static com.prayer.util.debug.Log.info;
 import static com.prayer.util.debug.Log.peError;
 import static com.prayer.util.reflection.Instance.singleton;
+
+import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.prayer.business.configuration.impl.ConfigBllor;
 import com.prayer.facade.business.instantor.configuration.ConfigInstantor;
+import com.prayer.facade.constant.Constants;
+import com.prayer.facade.engine.cv.msg.MsgVertx;
 import com.prayer.fantasm.exception.AbstractException;
 import com.prayer.model.meta.vertx.PEAddress;
 
@@ -16,8 +22,8 @@ import io.vertx.core.eventbus.EventBus;
 import net.sf.oval.constraint.NotNull;
 
 /**
- * Vertx中的抽象Worker
- * 构造绑定关系
+ * Vertx中的抽象Worker 构造绑定关系
+ * 
  * @author Lang
  */
 // 1.一个地址绑定一个Worker，Worker不可以共享地址，且一个Worker最好不去Consume两个地址
@@ -29,10 +35,14 @@ public abstract class AbstractWorker extends AbstractVerticle {
     /** **/
     @NotNull
     private transient final ConfigInstantor instantor = singleton(ConfigBllor.class);
+
     // ~ Static Block ========================================
     // ~ Static Methods ======================================
     // ~ Constructors ========================================
     // ~ Abstract Methods ====================================
+    /** 计数器 **/
+    public abstract AtomicInteger getCounter();
+
     // ~ Override Methods ====================================
     /** 主要方法，重写start **/
     @Override
@@ -45,19 +55,26 @@ public abstract class AbstractWorker extends AbstractVerticle {
             if (null != address) {
                 /** 3.消费 **/
                 final EventBus bus = vertx.eventBus();
-
-                bus.consumer(address.getConsumerAddr(), singleton(address.getConsumerHandler()));
+                /** 4.读取元数据 **/
+                final String messageAddr = address.getConsumerAddr();
+                final Class<?> consumerCls = address.getConsumerHandler();
+                bus.consumer(messageAddr, singleton(consumerCls));
+                if (Constants.ONE == this.getCounter().getAndIncrement()) {
+                    info(getLogger(), MessageFormat.format(MsgVertx.DP_WORKERED, workClass.getSimpleName(),
+                            consumerCls.getName(), messageAddr));
+                }
             }
         } catch (AbstractException ex) {
             peError(getLogger(), ex);
         }
     }
+
     // ~ Methods =============================================
     /**
      * 
      * @return
      */
-    public final Logger getLogger(){
+    public final Logger getLogger() {
         return LoggerFactory.getLogger(getClass());
     }
     // ~ Private Methods =====================================

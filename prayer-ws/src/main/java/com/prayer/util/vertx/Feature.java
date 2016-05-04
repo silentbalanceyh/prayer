@@ -37,7 +37,7 @@ public final class Feature {
      */
     public static boolean route(final RoutingContext event, @NotNull final Envelop stumer) {
         final boolean success = stumer.succeeded();
-        if (!success) {
+        if (!success && !event.failed()) {
             event.put(WebKeys.Request.ERR_ENVP, stumer);
             event.fail(stumer.status().code());
         }

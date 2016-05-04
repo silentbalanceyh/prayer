@@ -1,12 +1,12 @@
 [
     {
-        "workClass":"com.prayer.vertx.actor.worker.DataWorker",
-        "consumerAddr":"MSG://MESSAGE/QUEUE/DATA",
-        "consumerHandler":"com.prayer.vertx.uca.consumer.DataConsumer"
+        "workClass": "com.prayer.vertx.actor.worker.DataWorker",
+        "consumerAddr": "MSG://MESSAGE/QUEUE/DATA",
+        "consumerHandler": "com.prayer.vertx.uca.consumer.DataConsumer"
     },
     {
-        "workClass":"com.prayer.vertx.actor.worker.PostGetWorker",
-        "consumerAddr":"MSG://MESSAGE/QUEUE/POST/GET",
-        "consumerHandler":"com.prayer.vertx.uca.consumer.PostGetConsumer"
+        "workClass": "com.prayer.vertx.actor.worker.PostGetWorker",
+        "consumerAddr": "MSG://MESSAGE/QUEUE/POST/GET",
+        "consumerHandler": "com.prayer.vertx.uca.consumer.PostGetConsumer"
     }
 ]

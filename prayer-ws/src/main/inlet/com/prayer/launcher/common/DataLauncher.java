@@ -9,6 +9,7 @@ import java.text.MessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.prayer.booter.util.Ensurer;
 import com.prayer.business.deployment.impl.DataBllor;
 import com.prayer.exception.system.ApiNotSupportException;
 import com.prayer.facade.business.instantor.deployment.DataInstantor;
@@ -46,14 +47,16 @@ public class DataLauncher implements Launcher {
     /** **/
     @Override
     public void start() throws AbstractException {
-        /** 1.先得到对应的Deploy目录 **/
-        final String folder = INCEPTOR.getString(Point.Deploy.META_FOLDER) + "/data";
-        info(LOGGER, MessageFormat.format(MsgDeployment.DATA_FILE, getClass().getSimpleName(), folder));
-        /** 2.导入数据 **/
-        final boolean loaded = INSTANTOR.loading(folder);
-        if (loaded) {
-            info(LOGGER, MessageFormat.format(MsgDeployment.DATA_FIELD, getClass().getSimpleName(),
-                    Resources.Data.CATEGORY));
+        if (Ensurer.running(getClass(), LOGGER)) {
+            /** 1.先得到对应的Deploy目录 **/
+            final String folder = INCEPTOR.getString(Point.Deploy.META_FOLDER) + "/data";
+            info(LOGGER, MessageFormat.format(MsgDeployment.DATA_FILE, getClass().getSimpleName(), folder));
+            /** 2.导入数据 **/
+            final boolean loaded = INSTANTOR.loading(folder);
+            if (loaded) {
+                info(LOGGER, MessageFormat.format(MsgDeployment.DATA_FIELD, getClass().getSimpleName(),
+                        Resources.Data.CATEGORY));
+            }
         }
     }
 

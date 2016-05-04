@@ -63,7 +63,7 @@ public class CompletionHandler implements Handler<AsyncResult<String>> {
      */
     @PostValidateThis
     public CompletionHandler(@NotNull final String name, @NotNull final DeploymentOptions option,
-            @NotNull AtomicInteger counter) {
+            @NotNull final AtomicInteger counter) {
         this.name = name;
         this.option = option;
         this.counter = counter;

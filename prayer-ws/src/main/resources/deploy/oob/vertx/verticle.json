@@ -1,25 +1,25 @@
 [
     {
-        "name":"com.prayer.vertx.actor.agent.RouterAgent",
-        "instances":2,
-        "ha":true
+        "name": "com.prayer.vertx.actor.agent.RouterAgent",
+        "instances": 2,
+        "ha": true
     },
     {
-        "name":"com.prayer.vertx.actor.worker.PublishWorker",
-        "instances":2,
-        "ha":true,
-        "worker":true
+        "name": "com.prayer.vertx.actor.worker.PublishWorker",
+        "instances": 2,
+        "ha": true,
+        "worker": true
     },
     {
-        "name":"com.prayer.vertx.actor.worker.DataWorker",
-        "instances":2,
-        "ha":true,
-        "worker":true
+        "name": "com.prayer.vertx.actor.worker.DataWorker",
+        "instances": 2,
+        "ha": true,
+        "worker": true
     },
     {
-        "name":"com.prayer.vertx.actor.worker.PostGetWorker",
-        "instances":2,
-        "ha":true,
-        "worker":true
+        "name": "com.prayer.vertx.actor.worker.PostGetWorker",
+        "instances": 2,
+        "ha": true,
+        "worker": true
     }
 ]

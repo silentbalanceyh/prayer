@@ -1,16 +1,16 @@
 {
-    "uri":"/api/login",
-    "identifier":"sec.user",
-    "script":"api.login.post",
-    "method":"POST",
-    "paramType":"BODY",
-    "address":"MSG://MESSAGE/QUEUE/POST/GET",
-    "returnFilters":[
+    "uri": "/api/login",
+    "identifier": "sec.user",
+    "script": "api.login.post",
+    "method": "POST",
+    "paramType": "BODY",
+    "address": "MSG://MESSAGE/QUEUE/POST/GET",
+    "returnFilters": [
         "password"
     ],
-    "requiredParam":[
+    "requiredParam": [
         "username",
         "password"
     ],
-    "responder":"com.prayer.vertx.uca.responder.JObjectResponder"
+    "responder": "com.prayer.vertx.uca.responder.JObjectResponder"
 }

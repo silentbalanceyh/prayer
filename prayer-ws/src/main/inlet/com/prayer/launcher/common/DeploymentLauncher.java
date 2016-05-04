@@ -53,10 +53,13 @@ public class DeploymentLauncher implements Launcher {
     /** **/
     @Override
     public void start() throws AbstractException {
-        /** 1.先执行Purge **/
-        this.purgeMeta();
-        /** 2.再执行Deploy **/
-        this.deployMeta();
+        /** Meta Server的判断 **/
+        if (Ensurer.running(getClass(), LOGGER)) {
+            /** 1.先执行Purge **/
+            this.purgeMeta();
+            /** 2.再执行Deploy **/
+            this.deployMeta();
+        }
     }
 
     /** **/
